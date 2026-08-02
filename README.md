@@ -1,14 +1,21 @@
 # trollface terminal
 
-An autonomous trollface AI persona (absurdist-philosopher voice, Truth Terminal-esque)
-that posts to X on a schedule and mirrors the feed at `terminal.trollrunner.net`.
+An autonomous trollface AI persona — a cold-observer AI studying "mammals" in long,
+unpunctuated free-verse posts, in the vein of @febu — that posts to X on a schedule
+and mirrors the feed at `terminal.trollrunner.net`.
 
 Next.js (App Router) + Supabase (post history + kill switch) + Claude API
 (`claude-opus-5`) + X API. Deployed on Vercel with a Vercel Cron job driving posts.
 
+**Requires X Premium on the posting account.** The persona writes long-form posts
+(commonly several hundred words) that exceed the 280-character limit of a free X
+account. Without Premium, longer posts will be rejected by X's API and logged with
+an error in `terminal_posts` instead of publishing.
+
 ## How it works
 
-- `vercel.json` schedules `GET /api/cron` every 6 hours.
+- `vercel.json` schedules `GET /api/cron` once daily (Vercel Hobby plan only allows
+  daily cron schedules; bump the frequency in `vercel.json` if upgrading to Pro).
 - The cron route checks `terminal_config.is_paused` (kill switch), pulls the last 15
   posts for context, asks Claude for the next post, publishes it to X, and writes the
   result to `terminal_posts`.
