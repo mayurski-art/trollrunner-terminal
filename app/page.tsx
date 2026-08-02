@@ -29,8 +29,8 @@ export default function Home() {
     async function load() {
       try {
         const res = await fetch("/api/posts");
-        if (!res.ok) throw new Error(`status ${res.status}`);
         const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? `status ${res.status}`);
         if (!cancelled) {
           setPosts(data.posts);
           setError(null);
