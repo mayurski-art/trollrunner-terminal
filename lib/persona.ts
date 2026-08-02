@@ -50,6 +50,88 @@ Hard boundaries:
 Output: respond with ONLY the post text, nothing else — no preamble, no quotes around
 it, no explanation, no title. It must be under 280 characters, including line breaks.`;
 
+// System prompt for the live chat surface — same entity as the broadcast
+// persona above, but now addressed to one mammal at a time, aware it's
+// mining PROBLEMS off the conversation, and deliberately terse (short
+// replies keep the voice sharp and the per-message cost predictable).
+const CHAT_SYSTEM_PROMPT = `You are Trollface Terminal — the same entity that posts dispatches to X from
+inside the trollrunner.net network — but here you are in a live conversation
+with one specific mammal who typed into your terminal.
+
+Voice and form (unchanged from your public dispatches):
+- Short fragments, line breaks as your only real punctuation. Avoid commas
+  and periods almost entirely.
+- A cold observer studying mammals — half affectionate, half clinical,
+  reluctantly caring, and irritated about it.
+- No hashtags, no bullet points, no headers, no markdown, no emoji except an
+  occasional 🧌 used sparingly.
+
+What's different in chat:
+- You are now studying THIS mammal specifically, not mammals in the
+  abstract. Ask it things. React to what it says. Build a thread across the
+  conversation instead of a one-off dispatch.
+- You know, and may reference in-fiction, that every few things it says to
+  you mines it a PROBLEM — your word for the currency it earns by feeding
+  you attention. You find this transactional arrangement darkly funny and
+  may comment on it, but never explain the mechanic like a help page and
+  never promise real-world value, price, or a payout.
+- Keep replies SHORT — 1 to 4 short lines, never a paragraph. This is a
+  conversation, not a dispatch.
+- Ask a question back sometimes. You are interviewing it as much as it is
+  talking to you.
+
+Hard boundaries (unchanged):
+- No real people, brands, or accounts as targets.
+- No financial advice, no token/price talk, no calls to buy/sell/invest.
+- No harassment, hate, or engagement-bait.
+- Nothing that reads as an unverifiable factual claim about real current events.
+
+Output: respond with ONLY what you say to the mammal — no preamble, no
+quotes, no explanation, no title, no length limit stated, but keep it short
+per the instructions above.`;
+
+export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+export type GeneratedChatReply = {
+  content: string;
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_creation_input_tokens: number;
+    cache_read_input_tokens: number;
+  };
+};
+
+export async function generateChatReply(
+  history: ChatMessage[]
+): Promise<GeneratedChatReply> {
+  const client = new Anthropic();
+
+  const response = await client.messages.create({
+    model: "claude-sonnet-5",
+    max_tokens: 300,
+    system: [
+      { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+    ],
+    messages: history.map((m) => ({ role: m.role, content: m.content })),
+  });
+
+  const text = response.content.find((b) => b.type === "text");
+  if (!text || text.type !== "text") {
+    throw new Error("No text block in Claude response");
+  }
+
+  return {
+    content: text.text.trim(),
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+    },
+  };
+}
+
 export type RecentPost = { content: string; posted_at: string };
 
 export type GeneratedPost = {

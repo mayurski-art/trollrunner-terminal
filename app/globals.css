@@ -1,22 +1,117 @@
 @import "tailwindcss";
 
+/* Monochrome terminal + red/yellow accent system. Every color means exactly
+   one thing — see docs/TERMINAL-V2-DESIGN.md §3. Do not add a new hue
+   without updating that doc. */
 :root {
-  --background: #0a0a0c;
-  --foreground: #d7ffdc;
-  --accent: #5eff8f;
-  --dim: #4a6b52;
+  --background: #0a0a0a;
+  --panel: #111111;
+  --foreground: #d6d6d6;
+  --terminal: #f2f2f2; /* the AI speaking */
+  --dim: #5c5c5c; /* frame chrome, timestamps, labels */
+  --you: #9a9a9a; /* the human speaking */
+  --problem: #ffd21f; /* the economy: PROBLEMS, mining, vault */
+  --alert: #ff3b3b; /* danger + brand accent */
+  --ghost: #3a3a3a; /* disabled, placeholder */
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-panel: var(--panel);
   --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
+  --color-terminal: var(--terminal);
   --color-dim: var(--dim);
+  --color-you: var(--you);
+  --color-problem: var(--problem);
+  --color-alert: var(--alert);
+  --color-ghost: var(--ghost);
   --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-mono), ui-monospace, monospace;
+  position: relative;
+}
+
+/* CRT scanline + vignette overlay. Fixed, non-interactive, behind content. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+#__next,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.ascii-banner {
+  color: var(--terminal);
+  white-space: pre;
+  line-height: 1.05;
+  font-size: clamp(0.28rem, 1.6vw, 0.85rem);
+  overflow-x: auto;
+}
+
+.ascii-banner--alert {
+  color: var(--alert);
+}
+
+.blink-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  background: var(--terminal);
+  animation: blink 1s steps(1) infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+::selection {
+  background: var(--alert);
+  color: var(--background);
 }

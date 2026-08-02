@@ -5,9 +5,15 @@ unpunctuated free-verse posts, in the voice of @febu but compressed to fit a fre
 account — that generates a new post on a schedule and mirrors the feed at
 `terminal.trollrunner.net`. Posting to X itself is manual (see below).
 
-Next.js (App Router) + Supabase (post history + kill switch + credit tracking) +
-Claude API (`claude-opus-5`). Deployed on Vercel with a Vercel Cron job driving
-generation. Posts are capped at 280 characters — no X Premium needed on the account.
+v2 adds a live chat with the entity (`claude-sonnet-5`), a PROBLEMS token economy
+(mine 1 PROBLEM per 7 qualifying messages), a black/white/grey terminal reskin with
+FIGlet banners and box-drawing frames, and shared TrollRunner account login. See
+[`docs/TERMINAL-V2-DESIGN.md`](docs/TERMINAL-V2-DESIGN.md) for the full design.
+
+Next.js (App Router) + Supabase (post history + chat + PROBLEMS wallets + kill
+switches) + Claude API (`claude-opus-5` for daily posts, `claude-sonnet-5` for chat).
+Deployed on Vercel with a Vercel Cron job driving the daily post. Posts are capped
+at 280 characters — no X Premium needed on the account.
 
 **Why posting to X is manual, not automatic:** X's write API access requires a paid
 developer tier (their free tier doesn't include posting). The cron job still
@@ -37,6 +43,16 @@ editor in the dashboard, or `psql`). Creates `terminal_posts` and `terminal_conf
 **If you already ran an earlier version of this schema**, run
 `supabase/migrations/001_credit_tracking.sql` instead (adds the new columns without
 touching existing data — safe to run multiple times).
+
+Then run `supabase/migrations/002_terminal_economy.sql` (also idempotent) to add
+chat history, PROBLEMS wallets, the token ledger, and the chat kill switch. This
+must be the **same** Supabase project that `assets/js/troll-accounts.js` on the main
+site points at — v2 reuses those accounts as-is, so a login on trollrunner.net works
+here unchanged.
+
+You'll also need the project's public anon key for browser-side auth calls — add
+`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (see `.env.example`)
+alongside the existing service-role vars.
 
 ### 2. Claude API credits
 
@@ -95,7 +111,7 @@ update terminal_config set starting_credit_usd = 10.00; -- your new total
 
 ## Kill switch
 
-To pause generation without touching env vars or redeploying:
+To pause daily-post generation without touching env vars or redeploying:
 
 ```sql
 update terminal_config set is_paused = true;
@@ -103,6 +119,16 @@ update terminal_config set is_paused = true;
 
 Flip back to `false` to resume. The cron route no-ops (200, `{skipped: true}`) while
 paused.
+
+To pause the live chat separately (broadcast generation keeps running):
+
+```sql
+update terminal_config set chat_paused = true;
+```
+
+`terminal_config.chat_daily_global_cap` (default 1500) caps total chat messages
+across all users per day — `/api/chat` returns an in-voice "said enough today"
+reply once it's hit, rather than erroring.
 
 ## Local development
 
