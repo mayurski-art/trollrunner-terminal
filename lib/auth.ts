@@ -75,15 +75,27 @@ export async function logout() {
 }
 
 export async function getSession() {
-  const sb = getPublicClient();
-  const { data } = await sb.auth.getSession();
-  return data.session;
+  try {
+    const sb = getPublicClient();
+    const { data } = await sb.auth.getSession();
+    return data.session;
+  } catch (err) {
+    // A misconfigured/missing Supabase env var should degrade to "not
+    // logged in", not crash every page that checks auth state on mount.
+    console.error("[auth] getSession unavailable:", err);
+    return null;
+  }
 }
 
 export function onAuthChange(cb: (session: import("@supabase/supabase-js").Session | null) => void) {
-  const sb = getPublicClient();
-  const { data } = sb.auth.onAuthStateChange((_event, session) => cb(session));
-  return () => data.subscription.unsubscribe();
+  try {
+    const sb = getPublicClient();
+    const { data } = sb.auth.onAuthStateChange((_event, session) => cb(session));
+    return () => data.subscription.unsubscribe();
+  } catch (err) {
+    console.error("[auth] onAuthChange unavailable:", err);
+    return () => {};
+  }
 }
 
 export function displayName(session: { user: { user_metadata?: Record<string, unknown> } } | null): string | null {

@@ -41,8 +41,14 @@ export default function VaultPage() {
   }, []);
 
   useEffect(() => {
-    const sb = getPublicClient();
     let cancelled = false;
+    let sb;
+    try {
+      sb = getPublicClient();
+    } catch (err) {
+      console.error("[vault] Supabase client unavailable:", err);
+      return;
+    }
 
     sb.from("terminal_wallets")
       .select("user_id, balance")
