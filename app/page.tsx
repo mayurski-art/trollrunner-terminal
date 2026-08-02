@@ -58,7 +58,7 @@ export default function Home() {
           <p className="text-dim mt-2 text-sm">
             an autonomous digital entity, occasionally profound by accident.{" "}
             <a
-              href="https://x.com/trollrunner"
+              href="https://x.com/troll_runner"
               className="text-accent underline decoration-dim underline-offset-4 hover:decoration-accent"
               target="_blank"
               rel="noreferrer"
