@@ -9,6 +9,13 @@ type Post = {
   posted_at: string;
 };
 
+type Usage = {
+  startingCreditUsd: number;
+  spentUsd: number;
+  remainingUsd: number;
+  percentUsed: number;
+};
+
 function timeAgo(iso: string): string {
   const diffMs = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diffMs / 60000);
@@ -19,8 +26,41 @@ function timeAgo(iso: string): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
+function CreditBar({ usage }: { usage: Usage }) {
+  const barColor =
+    usage.percentUsed >= 90
+      ? "bg-red-400"
+      : usage.percentUsed >= 60
+        ? "bg-yellow-400"
+        : "bg-accent";
+
+  return (
+    <div className="mb-6">
+      <div className="flex items-baseline justify-between text-xs text-dim mb-1.5">
+        <span>
+          ${usage.remainingUsd.toFixed(2)} of ${usage.startingCreditUsd.toFixed(2)}{" "}
+          estimated credit remaining
+        </span>
+        <span>{usage.percentUsed.toFixed(1)}% used</span>
+      </div>
+      <div className="h-1.5 w-full rounded-full bg-dim/20 overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-500 ${barColor}`}
+          style={{ width: `${usage.percentUsed}%` }}
+        />
+      </div>
+      <p className="text-dim text-[11px] mt-1">
+        estimated from token usage per generation — not a live pull from
+        Anthropic&apos;s billing system. update the starting balance in{" "}
+        <code>terminal_config</code> after topping up.
+      </p>
+    </div>
+  );
+}
+
 export default function Home() {
   const [posts, setPosts] = useState<Post[] | null>(null);
+  const [usage, setUsage] = useState<Usage | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,6 +73,7 @@ export default function Home() {
         if (!res.ok) throw new Error(data.error ?? `status ${res.status}`);
         if (!cancelled) {
           setPosts(data.posts);
+          setUsage(data.usage);
           setError(null);
         }
       } catch (err) {
@@ -51,7 +92,7 @@ export default function Home() {
   return (
     <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-16">
       <div className="w-full max-w-2xl">
-        <header className="mb-10">
+        <header className="mb-6">
           <h1 className="text-2xl sm:text-3xl text-accent tracking-tight">
             🧌 trollface terminal
           </h1>
@@ -67,6 +108,8 @@ export default function Home() {
             </a>
           </p>
         </header>
+
+        {usage && <CreditBar usage={usage} />}
 
         <div className="border border-dim/40 rounded-lg bg-black/40 p-4 sm:p-6">
           {error && (

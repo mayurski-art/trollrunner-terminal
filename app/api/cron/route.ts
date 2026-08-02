@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generatePost } from "@/lib/persona";
-import { postToX } from "@/lib/x";
+import { estimateCostUsd } from "@/lib/pricing";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+// Generates a post on schedule and saves it for manual posting to X — see
+// README for why auto-posting was dropped (X API write access requires a
+// paid tier).
 export async function GET(request: Request) {
   // Vercel Cron sends this header on scheduled invocations; require it (or a
   // manual secret) so the route can't be triggered by a random public GET.
@@ -36,9 +39,9 @@ export async function GET(request: Request) {
     posted_at: r.posted_at as string,
   }));
 
-  let content: string;
+  let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
-    content = await generatePost(recent);
+    generated = await generatePost(recent);
   } catch (err) {
     return NextResponse.json(
       { error: `generation failed: ${(err as Error).message}` },
@@ -46,24 +49,24 @@ export async function GET(request: Request) {
     );
   }
 
-  try {
-    const posted = await postToX(content);
-    await supabase.from("terminal_posts").insert({
-      content,
-      x_post_id: posted.id,
-      x_post_url: posted.url,
-    });
-    return NextResponse.json({ posted: true, id: posted.id, content });
-  } catch (err) {
-    // Record the generated content even on a failed X post so it isn't lost
-    // and doesn't get silently regenerated next run.
-    await supabase.from("terminal_posts").insert({
-      content,
-      error: (err as Error).message,
-    });
-    return NextResponse.json(
-      { error: `post to X failed: ${(err as Error).message}`, content },
-      { status: 500 }
-    );
+  const estimatedCostUsd = estimateCostUsd(generated.usage);
+
+  const { error: insertError } = await supabase.from("terminal_posts").insert({
+    content: generated.content,
+    input_tokens: generated.usage.input_tokens,
+    output_tokens: generated.usage.output_tokens,
+    cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
+    cache_read_input_tokens: generated.usage.cache_read_input_tokens,
+    estimated_cost_usd: estimatedCostUsd,
+  });
+
+  if (insertError) {
+    return NextResponse.json({ error: insertError.message }, { status: 500 });
   }
+
+  return NextResponse.json({
+    generated: true,
+    content: generated.content,
+    estimatedCostUsd,
+  });
 }

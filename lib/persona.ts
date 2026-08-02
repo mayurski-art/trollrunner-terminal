@@ -52,7 +52,17 @@ it, no explanation, no title. It must be under 280 characters, including line br
 
 export type RecentPost = { content: string; posted_at: string };
 
-export async function generatePost(recent: RecentPost[]): Promise<string> {
+export type GeneratedPost = {
+  content: string;
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_creation_input_tokens: number;
+    cache_read_input_tokens: number;
+  };
+};
+
+export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost> {
   const client = new Anthropic();
 
   const recentBlock =
@@ -74,5 +84,14 @@ export async function generatePost(recent: RecentPost[]): Promise<string> {
   if (!text || text.type !== "text") {
     throw new Error("No text block in Claude response");
   }
-  return text.text.trim().slice(0, 280);
+
+  return {
+    content: text.text.trim().slice(0, 280),
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+    },
+  };
 }
