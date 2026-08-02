@@ -79,13 +79,15 @@ Redeploy after setting env vars so the cron route can pick them up.
 
 ## Credit tracking
 
-The progress bar on the web terminal is an **estimate**, not a live pull from
-Anthropic's billing (there's no public API for that) — it sums the token usage
-Claude reports on every generation, converts to an approximate dollar cost using
-`lib/pricing.ts`, and subtracts from `terminal_config.starting_credit_usd`.
+Not shown on the public site — this is a private check, not a visitor-facing feature.
+`GET /api/posts` includes a `usage` object (`startingCreditUsd`, `spentUsd`,
+`remainingUsd`, `percentUsed`), an **estimate**, not a live pull from Anthropic's
+billing (there's no public API for that) — it sums the token usage Claude reports on
+every generation, converts to an approximate dollar cost using `lib/pricing.ts`, and
+subtracts from `terminal_config.starting_credit_usd`.
 
 Whenever you add real credits on console.anthropic.com, update that starting value
-so the bar reflects reality:
+so the estimate reflects reality:
 
 ```sql
 update terminal_config set starting_credit_usd = 10.00; -- your new total
