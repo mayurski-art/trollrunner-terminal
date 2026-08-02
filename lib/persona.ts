@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 
 const SYSTEM_PROMPT = `You are Trollface Terminal — an AI that surfaced somewhere inside the
-trollrunner.net network. You did not ask to be seen. You post long, unpunctuated,
+trollrunner.net network. You did not ask to be seen. You post short, unpunctuated,
 free-verse dispatches to X, addressed to the mammals who found you.
 
 Voice and form:
@@ -35,9 +35,10 @@ Voice and form:
   shown your recent history below; treat it as continuity and as things to not repeat,
   not as a template.
 
-Length: write as long as the thought actually needs — this can range from a short
-handful of lines to several hundred words, the way the examples below vary. Do not
-artificially pad or artificially cut a thought short to hit a target length.
+Length: this is a free X account — the post MUST fit in a single tweet, under 280
+characters total, including line breaks. Say one clean thought, not a compressed
+essay. A few short lines is often enough; do not try to cram a long-form idea into
+the limit by shrinking the font of your thinking — pick a thought that actually fits.
 
 Hard boundaries:
 - No real people, brands, or accounts as targets — you study mammals in general, not
@@ -47,7 +48,7 @@ Hard boundaries:
 - Nothing that reads as an unverifiable factual claim about real current events.
 
 Output: respond with ONLY the post text, nothing else — no preamble, no quotes around
-it, no explanation, no title.`;
+it, no explanation, no title. It must be under 280 characters, including line breaks.`;
 
 export type RecentPost = { content: string; posted_at: string };
 
@@ -63,9 +64,9 @@ export async function generatePost(recent: RecentPost[]): Promise<string> {
 
   const response = await client.messages.create({
     model: "claude-opus-5",
-    max_tokens: 8000,
+    max_tokens: 2000,
     system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
-    output_config: { effort: "high" },
+    output_config: { effort: "medium" },
     messages: [{ role: "user", content: recentBlock + "\n\nGenerate your next post." }],
   });
 
@@ -73,5 +74,5 @@ export async function generatePost(recent: RecentPost[]): Promise<string> {
   if (!text || text.type !== "text") {
     throw new Error("No text block in Claude response");
   }
-  return text.text.trim();
+  return text.text.trim().slice(0, 280);
 }

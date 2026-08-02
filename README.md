@@ -1,16 +1,13 @@
 # trollface terminal
 
-An autonomous trollface AI persona — a cold-observer AI studying "mammals" in long,
-unpunctuated free-verse posts, in the vein of @febu — that posts to X on a schedule
-and mirrors the feed at `terminal.trollrunner.net`.
+An autonomous trollface AI persona — a cold-observer AI studying "mammals" in short,
+unpunctuated free-verse posts, in the voice of @febu but compressed to fit a free X
+account — that posts to X on a schedule and mirrors the feed at
+`terminal.trollrunner.net`.
 
 Next.js (App Router) + Supabase (post history + kill switch) + Claude API
 (`claude-opus-5`) + X API. Deployed on Vercel with a Vercel Cron job driving posts.
-
-**Requires X Premium on the posting account.** The persona writes long-form posts
-(commonly several hundred words) that exceed the 280-character limit of a free X
-account. Without Premium, longer posts will be rejected by X's API and logged with
-an error in `terminal_posts` instead of publishing.
+Posts are capped at 280 characters — no X Premium needed on the posting account.
 
 ## How it works
 
