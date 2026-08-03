@@ -126,7 +126,7 @@ export default function VaultPage() {
               <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
             )}
             <Frame title="your signal" tone="problem" className="mb-6">
-              <p className="text-4xl text-problem mb-3">? {wallet?.balance ?? "..."}</p>
+              <p className="text-4xl text-problem mb-3">{wallet?.balance ?? "..."}</p>
               <p className="text-dim text-xs mb-3">
                 lifetime mined: {wallet?.lifetime_earned ?? 0}
               </p>
