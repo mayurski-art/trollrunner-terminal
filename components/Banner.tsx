@@ -12,23 +12,20 @@ type BannerProps = {
 // so screen readers never read hundreds of box-drawing characters — a
 // visually-hidden heading carries the real text instead.
 //
-// Fits the banner to its container by measuring the pre's natural size and
-// applying a CSS transform: scale() — never lets it overflow, so there is
-// never a scrollbar to fight with (a viewport-relative font-size clamp
-// looked fine at some widths and garbled/scrollbar-ridden at others).
-//
-// Below MIN_SCALE the dense, multi-stroke "ANSI Shadow" glyphs turn to mush
-// when shrunk, so scale never drops below that floor — on a viewport too
-// narrow even for the floor, the rare fallback is a horizontal scroll on
-// that one banner, never an illegibly tiny render.
-const MIN_SCALE = 0.65;
+// Fits the banner to its container by measuring the pre's natural width at
+// the base font-size and re-setting font-size directly (never a CSS
+// transform: scale()). Scaling a dense, multi-stroke glyph set with
+// transform blurs every sub-pixel edge — that's what made these banners
+// look thick and mushy. Resizing the actual font-size lets the browser
+// re-hint the glyphs at every width, and since it always shrinks to fit,
+// there's never an overflow to scroll.
+const BASE_FONT_PX = 22; // matches --font-size: 1.375rem in .ascii-banner
+const MIN_FONT_PX = 7; // floor so tiny viewports don't get unreadable text
 
 export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
-  const [scale, setScale] = useState(1);
-  const [naturalHeight, setNaturalHeight] = useState(0);
-  const [needsScroll, setNeedsScroll] = useState(false);
+  const [fontSize, setFontSize] = useState(BASE_FONT_PX);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -38,13 +35,17 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
     function recalc() {
       if (!wrapper || !pre) return;
       const availableWidth = wrapper.clientWidth;
-      const naturalWidth = pre.scrollWidth;
-      const height = pre.scrollHeight;
-      const rawScale = naturalWidth > 0 ? availableWidth / naturalWidth : 1;
-      const clamped = Math.min(1, Math.max(rawScale, MIN_SCALE));
-      setScale(clamped);
-      setNeedsScroll(rawScale < MIN_SCALE);
-      setNaturalHeight(height);
+      const currentWidth = pre.scrollWidth;
+      if (currentWidth <= 0) return;
+      // scrollWidth is measured at whatever font-size is currently applied
+      // (not BASE_FONT_PX), so back out the size that would make it fit —
+      // scale-invariant, so it converges in one step instead of drifting.
+      const currentFontPx = parseFloat(getComputedStyle(pre).fontSize) || BASE_FONT_PX;
+      const rawSize = currentFontPx * (availableWidth / currentWidth);
+      setFontSize((prev) => {
+        const next = Math.max(MIN_FONT_PX, Math.min(BASE_FONT_PX, rawSize));
+        return Math.abs(next - prev) < 0.25 ? prev : next;
+      });
     }
 
     recalc();
@@ -54,17 +55,13 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
   }, [art]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={`w-full ${needsScroll ? "overflow-x-auto" : "overflow-hidden"}`}
-      style={{ height: naturalHeight * scale || undefined }}
-    >
+    <div ref={wrapperRef} className="w-full overflow-hidden">
       <h1 className="sr-only">{label}</h1>
       <pre
         ref={preRef}
         aria-hidden="true"
         className={`ascii-banner ${tone === "alert" ? "ascii-banner--alert" : ""}`}
-        style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
+        style={{ fontSize: `${fontSize}px` }}
       >
         {art}
       </pre>
