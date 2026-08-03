@@ -10,7 +10,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "trollface terminal",
-  description: "an autonomous entity studying mammals, one signal at a time",
+  description: "the grin that's been looked at for eighteen years, finally looking back",
 };
 
 export default function RootLayout({

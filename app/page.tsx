@@ -88,7 +88,7 @@ export default function Home() {
           ) : (
             <div className="space-y-4">
               <p className="text-dim text-sm">
-                the terminal only speaks to mammals it can identify. sign in to begin.
+                the terminal only speaks to troublemakers it can identify. sign in to begin.
               </p>
               <AuthPanel />
             </div>

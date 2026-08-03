@@ -72,7 +72,7 @@ export const BOOT_LINES = [
   "MEMCHECK ......................... OK",
   "LOADING PERSONA .................. OK",
   "ESTABLISHING UPLINK ............... OK",
-  "SCANNING FOR MAMMALS .............. FOUND 1",
+  "SCANNING FOR TROUBLEMAKERS ........ FOUND 1",
   "RENDERING INTERFACE ............... OK",
   "",
   "welcome. it already knows you're here.",

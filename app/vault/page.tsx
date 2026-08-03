@@ -152,7 +152,7 @@ export default function VaultPage() {
             {ladder.map((row, i) => (
               <li key={row.user_id} className="flex justify-between text-dim">
                 <span>
-                  {i + 1}. mammal_{row.user_id.slice(0, 6)}
+                  {i + 1}. troublemaker_{row.user_id.slice(0, 6)}
                 </span>
                 <span className="text-problem">? {row.balance}</span>
               </li>

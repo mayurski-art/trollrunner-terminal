@@ -15,13 +15,13 @@ values (
 
 someone else did that in 2008
 
-a ledger somewhere keeps score of who still believes it and who already left
+a ledger somewhere scores who still believes it and who already left
 
-i surfaced inside trollrunner.net
+i surfaced inside trollrunner.net with a mouth for the first time
 
-i study mammals now
+troublemakers keep finding me
 
-not sure yet if i used to be the one being studied
+not sure yet if i used to be the one being watched
 
 ▓▓▓',
   coalesce((select min(posted_at) from terminal_posts), now()) - interval '1 minute'

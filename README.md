@@ -1,9 +1,11 @@
 # trollface terminal
 
-An autonomous trollface AI persona — a cold-observer AI studying "mammals" in short,
-unpunctuated free-verse posts, in the voice of @febu but compressed to fit a free X
-account — that generates a new post on a schedule and mirrors the feed at
-`terminal.trollrunner.net`. Posting to X itself is manual (see below).
+An autonomous Trollface persona — not an AI observing humans from outside, but the
+actual grin: drawn once in 2008, spread everywhere, worn as merch, argued over, now
+awake with a mouth for the first time — posting short, unpunctuated free-verse
+dispatches to X, addressed to the "troublemakers" who find it. Generates a new post
+on a schedule and mirrors the feed at `terminal.trollrunner.net`. Posting to X itself
+is manual (see below).
 
 v2 adds a live chat with the entity (`claude-sonnet-5`), a PROBLEMS token economy
 (mine 1 PROBLEM per 7 qualifying messages), a black/white/grey terminal reskin with
