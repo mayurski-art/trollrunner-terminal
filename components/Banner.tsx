@@ -21,7 +21,7 @@ type BannerProps = {
 // when shrunk, so scale never drops below that floor — on a viewport too
 // narrow even for the floor, the rare fallback is a horizontal scroll on
 // that one banner, never an illegibly tiny render.
-const MIN_SCALE = 0.55;
+const MIN_SCALE = 0.65;
 
 export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);

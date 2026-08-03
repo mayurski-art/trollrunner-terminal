@@ -5,6 +5,7 @@ import figlet from "figlet";
 const words = [
   "TROLLFACE",
   "TERMINAL",
+  "FACES",
   "THE VAULT",
   "THE LOGS",
   "SIGNAL LOST",

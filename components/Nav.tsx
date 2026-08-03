@@ -25,6 +25,9 @@ export default function Nav() {
         <Link href="/logs" className="hover:text-foreground">
           [ logs ]
         </Link>
+        <Link href="/faces" className="hover:text-you">
+          [ faces ]
+        </Link>
       </div>
       {session ? (
         <div className="flex items-center gap-3">
