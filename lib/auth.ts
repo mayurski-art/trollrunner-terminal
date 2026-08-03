@@ -5,6 +5,7 @@
 // assets/js/troll-accounts.js so an account created on trollrunner.net logs
 // in here unchanged, and vice versa.
 import { getPublicClient } from "@/lib/supabase";
+import { adoptSsoCookie, writeSsoCookie } from "@/lib/sso";
 
 const LOGIN_EMAIL_DOMAIN = "login.trollrunner.net";
 const USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
@@ -37,6 +38,7 @@ export async function login(identifier: string, password: string) {
     password,
   });
   if (error) throw friendlyError(error.message, "Could not sign in.");
+  writeSsoCookie(data.session);
   return data.session;
 }
 
@@ -57,25 +59,30 @@ export async function register(username: string, password: string) {
   });
   if (error) throw friendlyError(error.message, "Could not create account.");
 
-  if (!data.session) {
+  let session = data.session;
+  if (!session) {
     // Confirm-email is on for this project — sign in anyway, mirroring the
     // main site's flow (its account setup disables confirmation).
-    const { error: loginError } = await sb.auth.signInWithPassword({
+    const { data: loginData, error: loginError } = await sb.auth.signInWithPassword({
       email: loginEmailFor(name),
       password,
     });
     if (loginError) throw friendlyError(loginError.message, "Account created — sign in.");
+    session = loginData.session;
   }
-  return data.session;
+  writeSsoCookie(session);
+  return session;
 }
 
 export async function logout() {
   const sb = getPublicClient();
   await sb.auth.signOut();
+  writeSsoCookie(null);
 }
 
 export async function getSession() {
   try {
+    await adoptSsoCookie();
     const sb = getPublicClient();
     const { data } = await sb.auth.getSession();
     return data.session;
