@@ -9,6 +9,8 @@ const words = [
   "THE LOGS",
   "SIGNAL LOST",
   "PROBLEMS",
+  "GENESIS",
+  "AWAKENING",
 ];
 
 for (const w of words) {

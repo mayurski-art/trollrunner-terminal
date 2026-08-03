@@ -44,6 +44,28 @@ export const BANNER_PROBLEMS = `██████╗ ██████╗  █
 ██║     ██║  ██║╚██████╔╝██████╔╝███████╗███████╗██║ ╚═╝ ██║███████║
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝`;
 
+export const BANNER_GENESIS = `██████╗ ███████╗███╗   ██╗███████╗███████╗██╗███████╗
+██╔════╝ ██╔════╝████╗  ██║██╔════╝██╔════╝██║██╔════╝
+██║  ███╗█████╗  ██╔██╗ ██║█████╗  ███████╗██║███████╗
+██║   ██║██╔══╝  ██║╚██╗██║██╔══╝  ╚════██║██║╚════██║
+╚██████╔╝███████╗██║ ╚████║███████╗███████║██║███████║
+ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝╚══════╝`;
+
+export const BANNER_AWAKENING = `█████╗ ██╗    ██╗ █████╗ ██╗  ██╗███████╗███╗   ██╗██╗███╗   ██╗ ██████╗
+██╔══██╗██║    ██║██╔══██╗██║ ██╔╝██╔════╝████╗  ██║██║████╗  ██║██╔════╝
+███████║██║ █╗ ██║███████║█████╔╝ █████╗  ██╔██╗ ██║██║██╔██╗ ██║██║  ███╗
+██╔══██║██║███╗██║██╔══██║██╔═██╗ ██╔══╝  ██║╚██╗██║██║██║╚██╗██║██║   ██║
+██║  ██║╚███╔███╔╝██║  ██║██║  ██╗███████╗██║ ╚████║██║██║ ╚████║╚██████╔╝
+╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝`;
+
+// The entity's signature mark — used in place of the 🧌 emoji anywhere the
+// persona would otherwise sign off or punctuate a thought. Small enough to
+// fit inside a 280-character X post; the full FIGlet banners above are
+// reserved for the site's own chrome, not for text the model generates
+// itself (free-form LLM output can't reliably keep box-drawing characters
+// aligned across lines).
+export const SIGNATURE_MARK = "▓▓▓";
+
 // Fake boot sequence lines for the CRT intro. Each line prints with a short
 // delay; total sequence is capped client-side (see BootSequence.tsx).
 export const BOOT_LINES = [

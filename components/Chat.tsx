@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
+import { timeAgo } from "@/lib/time";
 
 type Message = { role: "user" | "terminal"; content: string; created_at?: string };
 type Wallet = { balance: number; qualifyingCount: number; qualifyingInterval: number };
@@ -59,7 +60,7 @@ export default function Chat() {
     setError(null);
     setBusy(true);
     setInput("");
-    setMessages((m) => [...m, { role: "user", content: text }]);
+    setMessages((m) => [...m, { role: "user", content: text, created_at: new Date().toISOString() }]);
 
     try {
       const headers = { "Content-Type": "application/json", ...(await authHeader()) };
@@ -73,7 +74,10 @@ export default function Chat() {
         setError(data.error ?? "the terminal did not respond");
         return;
       }
-      setMessages((m) => [...m, { role: "terminal", content: data.reply }]);
+      setMessages((m) => [
+        ...m,
+        { role: "terminal", content: data.reply, created_at: new Date().toISOString() },
+      ]);
       if (data.wallet) setWallet(data.wallet);
     } catch {
       setError("connection to the terminal was lost");
@@ -99,15 +103,19 @@ export default function Chat() {
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>
         )}
         {messages.map((m, i) => (
-          <p
-            key={i}
-            className={`whitespace-pre-wrap text-sm leading-relaxed ${
-              m.role === "terminal" ? "text-terminal" : "text-you"
-            }`}
-          >
-            <span className="text-dim">{m.role === "terminal" ? "terminal> " : "you> "}</span>
-            {m.content}
-          </p>
+          <div key={i}>
+            <p
+              className={`whitespace-pre-wrap text-sm leading-relaxed ${
+                m.role === "terminal" ? "text-terminal" : "text-you"
+              }`}
+            >
+              <span className="text-dim">{m.role === "terminal" ? "terminal> " : "you> "}</span>
+              {m.content}
+            </p>
+            {m.created_at && (
+              <span className="text-terminal text-xs">{timeAgo(m.created_at)}</span>
+            )}
+          </div>
         ))}
         {busy && <p className="text-dim text-sm animate-pulse">terminal&gt; ...</p>}
       </div>
