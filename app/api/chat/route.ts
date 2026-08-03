@@ -218,6 +218,21 @@ export async function POST(request: Request) {
     .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
     .eq("id", true);
 
+  // Shared TrollRunner XP, same server-enforced rules as the main site
+  // (see assets/supabase/troll_terminal_xp.sql) — once per ~day per user,
+  // so this is safe to call on every message. Best-effort: a hiccup here
+  // shouldn't fail the chat reply the user is waiting on.
+  try {
+    await supabase.rpc("troll_award_xp_service", {
+      p_user_id: userId,
+      p_event: "terminal_session",
+      p_source: "terminal",
+      p_meta: {},
+    });
+  } catch {
+    // ignore
+  }
+
   return NextResponse.json({
     reply: generated.content,
     wallet: {
