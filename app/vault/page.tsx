@@ -34,6 +34,7 @@ export default function VaultPage() {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [ledger, setLedger] = useState<LedgerRow[]>([]);
   const [ladder, setLadder] = useState<LadderRow[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -47,32 +48,52 @@ export default function VaultPage() {
       sb = getPublicClient();
     } catch (err) {
       console.error("[vault] Supabase client unavailable:", err);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoadError("Supabase client unavailable — check env vars.");
       return;
     }
 
     // Balance ticks up from chatting on a different page (or tab), so a
     // one-shot fetch on mount goes stale the moment you leave it open —
     // refetch whenever this tab becomes visible again, not just once.
-    function load() {
-      sb!.from("terminal_wallets")
-        .select("user_id, balance")
-        .order("balance", { ascending: false })
-        .limit(10)
-        .then(({ data }) => !cancelled && setLadder(data ?? []));
+    // Every query is awaited with its error checked and logged — a swallowed
+    // {error} used to leave the page silently stuck showing nothing.
+    async function load() {
+      if (!cancelled) setLoadError(null);
+      try {
+        const { data: ladderData, error: ladderError } = await sb!
+          .from("terminal_wallets")
+          .select("user_id, balance")
+          .order("balance", { ascending: false })
+          .limit(10);
+        if (ladderError) throw ladderError;
+        if (!cancelled) setLadder(ladderData ?? []);
 
-      if (session) {
-        sb!.from("terminal_wallets")
-          .select("balance, lifetime_earned, qualifying_count")
-          .eq("user_id", session.user.id)
-          .maybeSingle()
-          .then(({ data }) => !cancelled && setWallet(data ?? { balance: 0, lifetime_earned: 0, qualifying_count: 0 }));
+        if (session) {
+          const { data: walletData, error: walletError } = await sb!
+            .from("terminal_wallets")
+            .select("balance, lifetime_earned, qualifying_count")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+          if (walletError) throw walletError;
+          if (!cancelled) {
+            setWallet(walletData ?? { balance: 0, lifetime_earned: 0, qualifying_count: 0 });
+          }
 
-        sb!.from("terminal_token_ledger")
-          .select("id, delta, reason, created_at")
-          .eq("user_id", session.user.id)
-          .order("created_at", { ascending: false })
-          .limit(20)
-          .then(({ data }) => !cancelled && setLedger(data ?? []));
+          const { data: ledgerData, error: ledgerError } = await sb!
+            .from("terminal_token_ledger")
+            .select("id, delta, reason, created_at")
+            .eq("user_id", session.user.id)
+            .order("created_at", { ascending: false })
+            .limit(20);
+          if (ledgerError) throw ledgerError;
+          if (!cancelled) setLedger(ledgerData ?? []);
+        }
+      } catch (err) {
+        console.error("[vault] failed to load wallet data:", err);
+        if (!cancelled) {
+          setLoadError(err instanceof Error ? err.message : "Could not load your balance.");
+        }
       }
     }
 
@@ -101,6 +122,9 @@ export default function VaultPage() {
 
         {session ? (
           <>
+            {loadError && (
+              <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
+            )}
             <Frame title="your signal" tone="problem" className="mb-6">
               <p className="text-4xl text-problem mb-3">? {wallet?.balance ?? "..."}</p>
               <p className="text-dim text-xs mb-3">
