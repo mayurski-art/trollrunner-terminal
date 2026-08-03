@@ -18,7 +18,7 @@ type Wallet = {
 };
 
 type LedgerRow = { id: string; delta: number; reason: string; created_at: string };
-type LadderRow = { user_id: string; balance: number };
+type LadderRow = { user_id: string; balance: number; username: string | null };
 
 const QUALIFYING_INTERVAL = 7;
 
@@ -67,7 +67,28 @@ export default function VaultPage() {
           .order("balance", { ascending: false })
           .limit(10);
         if (ladderError) throw ladderError;
-        if (!cancelled) setLadder(ladderData ?? []);
+
+        // terminal_wallets has no FK to troll_profiles (both just reference
+        // auth.users independently), so PostgREST can't embed the username —
+        // fetch it in a second, separate query and merge client-side.
+        const ids = (ladderData ?? []).map((row) => row.user_id);
+        let usernames = new Map<string, string>();
+        if (ids.length > 0) {
+          const { data: profileRows, error: profileError } = await sb!
+            .from("troll_profiles")
+            .select("id, username")
+            .in("id", ids);
+          if (profileError) throw profileError;
+          usernames = new Map((profileRows ?? []).map((p) => [p.id, p.username]));
+        }
+        if (!cancelled) {
+          setLadder(
+            (ladderData ?? []).map((row) => ({
+              ...row,
+              username: usernames.get(row.user_id) ?? null,
+            }))
+          );
+        }
 
         if (session) {
           const { data: walletData, error: walletError } = await sb!
@@ -190,9 +211,9 @@ export default function VaultPage() {
             {ladder.map((row, i) => (
               <li key={row.user_id} className="flex justify-between text-dim">
                 <span>
-                  {i + 1}. troublemaker_{row.user_id.slice(0, 6)}
+                  {i + 1}. {row.username ?? `troublemaker_${row.user_id.slice(0, 6)}`}
                 </span>
-                <span className="text-problem">? {row.balance}</span>
+                <span className="text-problem">{row.balance}</span>
               </li>
             ))}
           </ol>
