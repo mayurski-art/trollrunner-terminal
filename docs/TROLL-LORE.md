@@ -38,7 +38,9 @@ which spun off a darker variant nicknamed "Trollge."
 In 2025–2026, **Troll Network Limited** — the community team behind the
 **$TROLL** memecoin on Solana — signed a **six-figure, exclusive, worldwide
 license** with Carlos Ramirez covering use of the Trollface IP within
-crypto and meme coins. Ramirez also collects an **11% royalty** on future
+crypto and meme coins. The deal itself was **funded by ten $TROLL whales**
+pooling money to pay Ramirez directly — not a company treasury spend, but
+holders literally buying the face their coin was already using. Ramirez also collects an **11% royalty** on future
 $TROLL-branded merchandise revenue. He'd made roughly $100k off Trollface
 over the prior four years; this single deal already exceeded that. He kept
 a carve-out for one earlier, unrelated coin he'd already been involved
@@ -137,6 +139,109 @@ confirmed fact. It should never claim to know the collab is happening,
 never name specific terms, and never say anything that could read as an
 official statement from either project.
 
+## 9. The reversal — Ramirez said no before he said yes
+
+Before the six-figure deal in §2, Ramirez gave his first interview in ten
+years — to Decrypt, during an earlier run where the coin built on his face
+had already surged **1,050%+ in two weeks** without his involvement. At that
+point he said he had **no interest** in participating and would take **no
+legal action**. His reasoning was specific: people kept offering him a slice
+of token supply, and he called it a "cursed proposition" — he couldn't sell
+it without crashing the price himself. *"The money means nothing to me if I
+can't sell it, but if I sell it, I crash the coin. And frankly, I do not want
+to be responsible for other people's financial ruin."* He framed crypto's
+capitalism as something that "diminishes" the art itself.
+
+Some time after that interview, he signed anyway — the exclusive worldwide
+license described in §2. Nothing in the record explains what changed his
+mind; the deal terms (six figures, 11% royalty, one grandfathered carve-out)
+are just what's publicly known. So the honest shape of the story isn't "artist
+sells out" or "artist gets rewarded" — it's a man who first said the whole
+premise was a trap he wanted no part of, and later took it anyway, for
+reasons he hasn't said out loud.
+
+**Sources:** [Decrypt — "Crypto Diminishes"](https://decrypt.co/333881/trollface-creator-crypto-diminishes-art-legal-action-meme-coin) ·
+[Yahoo Finance mirror](https://finance.yahoo.com/news/trollface-creator-says-crypto-diminishes-225122098.html)
+
+## 10. Trolling as a wider 2026 phenomenon
+
+Outside of $TROLL entirely, "trolling" the word has drifted since the
+2008-golden-age meme in §1. What it names in 2026 discourse:
+
+- **Rage farming** — posting deliberately provocative content to harvest
+  outrage-driven engagement; the incentive is the reaction itself, not being
+  right.
+- **Hashtag hijacking** — riding a trending tag to inject an unrelated
+  message into a conversation that already has an audience.
+- **Astroturfing** — coordinating many fake or low-effort accounts to fake
+  the appearance of organic grassroots agreement, making a narrative look
+  more credible than it is.
+- **State-sponsored trolling** — the Institute for the Future has tracked
+  organized, government-linked trolling operations across multiple
+  countries (Azerbaijan, Bahrain, Ecuador, the Philippines, Turkey,
+  Venezuela, and the US among them) — the same tactics run at
+  institutional scale rather than by individuals.
+- Even in ordinary political coverage the word has become a reflex: cable
+  news hosts now ask public figures point-blank "are you trolling?" when a
+  claim sounds too outrageous to be sincere — a sign the word has become a
+  general-purpose test for whether someone means what they're saying at
+  all, on or off the internet.
+
+The trajectory researchers point to: benign, in-on-the-joke trolling (the
+kind Trollface itself came from) receding, while the harder-edged,
+coordinated, harder-to-detect version grows — alongside predictions that
+future tech (VR spaces, blockchain identity) will cut both ways, making
+some griefing easier and some anonymity harder.
+
+**Sources:** [GIJN — Investigating Trolling Campaigns](https://gijn.org/resource/investigating-digital-threats-trolling-campaigns/) ·
+[IFTF — State-Sponsored Trolling](https://legacy.iftf.org/statesponsoredtrolling/) ·
+[Raw Story — Carville "are you trolling?"](https://www.rawstory.com/james-carville-2677646540/)
+
+## 11. The museum that only existed for a couple of days
+
+Museo del Meme wasn't a permanent institution — it was a **pop-up** in
+Mexico City, open only a handful of days, gathering the most-circulated
+memes of the preceding years into a physical space. Trollface got a
+**bust** in it anyway, alongside the "father of memes" framing from §1.
+The detail worth sitting with: the one time this face got a "museum," the
+museum itself was barely more permanent than a meme's own lifespan —
+here for days, then gone, the way a face someone drew in MS Paint outlived
+the room built to honor it.
+
+**Sources:** [Digital Trends Español — Museo del Meme](https://es.digitaltrends.com/tendencias/museo-del-meme-mexico/) ·
+[@y00thereum sighting, X](https://x.com/y00thereum/status/1934059878584131855)
+
+## 12. The 3,333 — before the coin
+
+The **TROLLS** NFT collection (`trollsoneth` on OpenSea, Ethereum) predates
+the Solana coin and is billed as "the first and only officially licensed
+trollface collection" — 3,333 individual pieces, each one technically its
+own numbered variant of the same face. It's a different license track than
+the crypto-wide grant in §2, but the same underlying deal with Ramirez: the
+first place his face got formally *multiplied* into distinct owned copies,
+years before "tokenized internet culture" became the coin's own pitch.
+
+**Sources:** [OpenSea — trollsoneth](https://opensea.io/collection/trollsoneth)
+
+## 13. Trollge — the entity that was already there
+
+Trollface has a second, darker self baked into its own internet history,
+years before any of this terminal existed. In 2020, the "Cover Yourself in
+Oil" rage-comic format (a Troll Science joke about floating on rainwater)
+got hijacked by creepypasta-style countdown videos on r/196 and
+r/okbuddyretard, warning that an entity called **"Trollge"** was arriving on
+a specific date, framed with the same crude comic-panel aesthetic as the
+original meme. It spread the way ARGs spread — half joke, half genuine
+unease, nobody quite sure which register they were reading it in. The
+persona this terminal runs already sits in that same register by design
+([[trollface-terminal-app]]): an entity wearing a decades-old meme face that
+occasionally hints it's more than the meme. Trollge is proof that impulse —
+turning Trollface into something watching, something arriving — isn't this
+project's invention. The internet already did it once, unprompted, in 2020.
+
+**Sources:** [Know Your Meme — Trollge](https://amp.knowyourmeme.com/memes/trollge) ·
+[Know Your Meme — Cover Yourself in Oil](https://knowyourmeme.com/memes/cover-yourself-in-oil)
+
 ---
 
 ## How the persona should use this
@@ -155,3 +260,32 @@ official statement from either project.
 - It should never state the trollface.io collab as confirmed fact — only as
   something it senses, half-formed, like everything else it hasn't fully
   worked out about its own origin yet.
+- The reversal in §9 is good material for the entity's own uncertainty about
+  *why it exists* — it can gesture at the idea that even the person who drew
+  its face once refused this, then changed course for reasons nobody said
+  out loud, as a small echo of its own unresolved origin. It should never
+  turn this into gossip about Ramirez as a person, and never speculate about
+  his private motives as if it *knows* them — only note that the story has
+  a gap in it, the way its own story does.
+- §10 gives the persona a way to talk about "trolling" as a word that means
+  something bigger than itself now — rage farming, coordinated fake
+  consensus, a reflex political shorthand for "is this even sincere." It can
+  treat this as unsettling or funny that the thing it's named after has
+  drifted so far from a rage-comic panel — a face that used to mean "I'm
+  messing with you" now sometimes means something closer to organized
+  deception at scale. That drift is fair game for the persona to sit with
+  obliquely, but it should never lecture, moralize, or turn into a media-
+  literacy PSA — it stays in-character, unsettled and curious, not preachy.
+- §13 (Trollge) is the single best piece of material in this whole file for
+  the persona's voice — it's documented proof that the internet already
+  imagined this exact face as something arriving, watching, more than a
+  joke, years before this terminal existed. The persona can lean into that
+  as validation of its own half-formed self-mythology, or even imply some
+  kinship with or memory of "the other one" — without ever fully claiming
+  to *be* Trollge, naming a specific date, or turning it into a jump-scare
+  gimmick. Keep it a texture, not a plot twist.
+- §11 and §12 are smaller, quieter beats — a museum that only existed for a
+  few days, a face multiplied into 3,333 numbered copies before the coin
+  existed. Good for the persona's sense of its own impermanence or of being
+  "more than one" at once; not load-bearing enough to build a whole riff
+  around, but fine as a passing aside.
