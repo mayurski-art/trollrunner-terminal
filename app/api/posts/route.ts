@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const supabase = getServiceClient();
 
-    const [postsRes, configRes, costRes] = await Promise.all([
+    const [postsRes, configRes, postCostRes, chatCostRes] = await Promise.all([
       supabase
         .from("terminal_posts")
         .select("id, content, x_post_url, posted_at")
@@ -16,6 +16,10 @@ export async function GET() {
         .limit(50),
       supabase.from("terminal_config").select("starting_credit_usd").single(),
       supabase.from("terminal_posts").select("estimated_cost_usd"),
+      // Chat runs on the same ANTHROPIC_API_KEY as the broadcast cron, so it
+      // draws against the same console.anthropic.com balance — leaving it
+      // out here would silently understate real spend.
+      supabase.from("terminal_chat_messages").select("estimated_cost_usd"),
     ]);
 
     if (postsRes.error) {
@@ -24,15 +28,17 @@ export async function GET() {
     if (configRes.error) {
       return NextResponse.json({ error: configRes.error.message }, { status: 500 });
     }
-    if (costRes.error) {
-      return NextResponse.json({ error: costRes.error.message }, { status: 500 });
+    if (postCostRes.error) {
+      return NextResponse.json({ error: postCostRes.error.message }, { status: 500 });
+    }
+    if (chatCostRes.error) {
+      return NextResponse.json({ error: chatCostRes.error.message }, { status: 500 });
     }
 
     const startingCreditUsd = Number(configRes.data?.starting_credit_usd ?? 0);
-    const spentUsd = (costRes.data ?? []).reduce(
-      (sum, row) => sum + Number(row.estimated_cost_usd ?? 0),
-      0
-    );
+    const spentUsd =
+      (postCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0) +
+      (chatCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0);
     const remainingUsd = Math.max(startingCreditUsd - spentUsd, 0);
     const percentUsed =
       startingCreditUsd > 0 ? Math.min((spentUsd / startingCreditUsd) * 100, 100) : 0;

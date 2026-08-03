@@ -83,8 +83,8 @@ main {
   color: var(--terminal);
   white-space: pre;
   line-height: 1.05;
-  font-size: clamp(0.28rem, 1.6vw, 0.85rem);
-  overflow-x: auto;
+  font-size: 0.85rem;
+  display: inline-block;
 }
 
 .ascii-banner--alert {
