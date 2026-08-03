@@ -51,35 +51,6 @@ body {
   position: relative;
 }
 
-/* CRT scanline + vignette overlay. Fixed, non-interactive, behind content. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.035) 0px,
-    rgba(255, 255, 255, 0.035) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
-  );
-}
-
 #__next,
 main {
   position: relative;

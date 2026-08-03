@@ -42,7 +42,7 @@ export default function VaultPage() {
 
   useEffect(() => {
     let cancelled = false;
-    let sb;
+    let sb: ReturnType<typeof getPublicClient>;
     try {
       sb = getPublicClient();
     } catch (err) {
@@ -50,29 +50,43 @@ export default function VaultPage() {
       return;
     }
 
-    sb.from("terminal_wallets")
-      .select("user_id, balance")
-      .order("balance", { ascending: false })
-      .limit(10)
-      .then(({ data }) => !cancelled && setLadder(data ?? []));
+    // Balance ticks up from chatting on a different page (or tab), so a
+    // one-shot fetch on mount goes stale the moment you leave it open —
+    // refetch whenever this tab becomes visible again, not just once.
+    function load() {
+      sb!.from("terminal_wallets")
+        .select("user_id, balance")
+        .order("balance", { ascending: false })
+        .limit(10)
+        .then(({ data }) => !cancelled && setLadder(data ?? []));
 
-    if (session) {
-      sb.from("terminal_wallets")
-        .select("balance, lifetime_earned, qualifying_count")
-        .eq("user_id", session.user.id)
-        .maybeSingle()
-        .then(({ data }) => !cancelled && setWallet(data ?? { balance: 0, lifetime_earned: 0, qualifying_count: 0 }));
+      if (session) {
+        sb!.from("terminal_wallets")
+          .select("balance, lifetime_earned, qualifying_count")
+          .eq("user_id", session.user.id)
+          .maybeSingle()
+          .then(({ data }) => !cancelled && setWallet(data ?? { balance: 0, lifetime_earned: 0, qualifying_count: 0 }));
 
-      sb.from("terminal_token_ledger")
-        .select("id, delta, reason, created_at")
-        .eq("user_id", session.user.id)
-        .order("created_at", { ascending: false })
-        .limit(20)
-        .then(({ data }) => !cancelled && setLedger(data ?? []));
+        sb!.from("terminal_token_ledger")
+          .select("id, delta, reason, created_at")
+          .eq("user_id", session.user.id)
+          .order("created_at", { ascending: false })
+          .limit(20)
+          .then(({ data }) => !cancelled && setLedger(data ?? []));
+      }
     }
+
+    load();
+    function onVisible() {
+      if (document.visibilityState === "visible") load();
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", load);
 
     return () => {
       cancelled = true;
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", load);
     };
   }, [session]);
 

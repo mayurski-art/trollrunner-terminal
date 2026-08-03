@@ -77,7 +77,7 @@ Two ingredients, both plain text in a monospace font:
 
 ### 2.3 CRT dressing
 
-- Scanline overlay (repeating-linear-gradient, 3% opacity), subtle vignette.
+- Scanline overlay + vignette removed (read as TV static, dropped).
 - Boot sequence on first visit per session: 1.5s of fake POST text
   (`MEMCHECK ... OK`, `LOADING PERSONA ... OK`, `MAMMAL DETECTED`).
   Skippable, and skipped automatically for returning visitors.

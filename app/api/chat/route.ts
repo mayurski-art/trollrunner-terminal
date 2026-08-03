@@ -141,13 +141,21 @@ export async function POST(request: Request) {
     );
   }
 
-  // Load recent history for context.
-  const { data: historyRows } = await supabase
-    .from("terminal_chat_messages")
-    .select("role, content, created_at")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(HISTORY_TURNS);
+  // Load recent history + pinned memories for context.
+  const [{ data: historyRows }, { data: memoryRows }] = await Promise.all([
+    supabase
+      .from("terminal_chat_messages")
+      .select("role, content, created_at")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(HISTORY_TURNS),
+    supabase
+      .from("terminal_memories")
+      .select("content")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true }),
+  ]);
+  const memories = (memoryRows ?? []).map((r) => r.content as string);
 
   const history: ChatMessage[] = (historyRows ?? [])
     .slice()
@@ -163,7 +171,7 @@ export async function POST(request: Request) {
 
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
-    generated = await generateChatReply([...history, { role: "user", content: message }]);
+    generated = await generateChatReply([...history, { role: "user", content: message }], memories);
   } catch (err) {
     return NextResponse.json(
       { error: `the terminal glitched: ${(err as Error).message}` },
@@ -173,7 +181,7 @@ export async function POST(request: Request) {
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-sonnet-5");
 
-  await supabase.from("terminal_chat_messages").insert([
+  const { error: insertError } = await supabase.from("terminal_chat_messages").insert([
     { user_id: userId, role: "user", content: message, qualifying },
     {
       user_id: userId,
@@ -187,6 +195,9 @@ export async function POST(request: Request) {
       estimated_cost_usd: estimatedCostUsd,
     },
   ]);
+  if (insertError) {
+    console.error("[chat] failed to save chat messages:", insertError.message);
+  }
 
   // Mining: every QUALIFYING_INTERVAL qualifying messages mints 1 PROBLEM.
   const newQualifyingCount = wallet.qualifying_count + (qualifying ? 1 : 0);
@@ -194,29 +205,42 @@ export async function POST(request: Request) {
   const remainder = newQualifyingCount % QUALIFYING_INTERVAL;
   const newBalance = wallet.balance + minted;
 
-  await supabase.from("terminal_wallets").upsert({
-    user_id: userId,
-    balance: newBalance,
-    lifetime_earned: wallet.lifetime_earned + minted,
-    lifetime_spent: wallet.lifetime_spent,
-    qualifying_count: remainder,
-    messages_today: messagesToday + 1,
-    last_message_at: new Date().toISOString(),
-    last_message_day: today,
-  });
+  // select() the row back so the response reflects what's actually
+  // persisted, not just the in-memory math — a silent upsert failure here
+  // used to still report a "minted" reply with numbers that never hit the
+  // database (wallet stayed stuck at 0 while chat kept working).
+  const { data: persistedWallet, error: walletError } = await supabase
+    .from("terminal_wallets")
+    .upsert({
+      user_id: userId,
+      balance: newBalance,
+      lifetime_earned: wallet.lifetime_earned + minted,
+      lifetime_spent: wallet.lifetime_spent,
+      qualifying_count: remainder,
+      messages_today: messagesToday + 1,
+      last_message_at: new Date().toISOString(),
+      last_message_day: today,
+    })
+    .select("balance, qualifying_count")
+    .single();
+  if (walletError) {
+    console.error("[chat] failed to persist wallet:", walletError.message);
+  }
 
   if (minted > 0) {
-    await supabase.from("terminal_token_ledger").insert({
+    const { error: ledgerError } = await supabase.from("terminal_token_ledger").insert({
       user_id: userId,
       delta: minted,
       reason: "mined",
     });
+    if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
   }
 
-  await supabase
+  const { error: configError } = await supabase
     .from("terminal_config")
     .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
     .eq("id", true);
+  if (configError) console.error("[chat] failed to update daily config counters:", configError.message);
 
   // Shared TrollRunner XP, same server-enforced rules as the main site
   // (see assets/supabase/troll_terminal_xp.sql) — once per ~day per user,
@@ -236,10 +260,11 @@ export async function POST(request: Request) {
   return NextResponse.json({
     reply: generated.content,
     wallet: {
-      balance: newBalance,
-      qualifyingCount: remainder,
+      balance: persistedWallet?.balance ?? wallet.balance,
+      qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,
       qualifyingInterval: QUALIFYING_INTERVAL,
     },
-    minted,
+    walletSaved: !walletError,
+    minted: walletError ? 0 : minted,
   });
 }
