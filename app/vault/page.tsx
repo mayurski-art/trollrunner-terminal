@@ -23,9 +23,10 @@ type LadderRow = { user_id: string; balance: number; username: string | null };
 const QUALIFYING_INTERVAL = 7;
 
 const LOCKED_ITEMS = [
-  { cost: 25, label: "whitelist: the inner room" },
-  { cost: 50, label: "troll casino chip drop" },
-  { cost: 100, label: "$TROLL airdrop" },
+  { cost: null, label: "XP boost" },
+  { cost: null, label: "$TROLL airdrop" },
+  { cost: null, label: "cosmetic profile unlock" },
+  { cost: null, label: "leaderboard crown" },
   { cost: null, label: "something it won't describe yet" },
 ];
 
@@ -192,7 +193,7 @@ export default function VaultPage() {
             {LOCKED_ITEMS.map((item) => (
               <li key={item.label} className="flex justify-between text-dim">
                 <span>
-                  <span className="text-problem">{item.cost ? `? ${item.cost}` : "? ???"}</span>{" "}
+                  <span className="text-problem">{item.cost ? `? ${item.cost}` : "??"}</span>{" "}
                   {item.label}
                 </span>
                 <span className="text-alert text-xs">[ LOCKED ]</span>
