@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
-import { uploadWardrobeAvatar } from "@/lib/avatar";
+import { uploadWardrobeAvatar, listRecentAvatars, setActiveAvatar, type RecentAvatar } from "@/lib/avatar";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
@@ -17,6 +17,9 @@ export default function FacesPage() {
   const [equipped, setEquipped] = useState<Partial<Record<WardrobeSlot, string>>>({});
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [recent, setRecent] = useState<RecentAvatar[]>([]);
+  const [switching, setSwitching] = useState<string | null>(null);
   const canvasRef = useRef<WardrobeCanvasHandle>(null);
 
   useEffect(() => {
@@ -27,22 +30,45 @@ export default function FacesPage() {
     return onAuthChange(setSession);
   }, []);
 
+  useEffect(() => {
+    if (!session) {
+      setRecent([]);
+      return;
+    }
+    listRecentAvatars().then(setRecent);
+  }, [session]);
+
   function toggleItem(slot: WardrobeSlot, itemId: string) {
     setEquipped((prev) => ({ ...prev, [slot]: prev[slot] === itemId ? undefined : itemId }));
   }
 
   async function saveAsAvatar() {
     if (!canvasRef.current) return;
+    setConfirming(false);
     setSaving(true);
     setStatus(null);
     try {
       const blob = await canvasRef.current.exportBlob();
       await uploadWardrobeAvatar(blob);
       setStatus("saved — your new profile picture is live across the network");
+      setRecent(await listRecentAvatars());
     } catch (err) {
       setStatus((err as Error).message || "could not save avatar");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function switchToRecent(avatar: RecentAvatar) {
+    setSwitching(avatar.path);
+    setStatus(null);
+    try {
+      await setActiveAvatar(avatar.url);
+      setStatus("switched — that's your profile picture again");
+    } catch (err) {
+      setStatus((err as Error).message || "could not switch avatar");
+    } finally {
+      setSwitching(null);
     }
   }
 
@@ -67,14 +93,54 @@ export default function FacesPage() {
           <div className="flex flex-col sm:flex-row gap-6">
             <div className="flex flex-col items-center gap-3">
               <WardrobeCanvas ref={canvasRef} equipped={equipped} />
-              <button
-                onClick={saveAsAvatar}
-                disabled={saving}
-                className="border border-terminal text-terminal px-4 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40 w-full"
-              >
-                {saving ? "saving..." : "save as profile picture"}
-              </button>
+
+              {confirming ? (
+                <div className="flex gap-2 w-full">
+                  <button
+                    onClick={saveAsAvatar}
+                    disabled={saving}
+                    className="flex-1 border border-terminal bg-terminal text-background px-4 py-1.5 text-sm disabled:opacity-40"
+                  >
+                    {saving ? "saving..." : "yes, set it"}
+                  </button>
+                  <button
+                    onClick={() => setConfirming(false)}
+                    disabled={saving}
+                    className="flex-1 border border-dim text-dim px-4 py-1.5 text-sm hover:text-terminal disabled:opacity-40"
+                  >
+                    cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirming(true)}
+                  disabled={saving}
+                  className="border border-terminal text-terminal px-4 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40 w-full"
+                >
+                  save as profile picture
+                </button>
+              )}
               {status && <p className="text-dim text-xs text-center">{status}</p>}
+
+              {recent.length > 0 && (
+                <div className="w-full">
+                  <p className="text-dim text-xs mb-2 text-center">recent profile pictures — click to switch back</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {recent.map((a) => (
+                      <button
+                        key={a.path}
+                        onClick={() => switchToRecent(a)}
+                        disabled={switching === a.path}
+                        title="set as profile picture"
+                        className="w-12 h-12 border border-dim hover:border-terminal overflow-hidden disabled:opacity-40"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={a.url} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex-1 space-y-5">
