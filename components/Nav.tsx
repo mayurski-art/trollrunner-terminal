@@ -28,6 +28,9 @@ export default function Nav() {
         <Link href="/faces" className="hover:text-you">
           [ faces ]
         </Link>
+        <Link href="/undervoice" className="hover:text-alert">
+          [ undervoice ]
+        </Link>
       </div>
       {session ? (
         <div className="flex items-center gap-3">

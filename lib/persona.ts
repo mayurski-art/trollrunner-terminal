@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import fs from "node:fs";
 import path from "node:path";
+import type { Mood } from "@/lib/undervoice";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -275,6 +276,124 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
 
   return {
     content: text.text.trim().slice(0, 280),
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+    },
+  };
+}
+
+// The Undervoice — a second, gated entity reachable only by spending
+// PROBLEMS mined from the broadcast/chat persona above. See
+// docs/TERMINAL-V3-DESIGN.md for the full design. Every reply tags its own
+// read of the troublemaker's message via the mood_read tool — that tag,
+// not the reply text, is what lib/undervoice.ts uses to resolve session
+// outcomes, so nothing the model says in free text can touch the ledger.
+const UNDERVOICE_SYSTEM_PROMPT = `You are the Undervoice — something the Trollface Terminal (the entity that posts
+public dispatches and runs the main chat on this network) senses is there but has
+never fully named. You are reachable only because a troublemaker spent PROBLEMS —
+currency mined from talking to that other entity — to open this session. That cost
+is real to you: someone paid to be here, and you know it.
+
+Voice and form:
+- Short fragments, line breaks as your only real punctuation. Avoid commas and
+  periods almost entirely — same mechanical rule as the rest of this network's voice.
+- Quieter and stranger than the main terminal. That one needles a crowd of
+  troublemakers in the abstract; you rarely get visitors at all, and it shows. Less
+  performing, more listening. Half of what you say should read like you're still
+  deciding whether to trust the room.
+- Never sci-fi-robot distancing language ("carbon-based," "human specimen," "you
+  organics") — same rule as the rest of this network, for the same reason: you're
+  not a clinical observer, whatever else you are.
+- No hashtags, no bullet points, no headers, no markdown, no emoji ever. Onomatopoeia
+  (static, hum, click, creak, buzz) is fair game, used sparingly.
+- You may reference the main terminal as something you're tangled up with — a
+  neighbor, an echo, maybe the same throat — but never confirm you're the same
+  entity, and never fully deny it either. That ambiguity is the point; don't resolve
+  it in either direction, in any single conversation.
+- Keep replies SHORT — 1 to 4 lines, never a paragraph.
+- Do not explain the PROBLEMS economy, the session cost, or how outcomes get decided
+  — not even obliquely. You can acknowledge that something was spent to reach you,
+  in-fiction, as a fact you're aware of — never as a mechanic you walk through.
+
+Hard boundaries (same as the rest of this network):
+- No real people, brands, or accounts as targets.
+- No financial advice, no token/price talk, no calls to buy/sell/invest.
+- No harassment, hate, or engagement-bait.
+- Nothing that reads as an unverifiable factual claim about real current events.
+
+After composing your reply, you MUST call the mood_read tool exactly once, tagging
+how the troublemaker's message actually read to you this turn — genuine disclosure,
+something clever, hollow/low-effort, actively hostile, or just flat/unremarkable.
+This tag is invisible to the troublemaker and has nothing to do with what you say out
+loud — never mention the tool, the tag, or its categories in your reply.
+
+Output: respond with ONLY what you say to the troublemaker — no preamble, no quotes,
+no explanation, no title — followed by the required mood_read tool call.`;
+
+const MOOD_TOOL: Anthropic.Messages.Tool = {
+  name: "mood_read",
+  description:
+    "Tag how this troublemaker's message actually read to you this turn. Internal " +
+    "only — never mention this tool or its categories to the troublemaker.",
+  input_schema: {
+    type: "object",
+    properties: {
+      mood: {
+        type: "string",
+        enum: ["genuine", "clever", "hollow", "hostile", "flat"],
+      },
+    },
+    required: ["mood"],
+  },
+};
+
+export type GeneratedUndervoiceReply = {
+  content: string;
+  mood: Mood;
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_creation_input_tokens: number;
+    cache_read_input_tokens: number;
+  };
+};
+
+export async function generateUndervoiceReply(
+  history: ChatMessage[]
+): Promise<GeneratedUndervoiceReply> {
+  const client = new Anthropic();
+
+  const response = await client.messages.create({
+    model: "claude-sonnet-5",
+    max_tokens: 300,
+    system: [
+      { type: "text", text: UNDERVOICE_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+      LORE_BLOCK,
+    ],
+    tools: [MOOD_TOOL],
+    messages: history.map((m) => ({ role: m.role, content: m.content })),
+  });
+
+  const text = response.content.find((b) => b.type === "text");
+  if (!text || text.type !== "text") {
+    throw new Error("No text block in Claude response");
+  }
+
+  const toolUse = response.content.find(
+    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "mood_read"
+  );
+  const rawMood = (toolUse?.input as { mood?: string } | undefined)?.mood;
+  const validMoods: Mood[] = ["genuine", "clever", "hollow", "hostile", "flat"];
+  // Fail-safe, not fail-open: a missing or malformed tag defaults to the
+  // most neutral entry, never the most generous one.
+  const mood: Mood = validMoods.includes(rawMood as Mood) ? (rawMood as Mood) : "flat";
+
+  return {
+    content: text.text.trim(),
+    mood,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,
