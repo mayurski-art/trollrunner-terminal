@@ -55,7 +55,17 @@ export default function Chat() {
   // survive a page reload showing which lines are already pinned.
   const [memories, setMemories] = useState<Map<string, string>>(new Map());
   const [memoryBusy, setMemoryBusy] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ url: string; caption?: string | null } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
 
   useEffect(() => {
     // Deliberately deferred to after hydration — window/localStorage reads
@@ -337,8 +347,19 @@ export default function Chat() {
               </p>
               {m.image_url && (
                 <div className="mt-2 max-w-xs border border-dim">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={m.image_url} alt={m.image_caption ?? "image sent by the terminal"} className="w-full block" />
+                  <button
+                    type="button"
+                    onClick={() => setLightbox({ url: m.image_url!, caption: m.image_caption })}
+                    aria-label="View full-size image"
+                    className="block w-full cursor-zoom-in"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={m.image_url}
+                      alt={m.image_caption ?? "image sent by the terminal"}
+                      className="w-full block"
+                    />
+                  </button>
                   {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
                 </div>
               )}
@@ -382,6 +403,32 @@ export default function Chat() {
           &gt;
         </button>
       </form>
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.caption ?? "image sent by the terminal"}
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox.url}
+            alt={lightbox.caption ?? "image sent by the terminal"}
+            className="max-h-[85vh] max-w-full object-contain border border-dim"
+          />
+          {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close image"
+            className="text-ghost hover:text-terminal transition-colors text-xs"
+          >
+            [ close ]
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -79,7 +79,7 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
-          <Frame title="latest transmission" tone="terminal" className="lg:w-1/4">
+          <Frame title="latest transmission" tone="terminal" className="lg:w-1/5">
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
@@ -106,7 +106,7 @@ export default function Home() {
             )}
           </Frame>
 
-          <Frame title="speak to it" tone="dim" className="lg:w-1/2">
+          <Frame title="speak to it" tone="dim" className="lg:w-3/5">
             {session ? (
               <Chat />
             ) : (
@@ -119,7 +119,7 @@ export default function Home() {
             )}
           </Frame>
 
-          <Frame title="still turning this over" tone="problem" className="lg:w-1/4">
+          <Frame title="still turning this over" tone="problem" className="lg:w-1/5">
             {musingError && <p className="text-alert text-sm">[connection error: {musingError}]</p>}
             {!musingError && !musing && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
