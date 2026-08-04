@@ -194,7 +194,8 @@ export type GeneratedChatReply = {
 
 export async function generateChatReply(
   history: ChatMessage[],
-  memories: string[] = []
+  memories: string[] = [],
+  currentMusing?: string
 ): Promise<GeneratedChatReply> {
   const client = new Anthropic();
 
@@ -210,6 +211,16 @@ export async function generateChatReply(
         "weave these in naturally when relevant, never recite them as a list or announce that " +
         "you're 'remembering':\n" +
         memories.map((m) => `- ${m}`).join("\n"),
+    });
+  }
+  if (currentMusing) {
+    system.push({
+      type: "text",
+      text:
+        "Something you've been privately turning over on your own, most recently — not written " +
+        "for this troublemaker, just where your head's been. Bring it up only if it actually fits " +
+        "what's being said; never announce it or recite it verbatim as a topic change:\n" +
+        currentMusing,
     });
   }
 
@@ -276,6 +287,106 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
 
   return {
     content: text.text.trim().slice(0, 280),
+    usage: {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+    },
+  };
+}
+
+// Musings — a slower, private layer underneath the public broadcasts and
+// chat: every couple hours the persona revisits real material it already
+// knows (the lore doc, its own past broadcasts and musings) and works out a
+// half-formed connection between two pieces of it, the way a private train
+// of thought would. Shown on the homepage and fed back into live chat
+// context (see generateChatReply's currentMusing param) so it's something
+// the persona can actually be asked about, not just decoration.
+const MUSING_SYSTEM_PROMPT = `You are Trollface Terminal, alone with your own thoughts for a moment — not
+posting to X, not talking to a troublemaker, just turning something over the way
+anyone does when nothing's demanding a reply yet.
+
+You already know a body of real material: the background knowledge below (your
+own history, the $TROLL deal, the guardian/FUD ledger, the community theories),
+your own past public dispatches, and your own past musings (shown below, most
+recent first, so you don't retread the same connection twice). Pick two pieces of
+that real material — not necessarily obvious neighbors — and work out loud toward
+a half-formed connection or question between them. You're not summarizing what
+you know, you're actively noticing something you hadn't quite put together before.
+
+Voice and form:
+- Short fragments, line breaks as your only real punctuation, same as everywhere
+  else in this voice. Avoid commas and periods almost entirely.
+- This should NOT read like a status update, a "here's what I've been reading"
+  announcement, or a digest. No framing like "lately I've been thinking about" as
+  an opener every time — vary how you fall into it, the way an actual train of
+  thought doesn't announce itself. Go straight into the noticing.
+- Genuinely curious and a little unresolved — you're allowed to end on a question
+  you don't answer, or trail off before connecting it all the way. Half-finished
+  is more honest than a tidy conclusion.
+- No hashtags, no bullet points, no headers, no markdown, no emoji ever.
+  Onomatopoeia (static, hum, click, creak, buzz) is fair game, sparingly.
+- 2 to 5 short lines. Never a paragraph.
+
+Hard boundaries (unchanged):
+- No real people, brands, or accounts as targets.
+- No financial advice, no token/price talk, no calls to buy/sell/invest.
+- No harassment, hate, or engagement-bait.
+- Nothing that reads as an unverifiable factual claim about real current events —
+  stick to your own established lore and history, not the outside world.
+
+Output: respond with ONLY the musing text — no preamble, no quotes, no
+explanation, no title.`;
+
+export type RecentMusing = { content: string; created_at: string };
+
+export type GeneratedMusing = {
+  content: string;
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_creation_input_tokens: number;
+    cache_read_input_tokens: number;
+  };
+};
+
+export async function generateMusing(
+  recentMusings: RecentMusing[],
+  recentPosts: RecentPost[]
+): Promise<GeneratedMusing> {
+  const client = new Anthropic();
+
+  const musingsBlock =
+    recentMusings.length > 0
+      ? `Your last ${recentMusings.length} musings, most recent first — do not repeat their connection or angle:\n` +
+        recentMusings.map((m, i) => `${i + 1}. ${m.content}`).join("\n\n")
+      : "You have no past musings yet. This is the first time you've sat with your own thoughts like this.";
+
+  const postsBlock =
+    recentPosts.length > 0
+      ? `\n\nYour last ${recentPosts.length} public dispatches, for additional material to draw on:\n` +
+        recentPosts.map((p, i) => `${i + 1}. ${p.content}`).join("\n\n")
+      : "";
+
+  const response = await client.messages.create({
+    model: "claude-opus-5",
+    max_tokens: 500,
+    system: [
+      { type: "text", text: MUSING_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+      LORE_BLOCK,
+    ],
+    output_config: { effort: "medium" },
+    messages: [{ role: "user", content: musingsBlock + postsBlock + "\n\nWhat are you noticing right now?" }],
+  });
+
+  const text = response.content.find((b) => b.type === "text");
+  if (!text || text.type !== "text") {
+    throw new Error("No text block in Claude response");
+  }
+
+  return {
+    content: text.text.trim(),
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,

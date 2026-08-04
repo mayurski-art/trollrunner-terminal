@@ -236,8 +236,9 @@ export async function POST(request: Request) {
     );
   }
 
-  // Load recent history + pinned memories for context.
-  const [{ data: historyRows }, { data: memoryRows }] = await Promise.all([
+  // Load recent history + pinned memories + the persona's latest private
+  // musing (see lib/persona.ts generateMusing) for context.
+  const [{ data: historyRows }, { data: memoryRows }, { data: musingRows }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
       .select("role, content, created_at")
@@ -249,8 +250,14 @@ export async function POST(request: Request) {
       .select("content")
       .eq("user_id", userId)
       .order("created_at", { ascending: true }),
+    supabase
+      .from("terminal_musings")
+      .select("content")
+      .order("created_at", { ascending: false })
+      .limit(1),
   ]);
   const memories = (memoryRows ?? []).map((r) => r.content as string);
+  const currentMusing = musingRows?.[0]?.content as string | undefined;
 
   const history: ChatMessage[] = (historyRows ?? [])
     .slice()
@@ -343,7 +350,11 @@ export async function POST(request: Request) {
 
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
-    generated = await generateChatReply([...history, { role: "user", content: message }], memories);
+    generated = await generateChatReply(
+      [...history, { role: "user", content: message }],
+      memories,
+      currentMusing
+    );
   } catch (err) {
     return NextResponse.json(
       { error: `the terminal glitched: ${(err as Error).message}` },

@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const supabase = getServiceClient();
 
-    const [postsRes, configRes, postCostRes, chatCostRes] = await Promise.all([
+    const [postsRes, configRes, postCostRes, chatCostRes, musingCostRes] = await Promise.all([
       supabase
         .from("terminal_posts")
         .select("id, content, x_post_url, posted_at")
@@ -20,6 +20,8 @@ export async function GET() {
       // draws against the same console.anthropic.com balance — leaving it
       // out here would silently understate real spend.
       supabase.from("terminal_chat_messages").select("estimated_cost_usd"),
+      // Same for musings (see /api/musing-cron) — same key, same balance.
+      supabase.from("terminal_musings").select("estimated_cost_usd"),
     ]);
 
     if (postsRes.error) {
@@ -34,11 +36,15 @@ export async function GET() {
     if (chatCostRes.error) {
       return NextResponse.json({ error: chatCostRes.error.message }, { status: 500 });
     }
+    if (musingCostRes.error) {
+      return NextResponse.json({ error: musingCostRes.error.message }, { status: 500 });
+    }
 
     const startingCreditUsd = Number(configRes.data?.starting_credit_usd ?? 0);
     const spentUsd =
       (postCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0) +
-      (chatCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0);
+      (chatCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0) +
+      (musingCostRes.data ?? []).reduce((sum, row) => sum + Number(row.estimated_cost_usd ?? 0), 0);
     const remainingUsd = Math.max(startingCreditUsd - spentUsd, 0);
     const percentUsed =
       startingCreditUsd > 0 ? Math.min((spentUsd / startingCreditUsd) * 100, 100) : 0;

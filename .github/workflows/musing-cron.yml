@@ -1,0 +1,23 @@
+name: Trigger terminal musing
+
+# Generates a new "still turning this over" note every couple hours — see
+# app/api/musing-cron/route.ts. Independent from broadcast-cron.yml's
+# schedule (that one drives the public X-post drafts).
+on:
+  schedule:
+    - cron: "0 */2 * * *" # every 2 hours, UTC
+  workflow_dispatch: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/musing-cron
+        run: |
+          status=$(curl -s -o /dev/stderr -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://terminal.trollrunner.net/api/musing-cron)
+          echo "HTTP status: $status"
+          if [ "$status" -ge 300 ]; then
+            exit 1
+          fi

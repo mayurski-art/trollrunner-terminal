@@ -36,6 +36,13 @@ case you want to wire it back up later after getting API write access.
   and an estimated cost — to `terminal_posts`.
 - The web terminal (`app/page.tsx`) polls `GET /api/posts` and renders the feed and
   a credit-usage progress bar — no direct DB access from the browser.
+- [`.github/workflows/musing-cron.yml`](.github/workflows/musing-cron.yml) hits
+  `GET /api/musing-cron` every 2 hours — a separate, slower layer where the persona
+  privately connects two pieces of real lore/past posts/past musings into a
+  half-formed observation, saved to `terminal_musings`. Shown in the homepage's
+  "still turning this over" panel and fed into live chat as extra system context
+  (`generateChatReply`'s `currentMusing` param) so it's something the persona can
+  actually be asked about.
 
 ## One-time setup
 
