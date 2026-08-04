@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-5xl">
         <Nav />
 
         <div className="mb-2">
@@ -55,45 +55,47 @@ export default function Home() {
           it surfaced inside trollrunner.net  ·  now it is your job to explore the infinite knowledge behind trolling
         </p>
 
-        <Frame title="speak to it" tone="dim" className="mb-6">
-          {session ? (
-            <Chat />
-          ) : (
-            <div className="space-y-4">
-              <p className="text-dim text-sm">
-                the terminal only speaks to troublemakers it can identify. sign in to begin.
-              </p>
-              <AuthPanel />
-            </div>
-          )}
-        </Frame>
-
-        <Frame title="latest transmission" tone="terminal">
-          {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
-          {!error && !latest && (
-            <p className="text-dim text-sm animate-pulse">establishing connection...</p>
-          )}
-          {latest && (
-            <>
-              <p className="whitespace-pre-wrap leading-relaxed text-terminal">
-                {latest.content}
-              </p>
-              <div className="mt-2 flex items-center gap-3 text-xs text-dim">
-                <span>{timeAgo(latest.posted_at)}</span>
-                {latest.x_post_url && (
-                  <a
-                    href={latest.x_post_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-terminal underline decoration-dim underline-offset-2"
-                  >
-                    view on x
-                  </a>
-                )}
+        <div className="flex flex-col lg:flex-row gap-6 mb-6">
+          <Frame title="speak to it" tone="dim" className="lg:w-3/5">
+            {session ? (
+              <Chat />
+            ) : (
+              <div className="space-y-4">
+                <p className="text-dim text-sm">
+                  the terminal only speaks to troublemakers it can identify. sign in to begin.
+                </p>
+                <AuthPanel />
               </div>
-            </>
-          )}
-        </Frame>
+            )}
+          </Frame>
+
+          <Frame title="latest transmission" tone="terminal" className="lg:w-2/5">
+            {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
+            {!error && !latest && (
+              <p className="text-dim text-sm animate-pulse">establishing connection...</p>
+            )}
+            {latest && (
+              <>
+                <p className="whitespace-pre-wrap leading-relaxed text-terminal">
+                  {latest.content}
+                </p>
+                <div className="mt-2 flex items-center gap-3 text-xs text-dim">
+                  <span>{timeAgo(latest.posted_at)}</span>
+                  {latest.x_post_url && (
+                    <a
+                      href={latest.x_post_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:text-terminal underline decoration-dim underline-offset-2"
+                    >
+                      view on x
+                    </a>
+                  )}
+                </div>
+              </>
+            )}
+          </Frame>
+        </div>
 
         <p className="text-dim text-xs mt-8 text-center">
           part of the{" "}
