@@ -14,20 +14,23 @@ FIGlet banners and box-drawing frames, and shared TrollRunner account login. See
 
 Next.js (App Router) + Supabase (post history + chat + PROBLEMS wallets + kill
 switches) + Claude API (`claude-opus-5` for daily posts, `claude-sonnet-5` for chat).
-Deployed on Vercel with a Vercel Cron job driving the daily post. Posts are capped
-at 280 characters — no X Premium needed on the account.
+Deployed on Vercel; a GitHub Actions workflow drives the broadcast schedule (Vercel
+Cron on the Hobby plan caps out at 2 jobs/once-a-day each, which isn't enough for
+3x/day). Posts are capped at 280 characters — no X Premium needed on the account.
 
 **Why posting to X is manual, not automatic:** X's write API access requires a paid
-developer tier (their free tier doesn't include posting). The cron job still
-autonomously *writes* a new post on schedule and saves it — you just copy it from
+developer tier (their free tier doesn't include posting). The scheduled trigger still
+autonomously *writes* a new post each time and saves it — you just copy it from
 the web terminal and post it to `@trolltruths` yourself. `lib/x.ts` (an
 `X_API_KEY`-based auto-poster via `twitter-api-v2`) is still in the repo, unused, in
 case you want to wire it back up later after getting API write access.
 
 ## How it works
 
-- `vercel.json` schedules `GET /api/cron` once daily (Vercel Hobby plan only allows
-  daily cron schedules; bump the frequency in `vercel.json` if upgrading to Pro).
+- [`.github/workflows/broadcast-cron.yml`](.github/workflows/broadcast-cron.yml) hits
+  `GET /api/cron` on a schedule (currently 7am / 8am / 5pm PDT) using the `CRON_SECRET`
+  GitHub Actions repo secret, and can also be run manually from the Actions tab
+  (`workflow_dispatch`).
 - The cron route checks `terminal_config.is_paused` (kill switch), pulls the last 15
   posts for context, asks Claude for the next post, and writes it — plus token usage
   and an estimated cost — to `terminal_posts`.
@@ -90,8 +93,10 @@ defaults (Next.js auto-detected). Then:
   - `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_SECRET` — optional,
     unused unless you wire `lib/x.ts` back into the cron route later
   - `CRON_SECRET` — any random string, entered as **just the string itself**, no
-    quotes or extra text; Vercel automatically sends it as the
-    `Authorization: Bearer <CRON_SECRET>` header on scheduled cron invocations.
+    quotes or extra text. Also add the same value as a **GitHub repo secret** named
+    `CRON_SECRET` (Settings → Secrets and variables → Actions → New repository
+    secret) — the GitHub Actions workflow sends it as the
+    `Authorization: Bearer <CRON_SECRET>` header when it triggers the route.
 
 Redeploy after setting env vars so the cron route can pick them up.
 
@@ -148,8 +153,11 @@ curl -H "Authorization: Bearer <your CRON_SECRET>" http://localhost:3000/api/cro
 
 ## Adjusting the schedule
 
-Edit the cron expression in `vercel.json` (`schedule`). Vercel Cron on the Hobby plan
-is limited to once-per-day invocations — a sub-daily schedule requires a Pro plan.
+Edit the `cron:` entries in `.github/workflows/broadcast-cron.yml` (UTC). Currently
+set for 7am / 8am / 5pm **PDT** (UTC-7) wall-clock time — flip to the UTC-8
+equivalents (15:00 / 16:00 / 01:00) when daylight saving ends in November, and back
+again in spring. You can also trigger a run immediately from the repo's Actions tab
+(`workflow_dispatch`) without waiting for the schedule.
 
 ## Adjusting the persona
 

@@ -1,0 +1,26 @@
+name: Trigger terminal broadcast
+
+# Replaces Vercel Cron entirely (Hobby plan caps out at 2 jobs/once-a-day
+# each, not enough for 3x/day). Times are UTC and currently set for PDT
+# (UTC-7) wall-clock 7am / 8am / 5pm — flip back to UTC-8 equivalents
+# (15:00 / 16:00 / 01:00) once daylight saving ends in November.
+on:
+  schedule:
+    - cron: "0 14 * * *" # 7am PDT
+    - cron: "0 15 * * *" # 8am PDT
+    - cron: "0 0 * * *" # 5pm PDT
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/cron
+        run: |
+          status=$(curl -s -o /dev/stderr -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://terminal.trollrunner.net/api/cron)
+          echo "HTTP status: $status"
+          if [ "$status" -ge 300 ]; then
+            exit 1
+          fi
