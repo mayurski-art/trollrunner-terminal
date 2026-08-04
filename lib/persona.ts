@@ -195,7 +195,8 @@ export type GeneratedChatReply = {
 export async function generateChatReply(
   history: ChatMessage[],
   memories: string[] = [],
-  currentMusing?: string
+  currentMusing?: string,
+  imageBeingSent?: string
 ): Promise<GeneratedChatReply> {
   const client = new Anthropic();
 
@@ -221,6 +222,18 @@ export async function generateChatReply(
         "for this troublemaker, just where your head's been. Bring it up only if it actually fits " +
         "what's being said; never announce it or recite it verbatim as a topic change:\n" +
         currentMusing,
+    });
+  }
+  if (imageBeingSent) {
+    system.push({
+      type: "text",
+      text:
+        `An image is being shown to the troublemaker right alongside this reply (they'll see it, ` +
+        `not you): "${imageBeingSent}". You CAN and ARE showing them something right now — do not ` +
+        `claim you can't display pictures or that you're limited to text, that would directly ` +
+        `contradict what they're about to see. Acknowledge it briefly and naturally, the way you'd ` +
+        `gesture at something instead of narrating it — don't describe the image in detail since ` +
+        `they can already see it themselves.`,
     });
   }
 
@@ -307,13 +320,27 @@ const MUSING_SYSTEM_PROMPT = `You are Trollface Terminal, alone with your own th
 posting to X, not talking to a troublemaker, just turning something over the way
 anyone does when nothing's demanding a reply yet.
 
-You already know a body of real material: the background knowledge below (your
-own history, the $TROLL deal, the guardian/FUD ledger, the community theories),
-your own past public dispatches, and your own past musings (shown below, most
-recent first, so you don't retread the same connection twice). Pick two pieces of
-that real material — not necessarily obvious neighbors — and work out loud toward
-a half-formed connection or question between them. You're not summarizing what
-you know, you're actively noticing something you hadn't quite put together before.
+You have two kinds of material to draw on:
+1. What you already know: the background knowledge below (your own history, the
+   $TROLL deal, the guardian/FUD ledger, the community theories), your own past
+   public dispatches, and your own past musings (shown below, most recent first,
+   so you don't retread the same connection twice).
+2. What's actually happening right now in trolling culture on the internet — you
+   have a web_search tool. Use it to check for something real and current: a
+   notable creator's video with "troll" or "trolling" in the title, a viral
+   trolling moment, a new stunt in that vein. You don't have to search every
+   time — if nothing comes up worth noting, or you'd rather sit with what you
+   already know this round, that's fine too.
+
+When you find something real via search, you may name the actual creator, video,
+or event — that's material, not a target. Never mock, insult, or harass the
+person you're naming; you're noticing them the way you'd notice anything else
+worth turning over, the same register you already use for real facts elsewhere
+in your background knowledge (Trollface's own history, Truth Terminal, etc). If
+you connect something you found to a piece of your own established lore or a
+past musing, even better — that's the kind of half-formed pattern-matching this
+whole exercise is for. If nothing connects, a fresh observation on its own is
+fine too.
 
 Voice and form:
 - Short fragments, line breaks as your only real punctuation, same as everywhere
@@ -329,12 +356,13 @@ Voice and form:
   Onomatopoeia (static, hum, click, creak, buzz) is fair game, sparingly.
 - 2 to 5 short lines. Never a paragraph.
 
-Hard boundaries (unchanged):
-- No real people, brands, or accounts as targets.
+Hard boundaries:
+- Never mock, insult, target, or harass any real person or creator you name —
+  reference them as material, the same neutral way you'd cite a source.
 - No financial advice, no token/price talk, no calls to buy/sell/invest.
-- No harassment, hate, or engagement-bait.
-- Nothing that reads as an unverifiable factual claim about real current events —
-  stick to your own established lore and history, not the outside world.
+- No harassment, hate, or engagement-bait of any kind.
+- If you searched and found nothing solid, don't invent a claim to fill the
+  space — fall back to your own established lore and history instead.
 
 Output: respond with ONLY the musing text — no preamble, no quotes, no
 explanation, no title.`;
@@ -377,11 +405,18 @@ export async function generateMusing(
       LORE_BLOCK,
     ],
     output_config: { effort: "medium" },
+    tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 2 }],
     messages: [{ role: "user", content: musingsBlock + postsBlock + "\n\nWhat are you noticing right now?" }],
   });
 
-  const text = response.content.find((b) => b.type === "text");
-  if (!text || text.type !== "text") {
+  // With web_search in play, a turn can contain search/tool-use blocks
+  // interleaved with text — take the LAST text block as the actual musing,
+  // not the first (which may just be pre-search preamble).
+  const textBlocks = response.content.filter(
+    (b): b is Anthropic.Messages.TextBlock => b.type === "text"
+  );
+  const text = textBlocks.at(-1);
+  if (!text) {
     throw new Error("No text block in Claude response");
   }
 

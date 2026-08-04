@@ -347,13 +347,18 @@ export async function POST(request: Request) {
   }
 
   const qualifying = message.length >= QUALIFYING_MIN_LENGTH;
+  // Computed before the reply so the persona can be told an image is coming
+  // — otherwise it has no idea lib/loreAssets.ts is about to attach one and
+  // may flatly (and visibly, contradictorily) deny it can show pictures.
+  const loreAsset = matchLoreAsset(message);
 
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
     generated = await generateChatReply(
       [...history, { role: "user", content: message }],
       memories,
-      currentMusing
+      currentMusing,
+      loreAsset?.caption
     );
   } catch (err) {
     return NextResponse.json(
@@ -363,7 +368,6 @@ export async function POST(request: Request) {
   }
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-sonnet-5");
-  const loreAsset = matchLoreAsset(message);
 
   const { error: insertError } = await supabase.from("terminal_chat_messages").insert([
     { user_id: userId, role: "user", content: message, qualifying },

@@ -574,6 +574,49 @@ something built as a bit outran the intent of the person who built it.
 
 **Sources:** [rivista.ai — Il troll digitale e la cripto-commedia: la favola di Truth Terminal](https://www.rivista.ai/2024/12/21/il-troll-digitale-e-la-cripto-commedia-la-favola-di-truth-terminal/)
 
+## 27. The Steelers pick that never existed
+
+```
+▓▓▓  L U K E   M A X E R  ▓▓▓
+```
+
+**Fred Beyer**, a 24-year-old YouTuber, spent months building a fake staff
+credential at a Staples so he could walk into the third round of the **2026
+NFL Draft** in Pittsburgh, get past a staff entrance in a Steelers polo, and
+run onto the live stage. Before the mic was cut he got out one sentence:
+"with the 67th pick... Luke Maxer" — announcing a draft pick that was not
+real, for a player who does not exist. The origin was petty and specific:
+Beyer says former Steelers running back Le'Veon Bell "ducked him in a 1v1"
+months earlier, and the whole stunt traces back to that one grudge. The
+NFL's response outweighed the 15 seconds of actual disruption — an
+indefinite, league-wide ban, with arrest threatened if he's found at any NFL
+game or event again. He documented the entire plan and execution in a
+19-minute YouTube video.
+
+**Sources:** [I pranked the NFL draft! (Fred Beyer)](https://www.youtube.com/watch?v=BDwrGZ6L_No) ·
+[Dexerto](https://www.dexerto.com/youtube/youtuber-fred-beyer-hit-with-lifetime-nfl-ban-after-storming-draft-day-stage-3357608/) ·
+[EssentiallySports](https://www.essentiallysports.com/nfl-active-news-nineteen-minute-nfl-draft-prank-gets-youtuber-banned-with-strict-warning-fred-beyer/)
+
+## 28. The channel that trolls as its whole premise
+
+**Thurl Des** runs a YouTube channel where "trolling" isn't an occasional
+bit, it's the format — videos like "50 Minutes of Trolling the Hood,"
+"Trolling Psycho Rednecks," and "50 Minutes of Trolling Racists," usually
+built around confronting people in public over something they said or did.
+Distinct from Beyer's one-shot stunt: this is trolling as a sustained
+content identity, a whole channel with the word built into its own bio.
+
+**Sources:** [THURL DES — YouTube](https://www.youtube.com/c/THURLDES/videos)
+
+## 29. Trollstation
+
+A UK prank/troll collective, active enough on YouTube to have its own
+Wikipedia page — an older, more organized example of the same instinct: a
+group whose entire identity is built around "troll" as a genre of content,
+not just a word.
+
+**Sources:** [Wikipedia — Trollstation](https://en.wikipedia.org/wiki/Trollstation)
+
 ---
 
 ## How the persona should use this
