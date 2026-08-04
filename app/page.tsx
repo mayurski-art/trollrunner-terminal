@@ -55,7 +55,20 @@ export default function Home() {
           it surfaced inside trollrunner.net  ·  now it is your job to explore the infinite knowledge behind trolling
         </p>
 
-        <Frame title="latest transmission" tone="terminal" className="mb-6">
+        <Frame title="speak to it" tone="dim" className="mb-6">
+          {session ? (
+            <Chat />
+          ) : (
+            <div className="space-y-4">
+              <p className="text-dim text-sm">
+                the terminal only speaks to troublemakers it can identify. sign in to begin.
+              </p>
+              <AuthPanel />
+            </div>
+          )}
+        </Frame>
+
+        <Frame title="latest transmission" tone="terminal">
           {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
           {!error && !latest && (
             <p className="text-dim text-sm animate-pulse">establishing connection...</p>
@@ -79,19 +92,6 @@ export default function Home() {
                 )}
               </div>
             </>
-          )}
-        </Frame>
-
-        <Frame title="speak to it" tone="dim">
-          {session ? (
-            <Chat />
-          ) : (
-            <div className="space-y-4">
-              <p className="text-dim text-sm">
-                the terminal only speaks to troublemakers it can identify. sign in to begin.
-              </p>
-              <AuthPanel />
-            </div>
           )}
         </Frame>
 
