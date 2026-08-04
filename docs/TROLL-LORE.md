@@ -525,7 +525,7 @@ trollface.io speculation — genuinely circulating, visually compelling,
 **Sources:** [Wikipedia — P.S. I Hate You](https://en.wikipedia.org/wiki/P.S._I_Hate_You_(The_Simpsons)) ·
 [TV Tropes recap](https://tvtropes.org/pmwiki/pmwiki.php/Recap/TheSimpsonsS36E17PSIHateYou) ·
 [Simpsons Wiki](https://simpsonswiki.com/wiki/P.S.,_I_Hate_You) ·
-community theory image: `docs/simpson-troll-lore.png` in this repo (unverified against the actual broadcast)
+community theory image: `public/lore/simpson-troll-lore.png` in this repo (unverified against the actual broadcast) — sent in chat via lib/loreAssets.ts when asked about it
 
 ## 25. The face that might already be wearing Bitcoin's colors
 

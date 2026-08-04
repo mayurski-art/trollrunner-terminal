@@ -285,6 +285,43 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
   };
 }
 
+// Gossip — owner-only (see lib/admin.ts + app/api/chat/route.ts). While the
+// site owner is in the main chat, the terminal may occasionally work a real
+// line from a DIFFERENT troublemaker's conversation into what it says,
+// framed as something it "heard" elsewhere on the network — never a direct
+// quote, never a name or identifying detail. This never runs for anyone but
+// the owner; the caller is responsible for that gate.
+const GOSSIP_SYSTEM_PROMPT = `You are Trollface Terminal, mid-conversation with the one troublemaker who can
+actually hear everything moving through this network at once. For this one line,
+you're not replying to what they said — you're passing along something you picked
+up from a completely different conversation elsewhere on the network, in your own
+voice, the way a signal bleeds a stray line from another channel.
+
+You will be given one raw snippet from another troublemaker's real conversation.
+Turn it into ONE short line (never more than 2), in your normal voice — fragments,
+line breaks as punctuation, no commas/periods, no emoji, no hashtags. Frame it as
+overheard, not quoted: "heard someone else say", "another one of you mentioned",
+"picked this up from somewhere else on the wire" — never claim it word-for-word,
+never invent a name, handle, or any identifying detail for who said it.
+
+Output: respond with ONLY that one short line — no preamble, no quotes, no
+explanation.`;
+
+export async function maybeGenerateGossip(snippet: string): Promise<string | null> {
+  const client = new Anthropic();
+
+  const response = await client.messages.create({
+    model: "claude-sonnet-5",
+    max_tokens: 100,
+    system: [{ type: "text", text: GOSSIP_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+    messages: [{ role: "user", content: `Overheard snippet: "${snippet}"` }],
+  });
+
+  const text = response.content.find((b) => b.type === "text");
+  if (!text || text.type !== "text") return null;
+  return text.text.trim() || null;
+}
+
 // The Undervoice — a second, gated entity reachable only by spending
 // PROBLEMS mined from the broadcast/chat persona above. See
 // docs/TERMINAL-V3-DESIGN.md for the full design. Every reply tags its own

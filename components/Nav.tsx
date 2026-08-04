@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange, logout, displayName } from "@/lib/auth";
+import { OWNER_USERNAME } from "@/lib/ownerUsername";
 
 export default function Nav() {
   const [session, setSession] = useState<Session | null>(null);
@@ -12,6 +13,8 @@ export default function Nav() {
     getSession().then(setSession);
     return onAuthChange(setSession);
   }, []);
+
+  const isOwner = displayName(session) === OWNER_USERNAME;
 
   return (
     <nav className="flex items-center justify-between text-xs sm:text-sm text-dim mb-8 flex-wrap gap-3">
@@ -31,6 +34,11 @@ export default function Nav() {
         <Link href="/undervoice" className="hover:text-alert">
           [ undervoice ]
         </Link>
+        {isOwner && (
+          <Link href="/inspect" className="hover:text-problem">
+            [ inspect ]
+          </Link>
+        )}
       </div>
       {session ? (
         <div className="flex items-center gap-3">

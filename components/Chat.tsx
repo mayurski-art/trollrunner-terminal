@@ -5,7 +5,14 @@ import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
 import { timeAgo } from "@/lib/time";
 
-type Message = { role: "user" | "terminal"; content: string; created_at?: string };
+type Message = {
+  role: "user" | "terminal";
+  content: string;
+  created_at?: string;
+  is_gossip?: boolean;
+  image_url?: string | null;
+  image_caption?: string | null;
+};
 type Wallet = {
   balance: number;
   qualifyingCount: number;
@@ -161,7 +168,23 @@ export default function Chat() {
       }
       setMessages((m) => [
         ...m,
-        { role: "terminal", content: data.reply, created_at: new Date().toISOString() },
+        {
+          role: "terminal",
+          content: data.reply,
+          created_at: new Date().toISOString(),
+          image_url: data.imageUrl ?? null,
+          image_caption: data.imageCaption ?? null,
+        },
+        ...(data.gossip?.content
+          ? [
+              {
+                role: "terminal" as const,
+                content: data.gossip.content,
+                created_at: new Date().toISOString(),
+                is_gossip: true,
+              },
+            ]
+          : []),
       ]);
       speak(data.reply);
       if (data.wallet) setWallet(data.wallet);
@@ -304,12 +327,21 @@ export default function Chat() {
             <div key={i}>
               <p
                 className={`whitespace-pre-wrap text-sm leading-relaxed ${
-                  m.role === "terminal" ? "text-terminal" : "text-you"
+                  m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
                 }`}
               >
-                <span className="text-dim">{m.role === "terminal" ? "terminal> " : "you> "}</span>
+                <span className="text-dim">
+                  {m.is_gossip ? "gossip> " : m.role === "terminal" ? "terminal> " : "you> "}
+                </span>
                 {m.content}
               </p>
+              {m.image_url && (
+                <div className="mt-2 max-w-xs border border-dim">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={m.image_url} alt={m.image_caption ?? "image sent by the terminal"} className="w-full block" />
+                  {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 {m.created_at && (
                   <span className="text-terminal text-xs">{timeAgo(m.created_at)}</span>

@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { generateChatReply, type ChatMessage } from "@/lib/persona";
+import { generateChatReply, maybeGenerateGossip, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
 import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
+import { OWNER_USERNAME } from "@/lib/admin";
+import { matchLoreAsset } from "@/lib/loreAssets";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -16,6 +18,38 @@ const HISTORY_TURNS = 12;
 const RECENT_DUPLICATE_WINDOW = 5; // how many past user messages count as "repeats" for mining
 const MIN_UNIQUE_WORD_RATIO = 0.4; // below this, a message reads as one word/phrase looped
 const SPAM_WARNING_COUNT = 2; // this many consecutive spammy messages are just warned, not charged
+
+const GOSSIP_COOLDOWN_MESSAGES = 6; // real exchanges required between gossip drops
+const GOSSIP_RANDOM_CHANCE = 0.12; // fallback roll when nothing topically matches
+const GOSSIP_CANDIDATE_WINDOW_DAYS = 4;
+const GOSSIP_STOPWORDS = new Set([
+  "the", "a", "an", "and", "or", "but", "is", "are", "was", "were", "be", "been",
+  "to", "of", "in", "on", "at", "for", "with", "about", "that", "this", "it",
+  "i", "you", "he", "she", "they", "we", "my", "your", "me", "not", "just",
+  "so", "do", "did", "have", "has", "had", "what", "how", "why", "like", "know",
+]);
+
+// Overlap of non-trivial words between the owner's message and a candidate
+// snippet from another user — cheap enough to run inline, no LLM call needed
+// just to decide whether something is "on topic."
+function significantWords(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .split(/[^a-z0-9']+/)
+      .filter((w) => w.length >= 4 && !GOSSIP_STOPWORDS.has(w))
+  );
+}
+
+function sharesTopic(a: string, b: string): boolean {
+  const wordsA = significantWords(a);
+  if (wordsA.size === 0) return false;
+  const wordsB = significantWords(b);
+  for (const w of wordsB) {
+    if (wordsA.has(w)) return true;
+  }
+  return false;
+}
 
 function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);
@@ -60,7 +94,7 @@ export async function GET(request: Request) {
   const [{ data: historyRows }, { data: wallet }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
-      .select("role, content, created_at")
+      .select("role, content, created_at, is_gossip, image_url, image_caption")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(HISTORY_TURNS * 2),
@@ -124,6 +158,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid session" }, { status: 401 });
   }
   const userId = userData.user.id;
+  const isOwner = userData.user.user_metadata?.username === OWNER_USERNAME;
 
   let body: { message?: string };
   try {
@@ -317,6 +352,7 @@ export async function POST(request: Request) {
   }
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-sonnet-5");
+  const loreAsset = matchLoreAsset(message);
 
   const { error: insertError } = await supabase.from("terminal_chat_messages").insert([
     { user_id: userId, role: "user", content: message, qualifying },
@@ -330,10 +366,72 @@ export async function POST(request: Request) {
       cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
       cache_read_input_tokens: generated.usage.cache_read_input_tokens,
       estimated_cost_usd: estimatedCostUsd,
+      image_url: loreAsset?.url ?? null,
+      image_caption: loreAsset?.caption ?? null,
     },
   ]);
   if (insertError) {
     console.error("[chat] failed to save chat messages:", insertError.message);
+  }
+
+  // Gossip — owner account only (see lib/admin.ts). Best-effort: any
+  // failure here should never break the normal reply the user is waiting on.
+  let gossip: { content: string } | null = null;
+  if (isOwner) {
+    try {
+      const { data: lastGossipRows } = await supabase
+        .from("terminal_chat_messages")
+        .select("created_at")
+        .eq("user_id", userId)
+        .eq("is_gossip", true)
+        .order("created_at", { ascending: false })
+        .limit(1);
+      const lastGossipAt = lastGossipRows?.[0]?.created_at as string | undefined;
+
+      const { count: sinceCount } = await supabase
+        .from("terminal_chat_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId)
+        .eq("is_gossip", false)
+        .gt("created_at", lastGossipAt ?? "1970-01-01");
+
+      if ((sinceCount ?? Infinity) >= GOSSIP_COOLDOWN_MESSAGES) {
+        const windowStart = new Date(
+          Date.now() - GOSSIP_CANDIDATE_WINDOW_DAYS * 24 * 60 * 60 * 1000
+        ).toISOString();
+        const { data: candidateRows } = await supabase
+          .from("terminal_chat_messages")
+          .select("content")
+          .eq("role", "user")
+          .neq("user_id", userId)
+          .gte("created_at", windowStart)
+          .order("created_at", { ascending: false })
+          .limit(50);
+        const candidates = (candidateRows ?? []).map((r) => r.content as string);
+
+        const topical = candidates.find((c) => sharesTopic(message, c));
+        const chosen = topical ?? (Math.random() < GOSSIP_RANDOM_CHANCE ? candidates[0] : undefined);
+
+        if (chosen) {
+          const gossipContent = await maybeGenerateGossip(chosen);
+          if (gossipContent) {
+            gossip = { content: gossipContent };
+            const { error: gossipInsertError } = await supabase.from("terminal_chat_messages").insert({
+              user_id: userId,
+              role: "terminal",
+              content: gossipContent,
+              qualifying: false,
+              is_gossip: true,
+            });
+            if (gossipInsertError) {
+              console.error("[chat] failed to save gossip message:", gossipInsertError.message);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error("[chat] gossip generation failed:", (err as Error).message);
+    }
   }
 
   // Mining: every QUALIFYING_INTERVAL qualifying messages mints 1 PROBLEM.
@@ -416,6 +514,9 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     reply: generated.content,
+    imageUrl: loreAsset?.url ?? null,
+    imageCaption: loreAsset?.caption ?? null,
+    gossip,
     wallet: {
       balance: persistedWallet?.balance ?? wallet.balance,
       qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,

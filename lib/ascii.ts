@@ -72,6 +72,13 @@ export const BANNER_UNDERVOICE = `██╗   ██╗███╗   ██╗�
 ╚██████╔╝██║ ╚████║██████╔╝███████╗██║  ██║ ╚████╔╝ ╚██████╔╝██║╚██████╗███████╗
  ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝  ╚═╝  ╚═══╝   ╚═════╝ ╚═╝ ╚═════╝╚══════╝`;
 
+export const BANNER_INSPECT = `██╗███╗   ██╗███████╗██████╗ ███████╗ ██████╗████████╗
+██║████╗  ██║██╔════╝██╔══██╗██╔════╝██╔════╝╚══██╔══╝
+██║██╔██╗ ██║███████╗██████╔╝█████╗  ██║        ██║
+██║██║╚██╗██║╚════██║██╔═══╝ ██╔══╝  ██║        ██║
+██║██║ ╚████║███████║██║     ███████╗╚██████╗   ██║
+╚═╝╚═╝  ╚═══╝╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝`;
+
 // The entity's signature mark — used in place of the 🧌 emoji anywhere the
 // persona would otherwise sign off or punctuate a thought. Small enough to
 // fit inside a 280-character X post; the full FIGlet banners above are
