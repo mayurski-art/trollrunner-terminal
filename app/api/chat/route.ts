@@ -12,9 +12,32 @@ const QUALIFYING_MIN_LENGTH = 12;
 const QUALIFYING_INTERVAL = 7; // messages per 1 PROBLEM
 const MAX_MESSAGE_LENGTH = 1000;
 const HISTORY_TURNS = 12;
+const RECENT_DUPLICATE_WINDOW = 5; // how many past user messages count as "repeats" for mining
+const MIN_UNIQUE_WORD_RATIO = 0.4; // below this, a message reads as one word/phrase looped
+const SPAM_WARNING_COUNT = 2; // this many consecutive spammy messages are just warned, not charged
 
 function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+function normalizeForCompare(text: string): string {
+  return text.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+// Blocks "mining" a message that's just spam: a near-repeat of something the
+// same user already sent recently, or a single word/phrase looped to pad out
+// the length requirement (e.g. "lol lol lol lol lol lol").
+function isSpammyMessage(message: string, recentUserMessages: string[]): boolean {
+  const normalized = normalizeForCompare(message);
+  if (recentUserMessages.some((prev) => normalizeForCompare(prev) === normalized)) {
+    return true;
+  }
+  const words = normalized.split(" ").filter(Boolean);
+  if (words.length >= 4) {
+    const uniqueRatio = new Set(words).size / words.length;
+    if (uniqueRatio < MIN_UNIQUE_WORD_RATIO) return true;
+  }
+  return false;
 }
 
 // Loads chat history + wallet for the signed-in user, for hydrating the
@@ -118,6 +141,7 @@ export async function POST(request: Request) {
     lifetime_earned: 0,
     lifetime_spent: 0,
     qualifying_count: 0,
+    spam_streak: 0,
     messages_today: 0,
     last_message_at: null as string | null,
     last_message_day: null as string | null,
@@ -165,9 +189,83 @@ export async function POST(request: Request) {
       content: r.content as string,
     }));
 
-  const lastUserMessage = [...(historyRows ?? [])].find((r) => r.role === "user")?.content;
-  const qualifying =
-    message.length >= QUALIFYING_MIN_LENGTH && message !== lastUserMessage;
+  const recentUserMessages = (historyRows ?? [])
+    .filter((r) => r.role === "user")
+    .slice(0, RECENT_DUPLICATE_WINDOW)
+    .map((r) => r.content as string);
+
+  // Spam short-circuits before the LLM call entirely — no reply worth
+  // paying for, and it never mines. First two consecutive offenses are just
+  // a warning; from the third on it actually costs PROBLEMS, doubling each
+  // additional consecutive offense (1, 2, 4, 8, ...) so it stops being
+  // free to keep trying.
+  if (isSpammyMessage(message, recentUserMessages)) {
+    const newSpamStreak = (wallet.spam_streak ?? 0) + 1;
+    const penaltyNumber = newSpamStreak - SPAM_WARNING_COUNT;
+    const isPenalty = penaltyNumber > 0;
+    const tokensRequested = isPenalty ? 2 ** (penaltyNumber - 1) : 0;
+    const newBalance = Math.max(0, wallet.balance - tokensRequested);
+    const tokensTaken = wallet.balance - newBalance;
+
+    const reply = isPenalty
+      ? `[toll taken]\n-${tokensTaken} PROBLEM${tokensTaken === 1 ? "" : "S"} for the repeat\nstop and it stops`
+      : newSpamStreak === 1
+        ? "[loop detected]\nsay something new or i stop paying attention"
+        : "[loop detected again]\nkeep repeating and PROBLEMS start disappearing";
+
+    const { error: spamInsertError } = await supabase.from("terminal_chat_messages").insert([
+      { user_id: userId, role: "user", content: message, qualifying: false },
+      { user_id: userId, role: "terminal", content: reply, qualifying: false },
+    ]);
+    if (spamInsertError) console.error("[chat] failed to save chat messages:", spamInsertError.message);
+
+    const { data: persistedWallet, error: walletError } = await supabase
+      .from("terminal_wallets")
+      .upsert({
+        user_id: userId,
+        balance: newBalance,
+        lifetime_earned: wallet.lifetime_earned,
+        lifetime_spent: wallet.lifetime_spent + tokensTaken,
+        qualifying_count: wallet.qualifying_count,
+        spam_streak: newSpamStreak,
+        messages_today: messagesToday + 1,
+        last_message_at: new Date().toISOString(),
+        last_message_day: today,
+      })
+      .select("balance, qualifying_count")
+      .single();
+    if (walletError) console.error("[chat] failed to persist wallet:", walletError.message);
+
+    if (tokensTaken > 0) {
+      const { error: ledgerError } = await supabase.from("terminal_token_ledger").insert({
+        user_id: userId,
+        delta: -tokensTaken,
+        reason: "spam_penalty",
+      });
+      if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
+    }
+
+    const { error: configError } = await supabase
+      .from("terminal_config")
+      .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
+      .eq("id", true);
+    if (configError) console.error("[chat] failed to update daily config counters:", configError.message);
+
+    return NextResponse.json({
+      reply,
+      wallet: {
+        balance: persistedWallet?.balance ?? newBalance,
+        qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,
+        qualifyingInterval: QUALIFYING_INTERVAL,
+      },
+      walletSaved: !walletError,
+      minted: 0,
+      spamWarning: !isPenalty,
+      tokensTaken,
+    });
+  }
+
+  const qualifying = message.length >= QUALIFYING_MIN_LENGTH;
 
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
@@ -217,6 +315,7 @@ export async function POST(request: Request) {
       lifetime_earned: wallet.lifetime_earned + minted,
       lifetime_spent: wallet.lifetime_spent,
       qualifying_count: remainder,
+      spam_streak: 0,
       messages_today: messagesToday + 1,
       last_message_at: new Date().toISOString(),
       last_message_day: today,
