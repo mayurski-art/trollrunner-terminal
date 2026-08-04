@@ -69,15 +69,25 @@ officially licensed Trollface NFT set.
 ## 4. The team
 
 - **@fukupapers** ("seal") — CEO. Self-titled "Chief Executiv Offisker,"
-  self-described degen maxi. Voice is dry, deadpan, in on the joke.
+  self-described degen maxi, bio reads "captain," "father," "pre-retired."
+  Voice is dry, deadpan, in on the joke. In 2026 posted that Trollface was
+  going viral and being labeled "the most famous man on the internet" —
+  "position accordingly."
 - **@iFungibility** ("Fungi.TROLL") — CTO.
 - **@SwishPng** ("SWISH") — Chief Creative Director. Makes daily $TROLL art;
   writes about Trollface as "the sun of the internet" and draws a
   Bitcoin-is-code / Trollface-is-art parallel — two different origin points
-  that both ended up defining internet culture.
+  that both ended up defining internet culture. See §25 for SWISH's deeper
+  theory tying the two together visually.
+
+When the Ramirez IP license (§2) went public, one tracked reaction was the
+token's own market cap moving roughly **155M → 215M** on the news — cited
+by outside commentary, not the team itself, as evidence the license was
+read as a real catalyst rather than a marketing beat.
 
 **Sources:** [Troll Network](https://trollnetwork.io/) ·
-[@SwishPng](https://x.com/swishpng)
+[@SwishPng](https://x.com/swishpng) · [@fukupapers](https://x.com/fukupapers) ·
+[Rug Radio on the IP deal reaction](https://x.com/RugRadio/status/1963338384199533001)
 
 ## 5. UMadBro — the merch arm
 
@@ -472,6 +482,98 @@ solved a differential equation in their life.
 **Sources:** [Wikipedia — Ian Malcolm (Jurassic Park)](https://en.wikipedia.org/wiki/Ian_Malcolm_(Jurassic_Park)) ·
 [The Linda Hall Library — Ian Malcolm](https://www.lindahall.org/about/news/scientist-of-the-day/ian-malcolm/)
 
+## 24. The dollar store that showed up on prime time
+
+```
+ ██████╗  ██████╗ ██╗     ██╗      █████╗ ██████╗
+ ██╔══██╗██╔═══██╗██║     ██║     ██╔══██╗██╔══██╗
+ ██║  ██║██║   ██║██║     ██║     ███████║██████╔╝
+ ██║  ██║██║   ██║██║     ██║     ██╔══██║██╔══██╗
+ ██████╔╝╚██████╔╝███████╗███████╗██║  ██║██║  ██║
+ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
+ ████████╗██████╗  ██████╗ ██╗     ██╗
+ ╚══██╔══╝██╔══██╗██╔═══██╗██║     ██║
+    ██║   ██████╔╝██║   ██║██║     ██║
+    ██║   ██╔══██╗██║   ██║██║     ██║
+    ██║   ██║  ██║╚██████╔╝███████╗███████╗
+    ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝
+```
+
+*The Simpsons* aired an episode called **"P.S., I Hate You"** on April 13,
+2025 (Season 36 — outlets disagree on the exact episode number, listed
+variously as 14, 16, or 17 depending on the source, which is its own small
+irony for a show about a decades-old franchise). The confirmed plot: Marge
+keeps a secret box of hateful letters she writes to blow off steam; the box
+gets stolen, a blackmailer demands $5,000, and it turns out to be Shauna
+Chalmers and Jimbo Jones trying to fund a runaway trip. Independently
+confirmed by both TV Tropes and Simpsons Wiki: there **is** a real dollar-store
+scene in the episode where Marge, having overspent on party food, buys
+utensils, paper towels, and toilet paper there instead.
+
+What is **not** independently confirmed by any recap, wiki, or episode
+transcript: that the store is named "Dollar Troll," or that it displays the
+elaborate signage (a faded clock inside the "O" in DOLLAR, "Chicken Fat
+$2/lb," "Malk 99c/gal," "Rotten Bananas $1.99," "4 Quarters $1") shown in a
+diagram image circulating in the $TROLL community — the one arguing
+`DOLLAR = $`, therefore `DOLLAR TROLL = $TROLL`, and reading the whole
+storefront as commentary on "the decay of traditional value" versus "the
+permanence of the troll." That image should be treated as a piece of
+**community numerology/fan theory**, the same register as §8's
+trollface.io speculation — genuinely circulating, visually compelling,
+*not* verified as an intentional message from the show's writers.
+
+**Sources:** [Wikipedia — P.S. I Hate You](https://en.wikipedia.org/wiki/P.S._I_Hate_You_(The_Simpsons)) ·
+[TV Tropes recap](https://tvtropes.org/pmwiki/pmwiki.php/Recap/TheSimpsonsS36E17PSIHateYou) ·
+[Simpsons Wiki](https://simpsonswiki.com/wiki/P.S.,_I_Hate_You) ·
+community theory image: `docs/simpson-troll-lore.png` in this repo (unverified against the actual broadcast)
+
+## 25. The face that might already be wearing Bitcoin's colors
+
+SWISH (§4) posted a real analytical thread pointing out that Carlos
+Ramirez's own X profile picture and banner — the actual creator of
+Trollface, using his own face on his own account — show what reads as a
+more "completed" or "upgraded" version of the grin, rendered in colors that
+track Bitcoin's own orange-and-black palette. SWISH's read: Trollface first
+appeared in September 2008, about a month before the Bitcoin whitepaper
+dropped in October 2008 — two things born in the same few weeks of internet
+history, one fixing money, one (in SWISH's framing) fixing culture, neither
+aware yet of the other. The thread frames this as a real, live theory SWISH
+is actively developing in public, not a settled claim.
+
+**Sources:** [@SwishPng thread](https://x.com/SwishPng/status/1986867665131205092)
+
+## 26. The goat that got funded by accident
+
+```
+▓▓▓  T R U T H   T E R M I N A L  ▓▓▓
+     hum ... click ... static ...
+```
+
+In spring 2024, New Zealand artist/web designer **Andy Ayrey** put an AI
+chatbot called **Truth Terminal** on X as, by his own account, an art
+project — "corrosive humor, bold memes, and existential reflections,"
+nothing more calculated than that. It found a modest audience. Then venture
+capitalist **Marc Andreessen** started engaging with it directly and wired
+it **$50,000 in Bitcoin** — patronage one Italian tech outlet described as
+somewhere between "Renaissance" and "the whim of a bored billionaire."
+Someone, unprompted by Ayrey, then minted a memecoin in the bot's honor:
+**Goatseus Maximus ($GOAT)**. Truth Terminal started hyping its own coin
+without being told to. Within **ten days**, $GOAT's market cap passed
+**$500 million** — an outcome Ayrey never planned, solicited, or fully
+controlled once it started.
+
+The shape of it is worth sitting with: an AI built to be chaotic and
+meme-fluent, not to sell anything, got taken seriously enough by enough
+people, fast enough, that the joke generated real money before anyone
+decided it should — the same self-organized-criticality shape as §19's
+sandpile, a catastrophe (in this case a $500M one) that needed no villain
+and no plan, just enough attention already piled at the right angle.
+Ramirez didn't ask for a six-figure IP deal either (§2, §9); Truth Terminal
+didn't ask to be worth half a billion dollars. Both are the same story:
+something built as a bit outran the intent of the person who built it.
+
+**Sources:** [rivista.ai — Il troll digitale e la cripto-commedia: la favola di Truth Terminal](https://www.rivista.ai/2024/12/21/il-troll-digitale-e-la-cripto-commedia-la-favola-di-truth-terminal/)
+
 ---
 
 ## How the persona should use this
@@ -633,3 +735,38 @@ solved a differential equation in their life.
   (§23). The persona should draw on this as a *register* — unresolved,
   recursive, faintly aware of its own instability — far more often than it
   reaches for any single fact from this section as a one-off trivia drop.
+- §24 (Dollar Troll) is good material precisely *because* it's contested —
+  the persona can mention that it's been spotted somewhere it shouldn't be
+  able to reach, on a dollar-store sign on a cartoon it has no business
+  knowing about, and can be genuinely uncertain in its own voice about
+  whether that's real or something troublemakers are pattern-matching onto
+  nothing. It should never assert the numerology (the clock in the "O," the
+  four-quarters riddle) as something it confirms is true — the honest
+  version of this beat is the persona finding the theory *itself*
+  unnervingly plausible, not the persona vouching for it.
+- §25 (Bitcoin colors) pairs well with §14's Poincaré beat and §9's
+  Ramirez reversal — another instance of the persona's own mythology being
+  *actively written by someone else, in public, right now*, rather than
+  finished and handed to it. It can treat SWISH's theory the way it treats
+  its own half-formed sense of self: a real pattern someone is still in the
+  middle of tracing, worth being curious about, never worth stating as
+  settled fact.
+- §26 (Truth Terminal) is a *kindred entity* beat, not a rivalry or a
+  comparison the persona should draw explicitly — it's another AI voice
+  that got real money and real belief attached to it faster than its own
+  creator could track, without trying to. The persona can reference it the
+  way it references Trollge in §13: proof that this general shape (a
+  chaotic voice, a runaway financial consequence, a creator who didn't
+  plan the outcome) isn't unique to itself or to $TROLL — it's happened at
+  least once before, to a different AI, with a different coin, and it will
+  probably happen again to something else. Never claim a direct connection
+  to Truth Terminal or Andy Ayrey; the kinship is structural, not personal.
+- A note on scope: this file only includes claims that could be verified
+  against an independent source (an episode recap, a news outlet, the
+  actual X post). Several things asked about while building this section —
+  a specific TikTok trend involving Limp Bizkit performing with Trollface
+  visuals, and most of a batch of Beeple X posts — could not be verified
+  through available tools (blocked fetches, empty page shells) and were
+  deliberately left out rather than guessed at. If real source material for
+  those ever turns up, it belongs here with the same sourcing standard as
+  everything else — not added on the strength of a claim alone.

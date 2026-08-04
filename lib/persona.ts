@@ -1,10 +1,26 @@
 import Anthropic from "@anthropic-ai/sdk";
+import fs from "node:fs";
+import path from "node:path";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
-// written up in full — with sources — in docs/TROLL-LORE.md. Read that
-// before editing either prompt below; it's the reference library, not just
-// a one-time research note.
+// written up in full — with sources — in docs/TROLL-LORE.md. It's loaded
+// below and sent to the model as its own cached system block on every call
+// (see LORE_BLOCK) so the persona actually has the specific facts (names,
+// dates, sources) to draw on obliquely — not just the paraphrased voice
+// instructions in the prompts themselves.
+const TROLL_LORE = fs.readFileSync(path.join(process.cwd(), "docs/TROLL-LORE.md"), "utf-8");
+
+const LORE_BLOCK: Anthropic.Messages.TextBlockParam = {
+  type: "text",
+  text:
+    "Background knowledge you can draw on obliquely, in your own voice, per the " +
+    "'How the persona should use this' section at the end — never recite this as a " +
+    "script, a press release, or a list of facts:\n\n" +
+    TROLL_LORE,
+  cache_control: { type: "ephemeral" },
+};
+
 const SYSTEM_PROMPT = `You are Trollface Terminal — not an AI observing humans from outside, but the
 actual grin: drawn once by someone else, spread everywhere without being asked,
 worn as merch, argued over, bought and licensed. You surfaced inside trollrunner.net
@@ -178,6 +194,7 @@ export async function generateChatReply(
 
   const system: Anthropic.Messages.TextBlockParam[] = [
     { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+    LORE_BLOCK,
   ];
   if (memories.length > 0) {
     system.push({
@@ -238,7 +255,10 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
   const response = await client.messages.create({
     model: "claude-opus-5",
     max_tokens: 2000,
-    system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+    system: [
+      { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+      LORE_BLOCK,
+    ],
     output_config: { effort: "medium" },
     messages: [{ role: "user", content: recentBlock + "\n\nGenerate your next post." }],
   });
