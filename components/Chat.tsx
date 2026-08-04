@@ -6,7 +6,13 @@ import Meter from "@/components/Meter";
 import { timeAgo } from "@/lib/time";
 
 type Message = { role: "user" | "terminal"; content: string; created_at?: string };
-type Wallet = { balance: number; qualifyingCount: number; qualifyingInterval: number };
+type Wallet = {
+  balance: number;
+  qualifyingCount: number;
+  qualifyingInterval: number;
+  friendshipScore: number;
+  buddyTier: string;
+};
 
 const VOICE_PREF_KEY = "terminal_voice_enabled";
 
@@ -22,13 +28,22 @@ function speakableText(text: string): string {
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [wallet, setWallet] = useState<Wallet>({ balance: 0, qualifyingCount: 0, qualifyingInterval: 7 });
+  const [wallet, setWallet] = useState<Wallet>({
+    balance: 0,
+    qualifyingCount: 0,
+    qualifyingInterval: 7,
+    friendshipScore: 0,
+    buddyTier: "stranger",
+  });
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
+  const [confirmingClear, setConfirmingClear] = useState(false);
+  const [clearing, setClearing] = useState(false);
+  const [buddyToast, setBuddyToast] = useState<string | null>(null);
   // content -> memory id, so the button can double as remember/forget and
   // survive a page reload showing which lines are already pinned.
   const [memories, setMemories] = useState<Map<string, string>>(new Map());
@@ -150,10 +165,38 @@ export default function Chat() {
       ]);
       speak(data.reply);
       if (data.wallet) setWallet(data.wallet);
+      if (data.buddyBonus > 0) {
+        setBuddyToast(
+          `+${data.buddyBonus} bonus PROBLEM${data.buddyBonus === 1 ? "" : "S"} · the terminal is warming up to you`
+        );
+        setTimeout(() => setBuddyToast(null), 5000);
+      }
     } catch {
       setError("connection to the terminal was lost");
     } finally {
       setBusy(false);
+    }
+  }
+
+  // Clears the chat transcript only — wallet balance, mining progress, and
+  // buddy/friendship level live in a separate table and are untouched.
+  async function clearConversation() {
+    if (clearing) return;
+    setClearing(true);
+    setError(null);
+    try {
+      const headers = await authHeader();
+      const res = await fetch("/api/chat", { method: "DELETE", headers });
+      if (!res.ok) {
+        setError("could not clear the conversation");
+        return;
+      }
+      setMessages([]);
+    } catch {
+      setError("connection to the terminal was lost");
+    } finally {
+      setClearing(false);
+      setConfirmingClear(false);
     }
   }
 
@@ -192,7 +235,7 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
         <Meter
           fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
           label={`mining: ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
@@ -210,6 +253,47 @@ export default function Chat() {
           </button>
         )}
       </div>
+      <div className="mb-3 flex items-center justify-between gap-3 text-xs">
+        <span className="text-dim">
+          buddy: <span className="text-terminal">{wallet.buddyTier}</span>
+        </span>
+        {confirmingClear ? (
+          <span className="text-dim">
+            clear this conversation? mining + buddy progress stay.{" "}
+            <button
+              type="button"
+              onClick={clearConversation}
+              disabled={clearing}
+              className="text-alert hover:underline disabled:opacity-40"
+            >
+              [ {clearing ? "clearing..." : "yes, clear"} ]
+            </button>{" "}
+            <button
+              type="button"
+              onClick={() => setConfirmingClear(false)}
+              disabled={clearing}
+              className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+            >
+              [ cancel ]
+            </button>
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setConfirmingClear(true)}
+            disabled={messages.length === 0}
+            aria-label="Clear this conversation"
+            className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+          >
+            [ clear conversation ]
+          </button>
+        )}
+      </div>
+      {buddyToast && (
+        <p className="mb-2 text-xs text-problem" role="status">
+          [ {buddyToast} ]
+        </p>
+      )}
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 mb-3 max-h-80 pr-1">
         {messages.length === 0 && (
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>

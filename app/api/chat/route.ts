@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generateChatReply, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
+import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -63,8 +64,14 @@ export async function GET(request: Request) {
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(HISTORY_TURNS * 2),
-    supabase.from("terminal_wallets").select("balance, qualifying_count").eq("user_id", userId).maybeSingle(),
+    supabase
+      .from("terminal_wallets")
+      .select("balance, qualifying_count, friendship_score")
+      .eq("user_id", userId)
+      .maybeSingle(),
   ]);
+
+  const friendshipScore = wallet?.friendship_score ?? 0;
 
   return NextResponse.json({
     messages: (historyRows ?? []).slice().reverse(),
@@ -72,8 +79,36 @@ export async function GET(request: Request) {
       balance: wallet?.balance ?? 0,
       qualifyingCount: wallet?.qualifying_count ?? 0,
       qualifyingInterval: QUALIFYING_INTERVAL,
+      friendshipScore,
+      buddyTier: getBuddyTier(friendshipScore).name,
     },
   });
+}
+
+// Clears this user's chat history only. Wallet (balance, mining progress,
+// friendship score) and pinned memories are separate tables and are
+// deliberately untouched — "clear" means the terminal forgets the
+// conversation transcript, not that the troublemaker loses anything earned.
+export async function DELETE(request: Request) {
+  const authHeader = request.headers.get("authorization") ?? "";
+  const token = authHeader.replace(/^Bearer\s+/i, "");
+  if (!token) {
+    return NextResponse.json({ error: "sign in required" }, { status: 401 });
+  }
+
+  const supabase = getServiceClient();
+  const { data: userData, error: userError } = await supabase.auth.getUser(token);
+  if (userError || !userData.user) {
+    return NextResponse.json({ error: "invalid session" }, { status: 401 });
+  }
+  const userId = userData.user.id;
+
+  const { error } = await supabase.from("terminal_chat_messages").delete().eq("user_id", userId);
+  if (error) {
+    return NextResponse.json({ error: "could not clear the conversation" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
 }
 
 export async function POST(request: Request) {
@@ -141,6 +176,7 @@ export async function POST(request: Request) {
     lifetime_earned: 0,
     lifetime_spent: 0,
     qualifying_count: 0,
+    friendship_score: 0,
     spam_streak: 0,
     messages_today: 0,
     last_message_at: null as string | null,
@@ -257,9 +293,12 @@ export async function POST(request: Request) {
         balance: persistedWallet?.balance ?? newBalance,
         qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,
         qualifyingInterval: QUALIFYING_INTERVAL,
+        friendshipScore: wallet.friendship_score ?? 0,
+        buddyTier: getBuddyTier(wallet.friendship_score ?? 0).name,
       },
       walletSaved: !walletError,
       minted: 0,
+      buddyBonus: 0,
       spamWarning: !isPenalty,
       tokensTaken,
     });
@@ -301,7 +340,14 @@ export async function POST(request: Request) {
   const newQualifyingCount = wallet.qualifying_count + (qualifying ? 1 : 0);
   const minted = Math.floor(newQualifyingCount / QUALIFYING_INTERVAL);
   const remainder = newQualifyingCount % QUALIFYING_INTERVAL;
-  const newBalance = wallet.balance + minted;
+
+  // Buddy system: friendship grows with every real (non-spam) message, and
+  // occasionally throws in a bonus PROBLEM regardless of mining progress —
+  // see lib/buddy.ts for tiers + odds.
+  const newFriendshipScore = (wallet.friendship_score ?? 0) + 1;
+  const buddyBonus = rollBuddyBonus(newFriendshipScore);
+
+  const newBalance = wallet.balance + minted + buddyBonus;
 
   // select() the row back so the response reflects what's actually
   // persisted, not just the in-memory math — a silent upsert failure here
@@ -312,15 +358,16 @@ export async function POST(request: Request) {
     .upsert({
       user_id: userId,
       balance: newBalance,
-      lifetime_earned: wallet.lifetime_earned + minted,
+      lifetime_earned: wallet.lifetime_earned + minted + buddyBonus,
       lifetime_spent: wallet.lifetime_spent,
       qualifying_count: remainder,
+      friendship_score: newFriendshipScore,
       spam_streak: 0,
       messages_today: messagesToday + 1,
       last_message_at: new Date().toISOString(),
       last_message_day: today,
     })
-    .select("balance, qualifying_count")
+    .select("balance, qualifying_count, friendship_score")
     .single();
   if (walletError) {
     console.error("[chat] failed to persist wallet:", walletError.message);
@@ -331,6 +378,15 @@ export async function POST(request: Request) {
       user_id: userId,
       delta: minted,
       reason: "mined",
+    });
+    if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
+  }
+
+  if (buddyBonus > 0) {
+    const { error: ledgerError } = await supabase.from("terminal_token_ledger").insert({
+      user_id: userId,
+      delta: buddyBonus,
+      reason: "buddy_bonus",
     });
     if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
   }
@@ -356,13 +412,18 @@ export async function POST(request: Request) {
     // ignore
   }
 
+  const persistedFriendshipScore = persistedWallet?.friendship_score ?? newFriendshipScore;
+
   return NextResponse.json({
     reply: generated.content,
     wallet: {
       balance: persistedWallet?.balance ?? wallet.balance,
       qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,
       qualifyingInterval: QUALIFYING_INTERVAL,
+      friendshipScore: persistedFriendshipScore,
+      buddyTier: getBuddyTier(persistedFriendshipScore).name,
     },
+    buddyBonus: walletError ? 0 : buddyBonus,
     walletSaved: !walletError,
     minted: walletError ? 0 : minted,
   });

@@ -52,7 +52,7 @@ export default function Home() {
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
         </div>
         <p className="text-dim text-sm mb-10">
-          it surfaced inside trollrunner.net · it has been taking notes on you
+          it surfaced inside trollrunner.net  ·  now it is your job to explore the infinite knowledge behind trolling
         </p>
 
         <Frame title="latest transmission" tone="terminal" className="mb-6">
