@@ -154,8 +154,8 @@ export async function GET(request: Request) {
     wallet: { balance: wallet.balance },
     config: {
       paused: config?.undervoice_paused ?? false,
-      sessionCost: config?.undervoice_session_cost ?? 5,
-      maxMessages: config?.undervoice_max_messages ?? 8,
+      sessionCost: config?.undervoice_session_cost ?? 1,
+      maxMessages: config?.undervoice_max_messages ?? 5,
     },
   });
 }
@@ -184,8 +184,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const sessionCost = config?.undervoice_session_cost ?? 5;
-  const maxMessages = config?.undervoice_max_messages ?? 8;
+  const sessionCost = config?.undervoice_session_cost ?? 1;
+  const maxMessages = config?.undervoice_max_messages ?? 5;
 
   if (body.action === "open") {
     const { data: existing } = await supabase

@@ -42,8 +42,8 @@ create index if not exists terminal_undervoice_messages_session_idx
 
 alter table terminal_config
   add column if not exists undervoice_paused boolean not null default false,
-  add column if not exists undervoice_session_cost integer not null default 5,
-  add column if not exists undervoice_max_messages integer not null default 8;
+  add column if not exists undervoice_session_cost integer not null default 1,
+  add column if not exists undervoice_max_messages integer not null default 5;
 
 alter table terminal_undervoice_sessions enable row level security;
 alter table terminal_undervoice_messages enable row level security;

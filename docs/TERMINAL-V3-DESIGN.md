@@ -39,10 +39,10 @@ isn't grading you. It's reacting.
 ## 2. The core loop
 
 1. **Open a session** — pay a flat entry cost (`undervoice_session_cost`,
-   config-driven, default **5 PROBLEMS**) out of your existing wallet. This
+   config-driven, default **1 PROBLEM**) out of your existing wallet. This
    creates one `terminal_undervoice_sessions` row (`status = 'open'`).
 2. **Talk** — a bounded conversation, capped at `undervoice_max_messages`
-   (default **8** user messages) before the session auto-closes. Every
+   (default **5** user messages) before the session auto-closes. Every
    reply the entity gives is generated in the **same API call** as a hidden,
    constrained tag of how that message read to it — see §4.
 3. **Session closes** — either you hit the message cap, or you close it
@@ -189,8 +189,8 @@ terminal_undervoice_messages (
 )
 
 terminal_config + undervoice_paused boolean default false,
-  undervoice_session_cost integer default 5,
-  undervoice_max_messages integer default 8
+  undervoice_session_cost integer default 1,
+  undervoice_max_messages integer default 5
 ```
 
 RLS mirrors the existing chat tables: users read their own sessions/messages
@@ -235,7 +235,7 @@ chat box:
 
 - No mining meter (nothing qualifies/mints here — that's the other
   terminal's mechanic entirely).
-- A **cost banner** instead: `▣ entry: 5 PROBLEMS · balance: 14`, red-toned
+- A **cost banner** instead: `▣ entry: 1 PROBLEM · balance: 14`, red-toned
   if balance can't cover it.
 - Session state line: `[ session open · 3/8 ]` while active; on close, one
   terse outcome line in the entity's own voice + the actual ledger delta
