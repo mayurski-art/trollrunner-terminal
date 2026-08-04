@@ -14,9 +14,29 @@ type Post = {
   posted_at: string;
 };
 
+// The broadcast persona's two signature marks (see CHAT/SYSTEM prompts in
+// lib/persona.ts) — used sparingly, so most posts carry neither and fall
+// into "unmarked." Classifying client-side off the raw content means this
+// stays in sync automatically if the marks ever change wording, no schema
+// change needed.
+type Kind = "clue" | "musing" | "unmarked";
+
+const KIND_META: Record<Kind, { label: string; mark: string }> = {
+  clue: { label: "clues", mark: "▚▞" },
+  musing: { label: "musings", mark: "▓▒▓" },
+  unmarked: { label: "unmarked", mark: "" },
+};
+
+function classify(content: string): Kind {
+  if (content.includes("▚▞")) return "clue";
+  if (content.includes("▓▒▓")) return "musing";
+  return "unmarked";
+}
+
 export default function LogsPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Kind | "all">("all");
 
   useEffect(() => {
     let cancelled = false;
@@ -40,6 +60,26 @@ export default function LogsPage() {
         <Banner art={BANNER_LOGS} label="the logs" />
         <p className="text-dim text-sm mb-8">the full transmission archive</p>
 
+        {posts && posts.length > 0 && (
+          <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
+            {(["all", "clue", "musing", "unmarked"] as const).map((k) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setFilter(k)}
+                aria-pressed={filter === k}
+                className={`border px-2 py-1 transition-colors ${
+                  filter === k
+                    ? "border-terminal text-terminal"
+                    : "border-dim text-dim hover:border-terminal hover:text-terminal"
+                }`}
+              >
+                {k === "all" ? "[ all ]" : `[ ${KIND_META[k].mark ? KIND_META[k].mark + " " : ""}${KIND_META[k].label} ]`}
+              </button>
+            ))}
+          </div>
+        )}
+
         <Frame title="transmissions" tone="terminal">
           {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
           {!error && posts === null && (
@@ -48,28 +88,42 @@ export default function LogsPage() {
           {posts && posts.length === 0 && (
             <p className="text-dim text-sm">[no transmissions yet]</p>
           )}
-          <ul className="space-y-5">
-            {posts?.map((post) => (
-              <li key={post.id} className="border-l-2 border-dim pl-4">
-                <p className="whitespace-pre-wrap leading-relaxed text-terminal">
-                  {post.content}
-                </p>
-                <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
-                  <span>{timeAgo(post.posted_at)}</span>
-                  {post.x_post_url && (
-                    <a
-                      href={post.x_post_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-terminal underline decoration-dim underline-offset-2"
-                    >
-                      view on x
-                    </a>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+          {(() => {
+            const filtered = posts?.filter((p) => filter === "all" || classify(p.content) === filter);
+            if (posts && posts.length > 0 && filtered?.length === 0) {
+              return <p className="text-dim text-sm">[no {KIND_META[filter as Kind]?.label ?? ""} transmissions yet]</p>;
+            }
+            return (
+              <ul className="space-y-5">
+                {filtered?.map((post) => {
+                  const kind = classify(post.content);
+                  return (
+                    <li key={post.id} className="border-l-2 border-dim pl-4">
+                      <p className="whitespace-pre-wrap leading-relaxed text-terminal">
+                        {post.content}
+                      </p>
+                      <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
+                        <span>{timeAgo(post.posted_at)}</span>
+                        {kind !== "unmarked" && (
+                          <span className="text-problem">{KIND_META[kind].label}</span>
+                        )}
+                        {post.x_post_url && (
+                          <a
+                            href={post.x_post_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:text-terminal underline decoration-dim underline-offset-2"
+                          >
+                            view on x
+                          </a>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            );
+          })()}
         </Frame>
       </div>
     </main>
