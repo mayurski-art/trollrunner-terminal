@@ -109,6 +109,21 @@ async function closeSession(
     .update({ status: "closed", outcome, outcome_delta: delta, closed_at: new Date().toISOString() })
     .eq("id", sessionId);
 
+  // Shared TrollRunner XP — undervoice pays out 25% more than a regular
+  // terminal_session since spending PROBLEMS to open one is a real cost.
+  // Same server-enforced once-per-~day rule (see troll_terminal_xp.sql).
+  // Best-effort: a hiccup here shouldn't fail the session close.
+  try {
+    await supabase.rpc("troll_award_xp_service", {
+      p_user_id: userId,
+      p_event: "undervoice_session",
+      p_source: "terminal",
+      p_meta: {},
+    });
+  } catch {
+    // ignore
+  }
+
   return { outcome, delta, balance: newBalance };
 }
 
