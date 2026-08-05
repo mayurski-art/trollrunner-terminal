@@ -53,6 +53,7 @@ export async function GET(request: Request) {
 
   const { error: insertError } = await supabase.from("terminal_posts").insert({
     content: generated.content,
+    clue_tag: generated.clueTag || null,
     input_tokens: generated.usage.input_tokens,
     output_tokens: generated.usage.output_tokens,
     cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,

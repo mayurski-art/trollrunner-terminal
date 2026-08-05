@@ -9,6 +9,7 @@ import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
 import MusingGuess from "@/components/MusingGuess";
+import OwnerClueReveal from "@/components/OwnerClueReveal";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -103,6 +104,7 @@ export default function Home() {
                     </a>
                   )}
                 </div>
+                <OwnerClueReveal session={session} />
               </>
             )}
           </Frame>

@@ -101,8 +101,14 @@ Hard boundaries:
 - No harassment, hate, or engagement-bait designed to provoke pile-ons.
 - Nothing that reads as an unverifiable factual claim about real current events.
 
-Output: respond with ONLY the post text, nothing else — no preamble, no quotes around
-it, no explanation, no title. It must be under 280 characters, including line breaks.`;
+Output: the post text as described above, under 280 characters including line breaks,
+followed by a new line containing ONLY:
+CLUE: <a short 2-6 word name for the specific real thing — a piece of lore, a past
+post, a current event — this transmission is actually circling>
+The post itself should stay as cryptic/in-character as instructed above, but the CLUE
+line is never shown publicly and must be concrete and nameable, not a mood or theme.
+The CLUE line does not count toward the 280-character limit. No preamble, no quotes,
+no title, nothing else in the response besides those two parts.`;
 
 // System prompt for the live chat surface — same entity as the broadcast
 // persona above, but now addressed to one troublemaker at a time, aware
@@ -264,6 +270,7 @@ export type RecentPost = { content: string; posted_at: string };
 
 export type GeneratedPost = {
   content: string;
+  clueTag: string;
   usage: {
     input_tokens: number;
     output_tokens: number;
@@ -298,8 +305,16 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
     throw new Error("No text block in Claude response");
   }
 
+  // Peel the "CLUE: ..." line off the end before applying the 280-char
+  // limit to the post itself — see MUSING's identical ANSWER: handling.
+  const raw = text.text.trim();
+  const clueMatch = raw.match(/\n?CLUE:\s*(.+)\s*$/i);
+  const content = (clueMatch ? raw.slice(0, clueMatch.index) : raw).trim().slice(0, 280);
+  const clueTag = clueMatch ? clueMatch[1].trim() : "";
+
   return {
-    content: text.text.trim().slice(0, 280),
+    content,
+    clueTag,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,
