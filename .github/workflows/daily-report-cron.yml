@@ -1,0 +1,28 @@
+name: Trigger daily spend report
+
+# Finalizes yesterday's (UTC) API spend breakdown into
+# terminal_daily_spend_reports — see app/api/daily-report-cron/route.ts and
+# the [ reports ] page. Independent from broadcast-cron.yml and the retired
+# musing-cron.yml.
+#
+# Actual scheduling lives in an external pinger (cron-job.org) hitting
+# /api/daily-report-cron once a day, right after 00:00 UTC — GitHub
+# Actions' `schedule:` trigger is best-effort and was landing up to ~50min
+# late for the other cron routes. workflow_dispatch stays as a manual
+# "run now" fallback from the Actions tab.
+on:
+  workflow_dispatch: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/daily-report-cron
+        run: |
+          status=$(curl -s -o /dev/stderr -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://terminal.trollrunner.net/api/daily-report-cron)
+          echo "HTTP status: $status"
+          if [ "$status" -ge 300 ]; then
+            exit 1
+          fi

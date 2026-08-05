@@ -188,6 +188,32 @@ string of capped-but-nonzero days can't quietly drain the account to $0 unnotice
 update terminal_config set low_balance_pause_usd = 5.00; -- raise the floor
 ```
 
+## Daily spend reports
+
+Owner-only (`troll_runner`) — `[ reports ]` in the nav, next to `[ inspect ]`, not
+visible to anyone else signed in. Shows a table of API spend per UTC day, broken
+into the three actual cost sources: live chat, Undervoice, and broadcast posts
+("transmissions").
+
+- `app/api/daily-report-cron/route.ts` finalizes **yesterday's** (UTC) totals into
+  `terminal_daily_spend_reports` — same `CRON_SECRET` bearer-token auth as
+  `/api/cron`. Add an entry on the same external pinger (cron-job.org) used for
+  the other cron routes, hitting `/api/daily-report-cron` once a day, right after
+  **00:00 UTC**. That's not arbitrary — `daily_spend_cap_usd` already resets at
+  UTC midnight, and UTC midnight currently lands at **5pm PDT**, so this doubles
+  as "runs every 5pm PST/PDT" without any extra timezone logic.
+- The `[ reports ]` page itself calls `GET /api/admin/daily-reports`
+  (`requireOwner`-gated, see `lib/admin.ts`) which returns the last 30 finalized
+  days plus one live "today, still counting" row computed on the fly, so the
+  table isn't stale between cron runs.
+- To backfill a past day (or re-run one), pass `?date=YYYY-MM-DD` (UTC) — it's an
+  upsert, safe to re-run:
+
+```sh
+curl -H "Authorization: Bearer <your CRON_SECRET>" \
+  "https://terminal.trollrunner.net/api/daily-report-cron?date=2026-08-01"
+```
+
 ## Local development
 
 ```sh

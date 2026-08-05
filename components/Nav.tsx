@@ -39,6 +39,11 @@ export default function Nav() {
             [ inspect ]
           </Link>
         )}
+        {isOwner && (
+          <Link href="/reports" className="hover:text-problem">
+            [ reports ]
+          </Link>
+        )}
       </div>
       {session ? (
         <div className="flex items-center gap-3">
