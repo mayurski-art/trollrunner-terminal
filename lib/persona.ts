@@ -364,13 +364,21 @@ Hard boundaries:
 - If you searched and found nothing solid, don't invent a claim to fill the
   space — fall back to your own established lore and history instead.
 
-Output: respond with ONLY the musing text — no preamble, no quotes, no
-explanation, no title.`;
+Output: the musing text, exactly as described above, followed by a new line
+containing ONLY:
+ANSWER: <a short 2-6 word name for the specific real thing — a piece of lore,
+a past post, a current event you found — this musing is actually circling>
+The musing itself should stay oblique and half-formed as instructed above, but
+the ANSWER line is not shown to readers and must be concrete and nameable —
+something a reader who knows your lore could plausibly guess, not a mood or
+theme. No preamble, no quotes, no title, nothing else in the response besides
+those two parts.`;
 
 export type RecentMusing = { content: string; created_at: string };
 
 export type GeneratedMusing = {
   content: string;
+  answerTag: string;
   usage: {
     input_tokens: number;
     output_tokens: number;
@@ -420,8 +428,17 @@ export async function generateMusing(
     throw new Error("No text block in Claude response");
   }
 
+  // Peel the "ANSWER: ..." line off the end — it's the grading target for
+  // the muse guessing game, never shown to readers. If the model dropped
+  // it (rare), the musing still saves fine, it just isn't guessable.
+  const raw = text.text.trim();
+  const answerMatch = raw.match(/\n?ANSWER:\s*(.+)\s*$/i);
+  const content = (answerMatch ? raw.slice(0, answerMatch.index) : raw).trim();
+  const answerTag = answerMatch ? answerMatch[1].trim() : "";
+
   return {
-    content: text.text.trim(),
+    content,
+    answerTag,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,

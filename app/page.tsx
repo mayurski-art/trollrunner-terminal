@@ -8,6 +8,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
+import MusingGuess from "@/components/MusingGuess";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -130,6 +131,7 @@ export default function Home() {
                   {musing.content}
                 </p>
                 <p className="mt-2 text-xs text-dim">{timeAgo(musing.created_at)}</p>
+                <MusingGuess musingId={musing.id} session={session} />
               </>
             )}
           </Frame>
