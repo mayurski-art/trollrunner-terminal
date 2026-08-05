@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generatePost } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
+import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -28,6 +29,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ skipped: true, reason: "paused" });
   }
 
+  const spendCheck = await checkAndReserveSpend(supabase);
+  if (!spendCheck.allowed) {
+    return NextResponse.json({ skipped: true, reason: spendCheck.reason });
+  }
+
   const { data: recentRows } = await supabase
     .from("terminal_posts")
     .select("content, posted_at")
@@ -50,6 +56,7 @@ export async function GET(request: Request) {
   }
 
   const estimatedCostUsd = estimateCostUsd(generated.usage);
+  await recordSpend(supabase, estimatedCostUsd);
 
   const { error: insertError } = await supabase.from("terminal_posts").insert({
     content: generated.content,

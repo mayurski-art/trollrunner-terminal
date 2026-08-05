@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generateChatReply, maybeGenerateGossip, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
+import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
 import { OWNER_USERNAME } from "@/lib/admin";
 import { matchLoreAsset } from "@/lib/loreAssets";
@@ -198,6 +199,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const spendCheck = await checkAndReserveSpend(supabase);
+  if (!spendCheck.allowed) {
+    return NextResponse.json(
+      {
+        reply:
+          spendCheck.reason === "daily_cap"
+            ? "the terminal has said enough today\ncome back tomorrow"
+            : "[signal lost]\nthe terminal is not listening right now",
+        limited: true,
+      },
+      { status: 200 }
+    );
+  }
+
   // Load or create the wallet row.
   const { data: existingWallet } = await supabase
     .from("terminal_wallets")
@@ -236,9 +251,8 @@ export async function POST(request: Request) {
     );
   }
 
-  // Load recent history + pinned memories + the persona's latest private
-  // musing (see lib/persona.ts generateMusing) for context.
-  const [{ data: historyRows }, { data: memoryRows }, { data: musingRows }] = await Promise.all([
+  // Load recent history + pinned memories for context.
+  const [{ data: historyRows }, { data: memoryRows }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
       .select("role, content, created_at")
@@ -250,14 +264,8 @@ export async function POST(request: Request) {
       .select("content")
       .eq("user_id", userId)
       .order("created_at", { ascending: true }),
-    supabase
-      .from("terminal_musings")
-      .select("content")
-      .order("created_at", { ascending: false })
-      .limit(1),
   ]);
   const memories = (memoryRows ?? []).map((r) => r.content as string);
-  const currentMusing = musingRows?.[0]?.content as string | undefined;
 
   const history: ChatMessage[] = (historyRows ?? [])
     .slice()
@@ -357,7 +365,6 @@ export async function POST(request: Request) {
     generated = await generateChatReply(
       [...history, { role: "user", content: message }],
       memories,
-      currentMusing,
       loreAsset?.caption
     );
   } catch (err) {
@@ -367,7 +374,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-sonnet-5");
+  const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
+  await recordSpend(supabase, estimatedCostUsd);
 
   const { error: insertError } = await supabase.from("terminal_chat_messages").insert([
     { user_id: userId, role: "user", content: message, qualifying },

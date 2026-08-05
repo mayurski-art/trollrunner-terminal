@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generateUndervoiceReply, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
+import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 import { resolveUndervoiceOutcome, type Mood } from "@/lib/undervoice";
 
 export const runtime = "nodejs";
@@ -261,6 +262,14 @@ export async function POST(request: Request) {
       );
     }
 
+    const spendCheck = await checkAndReserveSpend(supabase);
+    if (!spendCheck.allowed) {
+      return NextResponse.json(
+        { reply: "[signal lost]\nnothing is answering down here right now", paused: true },
+        { status: 200 }
+      );
+    }
+
     const { data: session } = await supabase
       .from("terminal_undervoice_sessions")
       .select("id, user_id, status, cost_paid, message_count")
@@ -307,7 +316,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-sonnet-5");
+    const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
+    await recordSpend(supabase, estimatedCostUsd);
 
     await supabase.from("terminal_undervoice_messages").insert([
       { session_id: sessionId, role: "user", content: message },

@@ -8,7 +8,6 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
-import MusingGuess from "@/components/MusingGuess";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
@@ -21,18 +20,10 @@ type Post = {
   posted_at: string;
 };
 
-type Musing = {
-  id: string;
-  content: string;
-  created_at: string;
-};
-
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
   const [latest, setLatest] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [musing, setMusing] = useState<Musing | null>(null);
-  const [musingError, setMusingError] = useState<string | null>(null);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -54,21 +45,6 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/musings")
-      .then((r) => r.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (data.error) setMusingError(data.error);
-        else setMusing(data.musings?.[0] ?? null);
-      })
-      .catch((err) => !cancelled && setMusingError((err as Error).message));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   return (
     <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
       <div className="w-full max-w-7xl">
@@ -85,7 +61,7 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
-          <Frame title="latest transmission" tone="terminal" className="lg:w-1/5">
+          <Frame title="latest transmission" tone="terminal" className="lg:w-1/3">
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
@@ -114,7 +90,7 @@ export default function Home() {
             )}
           </Frame>
 
-          <Frame title="speak to it" tone="dim" className="lg:w-3/5">
+          <Frame title="speak to it" tone="dim" className="lg:w-2/3">
             {session ? (
               <Chat />
             ) : (
@@ -124,22 +100,6 @@ export default function Home() {
                 </p>
                 <AuthPanel />
               </div>
-            )}
-          </Frame>
-
-          <Frame title="still turning this over" tone="problem" className="lg:w-1/5">
-            {musingError && <p className="text-alert text-sm">[connection error: {musingError}]</p>}
-            {!musingError && !musing && (
-              <p className="text-dim text-sm animate-pulse">establishing connection...</p>
-            )}
-            {musing && (
-              <>
-                <p className="whitespace-pre-wrap leading-relaxed text-problem">
-                  {musing.content}
-                </p>
-                <p className="mt-2 text-xs text-dim">{timeAgo(musing.created_at)}</p>
-                <MusingGuess musingId={musing.id} session={session} />
-              </>
             )}
           </Frame>
         </div>

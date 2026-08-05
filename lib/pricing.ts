@@ -2,6 +2,7 @@
 const RATES = {
   "claude-opus-5": { input: 5, output: 25 },
   "claude-sonnet-5": { input: 2, output: 10 }, // intro pricing through 2026-08-31
+  "claude-haiku-4-5-20251001": { input: 1, output: 5 },
 } as const;
 
 export type PricedModel = keyof typeof RATES;

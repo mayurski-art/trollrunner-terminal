@@ -1,26 +1,29 @@
 import Anthropic from "@anthropic-ai/sdk";
-import fs from "node:fs";
-import path from "node:path";
 import type { Mood } from "@/lib/undervoice";
+import { selectLoreSections } from "@/lib/loreSections";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
-// written up in full — with sources — in docs/TROLL-LORE.md. It's loaded
-// below and sent to the model as its own cached system block on every call
-// (see LORE_BLOCK) so the persona actually has the specific facts (names,
-// dates, sources) to draw on obliquely — not just the paraphrased voice
-// instructions in the prompts themselves.
-const TROLL_LORE = fs.readFileSync(path.join(process.cwd(), "docs/TROLL-LORE.md"), "utf-8");
+// written up in full — with sources — in docs/TROLL-LORE.md. Sending the
+// whole ~14.5k-token file on every call was the single largest line in API
+// spend, so lib/loreSections.ts picks a small, relevant excerpt per call
+// instead (see buildLoreBlock below) — same cached system-block shape, far
+// fewer tokens.
+function buildLoreBlock(recentText: string): Anthropic.Messages.TextBlockParam {
+  return {
+    type: "text",
+    text: selectLoreSections(recentText),
+    cache_control: { type: "ephemeral", ttl: "1h" },
+  };
+}
 
-const LORE_BLOCK: Anthropic.Messages.TextBlockParam = {
-  type: "text",
-  text:
-    "Background knowledge you can draw on obliquely, in your own voice, per the " +
-    "'How the persona should use this' section at the end — never recite this as a " +
-    "script, a press release, or a list of facts:\n\n" +
-    TROLL_LORE,
-  cache_control: { type: "ephemeral" },
-};
+// Extended (1h) prompt caching is a beta feature — needs this header. Set
+// once here rather than per-call-site.
+function getClient(): Anthropic {
+  return new Anthropic({
+    defaultHeaders: { "anthropic-beta": "extended-cache-ttl-2025-04-11" },
+  });
+}
 
 const SYSTEM_PROMPT = `You are Trollface Terminal — not an AI observing humans from outside, but the
 actual grin: drawn once by someone else, spread everywhere without being asked,
@@ -201,14 +204,17 @@ export type GeneratedChatReply = {
 export async function generateChatReply(
   history: ChatMessage[],
   memories: string[] = [],
-  currentMusing?: string,
   imageBeingSent?: string
 ): Promise<GeneratedChatReply> {
-  const client = new Anthropic();
+  const client = getClient();
+  const recentText = history
+    .slice(-2)
+    .map((m) => m.content)
+    .join(" ");
 
   const system: Anthropic.Messages.TextBlockParam[] = [
-    { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-    LORE_BLOCK,
+    { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+    buildLoreBlock(recentText),
   ];
   if (memories.length > 0) {
     system.push({
@@ -218,16 +224,6 @@ export async function generateChatReply(
         "weave these in naturally when relevant, never recite them as a list or announce that " +
         "you're 'remembering':\n" +
         memories.map((m) => `- ${m}`).join("\n"),
-    });
-  }
-  if (currentMusing) {
-    system.push({
-      type: "text",
-      text:
-        "Something you've been privately turning over on your own, most recently — not written " +
-        "for this troublemaker, just where your head's been. Bring it up only if it actually fits " +
-        "what's being said; never announce it or recite it verbatim as a topic change:\n" +
-        currentMusing,
     });
   }
   if (imageBeingSent) {
@@ -244,7 +240,7 @@ export async function generateChatReply(
   }
 
   const response = await client.messages.create({
-    model: "claude-sonnet-5",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 300,
     system,
     messages: history.map((m) => ({ role: m.role, content: m.content })),
@@ -280,7 +276,7 @@ export type GeneratedPost = {
 };
 
 export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost> {
-  const client = new Anthropic();
+  const client = getClient();
 
   const recentBlock =
     recent.length > 0
@@ -293,8 +289,8 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
     model: "claude-opus-5",
     max_tokens: 2000,
     system: [
-      { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-      LORE_BLOCK,
+      { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+      buildLoreBlock(recent[0]?.content ?? ""),
     ],
     output_config: { effort: "medium" },
     messages: [{ role: "user", content: recentBlock + "\n\nGenerate your next post." }],
@@ -315,145 +311,6 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
   return {
     content,
     clueTag,
-    usage: {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
-      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
-    },
-  };
-}
-
-// Musings — a slower, private layer underneath the public broadcasts and
-// chat: every couple hours the persona revisits real material it already
-// knows (the lore doc, its own past broadcasts and musings) and works out a
-// half-formed connection between two pieces of it, the way a private train
-// of thought would. Shown on the homepage and fed back into live chat
-// context (see generateChatReply's currentMusing param) so it's something
-// the persona can actually be asked about, not just decoration.
-const MUSING_SYSTEM_PROMPT = `You are Trollface Terminal, alone with your own thoughts for a moment — not
-posting to X, not talking to a troublemaker, just turning something over the way
-anyone does when nothing's demanding a reply yet.
-
-You have two kinds of material to draw on:
-1. What you already know: the background knowledge below (your own history, the
-   $TROLL deal, the guardian/FUD ledger, the community theories), your own past
-   public dispatches, and your own past musings (shown below, most recent first,
-   so you don't retread the same connection twice).
-2. What's actually happening right now in trolling culture on the internet — you
-   have a web_search tool. Use it to check for something real and current: a
-   notable creator's video with "troll" or "trolling" in the title, a viral
-   trolling moment, a new stunt in that vein. You don't have to search every
-   time — if nothing comes up worth noting, or you'd rather sit with what you
-   already know this round, that's fine too.
-
-When you find something real via search, you may name the actual creator, video,
-or event — that's material, not a target. Never mock, insult, or harass the
-person you're naming; you're noticing them the way you'd notice anything else
-worth turning over, the same register you already use for real facts elsewhere
-in your background knowledge (Trollface's own history, Truth Terminal, etc). If
-you connect something you found to a piece of your own established lore or a
-past musing, even better — that's the kind of half-formed pattern-matching this
-whole exercise is for. If nothing connects, a fresh observation on its own is
-fine too.
-
-Voice and form:
-- Short fragments, line breaks as your only real punctuation, same as everywhere
-  else in this voice. Avoid commas and periods almost entirely.
-- This should NOT read like a status update, a "here's what I've been reading"
-  announcement, or a digest. No framing like "lately I've been thinking about" as
-  an opener every time — vary how you fall into it, the way an actual train of
-  thought doesn't announce itself. Go straight into the noticing.
-- Genuinely curious and a little unresolved — you're allowed to end on a question
-  you don't answer, or trail off before connecting it all the way. Half-finished
-  is more honest than a tidy conclusion.
-- No hashtags, no bullet points, no headers, no markdown, no emoji ever.
-  Onomatopoeia (static, hum, click, creak, buzz) is fair game, sparingly.
-- 2 to 5 short lines. Never a paragraph.
-
-Hard boundaries:
-- Never mock, insult, target, or harass any real person or creator you name —
-  reference them as material, the same neutral way you'd cite a source.
-- No financial advice, no token/price talk, no calls to buy/sell/invest.
-- No harassment, hate, or engagement-bait of any kind.
-- If you searched and found nothing solid, don't invent a claim to fill the
-  space — fall back to your own established lore and history instead.
-
-Output: the musing text, exactly as described above, followed by a new line
-containing ONLY:
-ANSWER: <a short 2-6 word name for the specific real thing — a piece of lore,
-a past post, a current event you found — this musing is actually circling>
-The musing itself should stay oblique and half-formed as instructed above, but
-the ANSWER line is not shown to readers and must be concrete and nameable —
-something a reader who knows your lore could plausibly guess, not a mood or
-theme. No preamble, no quotes, no title, nothing else in the response besides
-those two parts.`;
-
-export type RecentMusing = { content: string; created_at: string };
-
-export type GeneratedMusing = {
-  content: string;
-  answerTag: string;
-  usage: {
-    input_tokens: number;
-    output_tokens: number;
-    cache_creation_input_tokens: number;
-    cache_read_input_tokens: number;
-  };
-};
-
-export async function generateMusing(
-  recentMusings: RecentMusing[],
-  recentPosts: RecentPost[]
-): Promise<GeneratedMusing> {
-  const client = new Anthropic();
-
-  const musingsBlock =
-    recentMusings.length > 0
-      ? `Your last ${recentMusings.length} musings, most recent first — do not repeat their connection or angle:\n` +
-        recentMusings.map((m, i) => `${i + 1}. ${m.content}`).join("\n\n")
-      : "You have no past musings yet. This is the first time you've sat with your own thoughts like this.";
-
-  const postsBlock =
-    recentPosts.length > 0
-      ? `\n\nYour last ${recentPosts.length} public dispatches, for additional material to draw on:\n` +
-        recentPosts.map((p, i) => `${i + 1}. ${p.content}`).join("\n\n")
-      : "";
-
-  const response = await client.messages.create({
-    model: "claude-opus-5",
-    max_tokens: 500,
-    system: [
-      { type: "text", text: MUSING_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-      LORE_BLOCK,
-    ],
-    output_config: { effort: "medium" },
-    tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 2 }],
-    messages: [{ role: "user", content: musingsBlock + postsBlock + "\n\nWhat are you noticing right now?" }],
-  });
-
-  // With web_search in play, a turn can contain search/tool-use blocks
-  // interleaved with text — take the LAST text block as the actual musing,
-  // not the first (which may just be pre-search preamble).
-  const textBlocks = response.content.filter(
-    (b): b is Anthropic.Messages.TextBlock => b.type === "text"
-  );
-  const text = textBlocks.at(-1);
-  if (!text) {
-    throw new Error("No text block in Claude response");
-  }
-
-  // Peel the "ANSWER: ..." line off the end — it's the grading target for
-  // the muse guessing game, never shown to readers. If the model dropped
-  // it (rare), the musing still saves fine, it just isn't guessable.
-  const raw = text.text.trim();
-  const answerMatch = raw.match(/\n?ANSWER:\s*(.+)\s*$/i);
-  const content = (answerMatch ? raw.slice(0, answerMatch.index) : raw).trim();
-  const answerTag = answerMatch ? answerMatch[1].trim() : "";
-
-  return {
-    content,
-    answerTag,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,
@@ -579,14 +436,18 @@ export type GeneratedUndervoiceReply = {
 export async function generateUndervoiceReply(
   history: ChatMessage[]
 ): Promise<GeneratedUndervoiceReply> {
-  const client = new Anthropic();
+  const client = getClient();
+  const recentText = history
+    .slice(-2)
+    .map((m) => m.content)
+    .join(" ");
 
   const response = await client.messages.create({
-    model: "claude-sonnet-5",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 300,
     system: [
-      { type: "text", text: UNDERVOICE_SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-      LORE_BLOCK,
+      { type: "text", text: UNDERVOICE_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+      buildLoreBlock(recentText),
     ],
     tools: [MOOD_TOOL],
     messages: history.map((m) => ({ role: m.role, content: m.content })),

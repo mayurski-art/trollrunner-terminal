@@ -7,13 +7,14 @@ dispatches to X, addressed to the "troublemakers" who find it. Generates a new p
 on a schedule and mirrors the feed at `terminal.trollrunner.net`. Posting to X itself
 is manual (see below).
 
-v2 adds a live chat with the entity (`claude-sonnet-5`), a PROBLEMS token economy
+v2 adds a live chat with the entity (`claude-haiku-4-5`), a PROBLEMS token economy
 (mine 1 PROBLEM per 7 qualifying messages), a black/white/grey terminal reskin with
 FIGlet banners and box-drawing frames, and shared TrollRunner account login. See
 [`docs/TERMINAL-V2-DESIGN.md`](docs/TERMINAL-V2-DESIGN.md) for the full design.
 
 Next.js (App Router) + Supabase (post history + chat + PROBLEMS wallets + kill
-switches) + Claude API (`claude-opus-5` for daily posts, `claude-sonnet-5` for chat).
+switches) + Claude API (`claude-opus-5` for daily posts, `claude-haiku-4-5` for chat
+and the Undervoice).
 Deployed on Vercel; a GitHub Actions workflow drives the broadcast schedule (Vercel
 Cron on the Hobby plan caps out at 2 jobs/once-a-day each, which isn't enough for
 3x/day). Posts are capped at 280 characters — no X Premium needed on the account.
@@ -34,15 +35,29 @@ case you want to wire it back up later after getting API write access.
 - The cron route checks `terminal_config.is_paused` (kill switch), pulls the last 15
   posts for context, asks Claude for the next post, and writes it — plus token usage
   and an estimated cost — to `terminal_posts`.
+- `public/assets/js/site-lock.js` is a local copy of the main site's network-wide
+  lock overlay (`mayurski-art.github.io/assets/js/site-lock.js`), loaded on every
+  page via `app/layout.tsx`. It reads the same shared Supabase `site_updates` row
+  the main site's admin.html writes to, so locking the main site from there locks
+  this subdomain too — this app never writes to that row itself (no admin.html
+  here), it's a reader only. If the main site's copy of that script changes,
+  copy it over here too to keep them in sync.
 - The web terminal (`app/page.tsx`) polls `GET /api/posts` and renders the feed and
   a credit-usage progress bar — no direct DB access from the browser.
-- [`.github/workflows/musing-cron.yml`](.github/workflows/musing-cron.yml) hits
-  `GET /api/musing-cron` every 2 hours — a separate, slower layer where the persona
-  privately connects two pieces of real lore/past posts/past musings into a
-  half-formed observation, saved to `terminal_musings`. Shown in the homepage's
-  "still turning this over" panel and fed into live chat as extra system context
-  (`generateChatReply`'s `currentMusing` param) so it's something the persona can
-  actually be asked about.
+- **Musings are retired.** v2 had a separate layer (`/api/musing-cron`, on a 2-hour
+  external schedule) where the persona ran a live `web_search` on Opus 5 and posted
+  a private "still turning this over" observation. It turned out to be the single
+  largest line in API spend — `web_search` was never even priced into the cost
+  ledger, so real spend was higher than the dashboard showed. The route is still
+  deployed but permanently no-ops (`{skipped: true, reason: "disabled"}`) so the
+  external pinger doesn't start 404ing; old `terminal_musings` rows are left in
+  place and still browsable on `/logs`, just nothing new gets written.
+- `docs/TROLL-LORE.md` (the persona's background-knowledge file) is **not** sent in
+  full on every call anymore — `lib/loreSections.ts` picks a handful of relevant
+  sections per generation instead (keyword match against the current
+  message/post, same style as `lib/loreAssets.ts`). It had grown to ~14.5k tokens,
+  reloaded (at a cache-write premium) on every chat/undervoice/post call, and was
+  the other big line in spend.
 
 ## One-time setup
 
@@ -61,6 +76,10 @@ chat history, PROBLEMS wallets, the token ledger, and the chat kill switch. This
 must be the **same** Supabase project that `assets/js/troll-accounts.js` on the main
 site points at — v2 reuses those accounts as-is, so a login on trollrunner.net works
 here unchanged.
+
+Run the remaining `supabase/migrations/*.sql` files in order too (all idempotent).
+`012_spend_caps.sql` is the important one if you're upgrading an existing deployment
+— it adds the hard daily USD spend cap columns described in **Kill switch** below.
 
 You'll also need the project's public anon key for browser-side auth calls — add
 `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (see `.env.example`)
@@ -111,10 +130,12 @@ Redeploy after setting env vars so the cron route can pick them up.
 
 Not shown on the public site — this is a private check, not a visitor-facing feature.
 `GET /api/posts` includes a `usage` object (`startingCreditUsd`, `spentUsd`,
-`remainingUsd`, `percentUsed`), an **estimate**, not a live pull from Anthropic's
-billing (there's no public API for that) — it sums the token usage Claude reports on
-every generation, converts to an approximate dollar cost using `lib/pricing.ts`, and
-subtracts from `terminal_config.starting_credit_usd`.
+`remainingUsd`, `percentUsed`), computed by `lib/budget.ts`'s `getRemainingUsd`. It's
+an **estimate**, not a live pull from Anthropic's billing (there's no public API for
+that) — it sums the token usage Claude reports on every generation (chat, undervoice,
+broadcast posts, and historical musings) across all four tables, converts to an
+approximate dollar cost using `lib/pricing.ts`, and subtracts from
+`terminal_config.starting_credit_usd`.
 
 Whenever you add real credits on console.anthropic.com, update that starting value
 so the estimate reflects reality:
@@ -142,7 +163,30 @@ update terminal_config set chat_paused = true;
 
 `terminal_config.chat_daily_global_cap` (default 1500) caps total chat messages
 across all users per day — `/api/chat` returns an in-voice "said enough today"
-reply once it's hit, rather than erroring.
+reply once it's hit, rather than erroring. This is a loose sanity ceiling, though —
+the real spend guardrail is below.
+
+**Hard daily USD spend cap.** `terminal_config.daily_spend_cap_usd` (default
+`1.50` — sized to cover roughly 4 people/~150 chat messages/20 PROBLEMS worth of
+Undervoice sessions in a day, with headroom) bounds total spend *in dollars*,
+across chat, undervoice, and the broadcast cron combined, resetting at UTC
+midnight — `lib/budget.ts`'s `checkAndReserveSpend` checks it before every
+generation call and returns an in-voice paused reply (or
+`{skipped: true, reason: "daily_cap"}` for the cron route) without calling the model
+once the day's spend hits the cap:
+
+```sql
+update terminal_config set daily_spend_cap_usd = 3.00; -- raise the daily ceiling
+```
+
+**Low-balance backstop.** `terminal_config.low_balance_pause_usd` (default `2.00`)
+is a second, independent check against the whole remaining balance (not just
+today's spend) — everything pauses once `getRemainingUsd()` drops below it, so a
+string of capped-but-nonzero days can't quietly drain the account to $0 unnoticed:
+
+```sql
+update terminal_config set low_balance_pause_usd = 5.00; -- raise the floor
+```
 
 ## Local development
 
