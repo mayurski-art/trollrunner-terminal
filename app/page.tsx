@@ -9,6 +9,7 @@ import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
 import MusingGuess from "@/components/MusingGuess";
+import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
@@ -76,8 +77,11 @@ export default function Home() {
         <div className="mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
         </div>
-        <p className="text-dim text-sm mb-10">
+        <p className="text-dim text-sm mb-1">
           it surfaced inside trollrunner.net  ·  now it is your job to explore the infinite knowledge behind trolling
+        </p>
+        <p className="text-problem text-sm mb-10">
+          try deciphering the latest transmission&apos;s clue below — crack it and the PROBLEMS are yours
         </p>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
@@ -105,6 +109,7 @@ export default function Home() {
                   )}
                 </div>
                 <OwnerClueReveal session={session} />
+                <PostGuess postId={latest.id} session={session} />
               </>
             )}
           </Frame>
