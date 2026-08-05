@@ -9,6 +9,14 @@
 alter table terminal_musings
   add column if not exists answer_tag text;
 
+-- terminal_musings previously had no RLS (fine when it only held public
+-- content). Now that answer_tag is a secret, lock the table to service-role
+-- access only — the public anon key would otherwise be able to read it
+-- straight off PostgREST, bypassing /api/musings' column allowlist entirely.
+-- Nothing in the app queries this table from the browser; every read
+-- already goes through an API route using the service-role client.
+alter table terminal_musings enable row level security;
+
 create table if not exists terminal_musing_guesses (
   id uuid primary key default gen_random_uuid(),
   musing_id uuid not null references terminal_musings(id) on delete cascade,
