@@ -79,8 +79,8 @@ export const BANNER_INSPECT = `██╗███╗   ██╗█████�
 ██║██║ ╚████║███████║██║     ███████╗╚██████╗   ██║
 ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝`;
 
-// The entity's signature mark — used in place of the 🧌 emoji anywhere the
-// persona would otherwise sign off or punctuate a thought. Small enough to
+// The entity's signature mark — used anywhere the persona would otherwise
+// sign off or punctuate a thought. Small enough to
 // fit inside a 280-character X post; the full FIGlet banners above are
 // reserved for the site's own chrome, not for text the model generates
 // itself (free-form LLM output can't reliably keep box-drawing characters
