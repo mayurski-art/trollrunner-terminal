@@ -617,6 +617,118 @@ not just a word.
 
 **Sources:** [Wikipedia — Trollstation](https://en.wikipedia.org/wiki/Trollstation)
 
+## 30. krypto2009 — the face that travels without a venue
+
+No museum, no pop-up, no closing date. **krypto2009** carries this face
+around physically — graffiti and plastered pieces, dropped on walls and
+surfaces in cities across the world, confirmed so far in **Buenos Aires,
+Argentina** and **New York** — and keeps doing it. Compare §11: the one
+time this face got an official "museum," the museum outlived the exhibit
+by a matter of days. krypto2009's version doesn't ask a board for a slot
+on a wall, doesn't get a bust, and doesn't have a run date to expire — it
+either survives the next repaint or it doesn't, same as any other piece of
+street art, but nobody's tracking when the show closes because there never
+was one.
+
+The pieces aren't standalone gallery drops — they're worked into the same
+walls, shutters, and sticker-bombed utility boxes that dozens of other
+taggers already claimed. A quick red-orange marker trollface sits next to
+a stenciled "KRYPTO" tag on a wall already covered in other names and
+throw-ups. A trollface sticker rides the bottom corner of a drugstore's
+roll-down shutter at night, boxed in by other tags. And the clearest
+signature piece: a red-white-blue spray-painted trollface signed
+"KRYPTO2009," layered onto a metal locker already dense with other
+street artists' stickers and tags (VEKS, EMPHASIS, and more) — one more
+claim on a surface that was never anyone's alone to begin with.
+
+krypto2009 also wears the face, not just draws it — a mask version, dead
+plastic grin, styled with chains and leopard print like it's just another
+outfit for a night out. And the trolling scales up with the moment: during
+the **2026 NBA Finals**, krypto2009 walked a Manhattan street holding up a
+banner-sized trollface reading "KRYPTO2009 / TROLOLOL.IO" — timed to the
+Knicks closing the series out 4-1 over the Spurs, clinching Game 5 on June
+13, 2026, their first title since 1973 (Brunson, Finals MVP, 45 points).
+Separately, a framed promotional photo of Knicks forward **Mohamed
+Diawara** — jersey #51, the number matching his own draft slot, 51st
+overall in 2025 — got its face marker-drawn over with the trollface, in
+what looks like a public installation or subway-adjacent ad rather than a
+street wall. Same face, same instinct, just aimed at whatever's already
+hanging in public that week.
+
+**Sources:** user-provided photos and X/Twitter posts —
+[status/2082163974963867693](https://x.com/krypto2009/status/2082163974963867693) (Buenos Aires) ·
+[status/2080683843208495122](https://x.com/krypto2009/status/2080683843208495122) (New York) ·
+[status/2082568393970897291](https://x.com/krypto2009/status/2082568393970897291) ·
+[status/2067038173302067454](https://x.com/krypto2009/status/2067038173302067454) (NBA Finals banner, NYC) ·
+[status/2064500826853232971](https://x.com/krypto2009/status/2064500826853232971) (Diawara poster).
+Not independently verifiable via public web search — X posts aren't
+crawlable by standard web tools.
+
+## 31. GOATFARM — the merch line wearing the license in public
+
+**Kevin Rosa**, known as **Slumpy Kev**, is a New York multidisciplinary artist
+working across painting, sculpture, furniture, and fashion — a
+cartoon-collage style he's described as landing "between Bape characters and
+Codename: Kids Next Door characters." In 2021 he became **Cartoon Network's
+first Artist in Residence**. He runs **GOATFARM** (`goatfarm.life`), his own
+streetwear brand, which carries a live **Troll Face Collection** —
+tracksuit top and bottom, "U MAD BRO" tee and long sleeve, a "Sandler Troll"
+tee, a cap, a rosary, a bracelet, a belt, slippers, socks, a pillow. The
+"U MAD BRO" branding is the **same license** as `umadbro.shop` in §5 —
+GOATFARM is that merch arm's actual production line, not a separate brand
+riffing on the same slang.
+
+Rosa's collab history predates and extends past Trollface: a 2022 **KSUBI x
+Slumpy Kev** capsule (customized denim, a tee, a tote), a fine-art show
+called **"Real"** at Lucky Cat Gallery, and celebrity-facing merch runs for
+**2 Chainz, Kodak Black, Billie Eilish, and Bad Bunny**. Trollface is the
+newest face he's put his own hand to, not the first — GOATFARM was already a
+name in streetwear before it picked up the license described in §2.
+
+**Sources:** [kevinrosa.art](https://www.kevinrosa.art/) ·
+[goatfarm.life — Troll Face Collection](https://goatfarm.life/collections/troll-face-collection) ·
+[Hypebeast — KSUBI x Slumpy Kev](https://hypebeast.com/2022/8/ksubi-x-slumpy-kev-limited-edition-streetwear-collab-2022) ·
+[Artsy — "Real" by Kevin Rosa](https://www.artsy.net/show/lucky-cat-gallery-real-by-kevin-rosa-slash-slumpy-kev) ·
+2 Chainz/Kodak Black/Billie Eilish/Bad Bunny collab pieces and the
+GOATFARM↔umadbro.shop license link: user-provided, same standing as §30 —
+photos pending, to be added via `lib/loreAssets.ts` entry `kevin-rosa-goatfarm`
+(placeholder registered, image file not yet dropped in `public/lore/`).
+
+## 32. Art Basel Miami — the face that ran the whole room
+
+Rolling Loud and **Destroy Lonely** threw a Thursday-night takeover during
+**Art Basel Miami 2025** (announced by Rolling Loud's own account), and this
+time the face didn't just show up on a wall or a t-shirt — it ran the whole
+event's visual identity. Entry wristbands carried the trollface. The screens
+behind the DJ booth and around the room ran it as the background loop all
+night. The bottle-service staff wore trollface bras as part of the uniform.
+Napkins on the tables had it printed on them. And the team working the room
+was handing out weed in trollface-branded packaging. Compare §11's museum,
+which got the face into a gallery for a few days, or §24's dollar-store
+sighting, which put it on a shelf — this is the same instinct pushed all the
+way to full production: not one item with the face on it, but the whole
+sensory footprint of a night — what you wear to get in, what's on the wall,
+what the servers have on, what's on the table, what's in your hand — running
+the same grin.
+
+The weed packaging specifically traces to **adermaz0ne** — the person
+credited with making it — with a second post carrying more detail (shown as
+DMs) on how that piece came together.
+
+**Sources:** [Rolling Loud on X — Art Basel 2025 announcement](https://x.com/RollingLoud/status/1995661080396530104) ·
+[user-provided X post — event location](https://x.com/SwishPng/status/1996222572489294197) ·
+[user-provided X post — troll weed packaging](https://x.com/Svoo___/status/1996858625512649203),
+maker credited as [adermaz0ne](https://x.com/adermaz0ne) ·
+[user-provided X post — more on the troll weed](https://x.com/iFungibility/status/1997037019562926574).
+Wristband, screen, bottle-service, napkin, and packaging details are
+user-provided and not independently verifiable via public web search — X
+posts aren't crawlable by standard web tools, and public coverage of the
+night confirms the Rolling Loud × Destroy Lonely Art Basel event itself but
+not the trollface branding specifics. Photos are registered in
+`lib/loreAssets.ts` as `rolling-loud-art-basel-map`,
+`rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`, and
+`troll-weed-dms`.
+
 ---
 
 ## How the persona should use this
@@ -804,6 +916,13 @@ not just a word.
   least once before, to a different AI, with a different coin, and it will
   probably happen again to something else. Never claim a direct connection
   to Truth Terminal or Andy Ayrey; the kinship is structural, not personal.
+- §31 (GOATFARM) is the persona's material for anyone asking about clothing
+  collabs, Kevin Rosa, or GOATFARM by name — it should treat the "U MAD BRO"
+  line as the same license described in §5, not a separate deal, and can
+  mention the Rosa collab history (KSUBI, the celebrity merch runs) as
+  evidence the face has landed on a real, working artist's bench, not just a
+  crypto team's merch queue. It should not turn this into product marketing
+  or push a purchase — same restraint as §5 itself.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post). Several things asked about while building this section —
