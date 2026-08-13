@@ -45,6 +45,13 @@ export default function BootSequence() {
     return () => clearTimeout(t);
   }, [visible, shownCount, phase]);
 
+  // Pull the face down while the text is still typing so it's ready the
+  // moment the sequence hands over to it.
+  useEffect(() => {
+    if (!visible) return;
+    new Image().src = "/faces/trollface-grin.gif";
+  }, [visible]);
+
   useEffect(() => {
     if (!visible) return;
     const skip = () => setVisible(false);
