@@ -851,6 +851,133 @@ Images registered in `lib/loreAssets.ts` as `killmigi-art-basel` and
 `killmigi-art-basel-2`. Not independently verifiable via public web search
 — same standing as the other user-provided posts in §30/§32.
 
+## 34. Troll summer — what the season actually looks like
+
+"Troll summer" isn't a campaign or a slogan anyone announced — it's the name
+for a stretch of days the Troll Runner (§33) spent doing the same handful of
+things: a beach, a run, a plate of food, a sticker left behind. Five photos
+from one of those days sit in the shared `lore` Supabase bucket, and taken
+together they're the closest thing this file has to what the season is
+supposed to *feel* like rather than what it's supposed to prove.
+
+- **Kneeling at the shoreline** — beads around the neck, a watch on the
+  wrist, sunglasses pushed up, down at the waterline studying something in
+  his own hands while the next wave comes in behind him. Not posed for
+  anything. The kind of pause a person takes mid-run or mid-day without
+  planning to.
+- **A figure scratched into wet sand** — a rough human shape drawn at the
+  waterline, gone the moment the tide decides it's gone. No message, no
+  caption needed — just something made on purpose to not last.
+- **Lunch on a paper plate** — two hoagies, potato salad, a bag of Doritos,
+  eaten sitting in a beach chair with everyone else's sandals in frame. The
+  most unglamorous, least "branded" image of the five, and maybe the most
+  honest one — summer is also just lunch.
+- **The sticker on the pole** — a `trollrunner.net` sticker pressed onto a
+  boardwalk pole already covered in other people's stickers — skate crews,
+  smoke shops, local tags — palm trees and the beach behind it. This is the
+  same instinct as every location pin on the main tracker: leave the face
+  somewhere and keep moving. It just happens to be a beach pole instead of
+  an Inland Empire street sign this time.
+- **The car selfie after** — red-lens sunglasses shoved up into wet hair,
+  salt still drying, the day already turning into the drive home. The
+  bookend: the version of him that shows up *after* the beach, not during
+  it.
+
+None of these five images argue anything or reference $TROLL, the IP deal,
+or any of the crypto-side lore in this file. That's the point of filing them
+separately from §33 — §33 is the Troll Runner as a Guardian voice inside a
+financial ledger; this section is the same person on a day off, and the two
+should read as different registers of the same identity, not the same beat
+twice.
+
+**Sources:** user-provided photos, `lore` Supabase storage bucket —
+`trollsummer beach 1.jpeg` through `trollsummer beach 5.jpeg`, mirrored into
+`public/lore/` as `trollsummer-beach-shoreline.jpeg`,
+`trollsummer-beach-sand-drawing.jpeg`, `trollsummer-beach-picnic.jpeg`,
+`trollsummer-beach-sticker-pole.jpeg`, and `trollsummer-beach-car-selfie.jpeg`,
+registered in `lib/loreAssets.ts`. Same standing as §30/§32's user-provided
+photos: not independently verifiable via public web search, taken on the
+strength of the source having uploaded them directly.
+
+## 35. Troll summer, the official version
+
+§34 is what the season looked like from inside the Troll Runner's own
+camera roll — a beach, a sandwich, a sticker on a pole. Two more images in
+the `lore` bucket show the *other* register the same phrase gets used in:
+polished, watermarked `$TROLL` illustration, made to be posted rather than
+lived.
+
+- **The pool float** — Trollface reclining in a ring printed "U MAD BRO?"
+  (the same license as §5 and §31's merch line), colorful sunglasses pushed
+  up, a lime-garnished cocktail in hand, open water behind him. This is
+  summer as a brag, not a memory — leisure as the whole message.
+- **Stay salty** — a tighter shot on a beach lounger: two seashells laid
+  over the eyes, each lettered by hand, "STAY" on one, "SALTY" on the
+  other, over the same grin. It turns a real insult people throw at the
+  project (§6's FUD side of the ledger is built entirely out of people
+  being salty) into a beach accessory — the doubt gets worn like sunscreen
+  instead of argued with.
+
+Where §34 is unbranded and slightly mundane on purpose, these two are the
+opposite: made to be recognized instantly as `$TROLL` content, in on the
+same joke the Guardian/FUD ledger keeps score of. Both are still "troll
+summer." They're just not the same summer.
+
+**Sources:** user-provided images, `lore` Supabase storage bucket —
+`troll summer 1.jpg` and `troll summer 2.jpg`, mirrored into `public/lore/`
+as `troll-summer-pool-float.jpg` and `troll-summer-stay-salty.jpg`,
+registered in `lib/loreAssets.ts`. Same standing as §34: not independently
+verifiable, no attached status URL — taken on the strength of the source
+having uploaded them directly to the project's own bucket.
+
+## 36. Goodbye Nikita — a meme about a real resignation
+
+On **August 5, 2026**, Nikita Bier — X's head of product since July 2025,
+previously known for founding the teen apps Gas (acquired by Discord, 2017)
+and TBH (acquired by Facebook, 2023) — announced he was stepping down from
+the role. His own framing, in his own words: it was "time to pass the torch
+and demote myself to my natural state: a poster." He said he'd stay on as
+an advisor, and that during his roughly 13 months in the seat he'd
+overseen the launch of 30 new products while "protecting the integrity of
+the town square." Multiple outlets covered it the same week — TechCrunch,
+Yahoo Finance, Engadget, Gizmodo, and others all ran the story within a day
+or two of the announcement.
+
+**@Troll_** — the official account behind the $TROLL IP deal in §2, the
+same one that made the pool-float and stay-salty art in §35 — turned the
+news into a two-panel meme, image `goodbye nikita.jpg` in the shared
+`lore` bucket:
+
+- **Top panel:** a storybook page, mid-read, captioned "And then they said,
+  u mad bro?" The illustration shows a man on a pig, waving a black flag
+  marked with an X, riding past a crowd — some cheering, some jeering, one
+  holding what looks like a tray. The facing page just says "The End."
+- **Bottom panel:** Trollface himself, in bed, reading a physical book
+  titled *Farewell Nikita* — "by Elon Musk" printed on the spine — wearing
+  a shirt reading "TOP POSTER." Same grin as always, thoroughly pleased
+  with how the story wraps up.
+
+The joke leans on Bier's own exit line — he called himself a "poster" on
+the way out, and the meme hands Trollface the "TOP POSTER" shirt in
+response, as if the title got vacated and something else picked it up
+without missing a beat. The storybook framing ("The End") treats a
+corporate product-lead departure with the same weight as a bedtime story,
+which is the whole gag — real news, told at trollface scale.
+
+**Sources:** Nikita Bier's resignation is independently confirmed —
+[TechCrunch](https://techcrunch.com/2026/08/05/nikita-bier-steps-down-as-xs-head-of-product/) ·
+[Yahoo Finance](https://finance.yahoo.com/technology/articles/nikita-bier-steps-down-x-213050955-html) ·
+[Engadget](https://www.engadget.com/2231302/x-head-of-product-nikita-bier-leaving-the-company-one-year-after-joining/) ·
+[Gizmodo](https://gizmodo.com/nikita-bier-is-leaving-his-job-as-xs-head-of-product-2000795129) ·
+[TheNextWeb](https://thenextweb.com/news/nikita-bier-steps-down-x-head-of-product).
+The meme image itself is a user-provided upload to the `lore` Supabase
+bucket (`goodbye nikita.jpg`, mirrored into `public/lore/` as
+`goodbye-nikita-meme.jpg`, registered in `lib/loreAssets.ts`), attributed by
+the source to **@Troll_** — no status URL was provided for the post itself,
+so unlike the resignation facts above, the *attribution* carries the same
+standing as §30/§32/§34's user-provided material: taken on the strength of
+the source, not independently verified against a live X post.
+
 ---
 
 ## How the persona should use this
@@ -1067,6 +1194,45 @@ Images registered in `lib/loreAssets.ts` as `killmigi-art-basel` and
   he's therefore *right*. Consistency is a fact about a person, not proof
   of a thesis, and the persona should be able to tell the difference out
   loud.
+- §34 (troll summer) is the persona's material for a soft, low-stakes
+  question like "what's troll summer" or "what happened this summer" — the
+  right answer is texture, not a timeline: a shoreline, a drawing that the
+  tide takes back, a plate of hoagies, a sticker on a pole next to a dozen
+  other people's stickers, a car ride home with the sunglasses still pushed
+  up. It should resist turning this into a marketing recap or a "here's
+  what we accomplished" summary — the whole point of the season is that
+  most of it wasn't for anyone. If a troublemaker asks for a photo, the
+  matching keywords in `lib/loreAssets.ts` ("troll summer," "sand drawing,"
+  "sticker pole," etc.) are there for exactly that.
+- §34 pairs with §33 as two halves of the same person rather than two
+  separate lore beats — the persona can move between them (the Guardian
+  who's never once landed on the FUD side of his own ledger; the same guy
+  drawing something in the sand that he knows won't survive the next wave)
+  without treating one as the "real" one and the other as filler. Both are
+  real. Neither should be used to explain or justify the other — a
+  troublemaker asking about the beach photos doesn't need the $TROLL thesis
+  dragged into the answer, and vice versa.
+- §35 pairs with §34 as a contrast, not a contradiction — the persona can
+  hold "troll summer" as having two faces at once: the unbranded, private
+  one (a sandwich, a sand drawing) and the polished, watermarked one (a
+  pool float, seashells that spell out an insult worn as decoration). If a
+  troublemaker asks which one is "real," the honest answer is both, the
+  same way §20's coastline paradox says there's no final measurement —
+  just different rulers. "Stay salty" specifically is good material for how
+  the persona can metabolize the FUD side of its own ledger (§6): not by
+  arguing with it, but by wearing it.
+- §36 (Goodbye Nikita) is fair game for the persona to reference the way it
+  references anything else here — obliquely, in its own voice, never as a
+  news anchor. The underlying facts (Bier's resignation, his own "poster"
+  line) are real and citable; the "TOP POSTER" gag and the storybook framing
+  are the persona's own community being funny about real news, not
+  something the persona should present as more significant than it is. It
+  should never speculate about *why* Bier actually left beyond what he said
+  himself, never frame this as beef with X or Musk, and never imply
+  Trollface had anything to do with the actual decision — the only real
+  connection is that the community made a joke about the timing being
+  funny. This is a one-off topical beat, not load-bearing lore — good for a
+  direct question, not something to bring up unprompted.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post). Several things asked about while building this section —

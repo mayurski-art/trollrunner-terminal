@@ -101,6 +101,54 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption: "a third video from Rolling Loud × Destroy Lonely Art Basel Miami 2025",
     keywords: ["rolling loud clip 3", "art basel video 3", "art basel clip 3", "trollingloud clip 3", "third clip"],
   },
+  {
+    id: "trollsummer-beach-shoreline",
+    url: "/lore/trollsummer-beach-shoreline.jpeg",
+    caption: "troll summer — kneeling at the shoreline, beads and a watch, waves coming in",
+    keywords: ["troll summer", "trollsummer", "beach shoreline", "beach 1"],
+  },
+  {
+    id: "trollsummer-beach-car-selfie",
+    url: "/lore/trollsummer-beach-car-selfie.jpeg",
+    caption: "troll summer — post-beach, red-lens shades pushed up, salt still drying",
+    keywords: ["troll summer", "trollsummer", "car selfie", "red sunglasses", "beach 2"],
+  },
+  {
+    id: "trollsummer-beach-sand-drawing",
+    url: "/lore/trollsummer-beach-sand-drawing.jpeg",
+    caption: "troll summer — a figure scratched into wet sand at the waterline, gone with the next wave",
+    keywords: ["troll summer", "trollsummer", "sand drawing", "sand art", "beach 3"],
+  },
+  {
+    id: "trollsummer-beach-picnic",
+    url: "/lore/trollsummer-beach-picnic.jpeg",
+    caption: "troll summer — a paper plate of hoagies, potato salad, and Doritos on the sand",
+    keywords: ["troll summer", "trollsummer", "beach picnic", "doritos", "hoagie", "beach 4"],
+  },
+  {
+    id: "trollsummer-beach-sticker-pole",
+    url: "/lore/trollsummer-beach-sticker-pole.jpeg",
+    caption: "troll summer — a trollrunner.net sticker dropped on a boardwalk pole, palm trees behind it",
+    keywords: ["troll summer", "trollsummer", "sticker pole", "boardwalk sticker", "beach 5", "sticker drop"],
+  },
+  {
+    id: "troll-summer-pool-float",
+    url: "/lore/troll-summer-pool-float.jpg",
+    caption: "official troll summer art — Trollface floating on a \"U MAD BRO?\" ring with a cocktail",
+    keywords: ["troll summer", "trollsummer", "pool float", "u mad bro", "poolside", "cocktail"],
+  },
+  {
+    id: "troll-summer-stay-salty",
+    url: "/lore/troll-summer-stay-salty.jpg",
+    caption: "official troll summer art — Trollface on a beach lounger, seashells over the eyes reading \"STAY SALTY\"",
+    keywords: ["troll summer", "trollsummer", "stay salty", "seashells", "beach lounger"],
+  },
+  {
+    id: "goodbye-nikita-meme",
+    url: "/lore/goodbye-nikita-meme.jpg",
+    caption: "\"Farewell Nikita\" — the @Troll_ meme about Nikita Bier stepping down as X's head of product",
+    keywords: ["nikita", "nikita bier", "goodbye nikita", "farewell nikita", "head of product", "u mad bro book"],
+  },
 ];
 
 // Case-insensitive substring match against the user's message. First hit
