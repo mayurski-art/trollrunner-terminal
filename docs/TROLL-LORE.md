@@ -726,12 +726,13 @@ Wristband, screen, bottle-service, napkin, and packaging details are
 user-provided and not independently verifiable via public web search — X
 posts aren't crawlable by standard web tools, and public coverage of the
 night confirms the Rolling Loud × Destroy Lonely Art Basel event itself but
-not the trollface branding specifics. A short video clip from the event
-floor exists too, same standing as the photos. Media is registered in
+not the trollface branding specifics. Two short video clips from the event
+floor exist too, same standing as the photos. Media is registered in
 `lib/loreAssets.ts` as `rolling-loud-art-basel-map`,
 `rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`,
-`troll-weed-dms`, and `rolling-loud-art-basel-clip` (the video, hosted in
-the shared Supabase `lore` bucket rather than committed to this repo).
+`troll-weed-dms`, `rolling-loud-art-basel-clip`, and
+`rolling-loud-art-basel-clip-2` (the videos, hosted in the shared Supabase
+`lore` bucket rather than committed to this repo).
 
 ## 33. The Troll Runner — 5:20am, 43M, ten miles anyway
 

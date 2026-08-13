@@ -83,6 +83,12 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption: "video from Rolling Loud × Destroy Lonely Art Basel Miami 2025",
     keywords: ["rolling loud clip", "art basel video", "art basel clip", "trollingloud clip"],
   },
+  {
+    id: "rolling-loud-art-basel-clip-2",
+    url: "https://tjsyhfplxjtakdfkpdtg.supabase.co/storage/v1/object/sign/lore/trollingloudclip2.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83MTJlYmRmOC03MTFiLTQ1NTAtOGFhYy04ZGI3ZmMxNzEyYTQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb3JlL3Ryb2xsaW5nbG91ZGNsaXAyLm1wNCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MzIwNDYsImV4cCI6MzE3MTQ2NjMyMDQ2fQ.p2mCFyltJ6EJAoa_IEI6_tedivwn0RU4C5CfZeCRpfw",
+    caption: "a second video from Rolling Loud × Destroy Lonely Art Basel Miami 2025",
+    keywords: ["rolling loud clip 2", "art basel video 2", "art basel clip 2", "trollingloud clip 2", "another clip"],
+  },
 ];
 
 // Case-insensitive substring match against the user's message. First hit
