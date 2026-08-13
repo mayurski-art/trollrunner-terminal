@@ -28,10 +28,7 @@ export default function Nav() {
         <Link href="/logs" className="hover:text-foreground">
           [ logs ]
         </Link>
-        <Link href="/faces" className="hover:text-you">
-          [ faces ]
-        </Link>
-        <Link href="/undervoice" className="hover:text-alert">
+<Link href="/undervoice" className="hover:text-alert">
           [ undervoice ]
         </Link>
         {isOwner && (
