@@ -28,6 +28,16 @@
   --font-mono: var(--font-mono);
 }
 
+/* Native cross-document page transitions. Only fires between same-origin
+   documents, so today this covers navigation within the terminal itself;
+   once the site is served through the front door it extends across the
+   whole network. Mobile only — desktop keeps instant navigation. */
+@media (max-width: 760px) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
