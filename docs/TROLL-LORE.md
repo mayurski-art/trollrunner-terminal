@@ -726,13 +726,14 @@ Wristband, screen, bottle-service, napkin, and packaging details are
 user-provided and not independently verifiable via public web search — X
 posts aren't crawlable by standard web tools, and public coverage of the
 night confirms the Rolling Loud × Destroy Lonely Art Basel event itself but
-not the trollface branding specifics. Two short video clips from the event
+not the trollface branding specifics. Three short video clips from the event
 floor exist too, same standing as the photos. Media is registered in
 `lib/loreAssets.ts` as `rolling-loud-art-basel-map`,
 `rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`,
-`troll-weed-dms`, `rolling-loud-art-basel-clip`, and
-`rolling-loud-art-basel-clip-2` (the videos, hosted in the shared Supabase
-`lore` bucket rather than committed to this repo).
+`troll-weed-dms`, `rolling-loud-art-basel-clip`,
+`rolling-loud-art-basel-clip-2`, and `rolling-loud-art-basel-clip-3` (the
+videos, hosted in the shared Supabase `lore` bucket rather than committed
+to this repo).
 
 ## 33. The Troll Runner — 5:20am, 43M, ten miles anyway
 
@@ -839,10 +840,16 @@ specifically for this event, in the same spirit as SWISH's daily $TROLL
 art described in §4 — an artist in the community treating the night as
 something worth drawing, not just branding.
 
+A second killmigi piece from the same night puts Trollface on the mic
+instead of the decks — black hoodie and joggers, one arm raised, standing
+under a green-lit stage rig with a glowing trollface projected on the LED
+wall behind it and a **$TROLL** wordmark lit up beside it. Same artist,
+same event, different angle on the stage.
+
 **Sources:** [user-provided X post — killmigi's Art Basel piece](https://x.com/KillMigi/status/1995672310456697167).
-Image registered in `lib/loreAssets.ts` as `killmigi-art-basel`. Not
-independently verifiable via public web search — same standing as the
-other user-provided posts in §30/§32.
+Images registered in `lib/loreAssets.ts` as `killmigi-art-basel` and
+`killmigi-art-basel-2`. Not independently verifiable via public web search
+— same standing as the other user-provided posts in §30/§32.
 
 ---
 
