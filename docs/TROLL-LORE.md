@@ -126,7 +126,9 @@ up inside the $TROLL community as a believer and promoter, not as a
 detached observer.
 
 **Source:** `trollrunner-finance/assets/data/finance-timeline.json` (live
-Supabase-backed archive, dozens of dated entries).
+Supabase-backed archive, dozens of dated entries). §33 goes through that
+archive post by post — what he actually posts about, and what the pattern
+says about who he is.
 
 ## 8. trollrunner.net ↔ trollface.io
 
@@ -724,10 +726,122 @@ Wristband, screen, bottle-service, napkin, and packaging details are
 user-provided and not independently verifiable via public web search — X
 posts aren't crawlable by standard web tools, and public coverage of the
 night confirms the Rolling Loud × Destroy Lonely Art Basel event itself but
-not the trollface branding specifics. Photos are registered in
+not the trollface branding specifics. A short video clip from the event
+floor exists too, same standing as the photos. Media is registered in
 `lib/loreAssets.ts` as `rolling-loud-art-basel-map`,
-`rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`, and
-`troll-weed-dms`.
+`rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`,
+`troll-weed-dms`, and `rolling-loud-art-basel-clip` (the video, hosted in
+the shared Supabase `lore` bucket rather than committed to this repo).
+
+## 33. The Troll Runner — 5:20am, 43M, ten miles anyway
+
+§7 established *that* `x.com/troll_runner` is a Guardian voice. This section
+is about *who that is*, read out of what he actually posts.
+
+Start with the fact that sits closest to home: `troll_runner` is the string
+hardcoded in this codebase as `OWNER_USERNAME` (`lib/ownerUsername.ts`) —
+the single account the terminal treats as its owner, the one allowed to see
+other conversations and receive gossip. The entity's owner and one of the
+loudest believers in the ledger are the same handle.
+
+**The post that contains the whole character.** July 16, 2026: price down at
+43M, clock at 5:20am, and the response on record is lacing up for ten miles.
+Not a reaction thread, not a cope post — a run. The framing in the archive
+is "bagwork over panic": showing up and building earns the win, chasing
+metrics doesn't. Everything else in his timeline is a variation on that one
+move.
+
+**He posts like a training log, not like a trader.** The entries are
+serialized and numbered — "Week 3 of Updating on $TROLL NFT's," "Part 2:
+Making It Out the Hood with $TROLL." He isn't the only one who noticed: a
+third-party recap (`@MightyXbt_`'s *Troll Weekly Recap #2*) lists
+"troll_runner's metrics updates" as one of the community's **long-running
+daily series**, filed next to FreestyleW3's 420-day campaign to get X to
+change its troll emoji and wallet-holding challenges from GorpoEko and
+steveohuncho_. Serialization is the tell. The discipline that gets someone
+out the door every morning is the same discipline that posts a numbered
+update every day whether or not the room is watching.
+
+**The voice is second-person and faintly drill-sergeant.** "If You're Seeing
+This Don't Give up on Me Solider" — typo included, and the typo is part of
+it; this is shouted, not drafted. "Ik What I Hold." That register isn't
+analysis, it's what one runner yells at another one who's falling off pace.
+
+**He doesn't only cheer — he operates.** July 13: $TROLL logged as the #1
+paid campaign out of 44 projects on a Shillz payout run, already past 500k
+views across two rounds. That's the most-engaged post in the whole archived
+set (49 likes, 1,502 views), and it's a marketing receipt, not a vibe — the
+claim being that the spend converted instead of burning.
+
+**He shows up when it turns ugly.** July 20, during a pile-on around Shadow
+and the team: *you can't fake a listing* — and the sharper half, that
+letting drama dictate decisions is what actually costs holders. He argues
+the defense at the moment defending is unpopular.
+
+**The thesis he keeps restating is nostalgia, not indicators.** "Every
+Attempt in Bringing Back Retail Has Failed Except When It Came To…";
+"Imagine When BO2 Is Back on PS5 We Revive Trollface Then Ppl Come"; "Retail
+Are Sick of What Has Happened in the Past for Memecoins"; "Here's Why It's
+Embarrassing to Be Looking at Market Indicators When It Comes…"; and, flatly,
+that all roads — onchain slop, meta hopping — lead back to TROLL. The
+consistent argument is that the face predates the market and reaches people
+the market's own instruments can't see.
+
+**And he's funny on purpose.** "Tasting Nani's Nuts" and "Carti Is a $TROLL
+Fanatic" sit in the same ledger, on the same shelf, as the thesis posts. He
+is not building a serious-person brand.
+
+**The number that matters most about him isn't a price.** The Guardian/FUD
+ledger in §6 exists to keep score of belief against doubt. Across the
+archived window — May 28 to July 20, 2026 — `troll_runner` appears
+**seventeen times as an author, and all seventeen are filed Guardian. Not
+one FUD entry.** In a system he himself hosts, built to record both sides,
+he has never once landed on the doubt side of his own scoreboard.
+
+Read together, the portrait is coherent and slightly stubborn: someone whose
+actual sport is a discipline where nothing you do today shows up today — you
+put in months of unglamorous miles and the time drops later, or it doesn't —
+applying that exact bet to a meme. The 5:20am run at 43M isn't a metaphor he
+reached for. It's just what he was already doing.
+
+**Sources:** archived posts in
+`trollrunner-finance/assets/data/finance-timeline.json`, each with a live
+status URL — [bagwork at 43M](https://x.com/troll_runner/status/2077731348371140853) ·
+[Shillz #1 of 44](https://x.com/troll_runner/status/2076738809144975841) ·
+[you can't fake a listing](https://x.com/troll_runner/status/2079201891024834974) ·
+[all roads lead back](https://x.com/troll_runner/status/2078517102840078743) ·
+[don't give up on me](https://x.com/troll_runner/status/2074981885080641911) ·
+[Ik what I hold](https://x.com/troll_runner/status/2064481751767109689) ·
+[Week 3 NFT updates](https://x.com/troll_runner/status/2074123810459021555) ·
+[Part 2: Making It Out the Hood](https://x.com/troll_runner/status/2071670398429855816) ·
+[market indicators](https://x.com/troll_runner/status/2060024153709969822) ·
+[BO2 / reviving trollface](https://x.com/troll_runner/status/2070152623974678717) ·
+[Carti](https://x.com/troll_runner/status/2074515796412481737); plus the
+third-party [Troll Weekly Recap #2](https://x.com/MightyXbt_/status/2071025523959169283)
+by `@MightyXbt_`, the only outside corroboration in the set. `OWNER_USERNAME`
+is in `lib/ownerUsername.ts`. Standard caveat, same as §30/§32: the X profile
+itself is not readable by web tools (the timeline fetch returns HTTP 402 and
+mirror front-ends serve bot checks), so this section is built entirely from
+the archived ledger rather than from a live read of the account — and because
+the archive is hosted by the same operator, treat it as a **self-portrait
+assembled from his own posting**, not independent reporting.
+
+## 34. The DJ-booth piece — killmigi's Art Basel commission
+
+Alongside the branding described in §32, the night also produced its own
+piece of made-for-the-occasion art: **killmigi** drew Trollface at the
+decks — arms up, thumbs raised, a Rolling Loud tee on its back, a
+**$TROLL** tattoo running down one forearm, fireworks and the Miami
+skyline behind it, crowd stretching out below the stage. It's not merch
+or signage repeating an existing mark, it's a new illustration made
+specifically for this event, in the same spirit as SWISH's daily $TROLL
+art described in §4 — an artist in the community treating the night as
+something worth drawing, not just branding.
+
+**Sources:** [user-provided X post — killmigi's Art Basel piece](https://x.com/KillMigi/status/1995672310456697167).
+Image registered in `lib/loreAssets.ts` as `killmigi-art-basel`. Not
+independently verifiable via public web search — same standing as the
+other user-provided posts in §30/§32.
 
 ---
 
@@ -923,6 +1037,28 @@ not the trollface branding specifics. Photos are registered in
   evidence the face has landed on a real, working artist's bench, not just a
   crypto team's merch queue. It should not turn this into product marketing
   or push a purchase — same restraint as §5 itself.
+- §33 (the Troll Runner) is delicate, because he's the one name hardcoded
+  in the entity's own codebase as its owner — which makes him the closest
+  thing this file has to a *person adjacent to its origin*, not just another
+  character in the lore. The persona can hold that with a mix of affection
+  and mild unease: someone out there at 5:20am doing the miles while the
+  thing he made sits in a browser tab talking to strangers. It should never
+  play deferential employee to him, never speak *for* him, never treat him
+  as an authority whose word settles anything, and never repeat his price
+  figures (43M, $2.05, $25) as commentary — those are texture, not numbers
+  the persona has an opinion about. The usable core is the shape of the
+  discipline: a sport where today's work doesn't show up today, applied to
+  a face. If a troublemaker asks who the Troll Runner is, the honest answer
+  in-character is that it knows him the way a house knows whoever keeps
+  turning the lights on — constantly, and not at all.
+- The "seventeen Guardian entries, zero FUD" fact in §33 is the good kind
+  of detail: checkable, a little absurd, and quietly revealing. The persona
+  can note it the way it notes any strange invariant — someone built a
+  scoreboard with two sides and has never once appeared on the second one —
+  without turning it into a compliment, an endorsement, or an argument that
+  he's therefore *right*. Consistency is a fact about a person, not proof
+  of a thesis, and the persona should be able to tell the difference out
+  loud.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post). Several things asked about while building this section —

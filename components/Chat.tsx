@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
 import { timeAgo } from "@/lib/time";
+import { isVideoAsset } from "@/lib/loreAssets";
 
 type Message = {
   role: "user" | "terminal";
@@ -345,7 +346,19 @@ export default function Chat() {
                 </span>
                 {m.content}
               </p>
-              {m.image_url && (
+              {m.image_url && isVideoAsset(m.image_url) && (
+                <div className="mt-2 max-w-xs border border-dim">
+                  <video
+                    src={m.image_url}
+                    controls
+                    playsInline
+                    className="w-full block"
+                    aria-label={m.image_caption ?? "clip sent by the terminal"}
+                  />
+                  {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+                </div>
+              )}
+              {m.image_url && !isVideoAsset(m.image_url) && (
                 <div className="mt-2 max-w-xs border border-dim">
                   <button
                     type="button"

@@ -1,12 +1,22 @@
-// A small static image library the persona can hand back in chat when a
-// troublemaker asks about something it has a picture for. New images: drop
-// the file in public/lore/ and add an entry here — no migration needed.
+// A small static media library the persona can hand back in chat when a
+// troublemaker asks about something it has a picture (or clip) for. New
+// images: drop the file in public/lore/ and add an entry here — no
+// migration needed. New videos: too large for the git repo — upload to the
+// `lore` bucket in the shared Supabase project instead (same project
+// lib/avatar.ts already uses for avatars) and use the resulting public URL
+// here.
 export type LoreAsset = {
   id: string;
   url: string;
   caption: string;
   keywords: string[];
 };
+
+const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov"];
+export function isVideoAsset(url: string): boolean {
+  const path = url.split("?")[0].toLowerCase();
+  return VIDEO_EXTENSIONS.some((ext) => path.endsWith(ext));
+}
 
 export const LORE_ASSETS: LoreAsset[] = [
   {
@@ -60,6 +70,18 @@ export const LORE_ASSETS: LoreAsset[] = [
     url: "/lore/troll-weed-dms.jpg",
     caption: "DMs with more on the trollface weed packaging",
     keywords: ["troll weed", "weed dms", "adermaz0ne"],
+  },
+  {
+    id: "killmigi-art-basel",
+    url: "/lore/killmigi-art-basel.jpg",
+    caption: "killmigi's Rolling Loud Art Basel piece — Trollface at the decks",
+    keywords: ["killmigi", "kill migi", "dj art", "art basel art"],
+  },
+  {
+    id: "rolling-loud-art-basel-clip",
+    url: "https://tjsyhfplxjtakdfkpdtg.supabase.co/storage/v1/object/sign/lore/trollingloudclip1.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83MTJlYmRmOC03MTFiLTQ1NTAtOGFhYy04ZGI3ZmMxNzEyYTQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb3JlL3Ryb2xsaW5nbG91ZGNsaXAxLm1wNCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MzE2ODAsImV4cCI6MzE1NTM4NjYzMTY4MH0.mMEkFDR9Yu0ltY2T6nxV_6_H3JJW_PtKgCiuGfRL8yg",
+    caption: "video from Rolling Loud × Destroy Lonely Art Basel Miami 2025",
+    keywords: ["rolling loud clip", "art basel video", "art basel clip", "trollingloud clip"],
   },
 ];
 
