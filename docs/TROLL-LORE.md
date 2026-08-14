@@ -1117,10 +1117,19 @@ itself, a meme that predates crypto by over a decade.
 coin trading circles — a trader/caller with a large following built on
 picking meme coins early rather than promoting them after the fact ("i dont
 pump coins, i buy them before they go up a lot"), with call history on
-tokens like $BRETT before they took off. He's active in $TROLL's X
-community and posted about the token's move as part of a broader "rotation
-into select alts" call, though the exact scope of his $TROLL position isn't
-independently documented the way Contessoto's is.
+tokens like $BRETT before they took off and his own tribute token ($CRASH)
+minted by the community off the back of his reputation. He's active in
+$TROLL's X community: one post of his reads "Yall really said 'im done with
+alts i just want to rotate all to btc and retire' LMAO Thank you The great
+shift to select alts has begun without you," posted inside $TROLL
+discussion threads. The line that circulates most in that same community —
+"$TROLL is not the next $Fartcoin. It's the next $BTC," the argument being
+that younger buyers aren't going to be the ones who buy an already
+institution-owned Bitcoin — is repeated widely enough in $TROLL's X
+community that Crash is discussed alongside it, but it wasn't confirmed
+here as a direct quote from his own account rather than a talking point he's
+associated with. The exact scope of his $TROLL position isn't independently
+documented the way Contessoto's is.
 
 **Sources:** the Contessoto/$TROLL figures and buy-in timeline come from a
 user-provided article (title cites "$85k," the body's own math — $25K then
@@ -1131,12 +1140,19 @@ the "SlumDOGE Millionaire" nickname are independently well-documented —
 [Decrypt](https://decrypt.co/153563/dogecoin-millionaire-bags-3-million-to-50000-dollars-has-not-lost-faith) ·
 [CNBC](https://www.cnbc.com/2021/07/06/millennial-dogecoin-millionaire-on-being-paid-in-dogecoin.html)
 — and `@ProTheDoge` is confirmed as his account via independent search.
-Crash's identity, trading reputation, and $BRETT call are independently
-documented via his X history and press coverage of meme-coin trader tips;
-his specific $TROLL commentary is taken from a single community post
-("the great shift to select alts has begun") rather than a dedicated
-on-record statement, so treat his section as thinner sourcing than
-Contessoto's until a firmer quote or on-chain position surfaces.
+X and Reddit aren't directly fetchable from here (both returned blocked/
+paid errors on the specific post URLs supplied), so nothing in this section
+was pulled straight from a post; it's reconstructed from search-indexed
+summaries of that content instead. Crash's identity, trading reputation,
+and $BRETT/$CRASH history are independently documented via his X history
+and press coverage of meme-coin trader tips. His "great shift to select
+alts" line is attributed to his account by search results; the "not the
+next $Fartcoin" line is only confirmed as circulating in $TROLL community
+discussion he's part of, not as his own authored quote — treat this whole
+section as standing on secondhand, search-indexed sourcing rather than
+primary posts, thinner than Contessoto's and thinner than most of this
+file's other entries, until primary links or screenshots are available to
+firm it up.
 
 ## 40. The mousepads — UMadBro's first in-house drop
 
