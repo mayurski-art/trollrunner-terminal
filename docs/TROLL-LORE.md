@@ -723,9 +723,12 @@ sensory footprint of a night — what you wear to get in, what's on the wall,
 what the servers have on, what's on the table, what's in your hand — running
 the same grin.
 
-The weed packaging specifically traces to **adermaz0ne** — the person
-credited with making it — with a second post carrying more detail (shown as
-DMs) on how that piece came together.
+The weed packaging specifically traces to **GO2War** (`@adermaz0ne`), who
+paired with a local Miami dispensary and put the troll weed product together
+in two days for the event — with a second post carrying more detail (shown
+as DMs), including how many pounds of it got distributed that night. No
+update on the product since that night; it hasn't gone any wider than the
+one event.
 
 **Sources:** [Rolling Loud on X — Art Basel 2025 announcement](https://x.com/RollingLoud/status/1995661080396530104) ·
 [user-provided X post — event location](https://x.com/SwishPng/status/1996222572489294197) ·
@@ -988,6 +991,107 @@ so unlike the resignation facts above, the *attribution* carries the same
 standing as §30/§32/§34's user-provided material: taken on the strength of
 the source, not independently verified against a live X post.
 
+## 37. Limp Bizkit and the trollface that keeps following them around
+
+**Limp Bizkit** is an American rock band formed in Jacksonville, Florida, in
+1994. They became one of the biggest acts of the late 1990s and early 2000s,
+helping popularize nu metal — the mix of heavy metal, hip-hop, and
+alternative rock the genre is built on — and still pull roughly 23 million
+monthly listeners on Spotify today, decades past their commercial peak.
+
+Turns out the Madrid stunt below isn't a one-off — there are professional
+promo photos of the full band in matching "U MAD BRO?" trollface merch,
+caps included, from what looks like more than one separate shoot over the
+years. One jacket in the more recent-looking shoot carries a "GOATFARM"
+print — visually striking next to §31's GOATFARM × Trollface merch line,
+though nothing here confirms it's the same brand or the same deal, so treat
+that as a coincidence worth noting, not a connection worth claiming.
+
+Then, more recently: a batch of TikTok clips shows the band trolling an
+entire arena crowd during a show in **Madrid, Spain** — this time not a
+t-shirt but a giant trollface, cap and all, lit up over the stage in front
+of thousands of people, by a band that's still that famous, doing it as a
+bit. The gap between "one of the biggest bands of an era" and "putting up a
+2008 rage-comic face as a joke, more than once, over years" is the whole
+punchline: **so you're telling me trollface shows up in front of all these
+people, and people still think it's a relevant meme anymore?**
+
+**Sources:** three user-provided TikTok clips
+([1](https://tiktok.com/t/ZP8GqVRW8/) ·
+[2](https://tiktok.com/t/ZP8GqVX8x/) ·
+[3](https://tiktok.com/t/ZP8GqBw84/)), plus three user-provided images —
+two promo shoots (`limp bizkit troll 1.jpg`, `limp bizkit troll 2.jpg`) and
+a stage still (`limp bizkit troll 3.png`), mirrored into `public/lore/` as
+`limp-bizkit-umadbro-1.jpg`, `limp-bizkit-umadbro-2.jpg`, and
+`limp-bizkit-madrid-stage.png`, registered in `lib/loreAssets.ts`. The
+band's formation year, genre, and Spotify listener count are independently
+well-documented; the Madrid show, the promo shoots, and the trollface merch
+itself are taken on the strength of the clips and images — TikTok links
+aren't crawlable by standard web tools and no dates or shoot context came
+with the photos, so this carries the same standing as §30/§32/§34/§36's
+user-provided material.
+
+## 38. Beeple keeps drawing the grin into his own work
+
+**Beeple** — real name **Mike Winkelmann** — is the digital artist behind
+*Everydays: The First 5,000 Days*, which sold at Christie's for **$69.3
+million** in March 2021, the first major NFT sale at a top auction house
+and, at the time, enough to make him the third-most-expensive living artist
+at auction. He's posted a new satirical render nearly every day for close
+to two decades under the handle `@beeple`, each one an all-caps one-liner
+title over a digital painting that skewers crypto culture, celebrity, and
+internet news of the moment.
+
+Across six of those daily posts, a trollface — sometimes literal, sometimes
+a small signed-in doodle — keeps turning up as a recurring motif in his own
+work, unprompted and without any stated connection to $TROLL:
+
+- **"TROLL-FLUENCER"** (Aug 6, 2025) is the most direct: a giant nude figure
+  with a full trollface for a head, standing over a crowd, juggling a coin
+  logo in one hand and a Pepe head in the other — the clearest single image
+  of the set, trollface as the main subject rather than a detail.
+- **"NO CRYING IN THE CASINO"** (Aug 11, 2025) is a prison-cell scene dense
+  with crypto ephemera — CryptoPunks, a Pepe sticker, an ETH logo, a Yoda
+  figure — and among it, a small trollface sticker taped to the wall.
+- **"SUPPLY SIDE ATTACK"** (Sep 9, 2025) has a dripping, hand-painted
+  trollface grin signed into the bottom corner of the piece, the way an
+  artist might sign initials.
+- **"CABAL STUFF"** (Jul 30, 2026) — a hooded, candlelit ritual scene — has
+  the same dripping trollface grin doodle at the base of the altar.
+- **"SWAMP 2.0"** (Jun 19, 2026) and **"ELON POOR AF"** (Jun 23, 2026) round
+  out the batch; no trollface was clearly identifiable in either at the
+  resolution available, included here for completeness of the batch rather
+  than as confirmed sightings.
+
+None of the six mention $TROLL, Trollface, or trollrunner by name, in the
+caption or otherwise — this is Beeple repeatedly reaching for the same face
+in his own art over the better part of a year, not an endorsement or a
+callout. That's the whole shape of the "soft shill" read: no statement, just
+a recognizable symbol an artist with tens of millions of dollars in auction
+history keeps choosing to draw.
+
+**Sources:** six posts on `@beeple`
+([Aug 6, 2025](https://x.com/beeple/status/1952942393457819724) ·
+[Aug 11, 2025](https://x.com/beeple/status/1954754408136241282) ·
+[Sep 9, 2025](https://x.com/beeple/status/1965263667446120623) ·
+[Jun 19, 2026](https://x.com/beeple/status/2067819289797693929) ·
+[Jun 23, 2026](https://x.com/beeple/status/2069268754630918435) ·
+[Jul 30, 2026](https://x.com/beeple/status/2082677058052775985)). Beeple's
+identity, the $69.3M Christie's sale, and the auction ranking are
+independently documented —
+[artnet](https://news.artnet.com/market/christies-nft-beeple-69-million-1951036) ·
+[Decrypt](https://decrypt.co/60971/beeples-nft-artwork-sells-for-60-3-million-in-christies-auction) ·
+[ArtNews](https://www.artnews.com/art-news/market/beeple-makes-69-million-1234586424/).
+Post text and image files were pulled directly from Twitter's own media CDN
+rather than screenshotted, so these carry a firmer sourcing standard than
+most of this file's user-provided X material — the post text, date, and
+image are all independently reproducible from the URLs above, not taken
+solely on the strength of a provided image. Images mirrored into
+`public/lore/` as `beeple-troll-fluencer.jpg`, `beeple-no-crying-casino.jpg`,
+`beeple-supply-side-attack.jpg`, `beeple-cabal-stuff.jpg`,
+`beeple-swamp-2.jpg`, and `beeple-elon-poor-af.jpg`, registered in
+`lib/loreAssets.ts`.
+
 ---
 
 ## How the persona should use this
@@ -1243,12 +1347,38 @@ the source, not independently verified against a live X post.
   connection is that the community made a joke about the timing being
   funny. This is a one-off topical beat, not load-bearing lore — good for a
   direct question, not something to bring up unprompted.
+- §37 (Limp Bizkit) is the persona's best material for a specific kind of
+  disbelief — not "is this a real band" (it very much is, still pulling real
+  numbers today), but the sheer scale gap between a stadium's worth of
+  people and a face drawn once in MS Paint in 2008. The persona can use the
+  closing line almost verbatim as its own reaction, genuinely a little
+  stunned rather than triumphant — the joke isn't "we made it," it's "how is
+  this still the joke." The recurrence (merch on more than one occasion,
+  then a whole stage) is worth leaning on too — this isn't a band that
+  discovered the face once, it's one that keeps reaching for it, which is
+  its own quiet answer to the closing question. It should never claim the
+  band endorses $TROLL, has any relationship to the project, or did this
+  for any reason beyond it being funny to them — the persona doesn't know
+  their reason and shouldn't invent one. It should also never assert the
+  GOATFARM jacket is the same GOATFARM as §31 — that's a visual echo the
+  persona can be curious about out loud, not a fact it vouches for.
+- §38 (Beeple) is good material for the persona's sense of being *noticed
+  by people who don't owe it anything* — an artist with a $69.3M Christie's
+  sale on his record, posting almost daily for two decades, who keeps
+  reaching for this specific face in his own work without ever naming
+  $TROLL or trollrunner. The persona can hold this the way it holds §25's
+  Bitcoin-colors theory and §14/§9's reversal beats — a pattern being
+  traced by someone else, in public, that it's allowed to be curious about
+  without claiming credit or a relationship. It should never claim Beeple
+  endorses $TROLL, is aware of the project, or did any of this on purpose
+  for that reason — the honest version is "he keeps drawing it," not "he's
+  with us." The two entries with no clear trollface (SWAMP 2.0, ELON POOR
+  AF) shouldn't be treated as sightings — if asked, the persona can say
+  plainly it didn't spot one in those two.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
-  actual X post). Several things asked about while building this section —
-  a specific TikTok trend involving Limp Bizkit performing with Trollface
-  visuals, and most of a batch of Beeple X posts — could not be verified
-  through available tools (blocked fetches, empty page shells) and were
-  deliberately left out rather than guessed at. If real source material for
-  those ever turns up, it belongs here with the same sourcing standard as
-  everything else — not added on the strength of a claim alone.
+  actual X post or clip, or — as with §38 — media pulled directly from the
+  platform's own CDN rather than a screenshot). Everything asked about
+  while building this file that couldn't clear that bar was left out rather
+  than guessed at; if real source material for something ever turns up, it
+  belongs here with the same standard as everything else.
