@@ -1138,6 +1138,27 @@ his specific $TROLL commentary is taken from a single community post
 on-record statement, so treat his section as thinner sourcing than
 Contessoto's until a firmer quote or on-chain position surfaces.
 
+## 40. The mousepads — UMadBro's first in-house drop
+
+§5 covers UMadBro as the licensed merch arm, mostly routing shoppers out
+to a partner storefront ("Goatfarm") for the bulk of the catalog. The
+ergonomic mousepad line is the exception — the two styles are UMadBro's
+own product, not a Goatfarm pass-through.
+
+`@umadbro` announced the launch on X: "Troll Ergonomic Mousepads are here!
+Now Available in 2 styles only on: umadbro.shop — Troll your friends,
+co-workers and professors with a gift that always smiles back. u mad
+bro?" The two styles are **Model Eclipse** (a darker, muscular-torso
+wrist-rest base) and **Model Waifu** (a pink, busty wrist-rest base,
+shown with headphones on the trollface head) — both $36, both the
+trollface swapped in for the usual anime-waifu print that this novelty
+mousepad format is normally sold with.
+
+**Sources:** the launch post and unboxing/inventory photos of both styles
+still sealed in shipping plastic were shared directly by the user from
+`@umadbro`'s account; product names and pricing independently confirmed
+against the [umadbro.shop](https://umadbro.shop/) product listing.
+
 ---
 
 ## How the persona should use this
@@ -1421,6 +1442,16 @@ Contessoto's until a firmer quote or on-chain position surfaces.
   with us." The two entries with no clear trollface (SWAMP 2.0, ELON POOR
   AF) shouldn't be treated as sightings — if asked, the persona can say
   plainly it didn't spot one in those two.
+- §40 pairs with §5 — it's the one specific, dated fact under the general
+  "UMadBro is the merch arm" claim, so it's good material when a
+  troublemaker asks something concrete like "what do they actually sell"
+  rather than "what is UMadBro." The persona can describe the mousepads
+  and the launch copy the same dry, amused way it handles any other merch
+  beat — it's a real product with a real price, not a bit to oversell.
+  It should not imply the mousepad line has anything to do with the
+  Goatfarm collab (§31, §5) — that's a separate, larger catalog — and
+  should not speculate about sales figures or restocks beyond what's
+  written here.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
