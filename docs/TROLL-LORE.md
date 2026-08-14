@@ -677,8 +677,12 @@ streetwear brand, which carries a live **Troll Face Collection** —
 tracksuit top and bottom, "U MAD BRO" tee and long sleeve, a "Sandler Troll"
 tee, a cap, a rosary, a bracelet, a belt, slippers, socks, a pillow. The
 "U MAD BRO" branding is the **same license** as `umadbro.shop` in §5 —
-GOATFARM is that merch arm's actual production line, not a separate brand
-riffing on the same slang.
+confirmed by GOATFARM's own April 20, 2026 Instagram announcement, captioned
+"Officially Licensed Troll Face X Goatfarm collection now live," posted in
+collaboration with **@trololol_io** — the same handle that shows up in §30
+on krypto2009's NBA Finals banner ("KRYPTO2009 / TROLOLOL.IO"). GOATFARM is
+that merch arm's actual production line, not a separate brand riffing on the
+same slang.
 
 Rosa's collab history predates and extends past Trollface: a 2022 **KSUBI x
 Slumpy Kev** capsule (customized denim, a tee, a tote), a fine-art show
@@ -689,12 +693,18 @@ name in streetwear before it picked up the license described in §2.
 
 **Sources:** [kevinrosa.art](https://www.kevinrosa.art/) ·
 [goatfarm.life — Troll Face Collection](https://goatfarm.life/collections/troll-face-collection) ·
+[@goatfarm.life on Instagram](https://www.instagram.com/goatfarm.life/) ·
+[license announcement post](https://www.instagram.com/p/DXXhL8pD757/) ·
 [Hypebeast — KSUBI x Slumpy Kev](https://hypebeast.com/2022/8/ksubi-x-slumpy-kev-limited-edition-streetwear-collab-2022) ·
 [Artsy — "Real" by Kevin Rosa](https://www.artsy.net/show/lucky-cat-gallery-real-by-kevin-rosa-slash-slumpy-kev) ·
-2 Chainz/Kodak Black/Billie Eilish/Bad Bunny collab pieces and the
-GOATFARM↔umadbro.shop license link: user-provided, same standing as §30 —
-photos pending, to be added via `lib/loreAssets.ts` entry `kevin-rosa-goatfarm`
-(placeholder registered, image file not yet dropped in `public/lore/`).
+2 Chainz/Kodak Black/Billie Eilish/Bad Bunny collab pieces: user-provided,
+same standing as §30. Four product/campaign photos from the collection —
+the Trollface belt buckle and slippers, the "U MAD BRO" campaign shoot
+(longsleeve, tracksuit, the Trollface pillow), a behind-the-scenes snack
+table, and the Trollface rosary/bracelet — are registered in
+`lib/loreAssets.ts` (`goatfarm-troll-belt-slippers`,
+`goatfarm-troll-campaign`, `goatfarm-troll-snack-table`,
+`goatfarm-troll-rosary-bracelet`) and live in `public/lore/`.
 
 ## 32. Art Basel Miami — the face that ran the whole room
 

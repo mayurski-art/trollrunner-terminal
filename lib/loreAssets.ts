@@ -40,12 +40,28 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["krypto2009", "krypto 2009"],
   },
   {
-    // Placeholder — image not yet dropped in public/lore/. Drop the file and
-    // this entry goes live with no other changes needed.
-    id: "kevin-rosa-goatfarm",
-    url: "/lore/kevin-rosa-goatfarm.png",
-    caption: "GOATFARM — Kevin Rosa's Troll Face Collection",
-    keywords: ["kevin rosa", "goatfarm", "goat farm", "u mad bro", "slumpy kev"],
+    id: "goatfarm-troll-belt-slippers",
+    url: "/lore/goatfarm-troll-1.jpeg",
+    caption: "GOATFARM's Trollface belt buckle and slippers",
+    keywords: ["kevin rosa", "goatfarm", "goat farm", "slumpy kev", "troll belt", "troll slippers"],
+  },
+  {
+    id: "goatfarm-troll-campaign",
+    url: "/lore/goatfarm-troll-2.jpeg",
+    caption: "the GOATFARM x Trollface campaign shoot — \"U MAD BRO\" longsleeve and the Trollface pillow",
+    keywords: ["u mad bro", "goatfarm campaign", "goatfarm shoot", "goatfarm photoshoot"],
+  },
+  {
+    id: "goatfarm-troll-snack-table",
+    url: "/lore/goatfarm-troll-3.jpeg",
+    caption: "behind the scenes at the GOATFARM x Trollface shoot — the snack table",
+    keywords: ["goatfarm snacks", "goatfarm bts", "goatfarm behind the scenes"],
+  },
+  {
+    id: "goatfarm-troll-rosary-bracelet",
+    url: "/lore/goatfarm-troll-4.jpeg",
+    caption: "GOATFARM's Trollface rosary and bracelet",
+    keywords: ["troll rosary", "troll bracelet", "goatfarm jewelry", "goatfarm jewellery"],
   },
   {
     id: "rolling-loud-art-basel-map",
