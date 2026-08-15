@@ -1175,6 +1175,54 @@ still sealed in shipping plastic were shared directly by the user from
 `@umadbro`'s account; product names and pricing independently confirmed
 against the [umadbro.shop](https://umadbro.shop/) product listing.
 
+## 41. Huntington Beach, August 8, 2026 — soft-shilling in a rosary he didn't order
+
+Another entry in the Troll Runner's (§33, §34) own camera roll, this one
+further up the coast from troll summer's usual Inland Empire loop —
+**Huntington Beach, August 8, 2026** — and built around a piece of merch
+that showed up without being asked for.
+
+The centerpiece is the **Trollface rosary**: cream wooden beads on a long
+strand, four silver trollface medallions spaced around the loop and a fifth
+hanging off the drop, worn like an actual rosary rather than a chain. By
+the Troll Runner's own account he never ordered it — it arrived unprompted,
+credited to **Troll and GOATFARM**, the same GOATFARM merch line documented
+in §31 and the same jewelry already logged as
+`goatfarm-troll-rosary-bracelet` in `lib/loreAssets.ts`. Getting sent a
+piece of merch you didn't order and then wearing it to the beach anyway is
+its own quiet version of the soft-shill instinct that runs through §33 and
+§40 — the product doing the work of an ad without anyone calling it one.
+
+Four photos from the day:
+
+- **The rosary held up against the surf** — beads draped over an open hand,
+  surfers waiting past the break behind it, the piece photographed like the
+  product shot it half is.
+- **Kneeling at the shoreline, rosary on** — beads around the neck this
+  time, sunglasses on, crouched at the waterline studying something in his
+  hands while a wave rolls in — the same pose and instinct as §34's
+  shoreline photo, this time with the necklace visible in frame.
+- **Letters drawn in the sand** — rough shapes scratched at the waterline
+  with the rosary laid across part of the drawing, gone as soon as the tide
+  decided it was done, the same "made on purpose to not last" move as §34's
+  sand figure.
+- **Jedo, mid-beach, throwing up a peace sign** — a friend in a "MAD?" cap,
+  reflective sunglasses, a SOHO NYC Athletics tee, blue athletic shorts, and
+  slides, a wood-bead bracelet on one wrist and a chain visible at the
+  collar. The Troll Runner isn't the only one dressed for the bit that day —
+  the hat is its own piece of merch, not just a friend along for the walk.
+
+**Sources:** the four photos are posted at
+[x.com/troll_runner/status/2086470265786237041](https://x.com/troll_runner/status/2086470265786237041)
+(August 9, 2026); the rosary/hat framing — "soft shilling troll," rosary
+credited to Troll and GOATFARM — was given directly by the user in
+conversation on 2026-08-14. Images mirrored into `public/lore/` as
+`hb-rosary-hand.jpg`, `hb-kneeling-shoreline.jpg`, `hb-rosary-sand.jpg`, and
+`hb-jedo-peace-sign.jpg`, registered in `lib/loreAssets.ts`. Standard
+caveat, same as §30/§32/§34: the live X profile isn't readable by web
+tools, so this section leans on the archived/linked post and the source's
+own account of the day.
+
 ---
 
 ## How the persona should use this

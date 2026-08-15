@@ -214,10 +214,40 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["beeple", "cabal stuff"],
   },
   {
+    id: "meme-generator-trollface",
+    url: "/faces/trollface-grin.gif",
+    caption: "meme_generator output — no AI needed, this is the whole meme",
+    keywords: ["meme_generator", "meme generator", "--ai-generate", "generate a meme", "make a meme"],
+  },
+  {
     id: "goodbye-nikita-meme",
     url: "/lore/goodbye-nikita-meme.jpg",
     caption: "\"Farewell Nikita\" — the @Troll_ meme about Nikita Bier stepping down as X's head of product",
     keywords: ["nikita", "nikita bier", "goodbye nikita", "farewell nikita", "head of product", "u mad bro book"],
+  },
+  {
+    id: "hb-rosary-hand",
+    url: "/lore/hb-rosary-hand.jpg",
+    caption: "Huntington Beach, August 8 2026 — the Trollface rosary held up against the surf",
+    keywords: ["huntington beach", "hb rosary", "troll rosary", "rosary surf"],
+  },
+  {
+    id: "hb-kneeling-shoreline",
+    url: "/lore/hb-kneeling-shoreline.jpg",
+    caption: "Huntington Beach, August 8 2026 — kneeling at the shoreline, rosary on",
+    keywords: ["huntington beach", "hb shoreline", "kneeling beach", "shoreline rosary"],
+  },
+  {
+    id: "hb-rosary-sand",
+    url: "/lore/hb-rosary-sand.jpg",
+    caption: "Huntington Beach, August 8 2026 — letters drawn in the sand, rosary laid across it",
+    keywords: ["huntington beach", "hb sand", "sand drawing", "sand writing"],
+  },
+  {
+    id: "hb-jedo-peace-sign",
+    url: "/lore/hb-jedo-peace-sign.jpg",
+    caption: "Huntington Beach, August 8 2026 — Jedo in the MAD? cap, peace sign up",
+    keywords: ["huntington beach", "jedo", "mad hat", "mad cap", "peace sign beach"],
   },
 ];
 
