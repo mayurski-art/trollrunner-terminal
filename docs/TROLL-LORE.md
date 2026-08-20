@@ -1398,7 +1398,9 @@ No date was given for either post in the material provided; both postdate
 the August 16, 2026 posts in §42 based on status-ID ordering, but that's an
 inference, not a confirmed timestamp. Nothing here should be read as
 confirming any real-world relationship between Crash and Alon Cohen — this
-is presented, and should be treated, purely as a bit.
+is presented, and should be treated, purely as a bit. Images mirrored into
+`public/lore/` as `alon-crash-twins-alon.jpg`, `alon-crash-twins-crash.jpg`,
+and `crash-trollface-mask.jpg`, registered in `lib/loreAssets.ts`.
 
 ---
 

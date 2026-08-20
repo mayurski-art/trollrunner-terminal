@@ -249,6 +249,24 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption: "Huntington Beach, August 8 2026 — Jedo in the MAD? cap, peace sign up",
     keywords: ["huntington beach", "jedo", "mad hat", "mad cap", "peace sign beach"],
   },
+  {
+    id: "alon-crash-twins-alon",
+    url: "/lore/alon-crash-twins-alon.jpg",
+    caption: "the \"Alon and Crash were twins the whole time\" bit — the Alon side",
+    keywords: ["alon", "alon cohen", "alon crash", "crash alon", "twins theory", "alon and crash"],
+  },
+  {
+    id: "alon-crash-twins-crash",
+    url: "/lore/alon-crash-twins-crash.jpg",
+    caption: "the \"Alon and Crash were twins the whole time\" bit — the Crash side",
+    keywords: ["crashius clay", "alon crash", "crash alon", "twins theory", "alon and crash"],
+  },
+  {
+    id: "crash-trollface-mask",
+    url: "/lore/crash-trollface-mask.jpg",
+    caption: "\"CRASH IS A TROLL\" — the trollface mask over Crash's avatar",
+    keywords: ["crash is a troll", "trollshius clay", "crash troll mask", "crash trollface"],
+  },
 ];
 
 // Case-insensitive substring match against the user's message. First hit
