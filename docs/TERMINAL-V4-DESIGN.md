@@ -7,7 +7,7 @@
 ██╔══██║██╔══██╗██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝
 ██║  ██║██║  ██║╚██████╗██║  ██║██║ ╚████╔╝ ███████╗
 ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝
-   it knows forty-three things · you have opened six
+   it knows forty-four things · you have opened six
 ```
 
 Status: **DRAFT — awaiting sign-off.** Decisions already locked by the
@@ -94,6 +94,21 @@ production; §9 is verification work, not polish.
 None of this is the point of the doc, but it's all cheap and it clears the
 working tree so real phases start from a clean base.
 
+### 1.4 A lore-file bug found while building the archive
+
+`docs/TROLL-LORE.md` had **two sections both numbered `## 34.`** — "The
+DJ-booth piece" (killmigi's Art Basel commission) and "Troll summer." Every
+other `§34` reference in the file (there are a dozen, e.g. "§34 pairs with
+§33" in the persona-guidance section) unambiguously means the Troll summer
+section; the DJ-booth piece has zero incoming references by number anywhere.
+So the fix was surgical: **the DJ-booth piece is now `§44`**, physically
+still sited between §33 and §35 in the file, everything else untouched. A
+full renumber-to-keep-document-order sweep (shifting §35–43 up to §36–44
+and rewriting ~40 cross-references) was not worth the risk for a purely
+cosmetic gain — the archive UI sorts by number, not file position, so this
+is invisible to a user. **The real total is 44 sections, not 43** — every
+"forty-three" in this doc has been corrected to 44.
+
 ---
 
 ## 2. The through-line
@@ -110,8 +125,8 @@ terminal currently has a balance that only goes up and a board of five
 LOCKED items with `cost: null`. There is nothing to complete.
 
 v4's answer: the thing you are filling is **the terminal's own memory**.
-Forty-three files it half-remembers. You recover them by talking to it, or
-by spending what it paid you. The bar is `17 / 43 recovered`. That is the
+Forty-four files it half-remembers. You recover them by talking to it, or
+by spending what it paid you. The bar is `17 / 44 recovered`. That is the
 whole game, and everything else in this doc feeds it.
 
 Three supporting moves make the place feel alive rather than archival:
@@ -129,7 +144,7 @@ Every `## N.` section of `docs/TROLL-LORE.md` becomes a **file** in the
 terminal's memory. Two states, per user:
 
 ```
-╔═[ recovered memory · 6 / 43 ]════════════════════════════════════╗
+╔═[ recovered memory · 6 / 44 ]════════════════════════════════════╗
 ║  ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  14%                  ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║  ▣ 01  where the face came from                       [ OPEN ]   ║

@@ -6,6 +6,8 @@ import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
 import { OWNER_USERNAME } from "@/lib/admin";
 import { matchLoreAsset } from "@/lib/loreAssets";
+import { allSectionTitles, pickTopSection } from "@/lib/loreSections";
+import { isSeeded } from "@/lib/loreArchive";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -354,7 +356,6 @@ export async function POST(request: Request) {
     });
   }
 
-  const qualifying = message.length >= QUALIFYING_MIN_LENGTH;
   // Computed before the reply so the persona can be told an image is coming
   // — otherwise it has no idea lib/loreAssets.ts is about to attach one and
   // may flatly (and visibly, contradictorily) deny it can show pictures.
@@ -373,6 +374,17 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+
+  // Mining (and archive unlocks below) gate on whether the model itself
+  // read this as substance, not just length — see docs/TERMINAL-V4-DESIGN.md
+  // §3.5: "yeah i guess so" clears the old 12-character bar but is exactly
+  // the filler this was meant to catch. Fail-safe, not fail-punitive: if the
+  // tag is missing (model error, malformed tool call), fall back to the
+  // original length heuristic rather than assuming either value.
+  const qualifying =
+    generated.substance !== null
+      ? generated.substance === "substantive"
+      : message.length >= QUALIFYING_MIN_LENGTH;
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
   await recordSpend(supabase, estimatedCostUsd);
@@ -512,6 +524,37 @@ export async function POST(request: Request) {
     if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
   }
 
+  // Archive Path A (docs/TERMINAL-V4-DESIGN.md §3.2) — a qualifying reply
+  // unlocks, at most, the single lore section it was actually about. Never
+  // more than one per reply even though the model was fed up to four
+  // sections for context, so the archive fills at conversation pace, not
+  // instantly. Seeded sections are already open for everyone, so there's
+  // nothing to unlock there. Best-effort: a failure here should never
+  // break the reply the user is waiting on.
+  let archiveUnlock: { section: number; title: string } | null = null;
+  if (qualifying) {
+    try {
+      const section = pickTopSection(message);
+      if (section !== null && !isSeeded(section)) {
+        const { error: unlockError, data: unlockRow } = await supabase
+          .from("terminal_lore_unlocks")
+          .insert({ user_id: userId, section_number: section, source: "chat" })
+          .select("section_number")
+          .maybeSingle();
+        if (!unlockError && unlockRow) {
+          const title = allSectionTitles().find((s) => s.number === section)?.title;
+          if (title) archiveUnlock = { section, title };
+        } else if (unlockError && unlockError.code !== "23505") {
+          // 23505 = unique_violation — this section is already open for
+          // this user, not an error worth logging.
+          console.error("[chat] failed to unlock archive section:", unlockError.message);
+        }
+      }
+    } catch (err) {
+      console.error("[chat] archive unlock threw:", (err as Error).message);
+    }
+  }
+
   const { error: configError } = await supabase
     .from("terminal_config")
     .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
@@ -550,5 +593,6 @@ export async function POST(request: Request) {
     buddyBonus: walletError ? 0 : buddyBonus,
     walletSaved: !walletError,
     minted: walletError ? 0 : minted,
+    archiveUnlock,
   });
 }

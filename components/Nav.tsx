@@ -25,6 +25,9 @@ export default function Nav() {
         <Link href="/vault" className="hover:text-problem">
           [ vault ]
         </Link>
+        <Link href="/archive" className="hover:text-terminal">
+          [ archive ]
+        </Link>
         <Link href="/logs" className="hover:text-foreground">
           [ logs ]
         </Link>

@@ -100,16 +100,19 @@ const INTRO =
   "fall back to your established voice and identity instead of straining to " +
   "connect an unrelated section.\n\n";
 
-export function selectLoreSections(recentText: string, maxSections = 4): string {
+function scoreSections(recentText: string) {
   const queryWords = new Set(significantWords(recentText));
-
-  const scored = selectable
+  return selectable
     .map((s) => ({
       section: s,
       score: [...s.keywords].filter((k) => queryWords.has(k)).length,
     }))
     .filter((s) => s.score > 0)
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => b.score - a.score);
+}
+
+export function selectLoreSections(recentText: string, maxSections = 4): string {
+  const scored = scoreSections(recentText)
     .slice(0, maxSections)
     .map((s) => s.section);
 
@@ -122,4 +125,39 @@ export function selectLoreSections(recentText: string, maxSections = 4): string 
     "\n\n" +
     buildUsageGuidance(selectedNumbers)
   );
+}
+
+// Powers the archive's Path A (docs/TERMINAL-V4-DESIGN.md §3.2): the
+// single top-scoring section for this call, if any topped zero — the same
+// scoring selectLoreSections already runs, just returning an id instead of
+// a text block. Deliberately independent of maxSections/the 4-section cap
+// used for prompt context — the archive only ever unlocks one file per
+// qualifying reply regardless of how many sections got fed to the model.
+export function pickTopSection(recentText: string): number | null {
+  const top = scoreSections(recentText)[0];
+  return top?.section.number ?? null;
+}
+
+// The full manifest for /archive — every real, numbered section's title.
+// Excludes CORE_IDENTITY (section 1 is always seeded open, see
+// lib/loreArchive.ts) only in the sense that callers may special-case it;
+// it's included here since it's still a real, numbered section.
+export function allSectionTitles(): { number: number; title: string }[] {
+  return selectable
+    .map((s) => ({ number: s.number, title: s.title }))
+    .filter((s): s is { number: number; title: string } => s.number !== null)
+    .concat([{ number: CORE_IDENTITY.number as number, title: CORE_IDENTITY.title }])
+    .sort((a, b) => a.number - b.number);
+}
+
+// Plain text for the archive page — TROLL-LORE.md is authored as Markdown
+// (## headings, **bold**) for a human reader of the source file, but every
+// text surface in this app renders raw content with whitespace-pre-wrap,
+// no Markdown parser. Strips the heading (the archive UI shows its own
+// title separately) and unwraps **bold** so asterisks don't leak through.
+export function getArchiveSectionText(sectionNumber: number): string | null {
+  const match = SECTIONS.find((s) => s.number === sectionNumber);
+  if (!match) return null;
+  const withoutHeading = match.body.replace(/^##[^\n]*\n+/, "");
+  return withoutHeading.replace(/\*\*(.+?)\*\*/g, "$1").trim();
 }

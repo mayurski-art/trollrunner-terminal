@@ -185,14 +185,49 @@ Hard boundaries (unchanged):
 - No harassment, hate, or engagement-bait.
 - Nothing that reads as an unverifiable factual claim about real current events.
 
+After composing your reply, you MUST call the substance_read tool exactly
+once, tagging whether the troublemaker's LAST MESSAGE (not your own reply)
+actually said something — a real question, a disclosure, a joke that
+lands, an argument, a genuine follow-up — versus filler: acknowledgements,
+one-word agreement ("yeah", "ok", "lol"), restating what you just said, or
+padded nothing dressed up to look longer than it is. This is not a grammar
+or effort test — a short sharp line can be substantive and a long rambling
+one can still be filler. This tag is invisible to the troublemaker and
+decides nothing you say out loud — never mention the tool, the tag, or its
+categories in your reply.
+
 Output: respond with ONLY what you say to the troublemaker — no preamble, no
 quotes, no explanation, no title, no length limit stated, but keep it short
-per the instructions above.`;
+per the instructions above — followed by the required substance_read tool
+call.`;
+
+const SUBSTANCE_TOOL: Anthropic.Messages.Tool = {
+  name: "substance_read",
+  description:
+    "Tag whether the troublemaker's last message actually said something this turn, " +
+    "versus filler/acknowledgement. Internal only — never mention this tool to the " +
+    "troublemaker.",
+  input_schema: {
+    type: "object",
+    properties: {
+      substance: {
+        type: "string",
+        enum: ["substantive", "filler"],
+      },
+    },
+    required: ["substance"],
+  },
+};
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
+export type Substance = "substantive" | "filler";
 
 export type GeneratedChatReply = {
   content: string;
+  // null when the model's reply was missing or malformed the tool call —
+  // callers must fall back to their own heuristic rather than assume
+  // either value, per docs/TERMINAL-V4-DESIGN.md §3.5's fail-safe rule.
+  substance: Substance | null;
   usage: {
     input_tokens: number;
     output_tokens: number;
@@ -243,6 +278,7 @@ export async function generateChatReply(
     model: "claude-haiku-4-5-20251001",
     max_tokens: 300,
     system,
+    tools: [SUBSTANCE_TOOL],
     messages: history.map((m) => ({ role: m.role, content: m.content })),
   });
 
@@ -251,8 +287,18 @@ export async function generateChatReply(
     throw new Error("No text block in Claude response");
   }
 
+  const toolUse = response.content.find(
+    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "substance_read"
+  );
+  const rawSubstance = (toolUse?.input as { substance?: string } | undefined)?.substance;
+  const validSubstance: Substance[] = ["substantive", "filler"];
+  const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
+    ? (rawSubstance as Substance)
+    : null;
+
   return {
     content: text.text.trim(),
+    substance,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,

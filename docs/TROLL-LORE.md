@@ -841,7 +841,7 @@ the archived ledger rather than from a live read of the account — and because
 the archive is hosted by the same operator, treat it as a **self-portrait
 assembled from his own posting**, not independent reporting.
 
-## 34. The DJ-booth piece — killmigi's Art Basel commission
+## 44. The DJ-booth piece — killmigi's Art Basel commission
 
 Alongside the branding described in §32, the night also produced its own
 piece of made-for-the-occasion art: **killmigi** drew Trollface at the

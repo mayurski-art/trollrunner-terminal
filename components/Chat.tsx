@@ -52,6 +52,7 @@ export default function Chat() {
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [buddyToast, setBuddyToast] = useState<string | null>(null);
+  const [archiveToast, setArchiveToast] = useState<string | null>(null);
   // content -> memory id, so the button can double as remember/forget and
   // survive a page reload showing which lines are already pinned.
   const [memories, setMemories] = useState<Map<string, string>>(new Map());
@@ -205,6 +206,12 @@ export default function Chat() {
         );
         setTimeout(() => setBuddyToast(null), 5000);
       }
+      if (data.archiveUnlock) {
+        setArchiveToast(
+          `file ${String(data.archiveUnlock.section).padStart(2, "0")} recovered · ${data.archiveUnlock.title}`
+        );
+        setTimeout(() => setArchiveToast(null), 6000);
+      }
     } catch {
       setError("connection to the terminal was lost");
     } finally {
@@ -326,6 +333,11 @@ export default function Chat() {
       {buddyToast && (
         <p className="mb-2 text-xs text-problem" role="status">
           [ {buddyToast} ]
+        </p>
+      )}
+      {archiveToast && (
+        <p className="mb-2 text-xs text-terminal" role="status">
+          [ ▣ {archiveToast} ]
         </p>
       )}
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 mb-3 max-h-[32rem] pr-1">
