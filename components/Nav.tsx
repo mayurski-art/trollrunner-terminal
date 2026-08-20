@@ -32,6 +32,11 @@ export default function Nav() {
           [ undervoice ]
         </Link>
         {isOwner && (
+          <Link href="/transmit" className="hover:text-problem">
+            [ transmit ]
+          </Link>
+        )}
+        {isOwner && (
           <Link href="/inspect" className="hover:text-problem">
             [ inspect ]
           </Link>
