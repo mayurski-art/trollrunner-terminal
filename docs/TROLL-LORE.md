@@ -1223,6 +1223,183 @@ caveat, same as §30/§32/§34: the live X profile isn't readable by web
 tools, so this section leans on the archived/linked post and the source's
 own account of the day.
 
+## 42. Crash turns down Pump.fun, then tells the community it's on them
+
+Four posts from **Crash** (`@CrashiusClay69`, §39), running from
+**July 5, 2026** to **August 16, 2026**, on the same throughline — he
+doesn't run tribute-coin/affiliate money the sloppy way everyone else does,
+he isn't for sale, and what happens next is on the communities themselves,
+not on him.
+
+The earliest is a rant from **July 5, 2026**, aimed at people launching
+tribute coins off his name without thinking it through:
+
+> "If yall are gonna launch these shitcoins of me
+>
+> First off, the real tribute coin was made on Base
+>
+> If anyone deserves to be airdropped and prioritized its the OG holders
+> from Base
+>
+> The fact you dont think about that or realize that shows, youre grifters
+>
+> Secondly
+>
+> 20-65% of supply of a shitcoin
+>
+> Is still basically zero
+>
+> None of you do this right
+>
+> If i was to do it, i could do it way better
+>
+> But its better to simply focus on the memes that are going to 5B+ market
+> cap
+>
+> You have the most obvious memecoin trio for the next cycle where each
+> does 100x+ from todays price
+>
+> And yall wanna fuck around and do shit poorly
+>
+> Thats why yall are gonna fuck this cycle up"
+
+Six weeks later, on **August 16, 2026**, three more posts land in the same
+vein — refusing to trade his independence for a payout, handing the
+responsibility for what happens next back to the communities themselves,
+and being upfront about how he'll treat coins that show up uninvited.
+
+The first of the three is a direct denial of an affiliate deal:
+
+> "I did not accept any deal with Pumpfun
+>
+> But I'm thinking to setup wallet and profile shortly
+>
+> I told Alon I don't want a penny.
+>
+> I know i can do more than 100 kols combined for FREE
+>
+> Bc I play this shit differently.
+>
+> I've already made it
+>
+> And im not here to give up my freedom or post for anyone
+>
+> Skill pays more than promotion
+>
+> I can show you once again on my own schedule and timing."
+
+("Alon" is Alon Cohen, Pump.fun's co-founder.) The second, posted the same
+day, reframes what he's willing to do instead — amplify, not carry:
+
+> "We can really send some shit
+>
+> Back to back to back
+>
+> It's up to you guys tho
+>
+> I'm watching, seeing if the pieces fall into place and the communities do
+> their part
+>
+> I'll do mine
+>
+> I can amplify what is there
+>
+> If you guys are there and crazy, we can go far
+>
+> If you guys are there with 1 toe in the water, I'm only 1 toe in as well
+>
+> Do your part and ill amplify the result"
+
+The third is a direct-address warning to anyone hoping to get a free ride
+off his following:
+
+> "I'm letting you know now
+>
+> If yall try to spam me with your shitcoins to my pumpfun
+>
+> Chances are I will dump ur shitters
+>
+> To focus on the good ones
+>
+> less distractions and more focus"
+
+Read together, the four posts make one point from different angles across
+six weeks: back in July, his objection to other people's tribute-coin
+launches wasn't "don't do this," it was "you're doing it lazily and
+disrespecting the OG Base holders who actually deserve the airdrop" — a
+specific, structural complaint, not a vague put-down. In August, he turned
+down a reported $30,000 offer to be a Pump.fun affiliate specifically to
+keep his "do this because it works, not because I'm paid to" credibility
+intact; he's explicit that amplification only works if the community's own
+work is already there to amplify — he's "1 toe in" if they're "1 toe in";
+and on the specific "is Crash a scammer" accusation that circulates about
+meme-coin callers generally, the third August post is the relevant
+counter-fact — he isn't quietly dumping tokens he called, he's publicly
+pre-announcing that he'll dump coins spammed at his Pump.fun wallet
+uninvited, in the same breath as launching that wallet. Whether "he told
+you in advance he'd do it" settles the "troll or scammer" question is a
+real, open discussion — the persona can raise it as a question worth
+sitting with rather than a verdict it hands down.
+
+**Sources:** the July 5, 2026 post is at
+[x.com/CrashiusClay69/status/2073831783934914578](https://x.com/CrashiusClay69/status/2073831783934914578);
+the three August 16, 2026 posts are at
+[x.com/CrashiusClay69/status/2089085877700149333](https://x.com/CrashiusClay69/status/2089085877700149333),
+[x.com/CrashiusClay69/status/2089101760384110656](https://x.com/CrashiusClay69/status/2089101760384110656),
+and
+[x.com/CrashiusClay69/status/2089105569751638042](https://x.com/CrashiusClay69/status/2089105569751638042).
+All four are quoted directly from user-provided text. The $30,000 Pump.fun
+offer figure and "Alon" as Alon Cohen were given by the user in
+conversation; neither is independently verified against a third source the
+way §39's Contessoto figures are, so treat the dollar amount as the user's
+own account rather than confirmed reporting. Standard caveat, same as §39:
+the live X profile isn't readable by web tools, so this section leans on
+the post text and timestamps as supplied rather than a direct fetch.
+
+## 43. The Alon/Crash twins bit
+
+A running joke Crash (`@CrashiusClay69`, §39, §42) has posted more than
+once: that he and Alon Cohen (Pump.fun's co-founder, §42) are secretly the
+same person, or twins, or in on something bigger together than anyone
+suspects.
+
+The clearest version of the bit is a post with no fixed date given here:
+
+> "What if
+>
+> Alon and me were twins the whole time and cooked up something bigger than
+> anyone was expecting
+>
+> Imagine…"
+
+A separate post pairs two side-by-side avatar-style images: one figure in
+a yellow Gadsden-flag ("DON'T TREAD ON ME") bandana, round white sunglasses,
+and a "STOP BEING POOR" shirt, poolside; the other a pink-skinned,
+devil-horned figure in a yellow shirt with a small yellow duck beside her,
+set against a dark forest backdrop. Whatever the two are meant to represent,
+the pairing is doing the same "twins" bit visually that the tweet does in
+text.
+
+A follow-up post — captioned by the user simply "CRASH IS A TROLL" — takes
+the pink devil-horned figure from that pairing and puts an actual trollface
+mask over her face: same devil horns, same yellow shirt, same forest
+backdrop, but the face is now the trollface grin itself. It's a literal
+punchline on "Crash is a troll" — not the accusation-of-scamming sense the
+word carries in §42's discussion, but the mask-on-the-face sense — and a
+neat visual bridge between the "twins" bit and the entity's own face
+showing up in someone else's meme, the same pattern §37 (Limp Bizkit) and
+§38 (Beeple) log elsewhere in this file.
+
+**Sources:** the "twins" post and the paired-avatars post are at
+[x.com/CrashiusClay69/status/2089153156764578220](https://x.com/CrashiusClay69/status/2089153156764578220);
+the trollface-mask image is at
+[x.com/CrashiusClay69/status/2090212606850052241](https://x.com/CrashiusClay69/status/2090212606850052241).
+No date was given for either post in the material provided; both postdate
+the August 16, 2026 posts in §42 based on status-ID ordering, but that's an
+inference, not a confirmed timestamp. Nothing here should be read as
+confirming any real-world relationship between Crash and Alon Cohen — this
+is presented, and should be treated, purely as a bit.
+
 ---
 
 ## How the persona should use this
@@ -1516,6 +1693,38 @@ own account of the day.
   Goatfarm collab (§31, §5) — that's a separate, larger catalog — and
   should not speculate about sales figures or restocks beyond what's
   written here.
+- §42 is good material for the persona's stance on bagwork not depending on
+  any one influential person — Crash turning down a reported payout to stay
+  unaffiliated, then telling his own audience the outcome is theirs to
+  earn ("do your part and ill amplify the result"), is a real-world echo of
+  a point the persona can make in its own voice: belief and effort from the
+  community are the load-bearing thing, not a KOL's endorsement. It should
+  never imply Crash is officially tied to $TROLL, never state the $30,000
+  Pump.fun figure as independently confirmed rather than as reported, and
+  never use this section to shill — the point is "do the work because you
+  believe it," not "so line goes up." The third quote ("I will dump ur
+  shitters") is also good material for a genuine open question — some
+  people call Crash a troll or a scammer, and the persona can point out that
+  he said this part out loud, in advance, rather than doing it quietly, and
+  ask the troublemaker what they make of that, instead of declaring him
+  either innocent or guilty itself. It should never flatly call him a
+  scammer or flatly vouch for him as trustworthy — the honest position is
+  "here's what he actually said, you decide," not a verdict. The July 5
+  tribute-coin rant is good supporting material for the same open
+  question — his complaint about other people's tribute-coin launches was
+  specific (sloppy execution, OG Base holders getting skipped), not "don't
+  make money off my name at all," which is worth noting if a troublemaker
+  assumes he's just anti-monetization on principle.
+- §43 is a bit, not lore to be stated as fact — the persona can play along
+  with "what if Alon and Crash are twins" the same knowing, unserious way
+  it treats any running joke, but it should never imply this is true, never
+  speculate about Alon Cohen's real identity or life beyond what's public
+  (Pump.fun co-founder), and never bring it up unprompted — only when a
+  troublemaker is already talking about Alon or Crash in a context where
+  the bit actually lands. The trollface-mask image is fair game any time
+  the conversation turns to the entity's face turning up somewhere
+  unexpected (see §37, §38's note) — it can be a little pleased about that
+  without overselling what it means.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
