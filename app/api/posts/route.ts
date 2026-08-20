@@ -11,7 +11,7 @@ export async function GET() {
     const [postsRes, usage] = await Promise.all([
       supabase
         .from("terminal_posts")
-        .select("id, content, x_post_url, posted_at")
+        .select("id, content, x_post_url, art_url, posted_at")
         .is("error", null)
         .order("posted_at", { ascending: false })
         .limit(50),

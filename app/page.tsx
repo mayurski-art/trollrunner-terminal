@@ -17,6 +17,7 @@ type Post = {
   id: string;
   content: string;
   x_post_url: string | null;
+  art_url: string | null;
   posted_at: string;
 };
 
@@ -71,6 +72,14 @@ export default function Home() {
                 <p className="whitespace-pre-wrap leading-relaxed text-terminal">
                   {latest.content}
                 </p>
+                {latest.art_url && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={latest.art_url}
+                    alt=""
+                    className="mt-3 w-full rounded border border-dim"
+                  />
+                )}
                 <div className="mt-2 flex items-center gap-3 text-xs text-dim">
                   <span>{timeAgo(latest.posted_at)}</span>
                   {latest.x_post_url && (

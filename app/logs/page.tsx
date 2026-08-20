@@ -11,6 +11,7 @@ type Post = {
   id: string;
   content: string;
   x_post_url: string | null;
+  art_url: string | null;
   posted_at: string;
 };
 
@@ -102,6 +103,14 @@ export default function LogsPage() {
                       <p className="whitespace-pre-wrap leading-relaxed text-terminal">
                         {post.content}
                       </p>
+                      {post.art_url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={post.art_url}
+                          alt=""
+                          className="mt-3 w-full max-w-md rounded border border-dim"
+                        />
+                      )}
                       <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
                         <span>{timeAgo(post.posted_at)}</span>
                         {kind !== "unmarked" && (

@@ -39,3 +39,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw lore media sources — the served copies live in Supabase Storage
+# (see lib/loreAssets.ts), so these originals are inputs, not assets.
+docs/*.mp4
+docs/*.mov
+docs/*.webm
+docs/*.gif
+docs/desktop.ini
+
+# Scratch output from optimize-gif.mjs
+public/faces/tmp-*.gif
+
+# Supabase CLI local link state
+supabase/.temp/
+
+# Stray scratchpad dir accidentally created inside the repo by a past session
+UsersmayurAppDataLocalTemp*/
