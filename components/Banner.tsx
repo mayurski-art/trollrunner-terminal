@@ -42,10 +42,14 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
       // scale-invariant, so it converges in one step instead of drifting.
       const currentFontPx = parseFloat(getComputedStyle(pre).fontSize) || BASE_FONT_PX;
       const rawSize = currentFontPx * (availableWidth / currentWidth);
-      setFontSize((prev) => {
-        const next = Math.max(MIN_FONT_PX, Math.min(BASE_FONT_PX, rawSize));
-        return Math.abs(next - prev) < 0.25 ? prev : next;
-      });
+      // Box-drawing glyphs (█ ╗ ╝ ═ ║) only tile seam-free when every glyph
+      // hints to the same integer pixel grid. A fractional font-size makes
+      // adjacent glyphs hint slightly differently, and each OS's subpixel
+      // antialiasing renders that misalignment as red/cyan fringing at the
+      // seams — differently per device. Rounding to a whole pixel keeps the
+      // grid aligned everywhere.
+      const next = Math.round(Math.max(MIN_FONT_PX, Math.min(BASE_FONT_PX, rawSize)));
+      setFontSize((prev) => (next === prev ? prev : next));
     }
 
     recalc();

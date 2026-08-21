@@ -72,6 +72,21 @@ main {
   font-size: 1.375rem;
   font-weight: 500;
   display: inline-block;
+  /* Box-drawing glyphs (█ ╗ ╝ ═ ║) need to butt seamlessly against each
+     other. Subpixel (ClearType-style) antialiasing renders any hinting
+     mismatch between adjacent glyphs as red/cyan fringing at the seams;
+     grayscale antialiasing can't produce that fringing. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* -webkit-font-smoothing is largely ignored by Chromium on Windows —
+     text there still goes through ClearType's subpixel (LCD) antialiasing,
+     which is what actually produces the red/cyan fringing on the seams
+     between adjacent box-drawing glyphs. Promoting the element to its own
+     GPU-composited layer makes Chromium fall back to grayscale AA instead,
+     which can't fringe. */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .ascii-banner--alert {
