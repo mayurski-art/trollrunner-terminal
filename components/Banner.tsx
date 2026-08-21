@@ -53,6 +53,10 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
     }
 
     recalc();
+    // The self-hosted banner font loads with font-display: swap, so the
+    // first recalc can run against a fallback font's metrics before the
+    // real one swaps in — re-measure once it's actually ready.
+    document.fonts?.ready.then(recalc);
     const ro = new ResizeObserver(recalc);
     ro.observe(wrapper);
     return () => ro.disconnect();

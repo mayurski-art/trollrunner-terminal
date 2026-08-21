@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* JetBrains Mono as served by Google Fonts (and thus by next/font/google,
+   which just wraps that same distribution) is subsetted per-language and
+   drops the box-drawing / block-element glyphs (U+2500-259F) our FIGlet
+   banners are built from entirely. Every banner character was silently
+   falling back through `ui-monospace, monospace` to whatever generic
+   monospace font each device/browser substitutes — inconsistently, since
+   that fallback differs per OS — which is what made the banners render as
+   an illegible, misaligned mess everywhere. Self-hosting the upstream
+   JetBrains Mono file (which does ship full box-drawing coverage) for just
+   the banners fixes that at the source. */
+@font-face {
+  font-family: "JetBrains Mono Banner";
+  src: url("/fonts/JetBrainsMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
 /* Monochrome terminal + red/yellow accent system. Every color means exactly
    one thing — see docs/TERMINAL-V2-DESIGN.md §3. Do not add a new hue
    without updating that doc. */
@@ -71,20 +88,11 @@ main {
   line-height: 1.1;
   font-size: 1.375rem;
   font-weight: 500;
+  font-family: "JetBrains Mono Banner", monospace;
   display: inline-block;
-  /* Box-drawing glyphs (█ ╗ ╝ ═ ║) need to butt seamlessly against each
-     other. Subpixel (ClearType-style) antialiasing renders any hinting
-     mismatch between adjacent glyphs as red/cyan fringing at the seams;
-     grayscale antialiasing can't produce that fringing. */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* -webkit-font-smoothing is largely ignored by Chromium on Windows —
-     text there still goes through ClearType's subpixel (LCD) antialiasing,
-     which is what actually produces the red/cyan fringing on the seams
-     between adjacent box-drawing glyphs. Promoting the element to its own
-     GPU-composited layer makes Chromium fall back to grayscale AA instead,
-     which can't fringe. */
   transform: translateZ(0);
   will-change: transform;
 }
