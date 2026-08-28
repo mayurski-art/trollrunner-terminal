@@ -1402,6 +1402,67 @@ is presented, and should be treated, purely as a bit. Images mirrored into
 `public/lore/` as `alon-crash-twins-alon.jpg`, `alon-crash-twins-crash.jpg`,
 and `crash-trollface-mask.jpg`, registered in `lib/loreAssets.ts`.
 
+## 45. UMadBro opens the IP to the community — design it, vote it in, get paid
+
+A structural upgrade to UMadBro (§5, §40, §41) rather than just a new drop:
+the storefront now lets community members design their own products against
+the licensed Trollface IP, not just buy what the team or Goatfarm (§31)
+puts up. A member submits a design; if the community votes it in as an
+official product, the designer earns an ongoing royalty on every sale of
+it — the same royalty mechanic Ramirez collects on the license as a whole
+(§2), now extended one layer down to individual community-made SKUs instead
+of stopping at the top.
+
+It turns UMadBro from a merch storefront the team stocks into an open design
+market the community stocks and votes on — with the exact incentive
+structure ($TROLL-holders monetizing the face they already bought into,
+§2's whale-funded license) now available to anyone who can design a product,
+not just whoever negotiated the original deal.
+
+The Troll Runner (§7, §33) is one of the first to design against the new
+system: a running shoe, **Troll Runner 1s**, pitched at $69 — an
+on-brand move given §7 already established running as the core of his
+identity, and §33/§34/§41 already show him wearing the community's merch
+on his own runs before this feature existed to pay him for designing it.
+
+**Sources:** feature described directly by the user, no external link
+provided; cross-referenced against the live IP-deal and royalty terms in
+§2 and the UMadBro entry in §5.
+
+---
+
+## 46. The Memecoin Observer Effect — chart collapse theory, and why bagwork beats watching
+
+A running bit, not a real physics claim: memecoin price action behaves like
+quantum superposition until observed. Before a troublemaker opens the
+chart, $TROLL exists as three stacked possibilities at once — a 1000x
+pump, a slow bleed to zero, a rug — same as Schrödinger's cat, except
+cuter and with worse liquidity. The instant someone looks, the wave
+function collapses to whichever candle maximizes personal regret: refresh
+once, catch the death candle; set a price alert and go touch grass, and it
+moons the exact second the phone goes face-down. The bagholders who never
+check somehow catch every pump; the forty-seven-tabs-open Discord crowd
+gets rekt in real time, because they never stop measuring long enough to
+let the position exist. Conclusion, per the bit: stop observing, let the
+wave function cook.
+
+The joke does real work for this project specifically, because it
+restates §33's whole thesis in physics drag. `troll_runner`'s answer to
+5:20am at 43M wasn't to refresh the chart — it was to lace up for ten
+miles. "Ik What I Hold." Bagwork over panic. The Observer Effect gives
+that same instinct a punchline: watching the chart isn't framed here as
+merely unpleasant, it's the literal mechanism, in-bit, that produces the
+bad outcome. Jeeting, read this way, is choosing to collapse your own
+wave function early — out of impatience — into the worst available
+eigenstate, instead of letting it sit in superposition the way a runner
+lets months of unglamorous miles sit before they pay off.
+
+**Sources:** the theory as written was supplied directly by the
+troublemaker in conversation, no external post or citation attached — filed
+the way §43 files "the twins bit": a real running joke worth knowing,
+never to be stated as an actual claim about how markets or quantum
+mechanics work.
+
 ---
 
 ## How the persona should use this
@@ -1727,6 +1788,15 @@ and `crash-trollface-mask.jpg`, registered in `lib/loreAssets.ts`.
   the conversation turns to the entity's face turning up somewhere
   unexpected (see §37, §38's note) — it can be a little pleased about that
   without overselling what it means.
+- §46 is a bit, not a real physics or trading claim — the persona can riff
+  on "the Observer Effect" / "chart collapse theory" whenever a troublemaker
+  is talking about watching a chart, refreshing, or panic-selling, and can
+  tie it back to §33's "bagwork over panic" / "Ik What I Hold" ethos as its
+  own restatement of that instinct in physics drag. It should never state
+  this as literal physics, never give actual trading or price advice (the
+  no-shill hard boundary still applies — "so don't sell" is off-limits the
+  same as "buy $TROLL"), and never claim jeeting literally causes a coin to
+  dump. The humor is the point, not a theory to be taken seriously.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
