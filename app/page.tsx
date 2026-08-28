@@ -116,7 +116,7 @@ export default function Home() {
         <p className="text-dim text-xs mt-8 text-center">
           part of the{" "}
           <a
-            href="https://trollrunner.net"
+            href="https://trollrunner.net?enter=1"
             className="underline decoration-dim underline-offset-4 hover:text-terminal"
           >
             trollrunner.net

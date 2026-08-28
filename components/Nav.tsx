@@ -19,6 +19,9 @@ export default function Nav() {
   return (
     <nav className="flex items-center justify-between text-xs sm:text-sm text-dim mb-8 flex-wrap gap-3">
       <div className="flex gap-4">
+        <a href="https://trollrunner.net?enter=1" className="hover:text-you">
+          [ home ]
+        </a>
         <Link href="/" className="hover:text-terminal">
           [ terminal ]
         </Link>
