@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
 import { isSeeded, sectionDepth } from "@/lib/loreArchive";
+import { findLoreImagesForText } from "@/lib/loreAssets";
 
 export const runtime = "nodejs";
 
@@ -55,12 +56,14 @@ export async function GET(request: Request) {
   const files = allSectionTitles().map(({ number, title }) => {
     const depth = sectionDepth(number);
     const open = isSeeded(number) || unlockedSet.has(number);
+    const body = open ? getArchiveSectionText(number) : null;
     return {
       number,
       title: open || depth === 1 ? title : "??",
       depth,
       state: open ? ("open" as const) : ("sealed" as const),
-      body: open ? getArchiveSectionText(number) : null,
+      body,
+      images: body ? findLoreImagesForText(body) : [],
       cost: open ? null : depth === 2 ? config?.archive_deep_unlock_cost ?? 3 : config?.archive_unlock_cost ?? 1,
     };
   });
@@ -163,6 +166,7 @@ export async function POST(request: Request) {
     section,
     title,
     body: text,
+    images: findLoreImagesForText(text),
     balance: persistedWallet.balance,
   });
 }

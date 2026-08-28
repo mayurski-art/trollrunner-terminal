@@ -280,3 +280,22 @@ export function matchLoreAsset(message: string): LoreAsset | null {
   }
   return null;
 }
+
+// Powers the archive's inline pictures (docs/TERMINAL-V4-DESIGN.md §3.1) —
+// a section's full body usually mentions more than one asset's keywords, so
+// unlike matchLoreAsset this scores every asset by keyword-hit count and
+// returns the top few, images only. A section with no keyword overlap at
+// all (most of them — the library only covers a handful of real-world
+// events) returns an empty array, which is the common case.
+export function findLoreImagesForText(text: string, max = 2): LoreAsset[] {
+  const normalized = text.toLowerCase();
+  return LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url))
+    .map((asset) => ({
+      asset,
+      score: asset.keywords.filter((k) => normalized.includes(k)).length,
+    }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, max)
+    .map(({ asset }) => asset);
+}

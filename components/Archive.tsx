@@ -5,12 +5,15 @@ import { getPublicClient } from "@/lib/supabase";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
 
+type LoreImage = { id: string; url: string; caption: string };
+
 type File = {
   number: number;
   title: string;
   depth: 1 | 2;
   state: "open" | "sealed";
   body: string | null;
+  images: LoreImage[];
   cost: number | null;
 };
 
@@ -85,7 +88,7 @@ export default function Archive() {
       setFiles((prev) =>
         prev.map((f) =>
           f.number === number
-            ? { ...f, state: "open", title: body.title, body: body.body, cost: null }
+            ? { ...f, state: "open", title: body.title, body: body.body, images: body.images ?? [], cost: null }
             : f
         )
       );
@@ -154,6 +157,21 @@ export default function Archive() {
             {file.state === "open" && openNumber === file.number && file.body && (
               <Frame tone="terminal" className="mt-2">
                 <p className="whitespace-pre-wrap leading-relaxed text-sm">{file.body}</p>
+                {file.images.length > 0 && (
+                  <div className="mt-4 space-y-3">
+                    {file.images.map((img) => (
+                      <figure key={img.id}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={img.url}
+                          alt={img.caption}
+                          className="max-w-full border border-dim/40"
+                        />
+                        <figcaption className="text-dim text-xs mt-1">{img.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
               </Frame>
             )}
           </div>

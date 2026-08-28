@@ -10,8 +10,10 @@
    it knows forty-four things · you have opened six
 ```
 
-Status: **DRAFT — awaiting sign-off.** Decisions already locked by the
-2026-08-20 interview are marked LOCKED; open questions are collected in §11.
+Status: **P0/P1/P4 shipped (2026-08-26)** — plumbing, the lore archive
+(including inline images, added 2026-08-28), and one-tap X posting. P2/P3/P5/
+P6/P7 not yet built. Decisions locked by the 2026-08-20 interview are marked
+LOCKED; remaining open questions are in §11.
 
 Prior docs: [`TERMINAL-V2-DESIGN.md`](TERMINAL-V2-DESIGN.md) (chat + PROBLEMS
 economy), [`TERMINAL-V3-DESIGN.md`](TERMINAL-V3-DESIGN.md) (the Undervoice).
@@ -522,26 +524,33 @@ because everything else is invisible while the entity is off.
 - ~~**Should the qualifying bar be more than length?**~~ → **Yes** — the
   `substance_read` gate, specified in §3.5 and moved into P1.
 
+### Resolved 2026-08-26 (shipped in P1)
+
+- ~~**Archive unlock cost**~~ → shipped as **1 PROBLEM standard / 3 deep**
+  (`archive_unlock_cost` / `archive_deep_unlock_cost`).
+- ~~**Which sections are `depth: 2`**~~ → shipped exactly as proposed: §13
+  Trollge, §25 Bitcoin colours, §26 the goat, §33 The Troll Runner, §42
+  Crash (`lib/loreArchive.ts`).
+- ~~**Chat unlocks — one per reply or per conversation?**~~ → shipped as
+  **one per qualifying reply**, gated by the §3.5 `substance_read` check.
+
+### Resolved 2026-08-28
+
+- ~~**Power meter — public, or owner-only?**~~ → **Owner-only**, gated to
+  the `troll_runner` account, surfaced inside `[ inspect ]` rather than as
+  its own public page. Revisit if P3 ships and the calculus changes.
+- **Archive inline images** — shipped ahead of P2/P3: `/api/archive` now
+  matches each opened section's body against `lib/loreAssets.ts` keywords
+  (`findLoreImagesForText`) and returns up to 2 relevant images (not
+  videos), rendered inline under the section text in `components/Archive.tsx`.
+  Zero marginal cost — pure keyword match, no model call. Most sections have
+  no matching asset and render text-only, which is expected and fine.
+
 ### Still open
 
-1. **Archive unlock cost** — 1 PROBLEM standard / 3 deep, now that the live
-   economy turns out to hold 7 PROBLEMS total? Or keep it dearer and accept
-   that nobody can afford it until they've chatted a lot more?
-2. **Which sections are `depth: 2`** (redacted title until opened)? My pick,
-   revised now that §33 is confirmed public: §13 Trollge, §25 Bitcoin
-   colours, §26 the goat, §33 The Troll Runner, §42 Crash. §33 being the
-   deepest *and* public is a good combination — it's the one file that
-   rewards a troublemaker for going all the way in.
-3. **Chat unlocks — one per reply, or one per *conversation*?** One per
-   reply fills 43 files in ~43 exchanges, which may be too fast for the
-   only sink in the economy. The §3.5 gate makes this less urgent, since
-   filler no longer counts as a reply at all.
-4. **Wall framing** — anonymous fragments only, or fragment plus the
+1. **Wall framing** (P6) — anonymous fragments only, or fragment plus the
    terminal's one-line reaction to it? The second is more content but costs
-   an API call per pin.
-5. **Power meter — public, or owner-only?** Public is the whole point, but
-   it does broadcast "this thing has a budget" to anyone who looks. Less
-   pressing while the terminal is paused.
+   an API call per pin. Not pressing until P6 is scheduled.
 
 ---
 
