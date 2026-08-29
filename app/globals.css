@@ -283,8 +283,11 @@ main {
 .frame-trace-border::before {
   content: "";
   position: absolute;
-  inset: -3px;
-  border: 5px solid transparent;
+  /* Sits mostly OUTSIDE the panel: pushing the ring outward keeps the
+     bloom from spilling inward over the content that hugs the panel edge
+     (the chat input row is flush against the bottom padding). */
+  inset: -5px;
+  border: 4px solid transparent;
   border-radius: inherit;
   background: conic-gradient(
       from var(--trace-angle, 0deg),

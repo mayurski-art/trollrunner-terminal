@@ -432,7 +432,10 @@ export default function Chat() {
         {busy && <p className="text-dim text-sm animate-pulse">terminal&gt; ...</p>}
       </div>
       {error && <p className="text-alert text-xs mb-2">[ {error} ]</p>}
-      <form onSubmit={send} className="flex gap-2">
+      {/* shrink-0 keeps the input row from being squeezed by the flex
+          column when the panel is height-locked (lg only); the lg:mb-1
+          keeps its border off the panel's own glowing border. */}
+      <form onSubmit={send} className="flex gap-2 shrink-0 lg:mt-1 lg:mb-1">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
