@@ -6,6 +6,7 @@ type FrameProps = {
   variant?: "double" | "single";
   tone?: "dim" | "terminal" | "problem" | "alert";
   className?: string;
+  bodyClassName?: string;
 };
 
 const TONE_COLOR: Record<NonNullable<FrameProps["tone"]>, string> = {
@@ -25,6 +26,7 @@ export default function Frame({
   variant = "single",
   tone = "dim",
   className = "",
+  bodyClassName = "",
 }: FrameProps) {
   const borderStyle = variant === "double" ? "border-double" : "border-solid";
   const borderWidth = variant === "double" ? "border-[6px]" : "border";
@@ -40,7 +42,7 @@ export default function Frame({
           [ {title} ]
         </span>
       )}
-      <div className="p-4 sm:p-5">{children}</div>
+      <div className={`p-4 sm:p-5 ${bodyClassName}`}>{children}</div>
     </div>
   );
 }

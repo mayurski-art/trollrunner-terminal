@@ -293,7 +293,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col flex-1 min-h-0 lg:h-full">
       <div className="mb-2 flex items-center justify-between gap-3">
         <Meter
           fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
@@ -360,7 +360,7 @@ export default function Chat() {
       )}
       <div
         ref={scrollRef}
-        className="chat-scroll flex-1 overflow-y-auto space-y-3 mb-3 max-h-[32rem] pr-1"
+        className="chat-scroll flex-1 min-h-0 overflow-y-auto space-y-3 mb-3 pr-1"
       >
         {messages.length === 0 && (
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>

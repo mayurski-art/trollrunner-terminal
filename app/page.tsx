@@ -65,7 +65,12 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
-          <Frame title="latest transmission" tone="terminal" className="order-2 lg:order-none lg:w-1/3">
+          <Frame
+            title="latest transmission"
+            tone="terminal"
+            className="order-2 lg:order-none lg:w-1/3 lg:h-[34rem]"
+            bodyClassName="chat-scroll lg:h-full lg:overflow-y-auto"
+          >
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
@@ -102,7 +107,12 @@ export default function Home() {
             )}
           </Frame>
 
-          <Frame title="speak to it" tone="dim" className="order-1 lg:order-none lg:w-2/3">
+          <Frame
+            title="speak to it"
+            tone="dim"
+            className="order-1 lg:order-none lg:w-2/3 lg:h-[34rem]"
+            bodyClassName="flex flex-col lg:h-full"
+          >
             <MiniConnector />
             {session ? (
               <Chat />

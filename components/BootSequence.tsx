@@ -16,9 +16,10 @@ const FADE_MS = 350;
 // (components/BootConnector.tsx — carlos, umadbro.shop, NFT, crypto, all
 // converging on the trolltruths hub) zooming through its own center into
 // the site underneath, which has been mounted the whole time behind this
-// fixed overlay. Skippable via any click/keypress. Client-side navigation
-// between pages does NOT remount this (the root layout stays mounted
-// across routes), so it only replays on an actual reload.
+// fixed overlay. Not user-skippable — it always plays out in full.
+// Client-side navigation between pages does NOT remount this (the root
+// layout stays mounted across routes), so it only replays on an actual
+// reload.
 export default function BootSequence() {
   const [visible, setVisible] = useState(false);
   const [shownCount, setShownCount] = useState(0);
@@ -56,17 +57,6 @@ export default function BootSequence() {
     new Image().src = "/boot/troll-nft.jpg";
     new Image().src = "/boot/troll-crypto.jpg";
     new Image().src = "/boot/trollface-grin.svg";
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) return;
-    const skip = () => setVisible(false);
-    window.addEventListener("keydown", skip, { once: true });
-    window.addEventListener("click", skip, { once: true });
-    return () => {
-      window.removeEventListener("keydown", skip);
-      window.removeEventListener("click", skip);
-    };
   }, [visible]);
 
   // The payoff: zoom the whole overlay through the exact point the
