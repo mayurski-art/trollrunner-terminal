@@ -664,7 +664,9 @@ hanging in public that week.
 [status/2067038173302067454](https://x.com/krypto2009/status/2067038173302067454) (NBA Finals banner, NYC) ·
 [status/2064500826853232971](https://x.com/krypto2009/status/2064500826853232971) (Diawara poster).
 Not independently verifiable via public web search — X posts aren't
-crawlable by standard web tools.
+crawlable by standard web tools. Images mirrored into `public/lore/` as
+`krypto2009.png` and `krypto2009-mask-worn.jpg`, registered in
+`lib/loreAssets.ts`.
 
 ## 31. GOATFARM — the merch line wearing the license in public
 

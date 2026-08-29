@@ -2,16 +2,9 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
 import { isSeeded, sectionDepth } from "@/lib/loreArchive";
-import { findLoreImagesForText } from "@/lib/loreAssets";
+import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
 
 export const runtime = "nodejs";
-
-// findLoreImagesForText defaults to 2 — the right number for a chat reply,
-// where images are a garnish. An archive file is the section itself, so it
-// should show every image that section is actually about: §43 (the
-// Alon/Crash twins bit) has three, and under the default cap the Crash half
-// of a deliberately side-by-side pair was the one being dropped.
-const ARCHIVE_IMAGE_LIMIT = 8;
 
 // The lore archive — docs/TERMINAL-V4-DESIGN.md §3. Every numbered section
 // of docs/TROLL-LORE.md is a file a signed-in troublemaker recovers, either
@@ -70,7 +63,7 @@ export async function GET(request: Request) {
       depth,
       state: open ? ("open" as const) : ("sealed" as const),
       body,
-      images: body ? findLoreImagesForText(body, ARCHIVE_IMAGE_LIMIT) : [],
+      images: open ? findLoreImagesForArchiveSection(number) : [],
       cost: open ? null : depth === 2 ? config?.archive_deep_unlock_cost ?? 3 : config?.archive_unlock_cost ?? 1,
     };
   });
@@ -173,7 +166,7 @@ export async function POST(request: Request) {
     section,
     title,
     body: text,
-    images: findLoreImagesForText(text, ARCHIVE_IMAGE_LIMIT),
+    images: findLoreImagesForArchiveSection(section),
     balance: persistedWallet.balance,
   });
 }
