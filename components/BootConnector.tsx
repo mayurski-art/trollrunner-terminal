@@ -17,6 +17,8 @@ const NODE_PCT = [10, 30, 70, 90];
 const HUB_PCT = 50;
 
 export type ConvergeOrigin = { x: number; y: number };
+/** Measures the traffic light's center on demand — see the onConverge call. */
+export type ConvergeProbe = () => ConvergeOrigin;
 
 // The boot sequence's closing beat, replacing the old static grin fade-in:
 // all four source nodes (carlos, umadbro.shop, the NFT collection, the
@@ -33,7 +35,7 @@ export default function BootConnector({
   onConverge,
   totalMs,
 }: {
-  onConverge: (origin: ConvergeOrigin) => void;
+  onConverge: (probe: ConvergeProbe) => void;
   totalMs: number;
 }) {
   const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -73,10 +75,13 @@ export default function BootConnector({
       });
     });
 
+    // Glow scaled off the light's own rendered size so it stays in proportion
+    // on a phone instead of a fixed desktop-tuned bloom swamping a smaller dot.
     const setLight = (color: string) => {
+      const r = center.getBoundingClientRect().width || 10;
       center.style.transition = "none";
       center.style.background = color;
-      center.style.boxShadow = `0 0 16px ${color}, 0 0 60px ${color}, 0 0 120px ${color}`;
+      center.style.boxShadow = `0 0 ${r * 1.6}px ${color}, 0 0 ${r * 6}px ${color}, 0 0 ${r * 12}px ${color}`;
     };
 
     let yellowTimer: ReturnType<typeof setTimeout> | undefined;
@@ -89,8 +94,15 @@ export default function BootConnector({
       });
       setLight("var(--alert)"); // red
 
-      const rect = center.getBoundingClientRect();
-      onConverge({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      // Hand back a live getter, not a snapshot: the zoom starts a frame or
+      // more after this, and anything that reflows the overlay in between (the
+      // boot cursor unmounting, a late web font, an image settling) would move
+      // the light out from under a coordinate captured now, sending the zoom
+      // past the side of it.
+      onConverge(() => {
+        const r = center.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      });
 
       // the face keeps turning, grin <-> worry, for as long as this stays
       // mounted — not a one-off reaction, a running tell

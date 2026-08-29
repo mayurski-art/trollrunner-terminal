@@ -120,11 +120,18 @@ main {
 
 .blink-cursor {
   display: inline-block;
-  width: 0.6em;
-  height: 1em;
+  width: 0.55em;
+  height: 0.1em;
   background: var(--terminal);
   animation: blink 1s steps(1) infinite;
   vertical-align: text-bottom;
+}
+
+/* Typing finished: stop the blink and go invisible, but keep occupying the
+   same box. Removing it outright reflowed the boot text mid-zoom. */
+.blink-cursor.is-done {
+  animation: none;
+  opacity: 0;
 }
 
 @keyframes blink {
@@ -408,6 +415,9 @@ main {
   /* Fluid node size instead of a fixed px value — on a narrow phone, 5
      nodes at desktop size would overflow the viewport outright. */
   --bc-node-w: clamp(48px, 15vw, 96px);
+  /* Traffic light, kept in proportion to the nodes so the zoom frames it
+     identically on a phone and a desktop. */
+  --bc-light: clamp(8px, 2.4vw, 14px);
   display: grid;
   /* 5 equal 1fr columns, same as .mini-connector below — the wire line and
      every stem are keyed to node centers landing at exactly 10/30/50/70/90%
@@ -541,10 +551,16 @@ main {
   background: var(--bc-gold);
 }
 
+/* The traffic light the boot zoom flies into. Sized off the same fluid node
+   scale as everything else in the connector rather than a fixed 10px — at a
+   fixed size it stayed a desktop-tuned target while the nodes around it shrank
+   on a phone, so the zoom (a single ZOOM_SCALE) framed it differently per
+   device. Proportional here means the same shot everywhere. */
 .boot-connector .bc-center {
   position: relative;
-  width: 10px;
-  height: 10px;
+  width: var(--bc-light);
+  height: var(--bc-light);
+  border-radius: 50%;
   background: var(--alert);
   box-shadow: 0 0 8px var(--alert), 0 0 20px var(--alert);
 }

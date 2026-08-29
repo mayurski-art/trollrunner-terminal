@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BOOT_LINES } from "@/lib/ascii";
-import BootConnector, { type ConvergeOrigin } from "@/components/BootConnector";
+import BootConnector, { type ConvergeProbe } from "@/components/BootConnector";
 
 const LINE_DELAY_MS = 220;
 const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
@@ -63,15 +63,19 @@ export default function BootSequence() {
   // connector just flared at, then fade what's now a huge, off-screen-
   // edged wash of color out to reveal the site — which was mounted behind
   // this fixed overlay the entire time — before finally unmounting.
-  const handleConverge = useCallback(({ x, y }: ConvergeOrigin) => {
+  const handleConverge = useCallback((probe: ConvergeProbe) => {
     const overlay = overlayRef.current;
     if (!overlay) {
       setVisible(false);
       return;
     }
-    overlay.style.transformOrigin = `${x}px ${y}px`;
     overlay.style.transition = `transform ${ZOOM_MS}ms cubic-bezier(.6,0,.85,0)`;
     requestAnimationFrame(() => {
+      // Measured here, in the same frame the zoom is committed, so the origin
+      // is wherever the light actually is at that instant rather than where it
+      // was when the packets landed.
+      const { x, y } = probe();
+      overlay.style.transformOrigin = `${x}px ${y}px`;
       overlay.style.transform = `scale(${ZOOM_SCALE})`;
     });
     setTimeout(() => {
@@ -90,7 +94,11 @@ export default function BootSequence() {
     >
       <pre className="text-terminal text-xs sm:text-sm leading-relaxed">
         {BOOT_LINES.slice(0, shownCount).join("\n")}
-        {phase === "typing" && <span className="blink-cursor" />}
+        {/* Kept mounted and merely hidden once typing ends. Unmounting it
+            removed an inline box from the last line, which on a narrow phone
+            could reflow the <pre> and nudge the connector — and the traffic
+            light with it — right as the zoom was being aimed. */}
+        <span className={`blink-cursor${phase === "typing" ? "" : " is-done"}`} />
       </pre>
       {phase === "connector" && (
         <BootConnector onConverge={handleConverge} totalMs={ZOOM_MS + FADE_MS} />
