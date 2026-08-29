@@ -45,9 +45,7 @@ export default function Frame({
     >
       {title && titleEffect === "trace" && (
         <>
-          <svg className="frame-trace-border" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <rect pathLength={100} x="1" y="1" width="98" height="98" vectorEffect="non-scaling-stroke" />
-          </svg>
+          <span aria-hidden="true" className="frame-trace-border" />
           <span className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide">
             [ {title} ]
           </span>

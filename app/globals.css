@@ -244,32 +244,48 @@ main {
   text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue, var(--terminal)) 70%, transparent);
 }
 
+/* The comet rides the panel's OWN border line rather than a second
+   outline drawn beside it: a full-bleed overlay carrying a rotating
+   conic-gradient, masked so that only the 1px border ring survives
+   (border-box minus padding-box). An SVG rect can't do this cleanly —
+   a viewBox stretched by preserveAspectRatio="none" makes an inset of
+   "1 unit" mean different pixel amounts horizontally vs vertically, so
+   the stroke can never sit on all four border edges at once on a
+   non-square panel. The mask approach is aspect-ratio-proof. */
 .frame-trace-border {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
-  overflow: visible;
-}
-/* pathLength=100 on the <rect> (set in Frame.tsx) normalizes its total
-   perimeter to exactly 100 units regardless of the panel's real pixel
-   size, so a dasharray of "14 86" is always "a 14%-of-perimeter-long
-   comet, then a gap covering the rest" no matter how big the panel is. */
-.frame-trace-border rect {
-  fill: none;
-  stroke: var(--trace-hue, var(--terminal));
-  stroke-width: 2;
-  filter: drop-shadow(0 0 3px var(--trace-hue, var(--terminal)))
-    drop-shadow(0 0 7px var(--trace-hue, var(--terminal)));
-  stroke-dasharray: 14 86;
-  stroke-dashoffset: 0;
+  border: 1px solid transparent;
+  background: conic-gradient(
+      from var(--trace-angle, 0deg),
+      transparent 0turn,
+      var(--trace-hue, var(--terminal)) 0.04turn,
+      transparent 0.14turn,
+      transparent 1turn
+    )
+    border-box;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: xor;
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-clip: padding-box, border-box;
+  mask-composite: exclude;
   animation: frame-trace-loop 3.2s linear infinite;
+}
+
+/* Animating a custom property needs it registered, otherwise the browser
+   treats it as a discrete string and the gradient jumps instead of
+   sweeping. */
+@property --trace-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 @keyframes frame-trace-loop {
   to {
-    stroke-dashoffset: -100;
+    --trace-angle: 360deg;
   }
 }
 
