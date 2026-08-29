@@ -5,7 +5,7 @@
 export const GUESS_COST = 1;
 export const MAX_ATTEMPTS = 2;
 // Correct guess gets the entry cost back plus this on top.
-export const CORRECT_BONUS = 2;
+export const CORRECT_BONUS = 10;
 
 const STOPWORDS = new Set([
   "the", "a", "an", "of", "and", "or", "to", "in", "on", "at", "for",
