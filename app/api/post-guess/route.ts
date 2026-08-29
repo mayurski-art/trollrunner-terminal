@@ -64,7 +64,7 @@ export async function GET(request: Request) {
     supabase.from("terminal_posts").select("clue_tag").eq("id", postId).maybeSingle(),
     supabase
       .from("terminal_post_guesses")
-      .select("attempts, correct, resolved")
+      .select("attempts, correct, resolved, cost_paid")
       .eq("post_id", postId)
       .eq("user_id", userId)
       .maybeSingle(),
@@ -73,7 +73,18 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     guessable: !!post?.clue_tag,
-    guess: guess ?? null,
+    guess: guess
+      ? {
+          attempts: guess.attempts,
+          correct: guess.correct,
+          resolved: guess.resolved,
+          netDelta: guess.resolved
+            ? guess.correct
+              ? CORRECT_BONUS
+              : -guess.cost_paid
+            : null,
+        }
+      : null,
     wallet,
     cost: GUESS_COST,
     maxAttempts: MAX_ATTEMPTS,
@@ -179,6 +190,7 @@ export async function POST(request: Request) {
     attempts,
     attemptsRemaining: Math.max(0, MAX_ATTEMPTS - attempts),
     resolved,
+    netDelta: resolved ? (correct ? CORRECT_BONUS : -guessRow.cost_paid) : null,
     wallet: { balance: newBalance },
   });
 }

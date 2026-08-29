@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getPublicClient } from "@/lib/supabase";
 
-type GuessState = { attempts: number; correct: boolean; resolved: boolean } | null;
+type GuessState = {
+  attempts: number;
+  correct: boolean;
+  resolved: boolean;
+  netDelta?: number | null;
+} | null;
 type Stage = "idle" | "confirming" | "open";
 
 async function authHeader(): Promise<Record<string, string>> {
@@ -88,7 +93,12 @@ export default function PostGuess({
         setError(data.error ?? "the guess didn't land");
         return;
       }
-      setGuessState({ attempts: data.attempts, correct: data.correct, resolved: data.resolved });
+      setGuessState({
+        attempts: data.attempts,
+        correct: data.correct,
+        resolved: data.resolved,
+        netDelta: data.netDelta ?? null,
+      });
       setBalance(data.wallet?.balance ?? balance);
       setInput("");
     } catch {
@@ -101,11 +111,15 @@ export default function PostGuess({
   if (!loaded || !session || !guessable) return null;
 
   if (guessState?.resolved) {
+    const delta = guessState.netDelta ?? 0;
+    const sign = delta > 0 ? "+" : "";
     return (
       <p className="mt-2 text-xs text-dim">
         transmission{" "}
         <span className={guessState.correct ? "text-problem" : "text-alert"}>
-          [{guessState.correct ? "cracked" : "rekted"}]
+          [{guessState.correct ? "cracked" : "rekted"}
+          {guessState.netDelta != null && ` — ${sign}${delta} PROBLEM${Math.abs(delta) === 1 ? "" : "S"} earned`}
+          ]
         </span>
       </p>
     );
