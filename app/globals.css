@@ -271,11 +271,11 @@ main {
 }
 
 .mini-connector .mc-node {
-  width: 34px;
-  height: 28px;
+  width: 56px;
+  height: 46px;
   border: 1px solid var(--dim);
   background: var(--panel);
-  padding: 2px;
+  padding: 3px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -285,7 +285,7 @@ main {
 }
 .mini-connector .mc-node--it {
   animation-delay: 3.2s;
-  perspective: 200px;
+  perspective: 250px;
 }
 .mini-connector .mc-node img {
   max-width: 100%;
@@ -320,7 +320,7 @@ main {
 
 .mini-connector .mc-wire {
   position: relative;
-  width: 90px;
+  width: 110px;
   height: 10px;
   display: flex;
   align-items: center;
@@ -335,15 +335,15 @@ main {
 .mini-connector .mc-dot {
   position: relative;
   margin: 0 auto;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   animation: mc-pulse 2.6s ease-in-out infinite;
 }
 .mini-connector .mc-packet {
   position: absolute;
   top: 50%;
-  width: 3px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
   transform: translateY(-50%);
   opacity: 0;
   box-shadow: 0 0 4px currentColor;
@@ -417,7 +417,7 @@ main {
 .mini-connector .mc-labels {
   display: flex;
   gap: 0.4rem;
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   letter-spacing: 0.06em;
   color: var(--dim);
 }
