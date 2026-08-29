@@ -102,10 +102,11 @@ export default function PostGuess({
 
   if (guessState?.resolved) {
     return (
-      <p className={`mt-2 text-xs ${guessState.correct ? "text-problem" : "text-dim"}`}>
-        {guessState.correct
-          ? `[ you cracked it — +${cost} refunded and PROBLEMS to spare ]`
-          : "[ not this time — the transmission has gone quiet on this one ]"}
+      <p className="mt-2 text-xs text-dim">
+        transmission{" "}
+        <span className={guessState.correct ? "text-problem" : "text-alert"}>
+          [{guessState.correct ? "cracked" : "rekted"}]
+        </span>
       </p>
     );
   }

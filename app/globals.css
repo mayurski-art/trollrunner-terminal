@@ -213,68 +213,53 @@ main {
 .nav-neon--disconnect { --nn-hue: var(--alert); animation-delay: 0s; }
 
 /* Frame.tsx titleEffect="trace" — opt-in, used only by the homepage's two
-   hero panels (app/page.tsx). Reads as energy arriving from both bracket
-   ends and racing inward: the brackets flash first, then the label sweeps
-   in a bright wipe from both edges toward its center, then the whole title
-   settles into a steady glow and stays there — a one-shot reveal, not a
-   loop, so it doesn't compete with the ambient nav/tagline animations.
-   --trace-hue defaults to the terminal white but each panel below passes
-   its own accent via Frame's traceHue prop. */
+   hero panels (app/page.tsx). A bright neon head runs once left-to-right
+   across the whole "[ title ]" — entering at the left edge of the bracket,
+   exiting past the right edge — leaving the text lit up steady behind it.
+   One-shot on mount (fill-mode both holds the end state), not a loop, so
+   it doesn't compete with the ambient nav/tagline animations. --trace-hue
+   defaults to the terminal white but each panel below passes its own
+   accent via Frame's traceHue prop. */
 .frame-trace {
+  position: relative;
+  display: inline-block;
   --trace-hue: var(--terminal);
   color: var(--trace-hue);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue) 70%, transparent);
 }
-.frame-trace-bracket {
-  display: inline-block;
-  animation: frame-trace-bracket-flash 0.5s ease-out both;
-  text-shadow: 0 0 8px var(--trace-hue);
-}
-.frame-trace-bracket--right {
-  animation-delay: 0.05s;
-}
-.frame-trace-label {
-  display: inline-block;
-  color: var(--trace-hue);
-  opacity: 0.25;
-  filter: blur(2px);
-  animation: frame-trace-label-arrive 0.45s ease-out 0.3s both;
-}
-
-@keyframes frame-trace-bracket-flash {
-  0% {
-    opacity: 0.25;
-    text-shadow: none;
-  }
-  40% {
-    opacity: 1;
-    text-shadow: 0 0 12px var(--trace-hue), 0 0 24px var(--trace-hue);
-  }
-  100% {
-    opacity: 1;
-    text-shadow: 0 0 8px var(--trace-hue);
-  }
+.frame-trace::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: -6%;
+  width: 18%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--trace-hue) 45%,
+    var(--trace-hue) 55%,
+    transparent
+  );
+  filter: blur(3px);
+  opacity: 0.95;
+  animation: frame-trace-sweep 0.9s cubic-bezier(0.3, 0, 0.2, 1) both;
 }
 
-/* The label itself doesn't visually "wipe" character by character — with a
-   short 1-2 word title that would be imperceptible anyway — it arrives as
-   a soft, blurred-in flash right as both brackets' flashes reach their
-   peak, reading as the two traces meeting in the middle and lighting the
-   whole title at once. */
-@keyframes frame-trace-label-arrive {
+@keyframes frame-trace-sweep {
   0% {
-    opacity: 0.25;
-    filter: blur(2px);
-    text-shadow: none;
+    left: -18%;
+    opacity: 0;
   }
-  50% {
+  15% {
     opacity: 1;
-    filter: blur(0);
-    text-shadow: 0 0 10px var(--trace-hue), 0 0 20px var(--trace-hue);
+  }
+  85% {
+    opacity: 1;
   }
   100% {
-    opacity: 1;
-    filter: blur(0);
-    text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue) 70%, transparent);
+    left: 100%;
+    opacity: 0;
   }
 }
 

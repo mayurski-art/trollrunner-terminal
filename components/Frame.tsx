@@ -7,8 +7,8 @@ type FrameProps = {
   tone?: "dim" | "terminal" | "problem" | "alert";
   className?: string;
   bodyClassName?: string;
-  /** Opt-in: the title races two neon traces in from each bracket, meeting
-   * in the middle, then settles into a steady glow. Off by default —
+  /** Opt-in: a neon sweep runs once left-to-right across the whole
+   * "[ title ]", then settles into a steady glow. Off by default —
    * reserved for the homepage's two hero panels, not every Frame. */
   titleEffect?: "trace";
   traceHue?: string;
@@ -47,9 +47,7 @@ export default function Frame({
           className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide"
           style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
         >
-          <span className="frame-trace-bracket frame-trace-bracket--left">[</span>
-          <span className="frame-trace-label"> {title} </span>
-          <span className="frame-trace-bracket frame-trace-bracket--right">]</span>
+          [ {title} ]
         </span>
       )}
       {title && titleEffect !== "trace" && (
