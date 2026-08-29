@@ -69,6 +69,23 @@ body {
   overflow-x: hidden;
 }
 
+/* iOS Safari auto-zooms the page on focusing any text input/textarea whose
+   *computed* font-size is under 16px — with the 30% site-wide scale-down
+   above, every input's text-sm/text-xs lands well under that, so typing
+   anywhere (chat, guesses, auth, transmit) triggered a zoom-in on phones.
+   Force real inputs to render at 16px on touch/coarse-pointer devices
+   specifically (desktop keeps the smaller, intentional scale) — the fix
+   only needs to change the input's own text, not the whole page's. */
+@media (pointer: coarse) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input:not([type]),
+  textarea {
+    font-size: 16px;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
