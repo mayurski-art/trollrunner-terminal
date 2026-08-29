@@ -11,6 +11,10 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  // iOS Safari pops its "Fill Password" keychain sheet the moment a login form
+  // exists in the DOM, which lands right on top of the boot animation. Keep the
+  // fields unmounted until the visitor actually asks to sign in.
+  const [open, setOpen] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,6 +32,32 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     } finally {
       setBusy(false);
     }
+  }
+
+  function reveal(next: Mode) {
+    setMode(next);
+    setOpen(true);
+  }
+
+  if (!open) {
+    return (
+      <div className="flex gap-4 text-sm">
+        <button
+          type="button"
+          onClick={() => reveal("login")}
+          className="glitch-btn border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors"
+        >
+          [ sign in ]
+        </button>
+        <button
+          type="button"
+          onClick={() => reveal("register")}
+          className="border border-dim text-dim px-3 py-1.5 hover:text-foreground hover:border-foreground transition-colors"
+        >
+          [ create account ]
+        </button>
+      </div>
+    );
   }
 
   return (
