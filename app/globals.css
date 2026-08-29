@@ -711,8 +711,11 @@ main {
   animation: mc-hub-ring 6.4s linear infinite;
 }
 .mini-connector .mc-hub-ring img {
-  width: 56%;
-  height: 56%;
+  /* Sized as a share of the ring, so the face scales with it rather than
+     needing its own breakpoints. Kept under 100% so the grin clears the
+     ring's border and its color-cycling glow. */
+  width: 78%;
+  height: 78%;
   object-fit: contain;
   display: block;
   backface-visibility: hidden;
