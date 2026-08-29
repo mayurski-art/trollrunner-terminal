@@ -99,7 +99,7 @@ export default function BootSequence() {
         {phase === "typing" && <span className="blink-cursor" />}
       </pre>
       {phase === "connector" && (
-        <BootConnector onConverge={handleConverge} revealMs={ZOOM_MS - 200} />
+        <BootConnector onConverge={handleConverge} totalMs={ZOOM_MS + FADE_MS} />
       )}
     </div>
   );

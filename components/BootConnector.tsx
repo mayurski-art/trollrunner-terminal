@@ -6,8 +6,8 @@ const START_YOU = 19.2308; // see the matching CSS comment in globals.css
 const START_IT = 80.7692;
 const MID = 50;
 const CRAWL_MS = 1100;
-const RED_HOLD_MS = 350; // how long it sits solid red before switching to yellow
-const YELLOW_HOLD_MS = 350; // kept short — green gets whatever time this doesn't use
+const RED_PCT = 0.2; // fraction of the total color sequence spent red
+const YELLOW_PCT = 0.25; // fraction spent yellow — green claims the rest
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.png";
@@ -21,15 +21,15 @@ export type ConvergeOrigin = { x: number; y: number };
 // reports its screen position via onConverge — BootSequence uses that as
 // the transform-origin for the zoom that reveals the actual site. The
 // center then runs an actual traffic-light sequence — red, then yellow,
-// then green — landing on green right as BootSequence's fade-out actually
-// unveils the site underneath. A stop/go cue timed to the reveal, not
-// just a color for its own sake.
+// then green — split as RED_PCT/YELLOW_PCT/remainder of `totalMs`, the
+// full span from convergence to BootSequence unmounting the overlay. A
+// stop/go cue over the whole reveal, not just a flash at the end of it.
 export default function BootConnector({
   onConverge,
-  revealMs,
+  totalMs,
 }: {
   onConverge: (origin: ConvergeOrigin) => void;
-  revealMs: number;
+  totalMs: number;
 }) {
   const packetYouRef = useRef<HTMLDivElement>(null);
   const packetItRef = useRef<HTMLDivElement>(null);
@@ -96,13 +96,12 @@ export default function BootConnector({
       spinNext();
       spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
 
-      // red -> yellow -> green, a real sequence rather than a red/green
-      // blend. Red and yellow each get a short fixed hold; green claims
-      // whatever time is left before the site unveils, rather than only
-      // flashing on at the reveal instant.
-      const greenDelay = Math.min(RED_HOLD_MS + YELLOW_HOLD_MS, revealMs);
-      yellowTimer = setTimeout(() => setLight("var(--problem)"), RED_HOLD_MS);
-      greenTimer = setTimeout(() => setLight("var(--bc-go)"), greenDelay);
+      // red -> yellow -> green, split 20% / 25% / 55% of the total
+      // sequence — a real sequence, not a red/green blend
+      const redHold = totalMs * RED_PCT;
+      const yellowHold = totalMs * YELLOW_PCT;
+      yellowTimer = setTimeout(() => setLight("var(--problem)"), redHold);
+      greenTimer = setTimeout(() => setLight("var(--bc-go)"), redHold + yellowHold);
     }, CRAWL_MS);
 
     return () => {
@@ -112,7 +111,7 @@ export default function BootConnector({
       clearTimeout(greenTimer);
       clearInterval(spinInterval);
     };
-  }, [onConverge, revealMs]);
+  }, [onConverge, totalMs]);
 
   return (
     <div className="boot-connector">
