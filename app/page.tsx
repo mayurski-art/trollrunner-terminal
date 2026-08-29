@@ -9,6 +9,7 @@ import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
 import MiniConnector from "@/components/MiniConnector";
+import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
@@ -51,6 +52,7 @@ export default function Home() {
     <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
       <div className="w-full max-w-7xl">
         <Nav />
+        <SiteTicker />
 
         <div className="mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" />

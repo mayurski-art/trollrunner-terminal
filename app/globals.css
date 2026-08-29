@@ -126,6 +126,62 @@ main {
   color: var(--background);
 }
 
+/* Site-wide texture, components/SiteTicker.tsx — a scrolling status line
+   below the nav, reusing the same marquee technique as the vault/door
+   countdown but in the terminal accent instead of that feature's own
+   yellow, so it reads as ambient site chrome rather than a copy-paste. */
+.site-ticker {
+  overflow: hidden;
+  border-top: 1px solid var(--terminal);
+  border-bottom: 1px solid var(--terminal);
+  background: var(--panel);
+}
+.site-ticker span {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.4rem 0;
+  font-size: 0.8rem;
+  color: var(--terminal);
+  letter-spacing: 0.05em;
+  animation: site-ticker-scroll 22s linear infinite;
+}
+@keyframes site-ticker-scroll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Generic glitch-on-hover for any CTA button — add alongside existing
+   Tailwind classes. Same technique the vault door's "[ enter the archive
+   ]" button already used. */
+.glitch-btn {
+  transition: transform 0.2s ease;
+}
+.glitch-btn:hover:not(:disabled) {
+  animation: glitch-btn-shake 0.25s steps(4) infinite;
+}
+@keyframes glitch-btn-shake {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(1px, -1px);
+  }
+  60% {
+    transform: translate(-1px, -1px);
+  }
+  80% {
+    transform: translate(1px, 1px);
+  }
+}
+
 /* The boot sequence's closing beat — components/BootConnector.tsx. Scoped
    local hues (violet/cyan) rather than new :root tokens, since they only
    ever appear as transient ticks in this one animation, not as a

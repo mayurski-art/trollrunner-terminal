@@ -423,7 +423,7 @@ export default function Chat() {
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="border border-terminal text-terminal px-3 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+          className="glitch-btn border border-terminal text-terminal px-3 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
         >
           &gt;
         </button>
