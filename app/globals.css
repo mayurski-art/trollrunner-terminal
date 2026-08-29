@@ -262,12 +262,30 @@ main {
   --mc-cyan: #2ee6ff;
   --mc-lime: #7dff5c;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 0.6rem;
   padding: 6px 0 10px;
   margin-bottom: 12px;
   border-bottom: 1px dashed var(--ghost);
+}
+
+.mini-connector .mc-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-connector .mc-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+.mini-connector .mc-label--you {
+  color: var(--you);
+}
+.mini-connector .mc-label--it {
+  color: var(--terminal);
 }
 
 .mini-connector .mc-node {
@@ -322,6 +340,11 @@ main {
   position: relative;
   width: 110px;
   height: 10px;
+  /* row is align-items:flex-start now (so labels sit under their own
+     node, not centered against the wire's shorter column) — this
+     re-centers the wire/dot on the node's vertical midpoint by hand:
+     (node height 46px - wire height 10px) / 2 */
+  margin-top: 18px;
   display: flex;
   align-items: center;
 }
@@ -412,12 +435,4 @@ main {
     background: var(--mc-cyan);
     box-shadow: 0 0 6px var(--mc-cyan), 0 0 14px rgba(46, 230, 255, 0.55);
   }
-}
-
-.mini-connector .mc-labels {
-  display: flex;
-  gap: 0.4rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  color: var(--dim);
 }

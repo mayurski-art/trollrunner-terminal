@@ -35,9 +35,12 @@ export default function MiniConnector() {
 
   return (
     <div className="mini-connector">
-      <div className="mc-node mc-node--you">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/carlos-ramirez.webp" alt="" />
+      <div className="mc-col">
+        <div className="mc-node mc-node--you">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/boot/carlos-ramirez.webp" alt="" />
+        </div>
+        <div className="mc-label mc-label--you">carlos</div>
       </div>
 
       <div className="mc-wire">
@@ -47,15 +50,12 @@ export default function MiniConnector() {
         <div className="mc-dot" />
       </div>
 
-      <div className="mc-node mc-node--it">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img ref={faceRef} src={FACE_GRIN} alt="" />
-      </div>
-
-      <div className="mc-labels">
-        <span>carlos</span>
-        <span>&middot;</span>
-        <span>trolltruths</span>
+      <div className="mc-col">
+        <div className="mc-node mc-node--it">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img ref={faceRef} src={FACE_GRIN} alt="" />
+        </div>
+        <div className="mc-label mc-label--it">trolltruths</div>
       </div>
     </div>
   );
