@@ -30,7 +30,7 @@ export default function Meter({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label ?? "progress"}
-      className="font-mono text-sm"
+      className="font-mono text-xs sm:text-sm"
     >
       {label && <span className="text-dim mr-2">{label}</span>}
       <span aria-hidden="true" className={TONE_COLOR[tone]}>
