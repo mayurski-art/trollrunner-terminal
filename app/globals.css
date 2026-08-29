@@ -233,8 +233,8 @@ main {
   position: relative;
   width: 10px;
   height: 10px;
-  background: var(--problem);
-  box-shadow: 0 0 8px var(--problem), 0 0 20px var(--problem);
+  background: var(--alert);
+  box-shadow: 0 0 8px var(--alert), 0 0 20px var(--alert);
 }
 
 .boot-connector .bc-labels {
