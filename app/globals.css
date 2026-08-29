@@ -260,7 +260,8 @@ main {
   background: conic-gradient(
       from var(--trace-angle, 0deg),
       transparent 0turn,
-      var(--trace-hue, var(--terminal)) 0.04turn,
+      color-mix(in srgb, var(--trace-hue, var(--terminal)) 60%, white) 0.03turn,
+      var(--trace-hue, var(--terminal)) 0.05turn,
       transparent 0.14turn,
       transparent 1turn
     )
@@ -272,6 +273,35 @@ main {
   mask-clip: padding-box, border-box;
   mask-composite: exclude;
   animation: frame-trace-loop 3.2s linear infinite;
+}
+
+/* The bloom. It has to be its own layer: the ring above is mask-clipped to
+   a 1px band, so a drop-shadow/blur applied there would be clipped away
+   with it. This copy is thicker, blurred and NOT masked, sitting under the
+   crisp ring so the light spills off the border line in both directions.
+   Shares --trace-angle, so it stays locked to the same comet. */
+.frame-trace-border::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 5px solid transparent;
+  border-radius: inherit;
+  background: conic-gradient(
+      from var(--trace-angle, 0deg),
+      transparent 0turn,
+      var(--trace-hue, var(--terminal)) 0.05turn,
+      transparent 0.15turn,
+      transparent 1turn
+    )
+    border-box;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: xor;
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-clip: padding-box, border-box;
+  mask-composite: exclude;
+  filter: blur(5px);
+  opacity: 0.85;
 }
 
 /* Animating a custom property needs it registered, otherwise the browser
@@ -538,6 +568,21 @@ main {
     white-space: normal;
     word-break: break-word;
     hyphens: auto;
+  }
+
+  /* The node art is object-fit: cover sized to 100% of a box that also has
+     2px of padding, so the image always overflows its own frame slightly.
+     At desktop widths that spill is a sub-pixel rounding artifact; once
+     --bc-node-w clamps down to its 48px floor the same overflow is a much
+     larger share of the box and the art visibly breaks past the border.
+     .mini-connector's equivalent node already clips this way — the boot
+     connector's just never got it. */
+  .boot-connector .bc-node {
+    overflow: hidden;
+  }
+  .boot-connector .bc-node--hub {
+    /* the hub is a circle; clip to that, not to a square corner */
+    overflow: visible;
   }
 }
 .boot-connector .bc-labels--carlos {
