@@ -6,7 +6,7 @@ const START_YOU = 19.2308; // see the matching CSS comment in globals.css
 const START_IT = 80.7692;
 const MID = 50;
 const CRAWL_MS = 1100;
-const RED_HOLD_MS = 350; // how long it sits solid red before easing toward green
+const RED_HOLD_MS = 350; // how long it sits solid red before switching to yellow
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.png";
@@ -19,9 +19,10 @@ export type ConvergeOrigin = { x: number; y: number };
 // toward a center node once. The instant they meet it flares red and
 // reports its screen position via onConverge — BootSequence uses that as
 // the transform-origin for the zoom that reveals the actual site. The
-// center then rides red -> green over `revealMs`, landing on green right
-// as BootSequence's fade-out actually unveils the site underneath — a
-// stop/go cue timed to the reveal, not just a color for its own sake.
+// center then runs an actual traffic-light sequence — red, then yellow,
+// then green — landing on green right as BootSequence's fade-out actually
+// unveils the site underneath. A stop/go cue timed to the reveal, not
+// just a color for its own sake.
 export default function BootConnector({
   onConverge,
   revealMs,
@@ -66,16 +67,20 @@ export default function BootConnector({
       packetIt.style.left = `${MID}%`;
     });
 
+    const setLight = (color: string) => {
+      center.style.transition = "none";
+      center.style.background = color;
+      center.style.boxShadow = `0 0 16px ${color}, 0 0 60px ${color}, 0 0 120px ${color}`;
+    };
+
+    let yellowTimer: ReturnType<typeof setTimeout> | undefined;
     let greenTimer: ReturnType<typeof setTimeout> | undefined;
     let spinInterval: ReturnType<typeof setInterval> | undefined;
 
     const convergeTimer = setTimeout(() => {
       packetYou.style.opacity = "0";
       packetIt.style.opacity = "0";
-      center.style.transition = "none";
-      center.style.background = "var(--alert)";
-      center.style.boxShadow =
-        "0 0 16px var(--alert), 0 0 60px var(--alert), 0 0 120px var(--alert)";
+      setLight("var(--alert)"); // red
 
       const rect = center.getBoundingClientRect();
       onConverge({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
@@ -90,20 +95,16 @@ export default function BootConnector({
       spinNext();
       spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
 
-      // hold solid red for a beat, then ease to green over whatever time
-      // remains, so it still lands exactly when the site unveils
-      const easeMs = Math.max(0, revealMs - RED_HOLD_MS);
-      greenTimer = setTimeout(() => {
-        center.style.transition = `background-color ${easeMs}ms ease, box-shadow ${easeMs}ms ease`;
-        center.style.background = "var(--bc-go)";
-        center.style.boxShadow =
-          "0 0 16px var(--bc-go), 0 0 60px var(--bc-go), 0 0 120px var(--bc-go)";
-      }, RED_HOLD_MS);
+      // red -> yellow -> green, a real sequence rather than a red/green
+      // blend, landing on green exactly when the site unveils
+      yellowTimer = setTimeout(() => setLight("var(--problem)"), RED_HOLD_MS);
+      greenTimer = setTimeout(() => setLight("var(--bc-go)"), Math.max(RED_HOLD_MS, revealMs));
     }, CRAWL_MS);
 
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(convergeTimer);
+      clearTimeout(yellowTimer);
       clearTimeout(greenTimer);
       clearInterval(spinInterval);
     };

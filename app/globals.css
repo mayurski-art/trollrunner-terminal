@@ -132,18 +132,26 @@ main {
    site-wide color meaning per the rule above. */
 .boot-connector {
   --bc-go: #34e07a; /* the "site is ready" cue at the end of the reveal */
+  /* Fluid node size instead of a fixed 160px — on a narrow phone, 2x160px
+     + a 96px gap (416px) overflows the viewport outright, which is what
+     made Carlos's box look oversized. column-gap and .bc-node's height
+     below are derived from this same variable at the exact 160:96 (5:3)
+     and 160:110 ratios the desktop sizes used, so the 19.2308%/80.7692%
+     wire percentages below stay mathematically exact at every size. */
+  --bc-node-w: clamp(80px, 26vw, 160px);
   display: grid;
-  grid-template-columns: 160px 160px;
-  column-gap: 6rem;
+  grid-template-columns: var(--bc-node-w) var(--bc-node-w);
+  column-gap: calc(var(--bc-node-w) * 0.6);
   justify-items: center;
   width: max-content;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .boot-connector .bc-node {
   grid-row: 1;
-  width: 160px;
-  height: 110px;
+  width: var(--bc-node-w);
+  height: calc(var(--bc-node-w) * 0.6875);
   position: relative;
   display: flex;
   align-items: center;
