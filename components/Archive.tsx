@@ -85,6 +85,9 @@ export default function Archive() {
         return;
       }
       setBalance(body.balance ?? balance);
+      // Keep the nav's counter (components/ProblemsCounter.tsx) in step with
+      // the spend that just happened.
+      window.dispatchEvent(new Event("problems-changed"));
       setFiles((prev) =>
         prev.map((f) =>
           f.number === number

@@ -217,7 +217,13 @@ export default function Chat() {
           : []),
       ]);
       speak(data.reply);
-      if (data.wallet) setWallet(data.wallet);
+      if (data.wallet) {
+        setWallet(data.wallet);
+        // Mining happens mid-conversation, so tell the nav's counter
+        // (components/ProblemsCounter.tsx) rather than leaving it stale until
+        // the next focus or navigation.
+        window.dispatchEvent(new Event("problems-changed"));
+      }
       if (data.buddyBonus > 0) {
         setBuddyToast(
           `+${data.buddyBonus} bonus PROBLEM${data.buddyBonus === 1 ? "" : "S"} · the terminal is warming up to you`

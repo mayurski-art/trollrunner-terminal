@@ -35,6 +35,21 @@ export default function BootSequence() {
     setVisible(true);
   }, []);
 
+  // Hand over from the server-rendered #preboot-shield (app/layout.tsx),
+  // which has been covering the site since the very first paint. Waiting two
+  // frames means the overlay below has actually been painted before the
+  // shield stops hiding things, so there's no frame in between where the
+  // real site is on screen.
+  useEffect(() => {
+    if (!visible) return;
+    const raf = requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.documentElement.setAttribute("data-boot-ready", ""),
+      ),
+    );
+    return () => cancelAnimationFrame(raf);
+  }, [visible]);
+
   useEffect(() => {
     if (!visible) return;
     if (shownCount >= BOOT_LINES.length) {

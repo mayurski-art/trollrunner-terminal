@@ -22,6 +22,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${mono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        {/* Opaque cover painted with the server HTML, before React hydrates,
+            so the site can never flash through in the frames before
+            BootSequence's overlay exists. BootSequence clears it once its
+            own overlay is mounted; the failsafe below clears it if the boot
+            script never runs at all (JS off, hydration error) so the site is
+            never permanently hidden behind it. */}
+        <div id="preboot-shield" aria-hidden="true" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "setTimeout(function(){document.documentElement.setAttribute('data-boot-ready','')},4000)",
+          }}
+        />
         <BootSequence />
         {children}
         {/* Shared trollrunner.net network-wide lock overlay — same script as

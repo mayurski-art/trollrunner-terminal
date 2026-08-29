@@ -1065,3 +1065,22 @@ main {
     opacity: 0;
   }
 }
+
+/* Pre-boot shield. BootSequence (components/BootSequence.tsx) can't render
+   its overlay until after hydration — it deliberately starts hidden so the
+   server HTML and the client's first paint agree — which left a frame or
+   more of the real site showing before the boot overlay covered it. This
+   is a plain opaque div in the server-rendered HTML, so it's painted with
+   the very first frame; BootSequence removes it (data-boot-ready on <html>)
+   once its own overlay is up. Anyone with JS disabled just sees the site,
+   since nothing would ever remove this otherwise — so it's also removed by
+   an inline script failsafe in the layout. */
+#preboot-shield {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above the boot overlay's z-50 until it hands over */
+  background: var(--background);
+}
+html[data-boot-ready] #preboot-shield {
+  display: none;
+}

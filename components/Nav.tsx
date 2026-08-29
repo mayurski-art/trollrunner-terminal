@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange, logout, displayName } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
+import ProblemsCounter from "@/components/ProblemsCounter";
 
 export default function Nav() {
   const [session, setSession] = useState<Session | null>(null);
@@ -55,6 +56,7 @@ export default function Nav() {
       </div>
       {session ? (
         <div className="flex items-center gap-3">
+          <ProblemsCounter />
           <span className="text-you">{displayName(session) ?? "connected"}</span>
           <button onClick={() => logout()} className="nav-neon nav-neon--disconnect whitespace-nowrap">
             [ disconnect ]
