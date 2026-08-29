@@ -4,19 +4,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { BOOT_LINES } from "@/lib/ascii";
 import BootConnector, { type ConvergeOrigin } from "@/components/BootConnector";
 
-const SESSION_KEY = "trollface_booted";
 const LINE_DELAY_MS = 220;
 const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
 const ZOOM_MS = 1100; // must match the transition duration set in handleConverge
 const ZOOM_SCALE = 70;
 const FADE_MS = 350;
 
-// Fake POST/boot text shown once per browser session, followed by the
-// Carlos/trollface connector (components/BootConnector.tsx) converging and
-// zooming through its own center into the site underneath, which has been
-// mounted the whole time behind this fixed overlay. Skippable via any
-// click/keypress, and skipped entirely for returning-within-session
-// visitors so it never gets in the way of actually using the terminal.
+// Fake POST/boot text shown on every full page load (including a plain
+// browser refresh — this remounts the root layout, so no persistence is
+// needed or wanted), followed by the Carlos/trollface connector
+// (components/BootConnector.tsx) converging and zooming through its own
+// center into the site underneath, which has been mounted the whole time
+// behind this fixed overlay. Skippable via any click/keypress. Client-side
+// navigation between pages does NOT remount this (the root layout stays
+// mounted across routes), so it only replays on an actual reload.
 export default function BootSequence() {
   const [visible, setVisible] = useState(false);
   const [shownCount, setShownCount] = useState(0);
@@ -24,11 +25,10 @@ export default function BootSequence() {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY)) return;
-    sessionStorage.setItem(SESSION_KEY, "1");
-    // One-time reveal gated on a browser-only API (sessionStorage) that
-    // can't be read during render for SSR — a deliberate exception to the
-    // "no setState in effect body" guideline.
+    // Deferred to an effect (rather than the initial useState value) so the
+    // server-rendered HTML always starts hidden and the client's first
+    // paint matches it — avoiding a hydration mismatch — then reveals
+    // itself a tick later.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisible(true);
   }, []);
