@@ -145,12 +145,17 @@ main {
   letter-spacing: 0.05em;
   animation: site-ticker-scroll 22s linear infinite;
 }
+/* The span renders TICKER_TEXT twice back to back (each followed by the
+   same " · " separator) so the two halves are identical — translating by
+   exactly -50% of that doubled width lands on a frame pixel-identical to
+   the start, so the loop reset is invisible and nothing ever scrolls off
+   into a blank gap the way a 100% -> -100% pass would. */
 @keyframes site-ticker-scroll {
   from {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   to {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
@@ -311,60 +316,36 @@ main {
 /* The persistent connector widget in the [ speak to it ] panel header —
    components/MiniConnector.tsx. trolltruths as the hub (center column),
    one horizontal row of spokes on either side — carlos + umadbro.shop to
-   its left, NFT + crypto to its right. Column centers land at 10/30/50/70/
-   90% of .mc-grid's width by construction (5 equal 1fr columns), which is
-   what the wire line and each packet's crawl keyframes below are keyed to.
-   Ambient/looping, unlike the one-shot boot connector above: no
-   convergence, no zoom, it just keeps pulsing for as long as the panel is
-   on screen. Scoped local hues for the same reason as .boot-connector's
-   --bc-go. */
+   its left, NFT + crypto to its right. Grid-row technique borrowed from
+   .boot-connector above (node row, stem row, one shared wire row, label
+   row) rather than nesting node+label per column, so the wire visibly
+   terminates at every box instead of floating below a run of labels.
+   Column centers land at 10/30/50/70/90% of the grid's width by
+   construction (5 equal 1fr columns), which is what the wire line and
+   every packet's crawl keyframe below are keyed to. Ambient/looping,
+   unlike the one-shot boot connector: no convergence, no zoom, it just
+   keeps pulsing for as long as the panel is on screen. Scoped local hues
+   for the same reason as .boot-connector's --bc-go. */
 .mini-connector {
   --mc-violet: #b26bff;
   --mc-cyan: #2ee6ff;
   --mc-lime: #7dff5c;
   --mc-gold: var(--problem);
+  --mc-grey: #a8a8a8;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 4px;
+  align-items: end;
   padding: 6px 4px 10px;
   margin-bottom: 12px;
   border-bottom: 1px dashed var(--ghost);
 }
 
-.mini-connector .mc-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  column-gap: 4px;
-  align-items: end;
-}
-
-.mini-connector .mc-col {
+.mini-connector .mc-node-slot {
+  grid-row: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  justify-content: center;
   min-width: 0;
-}
-
-.mini-connector .mc-label {
-  font-size: 8px;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-  text-align: center;
-  max-width: 100%;
-}
-.mini-connector .mc-col--carlos .mc-label {
-  color: var(--mc-violet);
-}
-.mini-connector .mc-col--umadbro .mc-label {
-  color: var(--mc-cyan);
-}
-.mini-connector .mc-col--nft .mc-label {
-  color: var(--mc-lime);
-}
-.mini-connector .mc-col--crypto .mc-label {
-  color: var(--mc-gold);
-}
-.mini-connector .mc-col--hub .mc-label {
-  color: var(--terminal);
-  font-weight: 600;
 }
 
 .mini-connector .mc-node {
@@ -381,18 +362,18 @@ main {
   justify-content: center;
   animation: mc-glitch 7s infinite;
 }
-.mini-connector .mc-col--carlos .mc-node {
+.mini-connector .mc-node--carlos {
   border-color: color-mix(in srgb, var(--mc-violet) 45%, var(--dim));
 }
-.mini-connector .mc-col--umadbro .mc-node {
+.mini-connector .mc-node--umadbro {
   animation-delay: 1.4s;
   border-color: color-mix(in srgb, var(--mc-cyan) 45%, var(--dim));
 }
-.mini-connector .mc-col--nft .mc-node {
+.mini-connector .mc-node--nft {
   animation-delay: 2.8s;
   border-color: color-mix(in srgb, var(--mc-lime) 45%, var(--dim));
 }
-.mini-connector .mc-col--crypto .mc-node {
+.mini-connector .mc-node--crypto {
   animation-delay: 4.2s;
   border-color: color-mix(in srgb, var(--mc-gold) 45%, var(--dim));
 }
@@ -475,10 +456,25 @@ main {
   }
 }
 
+/* short tick connecting each box down to the shared wire line below it —
+   this is what actually makes the row read as "wired together" instead of
+   five boxes floating over an unrelated line */
+.mini-connector .mc-stem {
+  grid-row: 2;
+  justify-self: center;
+  width: 1px;
+  height: 5px;
+  background: var(--dim);
+}
+.mini-connector .mc-stem--hub {
+  height: 7px;
+}
+
 .mini-connector .mc-wire-row {
+  grid-row: 3;
+  grid-column: 1 / -1;
   position: relative;
   height: 8px;
-  margin-top: 4px;
 }
 .mini-connector .mc-wire-line {
   position: absolute;
@@ -498,98 +494,262 @@ main {
   opacity: 0;
   box-shadow: 0 0 4px currentColor;
 }
-/* All four packets move in lockstep, not staggered: every spoke travels
-   in toward the hub together, then back out together, one round trip per
-   PACKET_CYCLE_MS (components/MiniConnector.tsx). The face reads that same
-   cycle — grin while the pack is inbound (0-50%), sad while it's outbound
-   (50-100%) — so the two halves of this animation and the face's timer
-   must stay the same length or the tell goes out of sync. */
-.mini-connector .mc-packet--carlos {
+
+.mini-connector .mc-label {
+  grid-row: 4;
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-align: center;
+  max-width: 100%;
+}
+.mini-connector .mc-label--carlos {
   color: var(--mc-violet);
-  background: var(--mc-violet);
-  animation: mc-crawl-carlos 3.2s ease-in-out infinite;
 }
-.mini-connector .mc-packet--umadbro {
+.mini-connector .mc-label--umadbro {
   color: var(--mc-cyan);
-  background: var(--mc-cyan);
-  animation: mc-crawl-umadbro 3.2s ease-in-out infinite;
 }
-.mini-connector .mc-packet--nft {
+.mini-connector .mc-label--nft {
   color: var(--mc-lime);
-  background: var(--mc-lime);
-  animation: mc-crawl-nft 3.2s ease-in-out infinite;
 }
-.mini-connector .mc-packet--crypto {
+.mini-connector .mc-label--crypto {
   color: var(--mc-gold);
-  background: var(--mc-gold);
-  animation: mc-crawl-crypto 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-label--hub {
+  color: var(--terminal);
+  font-weight: 600;
 }
 
-@keyframes mc-crawl-carlos {
-  0%,
+/* Each spoke is two packets, not one bouncing dot: a colored one carries
+   the node's own accent out to the hub (0-50% of the cycle), then a grey
+   one carries the hub's reply back out to the node (50-100%). Color is
+   what encodes direction, so the outbound leg is deliberately never the
+   node's color. All eight packets share PACKET_CYCLE_MS
+   (components/MiniConnector.tsx) and run in lockstep — the face flips on
+   the same two boundaries these keyframes turn on. */
+.mini-connector .mc-packet-out--carlos {
+  color: var(--mc-violet);
+  background: var(--mc-violet);
+  animation: mc-out-carlos 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-in--carlos {
+  color: var(--mc-grey);
+  background: var(--mc-grey);
+  animation: mc-in-carlos 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-out--umadbro {
+  color: var(--mc-cyan);
+  background: var(--mc-cyan);
+  animation: mc-out-umadbro 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-in--umadbro {
+  color: var(--mc-grey);
+  background: var(--mc-grey);
+  animation: mc-in-umadbro 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-out--nft {
+  color: var(--mc-lime);
+  background: var(--mc-lime);
+  animation: mc-out-nft 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-in--nft {
+  color: var(--mc-grey);
+  background: var(--mc-grey);
+  animation: mc-in-nft 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-out--crypto {
+  color: var(--mc-gold);
+  background: var(--mc-gold);
+  animation: mc-out-crypto 3.2s ease-in-out infinite;
+}
+.mini-connector .mc-packet-in--crypto {
+  color: var(--mc-grey);
+  background: var(--mc-grey);
+  animation: mc-in-crypto 3.2s ease-in-out infinite;
+}
+
+/* out: node -> hub, colored, first half. in: hub -> node, grey, second
+   half. Opacity holds flat at 1 through the travel (4%-42% / 54%-92%) and
+   only fades right at departure/arrival — opacity and left each need
+   their own stops here, since a keyframe that doesn't redefine a property
+   interpolates it from the nearest stop that does, and collapsing the
+   hold into a single point made the packet fade out across its entire
+   trip instead of staying visible while it travels. The 46-54% gap at the
+   hub is a deliberate beat — packet arrives, sits a moment, reply leaves —
+   rather than an instant handoff. */
+@keyframes mc-out-carlos {
+  0% {
+    left: 10%;
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  42% {
+    opacity: 1;
+  }
+  46% {
+    left: 50%;
+    opacity: 0;
+  }
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-in-carlos {
+  0% {
+    left: 50%;
+    opacity: 0;
+  }
+  50% {
+    left: 50%;
+    opacity: 0;
+  }
+  54% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  96% {
+    left: 10%;
+    opacity: 0;
+  }
   100% {
     left: 10%;
-    opacity: 0.2;
+    opacity: 0;
   }
-  8% {
+}
+@keyframes mc-out-umadbro {
+  0% {
+    left: 30%;
+    opacity: 0;
+  }
+  4% {
     opacity: 1;
+  }
+  42% {
+    opacity: 1;
+  }
+  46% {
+    left: 50%;
+    opacity: 0;
+  }
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-in-umadbro {
+  0% {
+    left: 50%;
+    opacity: 0;
   }
   50% {
     left: 50%;
+    opacity: 0;
+  }
+  54% {
     opacity: 1;
   }
   92% {
     opacity: 1;
   }
-}
-@keyframes mc-crawl-umadbro {
-  0%,
+  96% {
+    left: 30%;
+    opacity: 0;
+  }
   100% {
     left: 30%;
-    opacity: 0.2;
+    opacity: 0;
   }
-  8% {
+}
+@keyframes mc-out-nft {
+  0% {
+    left: 70%;
+    opacity: 0;
+  }
+  4% {
     opacity: 1;
+  }
+  42% {
+    opacity: 1;
+  }
+  46% {
+    left: 50%;
+    opacity: 0;
+  }
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-in-nft {
+  0% {
+    left: 50%;
+    opacity: 0;
   }
   50% {
     left: 50%;
+    opacity: 0;
+  }
+  54% {
     opacity: 1;
   }
   92% {
     opacity: 1;
   }
-}
-@keyframes mc-crawl-nft {
-  0%,
+  96% {
+    left: 70%;
+    opacity: 0;
+  }
   100% {
     left: 70%;
-    opacity: 0.2;
-  }
-  8% {
-    opacity: 1;
-  }
-  50% {
-    left: 50%;
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
+    opacity: 0;
   }
 }
-@keyframes mc-crawl-crypto {
-  0%,
-  100% {
+@keyframes mc-out-crypto {
+  0% {
     left: 90%;
-    opacity: 0.2;
+    opacity: 0;
   }
-  8% {
+  4% {
     opacity: 1;
+  }
+  42% {
+    opacity: 1;
+  }
+  46% {
+    left: 50%;
+    opacity: 0;
+  }
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-in-crypto {
+  0% {
+    left: 50%;
+    opacity: 0;
   }
   50% {
     left: 50%;
+    opacity: 0;
+  }
+  54% {
     opacity: 1;
   }
   92% {
     opacity: 1;
+  }
+  96% {
+    left: 90%;
+    opacity: 0;
+  }
+  100% {
+    left: 90%;
+    opacity: 0;
   }
 }

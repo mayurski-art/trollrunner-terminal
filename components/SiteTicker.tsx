@@ -9,7 +9,7 @@ export default function SiteTicker() {
   return (
     <div className="site-ticker mb-6">
       <span>
-        {TICKER_TEXT} &middot; {TICKER_TEXT}
+        {TICKER_TEXT} &middot; {TICKER_TEXT} &middot;{" "}
       </span>
     </div>
   );

@@ -57,10 +57,10 @@ export default function Home() {
         <div className="mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
         </div>
-        <p className="text-dim text-sm mb-1">
-          it surfaced inside trollrunner.net  ·  now it is your job to explore the infinite knowledge behind trolling
+        <p className="text-dim text-sm mb-1 text-center">
+          explore the infinite knowledge behind trolling
         </p>
-        <p className="text-problem text-sm mb-10">
+        <p className="text-problem text-sm mb-10 text-center">
           try deciphering the latest transmission&apos;s clue below — crack it and the PROBLEMS are yours
         </p>
 
