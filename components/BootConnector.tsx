@@ -10,8 +10,8 @@ const RED_PCT = 0.2; // fraction of the total color sequence spent red
 const YELLOW_PCT = 0.25; // fraction spent yellow — green claims the rest
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
-const FACE_GRIN = "/boot/trollface-grin.png";
-const FACE_SAD = "/boot/trollface-sad.png";
+const FACE_GRIN = "/boot/trollface-grin.svg";
+const FACE_SAD = "/boot/trollface-sad.svg";
 
 export type ConvergeOrigin = { x: number; y: number };
 

@@ -8,6 +8,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
+import MiniConnector from "@/components/MiniConnector";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
@@ -100,6 +101,7 @@ export default function Home() {
           </Frame>
 
           <Frame title="speak to it" tone="dim" className="lg:w-2/3">
+            <MiniConnector />
             {session ? (
               <Chat />
             ) : (

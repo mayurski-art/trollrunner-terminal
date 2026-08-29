@@ -51,7 +51,7 @@ export default function BootSequence() {
   useEffect(() => {
     if (!visible) return;
     new Image().src = "/boot/carlos-ramirez.webp";
-    new Image().src = "/boot/trollface-grin.png";
+    new Image().src = "/boot/trollface-grin.svg";
   }, [visible]);
 
   useEffect(() => {

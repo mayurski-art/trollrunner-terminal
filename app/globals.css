@@ -251,3 +251,173 @@ main {
 .boot-connector .bc-labels--it {
   color: var(--terminal);
 }
+
+/* The persistent "carlos <-> trolltruths" widget in the [ speak to it ]
+   panel header — components/MiniConnector.tsx. Ambient/looping, unlike
+   the one-shot boot connector above: no convergence, no zoom, it just
+   keeps pulsing for as long as the panel is on screen. Scoped local hues
+   for the same reason as .boot-connector's --bc-go. */
+.mini-connector {
+  --mc-violet: #b26bff;
+  --mc-cyan: #2ee6ff;
+  --mc-lime: #7dff5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 6px 0 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--ghost);
+}
+
+.mini-connector .mc-node {
+  width: 34px;
+  height: 28px;
+  border: 1px solid var(--dim);
+  background: var(--panel);
+  padding: 2px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: mc-glitch 7s infinite;
+}
+.mini-connector .mc-node--it {
+  animation-delay: 3.2s;
+  perspective: 200px;
+}
+.mini-connector .mc-node img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  backface-visibility: hidden;
+}
+.mini-connector .mc-node--it img.mc-spinning {
+  animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes mc-glitch {
+  0%,
+  95%,
+  100% {
+    transform: translate(0);
+  }
+  96% {
+    transform: translate(-1px, 1px);
+  }
+  97% {
+    transform: translate(1px, -1px);
+  }
+  98% {
+    transform: translate(-1px);
+  }
+  99% {
+    transform: translate(1px);
+  }
+}
+
+.mini-connector .mc-wire {
+  position: relative;
+  width: 90px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+}
+.mini-connector .mc-wire-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--dim);
+}
+.mini-connector .mc-dot {
+  position: relative;
+  margin: 0 auto;
+  width: 6px;
+  height: 6px;
+  animation: mc-pulse 2.6s ease-in-out infinite;
+}
+.mini-connector .mc-packet {
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  transform: translateY(-50%);
+  opacity: 0;
+  box-shadow: 0 0 4px currentColor;
+}
+.mini-connector .mc-packet--l {
+  animation: mc-crawl-l 2.6s linear infinite;
+  color: var(--mc-cyan);
+  background: var(--mc-cyan);
+}
+.mini-connector .mc-packet--r {
+  animation: mc-crawl-r 2.6s linear infinite;
+  animation-delay: 1.3s;
+  color: var(--mc-lime);
+  background: var(--mc-lime);
+}
+
+@keyframes mc-crawl-l {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-crawl-r {
+  0% {
+    left: 100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    left: 50%;
+    opacity: 0;
+  }
+}
+@keyframes mc-pulse {
+  0%,
+  100% {
+    background: var(--problem);
+    box-shadow: 0 0 5px var(--problem), 0 0 12px rgba(255, 210, 31, 0.55);
+  }
+  25% {
+    background: var(--alert);
+    box-shadow: 0 0 6px var(--alert), 0 0 14px rgba(255, 59, 59, 0.55);
+  }
+  50% {
+    background: var(--mc-violet);
+    box-shadow: 0 0 7px var(--mc-violet), 0 0 16px rgba(178, 107, 255, 0.55);
+  }
+  75% {
+    background: var(--mc-cyan);
+    box-shadow: 0 0 6px var(--mc-cyan), 0 0 14px rgba(46, 230, 255, 0.55);
+  }
+}
+
+.mini-connector .mc-labels {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+}
