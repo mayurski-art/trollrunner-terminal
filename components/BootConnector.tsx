@@ -8,6 +8,7 @@ const MID = 50;
 const CRAWL_MS = 1100;
 const RED_HOLD_MS = 350; // how long it sits solid red before easing toward green
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
+const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.png";
 const FACE_SAD = "/boot/trollface-sad.png";
 
@@ -66,7 +67,7 @@ export default function BootConnector({
     });
 
     let greenTimer: ReturnType<typeof setTimeout> | undefined;
-    let spinBackTimer: ReturnType<typeof setTimeout> | undefined;
+    let spinInterval: ReturnType<typeof setInterval> | undefined;
 
     const convergeTimer = setTimeout(() => {
       packetYou.style.opacity = "0";
@@ -79,8 +80,15 @@ export default function BootConnector({
       const rect = center.getBoundingClientRect();
       onConverge({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
 
-      // the grin turns to worry right as the red hits...
-      spinTo(FACE_SAD);
+      // the face keeps turning, grin <-> worry, for as long as this stays
+      // mounted — not a one-off reaction, a running tell
+      let currentFace = FACE_GRIN;
+      const spinNext = () => {
+        currentFace = currentFace === FACE_GRIN ? FACE_SAD : FACE_GRIN;
+        spinTo(currentFace);
+      };
+      spinNext();
+      spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
 
       // hold solid red for a beat, then ease to green over whatever time
       // remains, so it still lands exactly when the site unveils
@@ -91,17 +99,13 @@ export default function BootConnector({
         center.style.boxShadow =
           "0 0 16px var(--bc-go), 0 0 60px var(--bc-go), 0 0 120px var(--bc-go)";
       }, RED_HOLD_MS);
-
-      // ...and turns back to the grin right as green lands and the site unveils
-      const spinBackDelay = Math.max(SPIN_MS + 50, revealMs - SPIN_MS);
-      spinBackTimer = setTimeout(() => spinTo(FACE_GRIN), spinBackDelay);
     }, CRAWL_MS);
 
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(convergeTimer);
       clearTimeout(greenTimer);
-      clearTimeout(spinBackTimer);
+      clearInterval(spinInterval);
     };
   }, [onConverge, revealMs]);
 

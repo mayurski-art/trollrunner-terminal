@@ -6,7 +6,7 @@ import BootConnector, { type ConvergeOrigin } from "@/components/BootConnector";
 
 const LINE_DELAY_MS = 220;
 const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
-const ZOOM_MS = 1100; // must match the transition duration set in handleConverge
+const ZOOM_MS = 2400; // must match the transition duration set in handleConverge
 const ZOOM_SCALE = 70;
 const FADE_MS = 350;
 
