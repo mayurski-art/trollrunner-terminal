@@ -3,7 +3,10 @@
 import { useEffect, useRef } from "react";
 
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
-const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
+// Must match the packet keyframes' full loop length in globals.css
+// (.mc-packet--* animations) — half of it is the inbound leg, half the
+// outbound leg, and the face flips exactly on those two boundaries.
+const PACKET_CYCLE_MS = 3200;
 const FACE_GRIN = "/boot/trollface-grin.svg";
 const FACE_SAD = "/boot/trollface-sad.svg";
 
@@ -14,6 +17,11 @@ const FACE_SAD = "/boot/trollface-sad.svg";
 // than the radial hub-and-spoke used for planning — same visual language as
 // BootConnector.tsx (components/BootConnector.tsx), but ambient/looping and
 // horizontal, not a one-shot reveal.
+//
+// The face isn't on its own timer: it's a readout of what the packets are
+// doing. All four spokes travel toward the hub together (grin, inbound
+// half of the cycle) then back out toward their own node together (sad,
+// outbound half) — see PACKET_CYCLE_MS above.
 export default function MiniConnector() {
   const faceRef = useRef<HTMLImageElement>(null);
 
@@ -21,18 +29,19 @@ export default function MiniConnector() {
     const face = faceRef.current;
     if (!face) return;
 
-    let currentFace = FACE_GRIN;
-    const spinNext = () => {
-      currentFace = currentFace === FACE_GRIN ? FACE_SAD : FACE_GRIN;
+    let inbound = true; // matches the packets' 0-50% (toward the hub) leg
+    const flip = () => {
+      inbound = !inbound;
+      const nextFace = inbound ? FACE_GRIN : FACE_SAD;
       face.classList.remove("mc-spinning");
       void face.offsetWidth; // restart the animation from scratch
       face.classList.add("mc-spinning");
       setTimeout(() => {
-        face.src = currentFace;
+        face.src = nextFace;
       }, SPIN_MS / 2);
     };
 
-    const interval = setInterval(spinNext, SPIN_INTERVAL_MS);
+    const interval = setInterval(flip, PACKET_CYCLE_MS / 2);
     return () => clearInterval(interval);
   }, []);
 
