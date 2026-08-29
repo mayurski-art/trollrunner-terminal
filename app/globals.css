@@ -212,6 +212,72 @@ main {
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
 .nav-neon--disconnect { --nn-hue: var(--alert); animation-delay: 0s; }
 
+/* Frame.tsx titleEffect="trace" — opt-in, used only by the homepage's two
+   hero panels (app/page.tsx). Reads as energy arriving from both bracket
+   ends and racing inward: the brackets flash first, then the label sweeps
+   in a bright wipe from both edges toward its center, then the whole title
+   settles into a steady glow and stays there — a one-shot reveal, not a
+   loop, so it doesn't compete with the ambient nav/tagline animations.
+   --trace-hue defaults to the terminal white but each panel below passes
+   its own accent via Frame's traceHue prop. */
+.frame-trace {
+  --trace-hue: var(--terminal);
+  color: var(--trace-hue);
+}
+.frame-trace-bracket {
+  display: inline-block;
+  animation: frame-trace-bracket-flash 0.5s ease-out both;
+  text-shadow: 0 0 8px var(--trace-hue);
+}
+.frame-trace-bracket--right {
+  animation-delay: 0.05s;
+}
+.frame-trace-label {
+  display: inline-block;
+  color: var(--trace-hue);
+  opacity: 0.25;
+  filter: blur(2px);
+  animation: frame-trace-label-arrive 0.45s ease-out 0.3s both;
+}
+
+@keyframes frame-trace-bracket-flash {
+  0% {
+    opacity: 0.25;
+    text-shadow: none;
+  }
+  40% {
+    opacity: 1;
+    text-shadow: 0 0 12px var(--trace-hue), 0 0 24px var(--trace-hue);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 8px var(--trace-hue);
+  }
+}
+
+/* The label itself doesn't visually "wipe" character by character — with a
+   short 1-2 word title that would be imperceptible anyway — it arrives as
+   a soft, blurred-in flash right as both brackets' flashes reach their
+   peak, reading as the two traces meeting in the middle and lighting the
+   whole title at once. */
+@keyframes frame-trace-label-arrive {
+  0% {
+    opacity: 0.25;
+    filter: blur(2px);
+    text-shadow: none;
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0);
+    text-shadow: 0 0 10px var(--trace-hue), 0 0 20px var(--trace-hue);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue) 70%, transparent);
+  }
+}
+
 ::selection {
   background: var(--alert);
   color: var(--background);

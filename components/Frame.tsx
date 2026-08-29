@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 type FrameProps = {
   title?: string;
@@ -7,6 +7,11 @@ type FrameProps = {
   tone?: "dim" | "terminal" | "problem" | "alert";
   className?: string;
   bodyClassName?: string;
+  /** Opt-in: the title races two neon traces in from each bracket, meeting
+   * in the middle, then settles into a steady glow. Off by default —
+   * reserved for the homepage's two hero panels, not every Frame. */
+  titleEffect?: "trace";
+  traceHue?: string;
 };
 
 const TONE_COLOR: Record<NonNullable<FrameProps["tone"]>, string> = {
@@ -27,6 +32,8 @@ export default function Frame({
   tone = "dim",
   className = "",
   bodyClassName = "",
+  titleEffect,
+  traceHue,
 }: FrameProps) {
   const borderStyle = variant === "double" ? "border-double" : "border-solid";
   const borderWidth = variant === "double" ? "border-[6px]" : "border";
@@ -35,7 +42,17 @@ export default function Frame({
     <div
       className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/60 ${className}`}
     >
-      {title && (
+      {title && titleEffect === "trace" && (
+        <span
+          className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide"
+          style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
+        >
+          <span className="frame-trace-bracket frame-trace-bracket--left">[</span>
+          <span className="frame-trace-label"> {title} </span>
+          <span className="frame-trace-bracket frame-trace-bracket--right">]</span>
+        </span>
+      )}
+      {title && titleEffect !== "trace" && (
         <span
           className={`absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide ${TONE_COLOR[tone].split(" ")[1]}`}
         >

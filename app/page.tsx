@@ -70,6 +70,8 @@ export default function Home() {
             tone="terminal"
             className="order-2 lg:order-none lg:w-1/3 lg:h-[34rem]"
             bodyClassName="chat-scroll lg:h-full lg:overflow-y-auto"
+            titleEffect="trace"
+            traceHue="#2ee6ff"
           >
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
@@ -112,6 +114,8 @@ export default function Home() {
             tone="dim"
             className="order-1 lg:order-none lg:w-2/3 lg:h-[34rem]"
             bodyClassName="flex flex-col lg:h-full"
+            titleEffect="trace"
+            traceHue="#b26bff"
           >
             <MiniConnector />
             {session ? (
