@@ -10,13 +10,18 @@ import { OWNER_USERNAME } from "@/lib/ownerUsername";
 // nobody but troll_runner ever sees this link, let alone its result.
 export default function OwnerClueReveal({ session }: { session: Session | null }) {
   const [clue, setClue] = useState<string | null>(null);
+  const [shown, setShown] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (displayName(session) !== OWNER_USERNAME) return null;
 
   async function reveal() {
-    if (busy || clue) return;
+    if (busy) return;
+    if (clue) {
+      setShown(true);
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
@@ -32,6 +37,7 @@ export default function OwnerClueReveal({ session }: { session: Session | null }
         return;
       }
       setClue(body.clue ?? "[no clue recorded for this transmission]");
+      setShown(true);
     } catch {
       setError("connection to the terminal was lost");
     } finally {
@@ -42,8 +48,14 @@ export default function OwnerClueReveal({ session }: { session: Session | null }
   return (
     <p className="mt-2 text-xs text-dim">
       clues{" "}
-      {clue ? (
-        <span className="text-blue-400">{clue}</span>
+      {shown && clue ? (
+        <button
+          type="button"
+          onClick={() => setShown(false)}
+          className="text-blue-400 hover:underline"
+        >
+          {clue}
+        </button>
       ) : (
         <button
           type="button"
