@@ -161,7 +161,7 @@ export default function Archive() {
               <Frame tone="terminal" className="mt-2">
                 <p className="whitespace-pre-wrap leading-relaxed text-sm">{file.body}</p>
                 {file.images.length > 0 && (
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {file.images.map((img) => (
                       <figure key={img.id}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
