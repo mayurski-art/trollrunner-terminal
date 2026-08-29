@@ -109,6 +109,13 @@ brand accent on banners. All defined once as CSS variables in `globals.css`.
 At a glance: white = the entity speaking, grey = you, yellow = PROBLEMS,
 red = danger/brand. Hover/focus states brighten the same hue, never add one.
 
+**Exception: `Nav.tsx`.** The top nav's route links (`.nav-neon` in
+`globals.css`) each get their own persistent neon hue with a slow breathing
+glow, by explicit request — decorative, not semantic. None of those hues
+carry site-wide meaning the way the table above does, so they're scoped as
+local classes rather than added to the `:root` token set. Everywhere else,
+the "every color means one thing" rule still holds.
+
 ---
 
 ## 4. Site structure

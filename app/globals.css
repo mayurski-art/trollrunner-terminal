@@ -168,6 +168,50 @@ main {
   }
 }
 
+/* Nav.tsx — deliberate exception to the "every color means one thing"
+   rule in docs/TERMINAL-V2-DESIGN.md §3 (see the note added there): each
+   route link gets its own persistent neon hue and a slow breathing glow,
+   staggered per link so the row doesn't pulse in unison. Hover/focus just
+   pushes the same hue brighter, same as every other hover state on the
+   site. Scoped local hues, not new :root tokens, since none of them carry
+   a site-wide semantic meaning the way terminal/you/problem/alert do. */
+.nav-neon {
+  --nn-hue: var(--terminal);
+  color: var(--nn-hue);
+  text-shadow: 0 0 4px color-mix(in srgb, var(--nn-hue) 55%, transparent);
+  animation: nav-neon-pulse 4.5s ease-in-out infinite;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+.nav-neon:hover,
+.nav-neon:focus-visible {
+  color: var(--nn-hue);
+  text-shadow:
+    0 0 6px var(--nn-hue),
+    0 0 16px color-mix(in srgb, var(--nn-hue) 70%, transparent);
+  animation-play-state: paused;
+}
+
+@keyframes nav-neon-pulse {
+  0%,
+  100% {
+    text-shadow: 0 0 4px color-mix(in srgb, var(--nn-hue) 45%, transparent);
+  }
+  50% {
+    text-shadow: 0 0 9px color-mix(in srgb, var(--nn-hue) 75%, transparent);
+  }
+}
+
+.nav-neon--home { --nn-hue: #ff5ec4; animation-delay: 0s; }
+.nav-neon--terminal { --nn-hue: #2ee6ff; animation-delay: 0.3s; }
+.nav-neon--vault { --nn-hue: var(--problem); animation-delay: 0.6s; }
+.nav-neon--archive { --nn-hue: #7dff5c; animation-delay: 0.9s; }
+.nav-neon--logs { --nn-hue: #b26bff; animation-delay: 1.2s; }
+.nav-neon--undervoice { --nn-hue: var(--alert); animation-delay: 1.5s; }
+.nav-neon--transmit { --nn-hue: #ff9d3a; animation-delay: 1.8s; }
+.nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
+.nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
+.nav-neon--disconnect { --nn-hue: var(--alert); animation-delay: 0s; }
+
 ::selection {
   background: var(--alert);
   color: var(--background);

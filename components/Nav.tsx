@@ -19,36 +19,36 @@ export default function Nav() {
   return (
     <nav className="flex items-center justify-between text-[11px] sm:text-sm text-dim mb-8 flex-wrap gap-x-3 gap-y-2">
       <div className="flex flex-wrap gap-x-3 gap-y-2 sm:gap-4">
-        <a href="https://trollrunner.net?enter=1" className="hover:text-you whitespace-nowrap">
+        <a href="https://trollrunner.net?enter=1" className="nav-neon nav-neon--home whitespace-nowrap">
           [ home ]
         </a>
-        <Link href="/" className="hover:text-terminal whitespace-nowrap">
+        <Link href="/" className="nav-neon nav-neon--terminal whitespace-nowrap">
           [ terminal ]
         </Link>
-        <Link href="/vault" className="hover:text-problem whitespace-nowrap">
+        <Link href="/vault" className="nav-neon nav-neon--vault whitespace-nowrap">
           [ vault ]
         </Link>
-        <Link href="/archive" className="hover:text-terminal whitespace-nowrap">
+        <Link href="/archive" className="nav-neon nav-neon--archive whitespace-nowrap">
           [ archive ]
         </Link>
-        <Link href="/logs" className="hover:text-foreground whitespace-nowrap">
+        <Link href="/logs" className="nav-neon nav-neon--logs whitespace-nowrap">
           [ logs ]
         </Link>
-        <Link href="/undervoice" className="hover:text-alert whitespace-nowrap">
+        <Link href="/undervoice" className="nav-neon nav-neon--undervoice whitespace-nowrap">
           [ undervoice ]
         </Link>
         {isOwner && (
-          <Link href="/transmit" className="hover:text-problem whitespace-nowrap">
+          <Link href="/transmit" className="nav-neon nav-neon--transmit whitespace-nowrap">
             [ transmit ]
           </Link>
         )}
         {isOwner && (
-          <Link href="/inspect" className="hover:text-problem whitespace-nowrap">
+          <Link href="/inspect" className="nav-neon nav-neon--inspect whitespace-nowrap">
             [ inspect ]
           </Link>
         )}
         {isOwner && (
-          <Link href="/reports" className="hover:text-problem whitespace-nowrap">
+          <Link href="/reports" className="nav-neon nav-neon--reports whitespace-nowrap">
             [ reports ]
           </Link>
         )}
@@ -56,7 +56,7 @@ export default function Nav() {
       {session ? (
         <div className="flex items-center gap-3">
           <span className="text-you">{displayName(session) ?? "connected"}</span>
-          <button onClick={() => logout()} className="hover:text-alert whitespace-nowrap">
+          <button onClick={() => logout()} className="nav-neon nav-neon--disconnect whitespace-nowrap">
             [ disconnect ]
           </button>
         </div>
