@@ -113,9 +113,11 @@ export default function Chat() {
     };
   }, []);
 
-  async function authHeader(): Promise<Record<string, string>> {
+  async function authHeader(forceRefresh = false): Promise<Record<string, string>> {
     const sb = getPublicClient();
-    const { data } = await sb.auth.getSession();
+    const { data } = forceRefresh
+      ? await sb.auth.refreshSession()
+      : await sb.auth.getSession();
     const token = data.session?.access_token;
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
@@ -123,20 +125,36 @@ export default function Chat() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const headers = await authHeader();
+      let headers = await authHeader();
       if (!headers.Authorization) {
         setLoaded(true);
         return;
       }
       try {
-        const [chatRes, memRes] = await Promise.all([
+        let [chatRes, memRes] = await Promise.all([
           fetch("/api/chat", { headers }),
           fetch("/api/memory", { headers }),
         ]);
+        // A session restored from localStorage/the SSO cookie can hand back
+        // an access token that's already expired (mobile browsers are
+        // slower to finish restoring auth state on cold load) — one retry
+        // with a forced refresh recovers that instead of leaving the wallet
+        // stuck at its zeroed default with no visible error.
+        if (chatRes.status === 401) {
+          headers = await authHeader(true);
+          if (headers.Authorization) {
+            [chatRes, memRes] = await Promise.all([
+              fetch("/api/chat", { headers }),
+              fetch("/api/memory", { headers }),
+            ]);
+          }
+        }
         const data = await chatRes.json();
         if (!cancelled && chatRes.ok) {
           setMessages(data.messages ?? []);
           setWallet(data.wallet ?? wallet);
+        } else if (!cancelled) {
+          setError("could not load your wallet — try reloading");
         }
         const memData = await memRes.json();
         if (!cancelled && memRes.ok) {
