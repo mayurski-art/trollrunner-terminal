@@ -41,14 +41,17 @@ export default function Frame({
   return (
     <div
       className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/60 ${className}`}
+      style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
     >
       {title && titleEffect === "trace" && (
-        <span
-          className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide"
-          style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
-        >
-          [ {title} ]
-        </span>
+        <>
+          <svg className="frame-trace-border" preserveAspectRatio="none">
+            <rect pathLength={100} x="1%" y="1%" width="98%" height="98%" vectorEffect="non-scaling-stroke" />
+          </svg>
+          <span className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide">
+            [ {title} ]
+          </span>
+        </>
       )}
       {title && titleEffect !== "trace" && (
         <span

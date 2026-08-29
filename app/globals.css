@@ -213,53 +213,45 @@ main {
 .nav-neon--disconnect { --nn-hue: var(--alert); animation-delay: 0s; }
 
 /* Frame.tsx titleEffect="trace" — opt-in, used only by the homepage's two
-   hero panels (app/page.tsx). A bright neon head runs once left-to-right
-   across the whole "[ title ]" — entering at the left edge of the bracket,
-   exiting past the right edge — leaving the text lit up steady behind it.
+   hero panels (app/page.tsx). Neon light starts at the left side of the
+   "[ title ]" bracket and traces once around the panel's own rectangular
+   border — clockwise from the top-left corner (where the title sits),
+   across the top, down the right side, along the bottom, up the left —
+   ending back at its start with the whole border lit and glowing steady.
    One-shot on mount (fill-mode both holds the end state), not a loop, so
    it doesn't compete with the ambient nav/tagline animations. --trace-hue
-   defaults to the terminal white but each panel below passes its own
-   accent via Frame's traceHue prop. */
+   is set on the Frame's own root div (inline style from the traceHue
+   prop) so both the border SVG and the title text share one source of
+   truth for the color. */
 .frame-trace {
   position: relative;
   display: inline-block;
-  --trace-hue: var(--terminal);
-  color: var(--trace-hue);
-  text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue) 70%, transparent);
-}
-.frame-trace::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  bottom: -2px;
-  left: -6%;
-  width: 18%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--trace-hue) 45%,
-    var(--trace-hue) 55%,
-    transparent
-  );
-  filter: blur(3px);
-  opacity: 0.95;
-  animation: frame-trace-sweep 0.9s cubic-bezier(0.3, 0, 0.2, 1) both;
+  color: var(--trace-hue, var(--terminal));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--trace-hue, var(--terminal)) 70%, transparent);
 }
 
-@keyframes frame-trace-sweep {
-  0% {
-    left: -18%;
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    left: 100%;
-    opacity: 0;
+.frame-trace-border {
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  pointer-events: none;
+  overflow: visible;
+}
+.frame-trace-border rect {
+  fill: none;
+  stroke: var(--trace-hue, var(--terminal));
+  stroke-width: 2;
+  filter: drop-shadow(0 0 3px var(--trace-hue, var(--terminal)))
+    drop-shadow(0 0 7px var(--trace-hue, var(--terminal)));
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: frame-trace-draw 1.1s cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+
+@keyframes frame-trace-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
