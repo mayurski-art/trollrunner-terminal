@@ -3,7 +3,7 @@
 // making up numbers would be worse than not showing any). Static copy in
 // the persona's own voice instead.
 const TICKER_TEXT =
-  "it surfaced inside trollrunner.net · a drawing that got away from the guy who made it · trolling has a face now · welcome, troublemaker";
+  "it surfaced inside trollrunner.net · a face with no body and no alibi · trolling has a face now · welcome, troublemaker";
 
 export default function SiteTicker() {
   return (
