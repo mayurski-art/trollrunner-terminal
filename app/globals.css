@@ -144,17 +144,13 @@ main {
   grid-row: 1;
   width: 160px;
   height: 110px;
-  border: 1px solid var(--dim);
-  background: var(--panel);
-  padding: 10px;
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .boot-connector .bc-node--you { color: var(--you); }
-.boot-connector .bc-node--it { color: var(--terminal); }
+.boot-connector .bc-node--it { color: var(--terminal); perspective: 500px; }
 
 .boot-connector .bc-node img {
   max-width: 100%;
@@ -162,6 +158,18 @@ main {
   object-fit: contain;
   display: block;
   backface-visibility: hidden;
+}
+
+.boot-connector .bc-node--it img.bc-spinning {
+  animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes bc-spin-face {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 .boot-connector .bc-stems {

@@ -7,6 +7,9 @@ const START_IT = 80.7692;
 const MID = 50;
 const CRAWL_MS = 1100;
 const RED_HOLD_MS = 350; // how long it sits solid red before easing toward green
+const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
+const FACE_GRIN = "/boot/trollface-grin.png";
+const FACE_SAD = "/boot/trollface-sad.png";
 
 export type ConvergeOrigin = { x: number; y: number };
 
@@ -28,12 +31,27 @@ export default function BootConnector({
   const packetYouRef = useRef<HTMLDivElement>(null);
   const packetItRef = useRef<HTMLDivElement>(null);
   const centerRef = useRef<HTMLDivElement>(null);
+  const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const packetYou = packetYouRef.current;
     const packetIt = packetItRef.current;
     const center = centerRef.current;
-    if (!packetYou || !packetIt || !center) return;
+    const face = faceRef.current;
+    if (!packetYou || !packetIt || !center || !face) return;
+
+    // One horizontal turn, swapping the image mid-turn while it's edge-on
+    // and briefly invisible — reads as the face turning to reveal the
+    // other expression, not a crossfade.
+    function spinTo(src: string) {
+      if (!face) return;
+      face.classList.remove("bc-spinning");
+      void face.offsetWidth; // restart the animation from scratch
+      face.classList.add("bc-spinning");
+      setTimeout(() => {
+        if (face) face.src = src;
+      }, SPIN_MS / 2);
+    }
 
     packetYou.style.left = `${START_YOU}%`;
     packetIt.style.left = `${START_IT}%`;
@@ -48,6 +66,7 @@ export default function BootConnector({
     });
 
     let greenTimer: ReturnType<typeof setTimeout> | undefined;
+    let spinBackTimer: ReturnType<typeof setTimeout> | undefined;
 
     const convergeTimer = setTimeout(() => {
       packetYou.style.opacity = "0";
@@ -60,6 +79,9 @@ export default function BootConnector({
       const rect = center.getBoundingClientRect();
       onConverge({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
 
+      // the grin turns to worry right as the red hits...
+      spinTo(FACE_SAD);
+
       // hold solid red for a beat, then ease to green over whatever time
       // remains, so it still lands exactly when the site unveils
       const easeMs = Math.max(0, revealMs - RED_HOLD_MS);
@@ -69,12 +91,17 @@ export default function BootConnector({
         center.style.boxShadow =
           "0 0 16px var(--bc-go), 0 0 60px var(--bc-go), 0 0 120px var(--bc-go)";
       }, RED_HOLD_MS);
+
+      // ...and turns back to the grin right as green lands and the site unveils
+      const spinBackDelay = Math.max(SPIN_MS + 50, revealMs - SPIN_MS);
+      spinBackTimer = setTimeout(() => spinTo(FACE_GRIN), spinBackDelay);
     }, CRAWL_MS);
 
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(convergeTimer);
       clearTimeout(greenTimer);
+      clearTimeout(spinBackTimer);
     };
   }, [onConverge, revealMs]);
 
@@ -86,7 +113,7 @@ export default function BootConnector({
       </div>
       <div className="bc-node bc-node--it">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/trollface-grin.png" alt="" />
+        <img ref={faceRef} src={FACE_GRIN} alt="" />
       </div>
 
       <div className="bc-stems">
