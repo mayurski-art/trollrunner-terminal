@@ -120,8 +120,8 @@ main {
 
 .blink-cursor {
   display: inline-block;
-  width: 0.55em;
-  height: 0.1em;
+  width: 0.6em;
+  height: 1em;
   background: var(--terminal);
   animation: blink 1s steps(1) infinite;
   vertical-align: text-bottom;
@@ -416,8 +416,10 @@ main {
      nodes at desktop size would overflow the viewport outright. */
   --bc-node-w: clamp(48px, 15vw, 96px);
   /* Traffic light, kept in proportion to the nodes so the zoom frames it
-     identically on a phone and a desktop. */
-  --bc-light: clamp(8px, 2.4vw, 14px);
+     identically on a phone and a desktop. Capped at the original 10px so the
+     desktop rendering is byte-for-byte what it always was — this only scales
+     the light *down* on narrow viewports, where the nodes shrink too. */
+  --bc-light: min(10px, 2.6vw);
   display: grid;
   /* 5 equal 1fr columns, same as .mini-connector below — the wire line and
      every stem are keyed to node centers landing at exactly 10/30/50/70/90%
@@ -560,7 +562,6 @@ main {
   position: relative;
   width: var(--bc-light);
   height: var(--bc-light);
-  border-radius: 50%;
   background: var(--alert);
   box-shadow: 0 0 8px var(--alert), 0 0 20px var(--alert);
 }
