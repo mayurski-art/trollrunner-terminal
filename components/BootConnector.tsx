@@ -7,6 +7,7 @@ const START_IT = 80.7692;
 const MID = 50;
 const CRAWL_MS = 1100;
 const RED_HOLD_MS = 350; // how long it sits solid red before switching to yellow
+const YELLOW_HOLD_MS = 350; // kept short — green gets whatever time this doesn't use
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.png";
@@ -96,9 +97,12 @@ export default function BootConnector({
       spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
 
       // red -> yellow -> green, a real sequence rather than a red/green
-      // blend, landing on green exactly when the site unveils
+      // blend. Red and yellow each get a short fixed hold; green claims
+      // whatever time is left before the site unveils, rather than only
+      // flashing on at the reveal instant.
+      const greenDelay = Math.min(RED_HOLD_MS + YELLOW_HOLD_MS, revealMs);
       yellowTimer = setTimeout(() => setLight("var(--problem)"), RED_HOLD_MS);
-      greenTimer = setTimeout(() => setLight("var(--bc-go)"), Math.max(RED_HOLD_MS, revealMs));
+      greenTimer = setTimeout(() => setLight("var(--bc-go)"), greenDelay);
     }, CRAWL_MS);
 
     return () => {
