@@ -308,22 +308,31 @@ main {
   color: var(--terminal);
 }
 
-/* The persistent "carlos <-> trolltruths" widget in the [ speak to it ]
-   panel header — components/MiniConnector.tsx. Ambient/looping, unlike
-   the one-shot boot connector above: no convergence, no zoom, it just
-   keeps pulsing for as long as the panel is on screen. Scoped local hues
-   for the same reason as .boot-connector's --bc-go. */
+/* The persistent connector widget in the [ speak to it ] panel header —
+   components/MiniConnector.tsx. trolltruths as the hub (center column),
+   one horizontal row of spokes on either side — carlos + umadbro.shop to
+   its left, NFT + crypto to its right. Column centers land at 10/30/50/70/
+   90% of .mc-grid's width by construction (5 equal 1fr columns), which is
+   what the wire line and each packet's crawl keyframes below are keyed to.
+   Ambient/looping, unlike the one-shot boot connector above: no
+   convergence, no zoom, it just keeps pulsing for as long as the panel is
+   on screen. Scoped local hues for the same reason as .boot-connector's
+   --bc-go. */
 .mini-connector {
   --mc-violet: #b26bff;
   --mc-cyan: #2ee6ff;
   --mc-lime: #7dff5c;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 6px 0 10px;
+  --mc-gold: var(--problem);
+  padding: 6px 4px 10px;
   margin-bottom: 12px;
   border-bottom: 1px dashed var(--ghost);
+}
+
+.mini-connector .mc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 4px;
+  align-items: end;
 }
 
 .mini-connector .mc-col {
@@ -331,25 +340,40 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  min-width: 0;
 }
 
 .mini-connector .mc-label {
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-align: center;
+  max-width: 100%;
 }
-.mini-connector .mc-label--you {
-  color: var(--you);
+.mini-connector .mc-col--carlos .mc-label {
+  color: var(--mc-violet);
 }
-.mini-connector .mc-label--it {
+.mini-connector .mc-col--umadbro .mc-label {
+  color: var(--mc-cyan);
+}
+.mini-connector .mc-col--nft .mc-label {
+  color: var(--mc-lime);
+}
+.mini-connector .mc-col--crypto .mc-label {
+  color: var(--mc-gold);
+}
+.mini-connector .mc-col--hub .mc-label {
   color: var(--terminal);
+  font-weight: 600;
 }
 
 .mini-connector .mc-node {
-  width: 56px;
-  height: 46px;
+  width: 100%;
+  max-width: 52px;
+  aspect-ratio: 5 / 3.6;
   border: 1px solid var(--dim);
   background: var(--panel);
-  padding: 3px;
+  padding: 2px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -357,19 +381,27 @@ main {
   justify-content: center;
   animation: mc-glitch 7s infinite;
 }
-.mini-connector .mc-node--it {
-  animation-delay: 3.2s;
-  perspective: 250px;
+.mini-connector .mc-col--carlos .mc-node {
+  border-color: color-mix(in srgb, var(--mc-violet) 45%, var(--dim));
+}
+.mini-connector .mc-col--umadbro .mc-node {
+  animation-delay: 1.4s;
+  border-color: color-mix(in srgb, var(--mc-cyan) 45%, var(--dim));
+}
+.mini-connector .mc-col--nft .mc-node {
+  animation-delay: 2.8s;
+  border-color: color-mix(in srgb, var(--mc-lime) 45%, var(--dim));
+}
+.mini-connector .mc-col--crypto .mc-node {
+  animation-delay: 4.2s;
+  border-color: color-mix(in srgb, var(--mc-gold) 45%, var(--dim));
 }
 .mini-connector .mc-node img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   backface-visibility: hidden;
-}
-.mini-connector .mc-node--it img.mc-spinning {
-  animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
 @keyframes mc-glitch {
@@ -392,62 +424,113 @@ main {
   }
 }
 
-.mini-connector .mc-wire {
-  position: relative;
-  width: 110px;
-  height: 10px;
-  /* row is align-items:flex-start now (so labels sit under their own
-     node, not centered against the wire's shorter column) — this
-     re-centers the wire/dot on the node's vertical midpoint by hand:
-     (node height 46px - wire height 10px) / 2 */
-  margin-top: 18px;
+.mini-connector .mc-hub-ring {
+  width: 100%;
+  max-width: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--dim);
+  background: var(--panel);
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: mc-hub-ring 6.4s linear infinite;
+}
+.mini-connector .mc-hub-ring img {
+  width: 56%;
+  height: 56%;
+  object-fit: contain;
+  display: block;
+  backface-visibility: hidden;
+}
+.mini-connector .mc-hub-ring img.mc-spinning {
+  animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* the hub's ring cycles through every spoke's color once per loop — a
+   "listening to all of them" tell, not tied to any single spoke's packet */
+@keyframes mc-hub-ring {
+  0%,
+  8%,
+  100% {
+    border-color: var(--dim);
+    box-shadow: none;
+  }
+  18% {
+    border-color: var(--mc-violet);
+    box-shadow: 0 0 6px var(--mc-violet);
+  }
+  43% {
+    border-color: var(--mc-cyan);
+    box-shadow: 0 0 6px var(--mc-cyan);
+  }
+  68% {
+    border-color: var(--mc-lime);
+    box-shadow: 0 0 6px var(--mc-lime);
+  }
+  88% {
+    border-color: var(--mc-gold);
+    box-shadow: 0 0 6px var(--mc-gold);
+  }
+}
+
+.mini-connector .mc-wire-row {
+  position: relative;
+  height: 8px;
+  margin-top: 4px;
 }
 .mini-connector .mc-wire-line {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 10%;
+  right: 10%;
+  top: 50%;
   height: 1px;
   background: var(--dim);
-}
-.mini-connector .mc-dot {
-  position: relative;
-  margin: 0 auto;
-  width: 8px;
-  height: 8px;
-  animation: mc-pulse 2.6s ease-in-out infinite;
 }
 .mini-connector .mc-packet {
   position: absolute;
   top: 50%;
   width: 4px;
   height: 4px;
-  transform: translateY(-50%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0;
   box-shadow: 0 0 4px currentColor;
 }
-.mini-connector .mc-packet--l {
-  animation: mc-crawl-l 2.6s linear infinite;
+.mini-connector .mc-packet--carlos {
+  color: var(--mc-violet);
+  background: var(--mc-violet);
+  animation: mc-crawl-carlos 3.2s linear infinite;
+}
+.mini-connector .mc-packet--umadbro {
   color: var(--mc-cyan);
   background: var(--mc-cyan);
+  animation: mc-crawl-umadbro 3.2s linear infinite;
+  animation-delay: 0.8s;
 }
-.mini-connector .mc-packet--r {
-  animation: mc-crawl-r 2.6s linear infinite;
-  animation-delay: 1.3s;
+.mini-connector .mc-packet--nft {
   color: var(--mc-lime);
   background: var(--mc-lime);
+  animation: mc-crawl-nft 3.2s linear infinite;
+  animation-delay: 1.6s;
+}
+.mini-connector .mc-packet--crypto {
+  color: var(--mc-gold);
+  background: var(--mc-gold);
+  animation: mc-crawl-crypto 3.2s linear infinite;
+  animation-delay: 2.4s;
 }
 
-@keyframes mc-crawl-l {
+@keyframes mc-crawl-carlos {
   0% {
-    left: 0%;
+    left: 10%;
     opacity: 0;
   }
-  10% {
+  8% {
     opacity: 1;
   }
-  48% {
+  42% {
     opacity: 1;
   }
   50%,
@@ -456,15 +539,15 @@ main {
     opacity: 0;
   }
 }
-@keyframes mc-crawl-r {
+@keyframes mc-crawl-umadbro {
   0% {
-    left: 100%;
+    left: 30%;
     opacity: 0;
   }
-  10% {
+  8% {
     opacity: 1;
   }
-  48% {
+  42% {
     opacity: 1;
   }
   50%,
@@ -473,22 +556,37 @@ main {
     opacity: 0;
   }
 }
-@keyframes mc-pulse {
-  0%,
+@keyframes mc-crawl-nft {
+  0% {
+    left: 70%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  42% {
+    opacity: 1;
+  }
+  50%,
   100% {
-    background: var(--problem);
-    box-shadow: 0 0 5px var(--problem), 0 0 12px rgba(255, 210, 31, 0.55);
+    left: 50%;
+    opacity: 0;
   }
-  25% {
-    background: var(--alert);
-    box-shadow: 0 0 6px var(--alert), 0 0 14px rgba(255, 59, 59, 0.55);
+}
+@keyframes mc-crawl-crypto {
+  0% {
+    left: 90%;
+    opacity: 0;
   }
-  50% {
-    background: var(--mc-violet);
-    box-shadow: 0 0 7px var(--mc-violet), 0 0 16px rgba(178, 107, 255, 0.55);
+  8% {
+    opacity: 1;
   }
-  75% {
-    background: var(--mc-cyan);
-    box-shadow: 0 0 6px var(--mc-cyan), 0 0 14px rgba(46, 230, 255, 0.55);
+  42% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    left: 50%;
+    opacity: 0;
   }
 }
