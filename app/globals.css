@@ -125,3 +125,113 @@ main {
   background: var(--alert);
   color: var(--background);
 }
+
+/* The boot sequence's closing beat — components/BootConnector.tsx. Scoped
+   local hues (violet/cyan) rather than new :root tokens, since they only
+   ever appear as transient ticks in this one animation, not as a
+   site-wide color meaning per the rule above. */
+.boot-connector {
+  --bc-go: #34e07a; /* the "site is ready" cue at the end of the reveal */
+  display: grid;
+  grid-template-columns: 160px 160px;
+  column-gap: 6rem;
+  justify-items: center;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.boot-connector .bc-node {
+  grid-row: 1;
+  width: 160px;
+  height: 110px;
+  border: 1px solid var(--dim);
+  background: var(--panel);
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.boot-connector .bc-node--you { color: var(--you); }
+.boot-connector .bc-node--it { color: var(--terminal); }
+
+.boot-connector .bc-node img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  backface-visibility: hidden;
+}
+
+.boot-connector .bc-stems {
+  grid-row: 2;
+}
+.boot-connector .bc-stem {
+  width: 1px;
+  height: 22px;
+  background: var(--dim);
+}
+
+.boot-connector .bc-wire-row {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  position: relative;
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 160px node / 96px gap (6rem) -> a stem sits at 80px from its own edge,
+   which is 19.2308% / 80.7692% of the full 416px row — mirror images of
+   each other by construction, so 50% is provably the true midpoint. */
+.boot-connector .bc-wire-line {
+  position: absolute;
+  left: 19.2308%;
+  right: 19.2308%;
+  top: 50%;
+  height: 1px;
+  background: var(--dim);
+}
+
+.boot-connector .bc-packet {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translateY(-50%);
+  opacity: 0;
+  box-shadow: 0 0 5px currentColor;
+}
+.boot-connector .bc-packet--you {
+  left: 19.2308%;
+  color: var(--you);
+}
+.boot-connector .bc-packet--it {
+  left: 80.7692%;
+  color: var(--terminal);
+}
+
+.boot-connector .bc-center {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: var(--problem);
+  box-shadow: 0 0 8px var(--problem), 0 0 20px var(--problem);
+}
+
+.boot-connector .bc-labels {
+  grid-row: 4;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  margin-top: -6px;
+  justify-self: center;
+}
+.boot-connector .bc-labels--you {
+  color: var(--you);
+}
+.boot-connector .bc-labels--it {
+  color: var(--terminal);
+}

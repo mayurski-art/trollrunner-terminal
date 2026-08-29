@@ -1,22 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BOOT_LINES } from "@/lib/ascii";
-import BootFace, { FACE_REVEAL_MS } from "@/components/BootFace";
+import BootConnector, { type ConvergeOrigin } from "@/components/BootConnector";
 
 const SESSION_KEY = "trollface_booted";
 const LINE_DELAY_MS = 220;
-const FACE_START_DELAY_MS = 250; // beat after the last line before the face renders
-const FACE_HOLD_MS = 500; // pause on the finished face before dismissing
+const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
+const ZOOM_MS = 1100; // must match the transition duration set in handleConverge
+const ZOOM_SCALE = 70;
+const FADE_MS = 350;
 
-// Fake POST/boot text shown once per browser session, followed by a
-// dithered-glyph render of the trollface. Skippable via any click/keypress,
-// and skipped entirely for returning-within-session visitors so it never
-// gets in the way of actually using the terminal.
+// Fake POST/boot text shown once per browser session, followed by the
+// Carlos/trollface connector (components/BootConnector.tsx) converging and
+// zooming through its own center into the site underneath, which has been
+// mounted the whole time behind this fixed overlay. Skippable via any
+// click/keypress, and skipped entirely for returning-within-session
+// visitors so it never gets in the way of actually using the terminal.
 export default function BootSequence() {
   const [visible, setVisible] = useState(false);
   const [shownCount, setShownCount] = useState(0);
-  const [phase, setPhase] = useState<"typing" | "face">("typing");
+  const [phase, setPhase] = useState<"typing" | "connector">("typing");
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (sessionStorage.getItem(SESSION_KEY)) return;
@@ -32,24 +37,21 @@ export default function BootSequence() {
     if (!visible) return;
     if (shownCount >= BOOT_LINES.length) {
       if (phase === "typing") {
-        const t = setTimeout(() => setPhase("face"), FACE_START_DELAY_MS);
+        const t = setTimeout(() => setPhase("connector"), CONNECTOR_START_DELAY_MS);
         return () => clearTimeout(t);
       }
-      const t = setTimeout(
-        () => setVisible(false),
-        FACE_REVEAL_MS + FACE_HOLD_MS
-      );
-      return () => clearTimeout(t);
+      return; // dismissal from here on is driven by handleConverge's zoom, not a timer
     }
     const t = setTimeout(() => setShownCount((c) => c + 1), LINE_DELAY_MS);
     return () => clearTimeout(t);
   }, [visible, shownCount, phase]);
 
-  // Pull the face down while the text is still typing so it's ready the
-  // moment the sequence hands over to it.
+  // Pull the connector's art down while the text is still typing so it's
+  // ready the moment the sequence hands over to it.
   useEffect(() => {
     if (!visible) return;
-    new Image().src = "/faces/trollface-grin.gif";
+    new Image().src = "/boot/carlos-ramirez.webp";
+    new Image().src = "/boot/trollface-grin.png";
   }, [visible]);
 
   useEffect(() => {
@@ -63,15 +65,42 @@ export default function BootSequence() {
     };
   }, [visible]);
 
+  // The payoff: zoom the whole overlay through the exact point the
+  // connector just flared at, then fade what's now a huge, off-screen-
+  // edged wash of color out to reveal the site — which was mounted behind
+  // this fixed overlay the entire time — before finally unmounting.
+  const handleConverge = useCallback(({ x, y }: ConvergeOrigin) => {
+    const overlay = overlayRef.current;
+    if (!overlay) {
+      setVisible(false);
+      return;
+    }
+    overlay.style.transformOrigin = `${x}px ${y}px`;
+    overlay.style.transition = `transform ${ZOOM_MS}ms cubic-bezier(.6,0,.85,0)`;
+    requestAnimationFrame(() => {
+      overlay.style.transform = `scale(${ZOOM_SCALE})`;
+    });
+    setTimeout(() => {
+      overlay.style.transition = `opacity ${FADE_MS}ms ease`;
+      overlay.style.opacity = "0";
+    }, ZOOM_MS - 200);
+    setTimeout(() => setVisible(false), ZOOM_MS + FADE_MS);
+  }, []);
+
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-4 px-4">
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-4 px-4"
+    >
       <pre className="text-terminal text-xs sm:text-sm leading-relaxed">
         {BOOT_LINES.slice(0, shownCount).join("\n")}
         {phase === "typing" && <span className="blink-cursor" />}
       </pre>
-      <BootFace active={phase === "face"} />
+      {phase === "connector" && (
+        <BootConnector onConverge={handleConverge} revealMs={ZOOM_MS - 200} />
+      )}
     </div>
   );
 }
