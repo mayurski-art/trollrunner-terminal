@@ -340,7 +340,10 @@ export default function Chat() {
           [ ▣ {archiveToast} ]
         </p>
       )}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 mb-3 min-h-[14rem] max-h-[32rem] pr-1">
+      <div
+        ref={scrollRef}
+        className="chat-scroll flex-1 overflow-y-auto space-y-3 mb-3 max-h-[32rem] pr-1"
+      >
         {messages.length === 0 && (
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>
         )}

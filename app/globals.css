@@ -143,6 +143,31 @@ main {
   }
 }
 
+/* Chat.tsx transcript panel. Pointer-fine devices (mouse/trackpad) get a
+   visible thin scrollbar since there's no other affordance for scrolling a
+   long conversation; touch devices already scroll by swipe, so the
+   scrollbar there would just be visual noise — default (hidden until
+   drag, per-OS) behavior is left alone for them. */
+@media (pointer: fine) {
+  .chat-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dim) transparent;
+  }
+  .chat-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chat-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .chat-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--dim);
+    border-radius: 3px;
+  }
+  .chat-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: var(--terminal);
+  }
+}
+
 ::selection {
   background: var(--alert);
   color: var(--background);
