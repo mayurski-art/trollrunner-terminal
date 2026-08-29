@@ -12,6 +12,7 @@ import MiniConnector from "@/components/MiniConnector";
 import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
+import OwnerCredits from "@/components/OwnerCredits";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -118,6 +119,7 @@ export default function Home() {
             traceHue="#b26bff"
           >
             <MiniConnector />
+            <OwnerCredits session={session} />
             {session ? (
               <Chat />
             ) : (

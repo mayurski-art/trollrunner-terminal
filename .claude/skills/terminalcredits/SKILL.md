@@ -13,14 +13,19 @@ network response.
 
 ## What to do when this triggers
 
-1. Hit the live `usage` field on the posts endpoint:
+1. Read the figures straight from Supabase, using `SUPABASE_URL` +
+   `SUPABASE_SERVICE_ROLE_KEY` from `.env.local`, and compute the same way
+   `lib/budget.ts`'s `getRemainingUsd` does: sum `estimated_cost_usd` across
+   `terminal_posts`, `terminal_chat_messages`, `terminal_undervoice_messages`
+   and `terminal_musings`, then subtract from
+   `terminal_config.starting_credit_usd`.
 
-   ```sh
-   curl -s https://terminal.trollrunner.net/api/posts | jq '.usage'
-   ```
+   (The old `curl /api/posts | jq '.usage'` no longer works — that field was
+   removed because it leaked spend data to every anonymous visitor. The
+   authenticated equivalent is `GET /api/admin/credits`, but it needs a
+   `troll_runner` bearer token, so reading the DB directly is simpler here.)
 
-   If a local dev server is running instead (check for one before assuming),
-   use `http://localhost:3000/api/posts` instead. `usage` includes
+   The computed summary includes
    `startingCreditUsd`, `spentUsd`, `remainingUsd`, `percentUsed` — this
    already sums **both** the daily-broadcast cost (`terminal_posts`) and the
    live-chat cost (`terminal_chat_messages`), since both draw against the

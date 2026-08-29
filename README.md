@@ -128,9 +128,16 @@ Redeploy after setting env vars so the cron route can pick them up.
 
 ## Credit tracking
 
-Not shown on the public site — this is a private check, not a visitor-facing feature.
-`GET /api/posts` includes a `usage` object (`startingCreditUsd`, `spentUsd`,
-`remainingUsd`, `percentUsed`), computed by `lib/budget.ts`'s `getRemainingUsd`. It's
+Owner-only. `GET /api/admin/credits` returns a `usage` object
+(`startingCreditUsd`, `spentUsd`, `remainingUsd`, `percentUsed`) behind the same
+`requireOwner()` gate as the other admin routes, and `components/OwnerCredits.tsx`
+renders it in the `[ speak to it ]` panel for `troll_runner` only.
+
+This used to ride along on the public, unauthenticated `GET /api/posts` response,
+which meant the project's spend figures were readable by anyone with curl despite
+this section claiming otherwise. That field has been removed from `/api/posts`.
+
+The figure is computed by `lib/budget.ts`'s `getRemainingUsd`. It's
 an **estimate**, not a live pull from Anthropic's billing (there's no public API for
 that) — it sums the token usage Claude reports on every generation (chat, undervoice,
 broadcast posts, and historical musings) across all four tables, converts to an
