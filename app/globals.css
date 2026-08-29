@@ -121,6 +121,28 @@ main {
   }
 }
 
+/* Tagline glow-color loop under the banner — cycles through the site's
+   existing accent hues (terminal/problem/alert) rather than introducing a
+   new color, so it still reads as "on brand" while standing out. */
+.glow-loop {
+  animation: glow-loop 6s ease-in-out infinite;
+}
+@keyframes glow-loop {
+  0%,
+  100% {
+    color: var(--terminal);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--terminal) 60%, transparent);
+  }
+  33% {
+    color: var(--problem);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--problem) 60%, transparent);
+  }
+  66% {
+    color: var(--alert);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--alert) 60%, transparent);
+  }
+}
+
 ::selection {
   background: var(--alert);
   color: var(--background);
@@ -348,6 +370,21 @@ main {
   margin-top: -6px;
   justify-self: center;
   text-align: center;
+  max-width: var(--bc-node-w);
+  overflow-wrap: break-word;
+}
+
+/* Mobile: --bc-node-w shrinks down toward 48px, so the 10px label font
+   (esp. "umadbro.shop" / "trolltruths") was overflowing its column and
+   spilling into neighboring node labels instead of wrapping in place. */
+@media (max-width: 480px) {
+  .boot-connector .bc-labels {
+    font-size: 8px;
+    line-height: 1.2;
+    white-space: normal;
+    word-break: break-word;
+    hyphens: auto;
+  }
 }
 .boot-connector .bc-labels--carlos {
   color: var(--bc-violet);

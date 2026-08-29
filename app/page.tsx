@@ -57,7 +57,7 @@ export default function Home() {
         <div className="mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
         </div>
-        <p className="text-dim text-sm mb-1 text-center">
+        <p className="glow-loop text-sm mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         <p className="text-problem text-sm mb-10 text-center">
@@ -65,7 +65,7 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
-          <Frame title="latest transmission" tone="terminal" className="lg:w-1/3">
+          <Frame title="latest transmission" tone="terminal" className="order-2 lg:order-none lg:w-1/3">
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
@@ -102,7 +102,7 @@ export default function Home() {
             )}
           </Frame>
 
-          <Frame title="speak to it" tone="dim" className="lg:w-2/3">
+          <Frame title="speak to it" tone="dim" className="order-1 lg:order-none lg:w-2/3">
             <MiniConnector />
             {session ? (
               <Chat />
