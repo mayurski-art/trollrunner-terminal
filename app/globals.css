@@ -187,23 +187,31 @@ main {
   }
 }
 
-/* The boot sequence's closing beat — components/BootConnector.tsx. Scoped
-   local hues (violet/cyan) rather than new :root tokens, since they only
-   ever appear as transient ticks in this one animation, not as a
-   site-wide color meaning per the rule above. */
+/* The boot sequence's closing beat — components/BootConnector.tsx. Same
+   5-node cast and layout technique as the ambient [ speak to it ] widget
+   below (components/MiniConnector.tsx) — carlos, umadbro.shop, the NFT
+   collection and the troll-crypto coin all wired into the trolltruths hub
+   at center — but a one-shot convergence instead of a looping pulse: every
+   packet crawls inward once, then the hub flares through an actual
+   red/yellow/green sequence and the whole overlay zooms through that
+   point to reveal the site underneath. Scoped local hues (violet/cyan/
+   lime/gold) rather than new :root tokens, since they only ever appear as
+   transient ticks in this one animation, not as a site-wide color meaning
+   per the rule above. */
 .boot-connector {
   --bc-go: #34e07a; /* the "site is ready" cue at the end of the reveal */
-  /* Fluid node size instead of a fixed 160px — on a narrow phone, 2x160px
-     + a 96px gap (416px) overflows the viewport outright, which is what
-     made Carlos's box look oversized. column-gap and .bc-node's height
-     below are derived from this same variable at the exact 160:96 (5:3)
-     and 160:110 ratios the desktop sizes used, so the 19.2308%/80.7692%
-     wire percentages below stay mathematically exact at every size. */
-  --bc-node-w: clamp(80px, 26vw, 160px);
+  --bc-violet: #b26bff;
+  --bc-cyan: #2ee6ff;
+  --bc-lime: #7dff5c;
+  --bc-gold: var(--problem);
+  /* Fluid node size instead of a fixed px value — on a narrow phone, 5
+     nodes at desktop size would overflow the viewport outright. */
+  --bc-node-w: clamp(48px, 15vw, 96px);
   display: grid;
-  grid-template-columns: var(--bc-node-w) var(--bc-node-w);
-  column-gap: calc(var(--bc-node-w) * 0.6);
+  grid-template-columns: repeat(5, var(--bc-node-w));
+  column-gap: calc(var(--bc-node-w) * 0.3);
   justify-items: center;
+  align-items: end;
   width: max-content;
   max-width: 100%;
   margin: 0 auto;
@@ -211,15 +219,26 @@ main {
 
 .boot-connector .bc-node {
   grid-row: 1;
-  width: var(--bc-node-w);
-  height: calc(var(--bc-node-w) * 0.6875);
+  width: 100%;
+  aspect-ratio: 5 / 3.6;
+  border: 1px solid var(--dim);
+  background: var(--panel);
+  padding: 2px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.boot-connector .bc-node--you { color: var(--you); }
-.boot-connector .bc-node--it { color: var(--terminal); perspective: 500px; }
+.boot-connector .bc-node--carlos { border-color: color-mix(in srgb, var(--bc-violet) 45%, var(--dim)); }
+.boot-connector .bc-node--umadbro { border-color: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim)); }
+.boot-connector .bc-node--nft { border-color: color-mix(in srgb, var(--bc-lime) 45%, var(--dim)); }
+.boot-connector .bc-node--crypto { border-color: color-mix(in srgb, var(--bc-gold) 45%, var(--dim)); }
+.boot-connector .bc-node--hub {
+  color: var(--terminal);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  perspective: 500px;
+}
 
 .boot-connector .bc-node img {
   max-width: 100%;
@@ -228,8 +247,16 @@ main {
   display: block;
   backface-visibility: hidden;
 }
+.boot-connector .bc-node--carlos img,
+.boot-connector .bc-node--umadbro img,
+.boot-connector .bc-node--nft img,
+.boot-connector .bc-node--crypto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-.boot-connector .bc-node--it img.bc-spinning {
+.boot-connector .bc-node--hub img.bc-spinning {
   animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 @keyframes bc-spin-face {
@@ -249,6 +276,9 @@ main {
   height: 22px;
   background: var(--dim);
 }
+.boot-connector .bc-stem--hub {
+  height: 26px;
+}
 
 .boot-connector .bc-wire-row {
   grid-row: 3;
@@ -260,13 +290,12 @@ main {
   align-items: center;
   justify-content: center;
 }
-/* 160px node / 96px gap (6rem) -> a stem sits at 80px from its own edge,
-   which is 19.2308% / 80.7692% of the full 416px row — mirror images of
-   each other by construction, so 50% is provably the true midpoint. */
+/* Column centers land at 10/30/50/70/90% of the row's width by
+   construction (5 equal 1fr columns) — matches MiniConnector's grid. */
 .boot-connector .bc-wire-line {
   position: absolute;
-  left: 19.2308%;
-  right: 19.2308%;
+  left: 10%;
+  right: 10%;
   top: 50%;
   height: 1px;
   background: var(--dim);
@@ -277,17 +306,30 @@ main {
   top: 50%;
   width: 4px;
   height: 4px;
-  transform: translateY(-50%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
   opacity: 0;
   box-shadow: 0 0 5px currentColor;
 }
-.boot-connector .bc-packet--you {
-  left: 19.2308%;
-  color: var(--you);
+.boot-connector .bc-packet--carlos {
+  left: 10%;
+  color: var(--bc-violet);
+  background: var(--bc-violet);
 }
-.boot-connector .bc-packet--it {
-  left: 80.7692%;
-  color: var(--terminal);
+.boot-connector .bc-packet--umadbro {
+  left: 30%;
+  color: var(--bc-cyan);
+  background: var(--bc-cyan);
+}
+.boot-connector .bc-packet--nft {
+  left: 70%;
+  color: var(--bc-lime);
+  background: var(--bc-lime);
+}
+.boot-connector .bc-packet--crypto {
+  left: 90%;
+  color: var(--bc-gold);
+  background: var(--bc-gold);
 }
 
 .boot-connector .bc-center {
@@ -300,17 +342,28 @@ main {
 
 .boot-connector .bc-labels {
   grid-row: 4;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
   text-transform: lowercase;
   margin-top: -6px;
   justify-self: center;
+  text-align: center;
 }
-.boot-connector .bc-labels--you {
-  color: var(--you);
+.boot-connector .bc-labels--carlos {
+  color: var(--bc-violet);
 }
-.boot-connector .bc-labels--it {
+.boot-connector .bc-labels--umadbro {
+  color: var(--bc-cyan);
+}
+.boot-connector .bc-labels--nft {
+  color: var(--bc-lime);
+}
+.boot-connector .bc-labels--crypto {
+  color: var(--bc-gold);
+}
+.boot-connector .bc-labels--hub {
   color: var(--terminal);
+  font-weight: 600;
 }
 
 /* The persistent connector widget in the [ speak to it ] panel header —

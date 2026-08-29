@@ -17,38 +17,38 @@ export default function Nav() {
   const isOwner = displayName(session) === OWNER_USERNAME;
 
   return (
-    <nav className="flex items-center justify-between text-xs sm:text-sm text-dim mb-8 flex-wrap gap-3">
-      <div className="flex gap-4">
-        <a href="https://trollrunner.net?enter=1" className="hover:text-you">
+    <nav className="flex items-center justify-between text-[11px] sm:text-sm text-dim mb-8 flex-wrap gap-x-3 gap-y-2">
+      <div className="flex flex-wrap gap-x-3 gap-y-2 sm:gap-4">
+        <a href="https://trollrunner.net?enter=1" className="hover:text-you whitespace-nowrap">
           [ home ]
         </a>
-        <Link href="/" className="hover:text-terminal">
+        <Link href="/" className="hover:text-terminal whitespace-nowrap">
           [ terminal ]
         </Link>
-        <Link href="/vault" className="hover:text-problem">
+        <Link href="/vault" className="hover:text-problem whitespace-nowrap">
           [ vault ]
         </Link>
-        <Link href="/archive" className="hover:text-terminal">
+        <Link href="/archive" className="hover:text-terminal whitespace-nowrap">
           [ archive ]
         </Link>
-        <Link href="/logs" className="hover:text-foreground">
+        <Link href="/logs" className="hover:text-foreground whitespace-nowrap">
           [ logs ]
         </Link>
-<Link href="/undervoice" className="hover:text-alert">
+        <Link href="/undervoice" className="hover:text-alert whitespace-nowrap">
           [ undervoice ]
         </Link>
         {isOwner && (
-          <Link href="/transmit" className="hover:text-problem">
+          <Link href="/transmit" className="hover:text-problem whitespace-nowrap">
             [ transmit ]
           </Link>
         )}
         {isOwner && (
-          <Link href="/inspect" className="hover:text-problem">
+          <Link href="/inspect" className="hover:text-problem whitespace-nowrap">
             [ inspect ]
           </Link>
         )}
         {isOwner && (
-          <Link href="/reports" className="hover:text-problem">
+          <Link href="/reports" className="hover:text-problem whitespace-nowrap">
             [ reports ]
           </Link>
         )}
@@ -56,7 +56,7 @@ export default function Nav() {
       {session ? (
         <div className="flex items-center gap-3">
           <span className="text-you">{displayName(session) ?? "connected"}</span>
-          <button onClick={() => logout()} className="hover:text-alert">
+          <button onClick={() => logout()} className="hover:text-alert whitespace-nowrap">
             [ disconnect ]
           </button>
         </div>

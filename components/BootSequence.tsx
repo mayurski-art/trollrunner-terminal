@@ -12,12 +12,13 @@ const FADE_MS = 350;
 
 // Fake POST/boot text shown on every full page load (including a plain
 // browser refresh — this remounts the root layout, so no persistence is
-// needed or wanted), followed by the Carlos/trollface connector
-// (components/BootConnector.tsx) converging and zooming through its own
-// center into the site underneath, which has been mounted the whole time
-// behind this fixed overlay. Skippable via any click/keypress. Client-side
-// navigation between pages does NOT remount this (the root layout stays
-// mounted across routes), so it only replays on an actual reload.
+// needed or wanted), followed by the 5-node connector
+// (components/BootConnector.tsx — carlos, umadbro.shop, NFT, crypto, all
+// converging on the trolltruths hub) zooming through its own center into
+// the site underneath, which has been mounted the whole time behind this
+// fixed overlay. Skippable via any click/keypress. Client-side navigation
+// between pages does NOT remount this (the root layout stays mounted
+// across routes), so it only replays on an actual reload.
 export default function BootSequence() {
   const [visible, setVisible] = useState(false);
   const [shownCount, setShownCount] = useState(0);
@@ -51,6 +52,9 @@ export default function BootSequence() {
   useEffect(() => {
     if (!visible) return;
     new Image().src = "/boot/carlos-ramirez.webp";
+    new Image().src = "/boot/umadbro.jpg";
+    new Image().src = "/boot/troll-nft.jpg";
+    new Image().src = "/boot/troll-crypto.jpg";
     new Image().src = "/boot/trollface-grin.svg";
   }, [visible]);
 
