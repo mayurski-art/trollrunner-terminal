@@ -45,32 +45,24 @@
   --font-mono: var(--font-mono);
 }
 
-/* Site-wide hero background — public/assets/troll-terminal-face.jpg, the
-   gold circuit-board trollface. Full color/contrast up top, fading to solid
-   --background by the lower third so page content stays readable. Applied
-   to every route's own <main> (app/page.tsx, app/archive, app/vault,
-   app/logs, app/undervoice, app/transmit, app/inspect, app/reports) — each
-   page passes its own max-w-* to .home-hero-bg-frame so the background
-   frames the same way its content column does.
+/* Site-wide hero background — the gold circuit-board trollface. Full
+   color/contrast up top, fading to solid --background by the lower third
+   so page content stays readable. Applied to every route's own <main>
+   (app/page.tsx, app/archive, app/vault, app/logs, app/undervoice,
+   app/transmit, app/inspect, app/reports). .home-hero-bg-frame spans the
+   full viewport (inset: 0) so the image covers edge to edge on every
+   screen size rather than being letterboxed to the content column.
 
-   .home-hero-bg-frame matches the content column's own box (w-full
-   max-w-*, centered) instead of spanning <main> edge to edge. <main> is
-   full viewport width, but the actual text/frames sit in that narrower
-   centered column — sizing the background to <main> let the image's
-   framing (background-position 50% 12% etc.) drift relative to the page's
-   own text as viewport width changed past the column's max-width. Locking
-   the background layer to the same box the content lives in keeps the
-   face's features anchored behind the same text at any width.
-
-   Rendered as two stacked copies of the same image (one per page, in each
-   page's own .tsx) — a CSS unsharp mask, not a second asset: the base
-   layer carries the actual fade/color treatment, and
-   .home-hero-bg--sharpen lays a blurred copy of the same image on top in
-   `overlay` blend mode, which boosts local edge contrast the way
-   Photoshop's Unsharp Mask does. The source JPEG is only 1190x809
-   stretched across a much wider hero, so this recovers some of the
-   perceived sharpness `background-size: cover` softens — it can't add
-   real detail back, only make existing edges read crisper. */
+   Two source crops, swapped by viewport width media query rather than
+   `background-size: cover` alone: troll-terminal-face-desktop.jpg is a
+   wide landscape crop for desktop/tablet, troll-terminal-face-mobile.jpg
+   is a tall portrait crop of the same source render so the face stays
+   framed (not stretched/cropped oddly) on narrow phone screens. Both are
+   pre-sharpened at the source, so no CSS unsharp-mask overlay is needed
+   here (a previous version stacked a second blurred/contrast-boosted copy
+   in `overlay` blend mode to fake sharpness out of a much lower-res
+   source — no longer necessary now that the assets themselves are sharp
+   at hero size). */
 .home-hero {
   position: relative;
   overflow: hidden;
@@ -84,7 +76,7 @@
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url("/assets/troll-terminal-face.jpg");
+  background-image: url("/assets/troll-terminal-face-desktop.jpg");
   background-size: cover;
   background-position: 50% 12%;
   opacity: 0.62;
@@ -100,10 +92,11 @@
     black 88%
   );
 }
-.home-hero-bg--sharpen {
-  filter: blur(2px) contrast(1.8) brightness(1.05);
-  mix-blend-mode: overlay;
-  opacity: 0.75;
+@media (max-width: 760px) {
+  .home-hero-bg {
+    background-image: url("/assets/troll-terminal-face-mobile.jpg");
+    background-position: 50% 8%;
+  }
 }
 
 /* Native cross-document page transitions between the terminal's own
