@@ -218,15 +218,21 @@ main {
   0%,
   100% {
     color: var(--terminal);
-    text-shadow: 0 0 6px color-mix(in srgb, var(--terminal) 60%, transparent);
+    text-shadow:
+      0 0 6px var(--terminal),
+      0 0 16px color-mix(in srgb, var(--terminal) 80%, transparent);
   }
   33% {
     color: var(--problem);
-    text-shadow: 0 0 6px color-mix(in srgb, var(--problem) 60%, transparent);
+    text-shadow:
+      0 0 6px var(--problem),
+      0 0 16px color-mix(in srgb, var(--problem) 80%, transparent);
   }
   66% {
     color: var(--alert);
-    text-shadow: 0 0 6px color-mix(in srgb, var(--alert) 60%, transparent);
+    text-shadow:
+      0 0 6px var(--alert),
+      0 0 16px color-mix(in srgb, var(--alert) 80%, transparent);
   }
 }
 
