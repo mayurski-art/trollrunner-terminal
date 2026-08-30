@@ -25,17 +25,23 @@ function usd(n: number): string {
 export default function OwnerCredits({ session }: { session: Session | null }) {
   const [usage, setUsage] = useState<Usage | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [paused, setPaused] = useState<boolean | null>(null);
+  const [pauseBusy, setPauseBusy] = useState(false);
 
   const isOwner = displayName(session) === OWNER_USERNAME;
+
+  async function authToken(): Promise<string | null> {
+    const sb = getPublicClient();
+    const { data } = await sb.auth.getSession();
+    return data.session?.access_token ?? null;
+  }
 
   useEffect(() => {
     if (!isOwner) return;
     let cancelled = false;
     (async () => {
       try {
-        const sb = getPublicClient();
-        const { data } = await sb.auth.getSession();
-        const token = data.session?.access_token;
+        const token = await authToken();
         if (!token) return;
         const res = await fetch("/api/admin/credits", {
           headers: { Authorization: `Bearer ${token}` },
@@ -56,26 +62,79 @@ export default function OwnerCredits({ session }: { session: Session | null }) {
     };
   }, [isOwner]);
 
-  if (!isOwner) return null;
-  if (error) return <p className="text-alert text-xs">[ credits: {error} ]</p>;
-  if (!usage) return null;
+  useEffect(() => {
+    if (!isOwner) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = await authToken();
+        if (!token) return;
+        const res = await fetch("/api/admin/chat-pause", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const body = await res.json();
+        if (!cancelled && res.ok) setPaused(!!body.paused);
+      } catch {
+        // silent — the button just won't render its state yet
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [isOwner]);
 
-  // Warn before the app's own low-balance auto-pause trips (lib/budget.ts
-  // stops generation once remaining drops under low_balance_pause_usd),
-  // rather than after the terminal has already gone quiet.
-  const low = usage.remainingUsd < 3;
+  async function togglePause() {
+    if (pauseBusy || paused === null) return;
+    setPauseBusy(true);
+    const next = !paused;
+    try {
+      const token = await authToken();
+      if (!token) return;
+      const res = await fetch("/api/admin/chat-pause", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ paused: next }),
+      });
+      if (res.ok) setPaused(next);
+    } finally {
+      setPauseBusy(false);
+    }
+  }
+
+  if (!isOwner) return null;
 
   return (
     <div className="mt-2">
-      <Meter
-        fraction={usage.percentUsed / 100}
-        tone={low ? "alert" : "problem"}
-        label={`api credits: ${usd(usage.remainingUsd)} left`}
-      />
-      <p className="text-dim text-xs mt-1">
-        spent {usd(usage.spentUsd)} of {usd(usage.startingCreditUsd)}
-        {low && <span className="text-alert"> · running low</span>}
-      </p>
+      {paused !== null && (
+        <button
+          type="button"
+          onClick={togglePause}
+          disabled={pauseBusy}
+          aria-pressed={paused}
+          aria-label={paused ? "Unlock the terminal for chat" : "Lock the terminal — stop everyone from chatting"}
+          className={`mb-2 border px-2 py-1 text-xs transition-colors disabled:opacity-40 ${
+            paused
+              ? "border-alert text-alert hover:bg-alert hover:text-background"
+              : "border-dim text-dim hover:border-terminal hover:text-terminal"
+          }`}
+        >
+          [ {pauseBusy ? "..." : paused ? "chat locked — click to unlock" : "lock chat"} ]
+        </button>
+      )}
+      {error && <p className="text-alert text-xs">[ credits: {error} ]</p>}
+      {usage && (
+        <>
+          <Meter
+            fraction={usage.percentUsed / 100}
+            tone={usage.remainingUsd < 3 ? "alert" : "problem"}
+            label={`api credits: ${usd(usage.remainingUsd)} left`}
+          />
+          <p className="text-dim text-xs mt-1">
+            spent {usd(usage.spentUsd)} of {usd(usage.startingCreditUsd)}
+            {usage.remainingUsd < 3 && <span className="text-alert"> · running low</span>}
+          </p>
+        </>
+      )}
     </div>
   );
 }
