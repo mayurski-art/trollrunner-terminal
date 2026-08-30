@@ -3,8 +3,6 @@
 import { useEffect, useRef } from "react";
 
 const CRAWL_MS = 1100;
-const RED_PCT = 0.2; // fraction of the total color sequence spent red
-const YELLOW_PCT = 0.25; // fraction spent yellow — green claims the rest
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.svg";
@@ -20,17 +18,13 @@ const HUB_PCT = 50;
 // umadbro.shop, the NFT collection, the troll-crypto coin — same cast as
 // the ambient [ speak to it ] widget, components/MiniConnector.tsx) send
 // one packet each into the trolltruths hub at center. The instant they all
-// arrive, the four device nodes' borders run an actual traffic-light
-// sequence — red, then yellow, then green — split as
-// RED_PCT/YELLOW_PCT/remainder of `totalMs`, the full span from
-// convergence to BootSequence unmounting the overlay. A stop/go cue over
-// the whole reveal, not just a flash at the end of it.
+// arrive, onConverge fires and the overlay starts its reveal countdown
+// (BootSequence.tsx) while the hub face keeps flipping grin/sad for the
+// remainder of the reveal.
 export default function BootConnector({
   onConverge,
-  totalMs,
 }: {
   onConverge: () => void;
-  totalMs: number;
 }) {
   const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -69,27 +63,12 @@ export default function BootConnector({
       });
     });
 
-    // Glow scaled off each node's own rendered size so it stays in
-    // proportion on a phone instead of a fixed desktop-tuned bloom.
-    const setLights = (color: string) => {
-      nodes.forEach((node) => {
-        if (!node) return;
-        const r = node.getBoundingClientRect().width || 10;
-        node.style.transition = "none";
-        node.style.borderColor = color;
-        node.style.boxShadow = `0 0 ${r * 0.25}px ${color}, 0 0 ${r * 0.6}px ${color}`;
-      });
-    };
-
-    let yellowTimer: ReturnType<typeof setTimeout> | undefined;
-    let greenTimer: ReturnType<typeof setTimeout> | undefined;
     let spinInterval: ReturnType<typeof setInterval> | undefined;
 
     const convergeTimer = setTimeout(() => {
       packets.forEach((packet) => {
         if (packet) packet.style.opacity = "0";
       });
-      setLights("var(--alert)"); // red
       onConverge();
 
       // the face keeps turning, grin <-> worry, for as long as this stays
@@ -101,23 +80,14 @@ export default function BootConnector({
       };
       spinNext();
       spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
-
-      // red -> yellow -> green, split 20% / 25% / 55% of the total
-      // sequence — a real sequence, not a red/green blend
-      const redHold = totalMs * RED_PCT;
-      const yellowHold = totalMs * YELLOW_PCT;
-      yellowTimer = setTimeout(() => setLights("var(--problem)"), redHold);
-      greenTimer = setTimeout(() => setLights("var(--bc-go)"), redHold + yellowHold);
     }, CRAWL_MS);
 
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(convergeTimer);
-      clearTimeout(yellowTimer);
-      clearTimeout(greenTimer);
       clearInterval(spinInterval);
     };
-  }, [onConverge, totalMs]);
+  }, [onConverge]);
 
   return (
     <div className="boot-connector">

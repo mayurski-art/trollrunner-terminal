@@ -632,11 +632,9 @@ main {
   background: var(--bc-gold);
 }
 
-/* The hub dot where every packet converges. The traffic light itself now
-   lives on the four device nodes' borders (see setLights in
-   BootConnector.tsx), so this stays a plain marker rather than an animated
-   light. Sized off the same fluid node scale as everything else in the
-   connector rather than a fixed 10px. */
+/* The hub dot where every packet converges. A plain marker, sized off the
+   same fluid node scale as everything else in the connector rather than a
+   fixed 10px. */
 .boot-connector .bc-center {
   position: relative;
   width: var(--bc-light);
@@ -1142,8 +1140,7 @@ html[data-boot-ready] #preboot-shield {
 }
 
 /* The boot overlay's exit, components/BootSequence.tsx — a plain opacity
-   fade once the connector's traffic light reaches green, replacing the
-   overlay's old zoom-through-the-light transform. */
+   fade shortly after the connector's packets converge. */
 .boot-fade-out {
   opacity: 0;
 }

@@ -6,15 +6,14 @@ import BootConnector from "@/components/BootConnector";
 
 const LINE_DELAY_MS = 220;
 const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
-const REVEAL_MS = 2400; // total span from convergence to the overlay unmounting — drives the traffic-light timing in BootConnector
+const REVEAL_MS = 900; // beat after convergence before the overlay starts fading out
 const FADE_MS = 350;
 
 // Fake POST/boot text shown on every full page load (including a plain
 // browser refresh — this remounts the root layout, so no persistence is
 // needed or wanted), followed by the 5-node connector
 // (components/BootConnector.tsx — carlos, umadbro.shop, NFT, crypto, all
-// converging on the trolltruths hub) running its device-border traffic
-// light (red -> yellow -> green) before fading out to reveal the site,
+// converging on the trolltruths hub) before fading out to reveal the site,
 // which has been mounted the whole time behind this fixed overlay. Not
 // user-skippable — it always plays out in full. Client-side navigation
 // between pages does NOT remount this (the root layout stays mounted
@@ -124,9 +123,7 @@ export default function BootSequence() {
         {BOOT_LINES.slice(0, shownCount).join("\n")}
         <span className={`blink-cursor${phase === "typing" ? "" : " is-done"}`} />
       </pre>
-      {phase !== "typing" && (
-        <BootConnector onConverge={handleConverge} totalMs={REVEAL_MS} />
-      )}
+      {phase !== "typing" && <BootConnector onConverge={handleConverge} />}
     </div>
   );
 }
