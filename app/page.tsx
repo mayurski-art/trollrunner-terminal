@@ -58,7 +58,7 @@ export default function Home() {
         <div className="max-w-md mx-auto mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" maxFontPx={9} />
         </div>
-        <p className="glow-loop text-base sm:text-lg font-extrabold tracking-wide mb-1 text-center">
+        <p className="text-terminal text-[8px] tracking-wide mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         <SiteTicker />

@@ -40,9 +40,9 @@ export default function Nav() {
   return (
     <nav
       ref={navRef}
-      className="relative flex items-center justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
+      className="relative flex flex-wrap items-start justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
     >
-      <div className="relative flex flex-col items-start">
+      <div className="relative flex flex-col items-start min-w-0 max-w-full">
         <button
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -125,9 +125,9 @@ export default function Nav() {
           </div>
         )}
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-end min-w-0 max-w-full">
         {session ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap justify-end min-w-0">
             <ProblemsCounter />
             <button
               type="button"

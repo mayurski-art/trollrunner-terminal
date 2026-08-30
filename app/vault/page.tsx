@@ -157,6 +157,7 @@ export default function VaultPage() {
                 lifetime mined: {wallet?.lifetime_earned ?? 0}
               </p>
               <Meter
+                width={10}
                 fraction={(wallet?.qualifying_count ?? 0) / QUALIFYING_INTERVAL}
                 tone="problem"
                 label={`mining progress: ${wallet?.qualifying_count ?? 0}/${QUALIFYING_INTERVAL}`}

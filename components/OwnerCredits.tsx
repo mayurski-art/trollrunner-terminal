@@ -136,6 +136,7 @@ export default function OwnerCredits({
   return (
     <div className="mt-2">
       <Meter
+        width={10}
         fraction={usage.percentUsed / 100}
         tone={usage.remainingUsd < 3 ? "alert" : "problem"}
         label={`api credits: ${usd(usage.remainingUsd)} left`}
