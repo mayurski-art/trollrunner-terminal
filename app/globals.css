@@ -49,7 +49,16 @@
    gold circuit-board trollface. Full color/contrast up top where the
    banner sits, fading to solid --background by the lower third so the
    chat frame stays readable. Scoped to the home <main> only (app/page.tsx)
-   — no other route gets this treatment. */
+   — no other route gets this treatment.
+
+   Rendered as two stacked copies of the same image (app/page.tsx) — a CSS
+   unsharp mask, not a second asset: the base layer carries the actual
+   fade/color treatment, and .home-hero-bg--sharpen lays a blurred copy of
+   the same image on top in `overlay` blend mode, which boosts local edge
+   contrast the way Photoshop's Unsharp Mask does. The source JPEG is only
+   1190x809 stretched across a much wider hero, so this recovers some of
+   the perceived sharpness `background-size: cover` softens — it can't add
+   real detail back, only make existing edges read crisper. */
 .home-hero {
   position: relative;
   overflow: hidden;
@@ -61,8 +70,8 @@
   background-image: url("/assets/troll-terminal-face.jpg");
   background-size: cover;
   background-position: 50% 12%;
-  opacity: 0.5;
-  filter: saturate(1.15) brightness(0.62) contrast(1.05);
+  opacity: 0.62;
+  filter: saturate(1.25) brightness(0.7) contrast(1.25);
   -webkit-mask-image: linear-gradient(
     180deg,
     color-mix(in srgb, black 55%, transparent) 0%,
@@ -73,6 +82,11 @@
     color-mix(in srgb, black 55%, transparent) 0%,
     black 88%
   );
+}
+.home-hero-bg--sharpen {
+  filter: blur(3px) contrast(1.4) brightness(1.05);
+  mix-blend-mode: overlay;
+  opacity: 0.55;
 }
 
 /* Native cross-document page transitions between the terminal's own
