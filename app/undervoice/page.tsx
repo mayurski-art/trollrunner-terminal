@@ -19,7 +19,11 @@ export default function UndervoicePage() {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+      <div className="home-hero-bg-frame w-full max-w-3xl" aria-hidden="true">
+        <div className="home-hero-bg" />
+        <div className="home-hero-bg home-hero-bg--sharpen" />
+      </div>
       <div className="w-full max-w-3xl">
         <Nav />
 

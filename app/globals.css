@@ -45,28 +45,47 @@
   --font-mono: var(--font-mono);
 }
 
-/* Homepage hero background — public/assets/troll-terminal-face.jpg, the
-   gold circuit-board trollface. Full color/contrast up top where the
-   banner sits, fading to solid --background by the lower third so the
-   chat frame stays readable. Scoped to the home <main> only (app/page.tsx)
-   — no other route gets this treatment.
+/* Site-wide hero background — public/assets/troll-terminal-face.jpg, the
+   gold circuit-board trollface. Full color/contrast up top, fading to solid
+   --background by the lower third so page content stays readable. Applied
+   to every route's own <main> (app/page.tsx, app/archive, app/vault,
+   app/logs, app/undervoice, app/transmit, app/inspect, app/reports) — each
+   page passes its own max-w-* to .home-hero-bg-frame so the background
+   frames the same way its content column does.
 
-   Rendered as two stacked copies of the same image (app/page.tsx) — a CSS
-   unsharp mask, not a second asset: the base layer carries the actual
-   fade/color treatment, and .home-hero-bg--sharpen lays a blurred copy of
-   the same image on top in `overlay` blend mode, which boosts local edge
-   contrast the way Photoshop's Unsharp Mask does. The source JPEG is only
-   1190x809 stretched across a much wider hero, so this recovers some of
-   the perceived sharpness `background-size: cover` softens — it can't add
+   .home-hero-bg-frame matches the content column's own box (w-full
+   max-w-*, centered) instead of spanning <main> edge to edge. <main> is
+   full viewport width, but the actual text/frames sit in that narrower
+   centered column — sizing the background to <main> let the image's
+   framing (background-position 50% 12% etc.) drift relative to the page's
+   own text as viewport width changed past the column's max-width. Locking
+   the background layer to the same box the content lives in keeps the
+   face's features anchored behind the same text at any width.
+
+   Rendered as two stacked copies of the same image (one per page, in each
+   page's own .tsx) — a CSS unsharp mask, not a second asset: the base
+   layer carries the actual fade/color treatment, and
+   .home-hero-bg--sharpen lays a blurred copy of the same image on top in
+   `overlay` blend mode, which boosts local edge contrast the way
+   Photoshop's Unsharp Mask does. The source JPEG is only 1190x809
+   stretched across a much wider hero, so this recovers some of the
+   perceived sharpness `background-size: cover` softens — it can't add
    real detail back, only make existing edges read crisper. */
 .home-hero {
   position: relative;
   overflow: hidden;
 }
+.home-hero-bg-frame {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+}
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;
   background-image: url("/assets/troll-terminal-face.jpg");
   background-size: cover;
   background-position: 50% 12%;
