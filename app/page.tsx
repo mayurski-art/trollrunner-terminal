@@ -58,7 +58,7 @@ export default function Home() {
         <div className="max-w-md mx-auto mb-2">
           <Banner art={BANNER_TROLLFACE} label="trollface terminal" maxFontPx={9} />
         </div>
-        <p className="glow-loop text-sm font-bold mb-1 text-center">
+        <p className="glow-loop text-base sm:text-lg font-extrabold tracking-wide mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         <SiteTicker />
@@ -129,7 +129,7 @@ export default function Home() {
           </Frame>
         </div>
 
-        <p className="text-dim text-xs mt-8 text-center">
+        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
           part of the{" "}
           <a
             href="https://trollrunner.net?enter=1"

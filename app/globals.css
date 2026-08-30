@@ -219,20 +219,26 @@ main {
   100% {
     color: var(--terminal);
     text-shadow:
-      0 0 6px var(--terminal),
-      0 0 16px color-mix(in srgb, var(--terminal) 80%, transparent);
+      0 0 4px var(--terminal),
+      0 0 10px var(--terminal),
+      0 0 22px color-mix(in srgb, var(--terminal) 90%, transparent),
+      0 0 40px color-mix(in srgb, var(--terminal) 60%, transparent);
   }
   33% {
     color: var(--problem);
     text-shadow:
-      0 0 6px var(--problem),
-      0 0 16px color-mix(in srgb, var(--problem) 80%, transparent);
+      0 0 4px var(--problem),
+      0 0 10px var(--problem),
+      0 0 22px color-mix(in srgb, var(--problem) 90%, transparent),
+      0 0 40px color-mix(in srgb, var(--problem) 60%, transparent);
   }
   66% {
     color: var(--alert);
     text-shadow:
-      0 0 6px var(--alert),
-      0 0 16px color-mix(in srgb, var(--alert) 80%, transparent);
+      0 0 4px var(--alert),
+      0 0 10px var(--alert),
+      0 0 22px color-mix(in srgb, var(--alert) 90%, transparent),
+      0 0 40px color-mix(in srgb, var(--alert) 60%, transparent);
   }
 }
 
@@ -661,14 +667,21 @@ main {
 
 /* Mobile: --bc-node-w shrinks down toward 48px, so the 10px label font
    (esp. "umadbro.shop" / "trolltruths") was overflowing its column and
-   spilling into neighboring node labels instead of wrapping in place. */
+   spilling into neighboring node labels instead of wrapping in place.
+   Letting it wrap fixed the spill but "umadbro.shop" still wrapped onto
+   two lines at common phone widths (max-width: var(--bc-node-w) is only
+   ~58px there) — widening the label past its own node's width still
+   leaves a comfortable gap before the neighboring column at 5 evenly
+   spaced nodes, so it can go back to fitting on one line. */
 @media (max-width: 480px) {
   .boot-connector .bc-labels {
     font-size: 8px;
     line-height: 1.2;
+    letter-spacing: 0.02em;
     white-space: normal;
     word-break: break-word;
     hyphens: auto;
+    max-width: calc(var(--bc-node-w) * 1.6);
   }
 
   /* The node art is object-fit: cover sized to 100% of a box that also has
@@ -1173,9 +1186,9 @@ html[data-custom-cursor] label {
 }
 
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
   background: var(--terminal);
   box-shadow: 0 0 6px color-mix(in srgb, var(--terminal) 70%, transparent);
   transition:
@@ -1187,9 +1200,9 @@ html[data-custom-cursor] label {
     margin 0.15s ease;
 }
 .cursor-dot--active {
-  width: 4px;
-  height: 4px;
-  margin: -2px 0 0 -2px;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
   background: var(--problem);
   box-shadow: 0 0 8px color-mix(in srgb, var(--problem) 80%, transparent);
 }

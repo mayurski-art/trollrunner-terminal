@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { checkUsernameExists, login, register } from "@/lib/auth";
 
 // Which account state the typed username resolved to — null means "not
@@ -23,6 +23,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // form ever exists — a CSS-hidden second copy is still live to autofill.
   // Starts false so SSR and the client's first paint agree.
   const [phone, setPhone] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 639px)");
@@ -31,6 +32,24 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
+
+  // Desktop dropdown only — the phone variant is a full-screen dialog with
+  // its own [ cancel ] button, so there's no "outside" to click for it.
+  useEffect(() => {
+    if (!open || phone) return;
+    function onClickAway(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", onClickAway);
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      document.removeEventListener("mousedown", onClickAway);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, [open, phone]);
 
   // Step 1 -> step 2: look up the typed username once and remember whether
   // it's an existing account or a new one, so the visitor never has to pick
@@ -132,7 +151,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       <button
         type="submit"
         disabled={checking || busy}
-        className="glitch-btn border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+        className="glitch-btn glitch-btn-auto border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
       >
         {checking ? "..." : busy ? "..." : !resolved ? "next >" : resolved === "login" ? "connect >" : "register >"}
       </button>
@@ -145,7 +164,10 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // (banner, ticker, both frames) just from clicking [ join the trolling ].
   if (!phone) {
     return (
-      <div className="absolute right-0 top-full mt-2 z-20 w-64 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
+      <div
+        ref={dropdownRef}
+        className="absolute right-0 top-full mt-2 z-20 w-64 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg"
+      >
         {form}
       </div>
     );
