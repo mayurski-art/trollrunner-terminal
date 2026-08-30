@@ -53,17 +53,14 @@ export default function Home() {
     <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
       <div className="w-full max-w-7xl">
         <Nav />
-        <SiteTicker />
-
-        <div className="mb-2">
-          <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
-        </div>
         <p className="glow-loop text-sm mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
-        <p className="text-problem text-sm mb-10 text-center">
-          try deciphering the latest transmission&apos;s clue below — crack it and the PROBLEMS are yours
-        </p>
+        <SiteTicker />
+
+        <div className="mb-10">
+          <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
           <Frame
