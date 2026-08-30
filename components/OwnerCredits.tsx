@@ -24,7 +24,6 @@ function usd(n: number): string {
 // keeps the numbers private.
 export default function OwnerCredits({ session }: { session: Session | null }) {
   const [usage, setUsage] = useState<Usage | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [paused, setPaused] = useState<boolean | null>(null);
   const [pauseBusy, setPauseBusy] = useState(false);
 
@@ -48,13 +47,10 @@ export default function OwnerCredits({ session }: { session: Session | null }) {
         });
         const body = await res.json();
         if (cancelled) return;
-        if (!res.ok) {
-          setError(body.error ?? "could not read credits");
-          return;
-        }
+        if (!res.ok) return;
         setUsage(body.usage ?? null);
       } catch {
-        if (!cancelled) setError("connection to the terminal was lost");
+        // silent — the meter just won't render until the next successful fetch
       }
     })();
     return () => {
@@ -121,7 +117,6 @@ export default function OwnerCredits({ session }: { session: Session | null }) {
           [ {pauseBusy ? "..." : paused ? "chat locked — click to unlock" : "lock chat"} ]
         </button>
       )}
-      {error && <p className="text-alert text-xs">[ credits: {error} ]</p>}
       {usage && (
         <>
           <Meter
