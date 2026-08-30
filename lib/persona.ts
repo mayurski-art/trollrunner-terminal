@@ -303,15 +303,26 @@ export async function generateChatReply(
     .map((m) => m.content)
     .join(" ");
 
+  // Order matters for prompt caching: Anthropic caches by exact prefix, so
+  // a block that changes turn-to-turn invalidates cache reuse for every
+  // block AFTER it in the array, regardless of that later block's own
+  // cache_control. buildLoreBlock's content depends on recentText and
+  // changes almost every turn (different lore sections get selected as the
+  // conversation moves) — it used to sit before the image catalog, which
+  // meant the catalog got a fresh (expensive) cache write nearly every
+  // turn even though its own content never changes. Static blocks now come
+  // first so they actually reuse the cache; the variable lore block moves
+  // last, where its own churn can't take anything else down with it.
+  const imageLibraryBlock: Anthropic.Messages.TextBlockParam = {
+    type: "text",
+    text: "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
+      loreAssetCatalogForPrompt(),
+    cache_control: { type: "ephemeral", ttl: "1h" },
+  };
   const system: Anthropic.Messages.TextBlockParam[] = [
     { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+    imageLibraryBlock,
     buildLoreBlock(recentText),
-    {
-      type: "text",
-      text: "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
-        loreAssetCatalogForPrompt(),
-      cache_control: { type: "ephemeral", ttl: "1h" },
-    },
   ];
   if (memories.length > 0) {
     system.push({
