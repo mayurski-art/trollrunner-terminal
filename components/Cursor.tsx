@@ -19,9 +19,17 @@ export default function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
 
+  // Detect pointer:fine once on mount. This only flips `enabled` — it can't
+  // also wire up listeners here, since the dot/ring divs don't exist yet
+  // (the component still returns null on this same render) and refs would
+  // read null. The second effect below runs after the re-render that
+  // follows setEnabled(true), once the refs actually point at real nodes.
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    setEnabled(true);
+    if (window.matchMedia("(pointer: fine)").matches) setEnabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
     document.documentElement.setAttribute("data-custom-cursor", "");
 
     const dot = dotRef.current;
@@ -33,6 +41,12 @@ export default function Cursor() {
     let ringX = mouseX;
     let ringY = mouseY;
     let raf = 0;
+
+    // Paint at center immediately instead of waiting for the first
+    // mousemove — without this the dot/ring sit at their CSS default
+    // (0,0, i.e. the top-left corner) until the pointer first moves.
+    dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
 
     function onMove(e: MouseEvent) {
       mouseX = e.clientX;
@@ -86,7 +100,7 @@ export default function Cursor() {
       cancelAnimationFrame(raf);
       document.documentElement.removeAttribute("data-custom-cursor");
     };
-  }, []);
+  }, [enabled]);
 
   if (!enabled) return null;
 

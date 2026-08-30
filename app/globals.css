@@ -881,30 +881,25 @@ main {
 }
 
 /* out: node -> hub, colored, first half. in: hub -> node, grey, second
-   half. Opacity holds flat at 1 through the travel and only fades right
-   at departure/arrival — opacity and left each need their own stops
-   here, since a keyframe that doesn't redefine a property interpolates
-   it from the nearest stop that DOES define it, across the whole span
-   between those two stops (not just the window where the property looks
-   "active"). That's what caused the handoff to look like a jump/snap:
-   left was only pinned at 0%/46% (out) and 50%/96% (in), so each packet
-   was already sliding at full speed the instant its opacity crossed 0 —
-   it faded in mid-flight instead of appearing to depart from a standstill
-   at the hub. Adding a matching left stop at each opacity boundary (4%,
-   42%, 54%, 92%) freezes position through the invisible fade, so motion
-   only starts once a packet is fully opaque and only stops once it's
-   fully faded — a true dwell instead of a mid-motion pop. */
+   half. Each packet: fades in while still parked at its start point (0-4%),
+   travels gradually while fully opaque (4-42%, the long window — this is
+   what makes the motion read as a smooth drift, not a snap), then arrives
+   and fades out while parked at its end point (42-46%). Pinning `left` at
+   both the pre-fade-in and post-fade-out instants (not across the whole
+   fade, and not compressed into a short slice) is what keeps the handoff
+   from popping: a keyframe that doesn't redefine a property interpolates
+   it from the nearest stop that DOES, across that whole span, so leaving
+   only one `left` stop at each end and letting it interpolate freely
+   4-42% is what gives the gradual travel back while still starting and
+   ending each visible phase at rest. */
 @keyframes mc-out-carlos {
   0%,
   4% {
     left: 10%;
     opacity: 0;
   }
-  8% {
-    opacity: 1;
-  }
   42% {
-    left: 10%;
+    left: 50%;
     opacity: 1;
   }
   46%,
@@ -923,10 +918,11 @@ main {
     left: 50%;
     opacity: 1;
   }
-  88% {
+  92% {
+    left: 10%;
     opacity: 1;
   }
-  92%,
+  96%,
   100% {
     left: 10%;
     opacity: 0;
@@ -938,11 +934,8 @@ main {
     left: 30%;
     opacity: 0;
   }
-  8% {
-    opacity: 1;
-  }
   42% {
-    left: 30%;
+    left: 50%;
     opacity: 1;
   }
   46%,
@@ -961,10 +954,11 @@ main {
     left: 50%;
     opacity: 1;
   }
-  88% {
+  92% {
+    left: 30%;
     opacity: 1;
   }
-  92%,
+  96%,
   100% {
     left: 30%;
     opacity: 0;
@@ -976,11 +970,8 @@ main {
     left: 70%;
     opacity: 0;
   }
-  8% {
-    opacity: 1;
-  }
   42% {
-    left: 70%;
+    left: 50%;
     opacity: 1;
   }
   46%,
@@ -999,10 +990,11 @@ main {
     left: 50%;
     opacity: 1;
   }
-  88% {
+  92% {
+    left: 70%;
     opacity: 1;
   }
-  92%,
+  96%,
   100% {
     left: 70%;
     opacity: 0;
@@ -1014,11 +1006,8 @@ main {
     left: 90%;
     opacity: 0;
   }
-  8% {
-    opacity: 1;
-  }
   42% {
-    left: 90%;
+    left: 50%;
     opacity: 1;
   }
   46%,
@@ -1037,10 +1026,11 @@ main {
     left: 50%;
     opacity: 1;
   }
-  88% {
+  92% {
+    left: 90%;
     opacity: 1;
   }
-  92%,
+  96%,
   100% {
     left: 90%;
     opacity: 0;
