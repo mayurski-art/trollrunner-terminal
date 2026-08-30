@@ -238,8 +238,11 @@ export async function POST(request: Request) {
   if (wallet.last_message_at) {
     const elapsed = Date.now() - new Date(wallet.last_message_at).getTime();
     if (elapsed < COOLDOWN_MS) {
+      // retryAfterMs lets the client render a live ticking countdown
+      // instead of a static "try again in a moment" — see components/
+      // Chat.tsx's cooldown state.
       return NextResponse.json(
-        { error: "the terminal is ignoring you. try again in a moment" },
+        { error: "the terminal is ignoring you", retryAfterMs: COOLDOWN_MS - elapsed },
         { status: 429 }
       );
     }

@@ -46,6 +46,11 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Timestamp (ms) the 15s send cooldown lifts, or null when there isn't
+  // one — drives a live ticking "wait Ns" display instead of a static
+  // "try again in a moment" that never told you how long that actually was.
+  const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
+  const [cooldownNow, setCooldownNow] = useState(() => Date.now());
   const [loaded, setLoaded] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
@@ -175,6 +180,22 @@ export default function Chat() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [messages]);
 
+  // Ticks once a second only while a cooldown is actually pending, so the
+  // countdown display stays live and self-clears at zero without a
+  // dangling interval running for the rest of the session.
+  useEffect(() => {
+    if (cooldownUntil === null) return;
+    const id = setInterval(() => setCooldownNow(Date.now()), 250);
+    return () => clearInterval(id);
+  }, [cooldownUntil]);
+
+  useEffect(() => {
+    if (cooldownUntil !== null && cooldownNow >= cooldownUntil) {
+      setCooldownUntil(null);
+      setError(null);
+    }
+  }, [cooldownNow, cooldownUntil]);
+
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
@@ -193,6 +214,10 @@ export default function Chat() {
       });
       const data = await res.json();
       if (!res.ok) {
+        if (res.status === 429 && typeof data.retryAfterMs === "number") {
+          setCooldownNow(Date.now());
+          setCooldownUntil(Date.now() + data.retryAfterMs);
+        }
         setError(data.error ?? "the terminal did not respond");
         return;
       }
@@ -437,7 +462,14 @@ export default function Chat() {
         })}
         {busy && <p className="text-dim text-sm animate-pulse">terminal&gt; ...</p>}
       </div>
-      {error && <p className="text-alert text-xs mb-2">[ {error} ]</p>}
+      {error && (
+        <p className="text-alert text-xs mb-2">
+          [ {error}
+          {cooldownUntil !== null &&
+            ` — ${Math.max(0, Math.ceil((cooldownUntil - cooldownNow) / 1000))}s`}
+          ]
+        </p>
+      )}
       {/* shrink-0 keeps the input row from being squeezed by the flex
           column when the panel is height-locked (lg only); the lg:mb-1
           keeps its border off the panel's own glowing border. */}
