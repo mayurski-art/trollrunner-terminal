@@ -139,7 +139,9 @@ export default function Nav() {
             </button>
           </div>
         ) : (
-          <AuthPanel />
+          <div className="relative">
+            <AuthPanel />
+          </div>
         )}
         <OwnerCredits session={session} section="lock" />
       </div>

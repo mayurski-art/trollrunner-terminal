@@ -139,8 +139,17 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     </form>
   );
 
-  // Desktop/tablet: the form sits inline in its Frame as it always has.
-  if (!phone) return form;
+  // Desktop/tablet: an absolutely-positioned dropdown, like [ menu ]'s own
+  // (Nav.tsx) — sitting inline here used to push the whole page down by the
+  // form's height the moment it opened, reflowing everything below the nav
+  // (banner, ticker, both frames) just from clicking [ join the trolling ].
+  if (!phone) {
+    return (
+      <div className="absolute right-0 top-full mt-2 z-20 w-64 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
+        {form}
+      </div>
+    );
+  }
 
   // Phones: sign-in takes over the screen. Inline, the form sits partway down
   // a long scrolling page, so tapping a field makes Safari scroll somewhere
