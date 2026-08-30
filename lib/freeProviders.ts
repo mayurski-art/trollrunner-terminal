@@ -19,7 +19,12 @@ type FreeProvider = {
   generate: (system: string, history: ChatTurn[]) => Promise<string | null>;
 };
 
-const MAX_OUTPUT_TOKENS = 300;
+// Generous relative to the terminal's actual "1-4 short lines" reply
+// length — several of the current free-tier models are reasoning models
+// that spend a chunk of this budget on invisible "thinking" before ever
+// reaching the visible answer (see the per-provider notes below), so a
+// tight budget was silently truncating replies to nothing.
+const MAX_OUTPUT_TOKENS = 500;
 
 async function callGroq(system: string, history: ChatTurn[]): Promise<string | null> {
   const apiKey = process.env.GROQ_API_KEY;
@@ -32,7 +37,14 @@ async function callGroq(system: string, history: ChatTurn[]): Promise<string | n
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
+      // groq/compound-mini — verified 2026-08-29 to return clean `content`
+      // with an empty `reasoning` field. Groq's plain-instruct Llama models
+      // (llama-3.3-70b-versatile) were retired from their catalog; most of
+      // what's left (gpt-oss-*, qwen3.6-*) are reasoning models that either
+      // eat the token budget on invisible thinking or (qwen) leak
+      // "<think>...</think>" straight into content. Re-check
+      // console.groq.com/docs/models if this one ever 404s.
+      model: "groq/compound-mini",
       max_tokens: MAX_OUTPUT_TOKENS,
       messages: [{ role: "system", content: system }, ...history],
     }),
@@ -53,10 +65,17 @@ async function callOpenRouter(system: string, history: ChatTurn[]): Promise<stri
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      // OpenRouter's free-tier models rotate; this one is a stable free
-      // alias as of this writing. Check openrouter.ai/models?max_price=0
-      // if it stops responding — free-tier model ids do get retired.
-      model: "meta-llama/llama-3.3-70b-instruct:free",
+      // OpenRouter's free-tier catalog rotates often and old slugs 404 —
+      // this one was verified working 2026-08-29 as the best persona-voice
+      // match among the currently free models actually tested against this
+      // system prompt. nvidia/nemotron-3-super-120b-a12b:free technically
+      // works but completely ignores the voice instructions (answers as a
+      // generic "I'm an AI assistant" chatbot, markdown bullets and all) —
+      // don't swap back to it without re-testing against a real prompt.
+      // Check openrouter.ai/models?max_price=0 if this 404s, and always
+      // verify a replacement's actual output against CHAT_SYSTEM_PROMPT's
+      // voice rules, not just that it returns 200.
+      model: "minimax/minimax-m2.7:free",
       max_tokens: MAX_OUTPUT_TOKENS,
       messages: [{ role: "system", content: system }, ...history],
     }),
@@ -71,7 +90,10 @@ async function callGemini(system: string, history: ChatTurn[]): Promise<string |
   if (!apiKey) return null;
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    // gemini-2.0-flash was retired; gemini-3.6-flash is the current free-tier
+    // equivalent as of 2026-08-29. Google deprecates model ids on a real
+    // cadence — check ai.google.dev/gemini-api/docs/models if this 404s.
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
