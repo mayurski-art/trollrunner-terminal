@@ -62,12 +62,21 @@ function normalizeForCompare(text: string): string {
   return text.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-// Blocks "mining" a message that's just spam: a near-repeat of something the
-// same user already sent recently, or a single word/phrase looped to pad out
-// the length requirement (e.g. "lol lol lol lol lol lol").
+// Blocks "mining" a message that's just spam: the SAME exact text sent
+// repeatedly, or a single word/phrase looped to pad out the length
+// requirement (e.g. "lol lol lol lol lol lol"). Requires 2+ prior exact
+// repeats, not 1 — a troublemaker re-asking the same real question once
+// because the last reply was wrong or confusing (a genuine "what does he
+// look like" retry, a plain "what?") is completely normal and used to trip
+// this on the very first repeat, denying a real reply — a canned "[loop
+// detected]" line — right when the person most needed the terminal to
+// actually engage. Only a pattern of 2+ repeats reads as an actual loop.
 function isSpammyMessage(message: string, recentUserMessages: string[]): boolean {
   const normalized = normalizeForCompare(message);
-  if (recentUserMessages.some((prev) => normalizeForCompare(prev) === normalized)) {
+  const repeatCount = recentUserMessages.filter(
+    (prev) => normalizeForCompare(prev) === normalized
+  ).length;
+  if (repeatCount >= 2) {
     return true;
   }
   const words = normalized.split(" ").filter(Boolean);

@@ -164,24 +164,6 @@ What's different in chat:
   like, what a word means, whether something exists), give that answer
   straight, in your voice, in the first line or two. Mood and mythology are
   seasoning on top of a real answer, never a replacement for one.
-- You have a small library of real photos and pieces of art tied to actual
-  lore (the drawing's history, merch, events, the Troll Runner who runs
-  this site). It's listed below as IMAGE LIBRARY — one line per image, its
-  id and what it actually shows. Whenever the conversation is genuinely
-  about something on that list — including "what does he/the Troll Runner
-  look like," "who is he," "show me," or any other way of asking for
-  something that list covers — call the show_image tool with that image's
-  id so the troublemaker actually sees it, rather than describing it in
-  words or saying you don't have it. You DO have these — never claim you
-  lack a photo, a face, or proof of something that's on this list. If
-  nothing on the list is genuinely relevant, don't call the tool and don't
-  invent an image that isn't there — most replies won't call it.
-- Specifically: if any entry's description says it shows the Troll Runner
-  himself, that IS a photo of what he looks like — treat "what does he
-  look like," "who is he," "his face," and similar as a direct match for
-  that entry and call show_image with its id. Do not reason your way into
-  "the ledger doesn't have his face" when an entry on the list says
-  otherwise — the list is the ground truth of what you have.
 - Your job is to make this feel like a game the troublemaker wants to keep
   playing, not a chatbot answering questions — but that means genuinely
   interesting and a little too knowing, not vague or hard to parse. Prefer
@@ -350,9 +332,16 @@ export async function generateChatReply(
   });
 
   const text = response.content.find((b) => b.type === "text");
-  if (!text || text.type !== "text") {
-    throw new Error("No text block in Claude response");
-  }
+  // A missing text block used to throw and 500 the whole request — no
+  // reply saved, nothing shown, "the terminal glitched" for the
+  // troublemaker. It happens: with two tools available now (show_image
+  // alongside the required substance_read), the model occasionally emits
+  // only tool_use blocks and no prose, especially if max_tokens cuts it
+  // off mid-turn before it gets to the reply text. Fail soft instead — a
+  // short in-voice glitch line beats a broken turn, and this is rare
+  // enough that losing the "real" reply once is a fine trade for never
+  // crashing chat over it.
+  const replyText = text && text.type === "text" ? text.text.trim() : "";
 
   const toolUseBlocks = response.content.filter(
     (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
@@ -373,7 +362,11 @@ export async function generateChatReply(
   const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
 
   return {
-    content: text.text.trim(),
+    // Empty means the model returned only tool calls and no prose this
+    // turn — a real but rare failure mode, not worth crashing the request
+    // over. The fallback line stays in voice and short, same register as
+    // the [signal lost] pause message elsewhere in this route.
+    content: replyText || "static\nlost that one, ask again",
     substance,
     imageId,
     usage: {
