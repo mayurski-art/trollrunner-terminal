@@ -117,6 +117,9 @@ export default function Home() {
             titleEffect="trace"
             traceHue="#b26bff"
           >
+            <div className="shrink-0">
+              <MiniConnector />
+            </div>
             <OwnerCredits session={session} />
             {session ? (
               <Chat />
@@ -129,10 +132,6 @@ export default function Home() {
               </div>
             )}
           </Frame>
-        </div>
-
-        <div className="mb-10">
-          <MiniConnector />
         </div>
 
         <p className="text-dim text-xs mt-8 text-center">

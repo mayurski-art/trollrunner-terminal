@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import BootSequence from "@/components/BootSequence";
+import Cursor from "@/components/Cursor";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
@@ -36,6 +37,7 @@ export default function RootLayout({
           }}
         />
         <BootSequence />
+        <Cursor />
         {children}
         {/* Shared trollrunner.net network-wide lock overlay — same script as
             the main site and sibling subdomains, reading the same Supabase

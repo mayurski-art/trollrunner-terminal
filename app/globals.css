@@ -1065,3 +1065,79 @@ main {
 html[data-boot-ready] #preboot-shield {
   display: none;
 }
+
+/* Custom cursor (components/Cursor.tsx). The OS cursor only hides once JS
+   has confirmed pointer:fine and mounted the component — gating on
+   data-custom-cursor rather than a bare (pointer: fine) media query means
+   a coarse pointer, or JS failing to run at all, always keeps the native
+   cursor instead of going invisible. */
+html[data-custom-cursor],
+html[data-custom-cursor] a,
+html[data-custom-cursor] button,
+html[data-custom-cursor] input,
+html[data-custom-cursor] textarea,
+html[data-custom-cursor] select,
+html[data-custom-cursor] [role="button"],
+html[data-custom-cursor] label {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  will-change: transform;
+  transition: opacity 0.15s ease;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--terminal);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--terminal) 70%, transparent);
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    width 0.15s ease,
+    height 0.15s ease,
+    margin 0.15s ease;
+}
+.cursor-dot--active {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: var(--problem);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--problem) 80%, transparent);
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid var(--dim);
+  transition:
+    opacity 0.15s ease,
+    border-color 0.2s ease,
+    width 0.2s ease,
+    height 0.2s ease,
+    margin 0.2s ease,
+    transform 0.05s linear;
+}
+.cursor-ring--active {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-color: var(--problem);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--problem) 40%, transparent);
+}
+.cursor-ring--down {
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+}
