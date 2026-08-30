@@ -11,7 +11,6 @@ import MiniConnector from "@/components/MiniConnector";
 import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
-import OwnerCredits from "@/components/OwnerCredits";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -50,20 +49,21 @@ export default function Home() {
 
   return (
     <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
-      <div className="home-hero-bg" aria-hidden="true" />
-      <div className="home-hero-bg home-hero-bg--sharpen" aria-hidden="true" />
+      <div className="home-hero-bg-frame w-full max-w-7xl" aria-hidden="true">
+        <div className="home-hero-bg" />
+        <div className="home-hero-bg home-hero-bg--sharpen" />
+      </div>
       <div className="w-full max-w-7xl">
         <Nav />
+        <div className="max-w-md mx-auto mb-2">
+          <Banner art={BANNER_TROLLFACE} label="trollface terminal" maxFontPx={9} />
+        </div>
         <p className="glow-loop text-sm mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         <SiteTicker />
 
-        <div className="mb-10">
-          <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-6 mb-6">
+        <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6">
           <Frame
             title="latest transmission"
             tone="terminal"
@@ -121,7 +121,6 @@ export default function Home() {
             <div className="shrink-0">
               <MiniConnector />
             </div>
-            <OwnerCredits session={session} />
             {session ? (
               <Chat />
             ) : (

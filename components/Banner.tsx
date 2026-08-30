@@ -6,6 +6,7 @@ type BannerProps = {
   art: string;
   label: string; // real text for screen readers
   tone?: "terminal" | "alert";
+  maxFontPx?: number;
 };
 
 // Renders a FIGlet banner from lib/ascii.ts. The <pre> block is aria-hidden
@@ -22,10 +23,11 @@ type BannerProps = {
 const BASE_FONT_PX = 22; // matches --font-size: 1.375rem in .ascii-banner
 const MIN_FONT_PX = 7; // floor so tiny viewports don't get unreadable text
 
-export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
+export default function Banner({ art, label, tone = "terminal", maxFontPx }: BannerProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
-  const [fontSize, setFontSize] = useState(BASE_FONT_PX);
+  const cap = maxFontPx ?? BASE_FONT_PX;
+  const [fontSize, setFontSize] = useState(cap);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -48,7 +50,7 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
       // antialiasing renders that misalignment as red/cyan fringing at the
       // seams — differently per device. Rounding to a whole pixel keeps the
       // grid aligned everywhere.
-      const next = Math.round(Math.max(MIN_FONT_PX, Math.min(BASE_FONT_PX, rawSize)));
+      const next = Math.round(Math.max(MIN_FONT_PX, Math.min(cap, rawSize)));
       setFontSize((prev) => (next === prev ? prev : next));
     }
 
@@ -60,7 +62,7 @@ export default function Banner({ art, label, tone = "terminal" }: BannerProps) {
     const ro = new ResizeObserver(recalc);
     ro.observe(wrapper);
     return () => ro.disconnect();
-  }, [art]);
+  }, [art, cap]);
 
   return (
     <div ref={wrapperRef} className="w-full overflow-hidden">

@@ -7,6 +7,7 @@ import { getSession, onAuthChange, logout, displayName } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
 import ProblemsCounter from "@/components/ProblemsCounter";
 import AuthPanel from "@/components/AuthPanel";
+import OwnerCredits from "@/components/OwnerCredits";
 
 export default function Nav() {
   const [session, setSession] = useState<Session | null>(null);
@@ -41,7 +42,7 @@ export default function Nav() {
       ref={navRef}
       className="relative flex items-center justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
     >
-      <div className="relative">
+      <div className="relative flex flex-col items-start">
         <button
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -50,6 +51,7 @@ export default function Nav() {
         >
           [ menu ]
         </button>
+        <OwnerCredits session={session} section="usage" />
         {open && (
           <div className="absolute left-0 top-full mt-2 z-20 flex flex-col items-start gap-2 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
             <a
@@ -123,21 +125,24 @@ export default function Nav() {
           </div>
         )}
       </div>
-      {session ? (
-        <div className="flex items-center gap-3">
-          <ProblemsCounter />
-          <button
-            type="button"
-            onClick={() => logout()}
-            title="click to disconnect"
-            className="nav-neon nav-neon--disconnect whitespace-nowrap"
-          >
-            {displayName(session) ?? "you"} [ connected ]
-          </button>
-        </div>
-      ) : (
-        <AuthPanel />
-      )}
+      <div className="flex flex-col items-end">
+        {session ? (
+          <div className="flex items-center gap-3">
+            <ProblemsCounter />
+            <button
+              type="button"
+              onClick={() => logout()}
+              title="click to disconnect"
+              className="nav-neon nav-neon--disconnect whitespace-nowrap"
+            >
+              {displayName(session) ?? "you"} [ connected ]
+            </button>
+          </div>
+        ) : (
+          <AuthPanel />
+        )}
+        <OwnerCredits session={session} section="lock" />
+      </div>
     </nav>
   );
 }
