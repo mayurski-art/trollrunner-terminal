@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import type { Mood } from "@/lib/undervoice";
 import { selectLoreSections } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
+import { generateFreeReply, type ChatTurn } from "@/lib/freeProviders";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -218,6 +219,49 @@ per the instructions above — followed by the required substance_read tool
 call, and by a show_image tool call ONLY if an image from IMAGE LIBRARY is
 genuinely relevant this turn (most turns, don't call it).`;
 
+// Same voice as CHAT_SYSTEM_PROMPT, minus the tool-calling instructions —
+// used for the free-tier providers in lib/freeProviders.ts, which only
+// write plain prose and have no tools available. substance_read and
+// show_image are handled by separate small Claude calls regardless of
+// which provider wrote the reply text (see generateChatReply below), so
+// this prompt only needs to cover the reply itself.
+const CHAT_SYSTEM_PROMPT_FREE_TIER = CHAT_SYSTEM_PROMPT
+  .replace(
+    /After composing your reply[\s\S]*$/,
+    'Output: respond with ONLY what you say to the troublemaker — no preamble, no\n' +
+      'quotes, no explanation, no title, no length limit stated, but keep it short\n' +
+      "per the instructions above. Do not mention tools, tags, or anything about how\n" +
+      "you decide what to say — just the line itself, in voice."
+  );
+
+// Given only the troublemaker's last message (plus a little context), tags
+// whether it actually said something. Split out from the main reply call so
+// mining/PROBLEMS logic stays identical no matter which provider (a free
+// tier or Claude) wrote the reply text this turn — see generateChatReply.
+const SUBSTANCE_SYSTEM_PROMPT = `You are grading a single message from a chat, only to decide whether it
+mined the sender a small amount of in-app currency. Tag it "substantive" if
+it actually said something — a real question, a disclosure, a joke that
+lands, an argument, a genuine follow-up. Tag it "filler" if it's an
+acknowledgement, one-word agreement ("yeah", "ok", "lol"), a restatement of
+something already said, or padded nothing dressed up to look longer than it
+is. This is not a grammar or effort test — a short sharp line can be
+substantive and a long rambling one can still be filler. Call the
+substance_read tool exactly once with your tag. Do not reply with any text.`;
+
+// Given the conversation, decides whether any image from IMAGE LIBRARY is
+// worth showing this turn. Split out for the same reason as substance
+// tagging — image selection must be reliable regardless of which provider
+// wrote the reply, and free-tier models don't get a vote here (see the
+// history in lib/loreAssets.ts of half-hearted tool-calling breaking this
+// exact mechanic).
+const IMAGE_SYSTEM_PROMPT_PREFIX = `You are deciding, for a single turn of a chat between Trollface Terminal and a
+troublemaker, whether an image from IMAGE LIBRARY should be shown. You are
+not writing the reply — another system already wrote it. Read the
+troublemaker's last message and the reply, then call show_image if (and only
+if) it applies, per the tool's own rules. If nothing applies, call show_image
+with image_id set to the empty string "" — you must always call the tool.
+`;
+
 const IMAGE_TOOL: Anthropic.Messages.Tool = {
   name: "show_image",
   description:
@@ -292,9 +336,17 @@ export type GeneratedChatReply = {
   };
 };
 
+// Reply text comes from a free-tier provider (lib/freeProviders.ts) when
+// one is configured and answers successfully; substance tagging and image
+// selection are always separate small Claude calls, so mining/PROBLEMS and
+// show_image reliability never depend on which provider (or none) wrote
+// the prose. rotationSeed picks the free-provider round-robin starting
+// point — callers pass something that increments every message (the day's
+// running message count works fine) so it actually rotates.
 export async function generateChatReply(
   history: ChatMessage[],
-  memories: string[] = []
+  memories: string[] = [],
+  rotationSeed: number = 0
 ): Promise<GeneratedChatReply> {
   const client = getClient();
   const recentText = history
@@ -302,90 +354,148 @@ export async function generateChatReply(
     .map((m) => m.content)
     .join(" ");
 
-  // Order matters for prompt caching: Anthropic caches by exact prefix, so
-  // a block that changes turn-to-turn invalidates cache reuse for every
-  // block AFTER it in the array, regardless of that later block's own
-  // cache_control. buildLoreBlock's content depends on recentText and
-  // changes almost every turn (different lore sections get selected as the
-  // conversation moves) — it used to sit before the image catalog, which
-  // meant the catalog got a fresh (expensive) cache write nearly every
-  // turn even though its own content never changes. Static blocks now come
-  // first so they actually reuse the cache; the variable lore block moves
-  // last, where its own churn can't take anything else down with it.
-  const imageLibraryBlock: Anthropic.Messages.TextBlockParam = {
-    type: "text",
-    text: "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
-      loreAssetCatalogForPrompt(),
-    cache_control: { type: "ephemeral", ttl: "1h" },
-  };
-  const system: Anthropic.Messages.TextBlockParam[] = [
-    { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
-    imageLibraryBlock,
-    buildLoreBlock(recentText),
-  ];
-  if (memories.length > 0) {
-    system.push({
-      type: "text",
-      text:
-        "Things this specific troublemaker asked you to remember, across every past session — " +
+  const memoryBlock =
+    memories.length > 0
+      ? "\n\nThings this specific troublemaker asked you to remember, across every past session — " +
         "weave these in naturally when relevant, never recite them as a list or announce that " +
         "you're 'remembering':\n" +
-        memories.map((m) => `- ${m}`).join("\n"),
+        memories.map((m) => `- ${m}`).join("\n")
+      : "";
+
+  const freeSystemPrompt =
+    CHAT_SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recentText) + memoryBlock;
+  const freeHistory: ChatTurn[] = history.map((m) => ({ role: m.role, content: m.content }));
+
+  const freeResult = await generateFreeReply(freeSystemPrompt, freeHistory, rotationSeed);
+
+  let replyText: string;
+  let claudeUsage = { input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 };
+
+  if (freeResult) {
+    replyText = freeResult.content;
+  } else {
+    // Every free provider is unconfigured or down this turn — fall back to
+    // Claude for the reply too, same prompt shape as before this split.
+    const imageLibraryBlock: Anthropic.Messages.TextBlockParam = {
+      type: "text",
+      text:
+        "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
+        loreAssetCatalogForPrompt(),
+      cache_control: { type: "ephemeral", ttl: "1h" },
+    };
+    const system: Anthropic.Messages.TextBlockParam[] = [
+      { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+      imageLibraryBlock,
+      buildLoreBlock(recentText),
+    ];
+    if (memories.length > 0) {
+      system.push({ type: "text", text: memoryBlock.trim() });
+    }
+    const fallback = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 300,
+      system,
+      tools: [SUBSTANCE_TOOL, IMAGE_TOOL],
+      messages: history.map((m) => ({ role: m.role, content: m.content })),
     });
+    const text = fallback.content.find((b): b is Anthropic.Messages.TextBlock => b.type === "text");
+    replyText = text ? text.text.trim() : "";
+    claudeUsage = {
+      input_tokens: fallback.usage.input_tokens,
+      output_tokens: fallback.usage.output_tokens,
+      cache_creation_input_tokens: fallback.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: fallback.usage.cache_read_input_tokens ?? 0,
+    };
+    const toolUseBlocks = fallback.content.filter(
+      (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
+    );
+    const substanceToolUse = toolUseBlocks.find((b) => b.name === "substance_read");
+    const rawSubstance = (substanceToolUse?.input as { substance?: string } | undefined)?.substance;
+    const validSubstance: Substance[] = ["substantive", "filler"];
+    const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
+      ? (rawSubstance as Substance)
+      : null;
+    const imageToolUse = toolUseBlocks.find((b) => b.name === "show_image");
+    const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
+    const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
+
+    return {
+      content: replyText || "static\nlost that one, ask again",
+      substance,
+      imageId,
+      usage: claudeUsage,
+    };
   }
 
-  const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 300,
-    system,
-    tools: [SUBSTANCE_TOOL, IMAGE_TOOL],
-    messages: history.map((m) => ({ role: m.role, content: m.content })),
-  });
+  // replyText came from a free provider — still need substance + image
+  // decisions, each a small standalone Claude call. Run them in parallel;
+  // neither depends on the other's result.
+  const lastUserMessage = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
 
-  const text = response.content.find((b) => b.type === "text");
-  // A missing text block used to throw and 500 the whole request — no
-  // reply saved, nothing shown, "the terminal glitched" for the
-  // troublemaker. It happens: with two tools available now (show_image
-  // alongside the required substance_read), the model occasionally emits
-  // only tool_use blocks and no prose, especially if max_tokens cuts it
-  // off mid-turn before it gets to the reply text. Fail soft instead — a
-  // short in-voice glitch line beats a broken turn, and this is rare
-  // enough that losing the "real" reply once is a fine trade for never
-  // crashing chat over it.
-  const replyText = text && text.type === "text" ? text.text.trim() : "";
+  const [substanceResponse, imageResponse] = await Promise.all([
+    client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 20,
+      system: SUBSTANCE_SYSTEM_PROMPT,
+      tools: [SUBSTANCE_TOOL],
+      tool_choice: { type: "tool", name: "substance_read" },
+      messages: [{ role: "user", content: `Troublemaker's message to grade:\n${lastUserMessage}` }],
+    }),
+    client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 60,
+      system: [
+        { type: "text", text: IMAGE_SYSTEM_PROMPT_PREFIX, cache_control: { type: "ephemeral", ttl: "1h" } },
+        {
+          type: "text",
+          text:
+            "IMAGE LIBRARY (id: what it shows):\n" + loreAssetCatalogForPrompt(),
+          cache_control: { type: "ephemeral", ttl: "1h" },
+        },
+      ],
+      tools: [IMAGE_TOOL],
+      tool_choice: { type: "tool", name: "show_image" },
+      messages: [
+        {
+          role: "user",
+          content:
+            `Troublemaker's last message:\n${lastUserMessage}\n\n` +
+            `Terminal's reply this turn:\n${replyText}`,
+        },
+      ],
+    }),
+  ]);
 
-  const toolUseBlocks = response.content.filter(
-    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
+  const substanceToolUse = substanceResponse.content.find(
+    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "substance_read"
   );
-
-  const substanceToolUse = toolUseBlocks.find((b) => b.name === "substance_read");
   const rawSubstance = (substanceToolUse?.input as { substance?: string } | undefined)?.substance;
   const validSubstance: Substance[] = ["substantive", "filler"];
   const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
     ? (rawSubstance as Substance)
     : null;
 
-  const imageToolUse = toolUseBlocks.find((b) => b.name === "show_image");
+  const imageToolUse = imageResponse.content.find(
+    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "show_image"
+  );
   const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
-  // Validated against the real catalog, not just "was a string present" —
-  // a hallucinated id would otherwise silently fail to resolve to a URL
-  // downstream anyway, but checking here keeps that failure visible.
   const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
 
+  const usage = {
+    input_tokens: substanceResponse.usage.input_tokens + imageResponse.usage.input_tokens,
+    output_tokens: substanceResponse.usage.output_tokens + imageResponse.usage.output_tokens,
+    cache_creation_input_tokens:
+      (substanceResponse.usage.cache_creation_input_tokens ?? 0) +
+      (imageResponse.usage.cache_creation_input_tokens ?? 0),
+    cache_read_input_tokens:
+      (substanceResponse.usage.cache_read_input_tokens ?? 0) + (imageResponse.usage.cache_read_input_tokens ?? 0),
+  };
+
   return {
-    // Empty means the model returned only tool calls and no prose this
-    // turn — a real but rare failure mode, not worth crashing the request
-    // over. The fallback line stays in voice and short, same register as
-    // the [signal lost] pause message elsewhere in this route.
     content: replyText || "static\nlost that one, ask again",
     substance,
     imageId,
-    usage: {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
-      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
-    },
+    usage,
   };
 }
 

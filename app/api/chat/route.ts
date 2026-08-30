@@ -397,7 +397,8 @@ export async function POST(request: Request) {
   try {
     generated = await generateChatReply(
       [...history, { role: "user", content: message }],
-      memories
+      memories,
+      globalToday
     );
   } catch (err) {
     return NextResponse.json(
