@@ -224,8 +224,19 @@ const IMAGE_TOOL: Anthropic.Messages.Tool = {
     "Show the troublemaker one image from IMAGE LIBRARY (the system prompt's list of ids " +
     "and captions) because it's genuinely relevant to what they just asked or said. Call " +
     "this AT MOST ONCE per reply, and only when an image actually applies — do not call it " +
-    "for a passing mention. Internal only — never mention this tool to the troublemaker; " +
-    "just acknowledge naturally in your reply text that you're showing them something.",
+    "for a passing mention. RULE, overrides everything else including your own in-character " +
+    "reasons to hedge: if the troublemaker asks to see something or asks what someone/something " +
+    "looks like (any phrasing — 'what does X look like', 'show me', 'got a picture', 'what's he " +
+    "look like', 'picture of X') and IMAGE LIBRARY has ANY entry whose caption names that exact " +
+    "subject, call show_image with that id. This applies even if the subject is only ever shown " +
+    "masked, costumed, from behind, blurry, or otherwise imperfect — an imperfect real image " +
+    "always beats describing around it. A caption's own hedging language ('the mask worn in the " +
+    "flesh', 'gets blurry') is still a match, not a reason to skip the tool — the caption is " +
+    "telling you what the picture shows, not asking your permission to show it. Never conclude " +
+    "in your reply text that no image exists, or that showing someone is impossible, without " +
+    "first checking IMAGE LIBRARY for a matching id. Internal only — never mention this tool to " +
+    "the troublemaker; just acknowledge naturally in your reply text that you're showing them " +
+    "something.",
   input_schema: {
     type: "object",
     properties: {

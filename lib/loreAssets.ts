@@ -46,15 +46,23 @@ export const LORE_ASSETS: LoreAsset[] = [
   {
     id: "krypto2009",
     url: "/lore/krypto2009.png",
-    caption: "krypto2009 — the mask worn in the flesh",
-    keywords: ["krypto2009", "krypto 2009"],
+    // Spelled out the same way as hb-kneeling-shoreline below: krypto2009
+    // never shows his bare face, so this — him wearing the trollface mask
+    // in person, chains and leopard print — IS the real answer to "what
+    // does he look like," not a dodge. Without saying that outright, the
+    // model has no way to connect it to the question and will (wrongly)
+    // claim there's no way to show what he looks like at all.
+    caption:
+      "krypto2009 in the flesh, wearing the trollface mask with chains and leopard print — this IS what he looks like; he never shows his bare face, so this is the real answer to a 'what does he look like' question, not a non-answer.",
+    keywords: ["krypto2009", "krypto 2009", "what does krypto2009 look like", "krypto2009 look like"],
     sections: [30],
   },
   {
     id: "krypto2009-mask-worn",
     url: "/lore/krypto2009-mask-worn.jpg",
-    caption: "krypto2009 in the mask, rosary and MAD? cap, in a theater seat",
-    keywords: ["krypto2009", "krypto 2009", "mad cap", "krypto mask"],
+    caption:
+      "krypto2009 in the flesh, in the mask, rosary and MAD? cap, sitting in a theater seat — another real answer to 'what does he look like,' same reasoning as krypto2009 above.",
+    keywords: ["krypto2009", "krypto 2009", "mad cap", "krypto mask", "what does krypto2009 look like"],
     sections: [30],
   },
   {
