@@ -110,8 +110,10 @@ export default function Home() {
           <Frame
             title="speak to it"
             tone="dim"
-            className="order-1 lg:order-none lg:w-2/3 h-[80vh] max-h-[42rem] lg:h-[34rem] lg:max-h-none"
-            bodyClassName="flex flex-col h-full"
+            className={`order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
+              session ? "h-[80vh] max-h-[42rem]" : "h-auto"
+            }`}
+            bodyClassName={`flex flex-col ${session ? "h-full" : ""}`}
             titleEffect="trace"
             traceHue="#b26bff"
           >

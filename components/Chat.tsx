@@ -490,9 +490,11 @@ export default function Chat() {
         </p>
       )}
       {/* shrink-0 keeps the input row from being squeezed by the flex
-          column when the panel is height-locked (lg only); the lg:mb-1
-          keeps its border off the panel's own glowing border. */}
-      <form onSubmit={send} className="flex gap-2 shrink-0 lg:mt-1 lg:mb-1">
+          column when the panel is height-locked (lg only); mb-1 keeps its
+          border off the panel's own glowing border at every width — without
+          it the input's border sits flush against the Frame's border on
+          mobile, reading as a collision. */}
+      <form onSubmit={send} className="flex gap-2 shrink-0 mt-1 mb-1">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
