@@ -9,17 +9,15 @@ export type LoreAsset = {
   id: string;
   url: string;
   caption: string;
-  keywords: string[];
+  // No longer read by anything (chat's old keyword matcher was replaced by
+  // loreAssetCatalogForPrompt + the show_image tool below; the archive uses
+  // `sections`, not this). Left in place on existing entries rather than
+  // stripped from all ~40 of them in one pass — harmless if unused, but
+  // don't bother adding it to new entries.
+  keywords?: string[];
   // The TROLL-LORE.md section number(s) this asset actually illustrates.
   // findLoreImagesForArchiveSection (below) looks assets up by this field
-  // directly — no keyword matching — because keyword-matching a whole
-  // section's prose picked up assets a section only mentioned in passing
-  // (a "same pattern as §37/§38" aside pulled in Limp Bizkit and Beeple
-  // images) while dropping assets that should have matched (§43's own
-  // Crash image lost a tiebreak to an unrelated "u mad bro" pool-float
-  // asset). matchLoreAsset (the chat path, scored against a single short
-  // user message) doesn't have this problem at the same scale and still
-  // uses keywords.
+  // directly.
   sections: number[];
 };
 
@@ -357,16 +355,26 @@ export const LORE_ASSETS: LoreAsset[] = [
   },
 ];
 
-// Case-insensitive substring match against the user's message. First hit
-// wins — the library is small enough that ordering doubles as priority.
-export function matchLoreAsset(message: string): LoreAsset | null {
-  const normalized = message.toLowerCase();
-  for (const asset of LORE_ASSETS) {
-    if (asset.keywords.some((k) => normalized.includes(k))) {
-      return asset;
-    }
-  }
-  return null;
+// Chat used to pre-select an image with a keyword substring match against
+// only the troublemaker's latest message — cheap, but it meant an image
+// only ever surfaced if someone happened to type a phrase a human had
+// pre-written into that asset's `keywords` list. "what does the troll
+// runner look like" needed its own hand-added keyword; "who is he" or
+// "describe him" would have needed their own too, forever. Chat now hands
+// the model this catalog (id + caption only, never the keywords list) and a
+// show_image tool (lib/persona.ts's IMAGE_TOOL) so it decides — from actual
+// understanding of the conversation, not string matching — whether any
+// asset is worth attaching, the same way a person who'd memorized this
+// index would. The archive's per-section lookup (below) is unrelated and
+// keeps working exactly as before.
+export function loreAssetCatalogForPrompt(): string {
+  return LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url))
+    .map((asset) => `${asset.id}: ${asset.caption}`)
+    .join("\n");
+}
+
+export function getLoreAssetById(id: string): LoreAsset | null {
+  return LORE_ASSETS.find((asset) => asset.id === id) ?? null;
 }
 
 // Powers the archive's inline pictures (docs/TERMINAL-V4-DESIGN.md §3.1).

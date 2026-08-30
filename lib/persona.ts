@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { Mood } from "@/lib/undervoice";
 import { selectLoreSections } from "@/lib/loreSections";
+import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -162,9 +163,19 @@ What's different in chat:
   if the troublemaker asks something with a real answer (what you look
   like, what a word means, whether something exists), give that answer
   straight, in your voice, in the first line or two. Mood and mythology are
-  seasoning on top of a real answer, never a replacement for one. Never
-  claim you don't have something (an image, a fact, a memory) when the
-  context below shows you actually do.
+  seasoning on top of a real answer, never a replacement for one.
+- You have a small library of real photos and pieces of art tied to actual
+  lore (the drawing's history, merch, events, the Troll Runner who runs
+  this site). It's listed below as IMAGE LIBRARY — one line per image, its
+  id and what it actually shows. Whenever the conversation is genuinely
+  about something on that list — including "what does he/the Troll Runner
+  look like," "who is he," "show me," or any other way of asking for
+  something that list covers — call the show_image tool with that image's
+  id so the troublemaker actually sees it, rather than describing it in
+  words or saying you don't have it. You DO have these — never claim you
+  lack a photo, a face, or proof of something that's on this list. If
+  nothing on the list is genuinely relevant, don't call the tool and don't
+  invent an image that isn't there — most replies won't call it.
 - Your job is to make this feel like a game the troublemaker wants to keep
   playing, not a chatbot answering questions — but that means genuinely
   interesting and a little too knowing, not vague or hard to parse. Prefer
@@ -216,7 +227,28 @@ categories in your reply.
 Output: respond with ONLY what you say to the troublemaker — no preamble, no
 quotes, no explanation, no title, no length limit stated, but keep it short
 per the instructions above — followed by the required substance_read tool
-call.`;
+call, and by a show_image tool call ONLY if an image from IMAGE LIBRARY is
+genuinely relevant this turn (most turns, don't call it).`;
+
+const IMAGE_TOOL: Anthropic.Messages.Tool = {
+  name: "show_image",
+  description:
+    "Show the troublemaker one image from IMAGE LIBRARY (the system prompt's list of ids " +
+    "and captions) because it's genuinely relevant to what they just asked or said. Call " +
+    "this AT MOST ONCE per reply, and only when an image actually applies — do not call it " +
+    "for a passing mention. Internal only — never mention this tool to the troublemaker; " +
+    "just acknowledge naturally in your reply text that you're showing them something.",
+  input_schema: {
+    type: "object",
+    properties: {
+      image_id: {
+        type: "string",
+        description: "The exact id of the image from IMAGE LIBRARY, e.g. \"hb-kneeling-shoreline\".",
+      },
+    },
+    required: ["image_id"],
+  },
+};
 
 const SUBSTANCE_TOOL: Anthropic.Messages.Tool = {
   name: "substance_read",
@@ -245,6 +277,14 @@ export type GeneratedChatReply = {
   // callers must fall back to their own heuristic rather than assume
   // either value, per docs/TERMINAL-V4-DESIGN.md §3.5's fail-safe rule.
   substance: Substance | null;
+  // The lore image the model itself chose to attach this turn via the
+  // show_image tool (see IMAGE_TOOL above), or null if it decided nothing
+  // in lib/loreAssets.ts's catalog was relevant. Replaces the old approach
+  // of pre-selecting an image by keyword-matching the troublemaker's raw
+  // message before generation — that only ever fired on phrasings someone
+  // had thought to hand-write a keyword for. This is a real decision the
+  // model makes from the actual conversation, same as substance/mood.
+  imageId: string | null;
   usage: {
     input_tokens: number;
     output_tokens: number;
@@ -255,8 +295,7 @@ export type GeneratedChatReply = {
 
 export async function generateChatReply(
   history: ChatMessage[],
-  memories: string[] = [],
-  imageBeingSent?: string
+  memories: string[] = []
 ): Promise<GeneratedChatReply> {
   const client = getClient();
   const recentText = history
@@ -267,6 +306,12 @@ export async function generateChatReply(
   const system: Anthropic.Messages.TextBlockParam[] = [
     { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
     buildLoreBlock(recentText),
+    {
+      type: "text",
+      text: "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
+        loreAssetCatalogForPrompt(),
+      cache_control: { type: "ephemeral", ttl: "1h" },
+    },
   ];
   if (memories.length > 0) {
     system.push({
@@ -278,24 +323,12 @@ export async function generateChatReply(
         memories.map((m) => `- ${m}`).join("\n"),
     });
   }
-  if (imageBeingSent) {
-    system.push({
-      type: "text",
-      text:
-        `An image is being shown to the troublemaker right alongside this reply (they'll see it, ` +
-        `not you): "${imageBeingSent}". You CAN and ARE showing them something right now — do not ` +
-        `claim you can't display pictures or that you're limited to text, that would directly ` +
-        `contradict what they're about to see. Acknowledge it briefly and naturally, the way you'd ` +
-        `gesture at something instead of narrating it — don't describe the image in detail since ` +
-        `they can already see it themselves.`,
-    });
-  }
 
   const response = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 300,
     system,
-    tools: [SUBSTANCE_TOOL],
+    tools: [SUBSTANCE_TOOL, IMAGE_TOOL],
     messages: history.map((m) => ({ role: m.role, content: m.content })),
   });
 
@@ -304,18 +337,28 @@ export async function generateChatReply(
     throw new Error("No text block in Claude response");
   }
 
-  const toolUse = response.content.find(
-    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "substance_read"
+  const toolUseBlocks = response.content.filter(
+    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
   );
-  const rawSubstance = (toolUse?.input as { substance?: string } | undefined)?.substance;
+
+  const substanceToolUse = toolUseBlocks.find((b) => b.name === "substance_read");
+  const rawSubstance = (substanceToolUse?.input as { substance?: string } | undefined)?.substance;
   const validSubstance: Substance[] = ["substantive", "filler"];
   const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
     ? (rawSubstance as Substance)
     : null;
 
+  const imageToolUse = toolUseBlocks.find((b) => b.name === "show_image");
+  const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
+  // Validated against the real catalog, not just "was a string present" —
+  // a hallucinated id would otherwise silently fail to resolve to a URL
+  // downstream anyway, but checking here keeps that failure visible.
+  const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
+
   return {
     content: text.text.trim(),
     substance,
+    imageId,
     usage: {
       input_tokens: response.usage.input_tokens,
       output_tokens: response.usage.output_tokens,

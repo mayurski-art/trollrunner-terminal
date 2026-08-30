@@ -5,7 +5,7 @@ import { estimateCostUsd } from "@/lib/pricing";
 import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
 import { OWNER_USERNAME } from "@/lib/admin";
-import { matchLoreAsset } from "@/lib/loreAssets";
+import { getLoreAssetById } from "@/lib/loreAssets";
 import { allSectionTitles, pickTopSection } from "@/lib/loreSections";
 import { isSeeded } from "@/lib/loreArchive";
 
@@ -356,17 +356,11 @@ export async function POST(request: Request) {
     });
   }
 
-  // Computed before the reply so the persona can be told an image is coming
-  // — otherwise it has no idea lib/loreAssets.ts is about to attach one and
-  // may flatly (and visibly, contradictorily) deny it can show pictures.
-  const loreAsset = matchLoreAsset(message);
-
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
     generated = await generateChatReply(
       [...history, { role: "user", content: message }],
-      memories,
-      loreAsset?.caption
+      memories
     );
   } catch (err) {
     return NextResponse.json(
@@ -374,6 +368,13 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+
+  // The model picks its own image now (lib/persona.ts's show_image tool),
+  // from actual understanding of the conversation rather than a keyword
+  // match against the raw message text — see lib/loreAssets.ts's
+  // loreAssetCatalogForPrompt for why the old approach kept missing
+  // phrasings no one had thought to hand-write a keyword for.
+  const loreAsset = generated.imageId ? getLoreAssetById(generated.imageId) : null;
 
   // Mining (and archive unlocks below) gate on whether the model itself
   // read this as substance, not just length — see docs/TERMINAL-V4-DESIGN.md
