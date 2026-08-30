@@ -210,7 +210,13 @@ main {
 
 /* Tagline glow-color loop under the banner — cycles through the site's
    existing accent hues (terminal/problem/alert) rather than introducing a
-   new color, so it still reads as "on brand" while standing out. */
+   new color, so it still reads as "on brand" while standing out.
+
+   The site-wide 70% root font-size scale-down (html { font-size: 70% }
+   above) means this text renders at ~12-13px even at text-lg — a blur
+   radius sized for normal body text (22px, 40px) dwarfs glyphs that
+   small and reads as a blurry smear rather than a glow. Kept to two tight
+   layers scaled to the actual rendered size instead. */
 .glow-loop {
   animation: glow-loop 6s ease-in-out infinite;
 }
@@ -219,26 +225,20 @@ main {
   100% {
     color: var(--terminal);
     text-shadow:
-      0 0 4px var(--terminal),
-      0 0 10px var(--terminal),
-      0 0 22px color-mix(in srgb, var(--terminal) 90%, transparent),
-      0 0 40px color-mix(in srgb, var(--terminal) 60%, transparent);
+      0 0 2px var(--terminal),
+      0 0 6px color-mix(in srgb, var(--terminal) 85%, transparent);
   }
   33% {
     color: var(--problem);
     text-shadow:
-      0 0 4px var(--problem),
-      0 0 10px var(--problem),
-      0 0 22px color-mix(in srgb, var(--problem) 90%, transparent),
-      0 0 40px color-mix(in srgb, var(--problem) 60%, transparent);
+      0 0 2px var(--problem),
+      0 0 6px color-mix(in srgb, var(--problem) 85%, transparent);
   }
   66% {
     color: var(--alert);
     text-shadow:
-      0 0 4px var(--alert),
-      0 0 10px var(--alert),
-      0 0 22px color-mix(in srgb, var(--alert) 90%, transparent),
-      0 0 40px color-mix(in srgb, var(--alert) 60%, transparent);
+      0 0 2px var(--alert),
+      0 0 6px color-mix(in srgb, var(--alert) 85%, transparent);
   }
 }
 

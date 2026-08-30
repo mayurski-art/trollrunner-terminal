@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import BootSequence from "@/components/BootSequence";
@@ -13,6 +13,19 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "trollface terminal",
   description: "the grin that's been looked at for eighteen years, finally looking back",
+};
+
+// Matches the main trollrunner.net site's zoom lock — this reads as an app
+// UI (fixed nav, boot overlay, chat), not a document, so pinch-zoom fights
+// the layout more than it helps. Without this, the boot overlay's `fixed
+// inset-0` also stops actually covering the screen the moment a visitor
+// pinch-zooms or the page becomes horizontally pannable, letting the real
+// site peek out from behind it.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

@@ -33,6 +33,37 @@ export default function BootSequence() {
     setVisible(true);
   }, []);
 
+  // The overlay is `fixed inset-0`, but that alone doesn't stop the page
+  // underneath from scrolling — on a phone that let a visitor drag the real
+  // site up into view (and its scrollbar) right through the boot sequence.
+  // `overflow: hidden` alone doesn't hold on iOS Safari, which still
+  // rubber-bands the underlying document on touch — pinning body to
+  // `position: fixed` for the duration is what actually stops it there.
+  // Locked for exactly as long as this stays mounted, restored (including
+  // scroll position, since fixed-positioning collapses it to 0) on unmount.
+  useEffect(() => {
+    if (!visible) return;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+    };
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    return () => {
+      body.style.overflow = prev.overflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      window.scrollTo(0, scrollY);
+    };
+  }, [visible]);
+
   // Hand over from the server-rendered #preboot-shield (app/layout.tsx),
   // which has been covering the site since the very first paint. Waiting two
   // frames means the overlay below has actually been painted before the
