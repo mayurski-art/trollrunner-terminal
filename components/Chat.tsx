@@ -234,16 +234,6 @@ export default function Chat() {
           image_url: data.imageUrl ?? null,
           image_caption: data.imageCaption ?? null,
         },
-        ...(data.gossip?.content
-          ? [
-              {
-                role: "terminal" as const,
-                content: data.gossip.content,
-                created_at: new Date().toISOString(),
-                is_gossip: true,
-              },
-            ]
-          : []),
       ]);
       speak(data.reply);
       if (data.wallet) {
