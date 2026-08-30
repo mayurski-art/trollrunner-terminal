@@ -576,45 +576,32 @@ main {
   opacity: 1;
   transform: scale(1);
 }
-.boot-connector .bc-node--carlos { border-color: color-mix(in srgb, var(--bc-violet) 45%, var(--dim)); }
-.boot-connector .bc-node--umadbro { border-color: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim)); }
-.boot-connector .bc-node--nft { border-color: color-mix(in srgb, var(--bc-lime) 45%, var(--dim)); }
-.boot-connector .bc-node--crypto { border-color: color-mix(in srgb, var(--bc-gold) 45%, var(--dim)); }
+/* Full-strength color once revealed, not the old 45%-mix-with-dim — that
+   read as barely-there grey against the black overlay (MiniConnector's
+   boxes use the same full hue and are clearly colorful by comparison). A
+   soft resting glow keeps each box reading as "lit" even at rest, not
+   just during the brief post-arrival flash below. */
+.boot-connector .bc-node--carlos { border-color: var(--bc-violet); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-violet) 50%, transparent); }
+.boot-connector .bc-node--umadbro { border-color: var(--bc-cyan); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-cyan) 50%, transparent); }
+.boot-connector .bc-node--nft { border-color: var(--bc-lime); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-lime) 50%, transparent); }
+.boot-connector .bc-node--crypto { border-color: var(--bc-gold); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-gold) 50%, transparent); }
 
-/* One-shot bright flash the instant a node's packet arrives — the boot
+/* One-shot brighter flash the instant a node's packet arrives — the boot
    connector only ever gets a single crawl-and-fade per node (unlike
-   MiniConnector's looping round trips), so without this the payoff at
-   arrival was just the packet dot quietly fading out. BootConnector.tsx
-   adds bc-node--hit alongside bc-revealed right as the packet lands, then
-   removes it once the animation completes. */
-.boot-connector .bc-node--carlos.bc-node--hit {
-  animation: bc-node-flash 0.5s ease-out;
-  --bc-flash: var(--bc-violet);
-  --bc-rest: color-mix(in srgb, var(--bc-violet) 45%, var(--dim));
-}
-.boot-connector .bc-node--umadbro.bc-node--hit {
-  animation: bc-node-flash 0.5s ease-out;
-  --bc-flash: var(--bc-cyan);
-  --bc-rest: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim));
-}
-.boot-connector .bc-node--nft.bc-node--hit {
-  animation: bc-node-flash 0.5s ease-out;
-  --bc-flash: var(--bc-lime);
-  --bc-rest: color-mix(in srgb, var(--bc-lime) 45%, var(--dim));
-}
-.boot-connector .bc-node--crypto.bc-node--hit {
-  animation: bc-node-flash 0.5s ease-out;
-  --bc-flash: var(--bc-gold);
-  --bc-rest: color-mix(in srgb, var(--bc-gold) 45%, var(--dim));
-}
+   MiniConnector's looping round trips), so this is the arrival's payoff
+   on top of the steady glow above. BootConnector.tsx adds bc-node--hit
+   alongside bc-revealed right as the packet lands, then removes it once
+   the animation completes. */
+.boot-connector .bc-node--carlos.bc-node--hit { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-violet); }
+.boot-connector .bc-node--umadbro.bc-node--hit { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-cyan); }
+.boot-connector .bc-node--nft.bc-node--hit { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-lime); }
+.boot-connector .bc-node--crypto.bc-node--hit { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-gold); }
 @keyframes bc-node-flash {
   0% {
-    border-color: var(--bc-flash);
-    box-shadow: 0 0 10px var(--bc-flash);
+    box-shadow: 0 0 12px 2px var(--bc-flash);
   }
   100% {
-    border-color: var(--bc-rest);
-    box-shadow: none;
+    box-shadow: 0 0 4px color-mix(in srgb, var(--bc-flash) 50%, transparent);
   }
 }
 .boot-connector .bc-node--hub {
@@ -627,6 +614,34 @@ main {
      other ring, so there's no flash of it popping in like the rest. */
   opacity: 1;
   transform: scale(1);
+  /* Same "listening to all of them" ring cycle as MiniConnector's
+     .mc-hub-ring — without it the hub sat at a plain grey border for the
+     whole boot sequence while every spoke around it was colorful. */
+  animation: bc-hub-ring 6.4s linear infinite;
+}
+@keyframes bc-hub-ring {
+  0%,
+  8%,
+  100% {
+    border-color: var(--dim);
+    box-shadow: none;
+  }
+  18% {
+    border-color: var(--bc-violet);
+    box-shadow: 0 0 6px var(--bc-violet);
+  }
+  43% {
+    border-color: var(--bc-cyan);
+    box-shadow: 0 0 6px var(--bc-cyan);
+  }
+  68% {
+    border-color: var(--bc-lime);
+    box-shadow: 0 0 6px var(--bc-lime);
+  }
+  88% {
+    border-color: var(--bc-gold);
+    box-shadow: 0 0 6px var(--bc-gold);
+  }
 }
 
 .boot-connector .bc-node img {
