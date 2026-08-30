@@ -6,7 +6,6 @@ import { getSession, onAuthChange } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
-import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
 import MiniConnector from "@/components/MiniConnector";
 import SiteTicker from "@/components/SiteTicker";
@@ -125,9 +124,7 @@ export default function Home() {
             {session ? (
               <Chat />
             ) : (
-              <div className="space-y-4">
-                <AuthPanel />
-              </div>
+              <p className="text-dim text-sm">sign in up top to chat with it</p>
             )}
           </Frame>
         </div>
