@@ -12,8 +12,9 @@ import { isSeeded } from "@/lib/loreArchive";
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-const COOLDOWN_MS = 15_000;
 const MAX_MESSAGES_PER_DAY = 60;
+const BURST_WINDOW_MS = 10_000;
+const BURST_MAX_MESSAGES = 3; // the 3rd message inside BURST_WINDOW_MS gets held
 const QUALIFYING_MIN_LENGTH = 12;
 const QUALIFYING_INTERVAL = 7; // messages per 1 PROBLEM
 const MAX_MESSAGE_LENGTH = 1000;
@@ -103,7 +104,7 @@ export async function GET(request: Request) {
   }
   const userId = userData.user.id;
 
-  const [{ data: historyRows }, { data: wallet }] = await Promise.all([
+  const [{ data: historyRows }, { data: wallet }, { data: config }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
       .select("role, content, created_at, is_gossip, image_url, image_caption")
@@ -115,9 +116,15 @@ export async function GET(request: Request) {
       .select("balance, qualifying_count, friendship_score")
       .eq("user_id", userId)
       .maybeSingle(),
+    supabase
+      .from("terminal_config")
+      .select("chat_daily_global_cap, chat_messages_today, chat_messages_day")
+      .single(),
   ]);
 
   const friendshipScore = wallet?.friendship_score ?? 0;
+  const today = todayUtc();
+  const globalToday = config?.chat_messages_day === today ? (config?.chat_messages_today ?? 0) : 0;
 
   return NextResponse.json({
     messages: (historyRows ?? []).slice().reverse(),
@@ -127,6 +134,10 @@ export async function GET(request: Request) {
       qualifyingInterval: QUALIFYING_INTERVAL,
       friendshipScore,
       buddyTier: getBuddyTier(friendshipScore).name,
+    },
+    dailyLimit: {
+      used: globalToday,
+      cap: config?.chat_daily_global_cap ?? null,
     },
   });
 }
@@ -203,9 +214,14 @@ export async function POST(request: Request) {
 
   const today = todayUtc();
   const globalToday = config?.chat_messages_day === today ? config.chat_messages_today : 0;
+  const dailyCap = config?.chat_daily_global_cap ?? null;
   if (config && globalToday >= config.chat_daily_global_cap) {
     return NextResponse.json(
-      { reply: "the terminal has said enough today\ncome back tomorrow", limited: true },
+      {
+        reply: "the terminal has said enough today\ncome back tomorrow",
+        limited: true,
+        dailyLimit: { used: globalToday, cap: dailyCap },
+      },
       { status: 200 }
     );
   }
@@ -244,19 +260,6 @@ export async function POST(request: Request) {
     last_message_day: null as string | null,
   };
 
-  if (wallet.last_message_at) {
-    const elapsed = Date.now() - new Date(wallet.last_message_at).getTime();
-    if (elapsed < COOLDOWN_MS) {
-      // retryAfterMs lets the client render a live ticking countdown
-      // instead of a static "try again in a moment" — see components/
-      // Chat.tsx's cooldown state.
-      return NextResponse.json(
-        { error: "the terminal is ignoring you", retryAfterMs: COOLDOWN_MS - elapsed },
-        { status: 429 }
-      );
-    }
-  }
-
   const messagesToday = wallet.last_message_day === today ? wallet.messages_today : 0;
   if (messagesToday >= MAX_MESSAGES_PER_DAY) {
     return NextResponse.json(
@@ -288,6 +291,27 @@ export async function POST(request: Request) {
       role: r.role === "terminal" ? "assistant" : "user",
       content: r.content as string,
     }));
+
+  // Burst guard: not a flat per-message delay (that punished normal
+  // back-and-forth conversation), just a brake on rapid-fire spam-clicking —
+  // the 3rd+ user message inside a 10s window gets held with a live
+  // countdown, same as a real 429 would.
+  const recentUserTimestamps = (historyRows ?? [])
+    .filter((r) => r.role === "user")
+    .map((r) => new Date(r.created_at as string).getTime())
+    .sort((a, b) => b - a);
+  const burstWindowStart = Date.now() - BURST_WINDOW_MS;
+  const burstCount = recentUserTimestamps.filter((t) => t > burstWindowStart).length;
+  if (burstCount >= BURST_MAX_MESSAGES - 1) {
+    const oldestInWindow = recentUserTimestamps.filter((t) => t > burstWindowStart).pop()!;
+    const retryAfterMs = oldestInWindow + BURST_WINDOW_MS - Date.now();
+    if (retryAfterMs > 0) {
+      return NextResponse.json(
+        { error: "the terminal is ignoring you", retryAfterMs },
+        { status: 429 }
+      );
+    }
+  }
 
   const recentUserMessages = (historyRows ?? [])
     .filter((r) => r.role === "user")
@@ -365,6 +389,7 @@ export async function POST(request: Request) {
       buddyBonus: 0,
       spamWarning: !isPenalty,
       tokensTaken,
+      dailyLimit: { used: globalToday + 1, cap: dailyCap },
     });
   }
 
@@ -607,5 +632,6 @@ export async function POST(request: Request) {
     walletSaved: !walletError,
     minted: walletError ? 0 : minted,
     archiveUnlock,
+    dailyLimit: { used: globalToday + 1, cap: dailyCap },
   });
 }

@@ -21,6 +21,7 @@ type Wallet = {
   friendshipScore: number;
   buddyTier: string;
 };
+type DailyLimit = { used: number; cap: number | null };
 
 const VOICE_PREF_KEY = "terminal_voice_enabled";
 
@@ -43,10 +44,11 @@ export default function Chat() {
     friendshipScore: 0,
     buddyTier: "stranger",
   });
+  const [dailyLimit, setDailyLimit] = useState<DailyLimit | null>(null);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // Timestamp (ms) the 15s send cooldown lifts, or null when there isn't
+  // Timestamp (ms) the burst-guard cooldown lifts, or null when there isn't
   // one — drives a live ticking "wait Ns" display instead of a static
   // "try again in a moment" that never told you how long that actually was.
   const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
@@ -158,6 +160,7 @@ export default function Chat() {
         if (!cancelled && chatRes.ok) {
           setMessages(data.messages ?? []);
           setWallet(data.wallet ?? wallet);
+          if (data.dailyLimit) setDailyLimit(data.dailyLimit);
         } else if (!cancelled) {
           setError("could not load your wallet — try reloading");
         }
@@ -213,6 +216,7 @@ export default function Chat() {
         body: JSON.stringify({ message: text }),
       });
       const data = await res.json();
+      if (data.dailyLimit) setDailyLimit(data.dailyLimit);
       if (!res.ok) {
         if (res.status === 429 && typeof data.retryAfterMs === "number") {
           setCooldownNow(Date.now());
@@ -323,62 +327,82 @@ export default function Chat() {
     return <p className="text-dim text-sm animate-pulse">establishing uplink...</p>;
   }
 
+  const dailyFraction =
+    dailyLimit && dailyLimit.cap ? dailyLimit.used / dailyLimit.cap : null;
+
   return (
     <div className="flex flex-col flex-1 min-h-0 lg:h-full">
-      <div className="mb-2 flex items-center justify-between gap-3">
+      <div className="mb-2 shrink-0 grid grid-cols-2 gap-x-4 gap-y-1">
         <Meter
+          width={10}
           fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
-          label={`mining: ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
+          label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
         />
-        {voiceSupported && (
-          <button
-            type="button"
-            onClick={toggleVoice}
-            aria-pressed={voiceOn}
-            aria-label={voiceOn ? "Disable voice narration" : "Enable voice narration"}
-            className="shrink-0 border border-dim text-dim px-2 py-0.5 text-xs hover:border-terminal hover:text-terminal transition-colors data-[on=true]:border-terminal data-[on=true]:text-terminal"
-            data-on={voiceOn}
-          >
-            [ voice: {voiceOn ? "on" : "off"} ]
-          </button>
+        {dailyFraction !== null && (
+          <Meter
+            width={10}
+            fraction={dailyFraction}
+            tone={dailyFraction >= 0.85 ? "alert" : "terminal"}
+            label={`shared ${dailyLimit!.used}/${dailyLimit!.cap}`}
+          />
         )}
       </div>
-      <div className="mb-3 flex items-center justify-between gap-3 text-xs">
+      <div className="mb-2 shrink-0 flex items-center justify-between gap-3 text-xs">
         <span className="text-dim">
           buddy: <span className="text-terminal">{wallet.buddyTier}</span>
         </span>
-        {confirmingClear ? (
-          <span className="text-dim">
-            clear this conversation? mining + buddy progress stay.{" "}
+        <div className="flex items-center gap-3">
+          {voiceSupported && (
             <button
               type="button"
-              onClick={clearConversation}
-              disabled={clearing}
-              className="text-alert hover:underline disabled:opacity-40"
+              onClick={toggleVoice}
+              aria-pressed={voiceOn}
+              aria-label={voiceOn ? "Disable voice narration" : "Enable voice narration"}
+              className="shrink-0 border border-dim text-dim px-2 py-0.5 text-xs hover:border-terminal hover:text-terminal transition-colors data-[on=true]:border-terminal data-[on=true]:text-terminal"
+              data-on={voiceOn}
             >
-              [ {clearing ? "clearing..." : "yes, clear"} ]
-            </button>{" "}
+              [ voice: {voiceOn ? "on" : "off"} ]
+            </button>
+          )}
+          {confirmingClear ? (
+            <span className="text-dim">
+              clear? mining + buddy stay.{" "}
+              <button
+                type="button"
+                onClick={clearConversation}
+                disabled={clearing}
+                className="text-alert hover:underline disabled:opacity-40"
+              >
+                [ {clearing ? "clearing..." : "yes"} ]
+              </button>{" "}
+              <button
+                type="button"
+                onClick={() => setConfirmingClear(false)}
+                disabled={clearing}
+                className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+              >
+                [ cancel ]
+              </button>
+            </span>
+          ) : (
             <button
               type="button"
-              onClick={() => setConfirmingClear(false)}
-              disabled={clearing}
+              onClick={() => setConfirmingClear(true)}
+              disabled={messages.length === 0}
+              aria-label="Clear this conversation"
               className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
             >
-              [ cancel ]
+              [ clear ]
             </button>
-          </span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setConfirmingClear(true)}
-            disabled={messages.length === 0}
-            aria-label="Clear this conversation"
-            className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
-          >
-            [ clear conversation ]
-          </button>
-        )}
+          )}
+        </div>
       </div>
+      {dailyLimit && dailyFraction !== null && dailyFraction >= 0.85 && (
+        <p className="mb-2 shrink-0 text-alert text-xs">
+          [ the terminal is almost done talking for today — {dailyLimit.cap! - dailyLimit.used} message
+          {dailyLimit.cap! - dailyLimit.used === 1 ? "" : "s"} left, shared by everyone ]
+        </p>
+      )}
       {buddyToast && (
         <p className="mb-2 text-xs text-problem" role="status">
           [ {buddyToast} ]
@@ -391,22 +415,27 @@ export default function Chat() {
       )}
       <div
         ref={scrollRef}
-        className="chat-scroll flex-1 min-h-0 overflow-y-auto space-y-3 mb-3 pr-1"
+        className="chat-scroll flex-1 min-h-0 overflow-y-auto space-y-4 mb-3 pr-1"
       >
         {messages.length === 0 && (
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>
         )}
         {messages.map((m, i) => {
           const remembered = memories.has(m.content);
+          const borderColor = m.is_gossip
+            ? "border-problem/50"
+            : m.role === "terminal"
+              ? "border-terminal/40"
+              : "border-you/30";
           return (
-            <div key={i}>
+            <div key={i} className={`border-l-2 pl-2.5 ${borderColor}`}>
               <p
                 className={`whitespace-pre-wrap text-sm leading-relaxed ${
                   m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
                 }`}
               >
-                <span className="text-dim">
-                  {m.is_gossip ? "gossip> " : m.role === "terminal" ? "terminal> " : "you> "}
+                <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
+                  {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
                 </span>
                 {m.content}
               </p>
@@ -440,9 +469,9 @@ export default function Chat() {
                   {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
                 </div>
               )}
-              <div className="flex items-center gap-2">
+              <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
                 {m.created_at && (
-                  <span className="text-terminal text-xs">{timeAgo(m.created_at)}</span>
+                  <span className="text-dim text-xs">{timeAgo(m.created_at)}</span>
                 )}
                 <button
                   type="button"
