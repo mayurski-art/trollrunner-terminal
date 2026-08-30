@@ -405,9 +405,9 @@ main {
    below (components/MiniConnector.tsx) — carlos, umadbro.shop, the NFT
    collection and the troll-crypto coin all wired into the trolltruths hub
    at center — but a one-shot convergence instead of a looping pulse: every
-   packet crawls inward once, then the hub flares through an actual
-   red/yellow/green sequence and the whole overlay zooms through that
-   point to reveal the site underneath. Scoped local hues (violet/cyan/
+   packet crawls inward once, then the four device nodes' borders flare
+   through an actual red/yellow/green sequence before the whole overlay
+   fades out to reveal the site underneath. Scoped local hues (violet/cyan/
    lime/gold) rather than new :root tokens, since they only ever appear as
    transient ticks in this one animation, not as a site-wide color meaning
    per the rule above. */
@@ -454,6 +454,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .boot-connector .bc-node--carlos { border-color: color-mix(in srgb, var(--bc-violet) 45%, var(--dim)); }
 .boot-connector .bc-node--umadbro { border-color: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim)); }
@@ -558,17 +559,16 @@ main {
   background: var(--bc-gold);
 }
 
-/* The traffic light the boot zoom flies into. Sized off the same fluid node
-   scale as everything else in the connector rather than a fixed 10px — at a
-   fixed size it stayed a desktop-tuned target while the nodes around it shrank
-   on a phone, so the zoom (a single ZOOM_SCALE) framed it differently per
-   device. Proportional here means the same shot everywhere. */
+/* The hub dot where every packet converges. The traffic light itself now
+   lives on the four device nodes' borders (see setLights in
+   BootConnector.tsx), so this stays a plain marker rather than an animated
+   light. Sized off the same fluid node scale as everything else in the
+   connector rather than a fixed 10px. */
 .boot-connector .bc-center {
   position: relative;
   width: var(--bc-light);
   height: var(--bc-light);
-  background: var(--alert);
-  box-shadow: 0 0 8px var(--alert), 0 0 20px var(--alert);
+  background: var(--dim);
 }
 
 .boot-connector .bc-labels {
@@ -1059,6 +1059,13 @@ main {
 }
 html[data-boot-ready] #preboot-shield {
   display: none;
+}
+
+/* The boot overlay's exit, components/BootSequence.tsx — a plain opacity
+   fade once the connector's traffic light reaches green, replacing the
+   overlay's old zoom-through-the-light transform. */
+.boot-fade-out {
+  opacity: 0;
 }
 
 /* Custom cursor (components/Cursor.tsx). The OS cursor only hides once JS
