@@ -101,9 +101,9 @@
   );
 }
 .home-hero-bg--sharpen {
-  filter: blur(3px) contrast(1.4) brightness(1.05);
+  filter: blur(2px) contrast(1.8) brightness(1.05);
   mix-blend-mode: overlay;
-  opacity: 0.55;
+  opacity: 0.75;
 }
 
 /* Native cross-document page transitions between the terminal's own
