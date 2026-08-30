@@ -11,6 +11,7 @@ import MiniConnector from "@/components/MiniConnector";
 import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
+import GenerateTransmission from "@/components/GenerateTransmission";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -26,6 +27,7 @@ export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
   const [latest, setLatest] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [justGenerated, setJustGenerated] = useState(false);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -71,13 +73,25 @@ export default function Home() {
             titleEffect="trace"
             traceHue="#2ee6ff"
           >
+            <GenerateTransmission
+              session={session}
+              onGenerated={(post) => {
+                setLatest(post);
+                setJustGenerated(true);
+                setTimeout(() => setJustGenerated(false), 1200);
+              }}
+            />
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
             {!error && !latest && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
             )}
             {latest && (
               <>
-                <p className="whitespace-pre-wrap leading-relaxed text-terminal">
+                <p
+                  className={`whitespace-pre-wrap leading-relaxed text-terminal ${
+                    justGenerated ? "gt-reveal" : ""
+                  }`}
+                >
                   {latest.content}
                 </p>
                 {latest.art_url && (

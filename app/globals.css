@@ -454,6 +454,42 @@ main {
 .glitch-btn-auto:not(:disabled) {
   animation: glitch-btn-shake 0.25s steps(4) infinite;
 }
+/* GenerateTransmission.tsx — the resolving text shown while a manually
+   triggered transmission decodes from noise into its final content. */
+.gt-scramble {
+  animation: gt-flicker 0.12s steps(2) infinite;
+  text-shadow: 0 0 6px color-mix(in srgb, var(--terminal) 55%, transparent);
+}
+@keyframes gt-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.82;
+  }
+}
+
+/* Brief glow-in on the panel content right after a manually generated
+   transmission lands, so the swap from scramble to real text doesn't feel
+   like a plain state update. */
+.gt-reveal {
+  animation: gt-reveal-in 1.1s ease-out;
+}
+@keyframes gt-reveal-in {
+  0% {
+    opacity: 0;
+    text-shadow: 0 0 12px color-mix(in srgb, var(--terminal) 80%, transparent);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    text-shadow: none;
+  }
+}
+
 @keyframes glitch-btn-shake {
   0%,
   100% {
