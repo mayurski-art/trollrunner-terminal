@@ -284,7 +284,15 @@ export const LORE_ASSETS: LoreAsset[] = [
   {
     id: "hb-kneeling-shoreline",
     url: "/lore/hb-kneeling-shoreline.jpg",
-    caption: "Huntington Beach, August 8 2026 — kneeling at the shoreline, rosary on",
+    // This caption (not the keywords list below) is what the model
+    // actually sees via loreAssetCatalogForPrompt/IMAGE LIBRARY — it needs
+    // to say outright that this is a real photo of the Troll Runner
+    // himself, or the model has no way to connect it to "what does he look
+    // like" questions and will (wrongly) claim it has no photo of him at
+    // all, per §41's own text: this is the closest thing to a portrait in
+    // the library, sunglasses on, not a clean face shot but a real one.
+    caption:
+      "the Troll Runner himself — Huntington Beach, August 8 2026, kneeling at the shoreline, sunglasses on, rosary around his neck. The only real photo of him in this library.",
     keywords: [
       "huntington beach",
       "hb shoreline",
