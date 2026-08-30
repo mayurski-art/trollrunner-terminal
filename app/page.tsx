@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
-      <div className="home-hero-bg-frame w-full max-w-7xl" aria-hidden="true">
+      <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
         <div className="home-hero-bg home-hero-bg--sharpen" />
       </div>

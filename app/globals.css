@@ -74,13 +74,11 @@
 .home-hero {
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 }
 .home-hero-bg-frame {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  inset: 0;
   z-index: 0;
 }
 .home-hero-bg {
