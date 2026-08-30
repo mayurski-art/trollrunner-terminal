@@ -376,6 +376,11 @@ main {
 .glitch-btn:hover:not(:disabled) {
   animation: glitch-btn-shake 0.25s steps(4) infinite;
 }
+/* Always-on variant — for CTAs that should shake constantly, not just on
+   hover, e.g. the "[ join the trolling ]" entry button. */
+.glitch-btn-auto:not(:disabled) {
+  animation: glitch-btn-shake 0.25s steps(4) infinite;
+}
 @keyframes glitch-btn-shake {
   0%,
   100% {

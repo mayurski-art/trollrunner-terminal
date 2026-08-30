@@ -82,7 +82,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       <button
         type="button"
         onClick={reveal}
-        className="glitch-btn border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors"
+        className="glitch-btn glitch-btn-auto border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors"
       >
         [ join the trolling ]
       </button>
