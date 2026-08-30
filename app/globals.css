@@ -278,7 +278,14 @@ main {
 .nav-neon--transmit { --nn-hue: #ff9d3a; animation-delay: 1.8s; }
 .nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
-.nav-neon--disconnect { --nn-hue: var(--alert); animation-delay: 0s; }
+/* Signed-in pill: green while connected (matches --bc-go, the boot
+   sequence's "site is ready" cue), hinting red — the disconnect color —
+   on hover/focus so the click's consequence is legible before it happens. */
+.nav-neon--disconnect { --nn-hue: #34e07a; animation-delay: 0s; }
+.nav-neon--disconnect:hover,
+.nav-neon--disconnect:focus-visible {
+  --nn-hue: var(--alert);
+}
 
 /* Frame.tsx titleEffect="trace" — opt-in, used only by the homepage's two
    hero panels (app/page.tsx). A short neon comet loops continuously around
