@@ -477,13 +477,13 @@ main {
    5-node cast and layout technique as the ambient [ speak to it ] widget
    below (components/MiniConnector.tsx) — carlos, umadbro.shop, the NFT
    collection and the troll-crypto coin all wired into the trolltruths hub
-   at center — but a one-shot convergence instead of a looping pulse: every
-   packet crawls inward once, then the four device nodes' borders flare
-   through an actual red/yellow/green sequence before the whole overlay
-   fades out to reveal the site underneath. Scoped local hues (violet/cyan/
-   lime/gold) rather than new :root tokens, since they only ever appear as
-   transient ticks in this one animation, not as a site-wide color meaning
-   per the rule above. */
+   at center — but run as a one-shot lineage reveal instead of a looping
+   pulse: the hub appears first, then each device node fades in one at a
+   time as a packet crawls outward from the hub to it (see BootConnector.tsx
+   for the reveal order), before the whole overlay fades out to reveal the
+   site underneath. Scoped local hues (violet/cyan/lime/gold) rather than
+   new :root tokens, since they only ever appear as transient ticks in this
+   one animation, not as a site-wide color meaning per the rule above. */
 .boot-connector {
   --bc-go: #34e07a; /* the "site is ready" cue at the end of the reveal */
   --bc-violet: #b26bff;
@@ -499,19 +499,23 @@ main {
      the light *down* on narrow viewports, where the nodes shrink too. */
   --bc-light: min(10px, 2.6vw);
   display: grid;
-  /* 5 equal 1fr columns, same as .mini-connector below — the wire line and
-     every stem are keyed to node centers landing at exactly 10/30/50/70/90%
-     of the row width, which only holds with equal fractional columns. This
-     used to be repeat(5, var(--bc-node-w)) with a large column-gap, which
-     skewed real node centers a couple points off those fractions and made
-     the wire visibly not terminate under each node — cap node width with
-     max-width on .bc-node instead of sizing the track itself. */
-  grid-template-columns: repeat(5, 1fr);
+  /* N equal 1fr columns (N = NODES.length in BootConnector.tsx, set inline
+     as a style prop) — the wire line and every stem are keyed to node
+     centers landing at exactly the fractional column centers, which only
+     holds with equal fractional columns. This used to be
+     repeat(5, var(--bc-node-w)) with a large column-gap, which skewed real
+     node centers a couple points off those fractions and made the wire
+     visibly not terminate under each node — cap node width with max-width
+     on .bc-node instead of sizing the track itself. */
   column-gap: 4px;
   justify-items: center;
   align-items: end;
   width: 100%;
-  max-width: calc(var(--bc-node-w) * 6.2);
+  /* --bc-node-count set inline alongside grid-template-columns
+     (BootConnector.tsx) so this cap scales with the lineage instead of
+     assuming a fixed 5 nodes; 1.2 leaves the same per-node breathing room
+     the old `* 6.2` constant did for 5 columns (6.2 / 5 = 1.24). */
+  max-width: calc(var(--bc-node-w) * var(--bc-node-count, 5) * 1.2);
   margin: 0 auto;
 }
 
@@ -527,7 +531,14 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.boot-connector .bc-node.bc-revealed {
+  opacity: 1;
+  transform: scale(1);
 }
 .boot-connector .bc-node--carlos { border-color: color-mix(in srgb, var(--bc-violet) 45%, var(--dim)); }
 .boot-connector .bc-node--umadbro { border-color: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim)); }
@@ -538,6 +549,11 @@ main {
   border-radius: 50%;
   aspect-ratio: 1;
   perspective: 500px;
+  /* Appears first, with no other ring to wait on — visible from mount
+     rather than waiting on the same JS-driven .bc-revealed toggle as every
+     other ring, so there's no flash of it popping in like the rest. */
+  opacity: 1;
+  transform: scale(1);
 }
 
 .boot-connector .bc-node img {
@@ -575,9 +591,15 @@ main {
   width: 1px;
   height: 22px;
   background: var(--dim);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.boot-connector .bc-stem.bc-revealed {
+  opacity: 1;
 }
 .boot-connector .bc-stem--hub {
   height: 26px;
+  opacity: 1;
 }
 
 .boot-connector .bc-wire-row {
@@ -601,6 +623,9 @@ main {
   background: var(--dim);
 }
 
+/* Position (`left`) is set inline by BootConnector.tsx — each packet
+   starts at the hub's column center and crawls out to its own node's
+   center as that node's ring reveals, rather than a fixed per-node spot. */
 .boot-connector .bc-packet {
   position: absolute;
   top: 50%;
@@ -612,22 +637,18 @@ main {
   box-shadow: 0 0 5px currentColor;
 }
 .boot-connector .bc-packet--carlos {
-  left: 10%;
   color: var(--bc-violet);
   background: var(--bc-violet);
 }
 .boot-connector .bc-packet--umadbro {
-  left: 30%;
   color: var(--bc-cyan);
   background: var(--bc-cyan);
 }
 .boot-connector .bc-packet--nft {
-  left: 70%;
   color: var(--bc-lime);
   background: var(--bc-lime);
 }
 .boot-connector .bc-packet--crypto {
-  left: 90%;
   color: var(--bc-gold);
   background: var(--bc-gold);
 }
@@ -652,6 +673,11 @@ main {
   text-align: center;
   max-width: var(--bc-node-w);
   overflow-wrap: break-word;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.boot-connector .bc-labels.bc-revealed {
+  opacity: 1;
 }
 
 /* Mobile: --bc-node-w shrinks down toward 48px, so the 10px label font
@@ -703,6 +729,7 @@ main {
 .boot-connector .bc-labels--hub {
   color: var(--terminal);
   font-weight: 600;
+  opacity: 1;
 }
 
 /* The persistent connector widget in the [ speak to it ] panel header —

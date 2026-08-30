@@ -1,40 +1,69 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 
-const CRAWL_MS = 1100;
+const RING_DELAY_MS = 550; // gap between one ring appearing and the next
+const REVEAL_DURATION_MS = 500; // how long a single node+packet takes to fade/crawl in
+const HOLD_AFTER_LAST_MS = 500; // beat after the last ring lands before onConverge fires
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FACE_GRIN = "/boot/trollface-grin.svg";
 const FACE_SAD = "/boot/trollface-sad.svg";
 
-// Column centers under grid-template-columns: repeat(5, 1fr) — mirrors
-// MiniConnector's 10/30/50/70/90% layout so this reads as the same wiring
-// diagram, just running once instead of looping.
-const NODE_PCT = [10, 30, 70, 90];
-const HUB_PCT = 50;
+// Every node this reveal knows about, in left-to-right column order, paired
+// by `ring` — nodes sharing a ring number appear together, symmetrically
+// outward from the hub (ring 0). Adding a node later is just adding an
+// entry here (and to MiniConnector's always-on version of this same
+// lineage) — the grid, wire, and reveal timing all derive from this array's
+// length instead of a hardcoded node count.
+type Node = {
+  key: string;
+  ring: number;
+  img: string;
+  alt: string;
+  label: string;
+};
 
-// The boot sequence's closing beat: all four source nodes (carlos,
-// umadbro.shop, the NFT collection, the troll-crypto coin — same cast as
-// the ambient [ speak to it ] widget, components/MiniConnector.tsx) send
-// one packet each into the trolltruths hub at center. The instant they all
-// arrive, onConverge fires and the overlay starts its reveal countdown
-// (BootSequence.tsx) while the hub face keeps flipping grin/sad for the
-// remainder of the reveal.
+const NODES: Node[] = [
+  { key: "carlos", ring: 2, img: "/boot/carlos-ramirez.webp", alt: "", label: "carlos" },
+  { key: "umadbro", ring: 1, img: "/boot/umadbro.jpg", alt: "", label: "umadbro.shop" },
+  { key: "hub", ring: 0, img: FACE_GRIN, alt: "", label: "trolltruths" },
+  { key: "nft", ring: 1, img: "/boot/troll-nft.jpg", alt: "", label: "NFT" },
+  { key: "crypto", ring: 2, img: "/boot/troll-crypto.jpg", alt: "", label: "crypto" },
+];
+
+const HUB_INDEX = NODES.findIndex((n) => n.ring === 0);
+const RING_COUNT = Math.max(...NODES.map((n) => n.ring));
+// Column center (%) for node i under `grid-template-columns: repeat(N, 1fr)`.
+const colPct = (i: number) => ((i + 0.5) / NODES.length) * 100;
+const HUB_PCT = colPct(HUB_INDEX);
+
+// The boot sequence's closing beat: trolltruths (the hub) appears alone
+// first, then the rest of the lineage reveals ring by ring, symmetrically
+// outward on both sides at once (ring 1: umadbro.shop + NFT, ring 2: carlos
+// + crypto, and so on as more nodes join the lineage) — each node fading in
+// together with a packet crawling out from the hub to it along the shared
+// wire. Once the outermost ring lands, onConverge fires and the overlay
+// starts its reveal countdown (BootSequence.tsx) while the hub face keeps
+// flipping grin/sad for the remainder of the reveal.
 export default function BootConnector({
   onConverge,
 }: {
   onConverge: () => void;
 }) {
-  const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const stemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
   const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const packets = packetRefs.current;
     const nodes = nodeRefs.current;
+    const stems = stemRefs.current;
+    const labels = labelRefs.current;
+    const packets = packetRefs.current;
     const face = faceRef.current;
-    if (packets.some((p) => !p) || nodes.some((n) => !n) || !face) return;
+    if (!face) return;
 
     // One horizontal turn, swapping the image mid-turn while it's edge-on
     // and briefly invisible — reads as the face turning to reveal the
@@ -49,139 +78,126 @@ export default function BootConnector({
       }, SPIN_MS / 2);
     }
 
-    packets.forEach((packet, i) => {
-      if (!packet) return;
-      packet.style.left = `${NODE_PCT[i]}%`;
-      packet.style.opacity = "1";
-    });
-
-    const raf = requestAnimationFrame(() => {
-      packets.forEach((packet) => {
-        if (!packet) return;
-        packet.style.transition = `left ${CRAWL_MS}ms linear`;
-        packet.style.left = `${HUB_PCT}%`;
-      });
-    });
-
+    const timers: ReturnType<typeof setTimeout>[] = [];
     let spinInterval: ReturnType<typeof setInterval> | undefined;
 
-    const convergeTimer = setTimeout(() => {
-      packets.forEach((packet) => {
-        if (packet) packet.style.opacity = "0";
-      });
-      onConverge();
+    // Ring 0: just the hub, fades straight in — nothing to crawl toward yet.
+    const hubEl = nodes[HUB_INDEX];
+    if (hubEl) hubEl.classList.add("bc-revealed");
 
-      // the face keeps turning, grin <-> worry, for as long as this stays
-      // mounted — not a one-off reaction, a running tell
-      let currentFace = FACE_GRIN;
-      const spinNext = () => {
-        currentFace = currentFace === FACE_GRIN ? FACE_SAD : FACE_GRIN;
-        spinTo(currentFace);
-      };
-      spinNext();
-      spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
-    }, CRAWL_MS);
+    // Rings 1..N: every node at that ring fades in while a packet from the
+    // hub crawls out to it, both sides at once.
+    for (let ring = 1; ring <= RING_COUNT; ring++) {
+      const ringIndices = NODES.reduce<number[]>((acc, n, i) => {
+        if (n.ring === ring) acc.push(i);
+        return acc;
+      }, []);
+      const t = setTimeout(() => {
+        ringIndices.forEach((i) => {
+          nodes[i]?.classList.add("bc-revealed");
+          stems[i]?.classList.add("bc-revealed");
+          labels[i]?.classList.add("bc-revealed");
+          const packet = packets[i];
+          if (!packet) return;
+          packet.style.left = `${HUB_PCT}%`;
+          packet.style.opacity = "1";
+          const target = colPct(i);
+          requestAnimationFrame(() => {
+            packet.style.transition = `left ${REVEAL_DURATION_MS}ms ease-out, opacity 150ms ease-in ${REVEAL_DURATION_MS - 150}ms`;
+            packet.style.left = `${target}%`;
+            packet.style.opacity = "0";
+          });
+        });
+      }, RING_DELAY_MS * ring);
+      timers.push(t);
+    }
+
+    const convergeTimer = setTimeout(
+      () => {
+        onConverge();
+
+        // the face keeps turning, grin <-> worry, for as long as this stays
+        // mounted — not a one-off reaction, a running tell
+        let currentFace = FACE_GRIN;
+        const spinNext = () => {
+          currentFace = currentFace === FACE_GRIN ? FACE_SAD : FACE_GRIN;
+          spinTo(currentFace);
+        };
+        spinNext();
+        spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
+      },
+      RING_DELAY_MS * RING_COUNT + REVEAL_DURATION_MS + HOLD_AFTER_LAST_MS,
+    );
+    timers.push(convergeTimer);
 
     return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(convergeTimer);
+      timers.forEach(clearTimeout);
       clearInterval(spinInterval);
     };
   }, [onConverge]);
 
   return (
-    <div className="boot-connector">
-      <div
-        ref={(el) => {
-          nodeRefs.current[0] = el;
-        }}
-        className="bc-node bc-node--carlos"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/carlos-ramirez.webp" alt="" />
-      </div>
-      <div
-        ref={(el) => {
-          nodeRefs.current[1] = el;
-        }}
-        className="bc-node bc-node--umadbro"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/umadbro.jpg" alt="" />
-      </div>
-      <div className="bc-node bc-node--hub">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img ref={faceRef} src={FACE_GRIN} alt="" />
-      </div>
-      <div
-        ref={(el) => {
-          nodeRefs.current[2] = el;
-        }}
-        className="bc-node bc-node--nft"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/troll-nft.jpg" alt="" />
-      </div>
-      <div
-        ref={(el) => {
-          nodeRefs.current[3] = el;
-        }}
-        className="bc-node bc-node--crypto"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/boot/troll-crypto.jpg" alt="" />
-      </div>
+    <div
+      className="boot-connector"
+      style={
+        {
+          gridTemplateColumns: `repeat(${NODES.length}, 1fr)`,
+          "--bc-node-count": NODES.length,
+        } as CSSProperties
+      }
+    >
+      {NODES.map((n, i) => (
+        <div
+          key={n.key}
+          ref={(el) => {
+            nodeRefs.current[i] = el;
+          }}
+          className={`bc-node bc-node--${n.key}`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img ref={n.key === "hub" ? faceRef : undefined} src={n.img} alt={n.alt} />
+        </div>
+      ))}
 
-      <div className="bc-stems">
-        <div className="bc-stem" />
-      </div>
-      <div className="bc-stems">
-        <div className="bc-stem" />
-      </div>
-      <div className="bc-stems">
-        <div className="bc-stem bc-stem--hub" />
-      </div>
-      <div className="bc-stems">
-        <div className="bc-stem" />
-      </div>
-      <div className="bc-stems">
-        <div className="bc-stem" />
-      </div>
+      {NODES.map((n, i) => (
+        <div key={n.key} className="bc-stems">
+          <div
+            ref={(el) => {
+              stemRefs.current[i] = el;
+            }}
+            className={`bc-stem${n.key === "hub" ? " bc-stem--hub" : ""}`}
+          />
+        </div>
+      ))}
 
       <div className="bc-wire-row">
         <div className="bc-wire-line" />
-        <div
-          ref={(el) => {
-            packetRefs.current[0] = el;
-          }}
-          className="bc-packet bc-packet--carlos"
-        />
-        <div
-          ref={(el) => {
-            packetRefs.current[1] = el;
-          }}
-          className="bc-packet bc-packet--umadbro"
-        />
-        <div
-          ref={(el) => {
-            packetRefs.current[2] = el;
-          }}
-          className="bc-packet bc-packet--nft"
-        />
-        <div
-          ref={(el) => {
-            packetRefs.current[3] = el;
-          }}
-          className="bc-packet bc-packet--crypto"
-        />
-        <div className="bc-center" />
+        {NODES.map((n, i) =>
+          n.key === "hub" ? (
+            <div key={n.key} className="bc-center" />
+          ) : (
+            <div
+              key={n.key}
+              ref={(el) => {
+                packetRefs.current[i] = el;
+              }}
+              className={`bc-packet bc-packet--${n.key}`}
+            />
+          ),
+        )}
       </div>
 
-      <div className="bc-labels bc-labels--carlos">carlos</div>
-      <div className="bc-labels bc-labels--umadbro">umadbro.shop</div>
-      <div className="bc-labels bc-labels--hub">trolltruths</div>
-      <div className="bc-labels bc-labels--nft">NFT</div>
-      <div className="bc-labels bc-labels--crypto">crypto</div>
+      {NODES.map((n, i) => (
+        <div
+          key={n.key}
+          ref={(el) => {
+            labelRefs.current[i] = el;
+          }}
+          className={`bc-labels bc-labels--${n.key}`}
+        >
+          {n.label}
+        </div>
+      ))}
     </div>
   );
 }
