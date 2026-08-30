@@ -580,6 +580,43 @@ main {
 .boot-connector .bc-node--umadbro { border-color: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim)); }
 .boot-connector .bc-node--nft { border-color: color-mix(in srgb, var(--bc-lime) 45%, var(--dim)); }
 .boot-connector .bc-node--crypto { border-color: color-mix(in srgb, var(--bc-gold) 45%, var(--dim)); }
+
+/* One-shot bright flash the instant a node's packet arrives — the boot
+   connector only ever gets a single crawl-and-fade per node (unlike
+   MiniConnector's looping round trips), so without this the payoff at
+   arrival was just the packet dot quietly fading out. BootConnector.tsx
+   adds bc-node--hit alongside bc-revealed right as the packet lands, then
+   removes it once the animation completes. */
+.boot-connector .bc-node--carlos.bc-node--hit {
+  animation: bc-node-flash 0.5s ease-out;
+  --bc-flash: var(--bc-violet);
+  --bc-rest: color-mix(in srgb, var(--bc-violet) 45%, var(--dim));
+}
+.boot-connector .bc-node--umadbro.bc-node--hit {
+  animation: bc-node-flash 0.5s ease-out;
+  --bc-flash: var(--bc-cyan);
+  --bc-rest: color-mix(in srgb, var(--bc-cyan) 45%, var(--dim));
+}
+.boot-connector .bc-node--nft.bc-node--hit {
+  animation: bc-node-flash 0.5s ease-out;
+  --bc-flash: var(--bc-lime);
+  --bc-rest: color-mix(in srgb, var(--bc-lime) 45%, var(--dim));
+}
+.boot-connector .bc-node--crypto.bc-node--hit {
+  animation: bc-node-flash 0.5s ease-out;
+  --bc-flash: var(--bc-gold);
+  --bc-rest: color-mix(in srgb, var(--bc-gold) 45%, var(--dim));
+}
+@keyframes bc-node-flash {
+  0% {
+    border-color: var(--bc-flash);
+    box-shadow: 0 0 10px var(--bc-flash);
+  }
+  100% {
+    border-color: var(--bc-rest);
+    box-shadow: none;
+  }
+}
 .boot-connector .bc-node--hub {
   color: var(--terminal);
   border-radius: 50%;
@@ -665,12 +702,12 @@ main {
 .boot-connector .bc-packet {
   position: absolute;
   top: 50%;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  box-shadow: 0 0 5px currentColor;
+  box-shadow: 0 0 9px 2px currentColor;
 }
 .boot-connector .bc-packet--carlos {
   color: var(--bc-violet);

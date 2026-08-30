@@ -7,6 +7,7 @@ const REVEAL_DURATION_MS = 500; // how long a single node+packet takes to fade/c
 const HOLD_AFTER_LAST_MS = 500; // beat after the last ring lands before onConverge fires
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
+const FLASH_MS = 500; // must match .bc-node-flash's animation-duration in globals.css
 const FACE_GRIN = "/boot/trollface-grin.svg";
 const FACE_SAD = "/boot/trollface-sad.svg";
 
@@ -107,6 +108,17 @@ export default function BootConnector({
             packet.style.left = `${target}%`;
             packet.style.opacity = "0";
           });
+
+          // Bright one-shot flash on the node right as its packet arrives —
+          // this connector never loops like MiniConnector does, so without
+          // it the only payoff was the packet dot quietly fading out.
+          const hitTimer = setTimeout(() => {
+            const node = nodes[i];
+            if (!node) return;
+            node.classList.add("bc-node--hit");
+            setTimeout(() => node.classList.remove("bc-node--hit"), FLASH_MS);
+          }, REVEAL_DURATION_MS);
+          timers.push(hitTimer);
         });
       }, RING_DELAY_MS * ring);
       timers.push(t);
