@@ -1,30 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BOOT_LINES } from "@/lib/ascii";
-import BootConnector, { type ConvergeProbe } from "@/components/BootConnector";
+import BootConnector from "@/components/BootConnector";
 
 const LINE_DELAY_MS = 220;
 const CONNECTOR_START_DELAY_MS = 250; // beat after the last line before the connector renders
-const ZOOM_MS = 2400; // must match the transition duration set in handleConverge
-const ZOOM_SCALE = 70;
+const REVEAL_MS = 2400; // total span from convergence to the overlay unmounting — drives the traffic-light timing in BootConnector
 const FADE_MS = 350;
 
 // Fake POST/boot text shown on every full page load (including a plain
 // browser refresh — this remounts the root layout, so no persistence is
 // needed or wanted), followed by the 5-node connector
 // (components/BootConnector.tsx — carlos, umadbro.shop, NFT, crypto, all
-// converging on the trolltruths hub) zooming through its own center into
-// the site underneath, which has been mounted the whole time behind this
-// fixed overlay. Not user-skippable — it always plays out in full.
-// Client-side navigation between pages does NOT remount this (the root
-// layout stays mounted across routes), so it only replays on an actual
-// reload.
+// converging on the trolltruths hub) running its device-border traffic
+// light (red -> yellow -> green) before fading out to reveal the site,
+// which has been mounted the whole time behind this fixed overlay. Not
+// user-skippable — it always plays out in full. Client-side navigation
+// between pages does NOT remount this (the root layout stays mounted
+// across routes), so it only replays on an actual reload.
 export default function BootSequence() {
   const [visible, setVisible] = useState(false);
   const [shownCount, setShownCount] = useState(0);
-  const [phase, setPhase] = useState<"typing" | "connector">("typing");
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const [phase, setPhase] = useState<"typing" | "connector" | "fading">("typing");
 
   useEffect(() => {
     // Deferred to an effect (rather than the initial useState value) so the
@@ -57,7 +55,7 @@ export default function BootSequence() {
         const t = setTimeout(() => setPhase("connector"), CONNECTOR_START_DELAY_MS);
         return () => clearTimeout(t);
       }
-      return; // dismissal from here on is driven by handleConverge's zoom, not a timer
+      return; // dismissal from here on is driven by handleConverge's timers, not this effect
     }
     const t = setTimeout(() => setShownCount((c) => c + 1), LINE_DELAY_MS);
     return () => clearTimeout(t);
@@ -74,49 +72,29 @@ export default function BootSequence() {
     new Image().src = "/boot/trollface-grin.svg";
   }, [visible]);
 
-  // The payoff: zoom the whole overlay through the exact point the
-  // connector just flared at, then fade what's now a huge, off-screen-
-  // edged wash of color out to reveal the site — which was mounted behind
-  // this fixed overlay the entire time — before finally unmounting.
-  const handleConverge = useCallback((probe: ConvergeProbe) => {
-    const overlay = overlayRef.current;
-    if (!overlay) {
-      setVisible(false);
-      return;
-    }
-    overlay.style.transition = `transform ${ZOOM_MS}ms cubic-bezier(.6,0,.85,0)`;
-    requestAnimationFrame(() => {
-      // Measured here, in the same frame the zoom is committed, so the origin
-      // is wherever the light actually is at that instant rather than where it
-      // was when the packets landed.
-      const { x, y } = probe();
-      overlay.style.transformOrigin = `${x}px ${y}px`;
-      overlay.style.transform = `scale(${ZOOM_SCALE})`;
-    });
-    setTimeout(() => {
-      overlay.style.transition = `opacity ${FADE_MS}ms ease`;
-      overlay.style.opacity = "0";
-    }, ZOOM_MS - 200);
-    setTimeout(() => setVisible(false), ZOOM_MS + FADE_MS);
+  // The payoff: once the connector's traffic light reaches green, simply
+  // fade the overlay out to reveal the site — which was mounted behind it
+  // the entire time — before finally unmounting. No zoom, no transform.
+  const handleConverge = useCallback(() => {
+    setTimeout(() => setPhase("fading"), REVEAL_MS);
+    setTimeout(() => setVisible(false), REVEAL_MS + FADE_MS);
   }, []);
 
   if (!visible) return null;
 
   return (
     <div
-      ref={overlayRef}
-      className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-4 px-4"
+      className={`fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-4 px-4${
+        phase === "fading" ? " boot-fade-out" : ""
+      }`}
+      style={{ transition: `opacity ${FADE_MS}ms ease` }}
     >
       <pre className="text-terminal text-xs sm:text-sm leading-relaxed">
         {BOOT_LINES.slice(0, shownCount).join("\n")}
-        {/* Kept mounted and merely hidden once typing ends. Unmounting it
-            removed an inline box from the last line, which on a narrow phone
-            could reflow the <pre> and nudge the connector — and the traffic
-            light with it — right as the zoom was being aimed. */}
         <span className={`blink-cursor${phase === "typing" ? "" : " is-done"}`} />
       </pre>
-      {phase === "connector" && (
-        <BootConnector onConverge={handleConverge} totalMs={ZOOM_MS + FADE_MS} />
+      {phase !== "typing" && (
+        <BootConnector onConverge={handleConverge} totalMs={REVEAL_MS} />
       )}
     </div>
   );

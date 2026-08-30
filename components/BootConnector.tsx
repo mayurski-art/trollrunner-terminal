@@ -16,37 +16,31 @@ const FACE_SAD = "/boot/trollface-sad.svg";
 const NODE_PCT = [10, 30, 70, 90];
 const HUB_PCT = 50;
 
-export type ConvergeOrigin = { x: number; y: number };
-/** Measures the traffic light's center on demand — see the onConverge call. */
-export type ConvergeProbe = () => ConvergeOrigin;
-
-// The boot sequence's closing beat, replacing the old static grin fade-in:
-// all four source nodes (carlos, umadbro.shop, the NFT collection, the
-// troll-crypto coin — same cast as the ambient [ speak to it ] widget,
-// components/MiniConnector.tsx) send one packet each into the trolltruths
-// hub at center. The instant they all arrive it flares red and reports its
-// screen position via onConverge — BootSequence uses that as the
-// transform-origin for the zoom that reveals the actual site. The center
-// then runs an actual traffic-light sequence — red, then yellow, then
-// green — split as RED_PCT/YELLOW_PCT/remainder of `totalMs`, the full
-// span from convergence to BootSequence unmounting the overlay. A stop/go
-// cue over the whole reveal, not just a flash at the end of it.
+// The boot sequence's closing beat: all four source nodes (carlos,
+// umadbro.shop, the NFT collection, the troll-crypto coin — same cast as
+// the ambient [ speak to it ] widget, components/MiniConnector.tsx) send
+// one packet each into the trolltruths hub at center. The instant they all
+// arrive, the four device nodes' borders run an actual traffic-light
+// sequence — red, then yellow, then green — split as
+// RED_PCT/YELLOW_PCT/remainder of `totalMs`, the full span from
+// convergence to BootSequence unmounting the overlay. A stop/go cue over
+// the whole reveal, not just a flash at the end of it.
 export default function BootConnector({
   onConverge,
   totalMs,
 }: {
-  onConverge: (probe: ConvergeProbe) => void;
+  onConverge: () => void;
   totalMs: number;
 }) {
   const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const centerRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const packets = packetRefs.current;
-    const center = centerRef.current;
+    const nodes = nodeRefs.current;
     const face = faceRef.current;
-    if (packets.some((p) => !p) || !center || !face) return;
+    if (packets.some((p) => !p) || nodes.some((n) => !n) || !face) return;
 
     // One horizontal turn, swapping the image mid-turn while it's edge-on
     // and briefly invisible — reads as the face turning to reveal the
@@ -75,13 +69,16 @@ export default function BootConnector({
       });
     });
 
-    // Glow scaled off the light's own rendered size so it stays in proportion
-    // on a phone instead of a fixed desktop-tuned bloom swamping a smaller dot.
-    const setLight = (color: string) => {
-      const r = center.getBoundingClientRect().width || 10;
-      center.style.transition = "none";
-      center.style.background = color;
-      center.style.boxShadow = `0 0 ${r * 1.6}px ${color}, 0 0 ${r * 6}px ${color}, 0 0 ${r * 12}px ${color}`;
+    // Glow scaled off each node's own rendered size so it stays in
+    // proportion on a phone instead of a fixed desktop-tuned bloom.
+    const setLights = (color: string) => {
+      nodes.forEach((node) => {
+        if (!node) return;
+        const r = node.getBoundingClientRect().width || 10;
+        node.style.transition = "none";
+        node.style.borderColor = color;
+        node.style.boxShadow = `0 0 ${r * 0.25}px ${color}, 0 0 ${r * 0.6}px ${color}`;
+      });
     };
 
     let yellowTimer: ReturnType<typeof setTimeout> | undefined;
@@ -92,17 +89,8 @@ export default function BootConnector({
       packets.forEach((packet) => {
         if (packet) packet.style.opacity = "0";
       });
-      setLight("var(--alert)"); // red
-
-      // Hand back a live getter, not a snapshot: the zoom starts a frame or
-      // more after this, and anything that reflows the overlay in between (the
-      // boot cursor unmounting, a late web font, an image settling) would move
-      // the light out from under a coordinate captured now, sending the zoom
-      // past the side of it.
-      onConverge(() => {
-        const r = center.getBoundingClientRect();
-        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-      });
+      setLights("var(--alert)"); // red
+      onConverge();
 
       // the face keeps turning, grin <-> worry, for as long as this stays
       // mounted — not a one-off reaction, a running tell
@@ -118,8 +106,8 @@ export default function BootConnector({
       // sequence — a real sequence, not a red/green blend
       const redHold = totalMs * RED_PCT;
       const yellowHold = totalMs * YELLOW_PCT;
-      yellowTimer = setTimeout(() => setLight("var(--problem)"), redHold);
-      greenTimer = setTimeout(() => setLight("var(--bc-go)"), redHold + yellowHold);
+      yellowTimer = setTimeout(() => setLights("var(--problem)"), redHold);
+      greenTimer = setTimeout(() => setLights("var(--bc-go)"), redHold + yellowHold);
     }, CRAWL_MS);
 
     return () => {
@@ -133,11 +121,21 @@ export default function BootConnector({
 
   return (
     <div className="boot-connector">
-      <div className="bc-node bc-node--carlos">
+      <div
+        ref={(el) => {
+          nodeRefs.current[0] = el;
+        }}
+        className="bc-node bc-node--carlos"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/boot/carlos-ramirez.webp" alt="" />
       </div>
-      <div className="bc-node bc-node--umadbro">
+      <div
+        ref={(el) => {
+          nodeRefs.current[1] = el;
+        }}
+        className="bc-node bc-node--umadbro"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/boot/umadbro.jpg" alt="" />
       </div>
@@ -145,11 +143,21 @@ export default function BootConnector({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img ref={faceRef} src={FACE_GRIN} alt="" />
       </div>
-      <div className="bc-node bc-node--nft">
+      <div
+        ref={(el) => {
+          nodeRefs.current[2] = el;
+        }}
+        className="bc-node bc-node--nft"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/boot/troll-nft.jpg" alt="" />
       </div>
-      <div className="bc-node bc-node--crypto">
+      <div
+        ref={(el) => {
+          nodeRefs.current[3] = el;
+        }}
+        className="bc-node bc-node--crypto"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/boot/troll-crypto.jpg" alt="" />
       </div>
@@ -196,7 +204,7 @@ export default function BootConnector({
           }}
           className="bc-packet bc-packet--crypto"
         />
-        <div ref={centerRef} className="bc-center" />
+        <div className="bc-center" />
       </div>
 
       <div className="bc-labels bc-labels--carlos">carlos</div>
