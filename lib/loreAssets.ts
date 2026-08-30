@@ -287,7 +287,25 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "hb-kneeling-shoreline",
     url: "/lore/hb-kneeling-shoreline.jpg",
     caption: "Huntington Beach, August 8 2026 — kneeling at the shoreline, rosary on",
-    keywords: ["huntington beach", "hb shoreline", "kneeling beach", "shoreline rosary"],
+    keywords: [
+      "huntington beach",
+      "hb shoreline",
+      "kneeling beach",
+      "shoreline rosary",
+      // The only face-forward photo of the Troll Runner in this library
+      // (§41 — "another entry in the Troll Runner's own camera roll") —
+      // catch "what does he look like" style questions, which otherwise
+      // have no keyword overlap with any asset and get answered with the
+      // persona's in-character "I don't have his face" line even though a
+      // photo exists.
+      "what does he look like",
+      "what does the troll runner look like",
+      "what do you look like",
+      "show me his face",
+      "show me your face",
+      "his face",
+      "your face",
+    ],
     sections: [41],
   },
   {
