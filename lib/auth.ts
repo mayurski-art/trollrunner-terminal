@@ -74,6 +74,25 @@ export async function register(username: string, password: string) {
   return session;
 }
 
+// Backs the single sign-in/create-account form's auto-detect: ask the
+// server whether this username already has an account before deciding
+// whether to log in or register. Fails open to "new account" — worst case
+// is a clear "username taken" error on submit instead of a silent block.
+export async function checkUsernameExists(username: string): Promise<boolean> {
+  try {
+    const res = await fetch("/api/auth/check-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username.trim() }),
+    });
+    if (!res.ok) return false;
+    const body = await res.json();
+    return !!body.exists;
+  } catch {
+    return false;
+  }
+}
+
 export async function logout() {
   const sb = getPublicClient();
   await sb.auth.signOut();

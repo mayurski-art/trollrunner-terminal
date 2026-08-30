@@ -1,14 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { login, register } from "@/lib/auth";
+import { checkUsernameExists, login, register } from "@/lib/auth";
 
-type Mode = "login" | "register";
+// Which account state the typed username resolved to — null means "not
+// checked yet" (still on the username step), so the password step and its
+// copy only ever appear once we actually know.
+type Resolved = "login" | "register" | null;
 
 export default function AuthPanel({ onDone }: { onDone?: () => void }) {
-  const [mode, setMode] = useState<Mode>("login");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [resolved, setResolved] = useState<Resolved>(null);
+  const [checking, setChecking] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   // iOS Safari pops its "Fill Password" keychain sheet the moment a login form
@@ -28,12 +32,29 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
+  // Step 1 -> step 2: look up the typed username once and remember whether
+  // it's an existing account or a new one, so the visitor never has to pick
+  // "sign in" vs "create account" themselves.
+  async function proceed(e: React.FormEvent) {
+    e.preventDefault();
+    if (!identifier.trim()) return;
+    setError(null);
+    setChecking(true);
+    try {
+      const exists = await checkUsernameExists(identifier);
+      setResolved(exists ? "login" : "register");
+    } finally {
+      setChecking(false);
+    }
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!resolved) return;
     setError(null);
     setBusy(true);
     try {
-      if (mode === "login") {
+      if (resolved === "login") {
         await login(identifier, password);
       } else {
         await register(identifier, password);
@@ -46,84 +67,74 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     }
   }
 
-  function reveal(next: Mode) {
-    setMode(next);
+  function reveal() {
     setOpen(true);
+  }
+
+  function reset() {
+    setResolved(null);
+    setPassword("");
+    setError(null);
   }
 
   if (!open) {
     return (
-      <div className="flex gap-4 text-sm">
-        <button
-          type="button"
-          onClick={() => reveal("login")}
-          className="glitch-btn border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors"
-        >
-          [ sign in ]
-        </button>
-        <button
-          type="button"
-          onClick={() => reveal("register")}
-          className="border border-dim text-dim px-3 py-1.5 hover:text-foreground hover:border-foreground transition-colors"
-        >
-          [ create account ]
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={reveal}
+        className="glitch-btn border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors"
+      >
+        [ join the trolling ]
+      </button>
     );
   }
 
   const form = (
-    <form onSubmit={submit} className="space-y-3 text-sm">
-      <div className="flex gap-4 text-xs text-dim">
-        <button
-          type="button"
-          onClick={() => setMode("login")}
-          className={mode === "login" ? "text-terminal" : "hover:text-foreground"}
-        >
-          [ sign in ]
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode("register")}
-          className={mode === "register" ? "text-terminal" : "hover:text-foreground"}
-        >
-          [ create account ]
-        </button>
-      </div>
+    <form onSubmit={resolved ? submit : proceed} className="space-y-3 text-sm">
+      {resolved && (
+        <p className="text-dim text-xs">
+          {resolved === "login" ? "welcome back, troublemaker" : "never seen you before — let's fix that"}
+        </p>
+      )}
 
       <label className="block">
-        <span className="text-dim block mb-1">
-          {mode === "login" ? "username or email" : "choose a username"}
-        </span>
+        <span className="text-dim block mb-1">username</span>
         <input
           value={identifier}
-          onChange={(e) => setIdentifier(e.target.value)}
-          className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal"
+          onChange={(e) => {
+            setIdentifier(e.target.value);
+            if (resolved) reset();
+          }}
+          className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal disabled:opacity-60"
           autoComplete="username"
+          disabled={checking}
           required
         />
       </label>
 
-      <label className="block">
-        <span className="text-dim block mb-1">password</span>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal"
-          autoComplete={mode === "login" ? "current-password" : "new-password"}
-          required
-        />
-      </label>
+      {resolved && (
+        <label className="block">
+          <span className="text-dim block mb-1">password</span>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal"
+            autoComplete={resolved === "login" ? "current-password" : "new-password"}
+            autoFocus
+            required
+          />
+        </label>
+      )}
 
       {error && <p className="text-alert text-xs">[ {error} ]</p>}
 
       <button
         type="submit"
-        disabled={busy}
+        disabled={checking || busy}
         className="glitch-btn border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
       >
-        {busy ? "..." : mode === "login" ? "connect >" : "register >"}
+        {checking ? "..." : busy ? "..." : !resolved ? "next >" : resolved === "login" ? "connect >" : "register >"}
       </button>
     </form>
   );
@@ -142,7 +153,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={mode === "login" ? "Sign in" : "Create account"}
+      aria-label={resolved === "login" ? "Sign in" : "Join the trolling"}
       className="fixed inset-0 z-50 bg-background/95 overflow-y-auto p-6 flex flex-col justify-center"
     >
       <div className="w-full max-w-sm mx-auto space-y-4">
