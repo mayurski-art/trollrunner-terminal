@@ -113,12 +113,14 @@ export default function Home() {
           <Frame
             title="speak to it"
             tone="dim"
-            className="order-1 lg:order-none lg:w-2/3 lg:h-[34rem]"
-            bodyClassName="flex flex-col lg:h-full"
+            className="order-1 lg:order-none lg:w-2/3 h-[80vh] max-h-[42rem] lg:h-[34rem] lg:max-h-none"
+            bodyClassName="flex flex-col h-full"
             titleEffect="trace"
             traceHue="#b26bff"
           >
-            <MiniConnector />
+            <div className="hidden sm:block shrink-0">
+              <MiniConnector />
+            </div>
             <OwnerCredits session={session} />
             {session ? (
               <Chat />
