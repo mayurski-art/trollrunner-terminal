@@ -45,6 +45,36 @@
   --font-mono: var(--font-mono);
 }
 
+/* Homepage hero background — public/assets/troll-terminal-face.jpg, the
+   gold circuit-board trollface. Full color/contrast up top where the
+   banner sits, fading to solid --background by the lower third so the
+   chat frame stays readable. Scoped to the home <main> only (app/page.tsx)
+   — no other route gets this treatment. */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+}
+.home-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/assets/troll-terminal-face.jpg");
+  background-size: cover;
+  background-position: 50% 12%;
+  opacity: 0.5;
+  filter: saturate(1.15) brightness(0.62) contrast(1.05);
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, black 55%, transparent) 0%,
+    black 88%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, black 55%, transparent) 0%,
+    black 88%
+  );
+}
+
 /* Native cross-document page transitions between the terminal's own
    same-origin pages. Mobile only — desktop keeps instant navigation. */
 @media (max-width: 760px) {

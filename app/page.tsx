@@ -50,7 +50,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+      <div className="home-hero-bg" aria-hidden="true" />
       <div className="w-full max-w-7xl">
         <Nav />
         <p className="glow-loop text-sm mb-1 text-center">
