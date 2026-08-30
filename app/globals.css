@@ -881,185 +881,166 @@ main {
 }
 
 /* out: node -> hub, colored, first half. in: hub -> node, grey, second
-   half. Opacity holds flat at 1 through the travel (4%-42% / 54%-92%) and
-   only fades right at departure/arrival — opacity and left each need
-   their own stops here, since a keyframe that doesn't redefine a property
-   interpolates it from the nearest stop that does, and collapsing the
-   hold into a single point made the packet fade out across its entire
-   trip instead of staying visible while it travels. The 46-54% gap at the
-   hub is a deliberate beat — packet arrives, sits a moment, reply leaves —
-   rather than an instant handoff. */
+   half. Opacity holds flat at 1 through the travel and only fades right
+   at departure/arrival — opacity and left each need their own stops
+   here, since a keyframe that doesn't redefine a property interpolates
+   it from the nearest stop that DOES define it, across the whole span
+   between those two stops (not just the window where the property looks
+   "active"). That's what caused the handoff to look like a jump/snap:
+   left was only pinned at 0%/46% (out) and 50%/96% (in), so each packet
+   was already sliding at full speed the instant its opacity crossed 0 —
+   it faded in mid-flight instead of appearing to depart from a standstill
+   at the hub. Adding a matching left stop at each opacity boundary (4%,
+   42%, 54%, 92%) freezes position through the invisible fade, so motion
+   only starts once a packet is fully opaque and only stops once it's
+   fully faded — a true dwell instead of a mid-motion pop. */
 @keyframes mc-out-carlos {
-  0% {
+  0%,
+  4% {
     left: 10%;
     opacity: 0;
   }
-  4% {
+  8% {
     opacity: 1;
   }
   42% {
+    left: 10%;
     opacity: 1;
   }
-  46% {
-    left: 50%;
-    opacity: 0;
-  }
+  46%,
   100% {
     left: 50%;
     opacity: 0;
   }
 }
 @keyframes mc-in-carlos {
-  0% {
-    left: 50%;
-    opacity: 0;
-  }
+  0%,
   50% {
     left: 50%;
     opacity: 0;
   }
   54% {
+    left: 50%;
     opacity: 1;
   }
-  92% {
+  88% {
     opacity: 1;
   }
-  96% {
-    left: 10%;
-    opacity: 0;
-  }
+  92%,
   100% {
     left: 10%;
     opacity: 0;
   }
 }
 @keyframes mc-out-umadbro {
-  0% {
+  0%,
+  4% {
     left: 30%;
     opacity: 0;
   }
-  4% {
+  8% {
     opacity: 1;
   }
   42% {
+    left: 30%;
     opacity: 1;
   }
-  46% {
-    left: 50%;
-    opacity: 0;
-  }
+  46%,
   100% {
     left: 50%;
     opacity: 0;
   }
 }
 @keyframes mc-in-umadbro {
-  0% {
-    left: 50%;
-    opacity: 0;
-  }
+  0%,
   50% {
     left: 50%;
     opacity: 0;
   }
   54% {
+    left: 50%;
     opacity: 1;
   }
-  92% {
+  88% {
     opacity: 1;
   }
-  96% {
-    left: 30%;
-    opacity: 0;
-  }
+  92%,
   100% {
     left: 30%;
     opacity: 0;
   }
 }
 @keyframes mc-out-nft {
-  0% {
+  0%,
+  4% {
     left: 70%;
     opacity: 0;
   }
-  4% {
+  8% {
     opacity: 1;
   }
   42% {
+    left: 70%;
     opacity: 1;
   }
-  46% {
-    left: 50%;
-    opacity: 0;
-  }
+  46%,
   100% {
     left: 50%;
     opacity: 0;
   }
 }
 @keyframes mc-in-nft {
-  0% {
-    left: 50%;
-    opacity: 0;
-  }
+  0%,
   50% {
     left: 50%;
     opacity: 0;
   }
   54% {
+    left: 50%;
     opacity: 1;
   }
-  92% {
+  88% {
     opacity: 1;
   }
-  96% {
-    left: 70%;
-    opacity: 0;
-  }
+  92%,
   100% {
     left: 70%;
     opacity: 0;
   }
 }
 @keyframes mc-out-crypto {
-  0% {
+  0%,
+  4% {
     left: 90%;
     opacity: 0;
   }
-  4% {
+  8% {
     opacity: 1;
   }
   42% {
+    left: 90%;
     opacity: 1;
   }
-  46% {
-    left: 50%;
-    opacity: 0;
-  }
+  46%,
   100% {
     left: 50%;
     opacity: 0;
   }
 }
 @keyframes mc-in-crypto {
-  0% {
-    left: 50%;
-    opacity: 0;
-  }
+  0%,
   50% {
     left: 50%;
     opacity: 0;
   }
   54% {
+    left: 50%;
     opacity: 1;
   }
-  92% {
+  88% {
     opacity: 1;
   }
-  96% {
-    left: 90%;
-    opacity: 0;
-  }
+  92%,
   100% {
     left: 90%;
     opacity: 0;

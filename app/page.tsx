@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
 import Nav from "@/components/Nav";
+import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Chat from "@/components/Chat";
@@ -12,6 +13,7 @@ import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import OwnerCredits from "@/components/OwnerCredits";
+import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
 type Post = {
@@ -57,7 +59,7 @@ export default function Home() {
         <SiteTicker />
 
         <div className="mb-10">
-          <MiniConnector />
+          <Banner art={BANNER_TROLLFACE} label="trollface terminal" />
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6">
@@ -125,6 +127,10 @@ export default function Home() {
               </div>
             )}
           </Frame>
+        </div>
+
+        <div className="mb-10">
+          <MiniConnector />
         </div>
 
         <p className="text-dim text-xs mt-8 text-center">
