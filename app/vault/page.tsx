@@ -223,6 +223,17 @@ export default function VaultPage() {
             ))}
           </ol>
         </Frame>
+
+        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
+          part of the{" "}
+          <a
+            href="https://trollrunner.net"
+            className="underline decoration-dim underline-offset-4 hover:text-terminal"
+          >
+            trollrunner.net
+          </a>{" "}
+          network
+        </p>
       </div>
     </main>
   );
