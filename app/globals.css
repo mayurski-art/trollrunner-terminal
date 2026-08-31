@@ -426,11 +426,12 @@ main {
   letter-spacing: 0.05em;
   animation: site-ticker-scroll 22s linear infinite;
 }
-/* The span renders TICKER_TEXT twice back to back (each followed by the
-   same " · " separator) so the two halves are identical — translating by
-   exactly -50% of that doubled width lands on a frame pixel-identical to
-   the start, so the loop reset is invisible and nothing ever scrolls off
-   into a blank gap the way a 100% -> -100% pass would. */
+/* The span renders TICKER_UNIT (TICKER_TEXT + " · ") exactly twice, back
+   to back with nothing extra — so the two halves are identical and
+   translating by exactly -50% of that doubled width lands on a frame
+   pixel-identical to the start, so the loop reset is invisible and
+   nothing ever scrolls off into a blank gap the way a 100% -> -100%
+   pass would. */
 @keyframes site-ticker-scroll {
   from {
     transform: translateX(0%);

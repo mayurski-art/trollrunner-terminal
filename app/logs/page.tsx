@@ -59,7 +59,7 @@ export default function LogsPage() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
-      <div className="w-full max-w-2xl">
+      <div className="w-full max-w-4xl">
         <Nav />
         <Banner art={BANNER_LOGS} label="the logs" />
         <p className="text-dim text-sm mb-8">the full transmission archive</p>
@@ -84,26 +84,44 @@ export default function LogsPage() {
           </div>
         )}
 
-        <Frame title="transmissions" tone="terminal">
-          {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
-          {!error && posts === null && (
+        {error && (
+          <Frame title="transmissions" tone="terminal">
+            <p className="text-alert text-sm">[connection error: {error}]</p>
+          </Frame>
+        )}
+        {!error && posts === null && (
+          <Frame title="transmissions" tone="terminal">
             <p className="text-dim text-sm animate-pulse">loading archive...</p>
-          )}
-          {posts && posts.length === 0 && (
+          </Frame>
+        )}
+        {!error && posts && posts.length === 0 && (
+          <Frame title="transmissions" tone="terminal">
             <p className="text-dim text-sm">[no transmissions yet]</p>
-          )}
-          {(() => {
-            const filtered = posts?.filter((p) => filter === "all" || classify(p.content) === filter);
-            if (posts && posts.length > 0 && filtered?.length === 0) {
-              return <p className="text-dim text-sm">[no {KIND_META[filter as Kind]?.label ?? ""} transmissions yet]</p>;
+          </Frame>
+        )}
+        {!error &&
+          posts &&
+          posts.length > 0 &&
+          (() => {
+            const filtered = posts.filter((p) => filter === "all" || classify(p.content) === filter);
+            if (filtered.length === 0) {
+              return (
+                <Frame title="transmissions" tone="terminal">
+                  <p className="text-dim text-sm">[no {KIND_META[filter as Kind]?.label ?? ""} transmissions yet]</p>
+                </Frame>
+              );
             }
             return (
-              <ul className="space-y-5">
-                {filtered?.map((post) => {
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {filtered.map((post) => {
                   const kind = classify(post.content);
                   return (
-                    <li key={post.id} className="border-l-2 border-dim pl-4">
-                      <p className="whitespace-pre-wrap leading-relaxed text-terminal">
+                    <Frame
+                      key={post.id}
+                      tone={kind === "clue" ? "problem" : kind === "musing" ? "terminal" : "dim"}
+                      bodyClassName="flex flex-col h-full"
+                    >
+                      <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm">
                         {post.content}
                       </p>
                       {post.art_url && (
@@ -111,32 +129,33 @@ export default function LogsPage() {
                         <img
                           src={post.art_url}
                           alt=""
-                          className="mt-3 w-full max-w-md rounded border border-dim"
+                          className="mt-3 w-full rounded border border-dim"
                         />
                       )}
-                      <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
+                      <div className="mt-3 pt-3 border-t border-dim/40 flex items-center gap-3 text-xs text-dim">
                         <span>{timeAgo(post.posted_at)}</span>
                         {kind !== "unmarked" && (
-                          <span className="text-problem">{KIND_META[kind].label}</span>
+                          <span className="text-problem">
+                            {KIND_META[kind].mark} {KIND_META[kind].label}
+                          </span>
                         )}
                         {post.x_post_url && (
                           <a
                             href={post.x_post_url}
                             target="_blank"
                             rel="noreferrer"
-                            className="hover:text-terminal underline decoration-dim underline-offset-2"
+                            className="ml-auto hover:text-terminal underline decoration-dim underline-offset-2"
                           >
                             view on x
                           </a>
                         )}
                       </div>
-                    </li>
+                    </Frame>
                   );
                 })}
-              </ul>
+              </div>
             );
           })()}
-        </Frame>
       </div>
     </main>
   );

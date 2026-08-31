@@ -50,7 +50,7 @@ export default function ArchivePage() {
           )}
         </Frame>
 
-        <p className="text-dim text-xs mt-8 text-center">
+        <p className="text-foreground text-xs mt-8 text-center">
           part of the{" "}
           <a
             href="https://trollrunner.net"
