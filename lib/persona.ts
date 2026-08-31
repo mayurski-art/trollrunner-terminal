@@ -542,8 +542,18 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
   // limit to the post itself — see MUSING's identical ANSWER: handling.
   const raw = text.text.trim();
   const clueMatch = raw.match(/\n?CLUE:\s*(.+)\s*$/i);
-  const content = (clueMatch ? raw.slice(0, clueMatch.index) : raw).trim().slice(0, 280);
+  const withoutClueLine = (clueMatch ? raw.slice(0, clueMatch.index) : raw).trim();
   const clueTag = clueMatch ? clueMatch[1].trim() : "";
+
+  // The prompt asks the model to alternate clue/musing marks and use them
+  // "sparingly," which in practice skews heavily toward unmarked — not the
+  // even three-way spread /logs' filter UI implies. Strip whatever mark the
+  // model actually chose to include and reassign one uniformly at random
+  // instead, so clue/musing/unmarked are genuinely 1-in-3 each.
+  const bodyWithoutMark = withoutClueLine.replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
+  const kind = (["clue", "musing", "unmarked"] as const)[Math.floor(Math.random() * 3)];
+  const mark = kind === "clue" ? "▚▞" : kind === "musing" ? "▓▒▓" : "";
+  const content = (mark ? `${bodyWithoutMark}\n${mark}` : bodyWithoutMark).slice(0, 280);
 
   return {
     content,
