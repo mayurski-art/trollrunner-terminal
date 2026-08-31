@@ -44,7 +44,7 @@ export default function UndervoicePage() {
           )}
         </Frame>
 
-        <p className="text-foreground text-xs mt-8 text-center">
+        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
           part of the{" "}
           <a
             href="https://trollrunner.net"
