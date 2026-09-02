@@ -44,7 +44,7 @@ const ENTRIES: Entry[] = [
   },
   {
     q: "what's the vault?",
-    a: "where your PROBLEMS balance lives. redemption for real value isn't live yet — for now it's a ledger of what you've earned.",
+    a: "where your PROBLEMS balance lives, and where you can redeem it — right now, for XP (1 PROBLEM = 25 XP). more redemption paths are coming.",
   },
 ];
 

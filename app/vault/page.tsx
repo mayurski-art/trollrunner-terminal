@@ -21,9 +21,10 @@ type LedgerRow = { id: string; delta: number; reason: string; created_at: string
 type LadderRow = { user_id: string; balance: number; username: string | null };
 
 const QUALIFYING_INTERVAL = 7;
+const XP_PER_PROBLEM = 25;
+const MIN_REDEEM = 5;
 
 const LOCKED_ITEMS = [
-  { cost: null, label: "XP boost" },
   { cost: null, label: "$TROLL airdrop" },
   { cost: null, label: "cosmetic profile unlock" },
   { cost: null, label: "leaderboard crown" },
@@ -36,6 +37,12 @@ export default function VaultPage() {
   const [ledger, setLedger] = useState<LedgerRow[]>([]);
   const [ladder, setLadder] = useState<LadderRow[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [redeemInput, setRedeemInput] = useState("");
+  const [redeemBusy, setRedeemBusy] = useState(false);
+  const [redeemError, setRedeemError] = useState<string | null>(null);
+  const [redeemResult, setRedeemResult] = useState<{ xpAwarded: number; level: number } | null>(
+    null
+  );
 
   useEffect(() => {
     getSession().then(setSession);
@@ -133,6 +140,42 @@ export default function VaultPage() {
     };
   }, [session]);
 
+  async function redeem() {
+    const amount = Math.floor(Number(redeemInput));
+    if (redeemBusy || !session || !Number.isFinite(amount) || amount < MIN_REDEEM) return;
+    setRedeemBusy(true);
+    setRedeemError(null);
+    setRedeemResult(null);
+    try {
+      const { data } = await getPublicClient().auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) {
+        setRedeemError("sign in required");
+        return;
+      }
+      const res = await fetch("/api/vault/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ amount }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        setRedeemError(result.error ?? "redemption failed");
+        return;
+      }
+      setWallet((w) => (w ? { ...w, balance: result.balance } : w));
+      setRedeemResult({ xpAwarded: result.xpAwarded, level: result.level });
+      setRedeemInput("");
+    } catch {
+      setRedeemError("connection to the terminal was lost");
+    } finally {
+      setRedeemBusy(false);
+    }
+  }
+
+  const redeemAmount = Math.floor(Number(redeemInput));
+  const redeemValid = Number.isFinite(redeemAmount) && redeemAmount >= MIN_REDEEM;
+
   return (
     <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
       <div className="home-hero-bg-frame" aria-hidden="true">
@@ -142,7 +185,7 @@ export default function VaultPage() {
         <Nav />
         <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
         <p className="text-dim text-sm mb-8">
-          your signal balance · redemption protocols not yet live
+          your signal balance · xp redemption live, more protocols coming
         </p>
 
         {session ? (
@@ -161,6 +204,50 @@ export default function VaultPage() {
                 tone="problem"
                 label={`mining progress: ${wallet?.qualifying_count ?? 0}/${QUALIFYING_INTERVAL}`}
               />
+            </Frame>
+
+            <Frame title="redeem for xp" tone="dim" className="mb-6">
+              <p className="text-dim text-xs mb-3">
+                1 PROBLEM = {XP_PER_PROBLEM} XP, one-way, minimum {MIN_REDEEM} at a time.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  min={MIN_REDEEM}
+                  step={1}
+                  value={redeemInput}
+                  onChange={(e) => {
+                    setRedeemInput(e.target.value);
+                    setRedeemResult(null);
+                    setRedeemError(null);
+                  }}
+                  placeholder={`${MIN_REDEEM}+`}
+                  disabled={redeemBusy}
+                  className="w-28 bg-transparent border border-dim px-2 py-1 text-sm text-problem outline-none focus:border-problem disabled:opacity-50"
+                />
+                <button
+                  type="button"
+                  onClick={redeem}
+                  disabled={redeemBusy || !redeemValid || redeemAmount > (wallet?.balance ?? 0)}
+                  className="border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+                >
+                  {redeemBusy ? "..." : "redeem"}
+                </button>
+              </div>
+              {redeemValid && (
+                <p className="text-dim text-xs mt-2">
+                  → {redeemAmount * XP_PER_PROBLEM} xp
+                  {redeemAmount > (wallet?.balance ?? 0) && (
+                    <span className="text-alert"> · not enough PROBLEMS</span>
+                  )}
+                </p>
+              )}
+              {redeemError && <p className="text-alert text-xs mt-2">[ {redeemError} ]</p>}
+              {redeemResult && (
+                <p className="text-terminal text-xs mt-2">
+                  [ +{redeemResult.xpAwarded} xp — now level {redeemResult.level} ]
+                </p>
+              )}
             </Frame>
 
             <Frame title="ledger" tone="dim" className="mb-6">
