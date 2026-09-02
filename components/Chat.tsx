@@ -35,6 +35,27 @@ function speakableText(text: string): string {
     .trim();
 }
 
+// Cycled under the "terminal>" line while a reply is in flight, so the wait
+// reads as the thing thinking rather than a dead prompt. Kept in the
+// terminal's own register — signal/static/ledger words, lowercase, no
+// punctuation — rather than generic "loading" filler.
+const THINKING_VERBS = [
+  "considering",
+  "grinning",
+  "listening",
+  "decoding",
+  "rifling the ledger",
+  "chewing on it",
+  "checking who is watching",
+  "tuning the signal",
+  "remembering something",
+  "sharpening a reply",
+  "counting your visits",
+  "pulling static apart",
+  "weighing what to admit",
+  "reading between your lines",
+];
+
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [wallet, setWallet] = useState<Wallet>({
@@ -48,6 +69,19 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // The message that was in flight when the network dropped. The chat route
+  // only persists a turn after the reply generates (both rows go in one
+  // insert), so a send that died mid-flight saved nothing server-side and is
+  // safe to replay verbatim once the connection is back.
+  const [pending, setPending] = useState<string | null>(null);
+  // Lazily seeded rather than set from an effect: this component is client-
+  // only, so navigator is available on the first render and there is no need
+  // for a cascading state update just to learn we started offline.
+  const [online, setOnline] = useState(() =>
+    typeof navigator === "undefined" ? true : navigator.onLine
+  );
+  // Index into THINKING_VERBS, advanced on a timer while busy.
+  const [thinkingVerb, setThinkingVerb] = useState(0);
   // Timestamp (ms) the burst-guard cooldown lifts, or null when there isn't
   // one — drives a live ticking "wait Ns" display instead of a static
   // "try again in a moment" that never told you how long that actually was.
@@ -199,14 +233,20 @@ export default function Chat() {
     }
   }, [cooldownNow, cooldownUntil]);
 
-  async function send(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || busy) return;
+  // Cycles the thinking verb while a reply is in flight. Starts on a fresh
+  // verb each time so two sends in a row don't both open on "considering".
+  useEffect(() => {
+    if (!busy) return;
+    const id = setInterval(() => setThinkingVerb((i) => (i + 1) % THINKING_VERBS.length), 1800);
+    return () => clearInterval(id);
+  }, [busy]);
+
+  // The actual network turn, split out of the submit handler so the reconnect
+  // effect below can replay it with the exact text that was lost.
+  async function deliver(text: string) {
     setError(null);
     setBusy(true);
-    setInput("");
-    setMessages((m) => [...m, { role: "user", content: text, created_at: new Date().toISOString() }]);
+    setThinkingVerb(Math.floor(Math.random() * THINKING_VERBS.length));
 
     try {
       const headers = { "Content-Type": "application/json", ...(await authHeader()) };
@@ -222,9 +262,13 @@ export default function Chat() {
           setCooldownNow(Date.now());
           setCooldownUntil(Date.now() + data.retryAfterMs);
         }
+        // A real answer from the server — the message was heard and rejected
+        // on its merits, so there is nothing to replay.
+        setPending(null);
         setError(data.error ?? "the terminal did not respond");
         return;
       }
+      setPending(null);
       setMessages((m) => [
         ...m,
         {
@@ -256,10 +300,96 @@ export default function Chat() {
         setTimeout(() => setArchiveToast(null), 6000);
       }
     } catch {
-      setError("connection to the terminal was lost");
+      // Never reached the terminal, so nothing was saved on either side —
+      // hold the text and let the reconnect effect send it again.
+      setPending(text);
+      setError("connection to the terminal was lost — holding your message");
     } finally {
       setBusy(false);
     }
+  }
+
+  // Auto-retry a message the network ate. navigator.onLine only reports the
+  // local link (a laptop on wifi with a dead uplink still reads "online"),
+  // so "online" here means an actual request completed — the browser event
+  // is just the cue to start probing, and a slow poll covers the case where
+  // the link never technically dropped and no event ever fires.
+  useEffect(() => {
+    if (!pending) return;
+    let cancelled = false;
+    // The poll, the online event and a tab focus can all fire at once; without
+    // this the same held message would be delivered several times over.
+    let inFlight = false;
+
+    async function attempt() {
+      if (cancelled || inFlight) return;
+      inFlight = true;
+      try {
+        await probeAndSend();
+      } finally {
+        inFlight = false;
+      }
+    }
+
+    async function probeAndSend() {
+      // Captured once up front: pending is cleared before the replay, and the
+      // effect re-runs with a fresh closure if it ever changes.
+      const text = pending;
+      if (cancelled || !text) return;
+      try {
+        const headers = await authHeader();
+        // GET, not HEAD — the route exports no HEAD handler, and a GET
+        // that resolves proves the round trip actually completed.
+        const res = await fetch("/api/chat", { headers, cache: "no-store" });
+        if (cancelled || !res.ok) return;
+      } catch {
+        return; // still unreachable — wait for the next cue
+      }
+      if (cancelled) return;
+      setOnline(true);
+      setPending(null);
+      await deliver(text);
+    }
+
+    function onOnline() {
+      setOnline(true);
+      void attempt();
+    }
+    function onOffline() {
+      setOnline(false);
+    }
+
+    window.addEventListener("online", onOnline);
+    window.addEventListener("offline", onOffline);
+    // Coming back to the tab is the other reliable moment a dead connection
+    // turns out to be alive again.
+    function onVisible() {
+      if (document.visibilityState === "visible") void attempt();
+    }
+    document.addEventListener("visibilitychange", onVisible);
+
+    const id = setInterval(() => void attempt(), 5000);
+    void attempt();
+
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+      window.removeEventListener("online", onOnline);
+      window.removeEventListener("offline", onOffline);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+    // deliver/authHeader are stable for the life of the component; pending is
+    // the only input that should restart the retry loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pending]);
+
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || busy) return;
+    setInput("");
+    setMessages((m) => [...m, { role: "user", content: text, created_at: new Date().toISOString() }]);
+    await deliver(text);
   }
 
   // Clears the chat transcript only — wallet balance, mining progress, and
@@ -479,9 +609,22 @@ export default function Chat() {
             </div>
           );
         })}
-        {busy && <p className="text-dim text-sm animate-pulse">terminal&gt; ...</p>}
+        {busy && (
+          <p className="text-dim text-sm" aria-live="polite">
+            terminal&gt;{" "}
+            <span key={thinkingVerb} className="thinking-verb">
+              {THINKING_VERBS[thinkingVerb]}
+            </span>
+            <span className="animate-pulse">...</span>
+          </p>
+        )}
       </div>
-      {error && (
+      {pending && !busy && (
+        <p className="text-dim text-xs mb-2" aria-live="polite">
+          [ {online ? "reconnecting" : "offline"} — your message is held and will send itself ]
+        </p>
+      )}
+      {error && !pending && (
         <p className="text-alert text-xs mb-2">
           [ {error}
           {cooldownUntil !== null &&
