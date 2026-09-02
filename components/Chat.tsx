@@ -383,6 +383,30 @@ export default function Chat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pending]);
 
+  // Manual escape hatch for a held message. Clearing pending first both tears
+  // down the auto-retry effect and stops its in-flight probe from replaying
+  // the same text a second time.
+  function retryPending() {
+    const text = pending;
+    if (!text || busy) return;
+    setPending(null);
+    void deliver(text);
+  }
+
+  function discardPending() {
+    // Captured before the state clears — the setMessages updater below runs
+    // after pending is already null.
+    const text = pending;
+    setPending(null);
+    setError(null);
+    // Drop the stranded user turn too — it was never saved server-side, so
+    // leaving it on screen would imply the terminal has it.
+    setMessages((m) => {
+      const last = m[m.length - 1];
+      return last?.role === "user" && last.content === text ? m.slice(0, -1) : m;
+    });
+  }
+
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
@@ -620,9 +644,29 @@ export default function Chat() {
         )}
       </div>
       {pending && !busy && (
-        <p className="text-dim text-xs mb-2" aria-live="polite">
-          [ {online ? "reconnecting" : "offline"} — your message is held and will send itself ]
-        </p>
+        <div className="flex items-center gap-2 mb-2">
+          <p className="text-dim text-xs" aria-live="polite">
+            [ {online ? "reconnecting" : "offline"} — your message is held ]
+          </p>
+          {/* The auto-retry above should get there first, but it depends on a
+              probe landing; this is the escape hatch when it doesn't, so a
+              held message is never stuck waiting on a timer nobody can see. */}
+          <button
+            type="button"
+            onClick={retryPending}
+            className="text-terminal text-xs hover:bg-terminal hover:text-background border border-terminal px-1.5 transition-colors"
+          >
+            [ retry now ]
+          </button>
+          <button
+            type="button"
+            onClick={discardPending}
+            aria-label="Discard the held message"
+            className="text-ghost text-xs hover:text-alert transition-colors"
+          >
+            [ discard ]
+          </button>
+        </div>
       )}
       {error && !pending && (
         <p className="text-alert text-xs mb-2">
