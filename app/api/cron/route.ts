@@ -37,6 +37,9 @@ export async function GET(request: Request) {
   const { data: recentRows } = await supabase
     .from("terminal_posts")
     .select("content, posted_at")
+    // A pending post is one the owner may still trash, so it must not shape
+    // the next transmission as if it were part of the published history.
+    .eq("pending", false)
     .order("posted_at", { ascending: false })
     .limit(15);
 

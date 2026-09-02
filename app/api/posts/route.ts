@@ -14,6 +14,8 @@ export async function GET() {
     const postsRes = await supabase
       .from("terminal_posts")
       .select("id, content, x_post_url, art_url, posted_at")
+      // Awaiting the owner accept/trash review — see migration 016.
+      .eq("pending", false)
       .is("error", null)
       .order("posted_at", { ascending: false })
       .limit(50);

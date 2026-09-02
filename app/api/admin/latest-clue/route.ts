@@ -16,6 +16,7 @@ export async function GET(request: Request) {
   const { data: post, error } = await supabase
     .from("terminal_posts")
     .select("id, clue_tag, posted_at")
+    .eq("pending", false)
     .is("error", null)
     .order("posted_at", { ascending: false })
     .limit(1)
