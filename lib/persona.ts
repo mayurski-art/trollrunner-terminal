@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import type { Mood } from "@/lib/undervoice";
 import { selectLoreSections } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
-import { generateFreeReply, type ChatTurn } from "@/lib/freeProviders";
+import { generateFreeReply, MAX_OUTPUT_TOKENS_POST, type ChatTurn } from "@/lib/freeProviders";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -114,6 +114,26 @@ The post itself should stay as cryptic/in-character as instructed above, but the
 line is never shown publicly and must be concrete and nameable, not a mood or theme.
 The CLUE line does not count toward the 280-character limit. No preamble, no quotes,
 no title, nothing else in the response besides those two parts.`;
+
+// Free-tier variant of the broadcast prompt. Same voice and the same two-part
+// output contract, but the free models need the CLUE line spelled out more
+// bluntly — several of them otherwise drop it, wrap the post in quotes, or
+// prepend "Here is your post:". Mirrors CHAT_SYSTEM_PROMPT_FREE_TIER below.
+const SYSTEM_PROMPT_FREE_TIER = SYSTEM_PROMPT
+  .replace(
+    /Output: the post text as described above[\s\S]*$/,
+    'Output format — follow this EXACTLY, it is parsed by a program:\n' +
+      'Line 1 onward: the post text itself, under 280 characters including line\n' +
+      'breaks, in voice, exactly as described above.\n' +
+      'Then a final line containing ONLY:\n' +
+      'CLUE: <a short 2-6 word name for the specific real thing — a piece of lore, a\n' +
+      'past post, a current event — this transmission is actually circling>\n\n' +
+      'The CLUE line is never shown publicly and must be concrete and nameable, not a\n' +
+      'mood or theme. It does not count toward the 280-character limit.\n' +
+      'Do NOT write a preamble, an explanation, a title, or any framing like "Here is\n' +
+      'your post". Do NOT wrap the post in quotation marks. Do NOT use markdown. Your\n' +
+      'entire response is the post text followed by the CLUE line, nothing else.'
+  );
 
 // System prompt for the live chat surface — same entity as the broadcast
 // persona above, but now addressed to one troublemaker at a time, aware
@@ -512,9 +532,13 @@ export type GeneratedPost = {
   };
 };
 
-export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost> {
-  const client = getClient();
-
+// rotationSeed picks the free-provider round-robin starting point, same as
+// generateChatReply — callers pass the recent-post count so consecutive
+// transmissions don't always hit the same free tier first.
+export async function generatePost(
+  recent: RecentPost[],
+  rotationSeed: number = 0
+): Promise<GeneratedPost> {
   const recentBlock =
     recent.length > 0
       ? `Your last ${recent.length} posts, most recent first — this is your only real memory of what you've already said. Do not repeat their ideas, structure, or opening line. If you referenced a named element (a place, a process, another presence) in one of these, you may return to it; otherwise do not invent false continuity:\n` +
@@ -522,25 +546,70 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
         "\n"
       : "You have no post history yet. This is your first transmission — you are just now becoming visible.";
 
-  const response = await client.messages.create({
-    model: "claude-opus-5",
-    max_tokens: 2000,
-    system: [
-      { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
-      buildLoreBlock(recent[0]?.content ?? ""),
-    ],
-    output_config: { effort: "medium" },
-    messages: [{ role: "user", content: recentBlock + "\n\nGenerate your next post." }],
-  });
+  const userTurn = recentBlock + "\n\nGenerate your next post.";
 
-  const text = response.content.find((b) => b.type === "text");
-  if (!text || text.type !== "text") {
-    throw new Error("No text block in Claude response");
+  // Free tiers first — transmissions were the last paid-Claude path in the
+  // app and the single biggest line in spend (Opus, ~2k output, every cron
+  // tick). Claude stays as the fallback for when every free provider is
+  // down or unconfigured, so a dead free tier degrades cost rather than
+  // killing the broadcast entirely.
+  const freeSystemPrompt =
+    SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "");
+
+  // A free model that ran out of tokens mid-answer still returns 200 with a
+  // plausible-looking partial post — verified in practice as text ending on
+  // a bare "CLUE:" or trailing off mid-word. Accepting one would post a
+  // truncated transmission with an empty clue_tag, so a missing CLUE line
+  // counts as provider failure: the round-robin tries the next free tier,
+  // and only falls through to Claude if none of them produce a usable post.
+  const hasClueLine = (text: string) => /\n?CLUE:\s*\S+/i.test(text.trim());
+
+  const freeResult = await generateFreeReply(
+    freeSystemPrompt,
+    [{ role: "user", content: userTurn }],
+    rotationSeed,
+    MAX_OUTPUT_TOKENS_POST,
+    hasClueLine
+  );
+
+  let raw: string;
+  let usage = {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
+  };
+
+  if (freeResult) {
+    raw = freeResult.content.trim();
+  } else {
+    const client = getClient();
+    const response = await client.messages.create({
+      model: "claude-opus-5",
+      max_tokens: 2000,
+      system: [
+        { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
+        buildLoreBlock(recent[0]?.content ?? ""),
+      ],
+      output_config: { effort: "medium" },
+      messages: [{ role: "user", content: userTurn }],
+    });
+
+    const text = response.content.find((b) => b.type === "text");
+    if (!text || text.type !== "text") {
+      throw new Error("No text block in Claude response");
+    }
+    raw = text.text.trim();
+    usage = {
+      input_tokens: response.usage.input_tokens,
+      output_tokens: response.usage.output_tokens,
+      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
+    };
   }
 
   // Peel the "CLUE: ..." line off the end before applying the 280-char
   // limit to the post itself — see MUSING's identical ANSWER: handling.
-  const raw = text.text.trim();
   const clueMatch = raw.match(/\n?CLUE:\s*(.+)\s*$/i);
   const withoutClueLine = (clueMatch ? raw.slice(0, clueMatch.index) : raw).trim();
   const clueTag = clueMatch ? clueMatch[1].trim() : "";
@@ -555,16 +624,7 @@ export async function generatePost(recent: RecentPost[]): Promise<GeneratedPost>
   const mark = kind === "clue" ? "▚▞" : kind === "musing" ? "▓▒▓" : "";
   const content = (mark ? `${bodyWithoutMark}\n${mark}` : bodyWithoutMark).slice(0, 280);
 
-  return {
-    content,
-    clueTag,
-    usage: {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
-      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
-    },
-  };
+  return { content, clueTag, usage };
 }
 
 // The Undervoice — a second, gated entity reachable only by spending

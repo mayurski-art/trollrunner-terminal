@@ -47,7 +47,7 @@ export async function GET(request: Request) {
 
   let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
-    generated = await generatePost(recent);
+    generated = await generatePost(recent, recent.length);
   } catch (err) {
     return NextResponse.json(
       { error: `generation failed: ${(err as Error).message}` },

@@ -16,7 +16,7 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 type FreeProvider = {
   name: string;
   enabled: () => boolean;
-  generate: (system: string, history: ChatTurn[]) => Promise<string | null>;
+  generate: (system: string, history: ChatTurn[], maxTokens: number) => Promise<string | null>;
 };
 
 // Generous relative to the terminal's actual "1-4 short lines" reply
@@ -26,7 +26,14 @@ type FreeProvider = {
 // tight budget was silently truncating replies to nothing.
 const MAX_OUTPUT_TOKENS = 500;
 
-async function callGroq(system: string, history: ChatTurn[]): Promise<string | null> {
+// Transmissions need noticeably more than a chat reply: the post itself is
+// only ~280 chars, but it has to be followed by the CLUE: line, and the
+// reasoning models burn a large invisible budget before emitting either.
+// At 500 both gemini and openrouter were verified truncating mid-"CLUE:",
+// which silently produced an empty clue_tag on every post they wrote.
+export const MAX_OUTPUT_TOKENS_POST = 2000;
+
+async function callGroq(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return null;
 
@@ -45,7 +52,7 @@ async function callGroq(system: string, history: ChatTurn[]): Promise<string | n
       // "<think>...</think>" straight into content. Re-check
       // console.groq.com/docs/models if this one ever 404s.
       model: "groq/compound-mini",
-      max_tokens: MAX_OUTPUT_TOKENS,
+      max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
     }),
   });
@@ -54,7 +61,7 @@ async function callGroq(system: string, history: ChatTurn[]): Promise<string | n
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-async function callOpenRouter(system: string, history: ChatTurn[]): Promise<string | null> {
+async function callOpenRouter(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return null;
 
@@ -76,7 +83,7 @@ async function callOpenRouter(system: string, history: ChatTurn[]): Promise<stri
       // verify a replacement's actual output against CHAT_SYSTEM_PROMPT's
       // voice rules, not just that it returns 200.
       model: "minimax/minimax-m2.7:free",
-      max_tokens: MAX_OUTPUT_TOKENS,
+      max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
     }),
   });
@@ -85,7 +92,7 @@ async function callOpenRouter(system: string, history: ChatTurn[]): Promise<stri
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-async function callGemini(system: string, history: ChatTurn[]): Promise<string | null> {
+async function callGemini(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -103,7 +110,7 @@ async function callGemini(system: string, history: ChatTurn[]): Promise<string |
           role: m.role === "assistant" ? "model" : "user",
           parts: [{ text: m.content }],
         })),
-        generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS },
+        generationConfig: { maxOutputTokens: maxTokens },
       }),
     }
   );
@@ -126,10 +133,16 @@ export type FreeReplyResult = { content: string; provider: string } | null;
 // has no persistent state across serverless invocations — an in-memory
 // counter would reset on every cold start and effectively always start at
 // the same provider.
+//
+// validate lets a caller reject a 200 that came back malformed (see
+// generatePost's CLUE-line check) so the round-robin moves on to the next
+// free provider instead of the caller giving up and paying for Claude.
 export async function generateFreeReply(
   system: string,
   history: ChatTurn[],
-  rotationSeed: number
+  rotationSeed: number,
+  maxTokens: number = MAX_OUTPUT_TOKENS,
+  validate: (content: string) => boolean = () => true
 ): Promise<FreeReplyResult> {
   const enabledProviders = PROVIDERS.filter((p) => p.enabled());
   if (enabledProviders.length === 0) return null;
@@ -139,8 +152,11 @@ export async function generateFreeReply(
   for (let i = 0; i < enabledProviders.length; i++) {
     const provider = enabledProviders[(startIndex + i) % enabledProviders.length];
     try {
-      const content = await provider.generate(system, history);
-      if (content) return { content, provider: provider.name };
+      const content = await provider.generate(system, history, maxTokens);
+      if (content && validate(content)) return { content, provider: provider.name };
+      console.error(
+        `[freeProviders] ${provider.name} returned ${content ? "an unusable response" : "no content"}`
+      );
     } catch (err) {
       console.error(`[freeProviders] ${provider.name} failed:`, (err as Error).message);
     }
