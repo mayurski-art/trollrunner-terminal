@@ -9,6 +9,7 @@ import { OWNER_USERNAME } from "@/lib/ownerUsername";
 type Post = {
   id: string;
   content: string;
+  clue_tag: string | null;
   x_post_url: string | null;
   art_url: string | null;
   posted_at: string;
@@ -187,6 +188,11 @@ export default function GenerateTransmission({
           <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm mb-3">
             {review.content}
           </p>
+          {review.clue_tag && (
+            <p className="text-ghost text-xs mb-3">
+              answer — <span className="text-problem">{review.clue_tag}</span>
+            </p>
+          )}
           <div className="flex items-center gap-2">
             <button
               type="button"

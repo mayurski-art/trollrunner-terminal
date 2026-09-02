@@ -230,7 +230,6 @@ export default function OwnerCredits({
                     </span>{" "}
                     {p.name} —{" "}
                     {!p.configured ? "no key" : p.reachable ? "up" : "down"}
-                    <span className="text-ghost"> · {p.note}</span>
                   </p>
                 )}
               </div>

@@ -12,6 +12,7 @@ import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
+import Faq from "@/components/Faq";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -152,6 +153,7 @@ export default function Home() {
           </a>{" "}
           network
         </p>
+        <Faq />
       </div>
     </main>
   );

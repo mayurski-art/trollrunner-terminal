@@ -79,7 +79,10 @@ export async function POST(request: Request) {
       // set this — it runs unattended with nobody there to review.
       pending: true,
     })
-    .select("id, content, x_post_url, art_url, posted_at")
+    // clue_tag is included so the review prompt can show the owner what the
+    // transmission is actually circling before they accept it — the CLUE
+    // line is never shown publicly (see lib/persona.ts), only here.
+    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
     .single();
 
   if (insertError || !post) {
@@ -114,7 +117,7 @@ export async function PATCH(request: Request) {
     .from("terminal_posts")
     .update({ pending: false })
     .eq("id", id)
-    .select("id, content, x_post_url, art_url, posted_at")
+    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
     .maybeSingle();
 
   if (error) {
