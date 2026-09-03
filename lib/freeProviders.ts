@@ -1,15 +1,15 @@
-// Free-tier chat providers for the terminal's reply text — Claude is still
-// used for the two small, reliability-critical decisions (show_image,
-// substance_read; see lib/persona.ts), but the bulk of spend was always the
-// reply generation itself. Round-robin across these three so no single
-// free tier's rate limit takes the terminal down, with the next provider
-// in line tried on any failure. If a provider has no API key configured
-// (see .env.example), it's skipped as if it were down.
+// Free-tier providers for all of the terminal's generated text — chat
+// replies and transmissions alike. Paid Claude is reserved for image
+// selection only (show_image; see lib/persona.ts) and is deliberately NOT a
+// fallback here. Round-robin across these three so no single free tier's
+// rate limit takes the terminal down, with the next provider in line tried
+// on any failure. If a provider has no API key configured (see
+// .env.example), it's skipped as if it were down.
 //
 // All three expose the same shape from here: an OpenAI-style chat message
 // array in, plain reply text out. Callers should treat a null return as
-// "every free provider is unavailable right now" and fall back to Claude
-// for the reply too (see generateChatReply).
+// "every free provider is unavailable right now" and degrade gracefully —
+// never by paying for Claude.
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 

@@ -14,7 +14,6 @@ export const maxDuration = 30;
 const MAX_MESSAGES_PER_DAY = 60;
 const BURST_WINDOW_MS = 10_000;
 const BURST_MAX_MESSAGES = 3; // the 3rd message inside BURST_WINDOW_MS gets held
-const QUALIFYING_MIN_LENGTH = 12;
 const QUALIFYING_INTERVAL = 7; // messages per 1 PROBLEM
 const MAX_MESSAGE_LENGTH = 1000;
 const HISTORY_TURNS = 12;
@@ -53,6 +52,43 @@ function isSpammyMessage(message: string, recentUserMessages: string[]): boolean
     if (uniqueRatio < MIN_UNIQUE_WORD_RATIO) return true;
   }
   return false;
+}
+
+// Filler that clears any plausible length bar but says nothing — the exact
+// case the old 12-character rule let through ("yeah i guess so" is 15). Kept
+// as a small closed set of acknowledgement/agreement stems rather than a
+// general sentiment model: this only has to catch the cheap, obvious
+// no-content replies, and anything it misses just costs a fraction of a
+// PROBLEM rather than breaking anything.
+const FILLER_WORDS = new Set([
+  "yeah", "yea", "yep", "yup", "ya", "no", "nope", "nah", "ok", "okay", "k",
+  "sure", "fine", "cool", "nice", "lol", "lmao", "haha", "hah", "hmm", "hm",
+  "idk", "maybe", "guess", "true", "right", "same", "word", "bet", "facts",
+  "fr", "ig", "i", "you", "it", "that", "this", "so", "well", "just", "really",
+  "very", "much", "think", "know", "mean", "like", "thanks", "thx", "ty",
+  "please", "pls", "wow", "damn", "oh", "ah", "huh", "ugh", "meh", "yeahh",
+]);
+
+// A message qualifies for mining if it carries at least this many words the
+// filler set doesn't cover. Two is deliberately low — the bar is "said
+// something", not "said something interesting".
+const MIN_SUBSTANTIVE_WORDS = 2;
+
+// Replaces the raw length check that mining fell back on. Length alone
+// rewarded padding and punished terse-but-real questions ("why though?"),
+// so this counts actual content words instead, with a length floor kept
+// only to catch one-word answers that happen to sit outside FILLER_WORDS.
+function isSubstantiveMessage(message: string): boolean {
+  const normalized = normalizeForCompare(message);
+  const words = normalized.split(" ").filter(Boolean);
+  if (words.length === 0) return false;
+
+  // A question is engagement even when it's short — "why though" is more
+  // real than a padded sentence of agreement.
+  if (/\?/.test(message) && words.length >= 2) return true;
+
+  const substantive = words.filter((w) => !FILLER_WORDS.has(w));
+  return substantive.length >= MIN_SUBSTANTIVE_WORDS;
 }
 
 // Loads chat history + wallet for the signed-in user, for hydrating the
@@ -380,16 +416,13 @@ export async function POST(request: Request) {
   // phrasings no one had thought to hand-write a keyword for.
   const loreAsset = generated.imageId ? getLoreAssetById(generated.imageId) : null;
 
-  // Mining (and archive unlocks below) gate on whether the model itself
-  // read this as substance, not just length — see docs/TERMINAL-V4-DESIGN.md
-  // §3.5: "yeah i guess so" clears the old 12-character bar but is exactly
-  // the filler this was meant to catch. Fail-safe, not fail-punitive: if the
-  // tag is missing (model error, malformed tool call), fall back to the
-  // original length heuristic rather than assuming either value.
-  const qualifying =
-    generated.substance !== null
-      ? generated.substance === "substantive"
-      : message.length >= QUALIFYING_MIN_LENGTH;
+  // Mining (and archive unlocks below) gate on whether the message carries
+  // actual content — see docs/TERMINAL-V4-DESIGN.md §3.5: "yeah i guess so"
+  // clears any plausible length bar but is exactly the filler this is meant
+  // to catch. This used to be a Claude substance_read tool call; that was a
+  // paid API request on every single chat turn, so it now runs as a local
+  // word heuristic instead (isSubstantiveMessage above).
+  const qualifying = isSubstantiveMessage(message);
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
   await recordSpend(supabase, estimatedCostUsd);

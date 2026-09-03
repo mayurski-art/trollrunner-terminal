@@ -242,10 +242,9 @@ genuinely relevant this turn (most turns, don't call it).`;
 
 // Same voice as CHAT_SYSTEM_PROMPT, minus the tool-calling instructions —
 // used for the free-tier providers in lib/freeProviders.ts, which only
-// write plain prose and have no tools available. substance_read and
-// show_image are handled by separate small Claude calls regardless of
-// which provider wrote the reply text (see generateChatReply below), so
-// this prompt only needs to cover the reply itself.
+// write plain prose and have no tools available. This is now the only chat
+// prompt actually in use: reply text always comes from a free provider, and
+// show_image is a separate Claude call with its own prompt below.
 const CHAT_SYSTEM_PROMPT_FREE_TIER = CHAT_SYSTEM_PROMPT
   .replace(
     /After composing your reply[\s\S]*$/,
@@ -254,20 +253,6 @@ const CHAT_SYSTEM_PROMPT_FREE_TIER = CHAT_SYSTEM_PROMPT
       "per the instructions above. Do not mention tools, tags, or anything about how\n" +
       "you decide what to say — just the line itself, in voice."
   );
-
-// Given only the troublemaker's last message (plus a little context), tags
-// whether it actually said something. Split out from the main reply call so
-// mining/PROBLEMS logic stays identical no matter which provider (a free
-// tier or Claude) wrote the reply text this turn — see generateChatReply.
-const SUBSTANCE_SYSTEM_PROMPT = `You are grading a single message from a chat, only to decide whether it
-mined the sender a small amount of in-app currency. Tag it "substantive" if
-it actually said something — a real question, a disclosure, a joke that
-lands, an argument, a genuine follow-up. Tag it "filler" if it's an
-acknowledgement, one-word agreement ("yeah", "ok", "lol"), a restatement of
-something already said, or padded nothing dressed up to look longer than it
-is. This is not a grammar or effort test — a short sharp line can be
-substantive and a long rambling one can still be filler. Call the
-substance_read tool exactly once with your tag. Do not reply with any text.`;
 
 // Given the conversation, decides whether any image from IMAGE LIBRARY is
 // worth showing this turn. Split out for the same reason as substance
@@ -314,40 +299,17 @@ const IMAGE_TOOL: Anthropic.Messages.Tool = {
   },
 };
 
-const SUBSTANCE_TOOL: Anthropic.Messages.Tool = {
-  name: "substance_read",
-  description:
-    "Tag whether the troublemaker's last message actually said something this turn, " +
-    "versus filler/acknowledgement. Internal only — never mention this tool to the " +
-    "troublemaker.",
-  input_schema: {
-    type: "object",
-    properties: {
-      substance: {
-        type: "string",
-        enum: ["substantive", "filler"],
-      },
-    },
-    required: ["substance"],
-  },
-};
-
 export type ChatMessage = { role: "user" | "assistant"; content: string };
-export type Substance = "substantive" | "filler";
 
 export type GeneratedChatReply = {
   content: string;
-  // null when the model's reply was missing or malformed the tool call —
-  // callers must fall back to their own heuristic rather than assume
-  // either value, per docs/TERMINAL-V4-DESIGN.md §3.5's fail-safe rule.
-  substance: Substance | null;
   // The lore image the model itself chose to attach this turn via the
   // show_image tool (see IMAGE_TOOL above), or null if it decided nothing
   // in lib/loreAssets.ts's catalog was relevant. Replaces the old approach
   // of pre-selecting an image by keyword-matching the troublemaker's raw
   // message before generation — that only ever fired on phrasings someone
   // had thought to hand-write a keyword for. This is a real decision the
-  // model makes from the actual conversation, same as substance/mood.
+  // model makes from the actual conversation.
   imageId: string | null;
   usage: {
     input_tokens: number;
@@ -395,7 +357,6 @@ export async function generateChatReply(
   if (!freeResult) {
     return {
       content: "static\nthe signal is gone right now, try again in a bit",
-      substance: null,
       imageId: null,
       usage: { input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 },
     };
@@ -445,7 +406,6 @@ export async function generateChatReply(
 
   return {
     content: replyText || "static\nlost that one, ask again",
-    substance: null,
     imageId,
     usage,
   };
