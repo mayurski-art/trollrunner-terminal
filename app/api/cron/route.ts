@@ -52,10 +52,19 @@ export async function GET(request: Request) {
   try {
     generated = await generatePost(recent, recent.length);
   } catch (err) {
-    return NextResponse.json(
-      { error: `generation failed: ${(err as Error).message}` },
-      { status: 500 }
-    );
+    // There is no paid fallback behind the free providers any more, so a
+    // failure here means the transmission simply doesn't happen. The cron
+    // runs off-platform (cron-job.org), so a 500 body alone goes nowhere —
+    // record it as a row instead. terminal_posts.error is excluded from
+    // both the public feed and the transmit page, so this surfaces the
+    // outage in the table without publishing anything.
+    const message = (err as Error).message;
+    await supabase.from("terminal_posts").insert({
+      content: "",
+      error: `generation failed: ${message}`,
+      pending: false,
+    });
+    return NextResponse.json({ error: `generation failed: ${message}` }, { status: 500 });
   }
 
   const estimatedCostUsd = estimateCostUsd(generated.usage);

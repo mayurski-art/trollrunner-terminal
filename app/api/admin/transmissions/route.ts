@@ -36,9 +36,24 @@ export async function GET(request: Request) {
   }
 
   const posts = data ?? [];
+
+  // Failed cron runs are written as error rows (see app/api/cron/route.ts).
+  // Surfaced here so a run of silent generation failures is visible on the
+  // transmit page rather than only in the table.
+  const { data: failureRows } = await owner.supabase
+    .from("terminal_posts")
+    .select("error, posted_at")
+    .not("error", "is", null)
+    .order("posted_at", { ascending: false })
+    .limit(5);
+
   return NextResponse.json({
     posts,
     untransmitted: posts.filter((p) => !p.x_post_url).length,
+    recentFailures: (failureRows ?? []).map((r) => ({
+      error: r.error as string,
+      posted_at: r.posted_at as string,
+    })),
   });
 }
 

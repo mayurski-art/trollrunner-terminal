@@ -24,6 +24,7 @@ export default function Transmit() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showPosted, setShowPosted] = useState(false);
+  const [failures, setFailures] = useState<{ error: string; posted_at: string }[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
 
   const authedFetch = useCallback(async (init?: RequestInit) => {
@@ -48,7 +49,10 @@ export default function Transmit() {
         const body = await res.json();
         if (cancelled) return;
         if (!res.ok) setError(body.error ?? "could not reach the wire");
-        else setPosts(body.posts ?? []);
+        else {
+          setPosts(body.posts ?? []);
+          setFailures(body.recentFailures ?? []);
+        }
       } catch {
         if (!cancelled) setError("connection to the terminal was lost");
       } finally {
@@ -112,6 +116,22 @@ export default function Transmit() {
           [ {showPosted ? "hide" : "show"} already posted ]
         </button>
       </div>
+
+      {failures.length > 0 && (
+        <div className="border border-alert p-2">
+          <p className="text-alert text-xs mb-1">
+            [ {failures.length} recent transmission{failures.length === 1 ? "" : "s"} failed to
+            generate — every free provider was down or unusable ]
+          </p>
+          <ul className="space-y-0.5">
+            {failures.map((f) => (
+              <li key={f.posted_at} className="text-dim text-xs">
+                {new Date(f.posted_at).toLocaleString()} · {f.error}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {error && <p className="text-alert text-xs">{error}</p>}
 
