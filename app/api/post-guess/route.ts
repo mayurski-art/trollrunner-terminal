@@ -181,6 +181,7 @@ export async function POST(request: Request) {
       attempts,
       correct,
       resolved,
+      last_guess_text: guessText,
       resolved_at: resolved ? new Date().toISOString() : null,
     })
     .eq("id", guessRow.id);

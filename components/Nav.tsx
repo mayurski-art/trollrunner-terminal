@@ -123,6 +123,15 @@ export default function Nav() {
                 [ reports ]
               </Link>
             )}
+            {isOwner && (
+              <Link
+                href="/review"
+                onClick={() => setOpen(false)}
+                className="nav-neon nav-neon--review whitespace-nowrap"
+              >
+                [ review ]
+              </Link>
+            )}
           </div>
         )}
       </div>
