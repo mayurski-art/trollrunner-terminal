@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
@@ -15,6 +15,123 @@ type Message = {
   image_url?: string | null;
   image_caption?: string | null;
 };
+
+// MessageRow is memoized so the 250ms cooldown tick and 1800ms thinking-verb
+// tick (both stored in Chat's own state) don't force a re-diff of every past
+// message in a long conversation — only the row(s) whose actual props change
+// re-render. Props must stay referentially stable across unrelated re-renders
+// for this to pay off, which is why remembered/onToggleMemory are passed in
+// rather than closed over freshly each render.
+const MessageRow = memo(function MessageRow({
+  message,
+  remembered,
+  memoryBusy,
+  onToggleMemory,
+  onOpenLightbox,
+}: {
+  message: Message;
+  remembered: boolean;
+  memoryBusy: boolean;
+  onToggleMemory: (m: Message) => void;
+  onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
+}) {
+  const m = message;
+  const borderColor = m.is_gossip
+    ? "border-problem/50"
+    : m.role === "terminal"
+      ? "border-terminal/40"
+      : "border-you/30";
+  return (
+    <div className={`border-l-2 pl-2.5 ${borderColor}`}>
+      <p
+        className={`whitespace-pre-wrap text-sm leading-relaxed ${
+          m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
+        }`}
+      >
+        <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
+          {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
+        </span>
+        {m.content}
+      </p>
+      {m.image_url && isVideoAsset(m.image_url) && (
+        <div className="mt-2 max-w-xs border border-dim">
+          <video
+            src={m.image_url}
+            controls
+            playsInline
+            className="w-full block"
+            aria-label={m.image_caption ?? "clip sent by the terminal"}
+          />
+          {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+        </div>
+      )}
+      {m.image_url && !isVideoAsset(m.image_url) && (
+        <div className="mt-2 max-w-xs border border-dim">
+          <button
+            type="button"
+            onClick={() => onOpenLightbox({ url: m.image_url!, caption: m.image_caption })}
+            aria-label="View full-size image"
+            className="block w-full cursor-zoom-in"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={m.image_url}
+              alt={m.image_caption ?? "image sent by the terminal"}
+              className="w-full block"
+            />
+          </button>
+          {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+        </div>
+      )}
+      <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+        {m.created_at && <span className="text-dim text-xs">{timeAgo(m.created_at)}</span>}
+        <button
+          type="button"
+          onClick={() => onToggleMemory(m)}
+          disabled={memoryBusy}
+          aria-pressed={remembered}
+          aria-label={remembered ? "Forget this message" : "Remember this message"}
+          className={`text-xs disabled:opacity-40 ${
+            remembered ? "text-problem" : "text-ghost hover:text-terminal transition-colors"
+          }`}
+        >
+          [ {remembered ? "remembered" : "remember"} ]
+        </button>
+      </div>
+    </div>
+  );
+});
+
+// Isolated so the 1800ms thinking-verb interval only re-renders this small
+// line instead of the whole Chat component (and its full message list).
+const ThinkingLine = memo(function ThinkingLine({ verbIndex }: { verbIndex: number }) {
+  return (
+    <p className="text-dim text-sm" aria-live="polite">
+      terminal&gt;{" "}
+      <span key={verbIndex} className="thinking-verb">
+        {THINKING_VERBS[verbIndex]}
+      </span>
+      <span className="animate-pulse">...</span>
+    </p>
+  );
+});
+
+// Isolated so the 250ms cooldown-countdown tick only re-renders this line
+// instead of the whole Chat component.
+const CooldownNotice = memo(function CooldownNotice({
+  error,
+  secondsLeft,
+}: {
+  error: string;
+  secondsLeft: number | null;
+}) {
+  return (
+    <p className="text-alert text-xs mb-2">
+      [ {error}
+      {secondsLeft !== null && ` — ${secondsLeft}s`}]
+    </p>
+  );
+});
 type Wallet = {
   balance: number;
   qualifyingCount: number;
@@ -439,34 +556,41 @@ export default function Chat() {
     }
   }
 
-  async function toggleMemory(m: Message) {
-    if (memoryBusy) return;
-    const existingId = memories.get(m.content);
-    setMemoryBusy(m.content);
-    try {
-      const headers = { "Content-Type": "application/json", ...(await authHeader()) };
-      if (existingId) {
-        await fetch(`/api/memory?id=${encodeURIComponent(existingId)}`, { method: "DELETE", headers });
-        setMemories((prev) => {
-          const next = new Map(prev);
-          next.delete(m.content);
-          return next;
-        });
-      } else {
-        const res = await fetch("/api/memory", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ content: m.content, role: m.role }),
-        });
-        const data = await res.json();
-        if (res.ok && data.memory?.id) {
-          setMemories((prev) => new Map(prev).set(m.content, data.memory.id));
+  // useCallback keeps this prop reference stable across the cooldown/thinking-
+  // verb re-renders so MessageRow's memoization actually holds — it still
+  // changes on memoryBusy/memories updates, but those are inherently tied to
+  // a message row re-rendering anyway.
+  const toggleMemory = useCallback(
+    async (m: Message) => {
+      if (memoryBusy) return;
+      const existingId = memories.get(m.content);
+      setMemoryBusy(m.content);
+      try {
+        const headers = { "Content-Type": "application/json", ...(await authHeader()) };
+        if (existingId) {
+          await fetch(`/api/memory?id=${encodeURIComponent(existingId)}`, { method: "DELETE", headers });
+          setMemories((prev) => {
+            const next = new Map(prev);
+            next.delete(m.content);
+            return next;
+          });
+        } else {
+          const res = await fetch("/api/memory", {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ content: m.content, role: m.role }),
+          });
+          const data = await res.json();
+          if (res.ok && data.memory?.id) {
+            setMemories((prev) => new Map(prev).set(m.content, data.memory.id));
+          }
         }
+      } finally {
+        setMemoryBusy(null);
       }
-    } finally {
-      setMemoryBusy(null);
-    }
-  }
+    },
+    [memoryBusy, memories]
+  );
 
   if (!loaded) {
     return <p className="text-dim text-sm animate-pulse">establishing uplink...</p>;
@@ -569,84 +693,17 @@ export default function Chat() {
         {messages.length === 0 && (
           <p className="text-dim text-sm">terminal&gt; it noticed you</p>
         )}
-        {messages.map((m, i) => {
-          const remembered = memories.has(m.content);
-          const borderColor = m.is_gossip
-            ? "border-problem/50"
-            : m.role === "terminal"
-              ? "border-terminal/40"
-              : "border-you/30";
-          return (
-            <div key={i} className={`border-l-2 pl-2.5 ${borderColor}`}>
-              <p
-                className={`whitespace-pre-wrap text-sm leading-relaxed ${
-                  m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
-                }`}
-              >
-                <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
-                  {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
-                </span>
-                {m.content}
-              </p>
-              {m.image_url && isVideoAsset(m.image_url) && (
-                <div className="mt-2 max-w-xs border border-dim">
-                  <video
-                    src={m.image_url}
-                    controls
-                    playsInline
-                    className="w-full block"
-                    aria-label={m.image_caption ?? "clip sent by the terminal"}
-                  />
-                  {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
-                </div>
-              )}
-              {m.image_url && !isVideoAsset(m.image_url) && (
-                <div className="mt-2 max-w-xs border border-dim">
-                  <button
-                    type="button"
-                    onClick={() => setLightbox({ url: m.image_url!, caption: m.image_caption })}
-                    aria-label="View full-size image"
-                    className="block w-full cursor-zoom-in"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={m.image_url}
-                      alt={m.image_caption ?? "image sent by the terminal"}
-                      className="w-full block"
-                    />
-                  </button>
-                  {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
-                </div>
-              )}
-              <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
-                {m.created_at && (
-                  <span className="text-dim text-xs">{timeAgo(m.created_at)}</span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => toggleMemory(m)}
-                  disabled={memoryBusy === m.content}
-                  aria-pressed={remembered}
-                  aria-label={remembered ? "Forget this message" : "Remember this message"}
-                  className={`text-xs disabled:opacity-40 ${
-                    remembered ? "text-problem" : "text-ghost hover:text-terminal transition-colors"
-                  }`}
-                >
-                  [ {remembered ? "remembered" : "remember"} ]
-                </button>
-              </div>
-            </div>
-          );
-        })}
-        {busy && (
-          <p className="text-dim text-sm" aria-live="polite">
-            terminal&gt;{" "}
-            <span key={thinkingVerb} className="thinking-verb">
-              {THINKING_VERBS[thinkingVerb]}
-            </span>
-            <span className="animate-pulse">...</span>
-          </p>
-        )}
+        {messages.map((m, i) => (
+          <MessageRow
+            key={m.created_at ? `${m.created_at}-${i}` : i}
+            message={m}
+            remembered={memories.has(m.content)}
+            memoryBusy={memoryBusy === m.content}
+            onToggleMemory={toggleMemory}
+            onOpenLightbox={setLightbox}
+          />
+        ))}
+        {busy && <ThinkingLine verbIndex={thinkingVerb} />}
       </div>
       {pending && !busy && (
         <div className="flex items-center gap-2 mb-2">
@@ -674,12 +731,12 @@ export default function Chat() {
         </div>
       )}
       {error && !pending && (
-        <p className="text-alert text-xs mb-2">
-          [ {error}
-          {cooldownUntil !== null &&
-            ` — ${Math.max(0, Math.ceil((cooldownUntil - cooldownNow) / 1000))}s`}
-          ]
-        </p>
+        <CooldownNotice
+          error={error}
+          secondsLeft={
+            cooldownUntil !== null ? Math.max(0, Math.ceil((cooldownUntil - cooldownNow) / 1000)) : null
+          }
+        />
       )}
       {/* shrink-0 keeps the input row from being squeezed by the flex
           column when the panel is height-locked (lg only); mb-3 keeps its

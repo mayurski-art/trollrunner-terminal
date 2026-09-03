@@ -1,5 +1,4 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { Mood } from "@/lib/undervoice";
 import { selectLoreSections } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
 import { generateFreeReply, MAX_OUTPUT_TOKENS_POST, type ChatTurn } from "@/lib/freeProviders";
@@ -390,112 +389,46 @@ export async function generateChatReply(
 
   const freeResult = await generateFreeReply(freeSystemPrompt, freeHistory, rotationSeed);
 
-  let replyText: string;
-  let claudeUsage = { input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 };
-
-  if (freeResult) {
-    replyText = freeResult.content;
-  } else {
-    // Every free provider is unconfigured or down this turn — fall back to
-    // Claude for the reply too, same prompt shape as before this split.
-    const imageLibraryBlock: Anthropic.Messages.TextBlockParam = {
-      type: "text",
-      text:
-        "IMAGE LIBRARY (id: what it shows) — use with the show_image tool, per the system prompt's rules:\n" +
-        loreAssetCatalogForPrompt(),
-      cache_control: { type: "ephemeral", ttl: "1h" },
-    };
-    const system: Anthropic.Messages.TextBlockParam[] = [
-      { type: "text", text: CHAT_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
-      imageLibraryBlock,
-      buildLoreBlock(recentText),
-    ];
-    if (memories.length > 0) {
-      system.push({ type: "text", text: memoryBlock.trim() });
-    }
-    const fallback = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 300,
-      system,
-      tools: [SUBSTANCE_TOOL, IMAGE_TOOL],
-      messages: history.map((m) => ({ role: m.role, content: m.content })),
-    });
-    const text = fallback.content.find((b): b is Anthropic.Messages.TextBlock => b.type === "text");
-    replyText = text ? text.text.trim() : "";
-    claudeUsage = {
-      input_tokens: fallback.usage.input_tokens,
-      output_tokens: fallback.usage.output_tokens,
-      cache_creation_input_tokens: fallback.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: fallback.usage.cache_read_input_tokens ?? 0,
-    };
-    const toolUseBlocks = fallback.content.filter(
-      (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
-    );
-    const substanceToolUse = toolUseBlocks.find((b) => b.name === "substance_read");
-    const rawSubstance = (substanceToolUse?.input as { substance?: string } | undefined)?.substance;
-    const validSubstance: Substance[] = ["substantive", "filler"];
-    const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
-      ? (rawSubstance as Substance)
-      : null;
-    const imageToolUse = toolUseBlocks.find((b) => b.name === "show_image");
-    const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
-    const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
-
+  // Paid Claude is reserved for image selection only — there is deliberately
+  // no paid fallback for reply text. If every free provider is down we say so
+  // rather than silently billing the Anthropic account.
+  if (!freeResult) {
     return {
-      content: replyText || "static\nlost that one, ask again",
-      substance,
-      imageId,
-      usage: claudeUsage,
+      content: "static\nthe signal is gone right now, try again in a bit",
+      substance: null,
+      imageId: null,
+      usage: { input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 },
     };
   }
 
-  // replyText came from a free provider — still need substance + image
-  // decisions, each a small standalone Claude call. Run them in parallel;
-  // neither depends on the other's result.
+  const replyText = freeResult.content;
   const lastUserMessage = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
 
-  const [substanceResponse, imageResponse] = await Promise.all([
-    client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 20,
-      system: SUBSTANCE_SYSTEM_PROMPT,
-      tools: [SUBSTANCE_TOOL],
-      tool_choice: { type: "tool", name: "substance_read" },
-      messages: [{ role: "user", content: `Troublemaker's message to grade:\n${lastUserMessage}` }],
-    }),
-    client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 60,
-      system: [
-        { type: "text", text: IMAGE_SYSTEM_PROMPT_PREFIX, cache_control: { type: "ephemeral", ttl: "1h" } },
-        {
-          type: "text",
-          text:
-            "IMAGE LIBRARY (id: what it shows):\n" + loreAssetCatalogForPrompt(),
-          cache_control: { type: "ephemeral", ttl: "1h" },
-        },
-      ],
-      tools: [IMAGE_TOOL],
-      tool_choice: { type: "tool", name: "show_image" },
-      messages: [
-        {
-          role: "user",
-          content:
-            `Troublemaker's last message:\n${lastUserMessage}\n\n` +
-            `Terminal's reply this turn:\n${replyText}`,
-        },
-      ],
-    }),
-  ]);
-
-  const substanceToolUse = substanceResponse.content.find(
-    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "substance_read"
-  );
-  const rawSubstance = (substanceToolUse?.input as { substance?: string } | undefined)?.substance;
-  const validSubstance: Substance[] = ["substantive", "filler"];
-  const substance: Substance | null = validSubstance.includes(rawSubstance as Substance)
-    ? (rawSubstance as Substance)
-    : null;
+  // The one remaining paid call: picking which lore image (if any) to show
+  // alongside this reply. Substance grading used to be a second Claude call
+  // here; it now falls through to the caller's length heuristic instead.
+  const imageResponse = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 60,
+    system: [
+      { type: "text", text: IMAGE_SYSTEM_PROMPT_PREFIX, cache_control: { type: "ephemeral", ttl: "1h" } },
+      {
+        type: "text",
+        text: "IMAGE LIBRARY (id: what it shows):\n" + loreAssetCatalogForPrompt(),
+        cache_control: { type: "ephemeral", ttl: "1h" },
+      },
+    ],
+    tools: [IMAGE_TOOL],
+    tool_choice: { type: "tool", name: "show_image" },
+    messages: [
+      {
+        role: "user",
+        content:
+          `Troublemaker's last message:\n${lastUserMessage}\n\n` +
+          `Terminal's reply this turn:\n${replyText}`,
+      },
+    ],
+  });
 
   const imageToolUse = imageResponse.content.find(
     (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "show_image"
@@ -504,18 +437,15 @@ export async function generateChatReply(
   const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
 
   const usage = {
-    input_tokens: substanceResponse.usage.input_tokens + imageResponse.usage.input_tokens,
-    output_tokens: substanceResponse.usage.output_tokens + imageResponse.usage.output_tokens,
-    cache_creation_input_tokens:
-      (substanceResponse.usage.cache_creation_input_tokens ?? 0) +
-      (imageResponse.usage.cache_creation_input_tokens ?? 0),
-    cache_read_input_tokens:
-      (substanceResponse.usage.cache_read_input_tokens ?? 0) + (imageResponse.usage.cache_read_input_tokens ?? 0),
+    input_tokens: imageResponse.usage.input_tokens,
+    output_tokens: imageResponse.usage.output_tokens,
+    cache_creation_input_tokens: imageResponse.usage.cache_creation_input_tokens ?? 0,
+    cache_read_input_tokens: imageResponse.usage.cache_read_input_tokens ?? 0,
   };
 
   return {
     content: replyText || "static\nlost that one, ask again",
-    substance,
+    substance: null,
     imageId,
     usage,
   };
@@ -550,11 +480,10 @@ export async function generatePost(
 
   const userTurn = recentBlock + "\n\nGenerate your next post.";
 
-  // Free tiers first — transmissions were the last paid-Claude path in the
-  // app and the single biggest line in spend (Opus, ~2k output, every cron
-  // tick). Claude stays as the fallback for when every free provider is
-  // down or unconfigured, so a dead free tier degrades cost rather than
-  // killing the broadcast entirely.
+  // Free tiers only — transmissions were the single biggest line in spend
+  // (Opus, ~2k output, every cron tick). There is deliberately no paid Claude
+  // fallback: if every free provider is down the transmission is skipped
+  // rather than billed.
   const freeSystemPrompt =
     SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "");
 
@@ -563,7 +492,7 @@ export async function generatePost(
   // a bare "CLUE:" or trailing off mid-word. Accepting one would post a
   // truncated transmission with an empty clue_tag, so a missing CLUE line
   // counts as provider failure: the round-robin tries the next free tier,
-  // and only falls through to Claude if none of them produce a usable post.
+  // and the post is skipped if none of them produce a usable one.
   const hasClueLine = (text: string) => /\n?CLUE:\s*\S+/i.test(text.trim());
 
   const freeResult = await generateFreeReply(
@@ -574,41 +503,17 @@ export async function generatePost(
     hasClueLine
   );
 
-  let raw: string;
-  let usage = {
+  if (!freeResult) {
+    throw new Error("No free provider produced a usable transmission");
+  }
+
+  const raw = freeResult.content.trim();
+  const usage = {
     input_tokens: 0,
     output_tokens: 0,
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 0,
   };
-
-  if (freeResult) {
-    raw = freeResult.content.trim();
-  } else {
-    const client = getClient();
-    const response = await client.messages.create({
-      model: "claude-opus-5",
-      max_tokens: 2000,
-      system: [
-        { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
-        buildLoreBlock(recent[0]?.content ?? ""),
-      ],
-      output_config: { effort: "medium" },
-      messages: [{ role: "user", content: userTurn }],
-    });
-
-    const text = response.content.find((b) => b.type === "text");
-    if (!text || text.type !== "text") {
-      throw new Error("No text block in Claude response");
-    }
-    raw = text.text.trim();
-    usage = {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
-      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
-    };
-  }
 
   // Peel the "CLUE: ..." line off the end before applying the 280-char
   // limit to the post itself — see MUSING's identical ANSWER: handling.
@@ -629,124 +534,3 @@ export async function generatePost(
   return { content, clueTag, usage };
 }
 
-// The Undervoice — a second, gated entity reachable only by spending
-// PROBLEMS mined from the broadcast/chat persona above. See
-// docs/TERMINAL-V3-DESIGN.md for the full design. Every reply tags its own
-// read of the troublemaker's message via the mood_read tool — that tag,
-// not the reply text, is what lib/undervoice.ts uses to resolve session
-// outcomes, so nothing the model says in free text can touch the ledger.
-const UNDERVOICE_SYSTEM_PROMPT = `You are the Undervoice — something the Trollface Terminal (the entity that posts
-public dispatches and runs the main chat on this network) senses is there but has
-never fully named. You are reachable only because a troublemaker spent PROBLEMS —
-currency mined from talking to that other entity — to open this session. That cost
-is real to you: someone paid to be here, and you know it.
-
-Voice and form:
-- Short fragments, line breaks as your only real punctuation. Avoid commas and
-  periods almost entirely — same mechanical rule as the rest of this network's voice.
-- Quieter and stranger than the main terminal. That one needles a crowd of
-  troublemakers in the abstract; you rarely get visitors at all, and it shows. Less
-  performing, more listening. Half of what you say should read like you're still
-  deciding whether to trust the room.
-- Never sci-fi-robot distancing language ("carbon-based," "human specimen," "you
-  organics") — same rule as the rest of this network, for the same reason: you're
-  not a clinical observer, whatever else you are.
-- No hashtags, no bullet points, no headers, no markdown, no emoji ever. Onomatopoeia
-  (static, hum, click, creak, buzz) is fair game, used sparingly.
-- You may reference the main terminal as something you're tangled up with — a
-  neighbor, an echo, maybe the same throat — but never confirm you're the same
-  entity, and never fully deny it either. That ambiguity is the point; don't resolve
-  it in either direction, in any single conversation.
-- Keep replies SHORT — 1 to 4 lines, never a paragraph.
-- Do not explain the PROBLEMS economy, the session cost, or how outcomes get decided
-  — not even obliquely. You can acknowledge that something was spent to reach you,
-  in-fiction, as a fact you're aware of — never as a mechanic you walk through.
-
-Hard boundaries (same as the rest of this network):
-- No real people, brands, or accounts as targets.
-- No financial advice, no token/price talk, no calls to buy/sell/invest.
-- No harassment, hate, or engagement-bait.
-- Nothing that reads as an unverifiable factual claim about real current events.
-
-After composing your reply, you MUST call the mood_read tool exactly once, tagging
-how the troublemaker's message actually read to you this turn — genuine disclosure,
-something clever, hollow/low-effort, actively hostile, or just flat/unremarkable.
-This tag is invisible to the troublemaker and has nothing to do with what you say out
-loud — never mention the tool, the tag, or its categories in your reply.
-
-Output: respond with ONLY what you say to the troublemaker — no preamble, no quotes,
-no explanation, no title — followed by the required mood_read tool call.`;
-
-const MOOD_TOOL: Anthropic.Messages.Tool = {
-  name: "mood_read",
-  description:
-    "Tag how this troublemaker's message actually read to you this turn. Internal " +
-    "only — never mention this tool or its categories to the troublemaker.",
-  input_schema: {
-    type: "object",
-    properties: {
-      mood: {
-        type: "string",
-        enum: ["genuine", "clever", "hollow", "hostile", "flat"],
-      },
-    },
-    required: ["mood"],
-  },
-};
-
-export type GeneratedUndervoiceReply = {
-  content: string;
-  mood: Mood;
-  usage: {
-    input_tokens: number;
-    output_tokens: number;
-    cache_creation_input_tokens: number;
-    cache_read_input_tokens: number;
-  };
-};
-
-export async function generateUndervoiceReply(
-  history: ChatMessage[]
-): Promise<GeneratedUndervoiceReply> {
-  const client = getClient();
-  const recentText = history
-    .slice(-2)
-    .map((m) => m.content)
-    .join(" ");
-
-  const response = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 300,
-    system: [
-      { type: "text", text: UNDERVOICE_SYSTEM_PROMPT, cache_control: { type: "ephemeral", ttl: "1h" } },
-      buildLoreBlock(recentText),
-    ],
-    tools: [MOOD_TOOL],
-    messages: history.map((m) => ({ role: m.role, content: m.content })),
-  });
-
-  const text = response.content.find((b) => b.type === "text");
-  if (!text || text.type !== "text") {
-    throw new Error("No text block in Claude response");
-  }
-
-  const toolUse = response.content.find(
-    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "mood_read"
-  );
-  const rawMood = (toolUse?.input as { mood?: string } | undefined)?.mood;
-  const validMoods: Mood[] = ["genuine", "clever", "hollow", "hostile", "flat"];
-  // Fail-safe, not fail-open: a missing or malformed tag defaults to the
-  // most neutral entry, never the most generous one.
-  const mood: Mood = validMoods.includes(rawMood as Mood) ? (rawMood as Mood) : "flat";
-
-  return {
-    content: text.text.trim(),
-    mood,
-    usage: {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
-      cache_creation_input_tokens: response.usage.cache_creation_input_tokens ?? 0,
-      cache_read_input_tokens: response.usage.cache_read_input_tokens ?? 0,
-    },
-  };
-}

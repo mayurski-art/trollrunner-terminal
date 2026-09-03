@@ -14,16 +14,6 @@ type UserRow = {
 };
 
 type ChatMsg = { role: "user" | "terminal"; content: string; created_at: string; is_gossip: boolean };
-type UndervoiceMsg = { session_id: string; role: string; content: string; mood: string; created_at: string };
-type UndervoiceSession = {
-  id: string;
-  status: "open" | "closed";
-  opened_at: string;
-  closed_at: string | null;
-  outcome: string | null;
-  message_count: number;
-  messages: UndervoiceMsg[];
-};
 
 const LIVE_POLL_MS = 5000;
 
@@ -39,7 +29,6 @@ export default function Inspect() {
   const [liveUserIds, setLiveUserIds] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<string | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
-  const [undervoiceSessions, setUndervoiceSessions] = useState<UndervoiceSession[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [loadingConvo, setLoadingConvo] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +76,6 @@ export default function Inspect() {
         return;
       }
       setChatMessages(data.chatMessages ?? []);
-      setUndervoiceSessions(data.undervoiceSessions ?? []);
     } catch {
       setError("connection lost");
     } finally {
@@ -163,35 +151,6 @@ export default function Inspect() {
               </div>
             </div>
 
-            <div>
-              <p className="text-ghost text-xs mb-2">[ undervoice sessions ]</p>
-              {undervoiceSessions.length === 0 && <p className="text-dim text-sm">none</p>}
-              {undervoiceSessions.map((s) => (
-                <div key={s.id} className="mb-3 border border-dim p-2">
-                  <p className="text-xs text-dim mb-2">
-                    {s.status === "open" ? (
-                      <span className="text-problem">[ live ]</span>
-                    ) : (
-                      `closed · ${s.outcome ?? "unknown"}`
-                    )}{" "}
-                    · {s.message_count} messages · opened {timeAgo(s.opened_at)}
-                  </p>
-                  <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
-                    {s.messages.map((m, i) => (
-                      <p
-                        key={i}
-                        className={`whitespace-pre-wrap text-sm leading-relaxed ${
-                          m.role === "terminal" ? "text-terminal" : "text-you"
-                        }`}
-                      >
-                        <span className="text-dim">{m.role === "terminal" ? "undervoice> " : "user> "}</span>
-                        {m.content}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
       </div>

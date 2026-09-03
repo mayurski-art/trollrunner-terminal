@@ -36,11 +36,7 @@ const ENTRIES: Entry[] = [
   },
   {
     q: "what are PROBLEMS?",
-    a: "the terminal's own currency. talking to it — real, substantive messages, not filler — slowly mints PROBLEMS. spend them to guess clue transmissions, unlock archive lore early, or reach the undervoice.",
-  },
-  {
-    q: "what's the undervoice?",
-    a: "something the terminal only half-admits to. it's a second, stranger presence, reachable only by spending PROBLEMS you've already earned talking to the main terminal.",
+    a: "the terminal's own currency. talking to it — real, substantive messages, not filler — slowly mints PROBLEMS. spend them to guess clue transmissions or unlock archive lore early.",
   },
   {
     q: "what's the vault?",

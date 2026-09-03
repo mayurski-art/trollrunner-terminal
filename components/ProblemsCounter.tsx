@@ -51,7 +51,7 @@ export default function ProblemsCounter() {
   return (
     <span
       className="text-problem whitespace-nowrap"
-      title={`${balance} PROBLEMS — spend them in the archive and the undervoice`}
+      title={`${balance} PROBLEMS — spend them in the archive and the vault`}
     >
       ▣ {balance}
     </span>

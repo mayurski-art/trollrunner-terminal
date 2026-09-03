@@ -48,7 +48,7 @@
 /* Site-wide hero background — the gold circuit-board trollface. Full
    color/contrast up top, fading to solid --background by the lower third
    so page content stays readable. Applied to every route's own <main>
-   (app/page.tsx, app/archive, app/vault, app/logs, app/undervoice,
+   (app/page.tsx, app/archive, app/vault, app/logs,
    app/transmit, app/inspect, app/reports). .home-hero-bg-frame spans the
    full viewport (inset: 0) so the image covers edge to edge on every
    screen size rather than being letterboxed to the content column.
@@ -296,7 +296,6 @@ main {
 .nav-neon--vault { --nn-hue: var(--problem); animation-delay: 0.6s; }
 .nav-neon--archive { --nn-hue: #7dff5c; animation-delay: 0.9s; }
 .nav-neon--logs { --nn-hue: #b26bff; animation-delay: 1.2s; }
-.nav-neon--undervoice { --nn-hue: var(--alert); animation-delay: 1.5s; }
 .nav-neon--transmit { --nn-hue: #ff9d3a; animation-delay: 1.8s; }
 .nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }

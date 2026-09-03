@@ -89,13 +89,6 @@ export default function Nav() {
             >
               [ logs ]
             </Link>
-            <Link
-              href="/undervoice"
-              onClick={() => setOpen(false)}
-              className="nav-neon nav-neon--undervoice whitespace-nowrap"
-            >
-              [ undervoice ]
-            </Link>
             {isOwner && (
               <Link
                 href="/transmit"
