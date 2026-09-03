@@ -8,6 +8,7 @@ import { OWNER_USERNAME } from "@/lib/ownerUsername";
 import ProblemsCounter from "@/components/ProblemsCounter";
 import AuthPanel from "@/components/AuthPanel";
 import OwnerCredits from "@/components/OwnerCredits";
+import Presence from "@/components/Presence";
 
 export default function Nav() {
   const [session, setSession] = useState<Session | null>(null);
@@ -128,6 +129,7 @@ export default function Nav() {
       <div className="flex flex-col items-end min-w-0 max-w-full">
         {session ? (
           <div className="flex items-center gap-3 flex-wrap justify-end min-w-0">
+            <Presence />
             <ProblemsCounter />
             <button
               type="button"
@@ -139,8 +141,11 @@ export default function Nav() {
             </button>
           </div>
         ) : (
-          <div className="relative">
-            <AuthPanel />
+          <div className="flex items-center gap-3 flex-wrap justify-end min-w-0">
+            <Presence />
+            <div className="relative">
+              <AuthPanel />
+            </div>
           </div>
         )}
         <OwnerCredits session={session} section="lock" />

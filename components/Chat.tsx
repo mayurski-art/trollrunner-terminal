@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
+import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
 import { isVideoAsset } from "@/lib/loreAssets";
 
@@ -476,6 +477,10 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col flex-1 min-h-0 lg:h-full">
+      <div className="mb-2 shrink-0 flex items-center gap-2">
+        <TerminalFace />
+        <span className="text-dim text-xs">trollface terminal</span>
+      </div>
       <div className="mb-2 shrink-0 grid grid-cols-2 gap-x-4 gap-y-1">
         <Meter
           width={10}

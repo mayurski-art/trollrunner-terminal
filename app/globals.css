@@ -300,6 +300,10 @@ main {
 .nav-neon--transmit { --nn-hue: #ff9d3a; animation-delay: 1.8s; }
 .nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
+/* Presence.tsx — "who's online" pill. Reuses the disconnect pill's green
+   (same "live/connected" meaning) with no stagger delay, since it isn't
+   part of the route-link row's timed sequence. */
+.nav-neon--online { --nn-hue: #34e07a; animation-delay: 0s; }
 /* Signed-in pill: green while connected (matches --bc-go, the boot
    sequence's "site is ready" cue), hinting red — the disconnect color —
    on hover/focus so the click's consequence is legible before it happens. */
