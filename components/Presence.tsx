@@ -160,7 +160,34 @@ export default function Presence() {
         if (status === "SUBSCRIBED") track();
       });
     })();
-    const heartbeat = setInterval(retrack, 30000);
+    // The heartbeat only has to run while someone is actually looking. Left
+    // unconditional it kept re-tracking every 30s with the tab backgrounded
+    // and the phone in a pocket, which is pure radio wake-up for a roster
+    // nobody is reading. Pause on hide, and retrack once on the way back so
+    // the entry is fresh rather than waiting out the rest of an interval.
+    let heartbeat: ReturnType<typeof setInterval> | null = null;
+    const startHeartbeat = () => {
+      if (heartbeat === null) heartbeat = setInterval(retrack, 30000);
+    };
+    const stopHeartbeat = () => {
+      if (heartbeat !== null) {
+        clearInterval(heartbeat);
+        heartbeat = null;
+      }
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        retrack();
+        startHeartbeat();
+      } else {
+        stopHeartbeat();
+      }
+    };
+
+    if (document.visibilityState === "visible") startHeartbeat();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     const onAuthChanged = async () => {
       await loadProfile();
       retrack();
@@ -168,7 +195,8 @@ export default function Presence() {
     window.addEventListener("trollrunner:auth-changed", onAuthChanged);
     return () => {
       cancelled = true;
-      clearInterval(heartbeat);
+      stopHeartbeat();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("trollrunner:auth-changed", onAuthChanged);
       channelRef.current?.unsubscribe();
     };
