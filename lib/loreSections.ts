@@ -85,10 +85,24 @@ const USAGE_BULLETS = USAGE_GUIDANCE.body
     return { text, refs };
   });
 
+// Even after per-section filtering this block dominates the prompt — the
+// unreferenced "applies generally" bullets alone run to thousands of chars.
+// Cap it so guidance can't crowd out the lore it's meant to annotate.
+const MAX_USAGE_CHARS = 6000;
+
 function buildUsageGuidance(selectedNumbers: Set<number>): string {
-  const bullets = USAGE_BULLETS.filter(
-    (b) => b.refs.size === 0 || [...b.refs].some((n) => selectedNumbers.has(n))
-  ).map((b) => b.text);
+  // Section-specific bullets come first: they're the ones earned by this
+  // call's actual selection, so they survive the cap ahead of generic advice.
+  const relevant = USAGE_BULLETS.filter((b) => b.refs.size > 0 && [...b.refs].some((n) => selectedNumbers.has(n)));
+  const general = USAGE_BULLETS.filter((b) => b.refs.size === 0);
+
+  const bullets: string[] = [];
+  let budget = MAX_USAGE_CHARS;
+  for (const b of [...relevant, ...general]) {
+    if (b.text.length > budget) continue;
+    bullets.push(b.text);
+    budget -= b.text.length;
+  }
   return USAGE_HEADING + "\n" + bullets.join("\n");
 }
 
@@ -111,10 +125,23 @@ function scoreSections(recentText: string) {
     .sort((a, b) => b.score - a.score);
 }
 
+// Sections vary from a few hundred chars to several thousand, so a count
+// cap alone let long ones stack up — combined with the usage-guidance block
+// that pushed the prompt past Groq's request-size limit, which made it 413
+// on every transmission and silently burn its slot in the free-provider
+// rotation. Budget on characters as well as count, highest-scoring first.
+const MAX_LORE_CHARS = 10000;
+
 export function selectLoreSections(recentText: string, maxSections = 4): string {
-  const scored = scoreSections(recentText)
-    .slice(0, maxSections)
-    .map((s) => s.section);
+  const ranked = scoreSections(recentText).slice(0, maxSections);
+
+  const scored: LoreSection[] = [];
+  let budget = MAX_LORE_CHARS - CORE_IDENTITY.body.length;
+  for (const { section } of ranked) {
+    if (section.body.length > budget) continue;
+    scored.push(section);
+    budget -= section.body.length;
+  }
 
   const selectedNumbers = new Set<number>([1, ...scored.map((s) => s.number).filter((n): n is number => n !== null)]);
 
