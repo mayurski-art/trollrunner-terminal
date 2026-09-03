@@ -233,11 +233,11 @@ main {
   }
 }
 
-/* Chat.tsx transcript panel. Pointer-fine devices (mouse/trackpad) get a
-   visible thin scrollbar since there's no other affordance for scrolling a
-   long conversation; touch devices already scroll by swipe, so the
-   scrollbar there would just be visual noise — default (hidden until
-   drag, per-OS) behavior is left alone for them. */
+/* Scrollable panels — Chat.tsx's transcript and the vault's ledger.
+   Pointer-fine devices (mouse/trackpad) get a visible thin scrollbar since
+   there's no other affordance for scrolling a long list; touch devices
+   already scroll by swipe, so the scrollbar there would just be visual
+   noise — default (hidden until drag, per-OS) behavior is left alone. */
 @media (pointer: fine) {
   .chat-scroll {
     scrollbar-width: thin;

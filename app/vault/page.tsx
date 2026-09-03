@@ -254,14 +254,14 @@ export default function VaultPage() {
               {ledger.length === 0 && (
                 <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
               )}
-              <ul className="space-y-1 text-sm">
+              <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
                 {ledger.map((row) => (
-                  <li key={row.id} className="flex justify-between text-dim">
+                  <li key={row.id} className="flex justify-between gap-3 text-dim">
                     <span className="text-problem">
                       {row.delta > 0 ? "+" : ""}
                       {row.delta} {row.reason}
                     </span>
-                    <span>{new Date(row.created_at).toLocaleString()}</span>
+                    <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
                   </li>
                 ))}
               </ul>
