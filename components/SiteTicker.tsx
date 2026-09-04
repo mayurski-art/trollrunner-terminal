@@ -10,8 +10,19 @@ const TICKER_TEXT =
   "it surfaced inside trollrunner.net · a face with no body and no alibi · trolling has a face now · welcome, troublemaker";
 
 const POLL_MS = 60_000;
+// The NFT floor moves far more slowly than the token price (single-digit
+// sales a day), and its route caches for 5 minutes anyway, so polling it as
+// often as the token would just be wasted requests.
+const NFT_POLL_MS = 300_000;
 
 type Quote = { priceUsd: number; change24h: number | null };
+type Floor = { floorEth: number; floorUsd: number | null };
+
+function formatFloorEth(eth: number) {
+  // Floors sit in the hundredths of an ETH here, so 2dp would read as
+  // "0.06" for everything; 4dp keeps neighbouring listings distinguishable.
+  return eth >= 1 ? eth.toFixed(2) : eth.toFixed(4);
+}
 
 function formatPrice(price: number) {
   // Sub-cent meme-coin prices need more precision than a currency
@@ -23,6 +34,7 @@ function formatPrice(price: number) {
 
 export default function SiteTicker() {
   const [quote, setQuote] = useState<Quote | null>(null);
+  const [floor, setFloor] = useState<Floor | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +60,30 @@ export default function SiteTicker() {
     };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch("/api/troll-nft");
+        if (!res.ok) return; // keep the last good floor rather than blanking
+        const data = await res.json();
+        if (!cancelled && Number.isFinite(data?.floorEth)) {
+          setFloor({ floorEth: data.floorEth, floorUsd: data.floorUsd ?? null });
+        }
+      } catch {
+        // Offline or blocked — the ticker just runs without a floor.
+      }
+    }
+
+    load();
+    const id = setInterval(load, NFT_POLL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
   const unit = (
     <>
       {TICKER_TEXT}
@@ -65,6 +101,20 @@ export default function SiteTicker() {
                 {" "}
                 {quote.change24h >= 0 ? "▲" : "▼"}
                 {Math.abs(quote.change24h).toFixed(2)}%
+              </span>
+            ) : null}
+          </span>
+        </>
+      ) : null}
+      {floor ? (
+        <>
+          {" · "}
+          <span className="site-ticker-price">
+            TROLLS floor {formatFloorEth(floor.floorEth)} ETH
+            {floor.floorUsd !== null ? (
+              <span className="site-ticker-dim">
+                {" "}
+                (${Math.round(floor.floorUsd).toLocaleString("en-US")})
               </span>
             ) : null}
           </span>

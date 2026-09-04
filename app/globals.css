@@ -493,6 +493,13 @@ main {
 .site-ticker-price {
   font-weight: 600;
 }
+/* The USD conversion of the NFT floor — supporting detail next to the ETH
+   figure, so it takes the same dim treatment as timestamps and labels
+   elsewhere rather than competing with the primary number. */
+.site-ticker-dim {
+  color: var(--dim);
+  font-weight: 400;
+}
 /* Direction is carried by an arrow glyph as well as the color, so gain vs
    loss still reads without relying on color alone. */
 .site-ticker-up {
