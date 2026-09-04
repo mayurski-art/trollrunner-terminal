@@ -154,41 +154,60 @@ export default function SiteTicker() {
     };
   }, [quote, floor]);
 
+  // Build the market segments as PLAIN STRINGS, not conditional JSX subtrees.
+  //
+  // This is what was left of the blink once the geometry was proven seamless.
+  // A frame-by-frame scan of the reported recording found exactly one real
+  // ticker blink in 21s: at t=15.40s the row went to zero ink for a SINGLE
+  // frame and then resumed at the same scroll position (firstX 23 -> blank
+  // -> 22). Nothing moved, so it was never the seam, the reset, or the layer
+  // size — the text simply was not painted for one frame.
+  //
+  // The cause is reconciliation. `unit` was a JSX fragment full of
+  // conditional subtrees, and the SAME element object was rendered into all
+  // three copies. When the price or floor arrived, React tore down and
+  // rebuilt those <span>s inside every copy at once; with line-height:0 on
+  // the bar, an inline formatting context that is momentarily empty paints
+  // as nothing for that frame.
+  //
+  // Strings interpolated into a stable element tree change nothing but
+  // character data, so there is no subtree to unmount and nothing can be
+  // unpainted mid-swap.
+  const priceText = quote ? ` · $TROLL ${formatPrice(quote.priceUsd)}` : "";
+  // Kept separate from priceText so it can carry the gain/loss colour on an
+  // always-present span. Direction reads from the arrow glyph as well as the
+  // colour, so it does not rely on colour alone.
+  const changeText =
+    quote && quote.change24h !== null
+      ? ` ${quote.change24h >= 0 ? "▲" : "▼"}${Math.abs(quote.change24h).toFixed(2)}%`
+      : "";
+  const floorText =
+    floor && floor.floorUsd !== null
+      ? ` · NFTs $${Math.round(floor.floorUsd).toLocaleString("en-US")}`
+      : "";
+  // Colour the change indicator without letting its class toggle remount
+  // anything: the class is on a span that is always present, and only its
+  // text and className change.
+  const changeClass =
+    quote && quote.change24h !== null
+      ? quote.change24h >= 0
+        ? "site-ticker-up"
+        : "site-ticker-down"
+      : "";
+
   const unit = (
     <>
       {TICKER_TEXT}
-      {quote ? (
-        <>
-          {" · "}
-          <span className="site-ticker-price">
-            $TROLL {formatPrice(quote.priceUsd)}
-            {quote.change24h !== null ? (
-              <span
-                className={
-                  quote.change24h >= 0 ? "site-ticker-up" : "site-ticker-down"
-                }
-              >
-                {" "}
-                {quote.change24h >= 0 ? "▲" : "▼"}
-                {Math.abs(quote.change24h).toFixed(2)}%
-              </span>
-            ) : null}
-          </span>
-        </>
-      ) : null}
-      {/* Rendered only when the USD conversion succeeded. OpenSea quotes the
-          floor in ETH, so floorUsd depends on a second (Coinbase) call; with
-          the ETH figure no longer shown there is nothing meaningful left to
-          display if that conversion is missing, so the entry drops out
-          rather than printing a bare label. */}
-      {floor && floor.floorUsd !== null ? (
-        <>
-          {" · "}
-          <span className="site-ticker-price">
-            NFTs ${Math.round(floor.floorUsd).toLocaleString("en-US")}
-          </span>
-        </>
-      ) : null}
+      <span className="site-ticker-price">{priceText}</span>
+      <span className={changeClass}>{changeText}</span>
+      <span className="site-ticker-price">{floorText}</span>
+      {/* The floor is rendered above, as floorText, only when the USD
+          conversion succeeded. OpenSea quotes the floor in ETH, so floorUsd
+          depends on a second (Coinbase) call; with the ETH figure no longer
+          shown there is nothing meaningful left to display if that
+          conversion is missing, so the entry becomes an empty string rather
+          than printing a bare label. An empty string keeps the span mounted,
+          which is the whole point — see the note above the strings. */}
       {/* Non-breaking spaces (U+00A0), NOT plain ones — check the actual
           bytes if you touch this line, since the two are indistinguishable
           on screen and this comment claimed nbsp for a long time while the
