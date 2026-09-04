@@ -1475,3 +1475,74 @@ html[data-custom-cursor] label {
     animation: none;
   }
 }
+
+/* PostGuess.tsx grading sequence — plays after "turn in" while the guess is
+   scored server-side, then resolves into one of two distinct outcomes so a
+   correct crack and a wrong one never look like the same event. */
+.pg-grading-glyph {
+  animation: gt-flicker 0.12s steps(2) infinite;
+}
+
+/* Correct: glyphs settle and lock into a steady green glow — a decode, not
+   a flash. */
+.pg-correct-lock {
+  animation: pg-correct-lock-in 0.6s ease-out;
+}
+@keyframes pg-correct-lock-in {
+  0% {
+    opacity: 0;
+    color: var(--terminal);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--problem) 80%, transparent);
+    transform: scale(0.97);
+  }
+  60% {
+    opacity: 1;
+    color: var(--problem);
+  }
+  100% {
+    opacity: 1;
+    color: var(--problem);
+    text-shadow: none;
+    transform: none;
+  }
+}
+
+/* Wrong: a sharp red glitch-shake that settles into a dead, static red —
+   rejection, not just a color swap. */
+.pg-wrong-glitch {
+  animation: pg-wrong-glitch-in 0.4s steps(5);
+}
+@keyframes pg-wrong-glitch-in {
+  0% {
+    opacity: 0;
+    color: var(--alert);
+    transform: translate(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(2px, -1px);
+  }
+  60% {
+    transform: translate(-1px, 0);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--alert) 70%, transparent);
+  }
+  80% {
+    transform: translate(1px, 1px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    text-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-grading-glyph,
+  .pg-correct-lock,
+  .pg-wrong-glitch {
+    animation: none;
+  }
+}

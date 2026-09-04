@@ -10,7 +10,24 @@ type GuessState = {
   resolved: boolean;
   netDelta?: number | null;
 } | null;
-type Stage = "idle" | "confirming" | "open";
+type Stage = "idle" | "confirming" | "open" | "grading";
+
+// Same glyph set CrypticWait uses for the "decoding" strip — the grading
+// pause should read as the terminal working, not a generic spinner.
+const GLYPHS = "▓▒░█⊕⊗◇◉△▽●○⋅·:;~`'";
+const GRADE_STRIP_LENGTH = 24;
+const GRADE_TICK_MS = 90;
+// Minimum time to sit in "grading" even if the server answers instantly —
+// otherwise a fast response skips straight past the animation.
+const MIN_GRADE_MS = 900;
+
+function randomGlyphs(length: number): string {
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+  }
+  return out;
+}
 
 async function authHeader(): Promise<Record<string, string>> {
   const sb = getPublicClient();
@@ -36,6 +53,8 @@ export default function PostGuess({
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [gradeStrip, setGradeStrip] = useState("");
+  const [justResolved, setJustResolved] = useState(false);
 
   useEffect(() => {
     setLoaded(false);
@@ -43,6 +62,7 @@ export default function PostGuess({
     setStage("idle");
     setError(null);
     setInput("");
+    setJustResolved(false);
     if (!session) {
       setLoaded(true);
       return;
@@ -75,12 +95,24 @@ export default function PostGuess({
     };
   }, [postId, session]);
 
+  // Ticks the scramble strip while stage === "grading".
+  useEffect(() => {
+    if (stage !== "grading") return;
+    setGradeStrip(randomGlyphs(GRADE_STRIP_LENGTH));
+    const id = setInterval(() => {
+      setGradeStrip(randomGlyphs(GRADE_STRIP_LENGTH));
+    }, GRADE_TICK_MS);
+    return () => clearInterval(id);
+  }, [stage]);
+
   async function submitGuess(e: React.FormEvent) {
     e.preventDefault();
     const guess = input.trim();
     if (!guess || busy) return;
     setBusy(true);
     setError(null);
+    setStage("grading");
+    const startedAt = Date.now();
     try {
       const headers = { "Content-Type": "application/json", ...(await authHeader()) };
       const res = await fetch("/api/post-guess", {
@@ -89,10 +121,20 @@ export default function PostGuess({
         body: JSON.stringify({ postId, guess }),
       });
       const data = await res.json();
+
+      // Let the grading animation play for at least MIN_GRADE_MS so it
+      // never gets skipped by a fast response.
+      const elapsed = Date.now() - startedAt;
+      if (elapsed < MIN_GRADE_MS) {
+        await new Promise((r) => setTimeout(r, MIN_GRADE_MS - elapsed));
+      }
+
       if (!res.ok) {
         setError(data.error ?? "the guess didn't land");
+        setStage("open");
         return;
       }
+      setJustResolved(!!data.resolved);
       setGuessState({
         attempts: data.attempts,
         correct: data.correct,
@@ -101,8 +143,10 @@ export default function PostGuess({
       });
       setBalance(data.wallet?.balance ?? balance);
       setInput("");
+      setStage(data.resolved ? "idle" : "open");
     } catch {
       setError("connection to the terminal was lost");
+      setStage("open");
     } finally {
       setBusy(false);
     }
@@ -113,15 +157,42 @@ export default function PostGuess({
   if (guessState?.resolved) {
     const delta = guessState.netDelta ?? 0;
     const sign = delta > 0 ? "+" : "";
+    const animClass = justResolved
+      ? guessState.correct
+        ? "pg-correct-lock"
+        : "pg-wrong-glitch"
+      : "";
     return (
       <p className="mt-2 text-xs text-dim">
         transmission{" "}
-        <span className={guessState.correct ? "text-problem" : "text-alert"}>
+        <span
+          className={`${guessState.correct ? "text-problem" : "text-alert"} ${animClass}`}
+        >
           [{guessState.correct ? "cracked" : "rekted"}
           {guessState.netDelta != null && ` — ${sign}${delta} PROBLEM${Math.abs(delta) === 1 ? "" : "S"} earned`}
           ]
         </span>
       </p>
+    );
+  }
+
+  if (stage === "grading") {
+    return (
+      <div className="mt-3 pt-3 border-t border-dim" role="status" aria-live="polite">
+        <p className="sr-only">grading transmission…</p>
+        <p
+          aria-hidden="true"
+          className="text-[10px] tracking-[0.4em] text-center text-problem/70 mb-1.5 animate-pulse"
+        >
+          ▓▓ grading guess ▓▓
+        </p>
+        <div
+          aria-hidden="true"
+          className="pg-grading-glyph text-[10px] tracking-[0.4em] text-center text-terminal overflow-hidden whitespace-nowrap"
+        >
+          {gradeStrip}
+        </div>
+      </div>
     );
   }
 
@@ -185,9 +256,9 @@ export default function PostGuess({
           <button
             type="submit"
             disabled={busy || !input.trim()}
-            className="border border-problem text-problem px-2 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
+            className="border border-problem text-problem px-2 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40 whitespace-nowrap"
           >
-            &gt;
+            turn in
           </button>
         </div>
         {error && <p className="text-alert text-xs">[ {error} ]</p>}
