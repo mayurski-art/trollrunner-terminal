@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 type BannerProps = {
   art: string;
+  // Optional wider single-line variant shown at desktop widths instead of
+  // `art` — see BANNER_TROLLFACE_WIDE in lib/ascii.ts for why this exists.
+  wideArt?: string;
   label: string; // real text for screen readers
   tone?: "terminal" | "alert";
   maxFontPx?: number;
@@ -23,10 +26,9 @@ type BannerProps = {
 const BASE_FONT_PX = 22; // matches --font-size: 1.375rem in .ascii-banner
 const MIN_FONT_PX = 7; // floor so tiny viewports don't get unreadable text
 
-export default function Banner({ art, label, tone = "terminal", maxFontPx }: BannerProps) {
+function useFitFontSize(cap: number) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
-  const cap = maxFontPx ?? BASE_FONT_PX;
   const [fontSize, setFontSize] = useState(cap);
 
   useEffect(() => {
@@ -36,9 +38,13 @@ export default function Banner({ art, label, tone = "terminal", maxFontPx }: Ban
 
     function recalc() {
       if (!wrapper || !pre) return;
+      // A hidden (display:none via CSS breakpoint) element reports 0 for
+      // both widths — skip so we don't clamp fontSize to MIN_FONT_PX while
+      // this variant isn't even the one being shown.
+      if (wrapper.offsetParent === null) return;
       const availableWidth = wrapper.clientWidth;
       const currentWidth = pre.scrollWidth;
-      if (currentWidth <= 0) return;
+      if (currentWidth <= 0 || availableWidth <= 0) return;
       // scrollWidth is measured at whatever font-size is currently applied
       // (not BASE_FONT_PX), so back out the size that would make it fit —
       // scale-invariant, so it converges in one step instead of drifting.
@@ -62,11 +68,25 @@ export default function Banner({ art, label, tone = "terminal", maxFontPx }: Ban
     const ro = new ResizeObserver(recalc);
     ro.observe(wrapper);
     return () => ro.disconnect();
-  }, [art, cap]);
+  }, [cap]);
 
+  return { wrapperRef, preRef, fontSize };
+}
+
+function FitBanner({
+  art,
+  cap,
+  tone,
+  className,
+}: {
+  art: string;
+  cap: number;
+  tone: "terminal" | "alert";
+  className?: string;
+}) {
+  const { wrapperRef, preRef, fontSize } = useFitFontSize(cap);
   return (
-    <div ref={wrapperRef} className="w-full overflow-hidden">
-      <h1 className="sr-only">{label}</h1>
+    <div ref={wrapperRef} className={`w-full overflow-hidden ${className ?? ""}`}>
       <pre
         ref={preRef}
         aria-hidden="true"
@@ -75,6 +95,32 @@ export default function Banner({ art, label, tone = "terminal", maxFontPx }: Ban
       >
         {art}
       </pre>
+    </div>
+  );
+}
+
+// Renders a FIGlet banner from lib/ascii.ts. The <pre> block(s) are
+// aria-hidden so screen readers never read hundreds of box-drawing
+// characters — a visually-hidden heading carries the real text instead.
+//
+// When `wideArt` is given, two independently-fitted banners are rendered —
+// the stacked/narrow `art` shown below the `md` breakpoint, the single-line
+// `wideArt` shown at `md` and up — toggled with CSS (not JS) so there's no
+// hydration mismatch and no flash of the wrong variant.
+export default function Banner({ art, wideArt, label, tone = "terminal", maxFontPx }: BannerProps) {
+  const cap = maxFontPx ?? BASE_FONT_PX;
+
+  return (
+    <div className="w-full">
+      <h1 className="sr-only">{label}</h1>
+      {wideArt ? (
+        <>
+          <FitBanner art={art} cap={cap} tone={tone} className="md:hidden" />
+          <FitBanner art={wideArt} cap={cap} tone={tone} className="hidden md:block" />
+        </>
+      ) : (
+        <FitBanner art={art} cap={cap} tone={tone} />
+      )}
     </div>
   );
 }

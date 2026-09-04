@@ -14,7 +14,7 @@ import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import Faq from "@/components/Faq";
-import { BANNER_TROLLFACE } from "@/lib/ascii";
+import { BANNER_TROLLFACE, BANNER_TROLLFACE_WIDE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
 type Post = {
@@ -71,8 +71,13 @@ export default function Home() {
       </div>
       <div className="w-full max-w-7xl">
         <Nav />
-        <div className="max-w-md mx-auto mb-2">
-          <Banner art={BANNER_TROLLFACE} label="trolltruths terminal" maxFontPx={9} />
+        <div className="max-w-md md:max-w-2xl mx-auto mb-2">
+          <Banner
+            art={BANNER_TROLLFACE}
+            wideArt={BANNER_TROLLFACE_WIDE}
+            label="trolltruths terminal"
+            maxFontPx={9}
+          />
         </div>
         <p className="text-terminal text-[8px] tracking-wide mb-1 text-center">
           explore the infinite knowledge behind trolling
