@@ -494,10 +494,15 @@ export async function generatePost(
   // The prompt asks the model to alternate clue/musing marks and use them
   // "sparingly," which in practice skews heavily toward unmarked — not the
   // even three-way spread /logs' filter UI implies. Strip whatever mark the
-  // model actually chose to include and reassign one uniformly at random
-  // instead, so clue/musing/unmarked are genuinely 1-in-3 each.
+  // model actually chose to include and reassign one instead. The clue mark
+  // must track clueTag directly — /api/post-guess only lets a post be
+  // deciphered when clue_tag is set, so marking a post "clue" without one
+  // (or leaving a real clueTag unmarked) makes it look guessable when it
+  // isn't, or guessable but undiscoverable. Musing/unmarked stay random.
   const bodyWithoutMark = withoutClueLine.replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
-  const kind = (["clue", "musing", "unmarked"] as const)[Math.floor(Math.random() * 3)];
+  const kind = clueTag
+    ? "clue"
+    : (["musing", "unmarked"] as const)[Math.floor(Math.random() * 2)];
   const mark = kind === "clue" ? "▚▞" : kind === "musing" ? "▓▒▓" : "";
   const content = (mark ? `${bodyWithoutMark}\n${mark}` : bodyWithoutMark).slice(0, 280);
 
