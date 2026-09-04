@@ -89,9 +89,14 @@ export async function POST(request: Request) {
     posted_at: r.posted_at as string,
   }));
 
+  // Seeded from the clock rather than recent.length: a manual click that gets
+  // trashed and regenerated doesn't change recent.length (a trashed draft was
+  // never pending: false), so a length-based seed kept landing on the same
+  // free provider with the exact same prompt and produced the same
+  // transmission over and over.
   let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
-    generated = await generatePost(recent, recent.length, steer || undefined);
+    generated = await generatePost(recent, Date.now(), steer || undefined);
   } catch (err) {
     return NextResponse.json(
       { error: `generation failed: ${(err as Error).message}` },

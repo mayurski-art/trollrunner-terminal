@@ -48,9 +48,11 @@ export async function GET(request: Request) {
     posted_at: r.posted_at as string,
   }));
 
+  // Date.now() rather than recent.length — see admin/generate-transmission's
+  // identical fix for why a length-based seed can repeat the same provider.
   let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
-    generated = await generatePost(recent, recent.length);
+    generated = await generatePost(recent, Date.now());
   } catch (err) {
     // There is no paid fallback behind the free providers any more, so a
     // failure here means the transmission simply doesn't happen. The cron
