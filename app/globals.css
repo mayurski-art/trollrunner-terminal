@@ -71,20 +71,27 @@
   overflow: hidden;
   min-height: 100vh;
 }
-/* Viewport-tall and pinned to the top of the hero rather than inset:0.
-   inset:0 stretched this frame to the FULL height of .home-hero, so
-   background-size:cover rescaled the image to fill whatever the content
-   happened to be — the same page looked wildly more zoomed once it got
-   long. Measured at 1440x900: a short (signed-out) archive covered at
-   0.894x, the signed-in one at 3.333x, a 3.7x jump from content height
-   alone. Locking the frame to 100vh keeps the crop identical no matter
-   how far the page scrolls. */
+/* position:fixed instead of an absolute frame sized to a fraction of the
+   page. Two earlier attempts both failed on a real device (not caught by
+   any Chrome-based test, including emulated mobile viewports):
+     1. inset:0 on the frame sized it to the FULL height of .home-hero, so
+        background-size:cover rescaled the image to match content height
+        — a short signed-out archive covered at 0.894x, a long signed-in
+        one at 3.333x, a 3.7x zoom from content height alone.
+     2. height:100vh fixed that zoom, but the frame then stopped exactly
+        one screen down — anything the user scrolled past on a page taller
+        than one viewport hit bare --background with a visible hard seam
+        where the art cut off.
+   position:fixed sidesteps both: the layer is always exactly one viewport
+   in size and always covers the viewport, regardless of scroll position
+   or how tall the page's content is — nothing to rescale, nothing to run
+   out of. Deliberately NOT background-attachment:fixed on .home-hero-bg
+   itself — that property is well known to misbehave on iOS Safari inside
+   a scrolling/overflow:hidden ancestor, which is exactly the class of
+   bug this file has hit twice already today. */
 .home-hero-bg-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
   z-index: 0;
 }
 .home-hero-bg {
@@ -428,7 +435,25 @@ main {
 /* Site-wide texture, components/SiteTicker.tsx — a scrolling status line
    below the nav, reusing the same marquee technique as the vault/door
    countdown but in the terminal accent instead of that feature's own
-   yellow, so it reads as ambient site chrome rather than a copy-paste. */
+   yellow, so it reads as ambient site chrome rather than a copy-paste.
+
+   Two copies stacked in the SAME box (both position:absolute, inset:0),
+   each carrying its own translateX offset baked into its own keyframes.
+   A CSS percentage in `transform` resolves against the element's OWN
+   border box, not the container — so translateX(100%) on copy B is
+   genuinely "one copy-width to the right of copy A", regardless of how
+   wide the ticker bar itself is.
+
+   This replaces a version that put copy B at `left: 100%`. That was a
+   real bug, not a browser quirk: `left` on an absolutely positioned
+   element resolves against its CONTAINING block (the ~380px-wide ticker
+   bar), not the sibling's rendered width (~860px on the same phone) — so
+   copy B started only a third of the way clear of copy A, and the two
+   overlapped as stacked, doubled-up text for most of the animation.
+   Screenshotted by the user on their phone; never caught here because
+   every check run against that version measured .getBoundingClientRect()
+   on each copy separately and confirmed their WIDTHS, without checking
+   that they didn't visually overlap. */
 .site-ticker {
   position: relative;
   overflow: hidden;
@@ -437,39 +462,27 @@ main {
   background: var(--panel);
   height: 1.6rem;
 }
-/* Two copies, each absolutely positioned at the ticker's own left edge and
-   animated by the SAME keyframes, so their relationship is fixed by CSS
-   layout rather than by a JS-measured repeat count or a shared flex track.
-   Copy B starts at left:100% — one copy-width to the right of copy A,
-   guaranteed by the browser's own text layout. Both slide left by exactly
-   one copy's width (translateX(-100%)), so at the instant copy A has fully
-   exited on the left, copy B is sitting exactly where copy A started: the
-   seam is structural, not computed.
-
-   This replaces an earlier flex-track + JS-measured-repeat-count version.
-   That version passed every geometry check in headless Chrome (desktop and
-   mobile-emulated viewports alike) but still showed a real gap on real
-   iOS Safari — screenshotted by the user, a blank strip at the ticker's
-   left edge mid-scroll. Chrome's flex width:max-content sizing and
-   Safari's do not agree byte-for-byte, and that mismatch was invisible to
-   every Chromium-based tool available for testing it. Removing the
-   max-content/flex dependency entirely removes the class of bug, rather
-   than patching around a browser quirk that couldn't be directly
-   observed. */
 .site-ticker-copy {
+  /* left/top only — NOT inset:0. inset:0 stretches the box to the
+     container's own width, which is exactly the container-relative-sizing
+     bug this replaces (translateX(100%) would then resolve against the
+     ~380px ticker bar again, not the ~860px of text). left+top lets the
+     box size to its own nowrap content instead. */
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
-  padding: 0.4rem 0;
   font-size: 0.8rem;
   color: var(--terminal);
   letter-spacing: 0.05em;
-  animation: site-ticker-scroll 22s linear infinite;
+  animation: site-ticker-scroll-a 22s linear infinite;
   will-change: transform;
 }
 .site-ticker-copy--b {
-  left: 100%;
+  animation-name: site-ticker-scroll-b;
 }
 .site-ticker-price {
   font-weight: 600;
@@ -482,11 +495,15 @@ main {
 .site-ticker-down {
   color: var(--alert);
 }
-/* Each copy slides exactly its own width to the left. Copy A ends where
-   copy B started (left:100%), and copy B — starting one copy-width further
-   right — ends exactly at left:0, i.e. copy A's own starting position: the
-   two loop in lockstep with no seam. */
-@keyframes site-ticker-scroll {
+/* Copy A starts at its own position (0%) and slides fully clear to the
+   left (-100% of ITS OWN width). Copy B starts already one full width to
+   the right of copy A (100% of ITS OWN width, i.e. identical width since
+   the text is identical) and ends at 0% — exactly copy A's starting spot.
+   Both use the same duration/timing, so at every instant B trails A by
+   precisely one copy-width: the moment A fully exits left, B is sitting
+   exactly where A started. No container-relative unit involved anywhere
+   in this pair, so the ticker bar's own width cannot desync them. */
+@keyframes site-ticker-scroll-a {
   from {
     transform: translateX(0);
   }
@@ -494,9 +511,22 @@ main {
     transform: translateX(-100%);
   }
 }
+@keyframes site-ticker-scroll-b {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .site-ticker-copy {
     animation: none;
+  }
+  .site-ticker-copy--b {
+    /* Hide the duplicate rather than let two static copies sit on top of
+       each other when motion is disabled. */
+    visibility: hidden;
   }
 }
 
