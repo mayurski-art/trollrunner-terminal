@@ -468,31 +468,33 @@ main {
   /* The track is inline-block, so the wrapper is a line box; kill the
      descender gap that would otherwise pad the bar unevenly. */
   line-height: 0;
-  /* Give the CLIPPING container its own compositor layer too, not just the
-     moving track. `overflow: hidden` makes this element the clip for a
-     layer that is permanently in motion; on iOS Safari that clip is
-     re-composited when the transform wraps at the loop boundary, which
-     paints one frame of bare panel — a blink on an otherwise continuous
-     strand. Isolating it keeps the clip on the compositor instead of
-     forcing a repaint of the bar each pass. `paint` (not `strict`/`content`)
-     because the bar must keep deriving its own height from the line box. */
-  contain: paint;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  isolation: isolate;
+  /* No contain/translateZ/isolation here either — same reasoning as the
+     track. Promoting this clip made a second layer wrapping an already
+     oversized one, adding texture pressure rather than relieving it. */
 }
 .site-ticker-track {
   display: inline-block;
   white-space: nowrap;
   animation: site-ticker-scroll 22s linear infinite;
-  /* Keep the track on a stable compositor layer so iOS Safari does not
-     re-rasterize it at the animation restart (that shows as a one-frame
-     blink at the loop boundary). The 3D hint has to live in the KEYFRAMES,
-     not here — an animated transform overrides the base one for the whole
-     playback, so a translateZ(0) on this rule would never actually apply. */
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  /* NO will-change / backface-visibility here, deliberately.
+     Those were added to "keep the track on a stable compositor layer", on
+     the theory that the blink was a re-rasterization at the loop boundary.
+     That theory had it backwards, and the numbers say so: with market data
+     the track is three ~1220px copies = ~3662 CSS px, which on a 3x iPhone
+     is 10,987 DEVICE px wide. iOS Safari's per-layer texture limit is around
+     4096px in a dimension, so forcing this element onto its own layer asks
+     for a texture ~2.7x too wide. An oversized layer cannot be kept as one
+     texture: Safari tiles or drops and re-rasterizes it, which is precisely
+     the recurring one-frame flash being reported — and the more we hinted
+     at promotion, the more reliably we triggered it.
+
+     Stepping the transform manually through a whole loop shows the geometry
+     is already seamless (no bare panel on either edge at any phase, with
+     ~516px of spare copy still past the bar's right edge at the loop end),
+     so there is nothing at the seam that needs a compositor hint to hide.
+     An animated transform is composited by Safari regardless; it does not
+     need will-change to run smoothly, and here the hint costs far more than
+     it buys. */
 }
 .site-ticker-copy {
   display: inline;
