@@ -10,6 +10,12 @@ type BannerProps = {
   label: string; // real text for screen readers
   tone?: "terminal" | "alert";
   maxFontPx?: number;
+  // Cap for `wideArt` specifically. Desktop containers are much wider, so
+  // reusing `maxFontPx` there forces a needlessly small font-size — and
+  // small sizes are exactly where per-glyph sub-pixel advance-width drift
+  // becomes visible (it shows up as doubled/misaligned strokes, worst on
+  // the box-drawing-heavy "S"). Defaults to maxFontPx if not given.
+  wideMaxFontPx?: number;
 };
 
 // Renders a FIGlet banner from lib/ascii.ts. The <pre> block is aria-hidden
@@ -107,8 +113,16 @@ function FitBanner({
 // the stacked/narrow `art` shown below the `md` breakpoint, the single-line
 // `wideArt` shown at `md` and up — toggled with CSS (not JS) so there's no
 // hydration mismatch and no flash of the wrong variant.
-export default function Banner({ art, wideArt, label, tone = "terminal", maxFontPx }: BannerProps) {
+export default function Banner({
+  art,
+  wideArt,
+  label,
+  tone = "terminal",
+  maxFontPx,
+  wideMaxFontPx,
+}: BannerProps) {
   const cap = maxFontPx ?? BASE_FONT_PX;
+  const wideCap = wideMaxFontPx ?? cap;
 
   return (
     <div className="w-full">
@@ -116,7 +130,7 @@ export default function Banner({ art, wideArt, label, tone = "terminal", maxFont
       {wideArt ? (
         <>
           <FitBanner art={art} cap={cap} tone={tone} className="md:hidden" />
-          <FitBanner art={wideArt} cap={cap} tone={tone} className="hidden md:block" />
+          <FitBanner art={wideArt} cap={wideCap} tone={tone} className="hidden md:block" />
         </>
       ) : (
         <FitBanner art={art} cap={cap} tone={tone} />

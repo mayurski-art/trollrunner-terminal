@@ -77,6 +77,7 @@ export default function Home() {
             wideArt={BANNER_TROLLFACE_WIDE}
             label="trolltruths terminal"
             maxFontPx={9}
+            wideMaxFontPx={14}
           />
         </div>
         <p className="text-terminal text-[8px] tracking-wide mb-1 text-center">
