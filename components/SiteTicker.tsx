@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 // A scrolling status line below the nav. The copy is ambient chrome in the
 // persona's voice (no endpoint aggregates PROBLEMS/recoveries across every
@@ -10,9 +10,6 @@ const TICKER_TEXT =
   "it surfaced inside trollrunner.net · a face with no body and no alibi · trolling has a face now · welcome, troublemaker";
 
 const POLL_MS = 60_000;
-// Safety valve for the repeat loop below, so a zero-width measurement (a
-// display:none parent, a font that never loads) can never spin forever.
-const MAX_REPEATS = 40;
 
 type Quote = { priceUsd: number; change24h: number | null };
 
@@ -26,10 +23,6 @@ function formatPrice(price: number) {
 
 export default function SiteTicker() {
   const [quote, setQuote] = useState<Quote | null>(null);
-  // How many times one half repeats the copy. Measured, not guessed: a
-  // half must be at least a viewport wide or a gap opens at the loop reset.
-  const [repeats, setRepeats] = useState(1);
-  const halfRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -55,25 +48,8 @@ export default function SiteTicker() {
     };
   }, []);
 
-  // Grow the repeat count until one half spans the viewport. Re-runs on
-  // resize and whenever the price text changes the unit's width.
-  const measure = useCallback(() => {
-    const half = halfRef.current;
-    if (!half) return;
-    const unitWidth = half.firstElementChild?.getBoundingClientRect().width ?? 0;
-    if (unitWidth <= 0) return;
-    const needed = Math.ceil(window.innerWidth / unitWidth);
-    setRepeats(Math.min(Math.max(needed, 1), MAX_REPEATS));
-  }, []);
-
-  useEffect(() => {
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [measure, quote]);
-
   const unit = (
-    <span className="site-ticker-copy">
+    <>
       {TICKER_TEXT}
       {quote ? (
         <>
@@ -95,31 +71,21 @@ export default function SiteTicker() {
         </>
       ) : null}
       {" · "}
-    </span>
+    </>
   );
-
-  const half = Array.from({ length: repeats }, (_, i) => (
-    <span key={i} className="site-ticker-unit">
-      {unit}
-    </span>
-  ));
 
   return (
     <div className="site-ticker mb-6">
-      {/* Two identical halves in a flex track. Each half repeats the copy
-          enough times to be at least one viewport wide, so the second half
-          is always already covering the screen when the first scrolls off.
-          The animation shifts the track by -50% — exactly one half — so the
-          reset frame is pixel-identical to the start: no seam, no blank
-          tail. aria-hidden on the clone stops screen readers reading it
-          twice. */}
-      <div className="site-ticker-track">
-        <div className="site-ticker-half" ref={halfRef}>
-          {half}
-        </div>
-        <div className="site-ticker-half" aria-hidden="true">
-          {half}
-        </div>
+      {/* Two copies, each absolutely positioned and animated by the exact
+          same keyframes. Copy 2 starts at left:100% — i.e. rigidly one
+          copy-width to the right of copy 1, guaranteed by CSS layout, not
+          by a JS-measured repeat count. When copy 1 has scrolled fully off
+          the left edge, copy 2 is sitting exactly where copy 1 started:
+          the seam is structural, not computed, so there is nothing for a
+          browser's flex/max-content sizing quirks to get wrong. */}
+      <div className="site-ticker-copy site-ticker-copy--a">{unit}</div>
+      <div className="site-ticker-copy site-ticker-copy--b" aria-hidden="true">
+        {unit}
       </div>
     </div>
   );

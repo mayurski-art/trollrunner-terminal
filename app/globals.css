@@ -430,37 +430,46 @@ main {
    countdown but in the terminal accent instead of that feature's own
    yellow, so it reads as ambient site chrome rather than a copy-paste. */
 .site-ticker {
+  position: relative;
   overflow: hidden;
   border-top: 1px solid var(--terminal);
   border-bottom: 1px solid var(--terminal);
   background: var(--panel);
+  height: 1.6rem;
 }
-/* The track holds two identical halves side by side and is what moves. */
-.site-ticker-track {
-  display: flex;
-  width: max-content;
-  animation: site-ticker-scroll 22s linear infinite;
-}
-/* Each half repeats the copy until it is at least a viewport wide — the
-   repeat count is measured in SiteTicker.tsx, because a half narrower than
-   the screen is exactly what left a blank gap before the loop snapped back
-   (the old markup translated a single inline-block span by -50% of itself,
-   which only looks seamless while the text happens to out-width the
-   viewport). */
-.site-ticker-half {
-  display: flex;
-  flex: none;
-}
-.site-ticker-unit {
-  flex: none;
-}
+/* Two copies, each absolutely positioned at the ticker's own left edge and
+   animated by the SAME keyframes, so their relationship is fixed by CSS
+   layout rather than by a JS-measured repeat count or a shared flex track.
+   Copy B starts at left:100% — one copy-width to the right of copy A,
+   guaranteed by the browser's own text layout. Both slide left by exactly
+   one copy's width (translateX(-100%)), so at the instant copy A has fully
+   exited on the left, copy B is sitting exactly where copy A started: the
+   seam is structural, not computed.
+
+   This replaces an earlier flex-track + JS-measured-repeat-count version.
+   That version passed every geometry check in headless Chrome (desktop and
+   mobile-emulated viewports alike) but still showed a real gap on real
+   iOS Safari — screenshotted by the user, a blank strip at the ticker's
+   left edge mid-scroll. Chrome's flex width:max-content sizing and
+   Safari's do not agree byte-for-byte, and that mismatch was invisible to
+   every Chromium-based tool available for testing it. Removing the
+   max-content/flex dependency entirely removes the class of bug, rather
+   than patching around a browser quirk that couldn't be directly
+   observed. */
 .site-ticker-copy {
-  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
   white-space: nowrap;
   padding: 0.4rem 0;
   font-size: 0.8rem;
   color: var(--terminal);
   letter-spacing: 0.05em;
+  animation: site-ticker-scroll 22s linear infinite;
+  will-change: transform;
+}
+.site-ticker-copy--b {
+  left: 100%;
 }
 .site-ticker-price {
   font-weight: 600;
@@ -473,19 +482,20 @@ main {
 .site-ticker-down {
   color: var(--alert);
 }
-/* The track is exactly two identical halves, so -50% of the track is one
-   whole half: the end frame is pixel-identical to the start. Paired with
-   the fixed two-half markup in SiteTicker.tsx. */
+/* Each copy slides exactly its own width to the left. Copy A ends where
+   copy B started (left:100%), and copy B — starting one copy-width further
+   right — ends exactly at left:0, i.e. copy A's own starting position: the
+   two loop in lockstep with no seam. */
 @keyframes site-ticker-scroll {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-ticker-track {
+  .site-ticker-copy {
     animation: none;
   }
 }
