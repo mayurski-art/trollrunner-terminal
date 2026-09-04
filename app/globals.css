@@ -433,56 +433,55 @@ main {
 }
 
 /* Site-wide texture, components/SiteTicker.tsx — a scrolling status line
-   below the nav, reusing the same marquee technique as the vault/door
-   countdown but in the terminal accent instead of that feature's own
-   yellow, so it reads as ambient site chrome rather than a copy-paste.
+   below the nav, in the terminal accent so it reads as ambient site chrome.
 
-   Two copies stacked in the SAME box (both position:absolute, inset:0),
-   each carrying its own translateX offset baked into its own keyframes.
-   A CSS percentage in `transform` resolves against the element's OWN
-   border box, not the container — so translateX(100%) on copy B is
-   genuinely "one copy-width to the right of copy A", regardless of how
-   wide the ticker bar itself is.
+   ONE animated element (.site-ticker-track) holding two inline copies.
+   This has now been rebuilt three times; recording why, so it isn't
+   "simplified" back into a broken shape:
 
-   This replaces a version that put copy B at `left: 100%`. That was a
-   real bug, not a browser quirk: `left` on an absolutely positioned
-   element resolves against its CONTAINING block (the ~380px-wide ticker
-   bar), not the sibling's rendered width (~860px on the same phone) — so
-   copy B started only a third of the way clear of copy A, and the two
-   overlapped as stacked, doubled-up text for most of the animation.
-   Screenshotted by the user on their phone; never caught here because
-   every check run against that version measured .getBoundingClientRect()
-   on each copy separately and confirmed their WIDTHS, without checking
-   that they didn't visually overlap. */
+   1. A single inline-block span translated by -50% of ITSELF. Seamless
+      only while the text out-widths the viewport; on a wide screen the
+      copy ran out mid-scroll and left a blank gap before snapping back.
+   2. A flex track (width:max-content) with a JS-measured repeat count.
+      Passed every geometry check in headless Chrome at every viewport,
+      but still showed a real gap on a physical iPhone. Chrome's and
+      Safari's flex max-content sizing do not agree closely enough here.
+   3. Two SEPARATE absolutely-positioned copies, each with its own
+      keyframes (translateX(-100%) / translateX(100%)->0). This asks the
+      browser to hold two independent animation instances in perfect
+      lockstep indefinitely. Chrome does. iOS Safari does not: the copies
+      converged and rendered as overlapping, doubled-up text on a real
+      iPhone, while Chrome measured a flawless zero-overlap loop.
+
+   The fix for all three: one moving box, sized by its own inline content,
+   translated by exactly half its own width. There is no second animation
+   to desync, no percentage resolving against a container instead of the
+   text, and no flex intrinsic-sizing for engines to disagree about.
+   inline-block + nowrap is used deliberately instead of flex/max-content
+   — it is the oldest and most consistently implemented way to get a
+   shrink-to-fit box hugging two inline children. */
 .site-ticker {
-  position: relative;
   overflow: hidden;
   border-top: 1px solid var(--terminal);
   border-bottom: 1px solid var(--terminal);
   background: var(--panel);
-  height: 1.6rem;
+  /* The track is inline-block, so the wrapper is a line box; kill the
+     descender gap that would otherwise pad the bar unevenly. */
+  line-height: 0;
 }
-.site-ticker-copy {
-  /* left/top only — NOT inset:0. inset:0 stretches the box to the
-     container's own width, which is exactly the container-relative-sizing
-     bug this replaces (translateX(100%) would then resolve against the
-     ~380px ticker bar again, not the ~860px of text). left+top lets the
-     box size to its own nowrap content instead. */
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
+.site-ticker-track {
+  display: inline-block;
   white-space: nowrap;
-  font-size: 0.8rem;
-  color: var(--terminal);
-  letter-spacing: 0.05em;
-  animation: site-ticker-scroll-a 22s linear infinite;
+  animation: site-ticker-scroll 22s linear infinite;
   will-change: transform;
 }
-.site-ticker-copy--b {
-  animation-name: site-ticker-scroll-b;
+.site-ticker-copy {
+  display: inline;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+  color: var(--terminal);
+  letter-spacing: 0.05em;
 }
 .site-ticker-price {
   font-weight: 600;
@@ -495,38 +494,20 @@ main {
 .site-ticker-down {
   color: var(--alert);
 }
-/* Copy A starts at its own position (0%) and slides fully clear to the
-   left (-100% of ITS OWN width). Copy B starts already one full width to
-   the right of copy A (100% of ITS OWN width, i.e. identical width since
-   the text is identical) and ends at 0% — exactly copy A's starting spot.
-   Both use the same duration/timing, so at every instant B trails A by
-   precisely one copy-width: the moment A fully exits left, B is sitting
-   exactly where A started. No container-relative unit involved anywhere
-   in this pair, so the ticker bar's own width cannot desync them. */
-@keyframes site-ticker-scroll-a {
+/* The track is exactly two identical copies wide, so -50% of the track is
+   exactly one copy: the end frame is pixel-identical to the start, and the
+   second copy is already covering the bar when the first scrolls off. */
+@keyframes site-ticker-scroll {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-100%);
-  }
-}
-@keyframes site-ticker-scroll-b {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-ticker-copy {
+  .site-ticker-track {
     animation: none;
-  }
-  .site-ticker-copy--b {
-    /* Hide the duplicate rather than let two static copies sit on top of
-       each other when motion is disabled. */
-    visibility: hidden;
   }
 }
 

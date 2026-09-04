@@ -70,22 +70,41 @@ export default function SiteTicker() {
           </span>
         </>
       ) : null}
-      {" · "}
+      {/* Non-breaking spaces, not plain ones. A plain trailing space at the
+          end of a line box is collapsed away by inline layout, but the same
+          space mid-line (where another copy follows it) is preserved — so
+          the two otherwise-identical copies measured 862.75px and 856.92px.
+          That 5.9px asymmetry means translateX(-50%) no longer lands on the
+          seam, and the loop drifts further out of true every pass. A
+          non-breaking space never collapses, so both copies measure the
+          same. */}
+      {" · "}
     </>
   );
 
   return (
     <div className="site-ticker mb-6">
-      {/* Two copies, each absolutely positioned and animated by the exact
-          same keyframes. Copy 2 starts at left:100% — i.e. rigidly one
-          copy-width to the right of copy 1, guaranteed by CSS layout, not
-          by a JS-measured repeat count. When copy 1 has scrolled fully off
-          the left edge, copy 2 is sitting exactly where copy 1 started:
-          the seam is structural, not computed, so there is nothing for a
-          browser's flex/max-content sizing quirks to get wrong. */}
-      <div className="site-ticker-copy site-ticker-copy--a">{unit}</div>
-      <div className="site-ticker-copy site-ticker-copy--b" aria-hidden="true">
-        {unit}
+      {/* ONE animated element (the track) holding two inline copies of the
+          text. Everything else about this is subordinate to that: earlier
+          versions animated the two copies as two SEPARATE elements with
+          two separate keyframe animations, which requires the browser to
+          keep two independent animation instances in perfect lockstep
+          forever. Chrome does; iOS Safari does not reliably, and the two
+          copies converged into overlapping, doubled-up text on a real
+          iPhone while every Chrome-based test showed a perfect zero-overlap
+          loop. With a single animated element there are no two animations
+          to desync — the copies are rigid siblings inside one moving box,
+          so their spacing is a layout fact, not a timing coincidence. */}
+      {/* No whitespace between these two spans: JSX collapses a newline
+          between sibling elements into a real space text node, and under
+          white-space:nowrap that space renders BETWEEN the copies. It made
+          copy A measure 5.9px wider than copy B, so -50% of the track no
+          longer landed exactly on the seam and the loop drifted a little
+          further out of alignment every pass. Keep them adjacent. */}
+      <div className="site-ticker-track">
+        <span className="site-ticker-copy">{unit}</span>
+        {/* prettier-ignore */}
+        <span className="site-ticker-copy" aria-hidden="true">{unit}</span>
       </div>
     </div>
   );
