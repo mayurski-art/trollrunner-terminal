@@ -802,13 +802,13 @@ export default function Chat({
           aria-modal="true"
           aria-label={lightbox.caption ?? "image sent by the terminal"}
           onClick={() => setLightbox(null)}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
+          className="chat-lightbox-backdrop fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={lightbox.url}
             alt={lightbox.caption ?? "image sent by the terminal"}
-            className="max-h-[85vh] max-w-full object-contain border border-dim"
+            className="chat-lightbox-image max-h-[85vh] max-w-full object-contain border border-dim"
           />
           {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
           <button

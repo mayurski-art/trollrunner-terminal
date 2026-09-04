@@ -1556,3 +1556,39 @@ html[data-custom-cursor] label {
     animation: none;
   }
 }
+
+/* Chat image lightbox: backdrop fades in, image scales up from the thumbnail
+   size — a deliberate "popup," not an instant snap into the small chat
+   space. */
+.chat-lightbox-backdrop {
+  animation: chat-lightbox-backdrop-in 0.2s ease-out;
+}
+@keyframes chat-lightbox-backdrop-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.chat-lightbox-image {
+  animation: chat-lightbox-image-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes chat-lightbox-image-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-lightbox-backdrop,
+  .chat-lightbox-image {
+    animation: none;
+  }
+}
