@@ -12,6 +12,32 @@ export const maxDuration = 60;
 // just triggered on demand instead of by Vercel Cron, and gated by
 // requireOwner() instead of CRON_SECRET. Still respects is_paused and the
 // same daily spend cap so a manual click can't blow past the budget guard.
+// Recover whatever is already awaiting review. The review card used to live
+// only in React state, so a reload or a tab change stranded the pending post:
+// invisible to the public because pending = true, and invisible to the owner
+// because nothing re-fetched it. Those posts piled up unreviewable. The
+// homepage now asks for the outstanding one on mount.
+export async function GET(request: Request) {
+  const owner = await requireOwner(request);
+  if (!owner) {
+    return NextResponse.json({ error: "not authorized" }, { status: 403 });
+  }
+
+  const { data, error } = await owner.supabase
+    .from("terminal_posts")
+    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+    .eq("pending", true)
+    .order("posted_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ post: data ?? null });
+}
+
 export async function POST(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
@@ -19,6 +45,18 @@ export async function POST(request: Request) {
   }
 
   const { supabase } = owner;
+
+  // Steering note from the review card or the chat panel — optional, and a
+  // body is not required at all, so a plain click still works.
+  let steer = "";
+  let replaces = "";
+  try {
+    const body = (await request.json()) as { steer?: string; replaces?: string };
+    steer = (body.steer ?? "").trim().slice(0, 500);
+    replaces = (body.replaces ?? "").trim();
+  } catch {
+    // no body — a plain generate
+  }
 
   const { data: config } = await supabase
     .from("terminal_config")
@@ -53,7 +91,7 @@ export async function POST(request: Request) {
 
   let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
-    generated = await generatePost(recent, recent.length);
+    generated = await generatePost(recent, recent.length, steer || undefined);
   } catch (err) {
     return NextResponse.json(
       { error: `generation failed: ${(err as Error).message}` },
@@ -87,6 +125,22 @@ export async function POST(request: Request) {
 
   if (insertError || !post) {
     return NextResponse.json({ error: insertError?.message ?? "insert failed" }, { status: 500 });
+  }
+
+  // Retire the draft this one was asked to replace — only after the
+  // replacement is safely inserted, so a failed generation above leaves the
+  // owner with the draft they still had rather than nothing. Narrowed to
+  // pending + never-transmitted rows so this can't reach a published post.
+  if (replaces) {
+    const { error: replaceError } = await supabase
+      .from("terminal_posts")
+      .delete()
+      .eq("id", replaces)
+      .eq("pending", true)
+      .is("x_post_url", null);
+    if (replaceError) {
+      console.error("[generate-transmission] failed to retire draft:", replaceError.message);
+    }
   }
 
   return NextResponse.json({ post });

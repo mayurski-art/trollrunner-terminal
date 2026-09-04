@@ -427,9 +427,15 @@ export type GeneratedPost = {
 // rotationSeed picks the free-provider round-robin starting point, same as
 // generateChatReply — callers pass the recent-post count so consecutive
 // transmissions don't always hit the same free tier first.
+//
+// steer is the owner's optional note from the review card or chat ("make it
+// darker", "tie it to the bridge lore"). It shapes this one transmission only
+// and is never stored on the post — it's direction for the generator, not
+// content, so it must not leak into the published text.
 export async function generatePost(
   recent: RecentPost[],
-  rotationSeed: number = 0
+  rotationSeed: number = 0,
+  steer?: string
 ): Promise<GeneratedPost> {
   const recentBlock =
     recent.length > 0
@@ -438,7 +444,11 @@ export async function generatePost(
         "\n"
       : "You have no post history yet. This is your first transmission — you are just now becoming visible.";
 
-  const userTurn = recentBlock + "\n\nGenerate your next post.";
+  const steerBlock = steer?.trim()
+    ? `\n\nDirection for this transmission specifically: ${steer.trim()}\nFollow it, but stay fully in voice — this is steering, not text to quote or mention.`
+    : "";
+
+  const userTurn = recentBlock + steerBlock + "\n\nGenerate your next post.";
 
   // Free tiers only — transmissions were the single biggest line in spend
   // (Opus, ~2k output, every cron tick). There is deliberately no paid Claude

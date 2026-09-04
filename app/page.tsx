@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
 import Nav from "@/components/Nav";
@@ -12,6 +12,7 @@ import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
+import CrypticWait from "@/components/CrypticWait";
 import Faq from "@/components/Faq";
 import { BANNER_TROLLFACE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
@@ -29,6 +30,19 @@ export default function Home() {
   const [latest, setLatest] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [justGenerated, setJustGenerated] = useState(false);
+  // True while a transmission is being generated — the panel shows the cryptic
+  // waiting animation in place of the current transmission text.
+  const [generating, setGenerating] = useState(false);
+  const [hasDraft, setHasDraft] = useState(false);
+  const steerRef = useRef<((note: string) => void) | null>(null);
+
+  const handleSteer = useCallback((note: string) => {
+    steerRef.current?.(note);
+  }, []);
+
+  const handleReviewChange = useCallback((post: Post | null) => {
+    setHasDraft(post !== null);
+  }, []);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -76,6 +90,9 @@ export default function Home() {
           >
             <GenerateTransmission
               session={session}
+              onPendingChange={setGenerating}
+              onReviewChange={handleReviewChange}
+              steerRef={steerRef}
               onGenerated={(post) => {
                 setLatest(post);
                 setJustGenerated(true);
@@ -83,10 +100,11 @@ export default function Home() {
               }}
             />
             {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
-            {!error && !latest && (
+            {!error && !latest && !generating && (
               <p className="text-dim text-sm animate-pulse">establishing connection...</p>
             )}
-            {latest && (
+            {generating && <CrypticWait />}
+            {latest && !generating && (
               <>
                 <p
                   className={`whitespace-pre-wrap leading-relaxed text-terminal ${
@@ -136,7 +154,7 @@ export default function Home() {
               <MiniConnector />
             </div>
             {session ? (
-              <Chat />
+              <Chat onSteerTransmission={hasDraft ? handleSteer : undefined} />
             ) : (
               <p className="text-dim text-sm">sign in up top to chat with it</p>
             )}

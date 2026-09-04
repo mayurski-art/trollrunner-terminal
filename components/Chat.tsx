@@ -174,7 +174,24 @@ const THINKING_VERBS = [
   "reading between your lines",
 ];
 
-export default function Chat() {
+// Distinguishes "reshape the draft" from an ordinary chat message. Only ever
+// consulted when the owner actually has a transmission awaiting review, so a
+// false positive costs a regeneration, not a lost conversation — and phrasing
+// it as an explicit verb+noun pair keeps normal talk about transmissions
+// ("what was that last transmission about") from tripping it.
+const STEER_VERB = /\b(make|redo|regenerate|rewrite|reshape|change|tweak|try|shorter|longer|darker|weirder|less|more)\b/i;
+const STEER_NOUN = /\b(it|this|that|transmission|post|draft|one)\b/i;
+
+function isTransmissionSteer(text: string): boolean {
+  return STEER_VERB.test(text) && STEER_NOUN.test(text);
+}
+
+export default function Chat({
+  onSteerTransmission,
+}: {
+  // Present only for the owner while a draft is pending review.
+  onSteerTransmission?: (note: string) => void;
+} = {}) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [wallet, setWallet] = useState<Wallet>({
     balance: 0,
@@ -530,6 +547,24 @@ export default function Chat() {
     const text = input.trim();
     if (!text || busy) return;
     setInput("");
+
+    // Owner steering a transmission that's awaiting review: this is direction
+    // for the generator, not a message to the terminal, so it regenerates the
+    // draft instead of spending a chat turn on it.
+    if (onSteerTransmission && isTransmissionSteer(text)) {
+      setMessages((m) => [
+        ...m,
+        { role: "user", content: text, created_at: new Date().toISOString() },
+        {
+          role: "terminal",
+          content: "[reshaping the pending transmission]",
+          created_at: new Date().toISOString(),
+        },
+      ]);
+      onSteerTransmission(text);
+      return;
+    }
+
     setMessages((m) => [...m, { role: "user", content: text, created_at: new Date().toISOString() }]);
     await deliver(text);
   }
