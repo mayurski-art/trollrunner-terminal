@@ -1368,6 +1368,16 @@ main {
 html[data-boot-ready] #preboot-shield {
   display: none;
 }
+/* BootSequence's own scroll-lock only lands once its useEffect runs, which
+   is after this shield's first paint — the gap let the real page (still at
+   full, unfit-to-viewport banner width) sit scrollable underneath the
+   opaque shield, so a touch during that window could drag it into a
+   horizontally-scrolled position that stayed once the shield lifted. This
+   CSS rule covers the exact same window from the very first paint, with no
+   JS race. */
+html:not([data-boot-ready]) body {
+  overflow: hidden;
+}
 
 /* The boot overlay's exit, components/BootSequence.tsx — a plain opacity
    fade shortly after the connector's packets converge. */
