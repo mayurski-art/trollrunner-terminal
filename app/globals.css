@@ -28,7 +28,8 @@
   --dim: #5c5c5c; /* frame chrome, timestamps, labels */
   --you: #9a9a9a; /* the human speaking */
   --problem: #ffd21f; /* the economy: PROBLEMS, mining, vault */
-  --alert: #ff3b3b; /* danger + brand accent */
+  --alert: #ff3b3b; /* danger + brand accent, doubles as price-down */
+  --gain: #3ddc84; /* price-up; the only green in the palette */
   --ghost: #3a3a3a; /* disabled, placeholder */
 }
 
@@ -41,6 +42,7 @@
   --color-you: var(--you);
   --color-problem: var(--problem);
   --color-alert: var(--alert);
+  --color-gain: var(--gain);
   --color-ghost: var(--ghost);
   --font-mono: var(--font-mono);
 }
@@ -421,27 +423,58 @@ main {
   border-bottom: 1px solid var(--terminal);
   background: var(--panel);
 }
-.site-ticker span {
-  display: inline-block;
+/* The track holds two identical halves side by side and is what moves. */
+.site-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: site-ticker-scroll 22s linear infinite;
+}
+/* Each half repeats the copy until it is at least a viewport wide — the
+   repeat count is measured in SiteTicker.tsx, because a half narrower than
+   the screen is exactly what left a blank gap before the loop snapped back
+   (the old markup translated a single inline-block span by -50% of itself,
+   which only looks seamless while the text happens to out-width the
+   viewport). */
+.site-ticker-half {
+  display: flex;
+  flex: none;
+}
+.site-ticker-unit {
+  flex: none;
+}
+.site-ticker-copy {
+  display: block;
   white-space: nowrap;
   padding: 0.4rem 0;
   font-size: 0.8rem;
   color: var(--terminal);
   letter-spacing: 0.05em;
-  animation: site-ticker-scroll 22s linear infinite;
 }
-/* The span renders TICKER_UNIT (TICKER_TEXT + " · ") exactly twice, back
-   to back with nothing extra — so the two halves are identical and
-   translating by exactly -50% of that doubled width lands on a frame
-   pixel-identical to the start, so the loop reset is invisible and
-   nothing ever scrolls off into a blank gap the way a 100% -> -100%
-   pass would. */
+.site-ticker-price {
+  font-weight: 600;
+}
+/* Direction is carried by an arrow glyph as well as the color, so gain vs
+   loss still reads without relying on color alone. */
+.site-ticker-up {
+  color: var(--gain);
+}
+.site-ticker-down {
+  color: var(--alert);
+}
+/* The track is exactly two identical halves, so -50% of the track is one
+   whole half: the end frame is pixel-identical to the start. Paired with
+   the fixed two-half markup in SiteTicker.tsx. */
 @keyframes site-ticker-scroll {
   from {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-ticker-track {
+    animation: none;
   }
 }
 
