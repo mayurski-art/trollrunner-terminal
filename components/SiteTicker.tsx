@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // A scrolling status line below the nav. The copy is ambient chrome in the
 // persona's voice (no endpoint aggregates PROBLEMS/recoveries across every
@@ -29,6 +29,8 @@ function formatPrice(price: number) {
 export default function SiteTicker() {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [floor, setFloor] = useState<Floor | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const firstCopyRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -77,6 +79,50 @@ export default function SiteTicker() {
       clearInterval(id);
     };
   }, []);
+
+  // Publish the width of ONE copy as --ticker-shift, so the keyframe can
+  // translate by a fixed pixel distance instead of a percentage of the
+  // track. The track's width is not stable: it paints first with no market
+  // data and grows when the $TROLL quote and NFT floor arrive, and a
+  // percentage transform silently re-resolves against that new width,
+  // teleporting a running animation sideways by up to a full copy (that
+  // jump is the "blink", and where it lands is the "gap"). Re-measured
+  // whenever the content changes, on resize, and after webfonts load, since
+  // all three change the text's rendered width.
+  //
+  // useLayoutEffect so the variable is set in the same frame the new content
+  // paints — with a plain effect the browser can paint one frame using the
+  // stale shift, which is the very jump this exists to prevent.
+  useLayoutEffect(() => {
+    const track = trackRef.current;
+    const copy = firstCopyRef.current;
+    if (!track || !copy) return;
+
+    const apply = () => {
+      const w = copy.getBoundingClientRect().width;
+      if (!w) return;
+      // Restart the animation from 0 against the new distance. Without this
+      // the running animation keeps its old progress and snaps to a
+      // different on-screen position the moment the distance changes —
+      // trading a percentage-driven jump for a pixel-driven one.
+      track.style.animation = "none";
+      track.style.setProperty("--ticker-shift", `${w}px`);
+      void track.offsetWidth; // force reflow so the restart actually takes
+      track.style.animation = "";
+    };
+
+    apply();
+
+    const ro = new ResizeObserver(apply);
+    ro.observe(copy);
+    window.addEventListener("resize", apply);
+    // Webfonts swapping in after first paint change the measured width.
+    document.fonts?.ready.then(apply).catch(() => {});
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+    };
+  }, [quote, floor]);
 
   const unit = (
     <>
@@ -163,8 +209,8 @@ export default function SiteTicker() {
           No whitespace between the spans: JSX turns a newline between
           siblings into a real space text node, which under nowrap renders
           between copies and makes them unequal widths. */}
-      <div className="site-ticker-track">
-        <span className="site-ticker-copy">{unit}</span>
+      <div className="site-ticker-track" ref={trackRef}>
+        <span className="site-ticker-copy" ref={firstCopyRef}>{unit}</span>
         {/* prettier-ignore */}
         <span className="site-ticker-copy" aria-hidden="true">{unit}</span>
         {/* prettier-ignore */}

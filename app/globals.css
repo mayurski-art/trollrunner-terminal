@@ -501,29 +501,38 @@ main {
 .site-ticker-down {
   color: var(--alert);
 }
-/* The track is exactly three identical copies wide, so -33.3333% of it is
-   exactly one copy: the end frame is pixel-identical to the start. Three
-   rather than two so that at the reset frame there is still a whole spare
-   copy beyond the bar's right edge — with two, the track's trailing edge
-   coincided with the bar's edge at the snap and Safari intermittently
-   painted one frame of bare panel there (a visible blink each loop). */
+/* Shift by a fixed PIXEL distance (--ticker-shift, measured and set by
+   SiteTicker.tsx), never a percentage.
+
+   This is the bug that survived four rebuilds, because every previous
+   attempt — including two that measured the geometry carefully — analysed
+   the ticker at ONE fixed width. The live ticker has two different widths:
+   it first paints with no market data (measured live: 678.25px per copy,
+   2034.75px track), then $TROLL and the NFT floor arrive from their fetches
+   a moment later and each copy grows to ~1220.73px (3662.20px track).
+
+   A percentage translate re-resolves against the track's CURRENT width. So
+   the instant those fetches resolved, an already-running animation jumped
+   sideways by up to a full copy width with no transition — measured at
+   113.63px when the swap lands 40% into the loop, and ~1220px near the end.
+   That instantaneous displacement IS the reported "blink", and it drops the
+   track wherever it lands, which on a narrow phone bar is routinely a
+   stretch of empty panel — the reported "huge gap on the left".
+
+   A pixel distance does not re-resolve. The width can change underneath it
+   and the animation keeps advancing exactly one copy per loop regardless.
+   The fallback keeps the bar sane for the one frame before JS measures.
+
+   Three copies rather than two so that at the reset frame there is still a
+   whole spare copy beyond the bar's right edge — with two, the track's
+   trailing edge coincided with the bar's edge at the snap and Safari
+   intermittently painted one frame of bare panel there. */
 @keyframes site-ticker-scroll {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
-    /* calc(-100% / 3), not the old -33.3333%. The copies are only exactly
-       equal now that the trailing separator uses non-breaking spaces
-       (SiteTicker.tsx) — before that the last copy collapsed its trailing
-       space and measured 7.69px short, so a "one copy" shift was really
-       1218.17px against a true copy width of 1220.73px. That 2.56px error
-       accumulated every single pass: a frame-by-frame scan of a phone
-       recording showed a left gap growing to 291px and holding for ~3.7s,
-       plus isolated frames where the bar rendered completely empty (the
-       blink). With equal copies the only remaining error was the rounding
-       in 33.3333% itself, so the shift is expressed as an exact third and
-       the end frame is pixel-identical to the start, forever. */
-    transform: translate3d(calc(-100% / 3), 0, 0);
+    transform: translate3d(calc(-1 * var(--ticker-shift, 33.3333%)), 0, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {
