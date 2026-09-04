@@ -3,7 +3,7 @@
 import figlet from "figlet";
 
 const words = [
-  "TROLLFACE",
+  "TROLLTRUTHS",
   "TERMINAL",
   "FACES",
   "THE VAULT",
