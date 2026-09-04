@@ -473,7 +473,14 @@ main {
   display: inline-block;
   white-space: nowrap;
   animation: site-ticker-scroll 22s linear infinite;
+  /* Keep the track on a stable compositor layer so iOS Safari does not
+     re-rasterize it at the animation restart (that shows as a one-frame
+     blink at the loop boundary). The 3D hint has to live in the KEYFRAMES,
+     not here — an animated transform overrides the base one for the whole
+     playback, so a translateZ(0) on this rule would never actually apply. */
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 .site-ticker-copy {
   display: inline;
@@ -494,15 +501,18 @@ main {
 .site-ticker-down {
   color: var(--alert);
 }
-/* The track is exactly two identical copies wide, so -50% of the track is
-   exactly one copy: the end frame is pixel-identical to the start, and the
-   second copy is already covering the bar when the first scrolls off. */
+/* The track is exactly three identical copies wide, so -33.3333% of it is
+   exactly one copy: the end frame is pixel-identical to the start. Three
+   rather than two so that at the reset frame there is still a whole spare
+   copy beyond the bar's right edge — with two, the track's trailing edge
+   coincided with the bar's edge at the snap and Safari intermittently
+   painted one frame of bare panel there (a visible blink each loop). */
 @keyframes site-ticker-scroll {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-33.3333%, 0, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {

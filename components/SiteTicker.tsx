@@ -101,8 +101,21 @@ export default function SiteTicker() {
           copy A measure 5.9px wider than copy B, so -50% of the track no
           longer landed exactly on the seam and the loop drifted a little
           further out of alignment every pass. Keep them adjacent. */}
+      {/* THREE copies, not two. The track shifts by exactly one copy
+          (-33.3333%) per loop, so when it snaps back there is always a
+          full spare copy already sitting past the right edge of the bar.
+          With only two copies the track's trailing edge landed exactly on
+          the bar's right edge at the reset frame, and Safari could paint
+          that edge for a single composited frame before re-rasterizing —
+          a brief blink at the end of every loop. The third copy is pure
+          headroom so no reset frame is ever near the track's edge.
+          No whitespace between the spans: JSX turns a newline between
+          siblings into a real space text node, which under nowrap renders
+          between copies and makes them unequal widths. */}
       <div className="site-ticker-track">
         <span className="site-ticker-copy">{unit}</span>
+        {/* prettier-ignore */}
+        <span className="site-ticker-copy" aria-hidden="true">{unit}</span>
         {/* prettier-ignore */}
         <span className="site-ticker-copy" aria-hidden="true">{unit}</span>
       </div>
