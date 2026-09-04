@@ -512,7 +512,18 @@ main {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-33.3333%, 0, 0);
+    /* calc(-100% / 3), not the old -33.3333%. The copies are only exactly
+       equal now that the trailing separator uses non-breaking spaces
+       (SiteTicker.tsx) — before that the last copy collapsed its trailing
+       space and measured 7.69px short, so a "one copy" shift was really
+       1218.17px against a true copy width of 1220.73px. That 2.56px error
+       accumulated every single pass: a frame-by-frame scan of a phone
+       recording showed a left gap growing to 291px and holding for ~3.7s,
+       plus isolated frames where the bar rendered completely empty (the
+       blink). With equal copies the only remaining error was the rounding
+       in 33.3333% itself, so the shift is expressed as an exact third and
+       the end frame is pixel-identical to the start, forever. */
+    transform: translate3d(calc(-100% / 3), 0, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {

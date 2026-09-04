@@ -107,20 +107,28 @@ export default function SiteTicker() {
           rather than printing a bare label. */}
       {floor && floor.floorUsd !== null ? (
         <>
-          {" · "}
+          {" · "}
           <span className="site-ticker-price">
             NFTs ${Math.round(floor.floorUsd).toLocaleString("en-US")}
           </span>
         </>
       ) : null}
-      {/* Non-breaking spaces, not plain ones. A plain trailing space at the
-          end of a line box is collapsed away by inline layout, but the same
-          space mid-line (where another copy follows it) is preserved — so
-          the two otherwise-identical copies measured 862.75px and 856.92px.
-          That 5.9px asymmetry means translateX(-50%) no longer lands on the
-          seam, and the loop drifts further out of true every pass. A
-          non-breaking space never collapses, so both copies measure the
-          same. */}
+      {/* Non-breaking spaces (U+00A0), NOT plain ones — check the actual
+          bytes if you touch this line, since the two are indistinguishable
+          on screen and this comment claimed nbsp for a long time while the
+          code shipped plain spaces.
+
+          A plain trailing space at the end of a line box is collapsed away
+          by inline layout, but the same space mid-line (where another copy
+          follows) is preserved. So the LAST copy measured 7.69px narrower
+          than the other two (1213.05 vs 1220.73), the track's own width was
+          3654.52, and a "one copy" shift of 100%/3 = 1218.17px undershot a
+          real copy by 2.56px — every single pass. That error accumulates:
+          a frame-by-frame scan of a phone recording caught the seam sliding
+          until a 291px band of empty bar sat on the left for ~3.7 seconds,
+          and single frames rendering completely blank (the "blink").
+          A non-breaking space never collapses, so all three copies measure
+          identically and the loop closes exactly. */}
       {" · "}
     </>
   );

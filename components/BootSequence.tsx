@@ -119,11 +119,46 @@ export default function BootSequence() {
       }`}
       style={{ transition: `opacity ${FADE_MS}ms ease` }}
     >
+      {/* Every line used to be APPENDED to this <pre>, which grows it inside a
+          justify-center column — so the whole block re-centered on each new
+          line and crawled UP the screen (measured: 9.8px per line, 19.5px at
+          the blank-line step). On a phone that reads as the boot text
+          jittering upward, and the frame caught mid-jump strands the previous
+          line on screen as a half-drawn row of dot leaders under "welcome".
+          Instead, render every line from the first frame and reveal them with
+          `visibility` — hidden text still occupies its box, so the <pre> is
+          its final height immediately and nothing ever moves. */}
       <pre className="text-terminal text-xs sm:text-sm leading-relaxed">
-        {BOOT_LINES.slice(0, shownCount).join("\n")}
-        <span className={`blink-cursor${phase === "typing" ? "" : " is-done"}`} />
+        {BOOT_LINES.map((line, i) => (
+          <span key={i} style={{ visibility: i < shownCount ? "visible" : "hidden" }}>
+            {line}
+            {/* The cursor rides the last VISIBLE line rather than sitting at
+                the end of the block: the hidden lines below are still laid
+                out, so a cursor after all of them would park at the bottom
+                from the first frame instead of trailing the typing. */}
+            {i === shownCount - 1 ? (
+              <span
+                className={`blink-cursor${phase === "typing" ? "" : " is-done"}`}
+              />
+            ) : null}
+            {i < BOOT_LINES.length - 1 ? "\n" : null}
+          </span>
+        ))}
       </pre>
-      {phase !== "typing" && <BootConnector onConverge={handleConverge} />}
+      {/* Mounting the connector only at the "connector" phase added a second
+          child to this centered column mid-sequence, which shoved the boot
+          text up by half the connector's height in a single frame — the same
+          jump the <pre> fix above removes, arriving from the other direction.
+          It stays mounted from the start and is merely invisible until its
+          phase, so the column's contents never change size. `visibility`
+          rather than `hidden`/display:none for the same reason as above: the
+          box has to keep occupying its space to hold the layout still. */}
+      <div
+        style={{ visibility: phase === "typing" ? "hidden" : "visible" }}
+        className="w-full flex justify-center"
+      >
+        <BootConnector onConverge={handleConverge} active={phase !== "typing"} />
+      </div>
     </div>
   );
 }

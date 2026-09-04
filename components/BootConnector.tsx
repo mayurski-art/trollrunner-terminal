@@ -47,10 +47,18 @@ const HUB_PCT = colPct(HUB_INDEX);
 // wire. Once the outermost ring lands, onConverge fires and the overlay
 // starts its reveal countdown (BootSequence.tsx) while the hub face keeps
 // flipping grin/sad for the remainder of the reveal.
+// `active` exists so BootSequence can mount this from the very first frame
+// (it must, or adding it to the centered column mid-sequence shoves the boot
+// text upward — see the note there) while the reveal itself still waits for
+// the connector phase. Without the gate, mounting early would start these
+// timers during the typing phase and fire onConverge before the boot text
+// had finished printing.
 export default function BootConnector({
   onConverge,
+  active = true,
 }: {
   onConverge: () => void;
+  active?: boolean;
 }) {
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const stemRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -59,6 +67,7 @@ export default function BootConnector({
   const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    if (!active) return;
     const nodes = nodeRefs.current;
     const stems = stemRefs.current;
     const labels = labelRefs.current;
@@ -146,7 +155,7 @@ export default function BootConnector({
       timers.forEach(clearTimeout);
       clearInterval(spinInterval);
     };
-  }, [onConverge]);
+  }, [onConverge, active]);
 
   return (
     <div
