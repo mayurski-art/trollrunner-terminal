@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Session } from "@supabase/supabase-js";
+import { getSession, onAuthChange } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
+import PostGuess from "@/components/PostGuess";
 import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 
@@ -38,6 +41,12 @@ export default function LogsPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Kind | "all">("all");
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    getSession().then(setSession);
+    return onAuthChange(setSession);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -150,6 +159,7 @@ export default function LogsPage() {
                           </a>
                         )}
                       </div>
+                      {kind === "clue" && <PostGuess postId={post.id} session={session} />}
                     </Frame>
                   );
                 })}
