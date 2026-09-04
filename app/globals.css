@@ -468,6 +468,18 @@ main {
   /* The track is inline-block, so the wrapper is a line box; kill the
      descender gap that would otherwise pad the bar unevenly. */
   line-height: 0;
+  /* Give the CLIPPING container its own compositor layer too, not just the
+     moving track. `overflow: hidden` makes this element the clip for a
+     layer that is permanently in motion; on iOS Safari that clip is
+     re-composited when the transform wraps at the loop boundary, which
+     paints one frame of bare panel — a blink on an otherwise continuous
+     strand. Isolating it keeps the clip on the compositor instead of
+     forcing a repaint of the bar each pass. `paint` (not `strict`/`content`)
+     because the bar must keep deriving its own height from the line box. */
+  contain: paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  isolation: isolate;
 }
 .site-ticker-track {
   display: inline-block;

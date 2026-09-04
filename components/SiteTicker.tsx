@@ -41,7 +41,19 @@ export default function SiteTicker() {
         if (!res.ok) return; // keep the last good quote rather than blanking
         const data = await res.json();
         if (!cancelled && Number.isFinite(data?.priceUsd)) {
-          setQuote({ priceUsd: data.priceUsd, change24h: data.change24h ?? null });
+          // Only swap in a NEW object when a displayed value actually
+          // changed. setQuote({...}) unconditionally would hand React a
+          // fresh reference on every 60s poll, re-running the measuring
+          // layout effect (and, when it still restarted the animation,
+          // visibly snapping the ticker back to the seam) even though the
+          // rendered text was identical.
+          setQuote((prev) =>
+            prev &&
+            prev.priceUsd === data.priceUsd &&
+            prev.change24h === (data.change24h ?? null)
+              ? prev
+              : { priceUsd: data.priceUsd, change24h: data.change24h ?? null },
+          );
         }
       } catch {
         // Offline or blocked — the ticker just runs without a price.
@@ -65,7 +77,15 @@ export default function SiteTicker() {
         if (!res.ok) return; // keep the last good floor rather than blanking
         const data = await res.json();
         if (!cancelled && Number.isFinite(data?.floorEth)) {
-          setFloor({ floorEth: data.floorEth, floorUsd: data.floorUsd ?? null });
+          // Same identity guard as the quote above — an unchanged floor must
+          // not produce a new object, or it re-runs the layout effect.
+          setFloor((prev) =>
+            prev &&
+            prev.floorEth === data.floorEth &&
+            prev.floorUsd === (data.floorUsd ?? null)
+              ? prev
+              : { floorEth: data.floorEth, floorUsd: data.floorUsd ?? null },
+          );
         }
       } catch {
         // Offline or blocked — the ticker just runs without a floor.
@@ -101,14 +121,24 @@ export default function SiteTicker() {
     const apply = () => {
       const w = copy.getBoundingClientRect().width;
       if (!w) return;
-      // Restart the animation from 0 against the new distance. Without this
-      // the running animation keeps its old progress and snaps to a
-      // different on-screen position the moment the distance changes —
-      // trading a percentage-driven jump for a pixel-driven one.
-      track.style.animation = "none";
-      track.style.setProperty("--ticker-shift", `${w}px`);
-      void track.offsetWidth; // force reflow so the restart actually takes
-      track.style.animation = "";
+      // Write the variable ONLY — never restart the animation here.
+      //
+      // This used to do the animation:none / reflow / animation:"" restart
+      // dance, which by construction sets currentTime back to 0: if the
+      // track was mid-scroll it snapped to the seam, a hard visible jump.
+      // Combined with the 60s price poll handing React a new object every
+      // time, that fired about once a minute — the remaining "blink" after
+      // the gap was fixed.
+      //
+      // No restart is needed. A CSS custom property is live: the running
+      // animation re-reads --ticker-shift on its next frame and simply
+      // interpolates toward the new distance, so the scroll stays
+      // continuous. A width change is also rare (only when the price text
+      // actually changes length) and small, so the retarget is imperceptible
+      // — and infinitely preferable to a guaranteed jump back to zero.
+      const prev = track.style.getPropertyValue("--ticker-shift");
+      const next = `${w}px`;
+      if (prev !== next) track.style.setProperty("--ticker-shift", next);
     };
 
     apply();
