@@ -18,12 +18,6 @@ const NFT_POLL_MS = 300_000;
 type Quote = { priceUsd: number; change24h: number | null };
 type Floor = { floorEth: number; floorUsd: number | null };
 
-function formatFloorEth(eth: number) {
-  // Floors sit in the hundredths of an ETH here, so 2dp would read as
-  // "0.06" for everything; 4dp keeps neighbouring listings distinguishable.
-  return eth >= 1 ? eth.toFixed(2) : eth.toFixed(4);
-}
-
 function formatPrice(price: number) {
   // Sub-cent meme-coin prices need more precision than a currency
   // formatter's default 2 decimals, which would render these as "$0.00".
@@ -106,17 +100,16 @@ export default function SiteTicker() {
           </span>
         </>
       ) : null}
-      {floor ? (
+      {/* Rendered only when the USD conversion succeeded. OpenSea quotes the
+          floor in ETH, so floorUsd depends on a second (Coinbase) call; with
+          the ETH figure no longer shown there is nothing meaningful left to
+          display if that conversion is missing, so the entry drops out
+          rather than printing a bare label. */}
+      {floor && floor.floorUsd !== null ? (
         <>
           {" · "}
           <span className="site-ticker-price">
-            TROLLS floor {formatFloorEth(floor.floorEth)} ETH
-            {floor.floorUsd !== null ? (
-              <span className="site-ticker-dim">
-                {" "}
-                (${Math.round(floor.floorUsd).toLocaleString("en-US")})
-              </span>
-            ) : null}
+            NFTs ${Math.round(floor.floorUsd).toLocaleString("en-US")}
           </span>
         </>
       ) : null}
