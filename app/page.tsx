@@ -34,7 +34,17 @@ export default function Home() {
   // waiting animation in place of the current transmission text.
   const [generating, setGenerating] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
+  const [chatPopped, setChatPopped] = useState(false);
   const steerRef = useRef<((note: string) => void) | null>(null);
+
+  useEffect(() => {
+    if (!chatPopped) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setChatPopped(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [chatPopped]);
 
   const handleSteer = useCallback((note: string) => {
     steerRef.current?.(note);
@@ -149,15 +159,31 @@ export default function Home() {
           <Frame
             title="speak to it"
             tone="dim"
-            className={`order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
-              session ? "h-[80vh] max-h-[42rem]" : "h-auto"
+            className={
+              chatPopped
+                ? "fixed inset-4 z-50 lg:inset-10 flex flex-col chat-popout-in"
+                : `order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
+                    session ? "h-[80vh] max-h-[42rem]" : "h-auto"
+                  }`
+            }
+            bodyClassName={`flex flex-col ${session || chatPopped ? "h-full" : ""} ${
+              chatPopped ? "flex-1 min-h-0" : ""
             }`}
-            bodyClassName={`flex flex-col ${session ? "h-full" : ""}`}
             titleEffect="trace"
             traceHue="#b26bff"
           >
-            <div className="shrink-0">
+            <div className="shrink-0 flex items-start justify-between gap-2">
               <MiniConnector />
+              {session && (
+                <button
+                  type="button"
+                  onClick={() => setChatPopped((v) => !v)}
+                  aria-label={chatPopped ? "Shrink chat" : "Pop out chat"}
+                  className="shrink-0 text-dim hover:text-terminal transition-colors text-xs border border-dim hover:border-terminal px-2 py-1"
+                >
+                  {chatPopped ? "[ shrink ]" : "[ pop out ]"}
+                </button>
+              )}
             </div>
             {session ? (
               <Chat onSteerTransmission={hasDraft ? handleSteer : undefined} />
@@ -165,6 +191,14 @@ export default function Home() {
               <p className="text-dim text-sm">sign in up top to chat with it</p>
             )}
           </Frame>
+
+          {chatPopped && (
+            <div
+              className="fixed inset-0 z-40 bg-background/90"
+              onClick={() => setChatPopped(false)}
+              aria-hidden="true"
+            />
+          )}
         </div>
 
         <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
