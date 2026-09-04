@@ -52,8 +52,9 @@
    so page content stays readable. Applied to every route's own <main>
    (app/page.tsx, app/archive, app/vault, app/logs,
    app/transmit, app/inspect, app/reports). .home-hero-bg-frame spans the
-   full viewport (inset: 0) so the image covers edge to edge on every
-   screen size rather than being letterboxed to the content column.
+   full viewport width and exactly one viewport height, so the image
+   covers edge to edge on every screen size rather than being letterboxed
+   to the content column — and without rescaling on long pages.
 
    Two source crops, swapped by viewport width media query rather than
    `background-size: cover` alone: troll-terminal-face-desktop.jpg is a
@@ -70,9 +71,20 @@
   overflow: hidden;
   min-height: 100vh;
 }
+/* Viewport-tall and pinned to the top of the hero rather than inset:0.
+   inset:0 stretched this frame to the FULL height of .home-hero, so
+   background-size:cover rescaled the image to fill whatever the content
+   happened to be — the same page looked wildly more zoomed once it got
+   long. Measured at 1440x900: a short (signed-out) archive covered at
+   0.894x, the signed-in one at 3.333x, a 3.7x jump from content height
+   alone. Locking the frame to 100vh keeps the crop identical no matter
+   how far the page scrolls. */
 .home-hero-bg-frame {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
   z-index: 0;
 }
 .home-hero-bg {
