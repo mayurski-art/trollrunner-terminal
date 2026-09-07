@@ -43,12 +43,14 @@ export default function Frame({
       className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/60 ${className}`}
       style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
     >
-      {title && titleEffect === "trace" && (
+      {titleEffect === "trace" && (
         <>
           <span aria-hidden="true" className="frame-trace-border" />
-          <span className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide">
-            [ {title} ]
-          </span>
+          {title && (
+            <span className="frame-trace absolute -top-3 left-4 bg-background px-2 text-xs tracking-wide">
+              [ {title} ]
+            </span>
+          )}
         </>
       )}
       {title && titleEffect !== "trace" && (

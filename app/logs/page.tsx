@@ -129,6 +129,8 @@ export default function LogsPage() {
                       key={post.id}
                       tone={kind === "clue" ? "problem" : kind === "musing" ? "terminal" : "dim"}
                       bodyClassName="flex flex-col h-full"
+                      titleEffect="trace"
+                      traceHue={kind === "clue" ? "#ffd21f" : kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
                     >
                       <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm">
                         {post.content}
