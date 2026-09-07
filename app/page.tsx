@@ -124,8 +124,8 @@ export default function Home() {
             <Frame
               title="latest transmission"
               tone="terminal"
-              className="lg:h-[34rem]"
-              bodyClassName="chat-scroll lg:h-full lg:overflow-y-auto"
+              className="lg:max-h-[34rem]"
+              bodyClassName="chat-scroll lg:overflow-y-auto"
               titleEffect="trace"
               traceHue="#2ee6ff"
             >
