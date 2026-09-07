@@ -171,30 +171,15 @@ export default function Home() {
             titleEffect="trace"
             traceHue="#b26bff"
           >
-            <div className="shrink-0 flex items-start gap-2">
-              {/* A same-size spacer opposite the pop-out button keeps the
-                  connector centered on the FULL row instead of just the
-                  leftover space next to the button (which read as
-                  off-center — pulled toward the empty side). Both sides
-                  are invisible when there's no session, so the connector
-                  centers on the whole row either way. */}
-              {session && <span className="invisible shrink-0 text-xs border px-2 py-1">[ pop out ]</span>}
-              <div className="flex-1 max-w-xl mx-auto">
-                <MiniConnector />
-              </div>
-              {session && (
-                <button
-                  type="button"
-                  onClick={() => setChatPopped((v) => !v)}
-                  aria-label={chatPopped ? "Shrink chat" : "Pop out chat"}
-                  className="shrink-0 self-start text-dim hover:text-terminal transition-colors text-xs border border-dim hover:border-terminal px-2 py-1"
-                >
-                  {chatPopped ? "[ shrink ]" : "[ pop out ]"}
-                </button>
-              )}
+            <div className="shrink-0 max-w-xl mx-auto w-full">
+              <MiniConnector />
             </div>
             {session ? (
-              <Chat onSteerTransmission={hasDraft ? handleSteer : undefined} />
+              <Chat
+                onSteerTransmission={hasDraft ? handleSteer : undefined}
+                popped={chatPopped}
+                onTogglePopout={() => setChatPopped((v) => !v)}
+              />
             ) : (
               <p className="text-dim text-sm">sign in up top to chat with it</p>
             )}
