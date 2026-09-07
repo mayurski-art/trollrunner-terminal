@@ -45,6 +45,7 @@ export default function GenerateTransmission({
   // this is set.
   const [review, setReview] = useState<Post | null>(null);
   const [deciding, setDeciding] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [steer, setSteer] = useState("");
   // Hidden answer for a verbatim transmission (server sets it as clue_tag).
   // Ignored when steer is short enough to go through the generator instead,
@@ -126,6 +127,7 @@ export default function GenerateTransmission({
         setReview(body.post as Post);
         setSteer("");
         setAnswer("");
+        setEditing(false);
       } catch {
         setError("connection to the terminal was lost");
       } finally {
@@ -199,14 +201,26 @@ export default function GenerateTransmission({
 
   return (
     <div className="mb-3">
-      <button
-        type="button"
-        onClick={() => generate()}
-        disabled={busy || review !== null}
-        className="glitch-btn text-xs text-problem border border-problem/50 px-2 py-1 hover:bg-problem hover:text-background transition-colors disabled:opacity-50"
-      >
-        [ {busy ? "transmitting..." : "generate new transmission"} ]
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => generate()}
+          disabled={busy || review !== null}
+          className="glitch-btn text-xs text-problem border border-problem/50 px-2 py-1 hover:bg-problem hover:text-background transition-colors disabled:opacity-50"
+        >
+          [ {busy ? "transmitting..." : "generate new transmission"} ]
+        </button>
+        <button
+          type="button"
+          onClick={() => setEditing((v) => !v)}
+          disabled={busy}
+          aria-expanded={editing}
+          aria-controls="gt-edit-form"
+          className="text-xs text-dim border border-dim px-2 py-1 hover:text-terminal hover:border-terminal transition-colors disabled:opacity-50"
+        >
+          [ edit ]
+        </button>
+      </div>
       {error && <p className="mt-2 text-alert text-xs">[ {error} ]</p>}
       {review && (
         <div className="mt-3 border border-problem/40 p-3">
@@ -245,10 +259,11 @@ export default function GenerateTransmission({
         </div>
       )}
 
-      {/* Always visible, not just while a draft is held for review — typing a
-          full transmission here and hitting redo used to require clicking
-          "generate new transmission" first just to reach this box. */}
+      {/* Hidden until [edit] is clicked, so the panel isn't cluttered with a
+          textarea and answer field nobody's using most of the time. */}
+      {editing && (
       <form
+        id="gt-edit-form"
         onSubmit={(e) => {
           e.preventDefault();
           const note = steer.trim();
@@ -303,6 +318,7 @@ export default function GenerateTransmission({
           />
         </div>
       </form>
+      )}
     </div>
   );
 }
