@@ -274,17 +274,23 @@ export default function GenerateTransmission({
         <label htmlFor="gt-steer" className="text-ghost text-xs">
           or tell it what to change
         </label>
-        <div className="mt-1.5 flex gap-2 items-end">
+        <div className="mt-1.5 flex gap-2 items-start">
           {/* textarea, not input — a single-line input silently collapses
               pasted newlines, which flattened multi-line verbatim
-              transmissions into one line before they ever reached state. */}
+              transmissions into one line before they ever reached state.
+              No internal scroll/resize: this panel already scrolls
+              (bodyClassName on the Frame in page.tsx), and a second nested
+              scroll container on desktop was clipping the textarea's own
+              bottom border across the last line before the outer panel had
+              scrolled far enough to reveal it. Auto-grow with content
+              instead, so there's only ever one scroll container. */}
           <textarea
             id="gt-steer"
             value={steer}
             onChange={(e) => setSteer(e.target.value)}
             placeholder="make it darker, tie it to the bridge..."
             maxLength={500}
-            rows={4}
+            rows={Math.min(12, Math.max(4, steer.split("\n").length + 1))}
             disabled={busy || deciding}
             onKeyDown={(e) => {
               if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -293,7 +299,7 @@ export default function GenerateTransmission({
                 if (note && !busy && !deciding) generate(note, answer.trim());
               }
             }}
-            className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50 resize-y whitespace-pre-wrap"
+            className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50 whitespace-pre-wrap"
           />
           <button
             type="submit"
