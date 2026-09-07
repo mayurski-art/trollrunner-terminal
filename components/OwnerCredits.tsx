@@ -54,6 +54,11 @@ export default function OwnerCredits({
   const [paused, setPaused] = useState<boolean | null>(null);
   const [pauseBusy, setPauseBusy] = useState(false);
   const [providers, setProviders] = useState<ProviderStatus[] | null>(null);
+  // Collapsed by default — the full meters + free-tier provider list ran
+  // permanently down the top-left corner of every page for the owner,
+  // eating vertical space nobody but troll_runner ever needed visible at
+  // all times. A one-line summary now stands in until expanded.
+  const [expanded, setExpanded] = useState(false);
 
   const isOwner = displayName(session) === OWNER_USERNAME;
 
@@ -174,8 +179,30 @@ export default function OwnerCredits({
   }
 
   if (!usage && !providers) return null;
+
+  if (!expanded) {
+    return (
+      <button
+        type="button"
+        onClick={() => setExpanded(true)}
+        aria-expanded={false}
+        className="mt-2 text-xs text-dim hover:text-terminal transition-colors"
+      >
+        [ {usage ? `api: ${usd(usage.remainingUsd)} left` : "api usage"} · details ]
+      </button>
+    );
+  }
+
   return (
     <div className="mt-2">
+      <button
+        type="button"
+        onClick={() => setExpanded(false)}
+        aria-expanded={true}
+        className="text-xs text-dim hover:text-terminal transition-colors mb-1"
+      >
+        [ hide details ]
+      </button>
       {usage && (
         <>
           <Meter

@@ -88,7 +88,7 @@ export default function LogsPage() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-7xl">
         <Nav />
         <Banner art={BANNER_LOGS} label="the logs" />
         <p className="text-dim text-sm mb-8">the full transmission archive</p>
@@ -141,7 +141,7 @@ export default function LogsPage() {
               );
             }
             return (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map((post) => {
                   const kind = classify(post.content);
                   return (
