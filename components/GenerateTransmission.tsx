@@ -216,7 +216,8 @@ export default function GenerateTransmission({
           disabled={busy}
           aria-expanded={editing}
           aria-controls="gt-edit-form"
-          className="text-xs text-dim border border-dim px-2 py-1 hover:text-terminal hover:border-terminal transition-colors disabled:opacity-50"
+          style={{ color: "#b26bff", borderColor: "#b26bff" }}
+          className="text-xs border px-2 py-1 hover:bg-[#b26bff] hover:text-background transition-colors disabled:opacity-50"
         >
           [ edit ]
         </button>
