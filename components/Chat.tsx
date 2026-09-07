@@ -63,7 +63,9 @@ const MessageRow = memo(function MessageRow({
             className="w-full block"
             aria-label={m.image_caption ?? "clip sent by the terminal"}
           />
-          {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+          {m.image_caption && (
+            <p className="text-terminal font-bold text-xs px-1.5 py-1">{m.image_caption}</p>
+          )}
         </div>
       )}
       {m.image_url && !isVideoAsset(m.image_url) && (
@@ -81,7 +83,9 @@ const MessageRow = memo(function MessageRow({
               className="w-full block"
             />
           </button>
-          {m.image_caption && <p className="text-dim text-xs px-1.5 py-1">{m.image_caption}</p>}
+          {m.image_caption && (
+            <p className="text-terminal font-bold text-xs px-1.5 py-1">{m.image_caption}</p>
+          )}
         </div>
       )}
       <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
