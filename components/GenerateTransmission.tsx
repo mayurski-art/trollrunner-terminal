@@ -46,6 +46,10 @@ export default function GenerateTransmission({
   const [review, setReview] = useState<Post | null>(null);
   const [deciding, setDeciding] = useState(false);
   const [steer, setSteer] = useState("");
+  // Hidden answer for a verbatim transmission (server sets it as clue_tag).
+  // Ignored when steer is short enough to go through the generator instead,
+  // since the AI already produces its own CLUE line in that path.
+  const [answer, setAnswer] = useState("");
 
   const isOwner = displayName(session) === OWNER_USERNAME;
 
@@ -88,7 +92,7 @@ export default function GenerateTransmission({
   }, [isOwner, authHeader]);
 
   const generate = useCallback(
-    async (note?: string) => {
+    async (note?: string, verbatimAnswer?: string) => {
       // Re-entry guard read through the updater rather than a ref, so a steer
       // arriving from the chat panel mid-generation is dropped instead of
       // racing a second request against the one in flight.
@@ -105,6 +109,7 @@ export default function GenerateTransmission({
           headers: { "Content-Type": "application/json", ...(await authHeader()) },
           body: JSON.stringify({
             steer: note ?? "",
+            answer: verbatimAnswer ?? "",
             // Regenerating from the review card retires the draft it replaces,
             // so rejected drafts don't accumulate as invisible pending rows.
             replaces: review?.id ?? "",
@@ -120,6 +125,7 @@ export default function GenerateTransmission({
         // until accept clears the flag.
         setReview(body.post as Post);
         setSteer("");
+        setAnswer("");
       } catch {
         setError("connection to the terminal was lost");
       } finally {
@@ -246,7 +252,7 @@ export default function GenerateTransmission({
         onSubmit={(e) => {
           e.preventDefault();
           const note = steer.trim();
-          if (note && !busy && !deciding) generate(note);
+          if (note && !busy && !deciding) generate(note, answer.trim());
         }}
         className="mt-3 pt-3 border-t border-dim/40"
       >
@@ -270,6 +276,20 @@ export default function GenerateTransmission({
           >
             {busy ? "..." : "redo"}
           </button>
+        </div>
+        <div className="mt-1.5">
+          <label htmlFor="gt-answer" className="text-ghost text-xs">
+            hidden answer, only if pasting a finished transmission verbatim
+          </label>
+          <input
+            id="gt-answer"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder="optional — e.g. SwishPng"
+            maxLength={100}
+            disabled={busy || deciding}
+            className="mt-1 w-full bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50"
+          />
         </div>
       </form>
     </div>

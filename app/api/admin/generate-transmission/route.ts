@@ -65,10 +65,14 @@ export async function POST(request: Request) {
   // body is not required at all, so a plain click still works.
   let steer = "";
   let replaces = "";
+  let answer = "";
   try {
-    const body = (await request.json()) as { steer?: string; replaces?: string };
+    const body = (await request.json()) as { steer?: string; replaces?: string; answer?: string };
     steer = (body.steer ?? "").trim().slice(0, 500);
     replaces = (body.replaces ?? "").trim();
+    // Hidden clue_tag for a verbatim post only — the generator path already
+    // produces its own CLUE line, so this is ignored unless isVerbatimSteer.
+    answer = (body.answer ?? "").trim().slice(0, 100);
   } catch {
     // no body — a plain generate
   }
@@ -93,7 +97,7 @@ export async function POST(request: Request) {
       .from("terminal_posts")
       .insert({
         content,
-        clue_tag: null,
+        clue_tag: answer || null,
         input_tokens: 0,
         output_tokens: 0,
         cache_creation_input_tokens: 0,
