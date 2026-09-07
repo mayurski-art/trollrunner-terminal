@@ -9,6 +9,7 @@ import Frame from "@/components/Frame";
 import PostGuess from "@/components/PostGuess";
 import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
+import { renderTightLines } from "@/lib/renderText";
 
 type Post = {
   id: string;
@@ -35,25 +36,6 @@ function classify(content: string): Kind {
   if (content.includes("▚▞")) return "clue";
   if (content.includes("▓▒▓")) return "musing";
   return "unmarked";
-}
-
-// The persona writes one short thought per line ("line breaks as your only
-// punctuation" — see SYSTEM_PROMPT in persona.ts), never real multi-sentence
-// paragraphs. But models habitually put a blank line between every line
-// anyway, so whitespace-pre-wrap rendering every \n literally produced
-// uniform double-spacing throughout. There's no real paragraph tier to
-// preserve here — collapse ALL line breaks (single or blank-line) to the
-// same tight gap.
-function renderTransmission(content: string) {
-  return content
-    .split(/\n+/)
-    .filter((line) => line.trim().length > 0)
-    .map((line, i, arr) => (
-      <span key={i}>
-        {line}
-        {i < arr.length - 1 && <br />}
-      </span>
-    ));
 }
 
 export default function LogsPage() {
@@ -152,7 +134,7 @@ export default function LogsPage() {
                       traceHue={kind === "clue" ? "#ffd21f" : kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
                     >
                       <div className="text-terminal text-sm leading-snug">
-                        {renderTransmission(post.content)}
+                        {renderTightLines(post.content)}
                       </div>
                       {post.art_url && (
                         // eslint-disable-next-line @next/next/no-img-element

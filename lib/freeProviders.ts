@@ -16,8 +16,17 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 type FreeProvider = {
   name: string;
   enabled: () => boolean;
-  generate: (system: string, history: ChatTurn[], maxTokens: number) => Promise<string | null>;
+  generate: (system: string, history: ChatTurn[], maxTokens: number, signal: AbortSignal) => Promise<string | null>;
 };
+
+// None of the three providers ever timed out on their own — a slow (not
+// failing) response just sat there with no escape hatch, since the
+// round-robin below only advances on a thrown error. Reported live as a
+// chat reply stuck on "decoding..." far longer than the free tiers should
+// ever take. groq/compound-mini in particular runs its own tool-calling
+// loop server-side and can occasionally stall well past a normal chat
+// reply's budget.
+const PROVIDER_TIMEOUT_MS = 15_000;
 
 // Generous relative to the terminal's actual "1-4 short lines" reply
 // length — several of the current free-tier models are reasoning models
@@ -33,12 +42,18 @@ const MAX_OUTPUT_TOKENS = 500;
 // which silently produced an empty clue_tag on every post they wrote.
 export const MAX_OUTPUT_TOKENS_POST = 2000;
 
-async function callGroq(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
+async function callGroq(
+  system: string,
+  history: ChatTurn[],
+  maxTokens: number,
+  signal: AbortSignal
+): Promise<string | null> {
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) return null;
 
   const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
+    signal,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
@@ -61,12 +76,18 @@ async function callGroq(system: string, history: ChatTurn[], maxTokens: number):
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-async function callOpenRouter(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
+async function callOpenRouter(
+  system: string,
+  history: ChatTurn[],
+  maxTokens: number,
+  signal: AbortSignal
+): Promise<string | null> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return null;
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
+    signal,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
@@ -92,7 +113,12 @@ async function callOpenRouter(system: string, history: ChatTurn[], maxTokens: nu
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-async function callGemini(system: string, history: ChatTurn[], maxTokens: number): Promise<string | null> {
+async function callGemini(
+  system: string,
+  history: ChatTurn[],
+  maxTokens: number,
+  signal: AbortSignal
+): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -103,6 +129,7 @@ async function callGemini(system: string, history: ChatTurn[], maxTokens: number
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
     {
       method: "POST",
+      signal,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: system }] },
@@ -151,14 +178,19 @@ export async function generateFreeReply(
 
   for (let i = 0; i < enabledProviders.length; i++) {
     const provider = enabledProviders[(startIndex + i) % enabledProviders.length];
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
     try {
-      const content = await provider.generate(system, history, maxTokens);
+      const content = await provider.generate(system, history, maxTokens, controller.signal);
       if (content && validate(content)) return { content, provider: provider.name };
       console.error(
         `[freeProviders] ${provider.name} returned ${content ? "an unusable response" : "no content"}`
       );
     } catch (err) {
-      console.error(`[freeProviders] ${provider.name} failed:`, (err as Error).message);
+      const label = (err as Error).name === "AbortError" ? "timed out" : (err as Error).message;
+      console.error(`[freeProviders] ${provider.name} failed:`, label);
+    } finally {
+      clearTimeout(timer);
     }
   }
   return null;

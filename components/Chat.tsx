@@ -6,6 +6,7 @@ import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
 import { isVideoAsset } from "@/lib/loreAssets";
+import { renderTightLines } from "@/lib/renderText";
 
 type Message = {
   role: "user" | "terminal";
@@ -44,14 +45,14 @@ const MessageRow = memo(function MessageRow({
   return (
     <div className={`border-l-2 pl-2.5 ${borderColor}`}>
       <p
-        className={`whitespace-pre-wrap text-sm leading-relaxed ${
+        className={`text-sm leading-snug ${
           m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
         }`}
       >
         <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
           {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
         </span>
-        {m.content}
+        {renderTightLines(m.content)}
       </p>
       {m.image_url && isVideoAsset(m.image_url) && (
         <div className="mt-2 max-w-xs border border-dim">
@@ -84,15 +85,15 @@ const MessageRow = memo(function MessageRow({
         </div>
       )}
       <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
-        {m.created_at && <span className="text-dim text-xs">{timeAgo(m.created_at)}</span>}
+        {m.created_at && <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>}
         <button
           type="button"
           onClick={() => onToggleMemory(m)}
           disabled={memoryBusy}
           aria-pressed={remembered}
           aria-label={remembered ? "Forget this message" : "Remember this message"}
-          className={`text-xs disabled:opacity-40 ${
-            remembered ? "text-problem" : "text-ghost hover:text-terminal transition-colors"
+          className={`text-xs font-bold disabled:opacity-40 ${
+            remembered ? "text-problem" : "text-terminal hover:text-terminal transition-colors"
           }`}
         >
           [ {remembered ? "remembered" : "remember"} ]
@@ -636,11 +637,11 @@ export default function Chat({
 
   return (
     <div className="flex flex-col flex-1 min-h-0 lg:h-full">
-      <div className="mb-2 shrink-0 flex items-center gap-2">
+      <div className="mb-1 shrink-0 flex items-center gap-2">
         <TerminalFace />
         <span className="text-dim text-xs">trollface terminal</span>
       </div>
-      <div className="mb-2 shrink-0 grid grid-cols-2 gap-x-4 gap-y-1">
+      <div className="mb-1 shrink-0 grid grid-cols-2 gap-x-4 gap-y-0.5">
         <Meter
           width={10}
           fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
@@ -655,7 +656,7 @@ export default function Chat({
           />
         )}
       </div>
-      <div className="mb-2 shrink-0 flex items-center justify-between gap-3 text-xs">
+      <div className="mb-1 shrink-0 flex items-center justify-between gap-3 text-xs">
         <span className="text-dim">
           buddy: <span className="text-terminal">{wallet.buddyTier}</span>
         </span>

@@ -26,7 +26,7 @@
   --foreground: #d6d6d6;
   --terminal: #f2f2f2; /* the AI speaking */
   --dim: #5c5c5c; /* frame chrome, timestamps, labels */
-  --you: #9a9a9a; /* the human speaking */
+  --you: #e0e0e0; /* the human speaking */
   --problem: #ffd21f; /* the economy: PROBLEMS, mining, vault */
   --alert: #ff3b3b; /* danger + brand accent, doubles as price-down */
   --gain: #3ddc84; /* price-up; the only green in the palette */
