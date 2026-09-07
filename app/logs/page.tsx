@@ -37,24 +37,23 @@ function classify(content: string): Kind {
   return "unmarked";
 }
 
-// whitespace-pre-wrap renders every \n literally, so content with a blank
-// line between EVERY line (not just between paragraphs) rendered uniform
-// double-spacing throughout with no way to tell a real paragraph break from
-// a plain line break. Splitting on blank-line boundaries first lets single
-// newlines within a paragraph collapse to a tight <br>, while an actual
-// blank line between paragraphs keeps its bigger gap.
+// The persona writes one short thought per line ("line breaks as your only
+// punctuation" — see SYSTEM_PROMPT in persona.ts), never real multi-sentence
+// paragraphs. But models habitually put a blank line between every line
+// anyway, so whitespace-pre-wrap rendering every \n literally produced
+// uniform double-spacing throughout. There's no real paragraph tier to
+// preserve here — collapse ALL line breaks (single or blank-line) to the
+// same tight gap.
 function renderTransmission(content: string) {
-  const paragraphs = content.split(/\n{2,}/);
-  return paragraphs.map((para, i) => (
-    <p key={i} className={i > 0 ? "mt-3" : undefined}>
-      {para.split("\n").map((line, j, arr) => (
-        <span key={j}>
-          {line}
-          {j < arr.length - 1 && <br />}
-        </span>
-      ))}
-    </p>
-  ));
+  return content
+    .split(/\n+/)
+    .filter((line) => line.trim().length > 0)
+    .map((line, i, arr) => (
+      <span key={i}>
+        {line}
+        {i < arr.length - 1 && <br />}
+      </span>
+    ));
 }
 
 export default function LogsPage() {
