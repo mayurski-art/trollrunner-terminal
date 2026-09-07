@@ -5,6 +5,7 @@ import type { Session } from "@supabase/supabase-js";
 import { getPublicClient } from "@/lib/supabase";
 import { displayName } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
+import { renderTightLines } from "@/lib/renderText";
 
 type Post = {
   id: string;
@@ -228,8 +229,8 @@ export default function GenerateTransmission({
           <p className="text-ghost text-xs mb-2">
             [ holding — nobody sees this until you accept it ]
           </p>
-          <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm mb-3">
-            {review.content}
+          <p className="leading-snug text-terminal text-sm mb-3">
+            {renderTightLines(review.content)}
           </p>
           {review.clue_tag && (
             <p className="text-ghost text-xs mb-3">

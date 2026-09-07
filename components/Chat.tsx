@@ -645,20 +645,12 @@ export default function Chat({
         <TerminalFace />
         <span className="text-dim text-xs">trollface terminal</span>
       </div>
-      <div className="mb-1 shrink-0 grid grid-cols-2 gap-x-4 gap-y-0.5">
+      <div className="mb-1 shrink-0">
         <Meter
           width={10}
           fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
           label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
         />
-        {dailyFraction !== null && (
-          <Meter
-            width={10}
-            fraction={dailyFraction}
-            tone={dailyFraction >= 0.85 ? "alert" : "terminal"}
-            label={`shared ${dailyLimit!.used}/${dailyLimit!.cap}`}
-          />
-        )}
       </div>
       <div className="mb-1 shrink-0 flex items-center justify-between gap-3 text-xs">
         <span className="text-dim">

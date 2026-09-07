@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import { timeAgo } from "@/lib/time";
+import { renderTightLines } from "@/lib/renderText";
 
 type UserRow = {
   userId: string;
@@ -137,14 +138,14 @@ export default function Inspect() {
                 {chatMessages.map((m, i) => (
                   <p
                     key={i}
-                    className={`whitespace-pre-wrap text-sm leading-relaxed ${
+                    className={`text-sm leading-snug ${
                       m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
                     }`}
                   >
                     <span className="text-dim">
                       {m.is_gossip ? "gossip> " : m.role === "terminal" ? "terminal> " : "user> "}
                     </span>
-                    {m.content}
+                    {renderTightLines(m.content)}
                     <span className="text-ghost text-xs ml-2">{timeAgo(m.created_at)}</span>
                   </p>
                 ))}

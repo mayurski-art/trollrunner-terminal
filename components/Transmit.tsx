@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import { artPrompt } from "@/lib/artStyle";
 import { timeAgo } from "@/lib/time";
+import { renderTightLines } from "@/lib/renderText";
 import Frame from "@/components/Frame";
 
 type Post = {
@@ -199,8 +200,8 @@ function TransmitRow({
         )}
       </div>
 
-      <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm">
-        {post.content}
+      <p className="leading-snug text-terminal text-sm">
+        {renderTightLines(post.content)}
       </p>
 
       {post.art_url && (

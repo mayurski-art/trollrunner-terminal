@@ -16,6 +16,7 @@ import CrypticWait from "@/components/CrypticWait";
 import Faq from "@/components/Faq";
 import { BANNER_TROLLFACE, BANNER_TROLLFACE_WIDE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
+import { renderTightLines } from "@/lib/renderText";
 
 type Post = {
   id: string;
@@ -123,11 +124,9 @@ export default function Home() {
             {latest && !generating && (
               <>
                 <p
-                  className={`whitespace-pre-wrap leading-relaxed text-terminal ${
-                    justGenerated ? "gt-reveal" : ""
-                  }`}
+                  className={`leading-snug text-terminal ${justGenerated ? "gt-reveal" : ""}`}
                 >
-                  {latest.content}
+                  {renderTightLines(latest.content)}
                 </p>
                 {latest.art_url && (
                   // eslint-disable-next-line @next/next/no-img-element
