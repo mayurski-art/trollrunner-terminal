@@ -26,6 +26,22 @@ type Post = {
   posted_at: string;
 };
 
+// The "latest transmission" panel is a fixed height (matches the chat
+// panel next to it), so a short post left a lot of empty space below the
+// guess prompt while a long one needed scrolling. Scaling the text size to
+// content length fills the panel either way instead of leaving it fixed
+// at one size no post actually fits well. Bucketed on length rather than a
+// live ResizeObserver — the content only ever changes on a fresh fetch/
+// generate, never while mid-render.
+function transmissionTextSize(content: string): string {
+  const len = content.length;
+  if (len <= 80) return "text-3xl";
+  if (len <= 140) return "text-2xl";
+  if (len <= 200) return "text-xl";
+  if (len <= 280) return "text-base";
+  return "text-sm";
+}
+
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
   const [latest, setLatest] = useState<Post | null>(null);
@@ -124,7 +140,9 @@ export default function Home() {
             {latest && !generating && (
               <>
                 <p
-                  className={`leading-snug text-terminal ${justGenerated ? "gt-reveal" : ""}`}
+                  className={`leading-snug text-terminal ${transmissionTextSize(latest.content)} ${
+                    justGenerated ? "gt-reveal" : ""
+                  }`}
                 >
                   {renderTightLines(latest.content)}
                 </p>
