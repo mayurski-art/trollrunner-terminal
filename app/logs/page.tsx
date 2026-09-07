@@ -37,6 +37,26 @@ function classify(content: string): Kind {
   return "unmarked";
 }
 
+// whitespace-pre-wrap renders every \n literally, so content with a blank
+// line between EVERY line (not just between paragraphs) rendered uniform
+// double-spacing throughout with no way to tell a real paragraph break from
+// a plain line break. Splitting on blank-line boundaries first lets single
+// newlines within a paragraph collapse to a tight <br>, while an actual
+// blank line between paragraphs keeps its bigger gap.
+function renderTransmission(content: string) {
+  const paragraphs = content.split(/\n{2,}/);
+  return paragraphs.map((para, i) => (
+    <p key={i} className={i > 0 ? "mt-3" : undefined}>
+      {para.split("\n").map((line, j, arr) => (
+        <span key={j}>
+          {line}
+          {j < arr.length - 1 && <br />}
+        </span>
+      ))}
+    </p>
+  ));
+}
+
 export default function LogsPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -132,9 +152,9 @@ export default function LogsPage() {
                       titleEffect="trace"
                       traceHue={kind === "clue" ? "#ffd21f" : kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
                     >
-                      <p className="whitespace-pre-wrap leading-relaxed text-terminal text-sm">
-                        {post.content}
-                      </p>
+                      <div className="text-terminal text-sm leading-snug">
+                        {renderTransmission(post.content)}
+                      </div>
                       {post.art_url && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
