@@ -180,7 +180,7 @@ export default function Home() {
                   are invisible when there's no session, so the connector
                   centers on the whole row either way. */}
               {session && <span className="invisible shrink-0 text-xs border px-2 py-1">[ pop out ]</span>}
-              <div className="flex-1 max-w-sm mx-auto">
+              <div className="flex-1 max-w-xl mx-auto">
                 <MiniConnector />
               </div>
               {session && (
