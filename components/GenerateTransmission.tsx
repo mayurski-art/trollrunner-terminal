@@ -259,20 +259,31 @@ export default function GenerateTransmission({
         <label htmlFor="gt-steer" className="text-ghost text-xs">
           or tell it what to change
         </label>
-        <div className="mt-1.5 flex gap-2">
-          <input
+        <div className="mt-1.5 flex gap-2 items-end">
+          {/* textarea, not input — a single-line input silently collapses
+              pasted newlines, which flattened multi-line verbatim
+              transmissions into one line before they ever reached state. */}
+          <textarea
             id="gt-steer"
             value={steer}
             onChange={(e) => setSteer(e.target.value)}
             placeholder="make it darker, tie it to the bridge..."
             maxLength={500}
+            rows={4}
             disabled={busy || deciding}
-            className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                const note = steer.trim();
+                if (note && !busy && !deciding) generate(note, answer.trim());
+              }
+            }}
+            className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50 resize-y whitespace-pre-wrap"
           />
           <button
             type="submit"
             disabled={busy || deciding || !steer.trim()}
-            className="border border-problem text-problem px-2 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
+            className="border border-problem text-problem px-2 py-1 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
           >
             {busy ? "..." : "redo"}
           </button>
