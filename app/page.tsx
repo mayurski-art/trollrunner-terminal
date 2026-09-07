@@ -53,6 +53,13 @@ export default function Home() {
   const [hasDraft, setHasDraft] = useState(false);
   const [chatPopped, setChatPopped] = useState(false);
   const steerRef = useRef<((note: string) => void) | null>(null);
+  // A ref callback (not a plain useRef) so Chat re-renders once this div
+  // actually mounts — a bare ref's .current change wouldn't trigger that,
+  // and the portal target is null on Chat's very first render otherwise.
+  const [controlsPortalEl, setControlsPortalEl] = useState<HTMLDivElement | null>(null);
+  const controlsPortalRef = useCallback((el: HTMLDivElement | null) => {
+    setControlsPortalEl(el);
+  }, []);
 
   useEffect(() => {
     if (!chatPopped) return;
@@ -113,65 +120,79 @@ export default function Home() {
         <SiteTicker />
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6">
-          <Frame
-            title="latest transmission"
-            tone="terminal"
-            className="order-2 lg:order-none lg:w-1/3 lg:h-[34rem]"
-            bodyClassName="chat-scroll lg:h-full lg:overflow-y-auto"
-            titleEffect="trace"
-            traceHue="#2ee6ff"
-          >
-            <GenerateTransmission
-              session={session}
-              onPendingChange={setGenerating}
-              onReviewChange={handleReviewChange}
-              steerRef={steerRef}
-              onGenerated={(post) => {
-                setLatest(post);
-                setJustGenerated(true);
-                setTimeout(() => setJustGenerated(false), 1200);
-              }}
-            />
-            {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
-            {!error && !latest && !generating && (
-              <p className="text-dim text-sm animate-pulse">establishing connection...</p>
-            )}
-            {generating && <CrypticWait />}
-            {latest && !generating && (
-              <>
-                <p
-                  className={`leading-snug text-terminal ${transmissionTextSize(latest.content)} ${
-                    justGenerated ? "gt-reveal" : ""
-                  }`}
-                >
-                  {renderTightLines(latest.content)}
-                </p>
-                {latest.art_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={latest.art_url}
-                    alt=""
-                    className="mt-3 w-full rounded border border-dim"
-                  />
-                )}
-                <div className="mt-2 flex items-center gap-3 text-xs text-dim">
-                  <span>{timeAgo(latest.posted_at)}</span>
-                  {latest.x_post_url && (
-                    <a
-                      href={latest.x_post_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-terminal underline decoration-dim underline-offset-2"
-                    >
-                      view on x
-                    </a>
+          <div className="order-2 lg:order-none lg:w-1/3 flex flex-col">
+            <Frame
+              title="latest transmission"
+              tone="terminal"
+              className="lg:h-[34rem]"
+              bodyClassName="chat-scroll lg:h-full lg:overflow-y-auto"
+              titleEffect="trace"
+              traceHue="#2ee6ff"
+            >
+              <GenerateTransmission
+                session={session}
+                onPendingChange={setGenerating}
+                onReviewChange={handleReviewChange}
+                steerRef={steerRef}
+                onGenerated={(post) => {
+                  setLatest(post);
+                  setJustGenerated(true);
+                  setTimeout(() => setJustGenerated(false), 1200);
+                }}
+              />
+              {error && <p className="text-alert text-sm">[connection error: {error}]</p>}
+              {!error && !latest && !generating && (
+                <p className="text-dim text-sm animate-pulse">establishing connection...</p>
+              )}
+              {generating && <CrypticWait />}
+              {latest && !generating && (
+                <>
+                  <p
+                    className={`leading-snug text-terminal ${transmissionTextSize(latest.content)} ${
+                      justGenerated ? "gt-reveal" : ""
+                    }`}
+                  >
+                    {renderTightLines(latest.content)}
+                  </p>
+                  {latest.art_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={latest.art_url}
+                      alt=""
+                      className="mt-2 w-full rounded border border-dim"
+                    />
                   )}
-                </div>
-                <OwnerClueReveal session={session} />
-                <PostGuess postId={latest.id} session={session} />
-              </>
+                  <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
+                    <span>{timeAgo(latest.posted_at)}</span>
+                    {latest.x_post_url && (
+                      <a
+                        href={latest.x_post_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:text-terminal underline decoration-dim underline-offset-2"
+                      >
+                        view on x
+                      </a>
+                    )}
+                  </div>
+                  <OwnerClueReveal session={session} />
+                  <PostGuess postId={latest.id} session={session} />
+                </>
+              )}
+            </Frame>
+
+            {session && (
+              // Chat.tsx still owns all the actual voice/clear/pop-out state
+              // and logic (it's the component with the messages and speech
+              // synthesis) — it portals its controls UI into this div
+              // rather than page.tsx duplicating that logic to render a
+              // second copy. Fills the empty space that used to sit below
+              // the guess prompt on a short transmission.
+              <Frame tone="dim" className="mt-3" bodyClassName="py-2">
+                <div ref={controlsPortalRef} />
+              </Frame>
             )}
-          </Frame>
+          </div>
 
           <Frame
             title="speak to it"
@@ -197,6 +218,7 @@ export default function Home() {
                 onSteerTransmission={hasDraft ? handleSteer : undefined}
                 popped={chatPopped}
                 onTogglePopout={() => setChatPopped((v) => !v)}
+                controlsPortalEl={controlsPortalEl}
               />
             ) : (
               <p className="text-dim text-sm">sign in up top to chat with it</p>

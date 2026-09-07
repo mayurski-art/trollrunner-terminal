@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
@@ -195,14 +196,21 @@ export default function Chat({
   onSteerTransmission,
   popped,
   onTogglePopout,
+  controlsPortalEl,
 }: {
   // Present only for the owner while a draft is pending review.
   onSteerTransmission?: (note: string) => void;
   // Pop-out state lives in the parent (it drives the Frame's own fixed-
   // overlay className), so it's threaded in as a prop rather than owned
-  // here — Chat only needs to read/toggle it for the control dropdown.
+  // here — Chat only needs to read/toggle it for the controls box.
   popped?: boolean;
   onTogglePopout?: () => void;
+  // Chat keeps owning the voice/clear state and logic (it's the component
+  // with the messages and speech synthesis), but the controls' visible UI
+  // renders into this div via a portal — it lives in its own small box
+  // below the "latest transmission" panel rather than in Chat's own status
+  // row, filling space that used to sit empty there.
+  controlsPortalEl?: HTMLDivElement | null;
 } = {}) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [wallet, setWallet] = useState<Wallet>({
@@ -236,12 +244,6 @@ export default function Chat({
   const [cooldownNow, setCooldownNow] = useState(() => Date.now());
   const [loaded, setLoaded] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
-  // [pop out] / [voice] / [clear] used to be three separate always-visible
-  // controls in the status row, eating width and (via a fixed row above
-  // page.tsx's own MiniConnector) vertical space that could otherwise show
-  // more of the actual conversation. Consolidated into one dropdown.
-  const [controlsOpen, setControlsOpen] = useState(false);
-  const controlsRef = useRef<HTMLDivElement>(null);
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearing, setClearing] = useState(false);
@@ -263,23 +265,6 @@ export default function Chat({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [lightbox]);
 
-  useEffect(() => {
-    if (!controlsOpen) return;
-    function onPointerDown(e: PointerEvent) {
-      if (controlsRef.current && !controlsRef.current.contains(e.target as Node)) {
-        setControlsOpen(false);
-      }
-    }
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setControlsOpen(false);
-    }
-    window.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [controlsOpen]);
 
   useEffect(() => {
     // Deliberately deferred to after hydration — window/localStorage reads
@@ -683,88 +668,74 @@ export default function Chat({
           label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
         />
       </div>
-      <div className="mb-1 shrink-0 flex items-center justify-between gap-3 text-xs">
+      <div className="mb-1 shrink-0 text-xs">
         <span className="text-dim">
           buddy: <span className="text-terminal">{wallet.buddyTier}</span>
         </span>
-        <div ref={controlsRef} className="relative">
-          <button
-            type="button"
-            onClick={() => setControlsOpen((v) => !v)}
-            aria-expanded={controlsOpen}
-            aria-haspopup="true"
-            className="shrink-0 text-dim hover:text-terminal transition-colors"
-          >
-            [ controls ]
-          </button>
-          {controlsOpen && (
-            <div className="absolute right-0 top-full mt-1 z-20 min-w-40 border border-dim bg-panel p-2 flex flex-col gap-2 text-xs">
-              {onTogglePopout && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    onTogglePopout();
-                    setControlsOpen(false);
-                  }}
-                  className="text-left text-dim hover:text-terminal transition-colors"
-                >
-                  [ {popped ? "shrink" : "pop out"} ]
-                </button>
-              )}
-              {voiceSupported && (
-                <button
-                  type="button"
-                  onClick={toggleVoice}
-                  aria-pressed={voiceOn}
-                  aria-label={voiceOn ? "Disable voice narration" : "Enable voice narration"}
-                  // Deliberately hints the consequence of clicking, same
-                  // pattern as Nav.tsx's [connected] pill hinting the
-                  // disconnect it causes: off hovers toward "on" (gain
-                  // green), on hovers toward "off" (alert red).
-                  className={`text-left transition-colors ${
-                    voiceOn
-                      ? "text-terminal hover:text-alert"
-                      : "text-dim hover:text-gain"
-                  }`}
-                >
-                  [ voice: {voiceOn ? "on" : "off"} ]
-                </button>
-              )}
-              {confirmingClear ? (
-                <span className="text-dim leading-relaxed">
-                  clear? mining + buddy stay.{" "}
-                  <button
-                    type="button"
-                    onClick={clearConversation}
-                    disabled={clearing}
-                    className="text-alert hover:underline disabled:opacity-40"
-                  >
-                    [ {clearing ? "clearing..." : "yes"} ]
-                  </button>{" "}
-                  <button
-                    type="button"
-                    onClick={() => setConfirmingClear(false)}
-                    disabled={clearing}
-                    className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
-                  >
-                    [ cancel ]
-                  </button>
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setConfirmingClear(true)}
-                  disabled={messages.length === 0}
-                  aria-label="Clear this conversation"
-                  className="text-left text-ghost hover:text-terminal transition-colors disabled:opacity-40"
-                >
-                  [ clear ]
-                </button>
-              )}
-            </div>
-          )}
-        </div>
       </div>
+      {controlsPortalEl &&
+        createPortal(
+          <div className="flex items-center gap-3 text-xs flex-wrap">
+            {onTogglePopout && (
+              <button
+                type="button"
+                onClick={onTogglePopout}
+                className="text-dim hover:text-terminal transition-colors"
+              >
+                [ {popped ? "shrink" : "pop out"} ]
+              </button>
+            )}
+            {voiceSupported && (
+              <button
+                type="button"
+                onClick={toggleVoice}
+                aria-pressed={voiceOn}
+                aria-label={voiceOn ? "Disable voice narration" : "Enable voice narration"}
+                // Deliberately hints the consequence of clicking, same
+                // pattern as Nav.tsx's [connected] pill hinting the
+                // disconnect it causes: off hovers toward "on" (gain
+                // green), on hovers toward "off" (alert red).
+                className={`transition-colors ${
+                  voiceOn ? "text-terminal hover:text-alert" : "text-dim hover:text-gain"
+                }`}
+              >
+                [ voice: {voiceOn ? "on" : "off"} ]
+              </button>
+            )}
+            {confirmingClear ? (
+              <span className="text-dim">
+                clear? mining + buddy stay.{" "}
+                <button
+                  type="button"
+                  onClick={clearConversation}
+                  disabled={clearing}
+                  className="text-alert hover:underline disabled:opacity-40"
+                >
+                  [ {clearing ? "clearing..." : "yes"} ]
+                </button>{" "}
+                <button
+                  type="button"
+                  onClick={() => setConfirmingClear(false)}
+                  disabled={clearing}
+                  className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+                >
+                  [ cancel ]
+                </button>
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmingClear(true)}
+                disabled={messages.length === 0}
+                aria-label="Clear this conversation"
+                className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+              >
+                [ clear ]
+              </button>
+            )}
+          </div>,
+          controlsPortalEl
+        )}
       {dailyLimit && dailyFraction !== null && dailyFraction >= 0.85 && (
         <p className="mb-2 shrink-0 text-alert text-xs">
           [ the terminal is almost done talking for today — {dailyLimit.cap! - dailyLimit.used} message
