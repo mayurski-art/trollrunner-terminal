@@ -236,39 +236,42 @@ export default function GenerateTransmission({
             </button>
             {deciding && <span className="text-dim text-xs animate-pulse">working...</span>}
           </div>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const note = steer.trim();
-              if (note && !busy && !deciding) generate(note);
-            }}
-            className="mt-3 pt-3 border-t border-dim/40"
-          >
-            <label htmlFor="gt-steer" className="text-ghost text-xs">
-              or tell it what to change
-            </label>
-            <div className="mt-1.5 flex gap-2">
-              <input
-                id="gt-steer"
-                value={steer}
-                onChange={(e) => setSteer(e.target.value)}
-                placeholder="make it darker, tie it to the bridge..."
-                maxLength={500}
-                disabled={busy || deciding}
-                className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={busy || deciding || !steer.trim()}
-                className="border border-problem text-problem px-2 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
-              >
-                {busy ? "..." : "redo"}
-              </button>
-            </div>
-          </form>
         </div>
       )}
+
+      {/* Always visible, not just while a draft is held for review — typing a
+          full transmission here and hitting redo used to require clicking
+          "generate new transmission" first just to reach this box. */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const note = steer.trim();
+          if (note && !busy && !deciding) generate(note);
+        }}
+        className="mt-3 pt-3 border-t border-dim/40"
+      >
+        <label htmlFor="gt-steer" className="text-ghost text-xs">
+          or tell it what to change
+        </label>
+        <div className="mt-1.5 flex gap-2">
+          <input
+            id="gt-steer"
+            value={steer}
+            onChange={(e) => setSteer(e.target.value)}
+            placeholder="make it darker, tie it to the bridge..."
+            maxLength={500}
+            disabled={busy || deciding}
+            className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={busy || deciding || !steer.trim()}
+            className="border border-problem text-problem px-2 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
+          >
+            {busy ? "..." : "redo"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
