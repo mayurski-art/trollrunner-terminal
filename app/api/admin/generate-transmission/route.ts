@@ -7,6 +7,21 @@ import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+// A short steering note ("make it darker", "tie it to the bridge") is meant
+// as direction for the generator. A finished transmission the owner typed
+// themselves reads differently: longer, usually multiple lines, closer to
+// prose than a command. Feeding the latter through generatePost as "steer"
+// got it paraphrased and stripped of punctuation (apostrophes, quotes) since
+// the prompt explicitly tells the model not to quote it — see persona.ts.
+// This heuristic routes anything that looks like a real draft straight to
+// the database instead, untouched. Multi-line notes are the strongest
+// signal: nobody types a multi-line "make it darker."
+function isVerbatimSteer(steer: string): boolean {
+  if (!steer) return false;
+  if (steer.includes("\n")) return true;
+  return steer.length >= 120;
+}
+
 // Owner-only "generate one right now" button next to the homepage's latest
 // transmission panel — same generation path as the scheduled /api/cron GET,
 // just triggered on demand instead of by Vercel Cron, and gated by
@@ -65,6 +80,47 @@ export async function POST(request: Request) {
 
   if (config?.is_paused) {
     return NextResponse.json({ error: "the terminal is paused" }, { status: 400 });
+  }
+
+  // A steer that reads as a finished transmission rather than a short
+  // instruction ("make it darker") is posted exactly as typed instead of
+  // being fed to the LLM as "direction" — see isVerbatimSteer's comment.
+  // No spend check or provider call needed since nothing gets generated.
+  if (isVerbatimSteer(steer)) {
+    const content = steer.slice(0, 280);
+
+    const { data: post, error: insertError } = await supabase
+      .from("terminal_posts")
+      .insert({
+        content,
+        clue_tag: null,
+        input_tokens: 0,
+        output_tokens: 0,
+        cache_creation_input_tokens: 0,
+        cache_read_input_tokens: 0,
+        estimated_cost_usd: 0,
+        pending: true,
+      })
+      .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+      .single();
+
+    if (insertError || !post) {
+      return NextResponse.json({ error: insertError?.message ?? "insert failed" }, { status: 500 });
+    }
+
+    if (replaces) {
+      const { error: replaceError } = await supabase
+        .from("terminal_posts")
+        .delete()
+        .eq("id", replaces)
+        .eq("pending", true)
+        .is("x_post_url", null);
+      if (replaceError) {
+        console.error("[generate-transmission] failed to retire draft:", replaceError.message);
+      }
+    }
+
+    return NextResponse.json({ post });
   }
 
   const spendCheck = await checkAndReserveSpend(supabase);
