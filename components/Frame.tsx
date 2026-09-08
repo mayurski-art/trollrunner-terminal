@@ -40,7 +40,7 @@ export default function Frame({
 
   return (
     <div
-      className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/60 ${className}`}
+      className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/85 backdrop-blur-sm ${className}`}
       style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
     >
       {titleEffect === "trace" && (

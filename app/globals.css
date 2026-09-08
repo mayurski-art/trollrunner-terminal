@@ -177,7 +177,7 @@ main {
 .ascii-banner {
   color: var(--terminal);
   white-space: pre;
-  line-height: 1.1;
+  line-height: 1.2;
   font-size: 1.375rem;
   font-weight: 500;
   font-family: "JetBrains Mono Banner", monospace;
