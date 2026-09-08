@@ -188,3 +188,76 @@ export function getArchiveSectionText(sectionNumber: number): string | null {
   const withoutHeading = match.body.replace(/^##[^\n]*\n+/, "");
   return withoutHeading.replace(/\*\*(.+?)\*\*/g, "$1").trim();
 }
+
+// ---------------------------------------------------------------------------
+// Transmission subjects — docs/TROLL-LORE.md as the source of what a post is
+// actually about, not just background colour.
+//
+// Transmissions used to seed lore selection off the previous post's text
+// (selectLoreSections(recent[0].content) in generatePost). But a transmission
+// is a deliberately cryptic, geography-free, near-unpunctuated 280-char mood
+// piece — its keyword overlap with the archive is close to zero, so scoring
+// almost always returned nothing and the post shipped with only the core
+// identity section for material. With no concrete thing in front of it the
+// model wrote about nothing in particular, which is exactly the "too
+// ambiguous" failure mode. Transmissions now start from the archive instead:
+// one numbered file is picked as the subject and handed over in full, so
+// every post is circling something real and nameable (which is also what the
+// CLUE line is supposed to name).
+
+export type LoreSubject = { number: number; title: string; body: string };
+
+// Long sections (§33 and §42 run past 5KB) plus the usage-guidance block were
+// what pushed past Groq's request-size limit before — keep the subject bounded
+// and cut on a paragraph boundary so it never ends mid-sentence.
+const MAX_SUBJECT_CHARS = 4500;
+const MAX_SUBJECT_USAGE_CHARS = 3000;
+
+function toSubject(s: LoreSection): LoreSubject {
+  let body = s.body;
+  if (body.length > MAX_SUBJECT_CHARS) {
+    const cut = body.lastIndexOf("\n\n", MAX_SUBJECT_CHARS);
+    body = body.slice(0, cut > 0 ? cut : MAX_SUBJECT_CHARS).trim();
+  }
+  return { number: s.number as number, title: s.title, body };
+}
+
+// steer is the owner's note ("tie it to the goat", "something about Beeple"):
+// an explicit request for a subject, so it gets first refusal on the pick.
+// avoidText is the recent-post history — sections whose keywords already show
+// up there are skipped so a run of transmissions doesn't circle one file.
+export function pickLoreSubject(
+  steer: string,
+  avoidText: string,
+  rng: () => number = Math.random
+): LoreSubject | null {
+  const numbered = selectable.filter((s) => s.number !== null);
+  if (numbered.length === 0) return null;
+
+  if (steer.trim()) {
+    const top = scoreSections(steer)[0];
+    if (top && top.section.number !== null) return toSubject(top.section);
+  }
+
+  const avoid = new Set(significantWords(avoidText));
+  const fresh = numbered.filter((s) => ![...s.keywords].some((k) => avoid.has(k)));
+  const pool = fresh.length > 0 ? fresh : numbered;
+  return toSubject(pool[Math.floor(rng() * pool.length)]);
+}
+
+// The subject's own prompt block: core identity (always), the chosen file in
+// full, and only the usage-guidance bullets that actually apply to it.
+export function loreSubjectBlock(subject: LoreSubject): string {
+  const usage = buildUsageGuidance(new Set([1, subject.number])).slice(0, MAX_SUBJECT_USAGE_CHARS);
+  return (
+    "Who you are, and the one file from your archive this transmission is drawn " +
+    "from. The archive is real history — use it slant, in your own voice, never " +
+    "as recitation or a press release, but this transmission must actually be " +
+    "about something in the file below, not about nothing in particular.\n\n" +
+    CORE_IDENTITY.body +
+    "\n\n" +
+    subject.body +
+    "\n\n" +
+    usage
+  );
+}

@@ -28,6 +28,16 @@ type FreeProvider = {
 // reply's budget.
 const PROVIDER_TIMEOUT_MS = 15_000;
 
+// A transmission asks for MAX_OUTPUT_TOKENS_POST (2000) worth of budget, most
+// of it spent on invisible reasoning before the first visible character — at
+// the 15s chat timeout all three providers could abort mid-think and the
+// whole generation failed with "no free provider produced a usable
+// transmission." Give a post a longer per-provider window, bounded by an
+// overall deadline so three slow providers can't run past the route's
+// maxDuration (60s) and turn a recoverable failure into a dead request.
+export const POST_TIMEOUT_MS = 24_000;
+export const POST_DEADLINE_MS = 50_000;
+
 // Generous relative to the terminal's actual "1-4 short lines" reply
 // length — several of the current free-tier models are reasoning models
 // that spend a chunk of this budget on invisible "thinking" before ever
@@ -93,17 +103,24 @@ async function callOpenRouter(
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      // OpenRouter's free-tier catalog rotates often and old slugs 404 —
-      // this one was verified working 2026-08-29 as the best persona-voice
-      // match among the currently free models actually tested against this
-      // system prompt. nvidia/nemotron-3-super-120b-a12b:free technically
-      // works but completely ignores the voice instructions (answers as a
-      // generic "I'm an AI assistant" chatbot, markdown bullets and all) —
-      // don't swap back to it without re-testing against a real prompt.
-      // Check openrouter.ai/models?max_price=0 if this 404s, and always
-      // verify a replacement's actual output against CHAT_SYSTEM_PROMPT's
+      // OpenRouter's free-tier catalog rotates often and old slugs 404 — the
+      // previous pick (minimax/minimax-m2.7:free) had silently gone paid-only
+      // and was answering 404 "use the paid slug instead" on every single
+      // call, so this provider had been dead weight in the rotation for a
+      // while. Re-picked and voice-tested 2026-09-08 against the real post
+      // prompt; it writes in voice, but its free pool is genuinely unreliable
+      // (four back-to-back calls gave two empty responses, one timeout and
+      // one clean transmission), which is what the retry pass in
+      // generateFreeReply is there to absorb. Rejected while testing:
+      // thinkingmachines/inkling:free (403, agentic harnesses only), both
+      // google/gemma-4-*:free (429 upstream), dots-studio/dots-3-note-preview
+      // (empty then timeout). nvidia/nemotron-3-super-120b-a12b:free responds
+      // but completely ignores the voice instructions (generic "I'm an AI
+      // assistant" chatbot, markdown bullets and all) — don't swap back to it.
+      // Check openrouter.ai/api/v1/models for `:free` ids if this 404s, and
+      // always verify a replacement's actual output against the persona's
       // voice rules, not just that it returns 200.
-      model: "minimax/minimax-m2.7:free",
+      model: "nvidia/nemotron-3-ultra-550b-a55b:free",
       max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
     }),
@@ -153,7 +170,10 @@ const PROVIDERS: FreeProvider[] = [
   { name: "openrouter", enabled: () => !!process.env.OPENROUTER_API_KEY, generate: callOpenRouter },
 ];
 
-export type FreeReplyResult = { content: string; provider: string } | null;
+// validated: false means no provider satisfied `validate` and this is the
+// best near-miss the rotation saw (see the `salvage` parameter). Callers that
+// pass no validator never see it.
+export type FreeReplyResult = { content: string; provider: string; validated: boolean } | null;
 
 // Round-robin starting point is caller-supplied (the route passes in the
 // day's running message count) rather than tracked here, since this module
@@ -164,25 +184,64 @@ export type FreeReplyResult = { content: string; provider: string } | null;
 // validate lets a caller reject a 200 that came back malformed (see
 // generatePost's CLUE-line check) so the round-robin moves on to the next
 // free provider instead of the caller giving up and paying for Claude.
+// salvage is the softer second opinion on a response `validate` rejected: if
+// no provider produces a fully valid answer, the first rejected one that
+// still passes salvage comes back with validated: false instead of the whole
+// call failing. A transmission that came back in voice but without its CLUE
+// line used to take the entire generation down (reported as "generation
+// failed: no free provider produced a usable transmission" after a trash and
+// regenerate); it's a perfectly good musing, so the caller gets the chance to
+// keep it rather than the owner getting nothing.
 export async function generateFreeReply(
   system: string,
   history: ChatTurn[],
   rotationSeed: number,
   maxTokens: number = MAX_OUTPUT_TOKENS,
-  validate: (content: string) => boolean = () => true
+  validate: (content: string) => boolean = () => true,
+  options: {
+    timeoutMs?: number;
+    deadlineMs?: number;
+    salvage?: (content: string) => boolean;
+    passes?: number;
+  } = {}
 ): Promise<FreeReplyResult> {
   const enabledProviders = PROVIDERS.filter((p) => p.enabled());
   if (enabledProviders.length === 0) return null;
 
+  const { timeoutMs = PROVIDER_TIMEOUT_MS, deadlineMs, salvage, passes = 1 } = options;
+  const deadline = deadlineMs ? Date.now() + deadlineMs : null;
+
   const startIndex = ((rotationSeed % enabledProviders.length) + enabledProviders.length) % enabledProviders.length;
 
-  for (let i = 0; i < enabledProviders.length; i++) {
+  let salvaged: FreeReplyResult = null;
+
+  // The free tiers fail transiently far more often than they fail hard —
+  // measured live 2026-09-08, a single OpenRouter free model returned empty
+  // content twice, timed out once and produced a clean post once across four
+  // back-to-back calls, while Gemini answered 503 "high demand" and then
+  // worked. One trip round the rotation therefore isn't much of a guarantee:
+  // callers with time to spare (see POST_DEADLINE_MS) can ask for another,
+  // which is the difference between a transmission and an error message.
+  for (let i = 0; i < enabledProviders.length * Math.max(1, passes); i++) {
     const provider = enabledProviders[(startIndex + i) % enabledProviders.length];
+
+    // Never start a provider that can't finish inside the overall budget —
+    // better to fall back on what's already in hand than to be killed
+    // mid-request by the platform's function timeout.
+    const remaining = deadline ? deadline - Date.now() : Infinity;
+    if (remaining < 3_000) {
+      console.error(`[freeProviders] out of time before ${provider.name}`);
+      break;
+    }
+
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
+    const timer = setTimeout(() => controller.abort(), Math.min(timeoutMs, remaining));
     try {
       const content = await provider.generate(system, history, maxTokens, controller.signal);
-      if (content && validate(content)) return { content, provider: provider.name };
+      if (content && validate(content)) return { content, provider: provider.name, validated: true };
+      if (content && !salvaged && salvage?.(content)) {
+        salvaged = { content, provider: provider.name, validated: false };
+      }
       console.error(
         `[freeProviders] ${provider.name} returned ${content ? "an unusable response" : "no content"}`
       );
@@ -193,5 +252,9 @@ export async function generateFreeReply(
       clearTimeout(timer);
     }
   }
-  return null;
+
+  if (salvaged) {
+    console.error(`[freeProviders] falling back to ${salvaged.provider}'s unvalidated response`);
+  }
+  return salvaged;
 }

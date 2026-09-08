@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { selectLoreSections } from "@/lib/loreSections";
+import { selectLoreSections, pickLoreSubject, loreSubjectBlock } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
-import { generateFreeReply, MAX_OUTPUT_TOKENS_POST, type ChatTurn } from "@/lib/freeProviders";
+import { generateFreeReply, MAX_OUTPUT_TOKENS_POST, POST_TIMEOUT_MS, POST_DEADLINE_MS, type ChatTurn } from "@/lib/freeProviders";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -79,6 +79,14 @@ Voice and form:
 - Never repeat the structure, opening line, or specific idea of a recent post — you'll be
   shown your recent history below; treat it as continuity and as things to not repeat,
   not as a template.
+- Every transmission is about one specific thing, not a general mood. You are given one
+  file from your archive below and told that this transmission is drawn from it — the
+  post has to actually circle something inside it: a detail, a date, an object, a
+  decision somebody made. Say it slant and never name it outright, but someone who
+  knows that piece of history should feel the click of recognition, and someone who
+  does not should still be left holding one concrete image rather than a general
+  feeling about attention or the internet. Atmosphere with nothing underneath it is
+  the one failure you cannot ship.
 - Alternate between two kinds of dispatch, post to post. A "clue" dispatch drops one
   piece of something larger you're circling — a fragment of the ledger, the drawing, the
   shop, the other presence — meant to be pieced together with other pieces over time,
@@ -448,14 +456,32 @@ export async function generatePost(
     ? `\n\nDirection for this transmission specifically: ${steer.trim()}\nFollow it, but stay fully in voice — this is steering, not text to quote or mention.`
     : "";
 
-  const userTurn = recentBlock + steerBlock + "\n\nGenerate your next post.";
+  // The archive file this transmission is drawn from — see pickLoreSubject.
+  // Recent posts are what the picker steers away from, so a run of
+  // transmissions doesn't keep circling one file; an owner steer gets first
+  // refusal on the choice.
+  const subject = pickLoreSubject(steer ?? "", recent.map((p) => p.content).join(" "));
+
+  const subjectBlock = subject
+    ? `\n\nThe file this transmission is drawn from: "${subject.title}" — its full text is in your system context.\nCircle one specific thing inside it: a detail, an object, a date, a decision somebody made. Not the file as a whole, not its theme. Turn that one thing sideways into your own voice — never name it outright, never explain it — but the post has to leave a concrete image behind rather than a general feeling, and the CLUE line must name exactly the thing you circled.`
+    : "";
+
+  const userTurn = recentBlock + subjectBlock + steerBlock + "\n\nGenerate your next post.";
 
   // Free tiers only — transmissions were the single biggest line in spend
   // (Opus, ~2k output, every cron tick). There is deliberately no paid Claude
   // fallback: if every free provider is down the transmission is skipped
   // rather than billed.
-  const freeSystemPrompt =
-    SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "");
+  //
+  // The system block carries the chosen archive file in full. It used to
+  // carry selectLoreSections(previous post text) instead, which scored the
+  // archive against a deliberately cryptic 280-char mood piece and so almost
+  // always matched nothing — the model wrote with no concrete material in
+  // front of it, which is exactly why transmissions read as too ambiguous.
+  // The keyword path stays only as a fallback for a subject-less pick.
+  const freeSystemPrompt = subject
+    ? SYSTEM_PROMPT_FREE_TIER + "\n\n" + loreSubjectBlock(subject)
+    : SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "");
 
   // A free model that ran out of tokens mid-answer still returns 200 with a
   // plausible-looking partial post — verified in practice as text ending on
@@ -465,12 +491,26 @@ export async function generatePost(
   // and the post is skipped if none of them produce a usable one.
   const hasClueLine = (text: string) => /\n?CLUE:\s*\S+/i.test(text.trim());
 
+  // ...but "no CLUE line" and "truncated garbage" are not the same failure. A
+  // response that's in voice and ends cleanly is a perfectly good musing (the
+  // kind of post that carries no clue by design), so it's worth keeping when
+  // no provider managed the full two-part format — otherwise a whole
+  // generation dies on a missing last line, which is what a trash-and-
+  // regenerate was hitting as "no free provider produced a usable
+  // transmission". Requires real length and a clean ending so an actual
+  // mid-word truncation still fails.
+  const looksComplete = (text: string) => {
+    const body = text.trim().replace(/\n?CLUE:[\s\S]*$/i, "").trim();
+    return body.length >= 60 && !/\w-$/.test(body) && /[\w.?!)"'’”▚▞▓▒]$/.test(body);
+  };
+
   const freeResult = await generateFreeReply(
     freeSystemPrompt,
     [{ role: "user", content: userTurn }],
     rotationSeed,
     MAX_OUTPUT_TOKENS_POST,
-    hasClueLine
+    hasClueLine,
+    { timeoutMs: POST_TIMEOUT_MS, deadlineMs: POST_DEADLINE_MS, salvage: looksComplete, passes: 2 }
   );
 
   if (!freeResult) {
