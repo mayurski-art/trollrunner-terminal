@@ -52,6 +52,52 @@ const MAX_OUTPUT_TOKENS = 500;
 // which silently produced an empty clue_tag on every post they wrote.
 export const MAX_OUTPUT_TOKENS_POST = 2000;
 
+// A rate-limited free tier usually says exactly how long to wait — groq puts
+// it in the error body ("Please try again in 16.86s") and most providers set
+// a Retry-After header. Carrying that number out of the provider call is what
+// lets the UI show a real countdown instead of a dead error string.
+// Written as a plain field rather than a TypeScript parameter property so the
+// module still runs under node's strip-only type stripping — that's what lets
+// a scratch script exercise real generations without a build step.
+export class ProviderError extends Error {
+  readonly retryAfterSeconds: number | null;
+
+  constructor(message: string, retryAfterSeconds: number | null) {
+    super(message);
+    this.name = "ProviderError";
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
+
+async function providerError(name: string, res: Response): Promise<ProviderError> {
+  const body = await res.text();
+
+  const header = res.headers.get("retry-after")?.trim();
+  let retry: number | null = null;
+  if (header && /^\d+(\.\d+)?$/.test(header)) {
+    retry = Number(header);
+  } else if (header) {
+    // Retry-After may be an HTTP date rather than a delta.
+    const at = Date.parse(header);
+    if (!Number.isNaN(at)) retry = Math.max(0, Math.round((at - Date.now()) / 1000));
+  }
+
+  // groq's body carries the wait even when the header doesn't.
+  if (retry === null) {
+    const spelled = body.match(/try again in ([\d.]+)\s*(ms|s)\b/i);
+    if (spelled) {
+      const value = Number(spelled[1]);
+      retry = spelled[2].toLowerCase() === "ms" ? value / 1000 : value;
+    }
+  }
+
+  // A wait longer than a coffee break is almost always a daily/monthly quota
+  // rather than a burst limit; clamp so the UI never shows an absurd timer.
+  if (retry !== null) retry = Math.min(Math.ceil(retry), 15 * 60);
+
+  return new ProviderError(`${name} ${res.status}: ${body}`, retry);
+}
+
 async function callGroq(
   system: string,
   history: ChatTurn[],
@@ -81,7 +127,7 @@ async function callGroq(
       messages: [{ role: "system", content: system }, ...history],
     }),
   });
-  if (!res.ok) throw new Error(`groq ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await providerError("groq", res);
   const data = await res.json();
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
@@ -125,7 +171,7 @@ async function callOpenRouter(
       messages: [{ role: "system", content: system }, ...history],
     }),
   });
-  if (!res.ok) throw new Error(`openrouter ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await providerError("openrouter", res);
   const data = await res.json();
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
@@ -158,7 +204,7 @@ async function callGemini(
       }),
     }
   );
-  if (!res.ok) throw new Error(`gemini ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await providerError("gemini", res);
   const data = await res.json();
   const text = data.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? "").join("");
   return text?.trim() || null;
@@ -215,6 +261,11 @@ export async function generateFreeReply(
 
   let salvaged: FreeReplyResult = null;
 
+  // Waits the providers themselves asked for, collected so an exhausted
+  // rotation can tell the caller when it's worth trying again — see
+  // lastCooldownSeconds.
+  const retryHints: number[] = [];
+
   // The free tiers fail transiently far more often than they fail hard —
   // measured live 2026-09-08, a single OpenRouter free model returned empty
   // content twice, timed out once and produced a clean post once across four
@@ -247,6 +298,9 @@ export async function generateFreeReply(
       );
     } catch (err) {
       const label = (err as Error).name === "AbortError" ? "timed out" : (err as Error).message;
+      if (err instanceof ProviderError && err.retryAfterSeconds !== null) {
+        retryHints.push(err.retryAfterSeconds);
+      }
       console.error(`[freeProviders] ${provider.name} failed:`, label);
     } finally {
       clearTimeout(timer);
@@ -255,6 +309,26 @@ export async function generateFreeReply(
 
   if (salvaged) {
     console.error(`[freeProviders] falling back to ${salvaged.provider}'s unvalidated response`);
+    return salvaged;
   }
-  return salvaged;
+
+  // Nothing came back at all. Report how long to wait: the shortest window any
+  // provider named, since the rotation only needs ONE of them back to work
+  // again. If none said (a 503 "high demand", a timeout, an empty response)
+  // fall back to a default that's long enough to be worth waiting out and
+  // short enough not to feel like a ban.
+  cooldownSeconds = retryHints.length > 0 ? Math.min(...retryHints) : DEFAULT_COOLDOWN_SECONDS;
+  return null;
+}
+
+// How long the caller should wait after the most recent exhausted rotation.
+// Deliberately module-level rather than part of the return type: every
+// existing caller treats null as "degrade gracefully" and shouldn't have to
+// change shape, and a serverless invocation handles one request, so there's
+// no cross-request bleed to worry about. Read it immediately after a null.
+const DEFAULT_COOLDOWN_SECONDS = 90;
+let cooldownSeconds = DEFAULT_COOLDOWN_SECONDS;
+
+export function lastCooldownSeconds(): number {
+  return cooldownSeconds;
 }

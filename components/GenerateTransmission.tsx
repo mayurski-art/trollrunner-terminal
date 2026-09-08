@@ -16,6 +16,24 @@ type Post = {
   posted_at: string;
 };
 
+// m:ss for anything over a minute, bare seconds under it — a rate-limit wait
+// is usually seconds (groq hands back "try again in 16.86s") and "0:17" reads
+// slower than "17s" at a glance.
+function formatCooldown(seconds: number): string {
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+// Mirrors isVerbatimSteer in app/api/admin/generate-transmission/route.ts. A
+// pasted finished transmission never touches a provider, so it stays usable
+// while the wire is down — only notes that would actually be generated from
+// are blocked by the cooldown. The server remains the authority on which path
+// a note takes; this only decides whether to grey out the button.
+function needsTheWire(note: string): boolean {
+  const trimmed = note.trim();
+  return !(trimmed.includes("\n") || trimmed.length >= 120);
+}
+
 // Owner-only "generate one right now" trigger next to the homepage's latest
 // transmission panel. Calls the same generation path as the scheduled cron
 // (/api/admin/generate-transmission) and holds the result for accept/trash —
@@ -52,6 +70,32 @@ export default function GenerateTransmission({
   // Ignored when steer is short enough to go through the generator instead,
   // since the AI already produces its own CLUE line in that path.
   const [answer, setAnswer] = useState("");
+  // When every free provider is down or rate-limited the server answers 503
+  // with how long to wait (see WireDownError). Generating is masked behind a
+  // live countdown until then — the wire always comes back, and a timer you
+  // can sit out beats an error string that invites pointless retries (which
+  // only push a rate limit further out).
+  const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+
+  const cooldownLeft = cooldownUntil ? Math.max(0, Math.ceil((cooldownUntil - now) / 1000)) : 0;
+  const coolingDown = cooldownLeft > 0;
+
+  // Ticks only while a cooldown is running, and clears itself when the wire is
+  // due back — the expiry is handled in the tick rather than in a second
+  // effect so nothing sets state as a render side effect.
+  useEffect(() => {
+    if (!cooldownUntil) return;
+    const tick = setInterval(() => {
+      const t = Date.now();
+      setNow(t);
+      if (t >= cooldownUntil) {
+        setCooldownUntil(null);
+        setError(null);
+      }
+    }, 500);
+    return () => clearInterval(tick);
+  }, [cooldownUntil]);
 
   const isOwner = displayName(session) === OWNER_USERNAME;
 
@@ -119,6 +163,10 @@ export default function GenerateTransmission({
         });
         const body = await res.json();
         if (!res.ok) {
+          if (res.status === 503 && typeof body.retryAfterSeconds === "number") {
+            setCooldownUntil(Date.now() + body.retryAfterSeconds * 1000);
+            setNow(Date.now());
+          }
           setError(body.error ?? "the wire didn't answer");
           return;
         }
@@ -206,10 +254,16 @@ export default function GenerateTransmission({
         <button
           type="button"
           onClick={() => generate()}
-          disabled={busy || review !== null}
+          disabled={busy || review !== null || coolingDown}
           className="glitch-btn text-xs text-problem border border-problem/50 px-2 py-1 hover:bg-problem hover:text-background transition-colors disabled:opacity-50"
         >
-          [ {busy ? "transmitting..." : "generate new transmission"} ]
+          [{" "}
+          {coolingDown
+            ? `wire back in ${formatCooldown(cooldownLeft)}`
+            : busy
+              ? "transmitting..."
+              : "generate new transmission"}{" "}
+          ]
         </button>
         <button
           type="button"
@@ -223,7 +277,12 @@ export default function GenerateTransmission({
           [ edit ]
         </button>
       </div>
-      {error && <p className="mt-2 text-alert text-xs">[ {error} ]</p>}
+      {error && (
+        <p className="mt-2 text-alert text-xs" role="status" aria-live="polite">
+          [ {error}
+          {coolingDown ? ` — ${formatCooldown(cooldownLeft)}` : ""} ]
+        </p>
+      )}
       {review && (
         <div className="mt-3 border border-problem/40 p-3">
           <p className="text-ghost text-xs mb-2">
@@ -269,7 +328,7 @@ export default function GenerateTransmission({
         onSubmit={(e) => {
           e.preventDefault();
           const note = steer.trim();
-          if (note && !busy && !deciding) generate(note, answer.trim());
+          if (note && !busy && !deciding && !(coolingDown && needsTheWire(note))) generate(note, answer.trim());
         }}
         className="mt-3 pt-3 border-t border-dim/40"
       >
@@ -298,17 +357,17 @@ export default function GenerateTransmission({
               if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 const note = steer.trim();
-                if (note && !busy && !deciding) generate(note, answer.trim());
+                if (note && !busy && !deciding && !(coolingDown && needsTheWire(note))) generate(note, answer.trim());
               }
             }}
             className="flex-1 bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50 whitespace-pre-wrap"
           />
           <button
             type="submit"
-            disabled={busy || deciding || !steer.trim()}
+            disabled={busy || deciding || !steer.trim() || (coolingDown && needsTheWire(steer))}
             className="border border-problem text-problem px-2 py-1 text-xs hover:bg-problem hover:text-background transition-colors disabled:opacity-40"
           >
-            {busy ? "..." : "redo"}
+            {busy ? "..." : coolingDown && needsTheWire(steer) ? formatCooldown(cooldownLeft) : "redo"}
           </button>
         </div>
         <div className="mt-1.5">

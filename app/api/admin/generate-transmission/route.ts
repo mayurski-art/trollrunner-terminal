@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwner } from "@/lib/admin";
-import { generatePost } from "@/lib/persona";
+import { generatePost, WireDownError } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
 import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 
@@ -158,6 +158,19 @@ export async function POST(request: Request) {
   try {
     generated = await generatePost(recent, Date.now(), steer || undefined);
   } catch (err) {
+    // Every free tier down or rate-limited is a wait, not a bug — the owner
+    // gets a countdown they can actually sit out (see WireDownError and the
+    // cooldown in components/GenerateTransmission.tsx) rather than a raw
+    // "no free provider produced a usable transmission".
+    if (err instanceof WireDownError) {
+      return NextResponse.json(
+        {
+          error: "the wire is quiet — every free provider is down or rate-limited",
+          retryAfterSeconds: err.retryAfterSeconds,
+        },
+        { status: 503, headers: { "Retry-After": String(err.retryAfterSeconds) } }
+      );
+    }
     return NextResponse.json(
       { error: `generation failed: ${(err as Error).message}` },
       { status: 500 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { generatePost } from "@/lib/persona";
+import { generatePost, WireDownError } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
 import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 
@@ -27,6 +27,24 @@ export async function GET(request: Request) {
 
   if (config?.is_paused) {
     return NextResponse.json({ skipped: true, reason: "paused" });
+  }
+
+  // Now that the scheduled transmission waits for the owner's accept (see the
+  // insert below), generating another one on top of an unreviewed draft would
+  // strand the first: the review card only ever shows the newest pending post,
+  // so everything behind it becomes invisible to the owner and to the public
+  // both. One waiting draft at a time — a day the owner didn't get to simply
+  // doesn't produce a second one, and no free-tier call is spent on it.
+  const { data: awaitingReview } = await supabase
+    .from("terminal_posts")
+    .select("id")
+    .eq("pending", true)
+    .is("error", null)
+    .limit(1)
+    .maybeSingle();
+
+  if (awaitingReview) {
+    return NextResponse.json({ skipped: true, reason: "a transmission is still awaiting review" });
   }
 
   const spendCheck = await checkAndReserveSpend(supabase);
@@ -60,7 +78,10 @@ export async function GET(request: Request) {
     // record it as a row instead. terminal_posts.error is excluded from
     // both the public feed and the transmit page, so this surfaces the
     // outage in the table without publishing anything.
-    const message = (err as Error).message;
+    const message =
+      err instanceof WireDownError
+        ? `${err.message} (suggested wait ${err.retryAfterSeconds}s)`
+        : (err as Error).message;
     await supabase.from("terminal_posts").insert({
       content: "",
       error: `generation failed: ${message}`,
@@ -80,6 +101,17 @@ export async function GET(request: Request) {
     cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
     cache_read_input_tokens: generated.usage.cache_read_input_tokens,
     estimated_cost_usd: estimatedCostUsd,
+    // Held for the owner's accept/edit/trash, exactly like a manually
+    // generated one. The scheduled transmission used to go live on insert
+    // (migration 016 defaults pending to false and says so), which meant the
+    // daily post published itself with nobody having read it. Nothing about
+    // this route posts to X — that's manual either way — so the only thing
+    // the old behaviour bought was an unreviewed post appearing publicly in
+    // [logs] and on the homepage panel. The owner's review card picks this up
+    // on their next visit (GenerateTransmission fetches the outstanding
+    // pending post on mount), so the scheduled one waits in exactly the same
+    // place as a manual one.
+    pending: true,
   });
 
   if (insertError) {

@@ -1,7 +1,14 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { selectLoreSections, pickLoreSubject, loreSubjectBlock } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
-import { generateFreeReply, MAX_OUTPUT_TOKENS_POST, POST_TIMEOUT_MS, POST_DEADLINE_MS, type ChatTurn } from "@/lib/freeProviders";
+import {
+  generateFreeReply,
+  lastCooldownSeconds,
+  MAX_OUTPUT_TOKENS_POST,
+  POST_TIMEOUT_MS,
+  POST_DEADLINE_MS,
+  type ChatTurn,
+} from "@/lib/freeProviders";
 
 // The background knowledge these prompts draw obliquely on (Trollface's
 // real-world history, the $TROLL IP deal, the guardian/FUD ledger, etc.) is
@@ -421,6 +428,21 @@ export async function generateChatReply(
 
 export type RecentPost = { content: string; posted_at: string };
 
+// Thrown when every free provider is down or rate-limited. Carries how long
+// to wait so the caller can hand the owner a countdown instead of a dead
+// error string — the free tiers almost always recover on their own, and
+// several of them say exactly when (see ProviderError).
+export class WireDownError extends Error {
+  // A plain field, not a parameter property — see ProviderError.
+  readonly retryAfterSeconds: number;
+
+  constructor(retryAfterSeconds: number) {
+    super("every free provider is down or rate-limited");
+    this.name = "WireDownError";
+    this.retryAfterSeconds = retryAfterSeconds;
+  }
+}
+
 export type GeneratedPost = {
   content: string;
   clueTag: string;
@@ -514,7 +536,7 @@ export async function generatePost(
   );
 
   if (!freeResult) {
-    throw new Error("No free provider produced a usable transmission");
+    throw new WireDownError(lastCooldownSeconds());
   }
 
   const raw = freeResult.content.trim();
