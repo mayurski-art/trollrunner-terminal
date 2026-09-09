@@ -7,11 +7,12 @@ import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import PostGuess from "@/components/PostGuess";
+import TransmissionModal from "@/components/TransmissionModal";
 import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 
-type Post = {
+export type Post = {
   id: string;
   content: string;
   x_post_url: string | null;
@@ -26,9 +27,9 @@ type Post = {
 // client-side off the raw content means this stays in sync automatically,
 // no schema change needed. Guessability itself is decided server-side by
 // clue_tag, independent of this label — see PostGuess.
-type Kind = "musing" | "unmarked";
+export type Kind = "musing" | "unmarked";
 
-const KIND_META: Record<Kind, { label: string; mark: string }> = {
+export const KIND_META: Record<Kind, { label: string; mark: string }> = {
   musing: { label: "musings", mark: "▓▒▓" },
   unmarked: { label: "unmarked", mark: "" },
 };
@@ -38,11 +39,24 @@ function classify(content: string): Kind {
   return "unmarked";
 }
 
+// Every archived transmission renders single-spaced except the day's most
+// recent one, which keeps its full paragraph spacing as originally posted.
+export function isToday(isoDate: string): boolean {
+  const d = new Date(isoDate);
+  const now = new Date();
+  return (
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate()
+  );
+}
+
 export default function LogsPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<Kind | "all">("all");
   const [session, setSession] = useState<Session | null>(null);
+  const [expanded, setExpanded] = useState<Post | null>(null);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -71,8 +85,8 @@ export default function LogsPage() {
       </div>
       <div className="w-full max-w-7xl">
         <Nav />
-        <Banner art={BANNER_LOGS} label="the logs" />
-        <p className="text-dim text-sm mb-8">the full transmission archive</p>
+        <Banner art={BANNER_LOGS} label="truth logs" />
+        <p className="text-foreground font-bold text-sm mb-8">everything it's transmitted, unfiltered</p>
 
         {posts && posts.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
@@ -132,9 +146,19 @@ export default function LogsPage() {
                       bodyClassName="flex flex-col h-full"
                       titleEffect="trace"
                       traceHue={kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
+                      cornerAction={
+                        <button
+                          type="button"
+                          onClick={() => setExpanded(post)}
+                          aria-label="pop out transmission"
+                          className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+                        >
+                          ⤢ pop out
+                        </button>
+                      }
                     >
-                      <div className="text-terminal text-xs leading-snug font-transmission">
-                        {renderTightLines(post.content)}
+                      <div className="text-terminal text-sm leading-relaxed font-transmission max-h-64 overflow-y-auto pr-1">
+                        {renderTightLines(post.content, !isToday(post.posted_at))}
                       </div>
                       {post.art_url && (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -181,6 +205,16 @@ export default function LogsPage() {
           network
         </p>
       </div>
+
+      {expanded && (
+        <TransmissionModal
+          post={expanded}
+          kind={classify(expanded.content)}
+          kindMeta={KIND_META}
+          session={session}
+          onClose={() => setExpanded(null)}
+        />
+      )}
     </main>
   );
 }

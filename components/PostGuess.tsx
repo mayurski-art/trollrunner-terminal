@@ -36,6 +36,26 @@ async function authHeader(): Promise<Record<string, string>> {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+type InitialState = {
+  guessable: boolean;
+  guess: GuessState;
+  balance: number;
+  cost: number;
+  maxAttempts: number;
+};
+
+// The logs grid mounts a PostGuess per card, then the [ pop out ] modal
+// mounts a second one for the same post — without this, that second mount
+// re-fetches /api/post-guess from scratch and sits blank ("[ try to
+// decipher this transmission ]" doesn't appear right away) until it
+// resolves, even though the card already just fetched the same thing.
+// Keyed per (postId, userId) since the answer depends on who's asking.
+const initialStateCache = new Map<string, InitialState>();
+
+function cacheKey(postId: string, userId: string): string {
+  return `${userId}:${postId}`;
+}
+
 export default function PostGuess({
   postId,
   session,
@@ -66,7 +86,6 @@ export default function PostGuess({
   const userId = session?.user?.id ?? null;
 
   useEffect(() => {
-    setLoaded(false);
     setGuessState(null);
     setStage("idle");
     setError(null);
@@ -76,6 +95,20 @@ export default function PostGuess({
       setLoaded(true);
       return;
     }
+
+    const cached = initialStateCache.get(cacheKey(postId, userId));
+    if (cached) {
+      setGuessable(cached.guessable);
+      setGuessState(cached.guess);
+      setBalance(cached.balance);
+      setCost(cached.cost);
+      setMaxAttempts(cached.maxAttempts);
+      if (cached.guess && !cached.guess.resolved) setStage("open");
+      setLoaded(true);
+      return;
+    }
+
+    setLoaded(false);
     let cancelled = false;
     (async () => {
       const headers = await authHeader();
@@ -86,14 +119,22 @@ export default function PostGuess({
         const data = await res.json();
         if (cancelled) return;
         if (res.ok) {
-          setGuessable(!!data.guessable);
-          setGuessState(data.guess ?? null);
-          setBalance(data.wallet?.balance ?? 0);
-          setCost(data.cost ?? 1);
-          setMaxAttempts(data.maxAttempts ?? 2);
+          const state: InitialState = {
+            guessable: !!data.guessable,
+            guess: data.guess ?? null,
+            balance: data.wallet?.balance ?? 0,
+            cost: data.cost ?? 1,
+            maxAttempts: data.maxAttempts ?? 2,
+          };
+          initialStateCache.set(cacheKey(postId, userId), state);
+          setGuessable(state.guessable);
+          setGuessState(state.guess);
+          setBalance(state.balance);
+          setCost(state.cost);
+          setMaxAttempts(state.maxAttempts);
           // Already started (page reload mid-attempt) — skip the confirm
           // step, go straight back to the open input.
-          if (data.guess && !data.guess.resolved) setStage("open");
+          if (state.guess && !state.guess.resolved) setStage("open");
         }
       } finally {
         if (!cancelled) setLoaded(true);
@@ -144,15 +185,29 @@ export default function PostGuess({
         return;
       }
       setJustResolved(!!data.resolved);
-      setGuessState({
+      const newGuessState: GuessState = {
         attempts: data.attempts,
         correct: data.correct,
         resolved: data.resolved,
         netDelta: data.netDelta ?? null,
-      });
-      setBalance(data.wallet?.balance ?? balance);
+      };
+      const newBalance = data.wallet?.balance ?? balance;
+      setGuessState(newGuessState);
+      setBalance(newBalance);
       setInput("");
       setStage(data.resolved ? "idle" : "open");
+      // Keep the cross-mount cache (card + pop-out modal) in step so the
+      // other mount doesn't show a stale pre-guess state next time it opens.
+      if (userId) {
+        const existing = initialStateCache.get(cacheKey(postId, userId));
+        if (existing) {
+          initialStateCache.set(cacheKey(postId, userId), {
+            ...existing,
+            guess: newGuessState,
+            balance: newBalance,
+          });
+        }
+      }
     } catch {
       setError("connection to the terminal was lost");
       setStage("open");

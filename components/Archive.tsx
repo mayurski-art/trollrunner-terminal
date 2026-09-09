@@ -249,8 +249,11 @@ export default function Archive() {
                   {String(file.number).padStart(2, "0")}
                 </span>
                 <span className="truncate">{file.title}</span>
+                {file.state === "open" && (
+                  <span className="shrink-0 ml-auto text-terminal/60">[ OPEN ]</span>
+                )}
               </button>
-              {file.state === "sealed" ? (
+              {file.state === "sealed" && (
                 <button
                   type="button"
                   disabled={unlocking !== null}
@@ -259,8 +262,6 @@ export default function Archive() {
                 >
                   [ {unlocking === file.number ? "..." : `unlock · ▣${file.cost}`} ]
                 </button>
-              ) : (
-                <span className="shrink-0 text-terminal/60">[ OPEN ]</span>
               )}
             </div>
 

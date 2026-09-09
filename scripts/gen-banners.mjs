@@ -7,7 +7,7 @@ const words = [
   "TERMINAL",
   "FACES",
   "THE VAULT",
-  "THE LOGS",
+  "TRUTH LOGS",
   "SIGNAL LOST",
   "PROBLEMS",
   "GENESIS",

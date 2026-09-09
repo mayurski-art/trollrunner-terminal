@@ -15,7 +15,7 @@ const MARK_ONLY_LINE = /^[▚▞▓▒\s]+$/;
 // real stanzas (two or more blank lines together) is rare enough from a
 // model, and common enough from a hand-typed transmission, to read as an
 // actual paragraph break instead — that one case gets real spacing.
-export function renderTightLines(content: string): ReactNode[] {
+export function renderTightLines(content: string, singleSpaced = false): ReactNode[] {
   const paragraphs = content.split(/\n\s*\n+/);
 
   return paragraphs.flatMap((para, pi) => {
@@ -29,8 +29,10 @@ export function renderTightLines(content: string): ReactNode[] {
         {i < lines.length - 1 && <br />}
       </span>
     ));
-    return pi < paragraphs.length - 1
-      ? [...nodes, <br key={`${pi}-gap1`} />, <br key={`${pi}-gap2`} />]
-      : nodes;
+    if (pi >= paragraphs.length - 1) return nodes;
+    // The logs archive (and its pop-out) render every transmission back to
+    // back in a dense list/grid — the real-paragraph double-<br> gap reads
+    // as too loose there, so callers can ask for a single <br> instead.
+    return singleSpaced ? [...nodes, <br key={`${pi}-gap1`} />] : [...nodes, <br key={`${pi}-gap1`} />, <br key={`${pi}-gap2`} />];
   });
 }
