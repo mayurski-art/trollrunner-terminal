@@ -1532,13 +1532,17 @@ suggested it should be investigated. Copycat tickers appeared within
 hours, and reporting noted privacy concerns over the mailing lists used
 for the airdrop.
 
-**Eric Trump** posted the roast that actually landed. No caption needed —
-just a split image: on the left, the LAPTOP/USDC candlestick chart
-cratering from roughly **$1,100 down to $4.62** (a slightly later
-snapshot than the $200-to-$4.36 hour-one figures above, same freefall),
-red candle after red candle; on the right, a photo of Joe Biden and
-Hunter Biden walking together, sunglasses on, mid-laugh. The chart did
-the talking. Posted to X:
+**Eric Trump** posted the roast that actually landed: "Hunter should go
+back to painting…" — over a split image, the LAPTOP/USDC candlestick
+chart cratering from roughly **$1,100 down to $4.62** (a slightly later
+snapshot than the $200-to-$4.36 hour-one figures above, same freefall) on
+the left, a photo of Joe Biden and Hunter Biden walking together,
+sunglasses on, mid-laugh, on the right. "Painting" is its own dig: Hunter
+Biden has sold actual paintings since leaving the White House, at prices
+that drew ethics scrutiny because buyers' identities were kept secret
+while his father was president. Eric's line reframes the coin as the
+worse of Hunter's two ventures — even the controversial art career didn't
+lose 97% of its value in an hour. Posted to X:
 [@EricTrump, September 2026](https://x.com/erictrump/status/2097689593176785228).
 
 Sources: [Fortune](https://fortune.com/2026/09/08/hunter-biden-launches-laptop-memecoin-trolls-trump-by-promising-that-20-will-be-reserved-for-traders-who-lost-money-on-presidents-token/), [CoinDesk](https://www.coindesk.com/markets/2026/09/08/crypto-traders-turn-on-hunter-biden-s-laptop-memecoin-before-it-even-launches), [CNN](https://www.cnn.com/2026/09/07/business/hunter-biden-laptop-meme-coin), [Forbes](https://www.forbes.com/sites/alisondurkee/2026/09/07/hunter-biden-launching-laptop-memecoin-amid-praise-for-crypto/), [CryptoTimes](https://www.cryptotimes.io/learn/what-is-laptop-memecoin/), [laptoptoken.com](https://www.laptoptoken.com/#top) (tokenomics and prediction list, primary source), [@EricTrump on X](https://x.com/erictrump/status/2097689593176785228).

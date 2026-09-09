@@ -373,7 +373,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "laptop-coin-eric-trump-chart",
     url: "/lore/laptop-coin-eric-trump-chart.jpg",
     caption:
-      "Eric Trump's reply to the $LAPTOP crash — a split image: the LAPTOP/USDC chart cratering from over $1,000 to under $5, next to a photo of Joe and Hunter Biden walking together, no caption needed",
+      "Eric Trump's reply to the $LAPTOP crash, captioned \"Hunter should go back to painting…\" — a split image: the LAPTOP/USDC chart cratering from over $1,000 to under $5, next to a photo of Joe and Hunter Biden walking together",
     keywords: ["laptop coin", "eric trump", "laptop chart", "laptop crash"],
     sections: [47],
   },
