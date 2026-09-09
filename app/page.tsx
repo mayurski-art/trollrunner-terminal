@@ -60,6 +60,34 @@ export default function Home() {
   const controlsPortalRef = useCallback((el: HTMLDivElement | null) => {
     setControlsPortalEl(el);
   }, []);
+  // Status row (face/mining/buddy) portals into the same controls box,
+  // freeing the space it used to take above the transcript in "speak to it".
+  const [statusPortalEl, setStatusPortalEl] = useState<HTMLDivElement | null>(null);
+  const statusPortalRef = useCallback((el: HTMLDivElement | null) => {
+    setStatusPortalEl(el);
+  }, []);
+  // Pop-out toggle portals into the "speak to it" Frame's own top-right
+  // corner via Frame's cornerAction, rather than living in the controls box.
+  const [popoutPortalEl, setPopoutPortalEl] = useState<HTMLDivElement | null>(null);
+  const popoutPortalRef = useCallback((el: HTMLDivElement | null) => {
+    setPopoutPortalEl(el);
+  }, []);
+
+  // Popped-out chat's desktop (lg+) position/size, hand-picked via a
+  // temporary drag/resize rig and locked in here. Mobile keeps the simple
+  // full-inset popout untouched.
+  const POPOUT_BOX = { top: -137, left: -118, width: 768, height: 605 };
+  // Mirrors Tailwind's lg breakpoint (1024px) so the inline positioning
+  // style only overrides the fixed/inset-4 classes on desktop, matching
+  // the lg:-prefixed classes it's meant to sit alongside.
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(mq.matches);
+    const onChange = () => setIsDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     if (!chatPopped) return;
@@ -68,6 +96,20 @@ export default function Home() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [chatPopped]);
+
+  // The popout sits at a fixed position that can extend past the
+  // viewport's natural bounds (it's deliberately offset off-screen at the
+  // top-left), which was growing the page's own scrollable area and
+  // showing a second scrollbar behind the popout's overlay. Locking body
+  // scroll while popped keeps only the popout's own internal scroll.
+  useEffect(() => {
+    if (!chatPopped) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
   }, [chatPopped]);
 
   const handleSteer = useCallback((note: string) => {
@@ -188,8 +230,9 @@ export default function Home() {
               // rather than page.tsx duplicating that logic to render a
               // second copy. Fills the empty space that used to sit below
               // the guess prompt on a short transmission.
-              <Frame tone="dim" className="mt-3" bodyClassName="py-2">
-                <div ref={controlsPortalRef} />
+              <Frame tone="dim" className="mt-3 min-w-0" bodyClassName="py-2 min-w-0 overflow-hidden">
+                <div ref={statusPortalRef} className="mb-2 min-w-0" />
+                <div ref={controlsPortalRef} className="min-w-0" />
               </Frame>
             )}
           </div>
@@ -199,16 +242,29 @@ export default function Home() {
             tone="dim"
             className={
               chatPopped
-                ? "fixed inset-4 z-50 lg:inset-10 flex flex-col chat-popout-in"
+                ? "fixed inset-4 z-50 lg:inset-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
                 : `order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
                     session ? "h-[80vh] max-h-[42rem]" : "h-auto"
                   }`
+            }
+            style={
+              chatPopped && isDesktop
+                ? {
+                    top: `${POPOUT_BOX.top}px`,
+                    left: `${POPOUT_BOX.left}px`,
+                    width: `${POPOUT_BOX.width}px`,
+                    height: `${POPOUT_BOX.height}px`,
+                    right: "auto",
+                    bottom: "auto",
+                  }
+                : undefined
             }
             bodyClassName={`flex flex-col ${session || chatPopped ? "h-full" : ""} ${
               chatPopped ? "flex-1 min-h-0" : ""
             }`}
             titleEffect="trace"
             traceHue="#b26bff"
+            cornerAction={session ? <div ref={popoutPortalRef} /> : undefined}
           >
             <div className="shrink-0 max-w-xl mx-auto w-full">
               <MiniConnector />
@@ -219,6 +275,8 @@ export default function Home() {
                 popped={chatPopped}
                 onTogglePopout={() => setChatPopped((v) => !v)}
                 controlsPortalEl={controlsPortalEl}
+                statusPortalEl={statusPortalEl}
+                popoutPortalEl={popoutPortalEl}
               />
             ) : (
               <p className="text-dim text-sm">sign in up top to chat with it</p>

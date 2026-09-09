@@ -958,9 +958,14 @@ main {
   grid-template-columns: repeat(5, 1fr);
   column-gap: 4px;
   align-items: end;
-  padding: 6px 4px 10px;
-  margin-bottom: 12px;
+  padding: 4px 4px 6px;
+  margin-bottom: 6px;
   border-bottom: 1px dashed var(--ghost);
+  /* Scales the whole node system up 10% visually without affecting layout
+     flow (transform doesn't reserve extra space), so nothing nearby --
+     the chat below, the label row, this container's own margin -- shifts
+     or resizes to accommodate it. */
+  transform: scale(1.1);
 }
 
 .mini-connector .mc-node-slot {
@@ -972,7 +977,7 @@ main {
 
 .mini-connector .mc-node {
   width: 100%;
-  max-width: 52px;
+  max-width: 34px;
   aspect-ratio: 5 / 3.6;
   border: 1px solid var(--dim);
   background: var(--panel);
@@ -1029,7 +1034,7 @@ main {
 
 .mini-connector .mc-hub-ring {
   width: 100%;
-  max-width: 60px;
+  max-width: 38px;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid var(--dim);
@@ -1593,7 +1598,10 @@ html[data-custom-cursor] label {
   }
 }
 
-/* "Speak to it" chat panel popping out to a full-screen overlay. */
+/* "Speak to it" chat panel popping out to a full-screen overlay (mobile) or
+   a hand-positioned window (lg+, top/left/width/height set directly as an
+   inline style from page.tsx's drag/resize rig — inline wins the cascade
+   over the fixed/inset-4 utility classes without fighting specificity). */
 .chat-popout-in {
   animation: chat-popout-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1610,6 +1618,36 @@ html[data-custom-cursor] label {
 
 @media (prefers-reduced-motion: reduce) {
   .chat-popout-in {
+    animation: none;
+  }
+}
+
+/* TerminalFace's continuous face-cycle flip. The outer .terminal-face-stage
+   supplies the perspective — without it a rotateY on the inner span alone
+   renders as a flat, barely-visible squish rather than a real card turn.
+   backface-visibility: hidden on the rotating span is what makes the
+   glyph/color swap (done in TerminalFace.tsx at 50% of this animation,
+   exactly when the span is edge-on to the viewer) invisible, so neither
+   face is ever seen mid-turn. */
+.terminal-face-stage {
+  perspective: 200px;
+}
+.terminal-face-flip {
+  animation: terminal-face-flip 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+@keyframes terminal-face-flip {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-face-flip {
     animation: none;
   }
 }

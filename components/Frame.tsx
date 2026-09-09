@@ -12,6 +12,9 @@ type FrameProps = {
    * reserved for the homepage's two hero panels, not every Frame. */
   titleEffect?: "trace";
   traceHue?: string;
+  /** Rendered pinned to the top-right inner corner, alongside the title. */
+  cornerAction?: ReactNode;
+  style?: CSSProperties;
 };
 
 const TONE_COLOR: Record<NonNullable<FrameProps["tone"]>, string> = {
@@ -34,6 +37,8 @@ export default function Frame({
   bodyClassName = "",
   titleEffect,
   traceHue,
+  cornerAction,
+  style,
 }: FrameProps) {
   const borderStyle = variant === "double" ? "border-double" : "border-solid";
   const borderWidth = variant === "double" ? "border-[6px]" : "border";
@@ -41,7 +46,7 @@ export default function Frame({
   return (
     <div
       className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/85 backdrop-blur-sm ${className}`}
-      style={traceHue ? ({ "--trace-hue": traceHue } as CSSProperties) : undefined}
+      style={{ ...(traceHue ? { "--trace-hue": traceHue } : undefined), ...style } as CSSProperties}
     >
       {titleEffect === "trace" && (
         <>
@@ -59,6 +64,9 @@ export default function Frame({
         >
           [ {title} ]
         </span>
+      )}
+      {cornerAction && (
+        <div className="absolute -top-3 right-4 bg-background px-2">{cornerAction}</div>
       )}
       <div className={`p-4 sm:p-5 ${bodyClassName}`}>{children}</div>
     </div>

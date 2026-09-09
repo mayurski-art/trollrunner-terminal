@@ -197,6 +197,8 @@ export default function Chat({
   popped,
   onTogglePopout,
   controlsPortalEl,
+  statusPortalEl,
+  popoutPortalEl,
 }: {
   // Present only for the owner while a draft is pending review.
   onSteerTransmission?: (note: string) => void;
@@ -211,6 +213,14 @@ export default function Chat({
   // below the "latest transmission" panel rather than in Chat's own status
   // row, filling space that used to sit empty there.
   controlsPortalEl?: HTMLDivElement | null;
+  // Face/mining/buddy status row portals into the same controls box, freeing
+  // the vertical space it used to occupy above the transcript inside
+  // "speak to it".
+  statusPortalEl?: HTMLDivElement | null;
+  // Pop-out toggle portals into the "speak to it" Frame's own top-right
+  // corner instead of the controls box, so it reads as the panel's own
+  // window-chrome action rather than a chat control.
+  popoutPortalEl?: HTMLDivElement | null;
 } = {}) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [wallet, setWallet] = useState<Wallet>({
@@ -657,34 +667,38 @@ export default function Chat({
 
   return (
     <div className="flex flex-col flex-1 min-h-0 lg:h-full">
-      <div className="mb-1 shrink-0 flex items-center gap-2">
-        <TerminalFace />
-        <span className="text-dim text-xs">trollface terminal</span>
-      </div>
-      <div className="mb-1 shrink-0">
-        <Meter
-          width={10}
-          fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
-          label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
-        />
-      </div>
-      <div className="mb-1 shrink-0 text-xs">
-        <span className="text-dim">
-          buddy: <span className="text-terminal">{wallet.buddyTier}</span>
-        </span>
-      </div>
+      {statusPortalEl &&
+        createPortal(
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap text-[10px] sm:text-xs min-w-0">
+            <div className="shrink-0">
+              <TerminalFace />
+            </div>
+            <Meter
+              width={10}
+              fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
+              label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
+            />
+            <span className="text-dim whitespace-nowrap">
+              buddy: <span className="text-terminal">{wallet.buddyTier}</span>
+            </span>
+          </div>,
+          statusPortalEl
+        )}
+      {popoutPortalEl &&
+        onTogglePopout &&
+        createPortal(
+          <button
+            type="button"
+            onClick={onTogglePopout}
+            className="rounded border border-terminal/50 bg-terminal/10 px-2 py-1 text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+          >
+            {popped ? "⤡ shrink" : "⤢ pop out"}
+          </button>,
+          popoutPortalEl
+        )}
       {controlsPortalEl &&
         createPortal(
-          <div className="flex items-center gap-3 text-xs flex-wrap">
-            {onTogglePopout && (
-              <button
-                type="button"
-                onClick={onTogglePopout}
-                className="text-dim hover:text-terminal transition-colors"
-              >
-                [ {popped ? "shrink" : "pop out"} ]
-              </button>
-            )}
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs flex-wrap min-w-0">
             {voiceSupported && (
               <button
                 type="button"
@@ -695,31 +709,33 @@ export default function Chat({
                 // pattern as Nav.tsx's [connected] pill hinting the
                 // disconnect it causes: off hovers toward "on" (gain
                 // green), on hovers toward "off" (alert red).
-                className={`transition-colors ${
-                  voiceOn ? "text-terminal hover:text-alert" : "text-dim hover:text-gain"
+                className={`rounded border px-2 py-1 font-semibold tracking-wide transition-colors ${
+                  voiceOn
+                    ? "border-gain/60 bg-gain/15 text-gain hover:border-alert/60 hover:bg-alert/15 hover:text-alert"
+                    : "border-dim/40 bg-dim/10 text-dim hover:border-gain/60 hover:bg-gain/15 hover:text-gain"
                 }`}
               >
-                [ voice: {voiceOn ? "on" : "off"} ]
+                {voiceOn ? "🔊 voice on" : "🔇 voice off"}
               </button>
             )}
             {confirmingClear ? (
-              <span className="text-dim">
-                clear? mining + buddy stay.{" "}
+              <span className="flex items-center gap-2 rounded border border-alert/50 bg-alert/10 px-2 py-1 text-dim flex-wrap">
+                clear? mining + buddy stay.
                 <button
                   type="button"
                   onClick={clearConversation}
                   disabled={clearing}
-                  className="text-alert hover:underline disabled:opacity-40"
+                  className="rounded bg-alert px-2 py-0.5 font-bold text-background transition-opacity hover:opacity-80 disabled:opacity-40"
                 >
-                  [ {clearing ? "clearing..." : "yes"} ]
-                </button>{" "}
+                  {clearing ? "clearing..." : "yes"}
+                </button>
                 <button
                   type="button"
                   onClick={() => setConfirmingClear(false)}
                   disabled={clearing}
-                  className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+                  className="rounded border border-ghost px-2 py-0.5 font-semibold text-ghost transition-colors hover:border-terminal hover:text-terminal disabled:opacity-40"
                 >
-                  [ cancel ]
+                  cancel
                 </button>
               </span>
             ) : (
@@ -728,9 +744,9 @@ export default function Chat({
                 onClick={() => setConfirmingClear(true)}
                 disabled={messages.length === 0}
                 aria-label="Clear this conversation"
-                className="text-ghost hover:text-terminal transition-colors disabled:opacity-40"
+                className="rounded border border-alert/40 bg-alert/10 px-2 py-1 font-semibold tracking-wide text-alert transition-colors hover:border-alert hover:bg-alert/20 disabled:opacity-30"
               >
-                [ clear ]
+                🗑 clear
               </button>
             )}
           </div>,
