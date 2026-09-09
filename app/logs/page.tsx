@@ -19,22 +19,22 @@ type Post = {
   posted_at: string;
 };
 
-// The broadcast persona's two signature marks (see CHAT/SYSTEM prompts in
-// lib/persona.ts) — used sparingly, so most posts carry neither and fall
-// into "unmarked." Classifying client-side off the raw content means this
-// stays in sync automatically if the marks ever change wording, no schema
-// change needed.
-type Kind = "clue" | "musing" | "unmarked";
+// Every transmission is now a "musing" (see lib/persona.ts) — the older
+// separate "clue" mark/category is retired, though posts from before this
+// change may still carry the old ▚▞ mark, so it's still recognized here as
+// a musing rather than falling through to "unmarked." Classifying
+// client-side off the raw content means this stays in sync automatically,
+// no schema change needed. Guessability itself is decided server-side by
+// clue_tag, independent of this label — see PostGuess.
+type Kind = "musing" | "unmarked";
 
 const KIND_META: Record<Kind, { label: string; mark: string }> = {
-  clue: { label: "clues", mark: "▚▞" },
   musing: { label: "musings", mark: "▓▒▓" },
   unmarked: { label: "unmarked", mark: "" },
 };
 
 function classify(content: string): Kind {
-  if (content.includes("▚▞")) return "clue";
-  if (content.includes("▓▒▓")) return "musing";
+  if (content.includes("▓▒▓") || content.includes("▚▞")) return "musing";
   return "unmarked";
 }
 
@@ -76,7 +76,7 @@ export default function LogsPage() {
 
         {posts && posts.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
-            {(["all", "clue", "musing", "unmarked"] as const).map((k) => (
+            {(["all", "musing", "unmarked"] as const).map((k) => (
               <button
                 key={k}
                 type="button"
@@ -128,12 +128,12 @@ export default function LogsPage() {
                   return (
                     <Frame
                       key={post.id}
-                      tone={kind === "clue" ? "problem" : kind === "musing" ? "terminal" : "dim"}
+                      tone={kind === "musing" ? "terminal" : "dim"}
                       bodyClassName="flex flex-col h-full"
                       titleEffect="trace"
-                      traceHue={kind === "clue" ? "#ffd21f" : kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
+                      traceHue={kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
                     >
-                      <div className="text-terminal text-sm leading-snug">
+                      <div className="text-terminal text-xs leading-snug font-transmission">
                         {renderTightLines(post.content)}
                       </div>
                       {post.art_url && (
@@ -148,7 +148,7 @@ export default function LogsPage() {
                         <span>{timeAgo(post.posted_at)}</span>
                         {kind !== "unmarked" && (
                           <span className="text-problem">
-                            {KIND_META[kind].mark} {KIND_META[kind].label}
+                            <span className="text-[10px]">{KIND_META[kind].mark}</span> {KIND_META[kind].label}
                           </span>
                         )}
                         {post.x_post_url && (
@@ -162,7 +162,7 @@ export default function LogsPage() {
                           </a>
                         )}
                       </div>
-                      {kind === "clue" && <PostGuess postId={post.id} session={session} />}
+                      <PostGuess postId={post.id} session={session} />
                     </Frame>
                   );
                 })}

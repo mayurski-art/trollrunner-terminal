@@ -26,20 +26,21 @@ type Post = {
   posted_at: string;
 };
 
-// The "latest transmission" panel is a fixed height (matches the chat
-// panel next to it), so a short post left a lot of empty space below the
-// guess prompt while a long one needed scrolling. Scaling the text size to
-// content length fills the panel either way instead of leaving it fixed
-// at one size no post actually fits well. Bucketed on length rather than a
-// live ResizeObserver — the content only ever changes on a fresh fetch/
-// generate, never while mid-render.
-function transmissionTextSize(content: string): string {
-  const len = content.length;
-  if (len <= 80) return "text-3xl";
-  if (len <= 140) return "text-2xl";
-  if (len <= 200) return "text-xl";
-  if (len <= 280) return "text-base";
-  return "text-sm";
+// Fixed small size for every transmission — the panel's own scroll
+// (bodyClassName="chat-scroll lg:overflow-y-auto" on the Frame) already
+// handles a post too long to fit, so there's no need to vary this by
+// content length.
+const TRANSMISSION_FONT_PX = 11;
+
+function TransmissionText({ content, justRevealed }: { content: string; justRevealed: boolean }) {
+  return (
+    <p
+      className={`leading-snug text-terminal font-transmission ${justRevealed ? "gt-reveal" : ""}`}
+      style={{ fontSize: `${TRANSMISSION_FONT_PX}px` }}
+    >
+      {renderTightLines(content)}
+    </p>
+  );
 }
 
 export default function Home() {
@@ -203,13 +204,7 @@ export default function Home() {
               {generating && <CrypticWait />}
               {latest && !generating && (
                 <>
-                  <p
-                    className={`leading-snug text-terminal ${transmissionTextSize(latest.content)} ${
-                      justGenerated ? "gt-reveal" : ""
-                    }`}
-                  >
-                    {renderTightLines(latest.content)}
-                  </p>
+                  <TransmissionText content={latest.content} justRevealed={justGenerated} />
                   {latest.art_url && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img

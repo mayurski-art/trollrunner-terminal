@@ -68,7 +68,11 @@ export async function POST(request: Request) {
   let answer = "";
   try {
     const body = (await request.json()) as { steer?: string; replaces?: string; answer?: string };
-    steer = (body.steer ?? "").trim().slice(0, 500);
+    // A verbatim paste (see isVerbatimSteer below) is never posted to X as a
+    // single tweet the way a generated transmission is, so it isn't held to
+    // the 280-char tweet limit — capped generously instead, just to keep the
+    // request body sane.
+    steer = (body.steer ?? "").trim().slice(0, 5000);
     replaces = (body.replaces ?? "").trim();
     // Hidden clue_tag for a verbatim post only — the generator path already
     // produces its own CLUE line, so this is ignored unless isVerbatimSteer.
@@ -91,7 +95,14 @@ export async function POST(request: Request) {
   // being fed to the LLM as "direction" — see isVerbatimSteer's comment.
   // No spend check or provider call needed since nothing gets generated.
   if (isVerbatimSteer(steer)) {
-    const content = steer.slice(0, 280);
+    // Every transmission is labeled "musing" and carries the same mark (see
+    // lib/persona.ts) — a pasted verbatim post needs it appended by hand
+    // since it never goes through generatePost's own mark-assignment. Not
+    // held to the 280-char tweet limit the generated path enforces — a
+    // verbatim paste isn't meant to go out as a single tweet, so cutting it
+    // there just silently truncated real transmissions mid-word.
+    const bodyWithoutMark = steer.trim().replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
+    const content = `${bodyWithoutMark}\n▓▒▓`;
 
     const { data: post, error: insertError } = await supabase
       .from("terminal_posts")

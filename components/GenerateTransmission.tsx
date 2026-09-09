@@ -350,7 +350,7 @@ export default function GenerateTransmission({
             value={steer}
             onChange={(e) => setSteer(e.target.value)}
             placeholder="make it darker, tie it to the bridge..."
-            maxLength={500}
+            maxLength={5000}
             rows={Math.min(12, Math.max(4, steer.split("\n").length + 1))}
             disabled={busy || deciding}
             onKeyDown={(e) => {

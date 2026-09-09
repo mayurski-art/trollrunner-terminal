@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Share_Tech_Mono } from "next/font/google";
 import Script from "next/script";
 import BootSequence from "@/components/BootSequence";
 import Cursor from "@/components/Cursor";
@@ -7,6 +7,15 @@ import "./globals.css";
 
 const mono = JetBrains_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+// Used just for transmission text (homepage "latest transmission" panel and
+// [logs]) — a grittier CRT-terminal look to set the broadcast persona's own
+// voice apart from the rest of the site's JetBrains Mono UI chrome.
+const transmissionFont = Share_Tech_Mono({
+  weight: "400",
+  variable: "--font-transmission",
   subsets: ["latin"],
 });
 
@@ -34,7 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${mono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${mono.variable} ${transmissionFont.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         {/* Opaque cover painted with the server HTML, before React hydrates,
             so the site can never flash through in the frames before

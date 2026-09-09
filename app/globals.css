@@ -45,6 +45,7 @@
   --color-gain: var(--gain);
   --color-ghost: var(--ghost);
   --font-mono: var(--font-mono);
+  --font-transmission: var(--font-transmission);
 }
 
 /* Site-wide hero background — the gold circuit-board trollface. Full
