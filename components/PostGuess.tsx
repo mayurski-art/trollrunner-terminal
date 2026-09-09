@@ -56,6 +56,15 @@ export default function PostGuess({
   const [gradeStrip, setGradeStrip] = useState("");
   const [justResolved, setJustResolved] = useState(false);
 
+  // Keyed on the user id, not the session object itself — Supabase re-emits
+  // onAuthStateChange (and hands page.tsx a brand-new session object, same
+  // user) on things like a token refresh, which fires reliably on tab/app
+  // focus. Depending on the whole session reference re-ran this effect on
+  // every alt-tab back to the browser, flipping loaded back to false and
+  // making "[ try to decipher this transmission ]" blink out until the
+  // refetch resolved. The user id only changes on an actual login/logout.
+  const userId = session?.user?.id ?? null;
+
   useEffect(() => {
     setLoaded(false);
     setGuessState(null);
@@ -63,7 +72,7 @@ export default function PostGuess({
     setError(null);
     setInput("");
     setJustResolved(false);
-    if (!session) {
+    if (!userId) {
       setLoaded(true);
       return;
     }
@@ -93,7 +102,7 @@ export default function PostGuess({
     return () => {
       cancelled = true;
     };
-  }, [postId, session]);
+  }, [postId, userId]);
 
   // Ticks the scramble strip while stage === "grading".
   useEffect(() => {

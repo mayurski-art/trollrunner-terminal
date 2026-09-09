@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Entry = { q: string; a: string };
 
@@ -44,31 +44,69 @@ const ENTRIES: Entry[] = [
   },
 ];
 
-// Click-to-expand FAQ, placed next to the "part of the trollrunner.net..."
+// Click-to-open FAQ, placed next to the "part of the trollrunner.net..."
 // footer line on every top-level page. Self-contained: no fetch, no
 // session — just static copy explaining the site to a first-time visitor.
+// Renders as a centered modal overlay (with its own background-scroll
+// lock) rather than expanding inline, so opening it doesn't push the rest
+// of the page down.
 export default function Faq() {
   const [open, setOpen] = useState(false);
+
+  // No scroll-lock effect needed here: the terminal page (app/page.tsx)
+  // already locks html/body scroll unconditionally, so this modal never
+  // needs to manage that itself.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <div className="relative z-[1] mt-3 text-center">
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen(true)}
         aria-expanded={open}
         className="text-foreground text-xs underline decoration-dim underline-offset-4 hover:text-terminal [text-shadow:0_1px_3px_var(--background)]"
       >
-        [ {open ? "close faq" : "what is this site?"} ]
+        [ what is this site? ]
       </button>
       {open && (
-        <div className="mt-4 mx-auto max-w-2xl text-left border border-dim bg-panel/60 p-4 sm:p-5 space-y-4">
-          {ENTRIES.map((entry) => (
-            <div key={entry.q}>
-              <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>
-              <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed">{entry.a}</p>
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-background/90"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="what is this site?"
+            className="fixed inset-4 z-50 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-2xl sm:max-h-[80vh] overflow-y-auto border border-dim bg-panel/95 backdrop-blur-sm text-left p-4 sm:p-6 space-y-4"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-terminal text-sm tracking-wide">[ what is this site? ]</span>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="close"
+                className="text-ghost hover:text-terminal transition-colors text-xs shrink-0"
+              >
+                [ close ]
+              </button>
             </div>
-          ))}
-        </div>
+            {ENTRIES.map((entry) => (
+              <div key={entry.q}>
+                <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>
+                <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed">{entry.a}</p>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

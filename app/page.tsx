@@ -98,16 +98,13 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [chatPopped]);
 
-  // The popout sits at a fixed position that can extend past the
-  // viewport's natural bounds (it's deliberately offset off-screen at the
-  // top-left), which was growing the page's own scrollable area and
-  // showing a second scrollbar behind the popout's overlay. Locking scroll
-  // on BOTH html and body while popped is required — body alone left html
-  // itself still independently scrollable (it has no explicit overflow-y
-  // rule, so it defaults to auto regardless of body's own overflow), which
-  // is what let the page keep scrolling behind the popout.
+  // The whole terminal page is locked from scrolling — its content now fits
+  // one screen (the FAQ moved from an inline expand into its own modal, so
+  // it no longer needs scroll room below the fold). Locking BOTH html and
+  // body is required — body alone leaves html itself independently
+  // scrollable, since html has no explicit overflow-y rule of its own and
+  // defaults to auto regardless of what body's overflow is set to.
   useEffect(() => {
-    if (!chatPopped) return;
     const prevBodyOverflow = document.body.style.overflow;
     const prevHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
@@ -116,7 +113,7 @@ export default function Home() {
       document.body.style.overflow = prevBodyOverflow;
       document.documentElement.style.overflow = prevHtmlOverflow;
     };
-  }, [chatPopped]);
+  }, []);
 
   const handleSteer = useCallback((note: string) => {
     steerRef.current?.(note);
@@ -241,6 +238,18 @@ export default function Home() {
                 <div ref={controlsPortalRef} className="min-w-0" />
               </Frame>
             )}
+
+            <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
+              part of the{" "}
+              <a
+                href="https://trollrunner.net?enter=1"
+                className="underline decoration-dim underline-offset-4 hover:text-terminal"
+              >
+                trollrunner.net
+              </a>{" "}
+              network
+            </p>
+            <Faq />
           </div>
 
           <Frame
@@ -297,18 +306,6 @@ export default function Home() {
             />
           )}
         </div>
-
-        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
-          part of the{" "}
-          <a
-            href="https://trollrunner.net?enter=1"
-            className="underline decoration-dim underline-offset-4 hover:text-terminal"
-          >
-            trollrunner.net
-          </a>{" "}
-          network
-        </p>
-        <Faq />
       </div>
     </main>
   );
