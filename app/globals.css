@@ -926,6 +926,15 @@ main {
 .boot-connector .bc-labels--nft {
   color: var(--bc-lime);
 }
+/* Desktop: the four lineage nodes (carlos/umadbro/nft/crypto) were capped
+   at the same 96px as phones once the viewport cleared the 15vw clamp —
+   plenty of room to let them read bigger on a real monitor. Hub excluded
+   (own aspect-ratio: 1 circle, sized in proportion already). */
+@media (min-width: 761px) {
+  .boot-connector {
+    --bc-node-w: 152px;
+  }
+}
 .boot-connector .bc-labels--crypto {
   color: var(--bc-gold);
 }
@@ -1003,6 +1012,14 @@ main {
 .mini-connector .mc-node--crypto {
   animation-delay: 4.2s;
   border-color: color-mix(in srgb, var(--mc-gold) 45%, var(--dim));
+}
+/* Desktop only: bigger artwork boxes for the four lineage nodes (carlos/
+   umadbro/nft/crypto) in the [ speak to it ] panel header. Everything else
+   in .mini-connector — hub ring, stems, wire, labels, gaps — is untouched. */
+@media (min-width: 761px) {
+  .mini-connector .mc-node {
+    max-width: 54px;
+  }
 }
 .mini-connector .mc-node img {
   width: 100%;
