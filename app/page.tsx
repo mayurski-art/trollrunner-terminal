@@ -274,7 +274,7 @@ export default function Home() {
                   // center on an iPhone 13 Pro, so it's nudged left and up.
                   "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
                 : `order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
-                    session ? "h-[80vh] max-h-[42rem]" : "h-auto"
+                    session ? "h-[80vh] max-h-[42rem]" : "h-48"
                   }`
             }
             style={
@@ -289,9 +289,7 @@ export default function Home() {
                   }
                 : undefined
             }
-            bodyClassName={`flex flex-col ${session || chatPopped ? "h-full" : ""} ${
-              chatPopped ? "flex-1 min-h-0" : ""
-            }`}
+            bodyClassName={`flex flex-col h-full ${chatPopped ? "flex-1 min-h-0" : ""}`}
             titleEffect="trace"
             traceHue="#b26bff"
             cornerAction={session ? <div ref={popoutPortalRef} /> : undefined}
@@ -309,7 +307,9 @@ export default function Home() {
                 popoutPortalEl={popoutPortalEl}
               />
             ) : (
-              <p className="text-dim text-sm">sign in up top to chat with it</p>
+              <p className="text-dim text-sm flex-1 flex items-center justify-center text-center">
+                sign in up top to chat with it
+              </p>
             )}
           </Frame>
 
