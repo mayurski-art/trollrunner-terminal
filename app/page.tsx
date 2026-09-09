@@ -98,18 +98,29 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [chatPopped]);
 
-  // The whole terminal page is locked from scrolling — its content now fits
-  // one screen (the FAQ moved from an inline expand into its own modal, so
-  // it no longer needs scroll room below the fold). Locking BOTH html and
+  // The terminal page is locked from scrolling on desktop — its content
+  // fits one screen there (the FAQ moved from an inline expand into its own
+  // modal, so it no longer needs scroll room below the fold). Mobile stacks
+  // the same content in a single column (transmission panel + chat + FAQ),
+  // which routinely runs taller than the viewport, so the lock only applies
+  // at the lg breakpoint and up — locking it unconditionally left phones
+  // with no way to reach anything below the fold. Locking BOTH html and
   // body is required — body alone leaves html itself independently
   // scrollable, since html has no explicit overflow-y rule of its own and
   // defaults to auto regardless of what body's overflow is set to.
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
     const prevBodyOverflow = document.body.style.overflow;
     const prevHtmlOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    const apply = (locked: boolean) => {
+      document.body.style.overflow = locked ? "hidden" : prevBodyOverflow;
+      document.documentElement.style.overflow = locked ? "hidden" : prevHtmlOverflow;
+    };
+    apply(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => apply(e.matches);
+    mq.addEventListener("change", onChange);
     return () => {
+      mq.removeEventListener("change", onChange);
       document.body.style.overflow = prevBodyOverflow;
       document.documentElement.style.overflow = prevHtmlOverflow;
     };
@@ -257,7 +268,11 @@ export default function Home() {
             tone="dim"
             className={
               chatPopped
-                ? "fixed inset-4 z-50 lg:inset-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
+                ? // Mobile insets are intentionally asymmetric (more room on the
+                  // right/bottom than left/top) rather than the even inset-4 —
+                  // that centered box, but sat a bit low and right of true
+                  // center on an iPhone 13 Pro, so it's nudged left and up.
+                  "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
                 : `order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
                     session ? "h-[80vh] max-h-[42rem]" : "h-auto"
                   }`

@@ -91,15 +91,6 @@ export default function Nav() {
             </Link>
             {isOwner && (
               <Link
-                href="/transmit"
-                onClick={() => setOpen(false)}
-                className="nav-neon nav-neon--transmit whitespace-nowrap"
-              >
-                [ transmit ]
-              </Link>
-            )}
-            {isOwner && (
-              <Link
                 href="/inspect"
                 onClick={() => setOpen(false)}
                 className="nav-neon nav-neon--inspect whitespace-nowrap"
