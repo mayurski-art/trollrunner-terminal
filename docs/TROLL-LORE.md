@@ -1549,17 +1549,72 @@ Sources: [Fortune](https://fortune.com/2026/09/08/hunter-biden-launches-laptop-m
 
 ## 48. The Struggles of Hunter Biden
 
-On **[DATE]**, [WHAT HAPPENED — one or two sentences establishing the
-event/fact plainly].
+In the late 2010s (2016-2019), this is How Hunter Biden blew $5M on crack, prostitutes, suits, cigars and new teeth— to fury of ex-wife:
+Summary:
 
-[BODY PARAGRAPH — the details, in prose, bolding **key names**, **dates**,
-and **numbers** the way the rest of this file does.]
+Hunter Biden’s extravagant spending during his divorce from Kathleen Buhle angered her, as revealed in her 2017 email accusing him of irresponsible financial behavior. Buhle noted Biden spent $122,000 in two months while drastically reducing family support payments. Federal prosecutors later reported he spent nearly $5 million from 2016 to 2019, including over $680,000 on women and $190,000 on adult entertainment. Charged with tax evasion and facing 17 years in prison, Biden was documented indulging in lavish lifestyles—renting luxury homes, booking expensive hotel suites, and frequenting strip clubs. His costly habits also included significant dental work and high-end fashion purchases, exacerbating the couple's financial strain. Despite his lavish expenditures, he consistently neglected family financial obligations.
 
-> "[DIRECT QUOTE, if any — otherwise delete this blockquote]"
+Hunter Biden’s estranged wife was furious.
 
-[Optional second body paragraph — more detail, follow-up events, reactions.]
+“Your spending is documented and irresponsible,” Kathleen Buhle emailed him on Feb. 20, 2017.
 
-Sources: [SOURCE NAME](URL), [SOURCE NAME](URL).
+The couple were in bitter divorce negotiations.
+
+“I am sick of trying to figure out how you are hiding the money,” Buhle continued in the email, cited in “Laptop from Hell: Hunter Biden, Big Tech and the Dirty Secrets the President Tried to Hide” 
+
+Buhle wrote that he had spent $122,000 in two months — and at the same time cut monthly payments to Buhle and their three daughters from $17,000 to $1,700.
+
+“Simply looking at your spending is enough for any judge to be disgusted.”
+
+Three days later she filed a court motion. Biden “rarely” spent anything on his family, she charged, but was blowing hundreds of thousands on alcohol, strip clubs, gifts to other women, and travel — sometimes charging multiple hotel rooms for the same night.
+
+Now federal prosecutors have revealed just how right Buhle was.
+
+They alleged Pres. Biden’s son blasted through $4,907,813 in four years, including $683,212 “to various women,” and $188,960 on “adult entertaining.”
+
+David Weiss, the special counsel investigating Biden filed a nine-charge indictment in Los Angeles, Calif., Thursday, accusing him of dodging more than $1 million in taxes while living an “extravagant” life between 2016 and 2019 — and detailing the eye-popping spree.
+
+Biden, 53, was charged with three felonies and six misdemeanor counts of failure to file taxes and to pay them in the 2016, 2017, 2018, and 2019 tax years, amounting to at least $1.4 million. He faces 17 years in prison if convicted on all counts.
+
+A year after Buhle’s furious email and her court bid to get his cash, Biden was undeterred, emails and records in his laptop show.
+
+In February, 2018, he was splurging $7,000 per month on a $5 million waterfront home in Annapolis, MD, complete with a pool and private jetty for his 27ft boat — and sharing it with his brother Beau’s widow Hallie, with whom he was having an affair.
+
+By May 2018, he was in Los Angeles, where he spent $8,000 on an extended callout for a 24-year-old Russian prostitute named “Yanna,” an “elite courtesan” with green eyes and brown hair from Emerald Fantasy Girls.
+
+He also charged 42 nights at the Chateau Marmont hotel for an $ 820-a-night poolside bungalow, for a total of $34,400, using the four-burner stove in the tiny kitchen to cook up crack.
+
+On many of the same nights, Biden also booked a $469-a-night room at The Jeremy and another at La Peer, both luxury hotels in West Hollywood.
+
+In August, the First Son shelled out $140,000 a night for 14 nights to stay at the Las Vegas Palms Casino Resort where he went on a bender, fueled by crack cocaine and accompanied by prostitutes, according to images and texts found on his laptop.
+
+The suite cost him $10,000 a night, although the Russian who organized it told him that was “half-off.”
+
+At the time, he tooled around Los Angeles in a $650-a-day Lamborghini Gallardo Spyder from Legends Car Rentals while his own Porsche 911 was being serviced.
+
+While in Los Angeles, he shelled out $1,000 for a sex-cam porn site called STREAMRAY where women with monikers like “PerfectTits” writhed and took off their clothes.
+
+The spending was bi-coastal. In New York, he stayed at the Mandarin Oriental in Columbus Circle in a $ 2,495-a-night suite with views of Central Park.
+
+In two different visits to the elite menswear store Riflessi on W57th Street, he spent $30,000 on suits from luxe Italian brand Brunello Cucinelli, including a tuxedo, and $14,000 on other clothes.
+
+There was $7,694 at Caruso Menswear, an Italian boutique, and just under $540 at Brooks Brothers in Manhattan.
+
+While in the city, he also spent more than $69,000 to fix his teeth, wrecked from his crack-smoking, at Smile Design Cosmetic Dentistry in Midtown — and dropped $12,000 at Larry Flynt’s Hustler Club in Hell’s Kitchen.
+
+In May 2019, he complained in several texts to strippers at Archibald’s Gentlemen’s Club on K Street in Washington, DC, where he was a regular, that a woman had walked away with his $8,500 Gucci bomber jacket, and he wanted it back.
+
+“We had credit card debt and medical bills,” said Buhle in her 2022 book “If We Break: A Memoir of Marriage, Addiction and Healing.”
+
+“The sheer amount of our debt overwhelmed me. We were underwater.”
+
+Biden barely addressed his extraordinary spending in his memoir, “Beautiful Things,” focusing instead on buying 10 dime bags of crack for $100 and staying in $59-a-night Super 8 motels off I-95.
+
+But the special counsel was interested in one aspect of the book: He alleges that Biden had $140,000 in proceeds from it sent to Buhle’s bank account — and did not send a cent of it to the IRS.
+
+With excerpts from Miranda Devine’s book, “Laptop from Hell: Hunter Biden, Big Tech and the Dirty Secrets the President Tried to Hide.”].
+
+Sources: [NY POST](https://nypost.com/2023/12/08/news/hunter-biden-spent-5m-on-crack-prostitutes-cigars-teeth/)
 
 ## 49. Ethan Prosper — the trencher who bought a McLaren and kind of looks like the mascot
 
