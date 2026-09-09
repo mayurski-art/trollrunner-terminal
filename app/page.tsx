@@ -101,14 +101,20 @@ export default function Home() {
   // The popout sits at a fixed position that can extend past the
   // viewport's natural bounds (it's deliberately offset off-screen at the
   // top-left), which was growing the page's own scrollable area and
-  // showing a second scrollbar behind the popout's overlay. Locking body
-  // scroll while popped keeps only the popout's own internal scroll.
+  // showing a second scrollbar behind the popout's overlay. Locking scroll
+  // on BOTH html and body while popped is required — body alone left html
+  // itself still independently scrollable (it has no explicit overflow-y
+  // rule, so it defaults to auto regardless of body's own overflow), which
+  // is what let the page keep scrolling behind the popout.
   useEffect(() => {
     if (!chatPopped) return;
-    const prevOverflow = document.body.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = prevOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
     };
   }, [chatPopped]);
 
