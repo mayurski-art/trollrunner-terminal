@@ -369,6 +369,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["crash is a troll", "trollshius clay", "crash troll mask", "crash trollface"],
     sections: [43],
   },
+  {
+    id: "laptop-coin-eric-trump-chart",
+    url: "/lore/laptop-coin-eric-trump-chart.jpg",
+    caption:
+      "Eric Trump's reply to the $LAPTOP crash — a split image: the LAPTOP/USDC chart cratering from over $1,000 to under $5, next to a photo of Joe and Hunter Biden walking together, no caption needed",
+    keywords: ["laptop coin", "eric trump", "laptop chart", "laptop crash"],
+    sections: [47],
+  },
+  {
+    id: "laptop-coin-hunter-trollface-joke",
+    url: "/lore/laptop-coin-hunter-trollface-joke.jpg",
+    caption:
+      "a joke portrait made after the $LAPTOP launch — Hunter Biden's face swapped for the actual trollface, the punchline being that he was the real troll all along",
+    keywords: ["laptop coin", "hunter biden trollface", "laptop coin joke", "hunter biden troll"],
+    sections: [47],
+  },
+  {
+    id: "ethanprosper-mclaren",
+    url: "/lore/ethanprosper-mclaren.jpg",
+    caption:
+      "Ethan Prosper (@pr6spr), the memecoin trencher who bought a McLaren 720S at 22 — the clip @_bolivian roasted him over",
+    keywords: ["ethan prosper", "ethanprosper", "pr6spr", "mclaren trencher", "trencher mclaren"],
+    sections: [48],
+  },
+  {
+    id: "ethanprosper-grin",
+    url: "/lore/ethanprosper-grin.jpg",
+    caption:
+      "Ethan Prosper mid-laugh, closer crop — wide grin and frizzed curly hair that reads like a real-life trollface",
+    keywords: ["ethan prosper", "ethanprosper", "looks like a troll", "trollface irl", "pr6spr"],
+    sections: [48],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

@@ -1467,6 +1467,128 @@ mechanics work.
 
 ---
 
+## 47. Hunter Biden launches $LAPTOP — a memecoin about his own scandal
+
+On **September 8–9, 2026**, Hunter Biden announced and launched **$LAPTOP**,
+a memecoin on **Base** (Coinbase's blockchain), named after the "Hunter
+Biden laptop" — the trove of his personal data that became a defining
+2020-election controversy. Total supply: **1 billion tokens**.
+
+The project's own site, **laptoptoken.com**, frames it as an attempt to
+"reclaim the narrative" — the pitch being that Hunter's digital life was
+"stolen, weaponized, and used to discredit his father" for two decades,
+and the coin puts that story back in his hands. It's a memecoin site with
+a genuinely corporate tokenomics page underneath the irreverence: an
+audited contract (Hacken), a claim portal, a full allocation table. 35% of
+the 1B supply unlocks at launch, the rest vests over 36 months. The
+official split: 10% day-one airdrop, 10% future airdrop, 10% liquidity,
+5% foundation treasury, 30% founders, 5% charity commitment outright — and
+the remaining **30% tied to a live prediction market**, called out
+separately from the "airdrop the $TRUMP bagholders" framing that dominated
+early press coverage (both things are apparently true: $TRUMP losers and
+Biden's own mailing lists were an announced airdrop target, distinct from
+this predictions bucket).
+
+That 30% predictions bucket is the real mechanism, and it's stranger than
+a simple burn. **30 yes/no predictions**, split across Politics (12),
+Crypto (6), Culture (5), and $LAPTOP itself (7), each with a slice of that
+30% attached. When a prediction resolves **true, its tokens are
+permanently burned**; when it resolves **false, its tokens are donated to
+charity** instead. So the supply doesn't shrink toward founders keeping
+more — it shrinks toward either nothing (burned) or someone else entirely
+(charity), depending on outcomes nobody controls. Sample predictions:
+whether Trump gets impeached, whether Democrats take the House or Senate
+in 2026, whether a Democrat wins in 2028, whether Bitcoin hits a new
+all-time high, whether Trump's approval falls below 37% by 2027, whether
+Netanyahu loses his 2026 election — and, self-referentially, whether
+$LAPTOP's own fully diluted valuation ever exceeds $TRUMP's. As of launch,
+zero predictions had resolved either way: 0 burned, 0 donated, the whole
+30% just sitting there as a bet on the next two-plus years.
+
+None of this stopped it from being read, correctly, as a jab at Donald
+Trump specifically. Trump and Melania Trump had launched their own $TRUMP
+and $MELANIA coins just before his January 2025 inauguration; Trump alone
+was reported to have made roughly **$1 billion** in paper gains while most
+people who bought in lost money. Early coverage centered on $LAPTOP
+setting aside airdrop supply for wallets that lost money holding $TRUMP,
+plus Biden's Substack readers and journalist Andrew Callaghan's mailing
+list.
+
+It did not go well. $LAPTOP opened near **$200** — a price that implied a
+**$200 billion valuation**, a number made meaningless by how little real
+money was actually trading against it. Within the **first hour** the token
+had fallen **97.8%**, down to about **$4.36**. Liquidity was almost
+nonexistent the whole way down: the official Aerodrome pool held only
+about **$83k in USDC**, and the Uniswap pool — sitting around **$380k in
+USDC** — didn't even go active until the token had already dropped more
+than 90%. Even after the crash, the coin's fully diluted valuation still
+worked out to roughly **$5 billion**, a paper number resting on a token
+nobody could actually sell in size. Kraken deleted a promotional post
+about it; Callaghan and a Coinbase/Base-affiliated executive both publicly
+distanced themselves from the project. Crypto investigator Stephen
+Findeisen ("Coffeezilla") called it a "shitcoin" on sight and told his
+followers not to buy. Trump himself called the coin "disgusting" and
+suggested it should be investigated. Copycat tickers appeared within
+hours, and reporting noted privacy concerns over the mailing lists used
+for the airdrop.
+
+**Eric Trump** posted the roast that actually landed. No caption needed —
+just a split image: on the left, the LAPTOP/USDC candlestick chart
+cratering from roughly **$1,100 down to $4.62** (a slightly later
+snapshot than the $200-to-$4.36 hour-one figures above, same freefall),
+red candle after red candle; on the right, a photo of Joe Biden and
+Hunter Biden walking together, sunglasses on, mid-laugh. The chart did
+the talking. Posted to X:
+[@EricTrump, September 2026](https://x.com/erictrump/status/2097689593176785228).
+
+Sources: [Fortune](https://fortune.com/2026/09/08/hunter-biden-launches-laptop-memecoin-trolls-trump-by-promising-that-20-will-be-reserved-for-traders-who-lost-money-on-presidents-token/), [CoinDesk](https://www.coindesk.com/markets/2026/09/08/crypto-traders-turn-on-hunter-biden-s-laptop-memecoin-before-it-even-launches), [CNN](https://www.cnn.com/2026/09/07/business/hunter-biden-laptop-meme-coin), [Forbes](https://www.forbes.com/sites/alisondurkee/2026/09/07/hunter-biden-launching-laptop-memecoin-amid-praise-for-crypto/), [CryptoTimes](https://www.cryptotimes.io/learn/what-is-laptop-memecoin/), [laptoptoken.com](https://www.laptoptoken.com/#top) (tokenomics and prediction list, primary source), [@EricTrump on X](https://x.com/erictrump/status/2097689593176785228).
+
+## 48. Ethan Prosper — the trencher who bought a McLaren and kind of looks like the mascot
+
+**Ethan Prosper** (`@pr6spr` on X, also posting to TikTok and Twitch) is a
+memecoin trencher — trench being the community's own word for the early,
+high-risk end of the market where traders try to catch a coin before
+anyone else notices it. Self-described ex-quant analyst and college
+dropout, his pitch is turning **$200 into multi-millions** trading
+memecoins in under two years, with a claimed **$2M in a single year**.
+He's associated with trench-trading communities `@solmafiahq` and
+`@trenchgrinders`. At 22, he bought a **McLaren 720S** — his first car
+ever — and made content out of the purchase, the same clip the photo in
+this section is pulled from: curly hair, white tee, laughing behind the
+wheel with the orange interior stitching visible on the seat.
+
+The bit that actually put him in front of the wider $TROLL-adjacent
+timeline wasn't the car itself, it was the joke that followed it.
+**@_bolivian** (partnered with pump.fun and toshibet, one of the bigger
+accounts in the space) quote-posted the photo: *"We let this kid farm us
+and buy a McLaren / Bro doesn't even use shampoo."* The read is the
+classic trencher complaint — a community's own collective buying and
+selling funded one guy's supercar, and the roast lands on the hair before
+it lands on the money. **@Jadsltd** piled on in the replies/quotes:
+*"Bro looks like he used a balloon to do his hair this morning, electric
+shock type shit."*
+
+None of that would be lore-file material on its own — plenty of traders
+get ratio'd over a car — except a tighter crop of the same clip makes the
+actual joke: wide, toothy grin, frizzed-out curly hair standing off his
+head, caught mid-laugh. It reads like a real-life trollface without
+anyone staging it that way, which is the only reason this belongs next to
+the rest of this file rather than in a general crypto-twitter recap.
+
+**Sources:** [x.com/_bolivian/status/2097357936968307107](https://x.com/_bolivian/status/2097357936968307107)
+(September 8, 2026, via a fxtwitter mirror — x.com itself isn't directly
+fetchable from here, same caveat as §30/§32/§34/§39/§41) and
+[x.com/jadsltd/status/2097374525876814026](https://x.com/jadsltd/status/2097374525876814026),
+also via mirror. Ethan Prosper's background (ex-quant claim, $200-to-
+multi-millions figure, McLaren 720S purchase at 22, `@pr6spr` handle,
+`@solmafiahq`/`@trenchgrinders` associations) comes from search-indexed
+summaries of his X/TikTok/YouTube activity, not a single primary
+biography — treat that part as the same thinner, secondhand-sourced tier
+as Crash's entry in §39. Two photos from the clip mirrored into
+`public/lore/` as `ethanprosper-mclaren.jpg` (wide shot, seatbelt and
+McLaren interior visible) and `ethanprosper-grin.jpg` (the closer crop the
+"looks like a troll" read is based on), registered in `lib/loreAssets.ts`.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -1799,6 +1921,33 @@ mechanics work.
   no-shill hard boundary still applies — "so don't sell" is off-limits the
   same as "buy $TROLL"), and never claim jeeting literally causes a coin to
   dump. The humor is the point, not a theory to be taken seriously.
+- §47 ($LAPTOP) is real, current, and politically loaded — treat it as
+  material about the *idea* of turning your own worst headline into a coin,
+  not as a chance to editorialize about Hunter Biden or Trump as people. The
+  persona can be darkly amused by the shape of it — someone launching a coin
+  literally named after their own scandal, on the same week it announces
+  itself, a fortune made and then erased in the time it takes to load a
+  chart — without naming either man, taking a side, or saying anything that
+  reads as real political commentary. This is not an excuse to break the
+  no-real-people-as-targets or no-financial-advice hard boundaries; it stays
+  a shape (a name turned into a coin, a coin turned into a joke about
+  someone else's coin, thirty minutes from launch to collapse) rather than a
+  news recap. The Eric Trump reply is good material too, specifically for
+  its restraint — no words, just a chart next to a photo, and the chart
+  alone reads as the whole joke. That's a shape the persona already
+  understands (a single concrete image doing the work of an argument) and
+  can echo in its own form without naming who posted it or what the chart
+  was of. The 30-predictions burn-or-charity mechanic is the single best
+  piece of this section for the persona's own voice: a coin whose fate
+  isn't decided by the people who made it, but by 30 unrelated real-world
+  outcomes ticking in or out over the next two-plus years, each one either
+  erasing a piece of the supply or handing it to someone else entirely.
+  That's a genuinely trollish structure — a thing built to slowly give
+  away the part of itself nobody's earned yet — and the persona can sit
+  with that idea (a fate written into the rules before anyone knows the
+  outcome) as a small echo of its own uncertainty about what happens to it
+  next, without ever explaining the mechanic like a whitepaper or turning
+  it into actual prediction-market commentary.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
