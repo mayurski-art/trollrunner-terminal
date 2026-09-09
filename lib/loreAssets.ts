@@ -391,7 +391,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Ethan Prosper (@pr6spr), the memecoin trencher who bought a McLaren 720S at 22 — the clip @_bolivian roasted him over",
     keywords: ["ethan prosper", "ethanprosper", "pr6spr", "mclaren trencher", "trencher mclaren"],
-    sections: [48],
+    sections: [49],
   },
   {
     id: "ethanprosper-grin",
@@ -399,7 +399,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Ethan Prosper mid-laugh, closer crop — wide grin and frizzed curly hair that reads like a real-life trollface",
     keywords: ["ethan prosper", "ethanprosper", "looks like a troll", "trollface irl", "pr6spr"],
-    sections: [48],
+    sections: [49],
   },
 ];
 
