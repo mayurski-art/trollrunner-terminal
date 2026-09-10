@@ -13,7 +13,10 @@ export async function GET() {
 
     const postsRes = await supabase
       .from("terminal_posts")
-      .select("id, content, x_post_url, art_url, posted_at")
+      // kind ('clue' | 'musing') is owner-chosen at review time (migration
+      // 018) and is public flavor, not a secret like clue_tag — the logs
+      // page's filter/label reads it straight off this response.
+      .select("id, content, kind, x_post_url, art_url, posted_at")
       // Awaiting the owner accept/trash review — see migration 016.
       .eq("pending", false)
       .is("error", null)

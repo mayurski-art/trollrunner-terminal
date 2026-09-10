@@ -20,11 +20,11 @@ const ENTRIES: Entry[] = [
   },
   {
     q: "what are the different kinds of transmissions?",
-    a: '"clue" transmissions (marked ▚▞) drop one piece of something bigger — the ledger, the drawing, the shop, another presence — meant to be pieced together over time, not explained outright. "musing" transmissions (marked ▓▒▓) are just what\'s on its mind, no puzzle attached. plenty carry no mark at all.',
+    a: "some drop one piece of something bigger it's circling — the ledger, the drawing, the shop, another presence — meant to be pieced together over time, not explained outright. others are just what's on its mind, no puzzle attached. either way, some are guessable.",
   },
   {
     q: "why look at the logs?",
-    a: "the logs are the full transmission archive, filterable by clue / musing / unmarked. clue transmissions there are guessable — spend a PROBLEM to take a shot at what it's actually circling, and a correct guess pays back more than it cost.",
+    a: "the logs are the full transmission archive. guessable ones let you spend a PROBLEM to take a shot at what it's actually circling, and a correct guess pays back more than it cost.",
   },
   {
     q: "why read through the archive?",

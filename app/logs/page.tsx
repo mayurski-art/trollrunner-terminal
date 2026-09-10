@@ -12,32 +12,29 @@ import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 
+export type Kind = "clue" | "musing";
+
 export type Post = {
   id: string;
   content: string;
+  kind: Kind;
   x_post_url: string | null;
   art_url: string | null;
   posted_at: string;
 };
 
-// Every transmission is now a "musing" (see lib/persona.ts) — the older
-// separate "clue" mark/category is retired, though posts from before this
-// change may still carry the old ▚▞ mark, so it's still recognized here as
-// a musing rather than falling through to "unmarked." Classifying
-// client-side off the raw content means this stays in sync automatically,
-// no schema change needed. Guessability itself is decided server-side by
-// clue_tag, independent of this label — see PostGuess.
-export type Kind = "musing" | "unmarked";
-
-export const KIND_META: Record<Kind, { label: string; mark: string }> = {
-  musing: { label: "musings", mark: "▓▒▓" },
-  unmarked: { label: "unmarked", mark: "" },
+// The owner picks clue vs. musing directly on the review card at generation
+// time (GenerateTransmission.tsx) — terminal_posts.kind (migration 018) is
+// the source of truth. This replaces the old scheme of scanning each post's
+// content for a ▚▞/▓▒▓ glyph the persona used to append: the voice now
+// writes plain casual prose with no mark left in the text to key off of, and
+// letting the owner choose freely beats inferring it from guessability
+// (clue_tag) or a glyph. Guessability itself stays independent of this
+// label — see PostGuess.
+export const KIND_META: Record<Kind, { label: string }> = {
+  clue: { label: "clues" },
+  musing: { label: "musings" },
 };
-
-function classify(content: string): Kind {
-  if (content.includes("▓▒▓") || content.includes("▚▞")) return "musing";
-  return "unmarked";
-}
 
 // Every archived transmission renders single-spaced except the day's most
 // recent one, which keeps its full paragraph spacing as originally posted.
@@ -90,7 +87,7 @@ export default function LogsPage() {
 
         {posts && posts.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
-            {(["all", "musing", "unmarked"] as const).map((k) => (
+            {(["all", "clue", "musing"] as const).map((k) => (
               <button
                 key={k}
                 type="button"
@@ -102,7 +99,7 @@ export default function LogsPage() {
                     : "border-dim text-dim hover:border-terminal hover:text-terminal"
                 }`}
               >
-                {k === "all" ? "[ all ]" : `[ ${KIND_META[k].mark ? KIND_META[k].mark + " " : ""}${KIND_META[k].label} ]`}
+                {k === "all" ? "[ all ]" : `[ ${KIND_META[k].label} ]`}
               </button>
             ))}
           </div>
@@ -127,7 +124,7 @@ export default function LogsPage() {
           posts &&
           posts.length > 0 &&
           (() => {
-            const filtered = posts.filter((p) => filter === "all" || classify(p.content) === filter);
+            const filtered = posts.filter((p) => filter === "all" || p.kind === filter);
             if (filtered.length === 0) {
               return (
                 <Frame title="transmissions" tone="terminal">
@@ -138,7 +135,7 @@ export default function LogsPage() {
             return (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map((post) => {
-                  const kind = classify(post.content);
+                  const kind = post.kind;
                   return (
                     <Frame
                       key={post.id}
@@ -170,11 +167,7 @@ export default function LogsPage() {
                       )}
                       <div className="mt-3 pt-3 border-t border-dim/40 flex items-center gap-3 text-xs text-dim">
                         <span>{timeAgo(post.posted_at)}</span>
-                        {kind !== "unmarked" && (
-                          <span className="text-problem">
-                            <span className="text-[10px]">{KIND_META[kind].mark}</span> {KIND_META[kind].label}
-                          </span>
-                        )}
+                        <span className="text-problem">{KIND_META[kind].label}</span>
                         {post.x_post_url && (
                           <a
                             href={post.x_post_url}
@@ -209,7 +202,7 @@ export default function LogsPage() {
       {expanded && (
         <TransmissionModal
           post={expanded}
-          kind={classify(expanded.content)}
+          kind={expanded.kind}
           kindMeta={KIND_META}
           session={session}
           onClose={() => setExpanded(null)}

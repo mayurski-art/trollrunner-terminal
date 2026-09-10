@@ -10,7 +10,7 @@ import { renderTightLines } from "@/lib/renderText";
 type Props = {
   post: Post;
   kind: Kind;
-  kindMeta: Record<Kind, { label: string; mark: string }>;
+  kindMeta: Record<Kind, { label: string }>;
   session: Session | null;
   onClose: () => void;
 };
@@ -68,11 +68,7 @@ export default function TransmissionModal({ post, kind, kindMeta, session, onClo
 
         <div className="mt-4 pt-3 border-t border-dim/40 flex items-center gap-3 text-xs text-dim">
           <span>{timeAgo(post.posted_at)}</span>
-          {kind !== "unmarked" && (
-            <span className="text-problem">
-              <span className="text-[10px]">{kindMeta[kind].mark}</span> {kindMeta[kind].label}
-            </span>
-          )}
+          <span className="text-problem">{kindMeta[kind].label}</span>
           {post.x_post_url && (
             <a
               href={post.x_post_url}

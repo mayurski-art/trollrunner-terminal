@@ -7,9 +7,12 @@ import { displayName } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
 import { renderTightLines } from "@/lib/renderText";
 
+type Kind = "clue" | "musing";
+
 type Post = {
   id: string;
   content: string;
+  kind: Kind;
   clue_tag: string | null;
   x_post_url: string | null;
   art_url: string | null;
@@ -63,6 +66,11 @@ export default function GenerateTransmission({
   // the database but is flagged pending, so no public surface shows it while
   // this is set.
   const [review, setReview] = useState<Post | null>(null);
+  // The clue/musing checkbox — kept in sync with whatever draft is currently
+  // held for review (see the effect below) rather than living only inside
+  // the JSON the server handed back, so flipping it doesn't require a round
+  // trip and the owner can change their mind right up until accept.
+  const [kind, setKind] = useState<Kind>("musing");
   const [deciding, setDeciding] = useState(false);
   const [editing, setEditing] = useState(false);
   const [steer, setSteer] = useState("");
@@ -114,6 +122,17 @@ export default function GenerateTransmission({
     onReviewChange?.(review);
   }, [review, onReviewChange]);
 
+  // Whenever a new draft lands (fresh generation, recovered on reload/focus,
+  // or a regenerate) the checkbox resets to whatever that draft was actually
+  // saved as, rather than carrying over a value picked for a previous draft.
+  // A setter wrapper instead of an effect watching `review`, so this update
+  // happens as part of the same state transition rather than a follow-up
+  // render.
+  const setReviewAndKind = useCallback((post: Post | null) => {
+    setReview(post);
+    if (post) setKind(post.kind);
+  }, []);
+
   // Recover a draft stranded by a reload. Without this the pending post stays
   // invisible to everyone — public readers filter pending out, and the review
   // card only ever existed in memory.
@@ -135,7 +154,7 @@ export default function GenerateTransmission({
         const body = await res.json();
         if (cancelled) return;
         if (body.post) {
-          setReview(body.post as Post);
+          setReviewAndKind(body.post as Post);
           // A draft came back, so whatever error the dropped request left on
           // screen was about a generation that actually succeeded.
           setError(null);
@@ -153,7 +172,7 @@ export default function GenerateTransmission({
       cancelled = true;
       document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [isOwner, authHeader]);
+  }, [isOwner, authHeader, setReviewAndKind]);
 
   const generate = useCallback(
     async (note?: string, verbatimAnswer?: string) => {
@@ -191,7 +210,7 @@ export default function GenerateTransmission({
         // Held for review rather than handed straight up: the post exists in
         // the database but is flagged pending, so nothing public shows it
         // until accept clears the flag.
-        setReview(body.post as Post);
+        setReviewAndKind(body.post as Post);
         setSteer("");
         setAnswer("");
         setEditing(false);
@@ -206,7 +225,7 @@ export default function GenerateTransmission({
         setBusy(false);
       }
     },
-    [authHeader, review]
+    [authHeader, review, setReviewAndKind]
   );
 
   // A steer typed into the chat panel regenerates the draft from here, so the
@@ -231,7 +250,9 @@ export default function GenerateTransmission({
       const res = await fetch("/api/admin/generate-transmission", {
         method: "PATCH",
         headers: { "Content-Type": "application/json", ...(await authHeader()) },
-        body: JSON.stringify({ id: review.id }),
+        // Whatever the checkbox is set to right now is what gets saved —
+        // the owner can flip clue/musing any time before clicking accept.
+        body: JSON.stringify({ id: review.id, kind }),
       });
       const body = await res.json();
       if (!res.ok) {
@@ -319,6 +340,15 @@ export default function GenerateTransmission({
               answer — <span className="text-problem">{review.clue_tag}</span>
             </p>
           )}
+          <label className="flex items-center gap-1.5 text-xs text-ghost mb-3 w-fit cursor-pointer">
+            <input
+              type="checkbox"
+              checked={kind === "clue"}
+              onChange={(e) => setKind(e.target.checked ? "clue" : "musing")}
+              className="accent-problem"
+            />
+            mark as a clue transmission
+          </label>
           <div className="flex items-center gap-2">
             <button
               type="button"

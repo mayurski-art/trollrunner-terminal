@@ -7,6 +7,12 @@ import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+type Kind = "clue" | "musing";
+const VALID_KINDS: readonly Kind[] = ["clue", "musing"];
+function normalizeKind(raw: unknown): Kind {
+  return VALID_KINDS.includes(raw as Kind) ? (raw as Kind) : "musing";
+}
+
 // A short steering note ("make it darker", "tie it to the bridge") is meant
 // as direction for the generator. A finished transmission the owner typed
 // themselves reads differently: longer, usually multiple lines, closer to
@@ -40,7 +46,7 @@ export async function GET(request: Request) {
 
   const { data, error } = await owner.supabase
     .from("terminal_posts")
-    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
     .eq("pending", true)
     .order("posted_at", { ascending: false })
     .limit(1)
@@ -66,8 +72,14 @@ export async function POST(request: Request) {
   let steer = "";
   let replaces = "";
   let answer = "";
+  let kind: Kind = "musing";
   try {
-    const body = (await request.json()) as { steer?: string; replaces?: string; answer?: string };
+    const body = (await request.json()) as {
+      steer?: string;
+      replaces?: string;
+      answer?: string;
+      kind?: string;
+    };
     // A verbatim paste (see isVerbatimSteer below) is never posted to X as a
     // single tweet the way a generated transmission is, so it isn't held to
     // the 280-char tweet limit — capped generously instead, just to keep the
@@ -77,6 +89,9 @@ export async function POST(request: Request) {
     // Hidden clue_tag for a verbatim post only — the generator path already
     // produces its own CLUE line, so this is ignored unless isVerbatimSteer.
     answer = (body.answer ?? "").trim().slice(0, 100);
+    // Owner's clue/musing checkbox on the review card (migration 018) —
+    // defaults to musing the same way the column itself does.
+    kind = normalizeKind(body.kind);
   } catch {
     // no body — a plain generate
   }
@@ -95,19 +110,19 @@ export async function POST(request: Request) {
   // being fed to the LLM as "direction" — see isVerbatimSteer's comment.
   // No spend check or provider call needed since nothing gets generated.
   if (isVerbatimSteer(steer)) {
-    // Every transmission is labeled "musing" and carries the same mark (see
-    // lib/persona.ts) — a pasted verbatim post needs it appended by hand
-    // since it never goes through generatePost's own mark-assignment. Not
-    // held to the 280-char tweet limit the generated path enforces — a
-    // verbatim paste isn't meant to go out as a single tweet, so cutting it
-    // there just silently truncated real transmissions mid-word.
-    const bodyWithoutMark = steer.trim().replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
-    const content = `${bodyWithoutMark}\n▓▒▓`;
+    // The old cryptic-glyph mark doesn't fit the plain, casual voice this
+    // persona writes in now (see lib/persona.ts) — strip it rather than
+    // append it, same as generatePost does. Not held to the 280-char tweet
+    // limit the generated path enforces — a verbatim paste isn't meant to go
+    // out as a single tweet, so cutting it there just silently truncated
+    // real transmissions mid-word.
+    const content = steer.trim().replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
 
     const { data: post, error: insertError } = await supabase
       .from("terminal_posts")
       .insert({
         content,
+        kind,
         clue_tag: answer || null,
         input_tokens: 0,
         output_tokens: 0,
@@ -116,7 +131,7 @@ export async function POST(request: Request) {
         estimated_cost_usd: 0,
         pending: true,
       })
-      .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+      .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
       .single();
 
     if (insertError || !post) {
@@ -195,6 +210,7 @@ export async function POST(request: Request) {
     .from("terminal_posts")
     .insert({
       content: generated.content,
+      kind,
       clue_tag: generated.clueTag || null,
       input_tokens: generated.usage.input_tokens,
       output_tokens: generated.usage.output_tokens,
@@ -209,7 +225,7 @@ export async function POST(request: Request) {
     // clue_tag is included so the review prompt can show the owner what the
     // transmission is actually circling before they accept it — the CLUE
     // line is never shown publicly (see lib/persona.ts), only here.
-    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
     .single();
 
   if (insertError || !post) {
@@ -237,14 +253,17 @@ export async function POST(request: Request) {
 
 // Accept a transmission from the review prompt — the other half of DELETE
 // below. Clears `pending`, which is the only thing keeping the post out of
-// [logs], the public /api/posts feed, and the guess/clue surfaces.
+// [logs], the public /api/posts feed, and the guess/clue surfaces. Also
+// takes the review card's current clue/musing checkbox value, since the
+// owner can flip it any time up to the moment they accept — whatever it's
+// set to on this call is what gets saved.
 export async function PATCH(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
     return NextResponse.json({ error: "not authorized" }, { status: 403 });
   }
 
-  let body: { id?: string };
+  let body: { id?: string; kind?: string };
   try {
     body = await request.json();
   } catch {
@@ -255,12 +274,13 @@ export async function PATCH(request: Request) {
   if (!id) {
     return NextResponse.json({ error: "id required" }, { status: 400 });
   }
+  const kind = normalizeKind(body.kind);
 
   const { data, error } = await owner.supabase
     .from("terminal_posts")
-    .update({ pending: false })
+    .update({ pending: false, kind })
     .eq("id", id)
-    .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
     .maybeSingle();
 
   if (error) {

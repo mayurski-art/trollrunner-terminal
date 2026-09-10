@@ -572,14 +572,13 @@ export async function generatePost(
   const withoutClueLine = (clueMatch ? raw.slice(0, clueMatch.index) : raw).trim();
   const clueTag = clueMatch ? clueMatch[1].trim() : "";
 
-  // Every transmission is now labeled "musing" and, as long as it carries a
-  // clueTag, guessable — there is no separate "clue" category any more (see
-  // app/logs/page.tsx's classify()). Strip whatever mark the model actually
-  // chose to include and always reassign the musing mark instead, so the
-  // label/mark is never left in the model's hands.
+  // The old cryptic-glyph signature mark (▓▒▓) doesn't fit the plain,
+  // casual voice this persona writes in now — strip whatever mark the model
+  // still tacks on out of habit rather than appending one. app/logs/page.tsx's
+  // classify() already falls back to "unmarked" for content with no mark, so
+  // dropping it here doesn't break older marked posts or the logs filter.
   const bodyWithoutMark = withoutClueLine.replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
-  const mark = "▓▒▓";
-  const content = `${bodyWithoutMark}\n${mark}`.slice(0, 280);
+  const content = bodyWithoutMark.slice(0, 280);
 
   return { content, clueTag, usage };
 }
