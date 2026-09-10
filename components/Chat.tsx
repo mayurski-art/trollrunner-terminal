@@ -466,10 +466,15 @@ export default function Chat({
         setTimeout(() => setArchiveToast(null), 6000);
       }
     } catch {
-      // Never reached the terminal, so nothing was saved on either side —
-      // hold the text and let the reconnect effect send it again.
+      // The request died before we read a response — either a real network
+      // failure (nothing saved) or a backgrounded tab killing an in-flight
+      // fetch the server actually completed. probeAndSend below tells those
+      // apart against the server's own history before replaying, so holding
+      // the text here is safe either way.
       setPending(text);
-      setError("connection to the terminal was lost — holding your message");
+      if (document.visibilityState === "visible") {
+        setError("connection to the terminal was lost — holding your message");
+      }
     } finally {
       setBusy(false);
     }
@@ -502,17 +507,40 @@ export default function Chat({
       // effect re-runs with a fresh closure if it ever changes.
       const text = pending;
       if (cancelled || !text) return;
+      let serverMessages: Message[] = [];
       try {
         const headers = await authHeader();
         // GET, not HEAD — the route exports no HEAD handler, and a GET
-        // that resolves proves the round trip actually completed.
+        // that resolves proves the round trip actually completed. Its body
+        // is also the record of what the server actually has, which is what
+        // decides replay-vs-adopt below.
         const res = await fetch("/api/chat", { headers, cache: "no-store" });
         if (cancelled || !res.ok) return;
+        const data = await res.json();
+        serverMessages = (data.messages ?? []) as Message[];
+        if (data.wallet) setWallet(data.wallet);
+        if (data.dailyLimit) setDailyLimit(data.dailyLimit);
       } catch {
         return; // still unreachable — wait for the next cue
       }
       if (cancelled) return;
       setOnline(true);
+
+      // A dropped request does NOT prove the server never saw the message.
+      // Mobile browsers kill in-flight fetches when the app is swiped away,
+      // and /api/chat writes the exchange (and mines PROBLEMS) before it
+      // responds — so replaying blindly would send the same message twice,
+      // charging for it twice and doubling it in the transcript. If the
+      // server's own history already ends with this text, the turn landed:
+      // adopt what it has instead of sending again.
+      const lastUserMessage = [...serverMessages].reverse().find((m) => m.role === "user");
+      if (lastUserMessage && lastUserMessage.content.trim() === text.trim()) {
+        setMessages(serverMessages);
+        setPending(null);
+        setError(null);
+        return;
+      }
+
       setPending(null);
       await deliver(text);
     }

@@ -155,6 +155,51 @@ export default function PostGuess({
     return () => clearInterval(id);
   }, [stage]);
 
+  // Re-sync the server's answer whenever the tab comes back to the
+  // foreground. Mobile browsers kill in-flight fetches when the app is
+  // swiped away, so submitGuess's catch fires and the user sees a
+  // connection error — but the POST handler already graded the guess,
+  // charged the PROBLEMS and wrote the row before responding, so the work
+  // really did happen and only the response was lost. Re-reading state on
+  // return turns that dropped response into the correct resolved/attempts
+  // display instead of a false failure (and a wasted retry that would
+  // charge them again). Cheap enough to run on every foreground: it's one
+  // GET, and it also repairs state after a guess made in another tab.
+  useEffect(() => {
+    if (!userId || !guessable) return;
+    const onVisible = async () => {
+      if (document.visibilityState !== "visible") return;
+      try {
+        const res = await fetch(`/api/post-guess?postId=${encodeURIComponent(postId)}`, {
+          headers: await authHeader(),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const serverGuess: GuessState = data.guess ?? null;
+        const serverBalance = data.wallet?.balance ?? 0;
+        setGuessState(serverGuess);
+        setBalance(serverBalance);
+        // The server is the authority on how far this guess got, so a
+        // dropped response can't leave the UI stuck on the grading strip
+        // or on an error from a request that actually succeeded.
+        setError(null);
+        setStage(serverGuess?.resolved ? "idle" : serverGuess ? "open" : "idle");
+        const existing = initialStateCache.get(cacheKey(postId, userId));
+        if (existing) {
+          initialStateCache.set(cacheKey(postId, userId), {
+            ...existing,
+            guess: serverGuess,
+            balance: serverBalance,
+          });
+        }
+      } catch {
+        // still offline — leave whatever's on screen alone
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, [postId, userId, guessable]);
+
   async function submitGuess(e: React.FormEvent) {
     e.preventDefault();
     const guess = input.trim();
@@ -209,7 +254,14 @@ export default function PostGuess({
         }
       }
     } catch {
-      setError("connection to the terminal was lost");
+      // Could be a real network failure, or just this tab being backgrounded
+      // mid-request (mobile kills in-flight fetches on swipe-away) — in the
+      // latter case the guess was already graded server-side. Don't claim it
+      // failed; the visibilitychange effect above re-syncs the real state as
+      // soon as they come back.
+      if (document.visibilityState === "visible") {
+        setError("connection to the terminal was lost");
+      }
       setStage("open");
     } finally {
       setBusy(false);

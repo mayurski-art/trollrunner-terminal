@@ -117,23 +117,41 @@ export default function GenerateTransmission({
   // Recover a draft stranded by a reload. Without this the pending post stays
   // invisible to everyone — public readers filter pending out, and the review
   // card only ever existed in memory.
+  //
+  // Also runs whenever the tab returns to the foreground, for the mobile case:
+  // swiping the app away mid-generation kills the in-flight fetch, so the POST
+  // below lands in its catch and reports a lost connection — but the server
+  // finished the generation and saved it as a pending row regardless. Re-reading
+  // on return picks that draft up instead of stranding it behind a false error.
   useEffect(() => {
     if (!isOwner) return;
     let cancelled = false;
-    (async () => {
+    const recoverDraft = async () => {
       try {
         const res = await fetch("/api/admin/generate-transmission", {
           headers: await authHeader(),
         });
         if (!res.ok) return;
         const body = await res.json();
-        if (!cancelled && body.post) setReview(body.post as Post);
+        if (cancelled) return;
+        if (body.post) {
+          setReview(body.post as Post);
+          // A draft came back, so whatever error the dropped request left on
+          // screen was about a generation that actually succeeded.
+          setError(null);
+        }
       } catch {
-        // a missing draft is not worth surfacing on mount
+        // a missing draft is not worth surfacing
       }
-    })();
+    };
+    recoverDraft();
+    const onVisible = () => {
+      if (document.visibilityState === "visible") recoverDraft();
+    };
+    document.addEventListener("visibilitychange", onVisible);
     return () => {
       cancelled = true;
+      document.removeEventListener("visibilitychange", onVisible);
     };
   }, [isOwner, authHeader]);
 
@@ -178,7 +196,12 @@ export default function GenerateTransmission({
         setAnswer("");
         setEditing(false);
       } catch {
-        setError("connection to the terminal was lost");
+        // A backgrounded tab (mobile swipe-away) kills the request even though
+        // the server keeps generating and saves the draft — the recovery effect
+        // above picks it up on return, so don't report a failure that isn't one.
+        if (document.visibilityState === "visible") {
+          setError("connection to the terminal was lost");
+        }
       } finally {
         setBusy(false);
       }

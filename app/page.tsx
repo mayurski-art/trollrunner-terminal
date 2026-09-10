@@ -177,12 +177,20 @@ export default function Home() {
         <SiteTicker />
 
         <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6">
-          <div className="order-2 lg:order-none lg:w-1/3 flex flex-col">
+          <div className="order-2 lg:order-none lg:w-1/3 flex flex-col lg:h-[34rem] lg:min-h-0">
             <Frame
               title="latest transmission"
               tone="terminal"
-              className="lg:max-h-[34rem]"
-              bodyClassName="chat-scroll lg:overflow-y-auto"
+              // Desktop pins the whole left column to the row height (34rem,
+              // matching the chat Frame beside it) and lets this panel be the
+              // part that shrinks: min-h-0 lets it drop below its content
+              // height so the controls Frame under it is never pushed off the
+              // page — which matters because the page itself is scroll-locked
+              // at lg+, so anything past the fold there is unreachable. A
+              // pending review card (GenerateTransmission) is what routinely
+              // makes this panel taller than the row.
+              className="lg:flex lg:flex-col lg:flex-1 lg:min-h-0 lg:max-h-none"
+              bodyClassName="chat-scroll lg:flex-1 lg:min-h-0 lg:overflow-y-auto"
               titleEffect="trace"
               traceHue="#2ee6ff"
             >
@@ -239,7 +247,7 @@ export default function Home() {
               // rather than page.tsx duplicating that logic to render a
               // second copy. Fills the empty space that used to sit below
               // the guess prompt on a short transmission.
-              <Frame tone="dim" className="mt-3 min-w-0" bodyClassName="py-2 min-w-0 overflow-hidden">
+              <Frame tone="dim" className="mt-3 min-w-0 lg:shrink-0" bodyClassName="py-2 min-w-0 overflow-hidden">
                 <div ref={statusPortalRef} className="mb-2 min-w-0" />
                 <div ref={controlsPortalRef} className="min-w-0" />
               </Frame>

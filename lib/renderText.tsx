@@ -6,10 +6,10 @@ import type { ReactNode } from "react";
 // transmission for attention.
 const MARK_ONLY_LINE = /^[▚▞▓▒\s]+$/;
 
-// The persona writes one short thought per line ("line breaks as your only
-// punctuation" — see SYSTEM_PROMPT/CHAT_SYSTEM_PROMPT in persona.ts), never
-// real multi-sentence paragraphs. Models habitually put a blank line between
-// every line anyway, so a single \n and a blank-line \n\n get treated the
+// The persona writes short, casual prose (see SYSTEM_PROMPT/CHAT_SYSTEM_PROMPT
+// in persona.ts) and older transmissions wrote one short thought per line —
+// either way, never long multi-paragraph bodies. Models habitually put a blank
+// line between every line anyway, so a single \n and a blank-line \n\n get treated the
 // same tight way (just <br>) — that's what stops uniform double-spacing
 // from showing up throughout a message. A deliberate blank line separating
 // real stanzas (two or more blank lines together) is rare enough from a
