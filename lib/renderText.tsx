@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
-// A line that's nothing but the broadcast persona's musing/clue mark (see
-// lib/persona.ts) reads as a small typed glyph in the source voice, not
-// body text — rendering it at full size made it compete with the actual
-// transmission for attention.
+// A line that's nothing but the broadcast persona's old musing/clue mark
+// (see lib/persona.ts) is a leftover signature glyph from transmissions
+// posted before that mark was retired — it carries no content, so it's
+// dropped entirely rather than rendered (previously shown small).
 const MARK_ONLY_LINE = /^[▚▞▓▒\s]+$/;
 
 // The persona writes short, casual prose (see SYSTEM_PROMPT/CHAT_SYSTEM_PROMPT
@@ -19,12 +19,12 @@ export function renderTightLines(content: string, singleSpaced = false): ReactNo
   const paragraphs = content.split(/\n\s*\n+/);
 
   return paragraphs.flatMap((para, pi) => {
-    const lines = para.split(/\n+/).filter((line) => line.trim().length > 0);
+    const lines = para
+      .split(/\n+/)
+      .filter((line) => line.trim().length > 0 && !MARK_ONLY_LINE.test(line));
+    if (lines.length === 0) return [];
     const nodes = lines.map((line, i) => (
-      <span
-        key={`${pi}-${i}`}
-        className={MARK_ONLY_LINE.test(line) ? "text-[0.65em]" : undefined}
-      >
+      <span key={`${pi}-${i}`}>
         {line}
         {i < lines.length - 1 && <br />}
       </span>
