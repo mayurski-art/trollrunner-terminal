@@ -52,7 +52,7 @@ export default function Frame({
         <>
           <span aria-hidden="true" className="frame-trace-border" />
           {title && (
-            <span className="frame-trace absolute -top-3 left-4 bg-panel/85 backdrop-blur-sm px-2 text-xs tracking-wide">
+            <span className="frame-trace absolute -top-3 left-4 w-fit self-start bg-panel/85 backdrop-blur-sm px-2 text-xs tracking-wide">
               [ {title} ]
             </span>
           )}
@@ -60,7 +60,7 @@ export default function Frame({
       )}
       {title && titleEffect !== "trace" && (
         <span
-          className={`absolute -top-3 left-4 bg-panel/85 backdrop-blur-sm px-2 text-xs tracking-wide ${TONE_COLOR[tone].split(" ")[1]}`}
+          className={`absolute -top-3 left-4 w-fit self-start bg-panel/85 backdrop-blur-sm px-2 text-xs tracking-wide ${TONE_COLOR[tone].split(" ")[1]}`}
         >
           [ {title} ]
         </span>
