@@ -30,7 +30,7 @@ function significantTokens(s: string): string[] {
 // contains most of the tag's meaningful words (order/phrasing don't have
 // to match — "trollsoneth" hitting inside "the trollsoneth nft collection"
 // counts, so does "3333 nft" for the same tag).
-export function gradeGuess(guess: string, answerTag: string): boolean {
+function gradeAgainstOne(guess: string, answerTag: string): boolean {
   const normGuess = normalize(guess);
   const normAnswer = normalize(answerTag);
   if (!normGuess || !normAnswer) return false;
@@ -41,4 +41,17 @@ export function gradeGuess(guess: string, answerTag: string): boolean {
 
   const matched = required.filter((word) => normGuess.includes(word));
   return matched.length / required.length >= 0.6;
+}
+
+// answerTag may hold multiple genuinely distinct accepted answers separated
+// by "|" (e.g. "tuff skin|troll phone case|trollface phone case") — unlike
+// phrasing variants of one answer, these don't share enough tokens with each
+// other to pass the fuzzy match, so each alternative is graded on its own
+// and any single hit counts.
+export function gradeGuess(guess: string, answerTag: string): boolean {
+  return answerTag
+    .split("|")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .some((alt) => gradeAgainstOne(guess, alt));
 }

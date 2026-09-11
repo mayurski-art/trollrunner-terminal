@@ -425,13 +425,13 @@ export default function GenerateTransmission({
         </div>
         <div className="mt-1.5">
           <label htmlFor="gt-answer" className="text-ghost text-xs">
-            hidden answer, only if pasting a finished transmission verbatim
+            hidden answer, only if pasting a finished transmission verbatim — separate multiple accepted answers with |
           </label>
           <input
             id="gt-answer"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            placeholder="optional — e.g. SwishPng"
+            placeholder="optional — e.g. SwishPng or tuff skin|troll phone case"
             maxLength={100}
             disabled={busy || deciding}
             className="mt-1 w-full bg-transparent border border-dim px-2 py-1 text-xs text-you outline-none focus:border-problem disabled:opacity-50"
