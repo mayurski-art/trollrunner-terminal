@@ -109,7 +109,14 @@ export default function Home() {
   // body is required — body alone leaves html itself independently
   // scrollable, since html has no explicit overflow-y rule of its own and
   // defaults to auto regardless of what body's overflow is set to.
+  // Skipped entirely when embedded in the trollrunner.net desktop shell's
+  // windowed iframe: that window is a fixed-height box shorter than this
+  // page's content, so the lock (tuned for a real full-height browser tab)
+  // just clips the bottom of the page there with no way to reach it —
+  // standalone terminal.trollrunner.net is unaffected, since window.top
+  // there is the same window as window.self.
   useEffect(() => {
+    if (window.self !== window.top) return;
     const mq = window.matchMedia("(min-width: 1024px)");
     const prevBodyOverflow = document.body.style.overflow;
     const prevHtmlOverflow = document.documentElement.style.overflow;
