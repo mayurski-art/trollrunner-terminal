@@ -94,6 +94,12 @@
   position: fixed;
   inset: 0;
   z-index: 0;
+  /* Decorative and aria-hidden — being `position: fixed` with an explicit
+     z-index otherwise lets it win hit-testing over later, non-positioned
+     siblings (z-index: auto), regardless of DOM order. That silently ate
+     clicks on every page using this frame (confirmed on /logs' and
+     /trolldeaths' filter tabs) even though it painted behind them. */
+  pointer-events: none;
 }
 .home-hero-bg {
   position: absolute;
