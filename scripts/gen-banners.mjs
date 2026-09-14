@@ -13,6 +13,7 @@ const words = [
   "GENESIS",
   "AWAKENING",
   "UNDERVOICE",
+  "TROLLDEATHS",
 ];
 
 for (const w of words) {

@@ -89,6 +89,13 @@ export default function Nav() {
             >
               [ logs ]
             </Link>
+            <Link
+              href="/trolldeaths"
+              onClick={() => setOpen(false)}
+              className="nav-neon nav-neon--trolldeaths whitespace-nowrap"
+            >
+              [ trolldeaths ]
+            </Link>
             {isOwner && (
               <Link
                 href="/inspect"

@@ -322,6 +322,7 @@ main {
 .nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
 .nav-neon--review { --nn-hue: #ffd23a; animation-delay: 2.7s; }
+.nav-neon--trolldeaths { --nn-hue: var(--alert); animation-delay: 3s; }
 /* Presence.tsx — "who's online" pill. Reuses the disconnect pill's green
    (same "live/connected" meaning) with no stagger delay, since it isn't
    part of the route-link row's timed sequence. */
