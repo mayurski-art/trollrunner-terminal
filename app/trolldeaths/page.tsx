@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
+import TrollDeathsChart from "@/components/TrollDeathsChart";
 import { BANNER_TROLLDEATHS } from "@/lib/ascii";
 
 export type TrollDeathKind = "fud" | "guardian";
@@ -12,6 +13,7 @@ export type TrollDeathItem = {
   id?: string;
   kind: TrollDeathKind;
   date: string;
+  eventDate?: string;
   title: string;
   copy: string;
   tags?: string[];
@@ -55,14 +57,10 @@ export default function TrollDeathsPage() {
         <Nav />
         <Banner art={BANNER_TROLLDEATHS} label="trolldeaths" tone="alert" />
         <p className="text-foreground font-bold text-sm mb-8">
-          receipts on who called it and who was wrong — mirrored read-only from{" "}
-          <a
-            href="https://trollrunner.net/finance"
-            className="underline decoration-dim underline-offset-2 hover:text-terminal"
-          >
-            finance
-          </a>
+          receipts on who called it and who was wrong
         </p>
+
+        {items && items.length > 0 && <TrollDeathsChart items={items} />}
 
         {items && items.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
