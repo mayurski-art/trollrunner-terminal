@@ -1424,9 +1424,10 @@ an official item on the U MAD BRO shop backed by the Trollface IP, and the
 sale splits two ways: the creator **earns an 11% royalty on every sale for
 life**, and the rest feeds back into the $TROLL chart — so every approved
 product both pays its designer and functions as a small standing buy
-pressure. That's the same royalty mechanic Ramirez collects on the license
-as a whole (§2), now extended one layer down to individual community-made
-SKUs instead of stopping at the top.
+pressure. That 11% is the exact same cut Ramirez collects on the license
+as a whole for every non-community product UMadBro sells (§2) — community
+creators aren't getting a lesser deal, they're getting Ramirez's own rate,
+one layer down from the top.
 
 It turns UMadBro from a merch storefront the team stocks into an open design
 market the community stocks and votes on — with the exact incentive
