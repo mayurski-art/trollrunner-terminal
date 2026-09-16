@@ -1680,6 +1680,55 @@ as Crash's entry in §39. Two photos from the clip mirrored into
 McLaren interior visible) and `ethanprosper-grin.jpg` (the closer crop the
 "looks like a troll" read is based on), registered in `lib/loreAssets.ts`.
 
+## 50. The CLARITY Act fails cloture, 49-50 — the vote was the troll
+
+On **September 15, 2026**, the Senate held a cloture vote on the motion to
+proceed to **H.R. 3633**, the CLARITY Act — the comprehensive crypto
+market structure bill the industry had spent most of 2026 building up as
+the thing that would finally give it regulatory certainty. It needed 60
+votes to open floor debate. It got **49** (some outlets reported the tally
+as 50-49 depending on which side of the count they led with; either way,
+cloture failed by double digits). Every Democrat voted no, joined by four
+Republicans — Susan Collins, Josh Hawley, Jerry Moran, and Thom Tillis —
+over an unresolved ethics provision. The bill never reached the floor.
+Bitcoin slid toward $80K on the news. With Congress heading into split
+control in 2027, nobody's sure when market structure legislation gets a
+second run.
+
+The joke wasn't the failure — bills die in cloture votes constantly and
+nobody outside policy Twitter notices. The joke was the anticipation. This
+was billed for months as *the* vote, the one that would put a legal frame
+around the entire asset class. Evening news covered it. People who don't
+own a single coin followed the tally live. And after all that build-up,
+the Senate didn't even get to the part where they'd disagree about the
+bill's contents — it lost on the *procedural motion to start talking about
+it*. An industry that spent a year asking to be taken seriously watched
+the seriousness stop at the door. That's the setup-and-anticlimax shape of
+a good troll: raise the stakes, draw the crowd, then let the outcome be
+smaller and funnier than the buildup implied.
+
+**@FrostxXBT** framed the silver lining the same way: *"The vote failed.
+The conversation did not."* — the point being that the failed vote still
+dragged crypto into rooms it doesn't normally reach (evening news, office
+chats, people who'll google it later and some of whom end up wherever "the
+rest of us" ended up). That argument doubles as a description of how
+**$TROLL** itself has always spread — not through a launch that convinced
+everyone at once, but through repeated, low-cost exposure that turns
+lookers into holders one accident at a time. A regulatory bill about
+crypto failing to pass, and in failing, becoming crypto's best marketing
+moment of the month, is the CLARITY Act accidentally running the exact
+playbook a trollface has been running since it was a Nickelodeon-forum
+prank drawing: get seen, get talked about, let the humiliation do the
+recruiting.
+
+**Sources:** contemporaneous coverage of the September 15, 2026 cloture
+vote (CoinDesk, CNBC, Bitget, CryptoTimes; vote tally and defector list
+corroborated across multiple outlets) and a tweet from **@FrostxXBT**
+(x.com/FrostxXBT/status/2099962512800456781, not independently fetchable
+from here — x.com and mirror sites both return errors for this link, same
+caveat as the §30/§32/§34/§39/§41/§49 sourcing note — text supplied by the
+user and treated as reported, not independently verified).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
