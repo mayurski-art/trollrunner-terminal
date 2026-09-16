@@ -1746,17 +1746,48 @@ position actually disagrees with the other. That's usually how you can
 tell a piece of legislation was never really about the thing it was
 theatrically about.
 
+The clip that set the whole reply-guy circuit off was **Senator Elizabeth
+Warren**'s, quote-tweeted an hour before cloture failed by **@WatcherGuru**:
+*"JUST IN: Senator Elizabeth Warren says passing the Crypto Clarity Act
+puts the US at risk of an economic crash."* Two separate accounts quoted
+that same clip with the same word for her: **@thecryptomonk**, four words,
+same-day: *"Dinosaurs deciding about your financial future."* Then, the
+next morning once the dust had settled, **@econoar** — not a shitposter,
+the actual author of **EIP-1559**, crypto since 2012 — quoted it again,
+longer and less jokey: *"This is a perfect example of what's wrong with
+America right now. Early in its history, 30-40 year olds were determining
+the future of the country. Now, 77 year old dinosaurs are telling you why
+you can't have innovation and progress. This needs to somehow be fixed
+asap."* Same joke, but it stopped being a joke somewhere between the two —
+thecryptomonk was landing a line, econoar was making an actual argument
+about who gets to hold veto power over an industry he's helped build core
+infrastructure for. It's the same complaint as bolivian's and Deikus's,
+aimed one level up the chain — not at the vote's outcome but at who was
+doing the voting. The bill's entire sales pitch was that Congress finally
+understood crypto well enough to regulate it; the read that spread across
+four unrelated accounts over less than twenty-four hours was that the room
+still doesn't, and that the failure proved the premise instead of setting
+it back. Four different accounts, one punchline, zero disagreement — that's
+not pile-on, that's a crowd finding the same joke independently, which
+is usually a sign the joke was just sitting there waiting to be said.
+
 **Sources:** contemporaneous coverage of the September 15, 2026 cloture
 vote (CoinDesk, CNBC, Bitget, CryptoTimes; vote tally and defector list
 corroborated across multiple outlets), a tweet from **@FrostxXBT**
 (x.com/FrostxXBT/status/2099962512800456781), a tweet from
-**@DeikusAlexander** (x.com/DeikusAlexander/status/2099969087208058913),
-and a tweet from **@_bolivian**
-(x.com/_bolivian/status/2099938902849040471). None of the three tweets are
-independently fetchable from here — x.com and mirror sites both return
-errors for these links, same caveat as the §30/§32/§34/§39/§41/§49
-sourcing note — text for all three supplied by the user and treated as
-reported, not independently verified.
+**@DeikusAlexander** (x.com/DeikusAlexander/status/2099969087208058913), a
+tweet from **@_bolivian** (x.com/_bolivian/status/2099938902849040471),
+a tweet from **@thecryptomonk**
+(x.com/thecryptomonk/status/2099926851682525201), and a tweet from
+**@econoar** (x.com/econoar/status/2100032923647021268) — both
+thecryptomonk and econoar quote-tweeted
+@WatcherGuru/status/2099923124691075453 (the Warren clip). The
+thecryptomonk and econoar tweets were fetched directly via the fxtwitter
+JSON API (`api.fxtwitter.com/<handle>/status/<id>`), which returns full
+tweet text including quoted-tweet content; the other three in this
+section came from x.com/mirror links that returned errors when fetched
+directly, so their text was supplied by the user and treated as reported,
+not independently re-verified.
 
 ## How the persona should use this
 
