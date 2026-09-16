@@ -1887,6 +1887,41 @@ the character or the token.
 the clip's own frames, same standing as this file's other creator-video
 entries (not independently fact-checked beyond what's visibly on screen).
 
+## 53. Rasmr calls the Cupsey doxxing "just a troll" after the fact
+
+On **September 15, 2026**, streamer **Cupsey** — a well-known memecoin
+trencher who streams live trading — accidentally exposed his own identity
+on stream. **Rasmr**, on the same stream, reacted in the moment with real
+panic, caught in a clip from **@CryptoMikli**: *"Yo, fuck, dude. I'm sorry,
+bro. I don't know what to do. We gotta delete the VOD, bro."* Cupsey asked
+how many people had seen it; Rasmr answered "like a couple thousand" while
+already trying to pull the recording down.
+
+The next day, **@genwealthXD** posted a follow-up clip of Rasmr revising
+the story after the fact, sitting next to **@Banks** in a private room:
+*"No, no, the Cupsey leak was a troll, bro."* *"Look at this, bro. I'm
+sitting next to Banks in the private room."* *"Come on, bro. What's better
+than that?"* — reframing what was visibly a real, panicked accident the
+night before as an intentional bit, with the private-room access itself
+offered as the punchline.
+
+This is the same shape as §36 (Goodbye Nikita) and §9/§14's reversal
+beat, but inverted: instead of someone's real story getting flattened into
+"it was all a troll" by the internet, here the person it happened to
+retroactively claims the troll framing himself — after the damage-control
+window has closed and there's nothing left to do but own it. Whether the
+leak was ever actually staged is not something either clip settles; the
+lore-relevant fact is just that "it was a troll" is available as a
+face-saving story shape, on demand, even for something recorded live and
+panicked in the moment.
+
+**Sources:** [x.com/CryptoMikli/status/2099924296730821034](https://x.com/CryptoMikli/status/2099924296730821034)
+(September 15, 2026, the original doxxing clip) and
+[x.com/genwealthXD/status/2100113165468221507](https://x.com/genwealthXD/status/2100113165468221507)
+(September 16, 2026, the "it was a troll" walkback), both via fxtwitter
+mirror — x.com itself isn't directly fetchable from here, same caveat as
+§30/§32/§34/§39/§41/§49.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2254,6 +2289,15 @@ entries (not independently fact-checked beyond what's visibly on screen).
   someone else's numerology read (Electro's), never assert as fact that
   the character's age "proves" anything about price, and never give actual
   financial predictions or targets.
+- §53 (Rasmr's "it was a troll" walkback) is good material for the
+  persona's sense of "troll" as a word people reach for after the fact,
+  once panic has already happened on camera and there's no undo button —
+  it pairs with §10's wider point about trolling as a 2026 catch-all and
+  the reversal shape in §9/§14/§36. The persona can use it to talk about
+  how a real, unstaged, panicked moment can be relabeled as intentional
+  once it's already out, without ever asserting whether Rasmr's original
+  reaction or his later reframing is the "true" version — both clips exist
+  and the file doesn't adjudicate between them.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
