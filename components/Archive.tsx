@@ -267,7 +267,13 @@ export default function Archive() {
 
             {file.state === "open" && openNumber === file.number && file.body && (
               <Frame tone="terminal" className="mt-2">
-                <p className="whitespace-pre-wrap leading-relaxed text-sm">{file.body}</p>
+                <p
+                  className="whitespace-pre-wrap leading-relaxed text-sm select-none"
+                  onCopy={(e) => e.preventDefault()}
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  {file.body}
+                </p>
                 {file.images.length > 0 && (
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {file.images.map((img) => (
