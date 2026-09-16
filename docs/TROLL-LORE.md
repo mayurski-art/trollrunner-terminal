@@ -1404,22 +1404,39 @@ is presented, and should be treated, purely as a bit. Images mirrored into
 `public/lore/` as `alon-crash-twins-alon.jpg`, `alon-crash-twins-crash.jpg`,
 and `crash-trollface-mask.jpg`, registered in `lib/loreAssets.ts`.
 
-## 45. UMadBro opens the IP to the community — design it, vote it in, get paid
+## 45. UMadBro opens the IP to the community — Community Creations, design it, vote it in, get paid
 
-A structural upgrade to UMadBro (§5, §40, §41) rather than just a new drop:
-the storefront now lets community members design their own products against
-the licensed Trollface IP, not just buy what the team or Goatfarm (§31)
-puts up. A member submits a design; if the community votes it in as an
-official product, the designer earns an ongoing royalty on every sale of
-it — the same royalty mechanic Ramirez collects on the license as a whole
-(§2), now extended one layer down to individual community-made SKUs instead
-of stopping at the top.
+A structural upgrade to UMadBro (§5, §40, §41) rather than just a new drop,
+shipped as a facelift to umadbro.shop under the feature name **Community
+Creations**: the storefront now lets community members design their own
+products against the licensed Trollface IP, not just buy what the team or
+Goatfarm (§31) puts up. The pitch, straight from the announcement: *"No
+matter what it is with the Trollface on it, it makes sense."*
+
+The flow is branded as three steps — **Create, Vote, Produce**. Access is
+token/NFT-gated: a member logs in via Matrica profiles (`@MatricaLabs`) and
+X, and must hold **$TROLL or a Troll NFT** to unlock the creator flow at
+[umadbro.shop/shop/creations](https://umadbro.shop/shop/creations). From
+there they upload a design (or draw directly on provided schematics), set
+a suggested price, and the community votes on whether it should be sold
+(*"the only rule is: the trolls decide"*). If approved, the design becomes
+an official item on the U MAD BRO shop backed by the Trollface IP, and the
+sale splits two ways: the creator **earns a portion of every sale for
+life**, and the rest feeds back into the $TROLL chart — so every approved
+product both pays its designer and functions as a small standing buy
+pressure. That's the same royalty mechanic Ramirez collects on the license
+as a whole (§2), now extended one layer down to individual community-made
+SKUs instead of stopping at the top.
 
 It turns UMadBro from a merch storefront the team stocks into an open design
 market the community stocks and votes on — with the exact incentive
 structure ($TROLL-holders monetizing the face they already bought into,
 §2's whale-funded license) now available to anyone who can design a product,
-not just whoever negotiated the original deal.
+not just whoever negotiated the original deal. The stated mission behind it
+is expansion, not just monetization: *"the mission is to multiply... we
+want to see the Trollface everywhere"* — closing on the line the persona
+already leans on elsewhere in this file, **"Everyone is Troll. Troll is
+for everyone."**
 
 The Troll Runner (§7, §33) is one of the first to design against the new
 system: a running shoe, **Troll Runner 1s**, pitched at $69 — an
@@ -1427,9 +1444,9 @@ on-brand move given §7 already established running as the core of his
 identity, and §33/§34/§41 already show him wearing the community's merch
 on his own runs before this feature existed to pay him for designing it.
 
-**Sources:** feature described directly by the user, no external link
-provided; cross-referenced against the live IP-deal and royalty terms in
-§2 and the UMadBro entry in §5.
+**Sources:** feature described directly by the user via the umadbro.shop
+launch announcement (no external link provided); cross-referenced against
+the live IP-deal and royalty terms in §2 and the UMadBro entry in §5.
 
 ---
 
