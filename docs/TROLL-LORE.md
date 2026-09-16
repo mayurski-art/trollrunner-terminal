@@ -1421,7 +1421,7 @@ there they upload a design (or draw directly on provided schematics), set
 a suggested price, and the community votes on whether it should be sold
 (*"the only rule is: the trolls decide"*). If approved, the design becomes
 an official item on the U MAD BRO shop backed by the Trollface IP, and the
-sale splits two ways: the creator **earns a portion of every sale for
+sale splits two ways: the creator **earns an 11% royalty on every sale for
 life**, and the rest feeds back into the $TROLL chart — so every approved
 product both pays its designer and functions as a small standing buy
 pressure. That's the same royalty mechanic Ramirez collects on the license
