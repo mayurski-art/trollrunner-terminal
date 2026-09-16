@@ -1789,6 +1789,68 @@ section came from x.com/mirror links that returned errors when fetched
 directly, so their text was supplied by the user and treated as reported,
 not independently re-verified.
 
+## 51. Trollface Quest — the games that made the face into a franchise
+
+The trollface itself was drawn in Microsoft Paint on **September 19,
+2008**, by Carlos Ramirez, an 18-year-old college student in Oakland, as a
+throwaway rage-comic panel captioned "problem?" — pure forum ammunition,
+not a character. It took a Russian studio to turn the drawing into
+something with a name and a body of work. **Pitergames**, based in Saint
+Petersburg and later rebranded **PPLLAAYY** (the pitergames name was
+dropped after 2012), released the first **Trollface Quest** as a Flash
+game in **2010** on Newgorunds and the usual portal circuit — Armor Games,
+Kongregate, silvergames, bored.com. The studio's founder, Konstantin
+Elgazin, built the format that every sequel since has repeated almost
+unchanged: point-and-click, one screen per level, a joke instead of a
+puzzle.
+
+The mechanic is the whole bit. Troll Face Quest runs on what fans and
+reviewers alike call **anti-logic** — the obvious, sensible click is
+wrong on purpose, and the actual solution is something no reasonable
+person would try first (clicking the one thing that looks like scenery,
+waiting several seconds and doing nothing, dragging an object somewhere
+absurd). Guessing wrong doesn't just fail, it usually delivers its own
+punchline — a jump-scare sting, a slapstick death, a sight gag — so the
+"wrong" answer is often funnier than getting it right. That inversion is
+the trollface's whole personality compressed into a game loop: the format
+promises a normal puzzle and then trolls the player for trusting it,
+over and over, for a couple hundred levels across the series.
+
+The series outgrew "the trollface game" fast. After Trollface Quest 1
+came numbered sequels (2, 3, 4: Winter Olympics, 5: World Cup 2014), then
+themed spin-offs that dropped the numbering system entirely for a genre
+tag — **Internet Memes**, **TrollTube**, **TV Shows**, **Video Memes**,
+**USA**, **Sports**, each one a fresh set of levels built entirely out of
+parodies: Star Trek, The Addams Family, Beavis and Butt-Head, whatever
+was trending that year. In February 2015 the series jumped to mobile,
+published by Spil Games and later Spil's parent Azerion Casual, which is
+how a Flash-era prank drawing ended up as an actual long-running app
+franchise instead of a dead browser fossil once Flash itself died. The
+last mainline entry, Trollface Quest: Video Memes 2, shipped in 2020, and
+the series proper wrapped in 2022 — after which the original team,
+regrouped as **Stupidella Ltd** (the studio move reportedly tied to the
+war in Ukraine disrupting the Saint Petersburg operation), kept making
+spiritual successors under a different banner.
+
+What matters for this file isn't the release calendar, it's the shape:
+a meme born as a two-second "gotcha" in a forum thread got turned into a
+game whose entire design philosophy is "the gotcha, repeated." Trollface
+Quest didn't dilute the character by putting it in a game — it
+industrialized the bit. Every other place the trollface shows up (the
+sticker drops, the coin, this terminal) is one guy running the joke by
+hand; Trollface Quest is what it looks like when a studio builds an
+assembly line for it, a couple hundred levels deep, and ships it in
+however many languages Azerion bothered to localize.
+
+**Sources:** Wikipedia's Trollface article (origin, Carlos Ramirez,
+September 19, 2008); the Trollface Quest Wikia (Fandom) entries for
+Trollface Quest, Trollface Quest 1, Pitergames/PPLLAAYY, and Stupidella
+Ltd (studio history, rebrand, Stupidella successor); TV Tropes' Troll
+Face Quest Series page (anti-logic puzzle design, franchise scope); and
+game-portal listings (Armor Games, Kongregate, SilverGames, trollquests.com)
+corroborating the release lineup, mobile publisher (Spil Games / Azerion
+Casual), and 2015 mobile launch date.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
