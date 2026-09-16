@@ -1680,7 +1680,7 @@ as Crash's entry in §39. Two photos from the clip mirrored into
 McLaren interior visible) and `ethanprosper-grin.jpg` (the closer crop the
 "looks like a troll" read is based on), registered in `lib/loreAssets.ts`.
 
-## 50. The CLARITY Act fails cloture, 49-50 — the vote was the troll
+## 50. The CLARITY Act fails cloture, 49-50 — the vote was the troll, and the memecoins didn't need it anyway
 
 On **September 15, 2026**, the Senate held a cloture vote on the motion to
 proceed to **H.R. 3633**, the CLARITY Act — the comprehensive crypto
@@ -1721,13 +1721,42 @@ playbook a trollface has been running since it was a Nickelodeon-forum
 prank drawing: get seen, get talked about, let the humiliation do the
 recruiting.
 
+The other reply worth keeping is blunter. **@DeikusAlexander**: *"I don't
+know if yall were there but $PEPE hit 12 billion fucking dollars market
+cap and we didn't need a fucking clarity act. Thanks for your attention to
+this matter, fuck the feds."* It's crude, but it's the whole counterpoint
+in one line: the bill was pitched as the thing memecoins needed to be
+taken seriously, and the market's answer was that the biggest names in the
+category already got there without it. PEPE, DOGE, and $TROLL are the
+same trick running three different rooms — none of them waited on
+Congress, none of them needed a framework to find holders, and all three
+got called worthless right up until the chart said otherwise. A bill
+meant to legislate the asset class into legitimacy failed procedurally the
+same week the asset class kept doing what it does with or without
+permission. That's not a coincidence worth resolving — it's the bit.
+
+**@_bolivian** — already in this file for the Ethan Prosper roast in §49 —
+took the other side of the joke and mocked it anyway: *"Ah yes, the
+clarity act, which most of you don't know what it even means, was not
+approved today. Dump your memecoins 😭😂. Idiots."* Read together with the
+DeikusAlexander reply, the two posts are the same punchline from opposite
+directions: one says the bill was never load-bearing for memecoins in the
+first place, the other mocks anyone panicking like it was. Neither
+position actually disagrees with the other. That's usually how you can
+tell a piece of legislation was never really about the thing it was
+theatrically about.
+
 **Sources:** contemporaneous coverage of the September 15, 2026 cloture
 vote (CoinDesk, CNBC, Bitget, CryptoTimes; vote tally and defector list
-corroborated across multiple outlets) and a tweet from **@FrostxXBT**
-(x.com/FrostxXBT/status/2099962512800456781, not independently fetchable
-from here — x.com and mirror sites both return errors for this link, same
-caveat as the §30/§32/§34/§39/§41/§49 sourcing note — text supplied by the
-user and treated as reported, not independently verified).
+corroborated across multiple outlets), a tweet from **@FrostxXBT**
+(x.com/FrostxXBT/status/2099962512800456781), a tweet from
+**@DeikusAlexander** (x.com/DeikusAlexander/status/2099969087208058913),
+and a tweet from **@_bolivian**
+(x.com/_bolivian/status/2099938902849040471). None of the three tweets are
+independently fetchable from here — x.com and mirror sites both return
+errors for these links, same caveat as the §30/§32/§34/§39/§41/§49
+sourcing note — text for all three supplied by the user and treated as
+reported, not independently verified.
 
 ## How the persona should use this
 
