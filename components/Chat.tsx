@@ -93,6 +93,7 @@ const MessageRow = memo(function MessageRow({
             <img
               src={m.image_url}
               alt={m.image_caption ?? "image sent by the terminal"}
+              draggable={false}
               className="w-full block cursor-zoom-in"
             />
           </button>
