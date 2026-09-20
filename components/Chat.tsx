@@ -287,6 +287,7 @@ export default function Chat({
   // few ms and re-rendering the whole chat list on each one would be wasteful.
   const panRef = useRef({ x: 0, y: 0 });
   const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+  const didDragRef = useRef(false);
   const lightboxImgRef = useRef<HTMLImageElement>(null);
   const [dragging, setDragging] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -299,9 +300,9 @@ export default function Chat({
 
   function lightboxPointerDown(e: React.PointerEvent<HTMLImageElement>) {
     e.preventDefault();
-    e.stopPropagation(); // don't let the backdrop's onClick close the lightbox on a drag
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     dragStartRef.current = { x: e.clientX, y: e.clientY, panX: panRef.current.x, panY: panRef.current.y };
+    didDragRef.current = false;
     setDragging(true);
   }
 
@@ -310,6 +311,10 @@ export default function Chat({
     if (!start) return;
     const x = start.panX + (e.clientX - start.x);
     const y = start.panY + (e.clientY - start.y);
+    // A few pixels of jitter on a plain click shouldn't count as a drag —
+    // only flag it once the pointer has actually moved a real distance, so
+    // a tap/click still closes the lightbox via the backdrop as before.
+    if (Math.abs(x - start.panX) > 3 || Math.abs(y - start.panY) > 3) didDragRef.current = true;
     panRef.current = { x, y };
     if (lightboxImgRef.current) lightboxImgRef.current.style.transform = `translate(${x}px, ${y}px)`;
   }
@@ -318,6 +323,15 @@ export default function Chat({
     if (dragStartRef.current) (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     dragStartRef.current = null;
     setDragging(false);
+  }
+
+  // The click that follows pointerup is a separate event from pointerdown/up
+  // and still bubbles to the backdrop's onClick (which closes the lightbox)
+  // unless stopped here — but only when an actual drag happened; a plain
+  // click with no movement should still close it, same as before dragging
+  // was added.
+  function lightboxImageClick(e: React.MouseEvent<HTMLImageElement>) {
+    if (didDragRef.current) e.stopPropagation();
   }
 
   useEffect(() => {
@@ -1043,6 +1057,7 @@ export default function Chat({
             onPointerMove={lightboxPointerMove}
             onPointerUp={lightboxPointerUp}
             onPointerCancel={lightboxPointerUp}
+            onClick={lightboxImageClick}
             className={`chat-lightbox-image max-h-[85vh] max-w-full object-contain border border-dim touch-none select-none ${
               dragging ? "cursor-grabbing" : "cursor-grab"
             }`}
