@@ -280,7 +280,45 @@ export default function Chat({
   const [memories, setMemories] = useState<Map<string, string>>(new Map());
   const [memoryBusy, setMemoryBusy] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<{ url: string; caption?: string | null } | null>(null);
+  // Pan offset for the enlarged lightbox image, in CSS pixels — reset every
+  // time a new image opens so drag position never bleeds from one image to
+  // the next. Plain refs + one re-render source (dragging, for the cursor)
+  // rather than tracking x/y in state, since a drag fires a pointermove every
+  // few ms and re-rendering the whole chat list on each one would be wasteful.
+  const panRef = useRef({ x: 0, y: 0 });
+  const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+  const lightboxImgRef = useRef<HTMLImageElement>(null);
+  const [dragging, setDragging] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // New image (or closed) — snap pan back to center.
+    panRef.current = { x: 0, y: 0 };
+    if (lightboxImgRef.current) lightboxImgRef.current.style.transform = "translate(0px, 0px)";
+  }, [lightbox]);
+
+  function lightboxPointerDown(e: React.PointerEvent<HTMLImageElement>) {
+    e.preventDefault();
+    e.stopPropagation(); // don't let the backdrop's onClick close the lightbox on a drag
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    dragStartRef.current = { x: e.clientX, y: e.clientY, panX: panRef.current.x, panY: panRef.current.y };
+    setDragging(true);
+  }
+
+  function lightboxPointerMove(e: React.PointerEvent<HTMLImageElement>) {
+    const start = dragStartRef.current;
+    if (!start) return;
+    const x = start.panX + (e.clientX - start.x);
+    const y = start.panY + (e.clientY - start.y);
+    panRef.current = { x, y };
+    if (lightboxImgRef.current) lightboxImgRef.current.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  function lightboxPointerUp(e: React.PointerEvent<HTMLImageElement>) {
+    if (dragStartRef.current) (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    dragStartRef.current = null;
+    setDragging(false);
+  }
 
   useEffect(() => {
     if (!lightbox) return;
@@ -997,9 +1035,17 @@ export default function Chat({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            ref={lightboxImgRef}
             src={lightbox.url}
             alt={lightbox.caption ?? "image sent by the terminal"}
-            className="chat-lightbox-image max-h-[85vh] max-w-full object-contain border border-dim"
+            draggable={false}
+            onPointerDown={lightboxPointerDown}
+            onPointerMove={lightboxPointerMove}
+            onPointerUp={lightboxPointerUp}
+            onPointerCancel={lightboxPointerUp}
+            className={`chat-lightbox-image max-h-[85vh] max-w-full object-contain border border-dim touch-none select-none ${
+              dragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
           />
           {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
           <button
