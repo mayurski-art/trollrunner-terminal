@@ -1586,6 +1586,8 @@ Buhle wrote that he had spent $122,000 in two months — and at the same time cu
 
 Three days later she filed a court motion. Biden “rarely” spent anything on his family, she charged, but was blowing hundreds of thousands on alcohol, strip clubs, gifts to other women, and travel — sometimes charging multiple hotel rooms for the same night.
 
+`Hunter Biden in a bath smoking a cigarette with his eyes closed.jpg`
+
 Now federal prosecutors have revealed just how right Buhle was.
 
 They alleged Pres. Biden’s son blasted through $4,907,813 in four years, including $683,212 “to various women,” and $188,960 on “adult entertaining.”
