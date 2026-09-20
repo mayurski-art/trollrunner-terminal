@@ -19,12 +19,23 @@ export type LoreAsset = {
   // findLoreImagesForArchiveSection (below) looks assets up by this field
   // directly.
   sections: number[];
+  // True for a short looping clip that should play like a GIF (autoplay,
+  // muted, loop, no controls) rather than a real video clip a troublemaker
+  // would want to scrub through with controls. Chat.tsx reads this.
+  loopGif?: boolean;
 };
 
 const VIDEO_EXTENSIONS = [".mp4", ".webm", ".mov"];
 export function isVideoAsset(url: string): boolean {
   const path = url.split("?")[0].toLowerCase();
   return VIDEO_EXTENSIONS.some((ext) => path.endsWith(ext));
+}
+
+// Looks the asset up by URL to check its loopGif flag — used by Chat.tsx to
+// decide whether a video message should render as an autoplaying, muted,
+// looping GIF instead of a controls-driven clip.
+export function isLoopGifAsset(url: string): boolean {
+  return LORE_ASSETS.some((asset) => asset.url === url && asset.loopGif);
 }
 
 export const LORE_ASSETS: LoreAsset[] = [
@@ -400,6 +411,21 @@ export const LORE_ASSETS: LoreAsset[] = [
       "Ethan Prosper mid-laugh, closer crop — wide grin and frizzed curly hair that reads like a real-life trollface",
     keywords: ["ethan prosper", "ethanprosper", "looks like a troll", "trollface irl", "pr6spr"],
     sections: [49],
+  },
+  {
+    id: "trollface-18th-birthday",
+    url: "/lore/trollface18thday.jpg",
+    caption: "Trollface's 18th birthday — September 19, 2026, eighteen years out from the original 2008 drawing",
+    keywords: ["18th birthday", "trollface birthday", "happy birthday trollface", "turns 18", "trollface turns 18"],
+    sections: [54],
+  },
+  {
+    id: "swish-trollface-18th-birthday-gif",
+    url: "/lore/swish-trollface-18th-birthday.mp4",
+    caption: "SWISH's looping birthday GIF of the grin, from his 18th-birthday tribute post",
+    keywords: ["swish birthday gif", "trollface gif", "18th birthday gif", "birthday loop", "trollface loop"],
+    sections: [54],
+    loopGif: true,
   },
 ];
 

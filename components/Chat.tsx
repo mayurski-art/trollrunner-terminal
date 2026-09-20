@@ -6,7 +6,7 @@ import { getPublicClient } from "@/lib/supabase";
 import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
-import { isVideoAsset } from "@/lib/loreAssets";
+import { isVideoAsset, isLoopGifAsset } from "@/lib/loreAssets";
 import { renderTightLines } from "@/lib/renderText";
 
 type Message = {
@@ -57,13 +57,25 @@ const MessageRow = memo(function MessageRow({
       </p>
       {m.image_url && isVideoAsset(m.image_url) && (
         <div className="mt-2 max-w-xs border border-dim">
-          <video
-            src={m.image_url}
-            controls
-            playsInline
-            className="w-full block"
-            aria-label={m.image_caption ?? "clip sent by the terminal"}
-          />
+          {isLoopGifAsset(m.image_url) ? (
+            <video
+              src={m.image_url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full block"
+              aria-label={m.image_caption ?? "clip sent by the terminal"}
+            />
+          ) : (
+            <video
+              src={m.image_url}
+              controls
+              playsInline
+              className="w-full block"
+              aria-label={m.image_caption ?? "clip sent by the terminal"}
+            />
+          )}
           {m.image_caption && (
             <p className="text-terminal font-bold text-xs px-1.5 py-1">{m.image_caption}</p>
           )}
