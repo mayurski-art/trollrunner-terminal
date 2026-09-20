@@ -16,6 +16,15 @@ type UserRow = {
 
 type ChatMsg = { role: "user" | "terminal"; content: string; created_at: string; is_gossip: boolean };
 
+type BugReport = {
+  id: string;
+  message: string;
+  reporterUsername: string | null;
+  userAgent: string | null;
+  status: "open" | "resolved";
+  createdAt: string;
+};
+
 const LIVE_POLL_MS = 5000;
 
 async function authHeader(): Promise<Record<string, string>> {
@@ -33,6 +42,7 @@ export default function Inspect() {
   const [loaded, setLoaded] = useState(false);
   const [loadingConvo, setLoadingConvo] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [bugReports, setBugReports] = useState<BugReport[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   async function loadUsers() {
@@ -55,9 +65,17 @@ export default function Inspect() {
     }
   }
 
+  async function loadBugReports() {
+    const headers = await authHeader();
+    if (!headers.Authorization) return;
+    const res = await fetch("/api/admin/bug-reports", { headers });
+    const data = await res.json();
+    if (res.ok) setBugReports(data.reports ?? []);
+  }
+
   useEffect(() => {
     (async () => {
-      await Promise.all([loadUsers(), loadLive()]);
+      await Promise.all([loadUsers(), loadLive(), loadBugReports()]);
       setLoaded(true);
     })();
     const interval = setInterval(loadLive, LIVE_POLL_MS);
@@ -154,6 +172,22 @@ export default function Inspect() {
 
           </div>
         )}
+      </div>
+
+      <div className="sm:w-72 shrink-0 space-y-2">
+        <p className="text-ghost text-xs">[ bug reports ]</p>
+        <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+          {bugReports.length === 0 && <p className="text-dim text-sm">nothing filed yet</p>}
+          {bugReports.map((r) => (
+            <div key={r.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+              <p className="text-you leading-snug">{renderTightLines(r.message)}</p>
+              <p className="text-ghost">
+                {r.reporterUsername ?? "guest"} · {timeAgo(r.createdAt)}
+                {r.status === "resolved" && <span className="text-gain"> · resolved</span>}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
