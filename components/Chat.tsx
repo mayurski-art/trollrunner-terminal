@@ -269,6 +269,10 @@ export default function Chat({
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [clearing, setClearing] = useState(false);
+  const [bugReportOpen, setBugReportOpen] = useState(false);
+  const [bugReportText, setBugReportText] = useState("");
+  const [bugReportSending, setBugReportSending] = useState(false);
+  const [bugReportNote, setBugReportNote] = useState<{ text: string; kind: "ok" | "err" } | null>(null);
   const [buddyToast, setBuddyToast] = useState<string | null>(null);
   const [archiveToast, setArchiveToast] = useState<string | null>(null);
   // content -> memory id, so the button can double as remember/forget and
@@ -662,6 +666,35 @@ export default function Chat({
     }
   }
 
+  // Sends whatever's in the bug report box to /api/bug-report. No sign-in
+  // required — a bug can happen before login too — but authHeader() attaches
+  // the session when there is one so the report can be linked to a reporter.
+  async function sendBugReport() {
+    const trimmed = bugReportText.trim();
+    if (!trimmed || bugReportSending) return;
+    setBugReportSending(true);
+    setBugReportNote(null);
+    try {
+      const headers = { "Content-Type": "application/json", ...(await authHeader()) };
+      const res = await fetch("/api/bug-report", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ message: trimmed }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setBugReportNote({ text: data.error || "could not send that — try again", kind: "err" });
+        return;
+      }
+      setBugReportNote({ text: "thanks — sent to the troll runner.", kind: "ok" });
+      setBugReportText("");
+    } catch {
+      setBugReportNote({ text: "connection to the terminal was lost", kind: "err" });
+    } finally {
+      setBugReportSending(false);
+    }
+  }
+
   // useCallback keeps this prop reference stable across the cooldown/thinking-
   // verb re-renders so MessageRow's memoization actually holds — it still
   // changes on memoryBusy/memories updates, but those are inherently tied to
@@ -789,6 +822,19 @@ export default function Chat({
                 🗑 clear
               </button>
             )}
+            <button
+              type="button"
+              onClick={() => {
+                setBugReportOpen((open) => !open);
+                setBugReportNote(null);
+              }}
+              aria-haspopup="true"
+              aria-expanded={bugReportOpen}
+              aria-label="Report a bug"
+              className="rounded border border-alert/40 bg-alert/10 px-2 py-1 font-semibold tracking-wide text-alert transition-colors hover:border-alert hover:bg-alert/20"
+            >
+              🪲 report a bug
+            </button>
           </div>,
           controlsPortalEl
         )}
@@ -882,6 +928,64 @@ export default function Chat({
           &gt;
         </button>
       </form>
+
+      {bugReportOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Report a bug"
+          className="fixed inset-0 z-50 flex items-start justify-end bg-background/60 p-3 sm:p-4"
+          onClick={() => setBugReportOpen(false)}
+        >
+          <div
+            className="mt-10 w-full max-w-sm rounded border border-alert/40 bg-background p-3 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="mb-2 text-xs font-semibold tracking-wide text-alert">🪲 report a bug</p>
+            <textarea
+              value={bugReportText}
+              onChange={(e) => setBugReportText(e.target.value)}
+              maxLength={500}
+              placeholder="what went wrong?"
+              aria-label="Describe the bug"
+              disabled={bugReportSending}
+              className="min-h-[84px] w-full resize-y border border-dim bg-transparent px-2 py-1.5 text-sm text-you outline-none focus:border-alert disabled:opacity-50"
+            />
+            <div className="mt-2 flex items-center justify-between gap-2 text-xs">
+              <span className={`font-mono ${bugReportText.length > 500 ? "text-alert" : "text-dim"}`}>
+                {bugReportText.length} / 500
+              </span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setBugReportOpen(false)}
+                  disabled={bugReportSending}
+                  className="rounded border border-ghost px-2 py-0.5 font-semibold text-ghost transition-colors hover:border-terminal hover:text-terminal disabled:opacity-40"
+                >
+                  cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={sendBugReport}
+                  disabled={bugReportSending || !bugReportText.trim()}
+                  className="rounded bg-alert px-2 py-0.5 font-bold text-background transition-opacity hover:opacity-80 disabled:opacity-40"
+                >
+                  {bugReportSending ? "sending..." : "send"}
+                </button>
+              </div>
+            </div>
+            {bugReportNote && (
+              <p
+                role="status"
+                aria-live="polite"
+                className={`mt-2 text-xs ${bugReportNote.kind === "ok" ? "text-gain" : "text-alert"}`}
+              >
+                {bugReportNote.text}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
 
       {lightbox && (
         <div

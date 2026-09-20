@@ -42,3 +42,26 @@ create policy "public read terminal_posts" on terminal_posts
 
 create policy "public read terminal_config" on terminal_config
   for select using (true);
+
+-- "Report a bug" button in the chat controls row, next to Clear. No client-
+-- side insert policy on purpose — the browser never talks to Supabase for
+-- this table directly, it POSTs to /api/bug-report, which writes with the
+-- service role key (same shape as DELETE /api/chat clearing
+-- terminal_chat_messages). reporter_id is filled in when the request carries
+-- a valid session, left null for a signed-out troublemaker filing a report.
+create table if not exists terminal_bug_reports (
+  id          uuid primary key default gen_random_uuid(),
+  message     text not null check (char_length(message) <= 500 and char_length(trim(message)) > 0),
+  reporter_id uuid references auth.users(id) on delete set null,
+  user_agent  text,
+  status      text not null default 'open' check (status in ('open', 'resolved')),
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists terminal_bug_reports_created_idx
+  on terminal_bug_reports (created_at desc);
+
+alter table terminal_bug_reports enable row level security;
+
+-- No policies granted to anon/authenticated: RLS defaults to deny-all, and
+-- every read/write goes through the service-role API route instead.
