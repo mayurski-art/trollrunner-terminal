@@ -1586,9 +1586,17 @@ Buhle wrote that he had spent $122,000 in two months — and at the same time cu
 
 Three days later she filed a court motion. Biden “rarely” spent anything on his family, she charged, but was blowing hundreds of thousands on alcohol, strip clubs, gifts to other women, and travel — sometimes charging multiple hotel rooms for the same night.
 
+`Hunter Biden in a bath smoking a cigarette with his eyes closed.jpg`
+
+Hunter Biden, seen in the middle of a drugs spree, blasted through money in four years while dodging his taxes, prosecutors say. His ex-wife, Kathleen Buhle, warned during in 2017 that he needed to be stopped.
+
 Now federal prosecutors have revealed just how right Buhle was.
 
 They alleged Pres. Biden’s son blasted through $4,907,813 in four years, including $683,212 “to various women,” and $188,960 on “adult entertaining.”
+
+`laptop-from-hell.webp`
+
+This table in the indictment sheds light on aspects of the payments but The Post’s Miranda Devine revealed more in her book, “Laptop from Hell.”
 
 David Weiss, the special counsel investigating Biden filed a nine-charge indictment in Los Angeles, Calif., Thursday, accusing him of dodging more than $1 million in taxes while living an “extravagant” life between 2016 and 2019 — and detailing the eye-popping spree.
 
@@ -1598,9 +1606,15 @@ A year after Buhle’s furious email and her court bid to get his cash, Biden wa
 
 In February, 2018, he was splurging $7,000 per month on a $5 million waterfront home in Annapolis, MD, complete with a pool and private jetty for his 27ft boat — and sharing it with his brother Beau’s widow Hallie, with whom he was having an affair.
 
+`hunter-with-a-widow.webp`
+
 By May 2018, he was in Los Angeles, where he spent $8,000 on an extended callout for a 24-year-old Russian prostitute named “Yanna,” an “elite courtesan” with green eyes and brown hair from Emerald Fantasy Girls.
 
+`biden-with-escort.webp`
+
 He also charged 42 nights at the Chateau Marmont hotel for an $ 820-a-night poolside bungalow, for a total of $34,400, using the four-burner stove in the tiny kitchen to cook up crack.
+
+`general-view-chateau-marmont-hotel.webp`
 
 On many of the same nights, Biden also booked a $469-a-night room at The Jeremy and another at La Peer, both luxury hotels in West Hollywood.
 
@@ -1619,6 +1633,12 @@ In two different visits to the elite menswear store Riflessi on W57th Street, he
 There was $7,694 at Caruso Menswear, an Italian boutique, and just under $540 at Brooks Brothers in Manhattan.
 
 While in the city, he also spent more than $69,000 to fix his teeth, wrecked from his crack-smoking, at Smile Design Cosmetic Dentistry in Midtown — and dropped $12,000 at Larry Flynt’s Hustler Club in Hell’s Kitchen.
+
+`smile-biden.webp`
+
+Biden photographed himself smoking crack and driving at 172 mph while behind the wheel of his Porsche en route to Las Vegas where he was surrounded by prostitutes.
+
+`biden-crack.webp`
 
 In May 2019, he complained in several texts to strippers at Archibald’s Gentlemen’s Club on K Street in Washington, DC, where he was a regular, that a woman had walked away with his $8,500 Gucci bomber jacket, and he wanted it back.
 
