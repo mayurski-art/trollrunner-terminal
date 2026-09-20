@@ -1588,9 +1588,15 @@ Three days later she filed a court motion. Biden “rarely” spent anything on 
 
 `Hunter Biden in a bath smoking a cigarette with his eyes closed.jpg`
 
+Hunter Biden, seen in the middle of a drugs spree, blasted through money in four years while dodging his taxes, prosecutors say. His ex-wife, Kathleen Buhle, warned during in 2017 that he needed to be stopped.
+
 Now federal prosecutors have revealed just how right Buhle was.
 
 They alleged Pres. Biden’s son blasted through $4,907,813 in four years, including $683,212 “to various women,” and $188,960 on “adult entertaining.”
+
+`laptop-from-hell.webp`
+
+This table in the indictment sheds light on aspects of the payments but The Post’s Miranda Devine revealed more in her book, “Laptop from Hell.”
 
 David Weiss, the special counsel investigating Biden filed a nine-charge indictment in Los Angeles, Calif., Thursday, accusing him of dodging more than $1 million in taxes while living an “extravagant” life between 2016 and 2019 — and detailing the eye-popping spree.
 
@@ -1599,6 +1605,8 @@ Biden, 53, was charged with three felonies and six misdemeanor counts of failure
 A year after Buhle’s furious email and her court bid to get his cash, Biden was undeterred, emails and records in his laptop show.
 
 In February, 2018, he was splurging $7,000 per month on a $5 million waterfront home in Annapolis, MD, complete with a pool and private jetty for his 27ft boat — and sharing it with his brother Beau’s widow Hallie, with whom he was having an affair.
+
+`hunter-with-a-widow.webp`
 
 By May 2018, he was in Los Angeles, where he spent $8,000 on an extended callout for a 24-year-old Russian prostitute named “Yanna,” an “elite courtesan” with green eyes and brown hair from Emerald Fantasy Girls.
 
