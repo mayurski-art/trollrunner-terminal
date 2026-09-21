@@ -427,6 +427,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [54],
     loopGif: true,
   },
+  {
+    id: "garrett-jin-portrait",
+    url: "/lore/garrett-jin-portrait.png",
+    caption:
+      "Garrett Jin — former Gate.io co-founder, the 'insider whale' who shorted 38,000 ZEC and lost $35.44M on it while sitting on $221M unrealized profit on his own spot ZEC bag",
+    keywords: ["garrett jin", "zec short", "zcash short", "insider whale", "gate.io co-founder"],
+    sections: [55],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

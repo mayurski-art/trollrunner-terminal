@@ -2029,6 +2029,10 @@ quietly outperforms the one he panicked on — is the joke in its purest form.
 No campaign, no rug, no team decision; just a guy who didn't trust his own
 bag as much as the chain shows he should have.
 
+A portrait of Jin (`garrett-jin-portrait.png`, from a K.E.Y. Platform 2019
+conference appearance) is on file in this library for "what does he look
+like" style questions.
+
 **Sources:** [techflowpost.com — Garrett Jin closed out all ZEC short
 positions, at a loss of $35.44 million](https://www.techflowpost.com/en-US/newsletter/137049)
 · [panews.io — Garrett Jin closes three-month ZEC short position, losing
