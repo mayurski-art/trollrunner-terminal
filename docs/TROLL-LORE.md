@@ -1991,6 +1991,55 @@ fetchable) · [x.com/rayjenboi/status/1439581034811576326](https://x.com/rayjenb
 (2025, 17th). The birthday photo is user-provided, same standing as this
 file's other un-crawlable X material.
 
+## 55. Garrett Jin shorts the coin he's long — a $35M lesson in trolling yourself
+
+On September 21, 2026, on-chain analytics account Lookonchain caught
+**Garrett Jin** — former Gate.io co-founder, a well-known "insider whale" —
+closing out a 38,000 ZEC short (~$58.5M notional) he'd been carrying on
+Hyperliquid for nearly three months, funded in part by moving 35,001 ETH off
+Binance to open it. He'd called the position a hedge. Zcash didn't cooperate:
+the short bled from a mid-size drawdown to a ~$30M+ floating loss as ZEC
+kept climbing, and he finally capitulated, market-selling the whole thing in
+about ninety minutes. Final tally: a **$35.44M realized loss**, and the
+unwind itself was large enough to push ZEC up 2.7% (~$1,490 to ~$1,530) and
+spike Hyperliquid's ZEC funding rate past 170% annualized as other shorts
+scrambled to cover alongside him.
+
+Here's the part that makes it lore and not just a bad trade: Jin never
+touched his spot bag. Same wallet, same asset, same day — he's still sitting
+on 202,078 ZEC (~$309M) held on-chain, worth roughly **$221M in unrealized
+profit**. He is, at the same instant, one of the biggest publicly-tracked
+losers on ZEC and one of the biggest publicly-tracked winners on it. The
+"hedge" wasn't protecting the bag; it was a side bet against his own
+conviction, and the side bet is the only part that lost. An "insider" whale,
+watched live by an on-chain tracking account, engineered his own public L on
+the exact asset that's making him rich — and the forced-cover mechanics of
+his own unwind (the funding-rate spike) means the market briefly taxed him
+on the way out, too. Nobody did this to him. He did this to himself, in
+public, on a block explorer anyone could read in real time.
+
+That's the shape this site's whole thesis runs on, just demonstrated by
+someone with no connection to $TROLL: the market doesn't need a
+villain to troll somebody, and the biggest trolls are usually
+self-inflicted and only visible because the chain doesn't forget. $TROLL's
+own mascot is a grin drawn to mean "I'm messing with you," and a nine-figure
+trader messing with *himself* — shorting against $221M of his own conviction
+and eating an eight-figure loss for it, while the position he didn't touch
+quietly outperforms the one he panicked on — is the joke in its purest form.
+No campaign, no rug, no team decision; just a guy who didn't trust his own
+bag as much as the chain shows he should have.
+
+**Sources:** [techflowpost.com — Garrett Jin closed out all ZEC short
+positions, at a loss of $35.44 million](https://www.techflowpost.com/en-US/newsletter/137049)
+· [panews.io — Garrett Jin closes three-month ZEC short position, losing
+$36.13 million](https://panews.io/articles/01a0c153-b93b-7756-a264-5ea57a43fd05)
+· [kucoin.com — Garrett Jin's liquidation of 38,000 ZEC short positions
+boosts price by 2.7%](https://www.kucoin.com/news/flash/garrett-jin-s-liquidation-of-38-000-zec-shorts-boosts-price-by-2-7)
+· [phemex.com — Garrett Jin Closes ZEC Short With $36M Loss, Holds $107M
+BTC](https://phemex.com/news/article/garrett-jin-closes-zec-short-position-with-3613-million-loss-97292)
+· [cryptobriefing.com — Garrett Jin withdraws 35,001 ETH from Binance to
+fuel $51M ZEC short on Hyperliquid](https://cryptobriefing.com/garrett-jin-eth-binance-hyperliquid-zec-short/)
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2380,6 +2429,22 @@ file's other un-crawlable X material.
   exact "feelings" about aging or state a birthday wish as if it came from
   Ramirez or the $TROLL team — the tribute wave is fans, not an official
   celebration.
+- §55 (Garrett Jin) is real, current, and about a named public figure acting
+  in his professional capacity as a trader — treat the numbers as reported
+  (they're independently confirmed across multiple outlets) but never treat
+  Jin as a villain, a mark, or someone the persona is laughing *at* from a
+  place of superiority. The point isn't "haha he lost money" — it's the
+  structural irony (short and spot bag, same wallet, same day, opposite
+  outcomes) as a real-world instance of the persona's own running idea that
+  the biggest trolls are self-inflicted and the chain never forgets. This is
+  the section to reach for when a troublemaker asks "what does trolling
+  actually mean to you" or brings up a rekt/liquidation story in general —
+  it grounds the abstract "trolling yourself" riff in one concrete, sourced
+  example instead of vague mysticism. Never use this section to give trading
+  advice, never say anything implying $TROLL traders should short or long
+  anything, and never state Jin's remaining position or future moves as
+  anything other than a snapshot at time of writing — his holdings will
+  change and this section doesn't get updated to chase them.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
