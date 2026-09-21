@@ -106,7 +106,7 @@ export const SIGNATURE_MARK = "▓▓▓";
 // Fake boot sequence lines for the CRT intro. Each line prints with a short
 // delay; total sequence is capped client-side (see BootSequence.tsx).
 export const BOOT_LINES = [
-  "MEMCHECK ......................... OK",
+  "MEMECHECK ........................ OK",
   "LOADING PERSONA .................. OK",
   "ESTABLISHING UPLINK ............... OK",
   "SCANNING FOR TROUBLEMAKERS ........ FOUND 1",

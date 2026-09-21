@@ -428,6 +428,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     loopGif: true,
   },
   {
+    id: "umadbro-mousepads",
+    url: "/lore/umadbro-mousepads.jpg",
+    caption:
+      "UMadBro's two ergonomic mousepad styles, Model Eclipse (dark) and Model Waifu (pink), on a desk next to a \"U mad bro?\" mousebag and a trollface keycap",
+    keywords: ["mousepad", "mousepads", "model eclipse", "model waifu", "ergonomic mousepad", "wrist rest", "umadbro mousepad"],
+    sections: [40],
+  },
+  {
     id: "garrett-jin-portrait",
     url: "/lore/garrett-jin-portrait.png",
     caption:
