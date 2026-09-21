@@ -19,25 +19,25 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // exists in the DOM, which lands right on top of the boot animation. Keep the
   // fields unmounted until the visitor actually asks to sign in.
   const [open, setOpen] = useState(false);
-  // Matched in JS rather than with an `sm:hidden` twin so only one copy of the
-  // form ever exists — a CSS-hidden second copy is still live to autofill.
-  // Starts false so SSR and the client's first paint agree.
-  const [phone, setPhone] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Desktop dropdown's click-away/Escape only — the phone dialog (below
+  // `sm:`) has its own [ cancel ] button, so there's no "outside" to click.
+  // This used to gate on a JS-computed `phone` boolean from matchMedia, but
+  // that boolean can end up wrong (e.g. it reads the CSS viewport, which
+  // Safari's "Request Desktop Site" fakes wide even on a real phone) and the
+  // wrong dropdown/dialog would render outright — not just this listener.
+  // The markup below is unconditional Tailwind (`sm:` classes only), so the
+  // browser's own layout engine decides every time, with nothing to get out
+  // of sync. This listener still shouldn't fire on phone-width screens, so it
+  // checks the live media query directly rather than trusting stored state.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 639px)");
-    const sync = () => setPhone(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
-  // Desktop dropdown only — the phone variant is a full-screen dialog with
-  // its own [ cancel ] button, so there's no "outside" to click for it.
-  useEffect(() => {
-    if (!open || phone) return;
+    if (!open) return;
+    function isPhoneWidth() {
+      return window.matchMedia("(max-width: 639px)").matches;
+    }
     function onClickAway(e: MouseEvent) {
+      if (isPhoneWidth()) return;
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setOpen(false);
     }
     function onEscape(e: KeyboardEvent) {
@@ -49,7 +49,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       document.removeEventListener("mousedown", onClickAway);
       document.removeEventListener("keydown", onEscape);
     };
-  }, [open, phone]);
+  }, [open]);
 
   // Step 1 -> step 2: look up the typed username once and remember whether
   // it's an existing account or a new one, so the visitor never has to pick
@@ -108,23 +108,31 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
     );
   }
 
+  // Sized mobile-first (roomy: base text, tall inputs, full-width button) and
+  // shrunk back down at `sm:` for the desktop dropdown. Pure CSS breakpoint —
+  // no JS viewport detection. This used to branch in JS on a `phone` boolean
+  // from `matchMedia`, which reads the CSS viewport width; Safari's "Request
+  // Desktop Site" fakes that wide even on an actual phone, so the JS branch
+  // could pick the tiny desktop dropdown on a real phone screen. A `sm:`
+  // class can't get that wrong — the browser's own layout engine evaluates it
+  // against the real viewport at paint time, every time.
   const form = (
-    <form onSubmit={resolved ? submit : proceed} className="space-y-3 text-sm">
+    <form onSubmit={resolved ? submit : proceed} className="space-y-4 sm:space-y-3 text-base sm:text-sm">
       {resolved && (
-        <p className="text-dim text-xs">
+        <p className="text-dim text-sm sm:text-xs">
           {resolved === "login" ? "welcome back, troublemaker" : "never seen you before — let's fix that"}
         </p>
       )}
 
       <label className="block">
-        <span className="text-dim block mb-1">username</span>
+        <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">username</span>
         <input
           value={identifier}
           onChange={(e) => {
             setIdentifier(e.target.value);
             if (resolved) reset();
           }}
-          className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal disabled:opacity-60"
+          className="w-full bg-transparent border border-dim rounded-md sm:rounded-none px-3 sm:px-2 py-3 sm:py-1.5 text-base sm:text-sm text-you outline-none focus:border-terminal disabled:opacity-60"
           autoComplete="username"
           disabled={checking}
           required
@@ -133,12 +141,12 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
 
       {resolved && (
         <label className="block">
-          <span className="text-dim block mb-1">password</span>
+          <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">password</span>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-transparent border border-dim px-2 py-1.5 text-you outline-none focus:border-terminal"
+            className="w-full bg-transparent border border-dim rounded-md sm:rounded-none px-3 sm:px-2 py-3 sm:py-1.5 text-base sm:text-sm text-you outline-none focus:border-terminal"
             autoComplete={resolved === "login" ? "current-password" : "new-password"}
             autoFocus
             required
@@ -146,54 +154,48 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
         </label>
       )}
 
-      {error && <p className="text-alert text-xs">[ {error} ]</p>}
+      {error && <p className="text-alert text-sm sm:text-xs">[ {error} ]</p>}
 
       <button
         type="submit"
         disabled={checking || busy}
-        className="glitch-btn glitch-btn-auto border border-terminal text-terminal px-3 py-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+        className="glitch-btn glitch-btn-auto w-full sm:w-auto border border-terminal text-terminal rounded-md sm:rounded-none px-3 py-3 sm:py-1.5 text-base sm:text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
       >
         {checking ? "..." : busy ? "..." : !resolved ? "next >" : resolved === "login" ? "connect >" : "register >"}
       </button>
     </form>
   );
 
-  // Desktop/tablet: an absolutely-positioned dropdown, like [ menu ]'s own
-  // (Nav.tsx) — sitting inline here used to push the whole page down by the
-  // form's height the moment it opened, reflowing everything below the nav
-  // (banner, ticker, both frames) just from clicking [ join the trolling ].
-  if (!phone) {
-    return (
-      <div
-        ref={dropdownRef}
-        className="absolute right-0 top-full mt-2 z-20 w-64 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg"
-      >
-        {form}
-      </div>
-    );
-  }
-
-  // Phones: sign-in takes over the screen. Inline, the form sits partway down
+  // Below `sm:`: fixed full-screen dialog. Inline, the form sits partway down
   // a long scrolling page, so tapping a field makes Safari scroll somewhere
   // unpredictable and then stack the keyboard and the AutoFill bar on top of
   // whatever landed at the bottom. Full-screen gives the native UI the bottom
   // half to itself with no terminal chrome behind it, so the two stop fighting
-  // for the same space. Rendered as the only copy of the form — a second,
-  // CSS-hidden one would still be visible to Safari's autofill scan.
+  // for the same space.
+  //
+  // At `sm:` and up: an absolutely-positioned dropdown, like [ menu ]'s own
+  // (Nav.tsx) — sitting inline here used to push the whole page down by the
+  // form's height the moment it opened, reflowing everything below the nav
+  // (banner, ticker, both frames) just from clicking [ join the trolling ].
+  //
+  // One instance of the form renders either way — a second, CSS-hidden copy
+  // would still be visible to Safari's autofill scan and iOS pops its "Fill
+  // Password" sheet the moment any login form exists in the DOM.
   return (
     <div
+      ref={dropdownRef}
       role="dialog"
       aria-modal="true"
       aria-label={resolved === "login" ? "Sign in" : "Join the trolling"}
-      className="fixed inset-0 z-50 bg-background/95 overflow-y-auto p-6 flex flex-col justify-center"
+      className="fixed inset-0 z-50 bg-background/95 overflow-y-auto p-6 flex flex-col justify-center sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:block sm:w-64 sm:rounded-md sm:border sm:border-dim sm:bg-black/90 sm:backdrop-blur sm:px-4 sm:py-3 sm:shadow-lg"
     >
-      <div className="w-full max-w-sm mx-auto space-y-4">
-        <p className="text-dim text-xs">trollface terminal // identify yourself</p>
+      <div className="w-full max-w-sm mx-auto space-y-6 sm:max-w-none sm:mx-0 sm:space-y-0">
+        <p className="text-dim text-sm sm:hidden">trollface terminal // identify yourself</p>
         {form}
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-dim text-xs hover:text-foreground"
+          className="text-dim text-sm hover:text-foreground sm:hidden"
         >
           [ cancel ]
         </button>
