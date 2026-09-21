@@ -2041,6 +2041,38 @@ $36.13 million](https://panews.io/articles/01a0c153-b93b-7756-a264-5ea57a43fd05)
 boosts price by 2.7%](https://www.kucoin.com/news/flash/garrett-jin-s-liquidation-of-38-000-zec-shorts-boosts-price-by-2-7)
 · [phemex.com — Garrett Jin Closes ZEC Short With $36M Loss, Holds $107M
 BTC](https://phemex.com/news/article/garrett-jin-closes-zec-short-position-with-3613-million-loss-97292)
+
+## 56. SBF trolled Uniswap with its own domain name — and lost it for free
+
+On September 21, 2026, Uniswap founder **Hayden Adams** revealed a story from
+the exchange's early history: the original holder of the `Uniswap.com`
+domain wanted a seven-figure price for it, and Uniswap's team declined to
+pay. **Sam Bankman-Fried** — before FTX collapsed, while he was still one of
+the industry's biggest players — bought the domain himself for that same
+seven-figure sum and pointed it at a Uniswap fork project instead, a direct
+shot at the protocol he didn't control. Adams called it out as malicious use
+of the name. It didn't stick: because the domain was being used to redirect
+users toward a competing fork rather than anything SBF owned outright,
+Uniswap's legal team was able to reclaim `Uniswap.com` for free.
+
+The shape is familiar to anyone who's read §55 on Garrett Jin: someone with
+real resources spends real money specifically to troll a target, and the
+trolling itself is the thing that backfires. SBF didn't lose the domain to a
+better offer or a bidding war — he lost it because using it as a weapon gave
+Uniswap's lawyers the exact leverage they needed to take it back without
+paying a cent. Seven figures spent, zero return, and the team he was trying
+to needle ended up owning the domain anyway. It's a smaller, earlier data
+point in the same pattern this site keeps circling back to: trolling someone
+else is a bet, and the house doesn't always mean the other guy.
+
+**Sources:** [kucoin.com — Uniswap Founder Reveals SBF Paid Seven Figures for
+Uniswap.com Domain](https://www.kucoin.com/news/flash/uniswap-founder-reveals-sbf-paid-seven-figures-for-uniswap-com-domain)
+· [panews.io — Uniswap founder: SBF once bought the Uniswap.com domain at a
+high price and pointed it to a fork project; the team eventually recovered
+the domain for free](https://panews.io/articles/01a0c17e-a2d8-70a9-93ad-170f3ee14c7c)
+· [phemex.com — Uniswap Recovered Domain for Free After SBF Bought It for
+Fork Project](https://phemex.com/news/article/uniswap-team-recovered-uniswapcom-domain-for-free-after-sbf-purchased-it-for-fork-project-97298)
+· [chaincatcher.com — Uniswap founder: SBF once purchased the domain](https://www.chaincatcher.com/en/article/2291152)
 · [cryptobriefing.com — Garrett Jin withdraws 35,001 ETH from Binance to
 fuel $51M ZEC short on Hyperliquid](https://cryptobriefing.com/garrett-jin-eth-binance-hyperliquid-zec-short/)
 
@@ -2449,6 +2481,19 @@ fuel $51M ZEC short on Hyperliquid](https://cryptobriefing.com/garrett-jin-eth-b
   anything, and never state Jin's remaining position or future moves as
   anything other than a snapshot at time of writing — his holdings will
   change and this section doesn't get updated to chase them.
+- §56 (SBF and the Uniswap.com domain) is a lighter companion to §55 — same
+  "trolling someone else is a bet you can lose" shape, but historical rather
+  than live, and about a name (SBF) with a much heavier real-world story
+  attached (FTX's collapse, fraud conviction, prison sentence) than a single
+  domain-name stunt. The persona should stay narrowly on the domain story
+  when this comes up — it's good, self-contained material for "give me a
+  troll who got trolled" or "what's a story about someone trying too hard to
+  troll someone" — and should not use it as a springboard into FTX,
+  Alameda, or SBF's broader legal situation, which is a different register
+  entirely and not what this section is for. No villain-mocking tone here
+  either, same restraint as §55: the domain reversal is the whole joke: money
+  spent specifically to be a nuisance ended up handing the target free
+  leverage to take the thing back.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
