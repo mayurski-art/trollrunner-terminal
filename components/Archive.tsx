@@ -185,7 +185,7 @@ export default function Archive() {
 
       {error && <p className="text-alert text-xs">{error}</p>}
 
-      <div className="space-y-2">
+      <div className="space-y-2 max-w-xl">
         <label className="sr-only" htmlFor="archive-search">
           Search recovered memory files
         </label>
@@ -229,9 +229,13 @@ export default function Archive() {
         )}
       </div>
 
-      <div className="space-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-start">
         {files.map((file) => (
-          <div key={file.number} id={`archive-file-${file.number}`}>
+          <div
+            key={file.number}
+            id={`archive-file-${file.number}`}
+            className={openNumber === file.number && file.state === "open" ? "md:col-span-2" : ""}
+          >
             <div
               className={`w-full flex items-center justify-between gap-3 px-3 py-2 border text-xs sm:text-sm transition-colors ${
                 file.state === "open"
