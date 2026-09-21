@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
+import { isLoopGifAsset } from "@/lib/loreAssets";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -278,12 +279,24 @@ export default function Archive() {
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {file.images.map((img) => (
                       <figure key={img.id}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={img.url}
-                          alt={img.caption}
-                          className="max-w-full border border-dim/40"
-                        />
+                        {isLoopGifAsset(img.url) ? (
+                          <video
+                            src={img.url}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="max-w-full border border-dim/40"
+                            aria-label={img.caption}
+                          />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={img.url}
+                            alt={img.caption}
+                            className="max-w-full border border-dim/40"
+                          />
+                        )}
                         <figcaption className="text-dim text-xs mt-1">{img.caption}</figcaption>
                       </figure>
                     ))}

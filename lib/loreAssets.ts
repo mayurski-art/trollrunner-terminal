@@ -468,8 +468,13 @@ export function getLoreAssetById(id: string): LoreAsset | null {
 // section's own image to a higher-scoring false positive from another
 // section's asset. Every image in a section is returned — an archive file
 // is the section, not a chat aside, so there's no reason to cap it.
+// Real scrub-through video clips are still excluded (an archive file reads
+// like a document, not a chat thread to scrub through), but a loopGif asset
+// is kept — it's meant to play like a picture, just an animated one, so
+// dropping it here silently orphaned §54's birthday clip.
 export function findLoreImagesForArchiveSection(sectionNumber: number): LoreAsset[] {
   return LORE_ASSETS.filter(
-    (asset) => !isVideoAsset(asset.url) && asset.sections.includes(sectionNumber)
+    (asset) =>
+      (!isVideoAsset(asset.url) || asset.loopGif) && asset.sections.includes(sectionNumber)
   );
 }
