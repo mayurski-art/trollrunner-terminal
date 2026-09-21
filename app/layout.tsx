@@ -61,6 +61,17 @@ export default function RootLayout({
               "setTimeout(function(){document.documentElement.setAttribute('data-boot-ready','')},4000)",
           }}
         />
+        {/* Applies a saved light-mode choice before first paint, so a
+            returning visitor never sees a dark->light flash. Dark stays the
+            default for everyone else — this script only ever adds the
+            attribute, never removes it (removal is the React effect's job
+            in ThemeToggle.tsx). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='light'){document.documentElement.setAttribute('data-theme','light')}}catch(e){}",
+          }}
+        />
         <BootSequence />
         <Cursor />
         {children}

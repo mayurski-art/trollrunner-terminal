@@ -19,7 +19,16 @@
 
 /* Monochrome terminal + red/yellow accent system. Every color means exactly
    one thing — see docs/TERMINAL-V2-DESIGN.md §3. Do not add a new hue
-   without updating that doc. */
+   without updating that doc.
+
+   Dark is the default and original palette (below). Light mode is an
+   override applied via [data-theme="light"] on <html>, toggled by
+   components/ThemeToggle.tsx and persisted to localStorage — same
+   data-attribute technique next-themes uses, just hand-rolled since this
+   site has no such dependency. --foreground/--you/--dim/--ghost all shift
+   lighter->darker so text stays readable against the flipped background;
+   --terminal/--problem/--alert/--gain keep enough saturation to still read
+   as the same accent meaning on a light panel. */
 :root {
   --background: #0a0a0a;
   --panel: #111111;
@@ -31,6 +40,19 @@
   --alert: #ff3b3b; /* danger + brand accent, doubles as price-down */
   --gain: #3ddc84; /* price-up; the only green in the palette */
   --ghost: #3a3a3a; /* disabled, placeholder */
+}
+
+:root[data-theme="light"] {
+  --background: #f4f3ee;
+  --panel: #e8e7e0;
+  --foreground: #1c1c1c;
+  --terminal: #0a0a0a; /* the AI speaking */
+  --dim: #6e6e6e; /* frame chrome, timestamps, labels */
+  --you: #2a2a2a; /* the human speaking */
+  --problem: #a3760a; /* the economy: PROBLEMS, mining, vault */
+  --alert: #c92a2a; /* danger + brand accent, doubles as price-down */
+  --gain: #1f8a4c; /* price-up; the only green in the palette */
+  --ghost: #b8b6ac; /* disabled, placeholder */
 }
 
 @theme inline {

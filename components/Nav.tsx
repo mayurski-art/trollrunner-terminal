@@ -9,6 +9,7 @@ import ProblemsCounter from "@/components/ProblemsCounter";
 import AuthPanel from "@/components/AuthPanel";
 import OwnerCredits from "@/components/OwnerCredits";
 import Presence from "@/components/Presence";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Nav() {
   const [session, setSession] = useState<Session | null>(null);
@@ -52,6 +53,7 @@ export default function Nav() {
         >
           [ menu ]
         </button>
+        <ThemeToggle />
         <OwnerCredits session={session} section="usage" />
         {open && (
           <div className="absolute left-0 top-full mt-2 z-20 flex flex-col items-start gap-2 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
