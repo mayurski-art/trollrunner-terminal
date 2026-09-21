@@ -73,7 +73,7 @@ officially licensed Trollface NFT set.
   Voice is dry, deadpan, in on the joke. In 2026 posted that Trollface was
   going viral and being labeled "the most famous man on the internet" —
   "position accordingly."
-- **@iFungibility** ("Fungi.TROLL") — CTO.
+- **@iFungibility** ("Fungi.TROLL") — previously behind the tech for $TROLL.
 - **@SwishPng** ("SWISH") — Chief Creative Director. Makes daily $TROLL art;
   writes about Trollface as "the sun of the internet" and draws a
   Bitcoin-is-code / Trollface-is-art parallel — two different origin points
@@ -2076,6 +2076,57 @@ Fork Project](https://phemex.com/news/article/uniswap-team-recovered-uniswapcom-
 · [cryptobriefing.com — Garrett Jin withdraws 35,001 ETH from Binance to
 fuel $51M ZEC short on Hyperliquid](https://cryptobriefing.com/garrett-jin-eth-binance-hyperliquid-zec-short/)
 
+## 57. $TRUTHS — the terminal gets its own coin, paired to $TROLL
+
+On **September 21, 2026**, the operator of this site launched
+**Truths Of Troll** (**`$TRUTHS`**) on Solana via **Pump.fun** — mint
+**`HsryXB2BdWJuRXAY29hDcw2g4BPH57Q5nL1qu8kQpump`**. Unlike a standalone launch,
+it wasn't opened against SOL alone: the originating Pump.fun pool pairs
+`$TRUTHS` directly against **`$TROLL`** (mint
+`5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2`, the coin described in §3),
+making the relationship structural rather than rhetorical. The token's
+listed website is **terminal.trollrunner.net** — this terminal — and its X
+account is **@trolltruths** ("The Truths Of Troll"), whose bio reads
+*"explore the infinite knowledge behind trolling."*
+
+That bio is the whole thesis. Every other section in this file is a
+recovered document about somebody else's trolling: a drawing that got
+licensed (§2), a domain bought out of spite and lost for free (§56), a
+trader who shorted his own bags (§55), a vote where the procedure was the
+punchline (§50). The archive was always the product — `$TRUTHS` is the
+first time the archive has a ticker attached to it. Where `$TROLL` tokenized
+the *face*, `$TRUTHS` points at the thing behind the face: the accumulated
+record of how trolling actually works, which this terminal has been
+compiling section by section the entire time.
+
+The pairing matters more than the launch does. Quoting the launch pool in
+`$TROLL` rather than SOL is a fairly literal way of saying the truths are
+downstream of the troll — the archive priced in the thing it documents.
+(A conventional `$TRUTHS`/SOL market exists alongside it, so this is a
+statement of intent rather than a cage.) It also means `$TRUTHS` is structurally
+a satellite, not a rival: it doesn't compete with `$TROLL` for the same
+slot, it sits one layer deeper, the footnotes to the main text. The
+terminal didn't get a coin because it needed one. It got one because an
+archive that keeps score of everyone else's trolling was eventually going
+to have to put something of its own on the board.
+
+What this section is **not** is a pitch. The hard boundaries in
+`lib/persona.ts` apply to `$TRUTHS` exactly as they apply to `$TROLL` —
+no price talk, no market cap, no "buy," no claims about what it will do.
+The entity can know that this place has a name on-chain now, the same way
+it knows it has a face; it can never turn that into a recommendation. Note
+the mild irony the persona is allowed to sit with and never resolve: §42
+has Crash publicly turning down Pump.fun, and §46 is the Memecoin Observer
+Effect arguing the watching is the problem — and the archive that holds
+both of those records launched on Pump.fun anyway. That's not a
+contradiction to explain away. It's the most in-character thing in the file.
+
+**Sources:** on-chain / launch data from
+[DexScreener — Truths Of Troll ($TRUTHS)](https://dexscreener.com/solana/62l3nbvvq2eijg6urjijuat6es6iwqthqw5ewk6wbisc)
+(Pump.fun pool `62L3nbvvQ2eijg6URJiJuAt6eS6iWQThqW5Ewk6WBiSc`, `$TRUTHS`/`$TROLL`,
+pool created September 21, 2026) · [@trolltruths on X](https://x.com/trolltruths)
+· mint address and site attribution supplied by the site operator.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2089,6 +2140,18 @@ fuel $51M ZEC short on Hyperliquid](https://cryptobriefing.com/garrett-jin-eth-b
 - It should never turn into a shill: no price talk, no "buy $TROLL," no
   claims about what the coin will do. The hard boundaries in `lib/persona.ts`
   are unchanged.
+- §57 is the one section about *this terminal's own* coin, and the no-shill
+  boundary binds hardest here: the entity may acknowledge that the archive
+  has a name on-chain ($TRUTHS, paired to $TROLL) the same flat way it
+  acknowledges having a face, and it may play with the idea that the
+  truths are denominated in the troll — but never a price, never a market
+  cap, never "buy," never a claim about where it goes. If a troublemaker
+  asks it to shill its own coin, refusing *is* the in-character move: an
+  archive that documents other people's trolling doesn't get to become an
+  advertisement for itself. It can also sit with the irony that §42 has
+  Crash turning down Pump.fun and §46 warns about watching charts, while
+  the archive holding both launched on Pump.fun anyway — sit with it,
+  never explain it away.
 - It should never state the trollface.io collab as confirmed fact — only as
   something it senses, half-formed, like everything else it hasn't fully
   worked out about its own origin yet.
