@@ -22,12 +22,14 @@ export default function TrolldeathsAdmin() {
   const [draft, setDraft] = useState<Partial<TrollDeathItem>>(EMPTY_DRAFT);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [tweetUrl, setTweetUrl] = useState("");
+  const [fetchingTweet, setFetchingTweet] = useState(false);
 
-  const authedFetch = useCallback(async (init?: RequestInit) => {
+  const authedFetch = useCallback(async (init?: RequestInit, path = "/api/admin/trolldeaths") => {
     const sb = getPublicClient();
     const { data } = await sb.auth.getSession();
     const token = data.session?.access_token;
-    return fetch("/api/admin/trolldeaths", {
+    return fetch(path, {
       ...init,
       headers: {
         ...(init?.headers ?? {}),
@@ -68,6 +70,37 @@ export default function TrolldeathsAdmin() {
   function resetForm() {
     setEditingId(null);
     setDraft(EMPTY_DRAFT);
+    setTweetUrl("");
+  }
+
+  async function fetchFromTweet() {
+    if (!tweetUrl.trim()) return;
+    setError(null);
+    setFetchingTweet(true);
+    try {
+      const res = await authedFetch({
+        method: "POST",
+        body: JSON.stringify({ url: tweetUrl.trim() }),
+      }, "/api/admin/trolldeaths/fetch-tweet");
+      const body = await res.json();
+      if (!res.ok) {
+        setError(body.error ?? "could not fetch that tweet");
+        return;
+      }
+      setDraft((d) => ({
+        ...d,
+        title: body.title ?? d.title,
+        copy: body.copy ?? d.copy,
+        tags: body.tags ?? d.tags,
+        eventDate: body.eventDate ? body.eventDate.slice(0, 16) : d.eventDate,
+        sourceHref: body.sourceHref ?? d.sourceHref,
+        sourceLabel: body.sourceLabel ?? d.sourceLabel,
+      }));
+    } catch {
+      setError("connection to the terminal was lost");
+    } finally {
+      setFetchingTweet(false);
+    }
   }
 
   async function submit() {
@@ -133,6 +166,30 @@ export default function TrolldeathsAdmin() {
 
       <Frame title={editingId ? "edit entry" : "new entry"} tone="terminal">
         <div className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              type="url"
+              placeholder="paste tweet link to auto-fill (optional)"
+              value={tweetUrl}
+              onChange={(e) => setTweetUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  fetchFromTweet();
+                }
+              }}
+              className="flex-1 bg-transparent border border-dim px-2 py-1.5 text-sm text-foreground placeholder:text-dim focus:border-terminal outline-none"
+            />
+            <button
+              type="button"
+              disabled={fetchingTweet || !tweetUrl.trim()}
+              onClick={fetchFromTweet}
+              className="border border-terminal text-terminal px-3 py-1.5 text-xs hover:bg-terminal/10 disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+            >
+              [ {fetchingTweet ? "fetching..." : "fetch tweet"} ]
+            </button>
+          </div>
+
           <div className="flex gap-3 text-xs">
             {(["fud", "guardian"] as TrollDeathKind[]).map((k) => (
               <button
