@@ -45,15 +45,17 @@ export default function Nav() {
       className="relative flex flex-wrap items-start justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
     >
       <div className="relative flex flex-col items-start min-w-0 max-w-full">
-        <button
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-haspopup="true"
-          className="nav-neon nav-neon--terminal whitespace-nowrap"
-        >
-          [ menu ]
-        </button>
-        <ThemeToggle />
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-haspopup="true"
+            className="nav-neon nav-neon--terminal whitespace-nowrap"
+          >
+            [ menu ]
+          </button>
+          <ThemeToggle />
+        </div>
         <OwnerCredits session={session} section="usage" />
         {open && (
           <div className="absolute left-0 top-full mt-2 z-20 flex flex-col items-start gap-2 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
