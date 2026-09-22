@@ -500,6 +500,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["biden crack", "biden porsche", "biden driving"],
     sections: [48],
   },
+  {
+    id: "4chan-automated-draft-post",
+    url: "/lore/4chan-automated-draft-post.png",
+    caption:
+      "the original 4chan /pol/ thread — \"88 DAYS UNTIL THE US GOV CAN INSTITUTE AN AUTOMATED MILITARY DRAFT\" — citing Section 535 of the FY2026 NDAA and the withdrawn Selective Service rules",
+    keywords: ["4chan draft thread", "automated military draft", "section 535", "ndaa draft", "selective service rules withdrawn"],
+    sections: [61],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
