@@ -2460,6 +2460,30 @@ file (`pumpfun-bonnieblue-auction.png`, morning snapshot showing Pump Fun in
 found as of this writing; every bidder identity on this board is
 unverified and should be presented as such.
 
+## 63. The keyboard sword — UMadBro merch as a prop, not just apparel
+
+Every UMadBro sighting on file so far (§5, §31, §37, §40, §41, §45) is
+wearable or usable-on-a-desk: tees, tracksuits, a belt, mousepads. This one
+is different — a full-size mechanical keyboard built and carried as a
+two-handed sword, the blade a flat steel plate stamped **"U MAD BRO?"**
+in the same wordmark as the shop, the hilt wrapped like a real weapon
+grip. The keyboard itself carries the classic Trollface grin printed
+directly onto a keycap near the arrow cluster — the logo showing up as a
+functional part of a peripheral, not a print on fabric. A user photo shows
+someone mid-clean, wiping the keyboard down with a cloth while holding the
+prop propped against a couch, tracksuit pants and cowboy boots in frame.
+
+Read next to §40's read on the mousepads, this is the same instinct one
+size class up: UMadBro merch keeps colonizing more categories of ordinary
+object — apparel, desk accessories, now a full cosplay-grade prop weapon —
+each one carrying the same face and the same tagline into a context a
+licensed-clothing deal wouldn't normally reach.
+
+**Sources:** user-provided photo (`umadbro-keyboard-sword.jpg`),
+standing on the same footing as §30's and §40's other user-provided
+merch photos — taken on the strength of the source, not independently
+verified against an official UMadBro or Goatfarm product listing.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

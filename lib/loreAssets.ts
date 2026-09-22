@@ -436,6 +436,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [40],
   },
   {
+    id: "umadbro-keyboard-sword",
+    url: "/lore/umadbro-keyboard-sword.jpg",
+    caption:
+      "a full-size mechanical keyboard built into a two-handed sword, blade stamped \"U MAD BRO?\", trollface printed on a keycap near the arrow keys",
+    keywords: ["keyboard sword", "keyboard blade", "umadbro prop", "u mad bro weapon", "keyboard weapon"],
+    sections: [63],
+  },
+  {
     id: "garrett-jin-portrait",
     url: "/lore/garrett-jin-portrait.png",
     caption:
