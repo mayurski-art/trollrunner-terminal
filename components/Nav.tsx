@@ -13,9 +13,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import Faq from "@/components/Faq";
 
 type NavProps = {
-  // Shows the "part of trollrunner.net network" + FAQ trigger inline in
-  // the nav, and collapses the usual left/right split into a single
-  // left-aligned block so the whole bar reads as one corner stack.
+  // Shows the "part of trollrunner.net network" + FAQ trigger at the top
+  // of the right-hand column, aligned with [ menu ] on the left.
   // Vault-only for now — see app/vault/page.tsx.
   networkBadge?: boolean;
 };
@@ -51,9 +50,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
   return (
     <nav
       ref={navRef}
-      className={`relative flex flex-wrap items-start ${
-        networkBadge ? "justify-start" : "justify-between"
-      } text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2`}
+      className="relative flex flex-wrap items-start justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
     >
       <div className="relative flex flex-col items-start min-w-0 max-w-full">
         <div className="flex items-center gap-3">
@@ -61,7 +58,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-haspopup="true"
-            className="nav-neon nav-neon--terminal whitespace-nowrap"
+            className="nav-neon nav-neon--terminal nav-neon--menu whitespace-nowrap"
           >
             [ menu ]
           </button>
@@ -150,17 +147,22 @@ export default function Nav({ networkBadge = false }: NavProps) {
           </div>
         )}
       </div>
-      <div
-        className={`flex flex-col min-w-0 max-w-full ${
-          networkBadge ? "items-start" : "items-end"
-        }`}
-      >
+      <div className="flex flex-col items-end min-w-0 max-w-full">
+        {networkBadge && (
+          <p className="text-[11px] sm:text-xs text-foreground text-right mb-1 max-w-full">
+            part of the{" "}
+            <a
+              href="https://trollrunner.net"
+              className="glow-loop underline decoration-dim underline-offset-4"
+            >
+              trollrunner.net
+            </a>{" "}
+            network ·{" "}
+            <Faq trigger="inline" />
+          </p>
+        )}
         {session ? (
-          <div
-            className={`flex items-center gap-3 flex-wrap min-w-0 ${
-              networkBadge ? "justify-start" : "justify-end"
-            }`}
-          >
+          <div className="flex items-center gap-3 flex-wrap min-w-0 justify-end">
             <Presence />
             <ProblemsCounter />
             <button
@@ -173,11 +175,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
             </button>
           </div>
         ) : (
-          <div
-            className={`flex items-center gap-3 flex-wrap min-w-0 ${
-              networkBadge ? "justify-start" : "justify-end"
-            }`}
-          >
+          <div className="flex items-center gap-3 flex-wrap min-w-0 justify-end">
             <Presence />
             <div className="relative">
               <AuthPanel />
@@ -185,19 +183,6 @@ export default function Nav({ networkBadge = false }: NavProps) {
           </div>
         )}
         <OwnerCredits session={session} section="lock" />
-        {networkBadge && (
-          <p className="text-[11px] sm:text-xs text-foreground text-left mt-1 max-w-full">
-            part of the{" "}
-            <a
-              href="https://trollrunner.net"
-              className="glow-loop underline decoration-dim underline-offset-4"
-            >
-              trollrunner.net
-            </a>{" "}
-            network ·{" "}
-            <Faq trigger="inline" />
-          </p>
-        )}
       </div>
     </nav>
   );

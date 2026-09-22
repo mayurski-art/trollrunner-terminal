@@ -519,6 +519,21 @@ main {
   --nn-hue: var(--alert);
 }
 
+/* [ menu ] toggle: same cyan idle state as the other terminal-hued links,
+   hinting amber on hover/focus — a distinct hue, not shared with any
+   route link — so the corner control reads as its own thing. */
+.nav-neon--menu:hover,
+.nav-neon--menu:focus-visible {
+  --nn-hue: #ffb43a;
+}
+
+/* ThemeToggle.tsx — cyan idle, hints violet-pink on hover/focus. Distinct
+   from [ menu ]'s amber hint so the two corner controls don't read the same. */
+.nav-neon--theme:hover,
+.nav-neon--theme:focus-visible {
+  --nn-hue: #e05ce0;
+}
+
 /* Frame.tsx titleEffect="trace" — opt-in, used only by the homepage's two
    hero panels (app/page.tsx). A short neon comet loops continuously around
    the panel's own rectangular border, starting from the left side of the

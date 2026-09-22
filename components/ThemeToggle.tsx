@@ -39,7 +39,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       title={theme === "dark" ? "switch to light mode" : "switch to dark mode"}
-      className="nav-neon nav-neon--terminal whitespace-nowrap"
+      className="nav-neon nav-neon--terminal nav-neon--theme whitespace-nowrap"
     >
       {theme === "dark" ? "[ light ]" : "[ dark ]"}
     </button>
