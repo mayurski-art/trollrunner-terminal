@@ -1676,6 +1676,41 @@ html[data-custom-cursor] label {
   box-shadow: 0 0 8px color-mix(in srgb, var(--problem) 80%, transparent);
 }
 
+/* Zoom targets (enlargeable images — see data-cursor="zoom") get a "+"
+   glyph instead of the plain filled dot, so an enlarge target reads
+   differently from an ordinary button/link under the same ring. Built from
+   two bars via pseudo-elements rather than a background-image so it
+   inherits --terminal like the rest of the cursor instead of a baked-in
+   SVG color. */
+.cursor-dot--zoom {
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  background: transparent;
+  box-shadow: none;
+}
+.cursor-dot--zoom::before,
+.cursor-dot--zoom::after {
+  content: "";
+  position: absolute;
+  background: var(--terminal);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--terminal) 70%, transparent);
+}
+.cursor-dot--zoom::before {
+  top: 50%;
+  left: 1px;
+  right: 1px;
+  height: 2px;
+  transform: translateY(-50%);
+}
+.cursor-dot--zoom::after {
+  left: 50%;
+  top: 1px;
+  bottom: 1px;
+  width: 2px;
+  transform: translateX(-50%);
+}
+
 .cursor-ring {
   width: 28px;
   height: 28px;

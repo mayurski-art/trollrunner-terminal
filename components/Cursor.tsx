@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from "react";
 // A small dot tracks the real cursor 1:1; a trailing ring eases toward it
 // for a bit of drag. Hovering anything clickable swaps both to the
 // "targeting" look — bigger ring, filled dot — so the cross-hair reads as
-// live feedback rather than decoration. The OS cursor is hidden via
+// live feedback rather than decoration. Elements tagged data-cursor="zoom"
+// (enlargeable images) swap the dot for a "+" glyph instead, so "this opens
+// a lightbox" reads differently from a plain clickable target. The OS cursor
+// is hidden via
 // `cursor: none` in globals.css only while this is mounted (see the
 // data-custom-cursor attribute it sets on <html>), so nothing goes fully
 // invisible if JS is off or this bails out on a coarse pointer.
@@ -55,8 +58,10 @@ export default function Cursor() {
 
       const target = e.target as Element | null;
       const isClickable = !!target?.closest(CLICKABLE_SELECTOR);
+      const isZoom = !!target?.closest('[data-cursor="zoom"]');
       ring!.classList.toggle("cursor-ring--active", isClickable);
-      dot!.classList.toggle("cursor-dot--active", isClickable);
+      dot!.classList.toggle("cursor-dot--active", isClickable && !isZoom);
+      dot!.classList.toggle("cursor-dot--zoom", isZoom);
     }
 
     function onDown() {

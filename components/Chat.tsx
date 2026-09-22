@@ -99,6 +99,7 @@ const MessageRow = memo(function MessageRow({
             type="button"
             onClick={() => onOpenLightbox({ url: m.image_url!, caption: m.image_caption })}
             aria-label="View full-size image"
+            data-cursor="zoom"
             className="block w-full cursor-zoom-in"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

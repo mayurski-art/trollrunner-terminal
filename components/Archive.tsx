@@ -35,6 +35,51 @@ export default function Archive() {
   const [openNumber, setOpenNumber] = useState<number | null>(null);
   const [unlocking, setUnlocking] = useState<number | null>(null);
   const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
+  // Pan offset for the enlarged lightbox image, in CSS pixels — reset every
+  // time a new image opens so drag position never bleeds from one image to
+  // the next. Mirrors Chat.tsx's lightbox exactly, so enlarging an image
+  // reads the same whether it came from chat or the archive.
+  const panRef = useRef({ x: 0, y: 0 });
+  const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+  const didDragRef = useRef(false);
+  const lightboxImgRef = useRef<HTMLImageElement>(null);
+  const [dragging, setDragging] = useState(false);
+
+  useEffect(() => {
+    panRef.current = { x: 0, y: 0 };
+    if (lightboxImgRef.current) lightboxImgRef.current.style.transform = "translate(0px, 0px)";
+  }, [lightbox]);
+
+  function lightboxPointerDown(e: React.PointerEvent<HTMLImageElement>) {
+    e.preventDefault();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    dragStartRef.current = { x: e.clientX, y: e.clientY, panX: panRef.current.x, panY: panRef.current.y };
+    didDragRef.current = false;
+    setDragging(true);
+  }
+
+  function lightboxPointerMove(e: React.PointerEvent<HTMLImageElement>) {
+    const start = dragStartRef.current;
+    if (!start) return;
+    const x = start.panX + (e.clientX - start.x);
+    const y = start.panY + (e.clientY - start.y);
+    if (Math.abs(x - start.panX) > 3 || Math.abs(y - start.panY) > 3) didDragRef.current = true;
+    panRef.current = { x, y };
+    if (lightboxImgRef.current) lightboxImgRef.current.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  function lightboxPointerUp(e: React.PointerEvent<HTMLImageElement>) {
+    if (dragStartRef.current) (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    dragStartRef.current = null;
+    setDragging(false);
+  }
+
+  // The click that follows pointerup is a separate event from pointerdown/up
+  // and still bubbles to the backdrop's onClick (which closes the lightbox)
+  // unless stopped here — but only when an actual drag happened.
+  function lightboxImageClick(e: React.MouseEvent<HTMLImageElement>) {
+    if (didDragRef.current) e.stopPropagation();
+  }
 
   useEffect(() => {
     if (!lightbox) return;
@@ -308,6 +353,7 @@ export default function Archive() {
                             type="button"
                             onClick={() => setLightbox({ url: img.url, caption: img.caption })}
                             aria-label={`View full-size: ${img.caption}`}
+                            data-cursor="zoom"
                             className="block w-full cursor-zoom-in"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -335,13 +381,22 @@ export default function Archive() {
           aria-modal="true"
           aria-label={lightbox.caption}
           onClick={() => setLightbox(null)}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
+          className="chat-lightbox-backdrop fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            ref={lightboxImgRef}
             src={lightbox.url}
             alt={lightbox.caption}
-            className="max-h-[85vh] max-w-full object-contain border border-dim"
+            draggable={false}
+            onPointerDown={lightboxPointerDown}
+            onPointerMove={lightboxPointerMove}
+            onPointerUp={lightboxPointerUp}
+            onPointerCancel={lightboxPointerUp}
+            onClick={lightboxImageClick}
+            className={`chat-lightbox-image max-h-[85vh] max-w-full object-contain border border-dim touch-none select-none ${
+              dragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
           />
           {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
           <button
