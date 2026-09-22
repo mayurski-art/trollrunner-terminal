@@ -185,7 +185,7 @@ export default function Home() {
         {/* Sits between the tagline and the ticker so it lands in the same
             eyeline as the $TRUTHS quote the ticker scrolls — the price and
             the way to buy it read as one beat. */}
-        <div className="flex justify-center mb-3">
+        <div className="w-full mb-3">
           <BuyTruths />
         </div>
         <SiteTicker />
