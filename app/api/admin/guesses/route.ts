@@ -31,7 +31,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ guesses: data ?? [] });
+  // Usernames live in auth.user_metadata, not a public table (same as the
+  // [ inspect ] user list in app/api/admin/users) — resolved via the
+  // admin listUsers() API and joined in-memory onto each guess row.
+  const { data: authUsers } = await owner.supabase.auth.admin.listUsers({ perPage: 1000 });
+  const usernameById = new Map(
+    (authUsers?.users ?? []).map((u) => [u.id, (u.user_metadata?.username as string | undefined) ?? "unknown"])
+  );
+  const guesses = (data ?? []).map((g) => ({
+    ...g,
+    username: usernameById.get(g.user_id as string) ?? "unknown",
+  }));
+
+  return NextResponse.json({ guesses });
 }
 
 // One action: flip a resolved-incorrect guess to correct and pay out the

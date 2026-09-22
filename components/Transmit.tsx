@@ -65,12 +65,18 @@ export default function Transmit() {
     };
   }, [authedFetch]);
 
-  async function update(id: string, action: "mark_posted" | "set_art", url: string | null) {
+  async function update(
+    id: string,
+    action: "mark_posted" | "set_art" | "set_clue_tag",
+    url: string | null
+  ) {
     setError(null);
     try {
       const res = await authedFetch({
         method: "POST",
-        body: JSON.stringify({ action, id, url }),
+        body: JSON.stringify(
+          action === "set_clue_tag" ? { action, id, clueTag: url } : { action, id, url }
+        ),
       });
       const body = await res.json();
       if (!res.ok) {
@@ -164,22 +170,31 @@ function TransmitRow({
   post: Post;
   copied: string | null;
   onCopy: (text: string, tag: string) => void;
-  onUpdate: (id: string, action: "mark_posted" | "set_art", url: string | null) => Promise<boolean>;
+  onUpdate: (
+    id: string,
+    action: "mark_posted" | "set_art" | "set_clue_tag",
+    url: string | null
+  ) => Promise<boolean>;
 }) {
   const [statusUrl, setStatusUrl] = useState("");
   const [artUrl, setArtUrl] = useState("");
   const [subject, setSubject] = useState(post.clue_tag ?? "");
+  const [clueTag, setClueTag] = useState(post.clue_tag ?? "");
   const [busy, setBusy] = useState(false);
 
   const posted = Boolean(post.x_post_url);
   const intent = `https://x.com/intent/post?text=${encodeURIComponent(post.content)}`;
 
-  async function submit(action: "mark_posted" | "set_art", value: string) {
+  useEffect(() => {
+    setClueTag(post.clue_tag ?? "");
+  }, [post.clue_tag]);
+
+  async function submit(action: "mark_posted" | "set_art" | "set_clue_tag", value: string) {
     setBusy(true);
     const ok = await onUpdate(post.id, action, value);
     if (ok) {
       if (action === "mark_posted") setStatusUrl("");
-      else setArtUrl("");
+      else if (action === "set_art") setArtUrl("");
     }
     setBusy(false);
   }
@@ -256,6 +271,31 @@ function TransmitRow({
           className="mt-3 w-full bg-transparent border border-dim px-2 py-1 text-xs text-foreground placeholder:text-ghost focus:border-terminal focus:outline-none"
         />
       )}
+
+      {/* Editable hidden answer — a "|"-separated list of accepted guesses
+          (see lib/musingGuess.ts gradeGuess). Lets a newly-covered name be
+          appended to an already-posted transmission's answer. */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit("set_clue_tag", clueTag);
+        }}
+        className="mt-3 flex gap-2"
+      >
+        <input
+          value={clueTag}
+          onChange={(e) => setClueTag(e.target.value)}
+          placeholder="hidden answer(s), separated by |"
+          className="flex-1 min-w-0 bg-transparent border border-dim px-2 py-1 text-xs text-foreground placeholder:text-ghost focus:border-terminal focus:outline-none"
+        />
+        <button
+          type="submit"
+          disabled={busy || clueTag.trim() === (post.clue_tag ?? "")}
+          className="text-xs text-dim hover:text-terminal disabled:opacity-40 whitespace-nowrap"
+        >
+          [ update answer ]
+        </button>
+      </form>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         <form

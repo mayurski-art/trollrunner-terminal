@@ -67,7 +67,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "not authorized" }, { status: 403 });
   }
 
-  let body: { action?: string; id?: string; url?: string | null };
+  let body: { action?: string; id?: string; url?: string | null; clueTag?: string | null };
   try {
     body = await request.json();
   } catch {
@@ -77,6 +77,28 @@ export async function POST(request: Request) {
   const { action, id } = body;
   if (!id || typeof id !== "string") {
     return NextResponse.json({ error: "missing transmission id" }, { status: 400 });
+  }
+
+  // set_clue_tag edits the hidden answer (pipe-delimited accepted
+  // alternatives, graded by gradeGuess() in lib/musingGuess.ts) on an
+  // already-posted transmission — e.g. adding a newly-covered name as
+  // another accepted answer without touching the others.
+  if (action === "set_clue_tag") {
+    const raw = typeof body.clueTag === "string" ? body.clueTag.trim() : null;
+    const { data, error } = await owner.supabase
+      .from("terminal_posts")
+      .update({ clue_tag: raw === "" ? null : raw })
+      .eq("id", id)
+      .select("id, content, clue_tag, x_post_url, art_url, posted_at")
+      .maybeSingle();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    if (!data) {
+      return NextResponse.json({ error: "no such transmission" }, { status: 404 });
+    }
+    return NextResponse.json({ post: data });
   }
 
   const raw = typeof body.url === "string" ? body.url.trim() : null;

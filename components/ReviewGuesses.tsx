@@ -9,6 +9,7 @@ type Guess = {
   id: string;
   post_id: string;
   user_id: string;
+  username: string;
   last_guess_text: string | null;
   attempts: number;
   correct: boolean;
@@ -31,6 +32,7 @@ export default function ReviewGuesses() {
   const [error, setError] = useState<string | null>(null);
   const [showCorrect, setShowCorrect] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
 
   const authedFetch = useCallback(async (init?: RequestInit) => {
     const sb = getPublicClient();
@@ -89,7 +91,11 @@ export default function ReviewGuesses() {
   }
 
   const denied = guesses.filter((g) => !g.correct);
-  const visible = showCorrect ? guesses : denied;
+  const visible = (showCorrect ? guesses : denied).filter((g) => !dismissedIds.has(g.id));
+
+  function dismiss(id: string) {
+    setDismissedIds((prev) => new Set(prev).add(id));
+  }
 
   return (
     <div className="space-y-5">
@@ -114,7 +120,13 @@ export default function ReviewGuesses() {
       )}
 
       {visible.map((g) => (
-        <GuessRow key={g.id} guess={g} busy={busyId === g.id} onOverride={override} />
+        <GuessRow
+          key={g.id}
+          guess={g}
+          busy={busyId === g.id}
+          onOverride={override}
+          onDismiss={dismiss}
+        />
       ))}
     </div>
   );
@@ -124,14 +136,18 @@ function GuessRow({
   guess,
   busy,
   onOverride,
+  onDismiss,
 }: {
   guess: Guess;
   busy: boolean;
   onOverride: (id: string) => void;
+  onDismiss: (id: string) => void;
 }) {
   return (
     <Frame tone={guess.correct ? "dim" : "problem"}>
       <div className="flex items-center gap-3 text-xs text-dim mb-2 flex-wrap">
+        <span className="text-terminal">{guess.username}</span>
+        <span>·</span>
         <span>{timeAgo(guess.resolved_at ?? guess.created_at)}</span>
         <span>·</span>
         <span>{guess.attempts} attempt{guess.attempts === 1 ? "" : "s"}</span>
@@ -156,7 +172,7 @@ function GuessRow({
       </p>
 
       {!guess.correct && (
-        <div className="mt-3">
+        <div className="mt-3 flex items-center gap-4">
           <button
             type="button"
             onClick={() => onOverride(guess.id)}
@@ -164,6 +180,14 @@ function GuessRow({
             className="text-xs text-terminal hover:text-problem disabled:opacity-40"
           >
             [ {busy ? "approving..." : "approve as correct"} ]
+          </button>
+          <button
+            type="button"
+            onClick={() => onDismiss(guess.id)}
+            disabled={busy}
+            className="text-xs text-dim hover:text-alert disabled:opacity-40"
+          >
+            [ dismiss ]
           </button>
         </div>
       )}
