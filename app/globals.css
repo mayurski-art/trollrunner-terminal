@@ -206,6 +206,47 @@
      logic shrink it down. */
   grid-template-columns: minmax(0, 1fr);
 }
+@media (max-width: 1023px) {
+  /* The $TROLL airdrop/redeem form and ledger (.vault-col-right) are the
+     panels a signed-in visitor actually came to use, but plain DOM order
+     stacked them dead last — after the balance card, the XP-redeem form,
+     the still-locked "redemption protocols" placeholder, the top-miners
+     leaderboard and the $truths airdrop log, four panels of pure scroll
+     with nothing to interact with. `order` moves the right column up
+     directly under the balance card without touching the JSX (which the
+     desktop 3-track grid above still depends on for its column split). */
+  .vault-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .vault-col-center {
+    order: 1;
+  }
+  .vault-col-right {
+    order: 2;
+  }
+  .vault-col-left {
+    order: 3;
+  }
+
+  /* The redeem/airdrop amount forms (redeem-for-xp, $troll redeem,
+     solana-address submit) shipped at text-xs with px-2 py-1 — fine with a
+     mouse, but under the ~44px touch target guideline on a phone, and easy
+     to mis-tap next to their neighboring button. Widen only the tap
+     surface and legibility here; desktop keeps the original compact
+     sizing untouched. */
+  .vault-amount-form input,
+  .vault-amount-form button {
+    min-height: 44px;
+    font-size: 16px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+  .vault-amount-form button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
 @media (min-width: 1024px) {
   .vault-content {
     /* Track the lit shaft in the background art. .home-hero-bg-frame is

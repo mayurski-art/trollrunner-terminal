@@ -439,7 +439,7 @@ export default function VaultPage() {
               <p className="text-dim text-xs mb-3">
                 1 PROBLEM = {XP_PER_PROBLEM} XP, one-way, minimum {MIN_REDEEM} at a time.
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 vault-amount-form">
                 <input
                   type="number"
                   min={MIN_REDEEM}
@@ -611,7 +611,7 @@ export default function VaultPage() {
                       </>
                     )}
                   </p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 vault-amount-form">
                     <input
                       type="text"
                       value={addressInput}
@@ -679,7 +679,7 @@ export default function VaultPage() {
                       </p>
                     ) : (
                       <>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 vault-amount-form">
                           <input
                             type="number"
                             min={MIN_REDEEM_PROBLEMS}

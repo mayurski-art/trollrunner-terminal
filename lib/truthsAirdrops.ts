@@ -111,4 +111,9 @@ export const TRUTHS_AIRDROPS: TruthsAirdrop[] = [
     trollAmount: 17,
     date: "Sep 22, 2026",
   },
+  {
+    wallet: "AockgbnKXtbc3eEcDT59gn8phWm6cuMD1adc9ShyVpGL",
+    trollAmount: 1,
+    date: "Sep 22, 2026",
+  },
 ];
