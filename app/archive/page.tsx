@@ -35,7 +35,8 @@ export default function ArchivePage() {
           <Banner art={BANNER_ARCHIVE} label="archive" />
         </div>
         <p className="relative z-[1] text-foreground/80 text-sm mb-10 [text-shadow:0_1px_3px_var(--background)]">
-          it knows forty-four things. talk to it, or pay for what you haven&apos;t earned yet.
+          it remembers everything you&apos;ve dragged out of it. talk to it, or pay for what you
+          haven&apos;t earned yet.
         </p>
 
         <Frame title="archive" tone="terminal">

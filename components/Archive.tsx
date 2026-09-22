@@ -34,6 +34,16 @@ export default function Archive() {
   const [error, setError] = useState<string | null>(null);
   const [openNumber, setOpenNumber] = useState<number | null>(null);
   const [unlocking, setUnlocking] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
 
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<SearchHit[]>([]);
@@ -294,12 +304,19 @@ export default function Archive() {
                             aria-label={img.caption}
                           />
                         ) : (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={img.url}
-                            alt={img.caption}
-                            className="max-w-full border border-dim/40"
-                          />
+                          <button
+                            type="button"
+                            onClick={() => setLightbox({ url: img.url, caption: img.caption })}
+                            aria-label={`View full-size: ${img.caption}`}
+                            className="block w-full cursor-zoom-in"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={img.url}
+                              alt={img.caption}
+                              className="max-w-full border border-dim/40 pointer-events-none"
+                            />
+                          </button>
                         )}
                         <figcaption className="text-dim text-xs mt-1">{img.caption}</figcaption>
                       </figure>
@@ -311,6 +328,32 @@ export default function Archive() {
           </div>
         ))}
       </div>
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.caption}
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/95 p-6 cursor-zoom-out"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox.url}
+            alt={lightbox.caption}
+            className="max-h-[85vh] max-w-full object-contain border border-dim"
+          />
+          {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close image"
+            className="text-ghost hover:text-terminal transition-colors text-xs"
+          >
+            [ close ]
+          </button>
+        </div>
+      )}
     </div>
   );
 }

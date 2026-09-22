@@ -310,13 +310,15 @@
      status line for the whole page and wants to sit opposite [ menu ],
      out at the real right edge of the viewport. Fixed positioning breaks
      it out of the column; top matches the plain-flow nav's own top so it
-     stays level with [ menu ] regardless of scroll, and the right offset
-     reuses --vault-shaft-right so it lines up with .vault-col-right's
-     panels below it instead of hugging the viewport's bare edge. */
+     stays level with [ menu ] regardless of scroll. right is a flat page
+     gutter (matches main's own px-4/11px side padding), NOT
+     --vault-shaft-right — that variable tracks the hero art's shaft edge,
+     which sits well short of the viewport edge and left this block
+     stranded in the upper-middle of the page instead of the top right. */
   .nav-status-float {
     position: fixed;
     top: 2.5rem;
-    right: calc(100vw - var(--vault-shaft-right));
+    right: 11px;
     z-index: 10;
   }
 }
