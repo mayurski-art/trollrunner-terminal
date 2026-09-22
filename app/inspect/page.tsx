@@ -31,7 +31,7 @@ export default function InspectPage() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-6xl">
         <Nav />
 
         <div className="mb-2">

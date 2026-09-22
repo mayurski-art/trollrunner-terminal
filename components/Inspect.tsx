@@ -297,8 +297,8 @@ export default function Inspect() {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 h-full">
-      <div className="sm:w-56 shrink-0 space-y-1 max-h-96 overflow-y-auto pr-1">
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-full">
+      <div className="lg:w-64 shrink-0 space-y-1 max-h-64 lg:max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
         {users.length === 0 && <p className="text-dim text-sm">nobody&apos;s talked to it yet</p>}
         {users.map((u) => {
           const live = liveUserIds.has(u.userId);
@@ -307,7 +307,7 @@ export default function Inspect() {
               key={u.userId}
               type="button"
               onClick={() => openUser(u.userId)}
-              className={`w-full text-left text-xs px-2 py-1.5 border transition-colors ${
+              className={`w-full text-left text-sm px-2 py-2 border transition-colors ${
                 selected === u.userId
                   ? "border-terminal text-terminal"
                   : "border-dim text-dim hover:border-terminal hover:text-terminal"
@@ -337,12 +337,12 @@ export default function Inspect() {
           <div className="space-y-6">
             <div>
               <p className="text-ghost text-xs mb-2">[ main terminal ]</p>
-              <div ref={scrollRef} className="space-y-2 max-h-64 overflow-y-auto pr-1">
+              <div ref={scrollRef} className="space-y-2 max-h-72 lg:max-h-[calc(100vh-18rem)] overflow-y-auto pr-1">
                 {chatMessages.length === 0 && <p className="text-dim text-sm">no messages</p>}
                 {chatMessages.map((m, i) => (
                   <div key={i}>
                     <p
-                      className={`text-sm leading-snug ${
+                      className={`text-sm sm:text-base leading-snug ${
                         m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
                       }`}
                     >
@@ -358,7 +358,7 @@ export default function Inspect() {
                         <img
                           src={m.image_url}
                           alt={m.image_caption ?? "lore image"}
-                          className="max-h-40 border border-dim"
+                          className="max-h-64 border border-dim"
                         />
                         {m.image_caption && (
                           <p className="text-ghost text-xs mt-0.5">{m.image_caption}</p>
@@ -374,7 +374,7 @@ export default function Inspect() {
         )}
       </div>
 
-      <div className="sm:w-72 shrink-0 space-y-2">
+      <div className="lg:w-96 shrink-0 space-y-2">
         <p className="text-ghost text-xs">
           [ wallet submissions ]
           {submissions.some((s) => s.status === "pending") && (
@@ -384,7 +384,7 @@ export default function Inspect() {
             </span>
           )}
         </p>
-        <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-72 lg:max-h-[28rem] overflow-y-auto pr-1">
           {submissions.length === 0 && (
             <p className="text-dim text-sm">no addresses submitted yet</p>
           )}
@@ -539,7 +539,7 @@ export default function Inspect() {
           <p className="text-ghost">opening a round closes the current one.</p>
         </div>
 
-        <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-72 lg:max-h-[24rem] overflow-y-auto pr-1">
           {redemptions.length === 0 && (
             <p className="text-dim text-sm">no redemption requests yet</p>
           )}
@@ -604,7 +604,7 @@ export default function Inspect() {
         </div>
 
         <p className="text-ghost text-xs pt-2">[ bug reports ]</p>
-        <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-72 lg:max-h-[28rem] overflow-y-auto pr-1">
           {bugReports.length === 0 && <p className="text-dim text-sm">nothing filed yet</p>}
           {bugReports.map((r) => (
             <div key={r.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
