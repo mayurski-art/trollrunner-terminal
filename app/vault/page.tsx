@@ -14,6 +14,7 @@ import { BANNER_VAULT } from "@/lib/ascii";
 import { describeAddressProblem, isValidSolanaAddress, shortenAddress } from "@/lib/solanaAddress";
 import {
   MIN_REDEEM_PROBLEMS,
+  MIN_WALLET_SUBMIT_PROBLEMS,
   checkRedemption,
   problemsForOneTroll,
   trollForProblems,
@@ -285,6 +286,10 @@ export default function VaultPage() {
   async function saveAddress() {
     const address = addressInput.trim();
     if (addressBusy || !session) return;
+    if ((wallet?.balance ?? 0) < MIN_WALLET_SUBMIT_PROBLEMS) {
+      setAddressError(`you need at least ${MIN_WALLET_SUBMIT_PROBLEMS} PROBLEMS to submit a wallet`);
+      return;
+    }
     const problem = describeAddressProblem(address);
     if (problem) {
       setAddressError(problem);
@@ -584,8 +589,17 @@ export default function VaultPage() {
               ) : (
                 <>
                   <p className="text-dim text-xs mb-3">
-                    paste a solana address to be considered for a $TROLL airdrop. reviewed by
-                    hand — this is a request, not a claim.
+                    {(wallet?.balance ?? 0) < MIN_WALLET_SUBMIT_PROBLEMS ? (
+                      <>
+                        needs {MIN_WALLET_SUBMIT_PROBLEMS} PROBLEMS to unlock ({wallet?.balance ?? 0}/
+                        {MIN_WALLET_SUBMIT_PROBLEMS}).
+                      </>
+                    ) : (
+                      <>
+                        paste a solana address to be considered for a $TROLL airdrop. reviewed by
+                        hand — this is a request, not a claim.
+                      </>
+                    )}
                   </p>
                   <div className="flex gap-2">
                     <input
@@ -599,13 +613,17 @@ export default function VaultPage() {
                       placeholder="your solana address"
                       spellCheck={false}
                       autoComplete="off"
-                      disabled={addressBusy}
+                      disabled={addressBusy || (wallet?.balance ?? 0) < MIN_WALLET_SUBMIT_PROBLEMS}
                       className="flex-1 min-w-0 bg-transparent border border-dim px-2 py-1 text-sm text-problem font-mono outline-none focus:border-problem disabled:opacity-50"
                     />
                     <button
                       type="button"
                       onClick={saveAddress}
-                      disabled={addressBusy || !isValidSolanaAddress(addressInput)}
+                      disabled={
+                        addressBusy ||
+                        !isValidSolanaAddress(addressInput) ||
+                        (wallet?.balance ?? 0) < MIN_WALLET_SUBMIT_PROBLEMS
+                      }
                       className="shrink-0 border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
                     >
                       {addressBusy ? "..." : "submit"}

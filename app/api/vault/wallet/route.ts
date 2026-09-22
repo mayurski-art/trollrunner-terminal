@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { isValidSolanaAddress } from "@/lib/solanaAddress";
+import { MIN_WALLET_SUBMIT_PROBLEMS } from "@/lib/redemption";
 
 export const runtime = "nodejs";
 
@@ -60,6 +61,25 @@ export async function POST(request: Request) {
   // feedback, but its answer is never trusted.
   if (!isValidSolanaAddress(address)) {
     return NextResponse.json({ error: "that isn't a valid solana address" }, { status: 400 });
+  }
+
+  // Gate the airdrop queue behind a real PROBLEMS balance so it isn't free
+  // to file. Checked here, not just in the UI, since the client's number is
+  // never trusted.
+  const { data: walletRow, error: walletError } = await auth.supabase
+    .from("terminal_wallets")
+    .select("balance")
+    .eq("user_id", auth.userId)
+    .maybeSingle();
+  if (walletError) {
+    return NextResponse.json({ error: "could not check your balance" }, { status: 500 });
+  }
+  const balance = walletRow?.balance ?? 0;
+  if (balance < MIN_WALLET_SUBMIT_PROBLEMS) {
+    return NextResponse.json(
+      { error: `you need at least ${MIN_WALLET_SUBMIT_PROBLEMS} PROBLEMS to submit a wallet` },
+      { status: 403 }
+    );
   }
 
   // One row per user (unique constraint on user_id). Re-submitting replaces

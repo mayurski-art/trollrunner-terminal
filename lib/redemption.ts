@@ -7,6 +7,9 @@
 /** Floor on a single redemption, matching the XP path's minimum. */
 export const MIN_REDEEM_PROBLEMS = 5;
 
+/** PROBLEMS balance required before a wallet can be filed for the $TROLL airdrop queue (Path A). */
+export const MIN_WALLET_SUBMIT_PROBLEMS = 69;
+
 /**
  * TROLL owed for a PROBLEMS spend at a given rate.
  *
