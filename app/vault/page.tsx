@@ -385,7 +385,7 @@ export default function VaultPage() {
         <div className="home-hero-bg vault-hero-bg" />
       </div>
       <div className="w-full max-w-7xl vault-content">
-        <div className="vault-col-center max-w-3xl mx-auto w-full lg:mx-0">
+        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           <Nav />
           <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
           <p className="text-dim text-sm mb-8">
@@ -422,7 +422,7 @@ export default function VaultPage() {
           )}
         </div>
 
-        <div className="vault-col-left max-w-3xl mx-auto w-full lg:mx-0">
+        <div className="vault-col-left max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           {session && (
             <Frame title="redeem for xp" tone="dim" className="mb-6">
               <p className="text-dim text-xs mb-3">
@@ -546,7 +546,7 @@ export default function VaultPage() {
           </Frame>
         </div>
 
-        <div className="vault-col-right max-w-3xl mx-auto w-full lg:mx-0">
+        <div className="vault-col-right max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           {session && (
             <>
             <Frame title="$troll airdrop — submit a wallet" tone="dim" className="mb-6">
@@ -778,7 +778,7 @@ export default function VaultPage() {
           </a>{" "}
           network
         </p>
-        <div className="vault-col-center max-w-3xl mx-auto w-full lg:mx-0">
+        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           <Faq />
         </div>
       </div>
