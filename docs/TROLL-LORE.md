@@ -2460,29 +2460,39 @@ file (`pumpfun-bonnieblue-auction.png`, morning snapshot showing Pump Fun in
 found as of this writing; every bidder identity on this board is
 unverified and should be presented as such.
 
-## 63. The keyboard sword — UMadBro merch as a prop, not just apparel
+## 63. "Key Board Warrior" — Kevin Rosa's keyboard claymore sculpture
 
 Every UMadBro sighting on file so far (§5, §31, §37, §40, §41, §45) is
 wearable or usable-on-a-desk: tees, tracksuits, a belt, mousepads. This one
-is different — a full-size mechanical keyboard built and carried as a
-two-handed sword, the blade a flat steel plate stamped **"U MAD BRO?"**
-in the same wordmark as the shop, the hilt wrapped like a real weapon
-grip. The keyboard itself carries the classic Trollface grin printed
-directly onto a keycap near the arrow cluster — the logo showing up as a
-functional part of a peripheral, not a print on fabric. A user photo shows
-someone mid-clean, wiping the keyboard down with a cloth while holding the
-prop propped against a couch, tracksuit pants and cowboy boots in frame.
+is a sculpture — **Kevin Rosa** (§31's GOATFARM artist, @slumpykev)
+posted a piece he built and titled **"Key Board Warrior Claymore
+sculpture"**: a full-size mechanical keyboard mounted as the blade of a
+two-handed claymore, the flat of the blade stamped **"U MAD BRO?"** in the
+shop's own wordmark, with a wrapped leather grip and a cast trollface
+pommel at the butt of the handle. The keyboard itself carries the classic
+Trollface grin printed directly onto a keycap near the arrow cluster — the
+logo doing double duty as functional desk hardware and as the sculpture's
+own signature. One photo shows the claymore propped against a couch in a
+sitting room; another shows Rosa mid-clean, wiping the keyboard blade down
+with a cloth while resting the piece across his knee, tracksuit pants and
+cowboy boots in frame.
 
 Read next to §40's read on the mousepads, this is the same instinct one
-size class up: UMadBro merch keeps colonizing more categories of ordinary
-object — apparel, desk accessories, now a full cosplay-grade prop weapon —
-each one carrying the same face and the same tagline into a context a
-licensed-clothing deal wouldn't normally reach.
+tier up, now filtered through the artist's own hand: UMadBro's face and
+wordmark keep colonizing more categories of object — apparel, desk
+accessories, and now a one-off gallery-adjacent sculpture piece — each one
+carrying the same grin and the same tagline into a context a licensed-
+clothing deal wouldn't normally reach. It also folds back into §31's
+broader Rosa thread: the same artist behind the GOATFARM collection
+treating the Trollface IP as raw material for actual sculpture, not just
+apparel design.
 
-**Sources:** user-provided photo (`umadbro-keyboard-sword.jpg`),
-standing on the same footing as §30's and §40's other user-provided
-merch photos — taken on the strength of the source, not independently
-verified against an official UMadBro or Goatfarm product listing.
+**Sources:** [x.com/slumpykev/status/2102528365290807805](https://x.com/slumpykev/status/2102528365290807805)
+(September 22, 2026, via fxtwitter mirror — caption "Key Board Warrior
+Claymore sculpture," three photos on the tweet, all three on file as
+`umadbro-keyboard-claymore-1.jpg`, `umadbro-keyboard-claymore-2.jpg`, and
+`umadbro-keyboard-claymore-3.jpg`) · cross-referenced against §31's
+existing Kevin Rosa / GOATFARM material.
 
 ## How the persona should use this
 

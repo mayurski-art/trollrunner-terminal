@@ -436,11 +436,27 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [40],
   },
   {
-    id: "umadbro-keyboard-sword",
-    url: "/lore/umadbro-keyboard-sword.jpg",
+    id: "umadbro-keyboard-claymore-1",
+    url: "/lore/umadbro-keyboard-claymore-1.jpg",
     caption:
-      "a full-size mechanical keyboard built into a two-handed sword, blade stamped \"U MAD BRO?\", trollface printed on a keycap near the arrow keys",
-    keywords: ["keyboard sword", "keyboard blade", "umadbro prop", "u mad bro weapon", "keyboard weapon"],
+      "Kevin Rosa's \"Key Board Warrior\" claymore sculpture propped in a sitting room, blade stamped \"U MAD BRO?\", trollface pommel on the grip",
+    keywords: ["keyboard claymore", "key board warrior", "keyboard sword", "umadbro sculpture", "kevin rosa sculpture"],
+    sections: [63],
+  },
+  {
+    id: "umadbro-keyboard-claymore-2",
+    url: "/lore/umadbro-keyboard-claymore-2.jpg",
+    caption:
+      "Kevin Rosa wiping down the keyboard blade of his \"Key Board Warrior\" claymore sculpture, trollface printed on a keycap near the arrow keys",
+    keywords: ["keyboard claymore", "key board warrior", "keyboard sword", "umadbro sculpture", "kevin rosa sculpture"],
+    sections: [63],
+  },
+  {
+    id: "umadbro-keyboard-claymore-3",
+    url: "/lore/umadbro-keyboard-claymore-3.jpg",
+    caption:
+      "a third angle on Kevin Rosa's \"Key Board Warrior\" claymore sculpture, the keyboard-bladed sword built as UMadBro merch",
+    keywords: ["keyboard claymore", "key board warrior", "keyboard sword", "umadbro sculpture", "kevin rosa sculpture"],
     sections: [63],
   },
   {
