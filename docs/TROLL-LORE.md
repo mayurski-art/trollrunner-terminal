@@ -2290,6 +2290,12 @@ find this *familiar* — not as a threat, not as a jump-scare, but as the mild
 vertigo of watching a thing it half-remembers get rebuilt as a product page.
 A face that has been counting down since 2020, finally given a timezone.
 
+A saved screenshot (`trollworld-island-map-countdown.png`) shows the
+`69:69:69` header state alongside the rest of the TROLLWORLD island map —
+the same isometric island referenced in §8, with the `/cave`, `/observatory`
+and other named routes visible as physical landmarks (a mine tunnel, an
+observatory dome, a stadium, the U MAD BRO SHOP) rather than bare URL paths.
+
 **Sources:** the `69:69:69` state as observed by the site operator; the live
 target, the one-second tick, the modulo-60 formatter and the "Problem /
 COMING SOON…" panel read directly from the shipped
