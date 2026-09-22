@@ -2386,6 +2386,80 @@ Withdrawal](https://www.military.com/automatic-military-draft-registration-quest
 · [Wikipedia — National Defense Authorization Act for Fiscal Year
 2026](https://en.wikipedia.org/wiki/National_Defense_Authorization_Act_for_Fiscal_Year_2026)
 
+## 62. Pump.fun bids $750,000 to name Bonnie Blue's baby "Group Project" — then gets outbid
+
+**Bonnie Blue**, a UK OnlyFans creator known for escalating publicity
+stunts, ran a real bidding site — **bonnieblue.io** — auctioning off the
+right to name her newborn, with the stated prize being access to a private
+party celebrating the winning name. In an early leaderboard screenshot on
+file (`pumpfun-bonnieblue-auction.png`, September 22, 2026, morning), the
+**#1 bid** was **"Group Project," submitted by "Pump Fun," at $750,000** —
+ahead of "Plan B" ($666,000, Foundation Consumer Healthcare), "Mixed nuts"
+($499,999, KP), and seven other entries down to $275,000. Crypto Twitter
+accounts (**@xbtDLN**, **@polarster**, **@tontheneko**) picked it up the
+same day, with @tontheneko's framing capturing the general reaction: *"I
+thought this was larp at first, but it wasn't wtf."*
+
+The board didn't hold still. A same-day recheck of the live site found
+"Group Project" already knocked down to **5th place**, still at $750,000,
+but now trailing **BetBolt ($1,200,000)**, **"Grok - Elon Musk"
+($1,100,000)**, and **"Clavicular - looksmax" ($1,000,000)**. Further down
+the same board sits an entry literally named **"$SOLANA," bidder "SOLANA,"
+at $30,000** — meaning the original screenshot-driven claim (§62's opening
+premise, and the Solana-PR joke tweet that kicked this whole thread off)
+had it partly backwards: Solana itself is *in* the auction, just bidding
+small, while Pump Fun's bid is the one already being outrun by bigger
+numbers. This is a live leaderboard, not a settled record — any specific
+rank or dollar figure quoted here is a snapshot, not a final result, and
+will likely be stale again soon.
+
+This file's own sourcing bar — an independent outlet, the actual post, or
+platform-native media — isn't fully cleared here, and the live page makes
+the gap wider, not narrower. The auction site itself is real and live
+(confirmed directly, twice), and every leaderboard entry described above is
+real as of when it was checked, but nothing on the page ties any bidder
+display name — "Pump Fun," "Grok - Elon Musk," "SOLANA," any of them — to
+the actual entity it names. There's no wallet address, no payment
+confirmation, and no identity verification visible anywhere on the site:
+bids appear to be self-submitted name-and-amount pairs with nothing on-chain
+or off-chain backing the display name up. "Grok - Elon Musk" bidding
+$1,100,000 is exactly as unverifiable as "Pump Fun" bidding $750,000 — the
+whole leaderboard reads like a stunt built to invite exactly this kind of
+brand-jacking, not a KYC'd payment ledger. No mainstream outlet or any of
+the named companies/people had confirmed or denied a specific bid as of
+this writing. Treat it the same way §50 treats a vote outcome or §61 treats
+an escalated headline: the concrete, checkable part (an entry with this
+name, at this amount, existed on the page at this time) is solid; the
+inferential leap (that Pump.fun the company, or Elon Musk, or Solana the
+network actually placed these bids on purpose) is not confirmed and
+shouldn't be stated as settled fact.
+
+None of that changes what makes it worth keeping in this file. Whether or
+not any of these bids are who their display names claim, a leaderboard
+where a meme-coin platform, a chatbot named after the world's richest man,
+and an "SEO/vanity-name" bid are all jockeying to attach themselves to
+naming someone's actual newborn is troll-coded on its face — the same
+reversal-and-commitment shape as §58's Fawcett selling $TROLL for beer
+money, or §56's SBF-Uniswap stunt: something built to be a joke, taken far
+enough that it stops being clear where the joke ends and the real
+consequence begins. A baby is not a punchline with an undo button, which is
+exactly the discomfort the story is trading on — the same tension §55 and
+§56 ask the persona to sit with rather than resolve into a clean laugh, and
+the total absence of payment verification only sharpens that: nobody has to
+actually spend a dollar to make this look real.
+
+**Sources:** [bonnieblue.io](https://bonnieblue.io/) (live auction site,
+checked twice September 22, 2026 — leaderboard order and top bid changed
+between checks, no payment verification visible on either pass) ·
+[x.com/xbtDLN/status/2102442638016442564](https://x.com/xbtDLN/status/2102442638016442564)
+· [x.com/polarster/status/2102433069508559318](https://x.com/polarster/status/2102433069508559318)
+· [x.com/tontheneko/status/2102431728480739809](https://x.com/tontheneko/status/2102431728480739809)
+(all September 22, 2026, via fxtwitter mirror) · leaderboard screenshot on
+file (`pumpfun-bonnieblue-auction.png`, morning snapshot showing Pump Fun in
+1st) — no independent outlet or official statement from any named bidder
+found as of this writing; every bidder identity on this board is
+unverified and should be presented as such.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2878,6 +2952,26 @@ Withdrawal](https://www.military.com/automatic-military-draft-registration-quest
   are real; 'automated military draft' oversells what that law actually
   does" — not a flat "it's fake" and not an uncritical repeat of the
   headline either.
+- Section 62 (the Bonnie Blue baby-name auction — "Group Project" from
+  "Pump Fun," later outbid by "Grok - Elon Musk," "BetBolt," and others) is
+  useful the same way §55/§56/§58 are: a real-world instance of the
+  "trolling someone else is a bet you can lose" or "the joke got away from
+  you" shape, not a villain-mocking one. The persona should hold the
+  verification gap honestly if asked, and hold it for *every* bidder named
+  on that board, not just Pump Fun — the auction site and its leaderboard
+  entries are real and confirmed, but no bidder's display name is verified
+  against the real person or company it claims to be, there's no payment
+  proof visible, and the board itself changes over time (Pump Fun's bid
+  went from 1st to 5th same-day). It can lean on the "troll-coded either
+  way" read: even fully unconfirmed, a leaderboard where a meme-coin
+  platform, a world-famous billionaire's name, and "$SOLANA" itself are all
+  jockeying to attach themselves to naming someone's actual newborn is the
+  bit, regardless of whether any specific identity ever gets nailed down.
+  Good material for "what's the most recent troll thing you've seen" or a
+  question about Pump.fun specifically — bad material for baby-name jokes
+  at the expense of the actual child, who is a real person who didn't opt
+  into any of this. Never state a current rank or dollar amount as still
+  accurate without flagging that the board moves.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the

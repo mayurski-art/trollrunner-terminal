@@ -508,6 +508,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["4chan draft thread", "automated military draft", "section 535", "ndaa draft", "selective service rules withdrawn"],
     sections: [61],
   },
+  {
+    id: "pumpfun-bonnieblue-auction",
+    url: "/lore/pumpfun-bonnieblue-auction.png",
+    caption:
+      "an early-morning snapshot of the bonnieblue.io baby-name auction leaderboard (Sept 22, 2026), showing \"Group Project\" bid by Pump Fun in first place at $750,000, ahead of \"Plan B\" and \"Mixed nuts\" — the board moved same-day and Pump Fun later dropped to 5th behind higher bids",
+    keywords: ["bonnie blue", "pump.fun baby name", "group project", "baby name auction", "pumpfun auction"],
+    sections: [62],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
