@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { generateChatReply, type ChatMessage } from "@/lib/persona";
+import { generateChatReply, WireDownError, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
 import { checkAndReserveSpend, recordSpend } from "@/lib/budget";
 import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
@@ -403,6 +403,18 @@ export async function POST(request: Request) {
       globalToday
     );
   } catch (err) {
+    // Every free provider down or rate-limited is a wait, not a bug — hand
+    // the frontend the same shape it already renders for the 429 burst-limit
+    // case (see CooldownNotice in components/Chat.tsx) so the troublemaker
+    // gets a real countdown instead of a flat "static" line with no signal
+    // of when it's worth trying again.
+    if (err instanceof WireDownError) {
+      const retryAfterMs = err.retryAfterSeconds * 1000;
+      return NextResponse.json(
+        { error: "the wire is quiet — every free provider is down or rate-limited", retryAfterMs },
+        { status: 503, headers: { "Retry-After": String(err.retryAfterSeconds) } }
+      );
+    }
     return NextResponse.json(
       { error: `the terminal glitched: ${(err as Error).message}` },
       { status: 500 }

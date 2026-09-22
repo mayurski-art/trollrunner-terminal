@@ -1,12 +1,19 @@
 // Free-tier providers for all of the terminal's generated text — chat
 // replies and transmissions alike. Paid Claude is reserved for image
 // selection only (show_image; see lib/persona.ts) and is deliberately NOT a
-// fallback here. Round-robin across these three so no single free tier's
+// fallback here. Round-robin across these four so no single free tier's
 // rate limit takes the terminal down, with the next provider in line tried
 // on any failure. If a provider has no API key configured (see
 // .env.example), it's skipped as if it were down.
 //
-// All three expose the same shape from here: an OpenAI-style chat message
+// Mistral was added 2026-09-21 as a 4th leg after a single night where
+// groq's model slug had rotted (404) AND gemini's and openrouter's daily
+// free quotas were both independently exhausted at once — three "down"
+// causes stacking made the whole rotation return null and the terminal
+// answered every message with the static fallback. See WireDownError below
+// for how that null now surfaces as a countdown instead of a dead string.
+//
+// All four expose the same shape from here: an OpenAI-style chat message
 // array in, plain reply text out. Callers should treat a null return as
 // "every free provider is unavailable right now" and degrade gracefully —
 // never by paying for Claude.
@@ -20,6 +27,7 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 export const GROQ_MODEL = "qwen/qwen3.8-27b";
 export const OPENROUTER_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free";
 export const GEMINI_MODEL = "gemini-3.5-flash-lite";
+export const MISTRAL_MODEL = "mistral-small-latest";
 
 type FreeProvider = {
   name: string;
@@ -231,10 +239,45 @@ async function callGemini(
   return text?.trim() || null;
 }
 
+async function callMistral(
+  system: string,
+  history: ChatTurn[],
+  maxTokens: number,
+  signal: AbortSignal
+): Promise<string | null> {
+  const apiKey = process.env.MISTRAL_API_KEY;
+  if (!apiKey) return null;
+
+  const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
+    method: "POST",
+    signal,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      // mistral-small-latest, added 2026-09-21 as a 4th rotation leg —
+      // groq's dead slug and gemini/openrouter's exhausted daily quotas all
+      // landing the same night is what motivated adding headroom instead of
+      // just re-picking within the same three. -small (not -large) is the
+      // one meant for the free/eval tier; check docs.mistral.ai/api if this
+      // 404s, and re-verify voice + refusal behavior against the real
+      // prompts, same as every other provider here.
+      model: MISTRAL_MODEL,
+      max_tokens: maxTokens,
+      messages: [{ role: "system", content: system }, ...history],
+    }),
+  });
+  if (!res.ok) throw await providerError("mistral", res);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content?.trim() || null;
+}
+
 const PROVIDERS: FreeProvider[] = [
   { name: "groq", enabled: () => !!process.env.GROQ_API_KEY, generate: callGroq },
   { name: "gemini", enabled: () => !!process.env.GEMINI_API_KEY, generate: callGemini },
   { name: "openrouter", enabled: () => !!process.env.OPENROUTER_API_KEY, generate: callOpenRouter },
+  { name: "mistral", enabled: () => !!process.env.MISTRAL_API_KEY, generate: callMistral },
 ];
 
 // validated: false means no provider satisfied `validate` and this is the

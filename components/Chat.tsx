@@ -493,7 +493,12 @@ export default function Chat({
       const data = await res.json();
       if (data.dailyLimit) setDailyLimit(data.dailyLimit);
       if (!res.ok) {
-        if (res.status === 429 && typeof data.retryAfterMs === "number") {
+        // 429 is the per-troublemaker burst limit; 503 is WireDownError —
+        // every free provider is down or rate-limited server-wide (see
+        // app/api/chat/route.ts). Both hand back retryAfterMs and render the
+        // same countdown — the troublemaker doesn't need to know which one
+        // it is, just how long to wait.
+        if ((res.status === 429 || res.status === 503) && typeof data.retryAfterMs === "number") {
           setCooldownNow(Date.now());
           setCooldownUntil(Date.now() + data.retryAfterMs);
         }

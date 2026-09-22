@@ -428,14 +428,16 @@ export async function generateChatReply(
   const freeResult = await generateFreeReply(freeSystemPrompt, freeHistory, rotationSeed);
 
   // Paid Claude is reserved for image selection only — there is deliberately
-  // no paid fallback for reply text. If every free provider is down we say so
-  // rather than silently billing the Anthropic account.
+  // no paid fallback for reply text. If every free provider is down/rate-
+  // limited we say so with a real countdown (see WireDownError) rather than
+  // silently billing the Anthropic account or handing back a flat "static"
+  // line with no indication of when it's worth trying again. This used to
+  // return the static string as an ordinary 200 reply, which is why a wire-
+  // down stretch looked identical in the chat log to the terminal actually
+  // being unable to answer — see generatePost below for the same mechanism,
+  // already wired up for transmissions.
   if (!freeResult) {
-    return {
-      content: "static\nthe signal is gone right now, try again in a bit",
-      imageId: null,
-      usage: { input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 },
-    };
+    throw new WireDownError(lastCooldownSeconds());
   }
 
   const replyText = freeResult.content;

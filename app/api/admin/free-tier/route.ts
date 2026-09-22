@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwner } from "@/lib/admin";
-import { GROQ_MODEL, OPENROUTER_MODEL, GEMINI_MODEL } from "@/lib/freeProviders";
+import { GROQ_MODEL, OPENROUTER_MODEL, GEMINI_MODEL, MISTRAL_MODEL } from "@/lib/freeProviders";
 
 export const runtime = "nodejs";
 
@@ -210,12 +210,49 @@ async function checkGemini(): Promise<ProviderStatus> {
   }
 }
 
+async function checkMistral(): Promise<ProviderStatus> {
+  const base: ProviderStatus = {
+    name: "mistral",
+    configured: !!process.env.MISTRAL_API_KEY,
+    reachable: null,
+    quota: null,
+    note: "answering generations",
+    model: MISTRAL_MODEL,
+  };
+  if (!base.configured) return { ...base, note: "no api key configured" };
+
+  try {
+    const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.MISTRAL_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: MISTRAL_MODEL,
+        max_tokens: 1,
+        messages: [{ role: "user", content: "." }],
+      }),
+    });
+    if (res.ok) return { ...base, reachable: true };
+    const { note, deadSlug } = describeFailure(res.status, await res.text());
+    return { ...base, reachable: false, note, deadSlug };
+  } catch {
+    return { ...base, reachable: false, note: "unreachable" };
+  }
+}
+
 export async function GET(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
     return NextResponse.json({ error: "not authorized" }, { status: 403 });
   }
 
-  const providers = await Promise.all([checkGroq(), checkOpenRouter(), checkGemini()]);
+  const providers = await Promise.all([
+    checkGroq(),
+    checkOpenRouter(),
+    checkGemini(),
+    checkMistral(),
+  ]);
   return NextResponse.json({ providers });
 }
