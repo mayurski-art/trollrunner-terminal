@@ -250,22 +250,6 @@ export default function VaultPage() {
               )}
             </Frame>
 
-            <Frame title="ledger" tone="dim" className="mb-6">
-              {ledger.length === 0 && (
-                <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
-              )}
-              <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
-                {ledger.map((row) => (
-                  <li key={row.id} className="flex justify-between gap-3 text-dim">
-                    <span className="text-problem">
-                      {row.delta > 0 ? "+" : ""}
-                      {row.delta} {row.reason}
-                    </span>
-                    <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
-                  </li>
-                ))}
-              </ul>
-            </Frame>
           </>
         ) : (
           <Frame title="your signal" tone="dim" className="mb-6">
@@ -310,6 +294,25 @@ export default function VaultPage() {
             ))}
           </ol>
         </Frame>
+
+        {session && (
+          <Frame title="ledger" tone="dim" className="mt-6">
+            {ledger.length === 0 && (
+              <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
+            )}
+            <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
+              {ledger.map((row) => (
+                <li key={row.id} className="flex justify-between gap-3 text-dim">
+                  <span className="text-problem">
+                    {row.delta > 0 ? "+" : ""}
+                    {row.delta} {row.reason}
+                  </span>
+                  <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
+                </li>
+              ))}
+            </ul>
+          </Frame>
+        )}
 
         <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
           part of the{" "}
