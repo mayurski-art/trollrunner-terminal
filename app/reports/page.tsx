@@ -9,6 +9,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import DailyReports from "@/components/DailyReports";
+import Faq from "@/components/Faq";
 import { BANNER_INSPECT } from "@/lib/ascii";
 
 export default function ReportsPage() {
@@ -59,12 +60,13 @@ export default function ReportsPage() {
           part of the{" "}
           <a
             href="https://trollrunner.net"
-            className="underline decoration-dim underline-offset-4 hover:text-terminal"
+            className="glow-loop underline decoration-dim underline-offset-4"
           >
             trollrunner.net
           </a>{" "}
           network
         </p>
+        <Faq />
       </div>
     </main>
   );

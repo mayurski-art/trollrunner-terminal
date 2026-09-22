@@ -9,6 +9,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import TrolldeathsAdmin from "@/components/TrolldeathsAdmin";
+import Faq from "@/components/Faq";
 import { BANNER_TROLLDEATHS } from "@/lib/ascii";
 
 export default function TrolldeathsAdminPage() {
@@ -59,12 +60,13 @@ export default function TrolldeathsAdminPage() {
           part of the{" "}
           <a
             href="https://trollrunner.net"
-            className="underline decoration-dim underline-offset-4 hover:text-terminal"
+            className="glow-loop underline decoration-dim underline-offset-4"
           >
             trollrunner.net
           </a>{" "}
           network
         </p>
+        <Faq />
       </div>
     </main>
   );

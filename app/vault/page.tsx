@@ -9,6 +9,7 @@ import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
+import Faq from "@/components/Faq";
 import { BANNER_VAULT } from "@/lib/ascii";
 
 type Wallet = {
@@ -318,12 +319,13 @@ export default function VaultPage() {
           part of the{" "}
           <a
             href="https://trollrunner.net"
-            className="underline decoration-dim underline-offset-4 hover:text-terminal"
+            className="glow-loop underline decoration-dim underline-offset-4"
           >
             trollrunner.net
           </a>{" "}
           network
         </p>
+        <Faq />
       </div>
     </main>
   );

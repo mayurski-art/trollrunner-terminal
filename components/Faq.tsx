@@ -71,7 +71,7 @@ export default function Faq() {
         type="button"
         onClick={() => setOpen(true)}
         aria-expanded={open}
-        className="text-foreground text-xs underline decoration-dim underline-offset-4 hover:text-terminal [text-shadow:0_1px_3px_var(--background)]"
+        className="glow-loop text-xs underline decoration-dim underline-offset-4 [text-shadow:0_1px_3px_var(--background)]"
       >
         [ what is this site? ]
       </button>

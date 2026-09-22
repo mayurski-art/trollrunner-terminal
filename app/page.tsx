@@ -268,7 +268,7 @@ export default function Home() {
               part of the{" "}
               <a
                 href="https://trollrunner.net?enter=1"
-                className="underline decoration-dim underline-offset-4 hover:text-terminal"
+                className="glow-loop underline decoration-dim underline-offset-4"
               >
                 trollrunner.net
               </a>{" "}
@@ -343,7 +343,7 @@ export default function Home() {
             part of the{" "}
             <a
               href="https://trollrunner.net?enter=1"
-              className="underline decoration-dim underline-offset-4 hover:text-terminal"
+              className="glow-loop underline decoration-dim underline-offset-4"
             >
               trollrunner.net
             </a>{" "}

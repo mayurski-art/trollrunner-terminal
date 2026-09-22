@@ -8,6 +8,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import PostGuess from "@/components/PostGuess";
 import TransmissionModal from "@/components/TransmissionModal";
+import Faq from "@/components/Faq";
 import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
@@ -191,12 +192,13 @@ export default function LogsPage() {
           part of the{" "}
           <a
             href="https://trollrunner.net"
-            className="underline decoration-dim underline-offset-4 hover:text-terminal"
+            className="glow-loop underline decoration-dim underline-offset-4"
           >
             trollrunner.net
           </a>{" "}
           network
         </p>
+        <Faq />
       </div>
 
       {expanded && (
