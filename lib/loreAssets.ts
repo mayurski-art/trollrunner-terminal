@@ -451,6 +451,55 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["trollworld", "trollface.io", "island map", "69:69:69", "countdown", "trollworld island"],
     sections: [60],
   },
+  {
+    id: "biden-bath-cigarette",
+    url: "/lore/biden-bath-cigarette.jpg",
+    caption: "Hunter Biden in a bath, smoking a cigarette with his eyes closed — from the laptop material",
+    keywords: ["hunter biden bath", "hunter biden cigarette", "biden bathtub"],
+    sections: [48],
+  },
+  {
+    id: "laptop-from-hell",
+    url: "/lore/laptop-from-hell.webp",
+    caption: "the spending table from Miranda Devine's book \"Laptop from Hell\"",
+    keywords: ["laptop from hell", "miranda devine", "spending table", "biden indictment table"],
+    sections: [48],
+  },
+  {
+    id: "hunter-with-a-widow",
+    url: "/lore/hunter-with-a-widow.webp",
+    caption: "Hunter Biden with Hallie, his late brother Beau's widow, during the Annapolis waterfront home period",
+    keywords: ["hunter with a widow", "hallie biden", "annapolis home"],
+    sections: [48],
+  },
+  {
+    id: "biden-with-escort",
+    url: "/lore/biden-with-escort.webp",
+    caption: "material referenced in the $8,000 Los Angeles escort callout detailed in the indictment",
+    keywords: ["biden escort", "yanna", "emerald fantasy girls"],
+    sections: [48],
+  },
+  {
+    id: "general-view-chateau-marmont-hotel",
+    url: "/lore/general-view-chateau-marmont-hotel.webp",
+    caption: "the Chateau Marmont hotel, where Biden charged 42 nights in a poolside bungalow",
+    keywords: ["chateau marmont", "poolside bungalow"],
+    sections: [48],
+  },
+  {
+    id: "smile-biden",
+    url: "/lore/smile-biden.webp",
+    caption: "Smile Design Cosmetic Dentistry in Midtown, where Biden spent over $69,000 on dental work",
+    keywords: ["smile design", "biden teeth", "biden dental work"],
+    sections: [48],
+  },
+  {
+    id: "biden-crack",
+    url: "/lore/biden-crack.webp",
+    caption: "Biden photographed smoking crack while driving at 172 mph in his Porsche en route to Las Vegas",
+    keywords: ["biden crack", "biden porsche", "biden driving"],
+    sections: [48],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
