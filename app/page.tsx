@@ -75,10 +75,16 @@ export default function Home() {
     setPopoutPortalEl(el);
   }, []);
 
-  // Popped-out chat's desktop (lg+) position/size, hand-picked via a
-  // temporary drag/resize rig and locked in here. Mobile keeps the simple
-  // full-inset popout untouched.
-  const POPOUT_BOX = { top: -137, left: -118, width: 768, height: 605 };
+  // Popped-out chat's desktop (lg+) size. Sized generously (rather than the
+  // old 768x605) so the message list and the input box are both visible
+  // without scrolling on a laptop-class screen, capped by lg:max-w-[95vw]
+  // lg:max-h-[95vh] on the Frame itself for smaller viewports.
+  const POPOUT_SIZE = { width: 960, height: 720 };
+  // top/left are viewport px (the Frame is position:fixed once popped), and
+  // are draggable via the title bar (Frame's onHeaderPointerDown) — starts
+  // centered each time the popout opens, then follows wherever it's dragged.
+  const [popoutPos, setPopoutPos] = useState({ top: 0, left: 0 });
+  const dragStateRef = useRef<{ pointerId: number; startX: number; startY: number; startTop: number; startLeft: number } | null>(null);
   // Mirrors Tailwind's lg breakpoint (1024px) so the inline positioning
   // style only overrides the fixed/inset-4 classes on desktop, matching
   // the lg:-prefixed classes it's meant to sit alongside.
@@ -89,6 +95,51 @@ export default function Home() {
     const onChange = () => setIsDesktop(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!chatPopped || !isDesktop) return;
+    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
+    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
+    setPopoutPos({
+      top: Math.max(0, (window.innerHeight - h) / 2),
+      left: Math.max(0, (window.innerWidth - w) / 2),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatPopped, isDesktop]);
+
+  const handlePopoutHeaderPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!isDesktop) return;
+      e.preventDefault();
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      dragStateRef.current = {
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        startTop: popoutPos.top,
+        startLeft: popoutPos.left,
+      };
+    },
+    [isDesktop, popoutPos]
+  );
+  const handlePopoutHeaderPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragStateRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
+    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
+    const nextTop = drag.startTop + (e.clientY - drag.startY);
+    const nextLeft = drag.startLeft + (e.clientX - drag.startX);
+    setPopoutPos({
+      top: Math.min(Math.max(0, nextTop), Math.max(0, window.innerHeight - h)),
+      left: Math.min(Math.max(0, nextLeft), Math.max(0, window.innerWidth - w)),
+    });
+  }, []);
+  const handlePopoutHeaderPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStateRef.current?.pointerId === e.pointerId) {
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    }
+    dragStateRef.current = null;
   }, []);
 
   useEffect(() => {
@@ -303,10 +354,10 @@ export default function Home() {
             style={
               chatPopped && isDesktop
                 ? {
-                    top: `${POPOUT_BOX.top}px`,
-                    left: `${POPOUT_BOX.left}px`,
-                    width: `${POPOUT_BOX.width}px`,
-                    height: `${POPOUT_BOX.height}px`,
+                    top: `${popoutPos.top}px`,
+                    left: `${popoutPos.left}px`,
+                    width: `${POPOUT_SIZE.width}px`,
+                    height: `${POPOUT_SIZE.height}px`,
                     right: "auto",
                     bottom: "auto",
                   }
@@ -316,6 +367,9 @@ export default function Home() {
             titleEffect="trace"
             traceHue="#b26bff"
             cornerAction={session ? <div ref={popoutPortalRef} /> : undefined}
+            onHeaderPointerDown={chatPopped && isDesktop ? handlePopoutHeaderPointerDown : undefined}
+            onHeaderPointerMove={chatPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined}
+            onHeaderPointerUp={chatPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
           >
             <div className="shrink-0 max-w-xl mx-auto w-full">
               <MiniConnector />

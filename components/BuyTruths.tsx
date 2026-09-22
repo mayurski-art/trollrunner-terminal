@@ -17,11 +17,14 @@
  *
  * Renders as a repeated row (not a single button) so the CTA spans the same
  * width as SiteTicker directly below it, instead of sitting as one small
- * island above a full-width marquee.
+ * island above a full-width marquee. Mobile only shows 4 of the 6 — six
+ * crammed into a narrow phone width wraps into a cramped 2-3 row block,
+ * so the last two are hidden below the sm breakpoint instead.
  */
 const TRUTHS_MINT = "HsryXB2BdWJuRXAY29hDcw2g4BPH57Q5nL1qu8kQpump";
 const PUMP_FUN_URL = `https://pump.fun/coin/${TRUTHS_MINT}`;
 const BUTTON_COUNT = 6;
+const MOBILE_BUTTON_COUNT = 4;
 
 export default function BuyTruths() {
   return (
@@ -35,7 +38,9 @@ export default function BuyTruths() {
           aria-label="Buy $TRUTHS on pump.fun (opens in a new tab)"
           aria-hidden={i === 0 ? undefined : true}
           tabIndex={i === 0 ? undefined : -1}
-          className="glitch-btn glitch-btn-auto flex-1 min-w-[7.5rem] text-center border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors"
+          className={`glitch-btn glitch-btn-auto flex-1 min-w-[7.5rem] text-center border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors ${
+            i >= MOBILE_BUTTON_COUNT ? "hidden sm:block" : ""
+          }`}
         >
           [ buy $TRUTHS ]
         </a>

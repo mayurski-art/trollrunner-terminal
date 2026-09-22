@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, PointerEvent, ReactNode } from "react";
 
 type FrameProps = {
   title?: string;
@@ -15,6 +15,14 @@ type FrameProps = {
   /** Rendered pinned to the top-right inner corner, alongside the title. */
   cornerAction?: ReactNode;
   style?: CSSProperties;
+  /** When set, renders an invisible strip across the top edge that starts
+   * a drag on pointerdown — used to make a fixed-position Frame (e.g. the
+   * popped-out chat) movable by its title bar. Pairs with
+   * onHeaderPointerMove/Up, which fire on the same element once pointer
+   * capture is set in the pointerdown handler. */
+  onHeaderPointerDown?: (e: PointerEvent<HTMLDivElement>) => void;
+  onHeaderPointerMove?: (e: PointerEvent<HTMLDivElement>) => void;
+  onHeaderPointerUp?: (e: PointerEvent<HTMLDivElement>) => void;
 };
 
 const TONE_COLOR: Record<NonNullable<FrameProps["tone"]>, string> = {
@@ -39,6 +47,9 @@ export default function Frame({
   traceHue,
   cornerAction,
   style,
+  onHeaderPointerDown,
+  onHeaderPointerMove,
+  onHeaderPointerUp,
 }: FrameProps) {
   const borderStyle = variant === "double" ? "border-double" : "border-solid";
   const borderWidth = variant === "double" ? "border-[6px]" : "border";
@@ -66,7 +77,17 @@ export default function Frame({
         </span>
       )}
       {cornerAction && (
-        <div className="absolute -top-3 right-4 bg-panel/85 backdrop-blur-sm px-2">{cornerAction}</div>
+        <div className="absolute -top-3 right-4 bg-panel/85 backdrop-blur-sm px-2 z-10">{cornerAction}</div>
+      )}
+      {onHeaderPointerDown && (
+        <div
+          className="absolute -top-3 left-0 right-0 h-8 cursor-grab active:cursor-grabbing"
+          onPointerDown={onHeaderPointerDown}
+          onPointerMove={onHeaderPointerMove}
+          onPointerUp={onHeaderPointerUp}
+          onPointerCancel={onHeaderPointerUp}
+          aria-hidden="true"
+        />
       )}
       <div className={`p-4 sm:p-5 ${bodyClassName}`}>{children}</div>
     </div>
