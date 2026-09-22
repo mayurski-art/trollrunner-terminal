@@ -298,7 +298,7 @@ export default function Inspect() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-full">
-      <div className="lg:w-64 shrink-0 space-y-1 max-h-64 lg:max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+      <div className="lg:w-64 shrink-0 space-y-1.5 max-h-[45vh] lg:max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
         {users.length === 0 && <p className="text-dim text-sm">nobody&apos;s talked to it yet</p>}
         {users.map((u) => {
           const live = liveUserIds.has(u.userId);
@@ -307,7 +307,7 @@ export default function Inspect() {
               key={u.userId}
               type="button"
               onClick={() => openUser(u.userId)}
-              className={`w-full text-left text-sm px-2 py-2 border transition-colors ${
+              className={`w-full text-left text-base px-3 py-2.5 border transition-colors ${
                 selected === u.userId
                   ? "border-terminal text-terminal"
                   : "border-dim text-dim hover:border-terminal hover:text-terminal"
@@ -321,7 +321,7 @@ export default function Inspect() {
                   </span>
                 )}
               </span>
-              <span className="block text-ghost">
+              <span className="block text-ghost text-sm">
                 {u.lastActiveAt ? timeAgo(u.lastActiveAt) : "no activity"}
               </span>
             </button>
@@ -337,12 +337,12 @@ export default function Inspect() {
           <div className="space-y-6">
             <div>
               <p className="text-ghost text-xs mb-2">[ main terminal ]</p>
-              <div ref={scrollRef} className="space-y-2 max-h-72 lg:max-h-[calc(100vh-18rem)] overflow-y-auto pr-1">
+              <div ref={scrollRef} className="space-y-3 max-h-[55vh] lg:max-h-[calc(100vh-18rem)] overflow-y-auto pr-1">
                 {chatMessages.length === 0 && <p className="text-dim text-sm">no messages</p>}
                 {chatMessages.map((m, i) => (
                   <div key={i}>
                     <p
-                      className={`text-sm sm:text-base leading-snug ${
+                      className={`text-base leading-relaxed ${
                         m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
                       }`}
                     >
@@ -358,7 +358,7 @@ export default function Inspect() {
                         <img
                           src={m.image_url}
                           alt={m.image_caption ?? "lore image"}
-                          className="max-h-64 border border-dim"
+                          className="max-h-64 sm:max-h-80 border border-dim"
                         />
                         {m.image_caption && (
                           <p className="text-ghost text-xs mt-0.5">{m.image_caption}</p>
@@ -384,12 +384,12 @@ export default function Inspect() {
             </span>
           )}
         </p>
-        <div className="space-y-2 max-h-72 lg:max-h-[28rem] overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-[50vh] lg:max-h-[28rem] overflow-y-auto pr-1">
           {submissions.length === 0 && (
             <p className="text-dim text-sm">no addresses submitted yet</p>
           )}
           {submissions.map((s) => (
-            <div key={s.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+            <div key={s.id} className="border border-dim px-3 py-2 text-sm space-y-1.5">
               <p className="text-you">
                 {s.username}
                 <span className="text-ghost">
@@ -417,7 +417,7 @@ export default function Inspect() {
                 {s.status === "skipped" && <span className="text-ghost"> · skipped</span>}
               </p>
               {s.status === "pending" && (
-                <div className="flex gap-1 pt-0.5">
+                <div className="flex flex-wrap gap-1.5 pt-1">
                   <input
                     type="number"
                     min={0}
@@ -427,13 +427,13 @@ export default function Inspect() {
                       setPayoutInputs((prev) => ({ ...prev, [s.id]: e.target.value }))
                     }
                     placeholder="TROLL"
-                    className="w-16 bg-transparent border border-dim px-1 py-0.5 text-xs text-problem outline-none focus:border-problem"
+                    className="w-20 bg-transparent border border-dim px-2 py-1.5 text-sm text-problem outline-none focus:border-problem"
                   />
                   <button
                     type="button"
                     disabled={submissionBusy === s.id}
                     onClick={() => reviewSubmission(s.id, "airdropped")}
-                    className="border border-gain text-gain px-1.5 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
+                    className="border border-gain text-gain px-2 py-1 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
                   >
                     sent
                   </button>
@@ -441,7 +441,7 @@ export default function Inspect() {
                     type="button"
                     disabled={submissionBusy === s.id}
                     onClick={() => reviewSubmission(s.id, "skipped")}
-                    className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+                    className="border border-dim text-dim px-2 py-1 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
                   >
                     skip
                   </button>
@@ -470,7 +470,7 @@ export default function Inspect() {
             </span>
           )}
         </p>
-        <div className="border border-dim px-2 py-1.5 text-xs space-y-1.5">
+        <div className="border border-dim px-3 py-2 text-sm space-y-2">
           {openRound ? (
             <>
               <p className="text-you">
@@ -485,7 +485,7 @@ export default function Inspect() {
                 type="button"
                 disabled={roundBusy}
                 onClick={() => manageRound("close_round")}
-                className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+                className="border border-dim text-dim px-2 py-1 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
               >
                 close round
               </button>
@@ -494,14 +494,14 @@ export default function Inspect() {
             <p className="text-ghost">no round open</p>
           )}
 
-          <div className="flex gap-1 pt-1 border-t border-dim">
+          <div className="flex flex-wrap gap-1.5 pt-2 border-t border-dim">
             <input
               type="number"
               value={newRate}
               onChange={(e) => setNewRate(e.target.value)}
               title="PROBLEMS per TROLL"
               placeholder="rate"
-              className="w-12 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+              className="w-16 bg-transparent border border-dim px-2 py-1.5 text-problem outline-none focus:border-problem"
             />
             <input
               type="number"
@@ -509,7 +509,7 @@ export default function Inspect() {
               onChange={(e) => setNewPool(e.target.value)}
               title="pool in TROLL"
               placeholder="pool"
-              className="w-14 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+              className="w-16 bg-transparent border border-dim px-2 py-1.5 text-problem outline-none focus:border-problem"
             />
             <input
               type="number"
@@ -517,7 +517,7 @@ export default function Inspect() {
               onChange={(e) => setNewCap(e.target.value)}
               title="per-user cap in PROBLEMS (blank = none)"
               placeholder="cap"
-              className="w-12 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+              className="w-16 bg-transparent border border-dim px-2 py-1.5 text-problem outline-none focus:border-problem"
             />
             <input
               type="text"
@@ -525,13 +525,13 @@ export default function Inspect() {
               onChange={(e) => setNewLabel(e.target.value)}
               title="round name, shown on /vault (optional)"
               placeholder="label"
-              className="w-16 min-w-0 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+              className="w-20 min-w-0 bg-transparent border border-dim px-2 py-1.5 text-problem outline-none focus:border-problem"
             />
             <button
               type="button"
               disabled={roundBusy}
               onClick={() => manageRound("open_round")}
-              className="border border-terminal text-terminal px-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+              className="border border-terminal text-terminal px-2 py-1 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
             >
               open
             </button>
@@ -539,12 +539,12 @@ export default function Inspect() {
           <p className="text-ghost">opening a round closes the current one.</p>
         </div>
 
-        <div className="space-y-2 max-h-72 lg:max-h-[24rem] overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-[45vh] lg:max-h-[24rem] overflow-y-auto pr-1">
           {redemptions.length === 0 && (
             <p className="text-dim text-sm">no redemption requests yet</p>
           )}
           {redemptions.map((r) => (
-            <div key={r.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+            <div key={r.id} className="border border-dim px-3 py-2 text-sm space-y-1.5">
               <p className="text-you">
                 {r.username}
                 <span className="text-ghost">
@@ -570,12 +570,12 @@ export default function Inspect() {
                 {r.status === "refunded" && <span className="text-ghost"> · refunded</span>}
               </p>
               {r.status === "pending" && (
-                <div className="flex gap-1 pt-0.5">
+                <div className="flex flex-wrap gap-1.5 pt-1">
                   <button
                     type="button"
                     disabled={redemptionBusy === r.id}
                     onClick={() => reviewRedemption(r.id, "pay", r.owedTroll)}
-                    className="border border-gain text-gain px-1.5 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
+                    className="border border-gain text-gain px-2 py-1 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
                   >
                     sent {r.owedTroll}
                   </button>
@@ -583,7 +583,7 @@ export default function Inspect() {
                     type="button"
                     disabled={redemptionBusy === r.id}
                     onClick={() => reviewRedemption(r.id, "refund")}
-                    className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+                    className="border border-dim text-dim px-2 py-1 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
                   >
                     refund
                   </button>
@@ -604,10 +604,10 @@ export default function Inspect() {
         </div>
 
         <p className="text-ghost text-xs pt-2">[ bug reports ]</p>
-        <div className="space-y-2 max-h-72 lg:max-h-[28rem] overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-[50vh] lg:max-h-[28rem] overflow-y-auto pr-1">
           {bugReports.length === 0 && <p className="text-dim text-sm">nothing filed yet</p>}
           {bugReports.map((r) => (
-            <div key={r.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+            <div key={r.id} className="border border-dim px-3 py-2 text-sm space-y-1.5">
               <p className="text-you leading-snug">{renderTightLines(r.message)}</p>
               <p className="text-ghost">
                 {r.reporterUsername ?? "guest"} · {timeAgo(r.createdAt)}
