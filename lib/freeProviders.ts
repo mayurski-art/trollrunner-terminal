@@ -85,20 +85,46 @@ export class ProviderError extends Error {
   }
 }
 
-async function providerError(name: string, res: Response): Promise<ProviderError> {
-  const body = await res.text();
-
+// Pulled out of providerError so the admin health check
+// (app/api/admin/free-tier) can turn a 429/503 into the same real countdown
+// the rotation itself acts on, instead of a flat "down" label — a provider
+// that says "try again in 8m38s" should show that number, not a red dot.
+// Exported on its own because the health check wants the number without
+// also constructing (and never throwing) an Error.
+export function parseRetryAfterSeconds(res: Response, body: string): number | null {
   const header = res.headers.get("retry-after")?.trim();
   let retry: number | null = null;
+  let exact = false; // an explicit reset time from the provider, not a guess/parse of prose
   if (header && /^\d+(\.\d+)?$/.test(header)) {
     retry = Number(header);
+    exact = true;
   } else if (header) {
     // Retry-After may be an HTTP date rather than a delta.
     const at = Date.parse(header);
-    if (!Number.isNaN(at)) retry = Math.max(0, Math.round((at - Date.now()) / 1000));
+    if (!Number.isNaN(at)) {
+      retry = Math.max(0, Math.round((at - Date.now()) / 1000));
+      exact = true;
+    }
   }
 
-  // groq's body carries the wait even when the header doesn't.
+  // OpenRouter's daily-quota 429 carries no Retry-After — the real reset is
+  // in x-ratelimit-reset (and duplicated in the body's metadata.headers), an
+  // epoch-MILLISECOND timestamp, not a delta. Verified live 2026-09-21:
+  // missing this made a genuine ~19h daily-reset wait silently fall through
+  // to the 15-min clamp below, understating it by more than an order of
+  // magnitude — a real problem for the caller (WireDownError's countdown)
+  // and not just the admin health page.
+  if (retry === null) {
+    const resetMs = Number(res.headers.get("x-ratelimit-reset"));
+    if (Number.isFinite(resetMs) && resetMs > 0) {
+      retry = Math.max(0, Math.round((resetMs - Date.now()) / 1000));
+      exact = true;
+    }
+  }
+
+  // groq's body carries the wait even when the header doesn't. This is
+  // prose, not a provider-declared deadline, so it stays un-"exact" and
+  // still gets clamped below.
   if (retry === null) {
     const spelled = body.match(/try again in ([\d.]+)\s*(ms|s)\b/i);
     if (spelled) {
@@ -107,10 +133,18 @@ async function providerError(name: string, res: Response): Promise<ProviderError
     }
   }
 
-  // A wait longer than a coffee break is almost always a daily/monthly quota
-  // rather than a burst limit; clamp so the UI never shows an absurd timer.
-  if (retry !== null) retry = Math.min(Math.ceil(retry), 15 * 60);
+  if (retry === null) return null;
+  // A wait longer than a coffee break from an ambiguous source is almost
+  // always misparsed; clamp so the UI never shows an absurd timer. An exact,
+  // provider-declared deadline (Retry-After, x-ratelimit-reset) is trusted
+  // as-is even past 15 minutes — a real ~19h daily-quota reset is exactly
+  // the case this function exists to report accurately, not hide.
+  return exact ? Math.ceil(retry) : Math.min(Math.ceil(retry), 15 * 60);
+}
 
+async function providerError(name: string, res: Response): Promise<ProviderError> {
+  const body = await res.text();
+  const retry = parseRetryAfterSeconds(res, body);
   return new ProviderError(`${name} ${res.status}: ${body}`, retry);
 }
 

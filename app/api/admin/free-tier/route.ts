@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { requireOwner } from "@/lib/admin";
-import { GROQ_MODEL, OPENROUTER_MODEL, GEMINI_MODEL, MISTRAL_MODEL } from "@/lib/freeProviders";
+import {
+  GROQ_MODEL,
+  OPENROUTER_MODEL,
+  GEMINI_MODEL,
+  MISTRAL_MODEL,
+  parseRetryAfterSeconds,
+} from "@/lib/freeProviders";
 
 export const runtime = "nodejs";
 
@@ -47,19 +53,52 @@ type ProviderStatus = {
   // True when the model id itself is gone (404). Distinct from a 429: no
   // amount of waiting fixes it, someone has to re-pick the slug.
   deadSlug?: boolean;
+  // Seconds until this provider is worth trying again — parsed from the
+  // same Retry-After header / "try again in Xs" body text the rotation
+  // itself uses to decide when to stop waiting (see WireDownError). Only
+  // ever set on a 429/503; a dead slug (404) has no countdown because
+  // nothing about waiting fixes it. This is what lets the page show
+  // "resets in 8m38s" instead of a flat "down" for every provider, not
+  // just the one (groq) that happens to expose real rate-limit headers.
+  retryAfterSeconds?: number | null;
 };
 
+// Groq's x-ratelimit-reset-requests header is a duration string like
+// "8m38.4s" or "850ms", not a timestamp. Parses the pieces it actually uses
+// (h/m/s, with fractional seconds) into a plain second count so it can be
+// treated the same as every other provider's retryAfterSeconds.
+function parseGroqDuration(raw: string | null): number | null {
+  if (!raw) return null;
+  const m = raw.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:([\d.]+)s)?(?:(\d+)ms)?$/);
+  if (!m) return null;
+  const hours = Number(m[1] ?? 0);
+  const mins = Number(m[2] ?? 0);
+  const secs = Number(m[3] ?? 0);
+  const ms = Number(m[4] ?? 0);
+  const total = hours * 3600 + mins * 60 + secs + ms / 1000;
+  return Number.isFinite(total) && total > 0 ? Math.ceil(total) : null;
+}
+
 // Turns a failed generation into the note the owner actually needs to read.
-function describeFailure(status: number, body: string): { note: string; deadSlug: boolean } {
+function describeFailure(
+  status: number,
+  body: string,
+  retryAfterSeconds: number | null
+): { note: string; deadSlug: boolean } {
   if (status === 404) {
     return { note: "DEAD MODEL SLUG — re-pick it in lib/freeProviders.ts", deadSlug: true };
   }
   if (status === 429) {
     const perDay = /per-?day|free-models-per-day|PerDay/i.test(body);
-    return {
-      note: perDay ? "daily free quota exhausted — resets tomorrow" : "rate limited right now",
-      deadSlug: false,
-    };
+    const note =
+      retryAfterSeconds !== null
+        ? perDay
+          ? "daily quota exhausted"
+          : "rate limited"
+        : perDay
+          ? "daily free quota exhausted — resets tomorrow"
+          : "rate limited right now";
+    return { note, deadSlug: false };
   }
   if (status === 503) return { note: "provider overloaded (503)", deadSlug: false };
   return { note: `generation failed (${status})`, deadSlug: false };
@@ -96,8 +135,8 @@ async function checkGroq(): Promise<ProviderStatus> {
     // A 404 here means the slug is gone — the single failure mode that has
     // silently removed a provider from the rotation more than once.
     if (res.status === 404) {
-      const { note, deadSlug } = describeFailure(404, await res.text());
-      return { ...base, reachable: false, note, deadSlug };
+      const { note, deadSlug } = describeFailure(404, await res.text(), null);
+      return { ...base, reachable: false, note, deadSlug, retryAfterSeconds: null };
     }
 
     const h = res.headers;
@@ -123,6 +162,7 @@ async function checkGroq(): Promise<ProviderStatus> {
       return { ...base, reachable, note: "answered without quota headers" };
     }
 
+    const resetRequests = h.get("x-ratelimit-reset-requests");
     return {
       ...base,
       reachable,
@@ -131,8 +171,15 @@ async function checkGroq(): Promise<ProviderStatus> {
         requestsLimit,
         tokensRemaining,
         tokensLimit,
-        resetRequests: h.get("x-ratelimit-reset-requests"),
+        resetRequests,
       },
+      // Groq spells the reset as a duration string ("8m38.4s"), which is a
+      // snapshot frozen at fetch time — rendered as plain text it silently
+      // goes stale the moment the page sits open for a minute. Parsed into
+      // seconds here so the frontend can convert it to an absolute deadline
+      // once and tick a REAL countdown from `now`, same as every other
+      // provider's retryAfterSeconds.
+      retryAfterSeconds: parseGroqDuration(resetRequests),
     };
   } catch {
     return { ...base, reachable: false, note: "unreachable" };
@@ -167,8 +214,10 @@ async function checkOpenRouter(): Promise<ProviderStatus> {
       }),
     });
     if (res.ok) return { ...base, reachable: true };
-    const { note, deadSlug } = describeFailure(res.status, await res.text());
-    return { ...base, reachable: false, note, deadSlug };
+    const body = await res.text();
+    const retryAfterSeconds = parseRetryAfterSeconds(res, body);
+    const { note, deadSlug } = describeFailure(res.status, body, retryAfterSeconds);
+    return { ...base, reachable: false, note, deadSlug, retryAfterSeconds };
   } catch {
     return { ...base, reachable: false, note: "unreachable" };
   }
@@ -203,8 +252,10 @@ async function checkGemini(): Promise<ProviderStatus> {
       }
     );
     if (res.ok) return { ...base, reachable: true };
-    const { note, deadSlug } = describeFailure(res.status, await res.text());
-    return { ...base, reachable: false, note, deadSlug };
+    const body = await res.text();
+    const retryAfterSeconds = parseRetryAfterSeconds(res, body);
+    const { note, deadSlug } = describeFailure(res.status, body, retryAfterSeconds);
+    return { ...base, reachable: false, note, deadSlug, retryAfterSeconds };
   } catch {
     return { ...base, reachable: false, note: "unreachable" };
   }
@@ -235,8 +286,10 @@ async function checkMistral(): Promise<ProviderStatus> {
       }),
     });
     if (res.ok) return { ...base, reachable: true };
-    const { note, deadSlug } = describeFailure(res.status, await res.text());
-    return { ...base, reachable: false, note, deadSlug };
+    const body = await res.text();
+    const retryAfterSeconds = parseRetryAfterSeconds(res, body);
+    const { note, deadSlug } = describeFailure(res.status, body, retryAfterSeconds);
+    return { ...base, reachable: false, note, deadSlug, retryAfterSeconds };
   } catch {
     return { ...base, reachable: false, note: "unreachable" };
   }

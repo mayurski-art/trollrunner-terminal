@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getPublicClient } from "@/lib/supabase";
 import { displayName } from "@/lib/auth";
@@ -26,10 +26,26 @@ type ProviderStatus = {
     resetRequests: string | null;
   } | null;
   note: string;
+  model?: string;
+  deadSlug?: boolean;
+  // Seconds-until-retry AS OF WHEN THE SERVER ANSWERED — a snapshot, not a
+  // live value. Converted to an absolute deadline the moment the response
+  // lands (see providerDeadlines below) so the UI can tick a real countdown
+  // instead of rendering a number that's already stale by the time someone
+  // reads it.
+  retryAfterSeconds?: number | null;
 };
 
 function usd(n: number): string {
   return `$${n.toFixed(2)}`;
+}
+
+// Same compact style as Chat.tsx's CooldownNotice — "8m38s" / "42s" — rather
+// than a second countdown format existing anywhere else in the app.
+function fmtCountdown(seconds: number): string {
+  if (seconds >= 3600) return `${Math.ceil(seconds / 3600)}h`;
+  if (seconds >= 60) return `${Math.floor(seconds / 60)}m${Math.round(seconds % 60)}s`;
+  return `${Math.max(0, Math.round(seconds))}s`;
 }
 
 // Owner-only API credit readout + chat lock toggle. Rendered for nobody but
@@ -54,6 +70,14 @@ export default function OwnerCredits({
   const [paused, setPaused] = useState<boolean | null>(null);
   const [pauseBusy, setPauseBusy] = useState(false);
   const [providers, setProviders] = useState<ProviderStatus[] | null>(null);
+  // Absolute deadline (ms epoch) per provider name, computed once when a
+  // fetch lands by adding retryAfterSeconds to Date.now() — this is what
+  // makes the countdown real instead of a number frozen at fetch time. A
+  // ref, not state: it's only ever read inside the ticking interval below,
+  // and updating it via setState on every fetch would be one more render
+  // this component doesn't need.
+  const deadlinesRef = useRef<Record<string, number>>({});
+  const [nowTick, setNowTick] = useState(() => Date.now());
   // Collapsed by default — the full meters + free-tier provider list ran
   // permanently down the top-left corner of every page for the owner,
   // eating vertical space nobody but troll_runner ever needed visible at
@@ -107,7 +131,16 @@ export default function OwnerCredits({
         });
         const body = await res.json();
         if (cancelled || !res.ok) return;
-        setProviders(body.providers ?? null);
+        const list: ProviderStatus[] = body.providers ?? [];
+        const now = Date.now();
+        for (const p of list) {
+          if (typeof p.retryAfterSeconds === "number" && p.retryAfterSeconds > 0) {
+            deadlinesRef.current[p.name] = now + p.retryAfterSeconds * 1000;
+          } else {
+            delete deadlinesRef.current[p.name];
+          }
+        }
+        setProviders(list);
       } catch {
         // silent — the provider list just won't render
       }
@@ -116,6 +149,15 @@ export default function OwnerCredits({
       cancelled = true;
     };
   }, [isOwner, section]);
+
+  // Ticks once a second only while at least one provider has a live
+  // countdown running, so this never spins a dangling interval for the rest
+  // of the session on a page where nothing's currently down.
+  useEffect(() => {
+    if (!providers?.some((p) => deadlinesRef.current[p.name])) return;
+    const id = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [providers]);
 
   useEffect(() => {
     if (!isOwner || section !== "lock") return;
@@ -226,6 +268,14 @@ export default function OwnerCredits({
             // tell us — see app/api/admin/free-tier/route.ts.
             const q = p.quota;
             const fraction = q && q.requestsLimit > 0 ? q.requestsRemaining / q.requestsLimit : 0;
+            // Live seconds-left, ticked from the absolute deadline computed
+            // when this provider's status last landed — never the raw
+            // retryAfterSeconds from the response, which is already stale by
+            // render time. A dead slug (404) has no deadline at all: no
+            // amount of waiting fixes that, so it never gets a countdown.
+            const deadline = deadlinesRef.current[p.name];
+            const secondsLeft = deadline ? Math.max(0, Math.round((deadline - nowTick) / 1000)) : 0;
+            const counting = secondsLeft > 0;
             return (
               <div key={p.name} className="mb-1">
                 {q ? (
@@ -238,7 +288,7 @@ export default function OwnerCredits({
                     />
                     <p className="text-dim text-xs">
                       {q.tokensRemaining.toLocaleString()} tokens left
-                      {q.resetRequests && ` · resets in ${q.resetRequests}`}
+                      {counting && ` · resets in ${fmtCountdown(secondsLeft)}`}
                     </p>
                   </>
                 ) : (
@@ -250,13 +300,21 @@ export default function OwnerCredits({
                           ? "text-ghost"
                           : p.reachable
                             ? "text-terminal"
-                            : "text-alert"
+                            : p.deadSlug
+                              ? "text-alert"
+                              : "text-problem"
                       }
                     >
                       ●
                     </span>{" "}
-                    {p.name} —{" "}
-                    {!p.configured ? "no key" : p.reachable ? "up" : "down"}
+                    {p.name}
+                    {!p.configured && " — no key"}
+                    {p.configured && p.reachable && " — up"}
+                    {p.configured && !p.reachable && p.deadSlug && ` — dead model id (${p.note})`}
+                    {p.configured &&
+                      !p.reachable &&
+                      !p.deadSlug &&
+                      (counting ? ` — back in ${fmtCountdown(secondsLeft)}` : ` — ${p.note}`)}
                   </p>
                 )}
               </div>
