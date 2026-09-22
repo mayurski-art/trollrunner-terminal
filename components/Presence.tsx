@@ -51,7 +51,9 @@ function emptyRoster(): Roster {
 export default function Presence() {
   const [roster, setRoster] = useState<Roster>(emptyRoster);
   const [open, setOpen] = useState(false);
+  const [mobileTop, setMobileTop] = useState<number | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLButtonElement>(null);
   const channelRef = useRef<ReturnType<ReturnType<typeof getPublicClient>["channel"]> | null>(null);
   const profileRef = useRef<{ userId: string | null; username: string | null; avatarUrl: string | null; level: number | null }>({
     userId: null,
@@ -224,8 +226,21 @@ export default function Presence() {
   return (
     <div ref={wrapRef} className="relative inline-block">
       <button
+        ref={pillRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => {
+            const next = !v;
+            // A fixed-position popover on phones needs its top set from the
+            // pill's real location — this pill sits in a right-aligned,
+            // wrapping flex row, so no single CSS value works at every
+            // wrap point. Desktop keeps the plain absolute/top-full anchor.
+            if (next && pillRef.current && window.matchMedia("(max-width: 639px)").matches) {
+              setMobileTop(Math.round(pillRef.current.getBoundingClientRect().bottom + 8));
+            }
+            return next;
+          });
+        }}
         aria-expanded={open}
         aria-haspopup="true"
         title={`${roster.total} ${roster.total === 1 ? "troll" : "trolls"} online`}
@@ -234,7 +249,9 @@ export default function Presence() {
         ● {roster.total} online
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-2 z-20 w-56 max-h-72 overflow-y-auto rounded-md border border-dim bg-black/90 backdrop-blur px-3 py-3 shadow-lg text-[11px] sm:text-xs">
+        <div
+          style={mobileTop !== null ? { top: `${mobileTop}px` } : undefined}
+          className="fixed sm:absolute left-3 right-3 sm:left-auto sm:right-0 sm:top-full sm:mt-2 z-20 sm:w-56 max-h-72 overflow-y-auto rounded-md border border-dim bg-black/90 backdrop-blur px-3 py-3 shadow-lg text-[11px] sm:text-xs">
           <p className="text-dim mb-2">
             {roster.total === 1 ? "Just you here right now." : `${roster.total} trolls online right now.`}
           </p>
