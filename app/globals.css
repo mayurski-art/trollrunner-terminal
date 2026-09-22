@@ -190,19 +190,40 @@
   }
 }
 
-/* Two-column split: the left column stacks the identity block (nav,
-   banner, "your signal") directly above redeem in the top-left corner;
-   the right column takes every remaining panel and spans both rows so
-   the figure behind it stays uncovered. Single column (everything
-   stacked, identity block first via DOM order) below `lg` where there's
-   no spare width to split. */
+/* Two-column split: row 1 is the identity block (nav, banner, "your
+   signal") alone in the top-left corner; row 2 puts redeem and the
+   remaining panels side by side, so the $troll airdrop / ledger column
+   starts level with redeem rather than riding up alongside the banner.
+   Single column (everything stacked, identity block first via DOM
+   order) below `lg` where there's no spare width to split. */
 .vault-content {
   display: grid;
   grid-template-columns: 1fr;
 }
 @media (min-width: 1024px) {
   .vault-content {
-    grid-template-columns: minmax(0, 34rem) 1fr;
+    /* Track the lit shaft in the background art. .home-hero-bg-frame is
+       `position: fixed; inset: 0`, so the art is always painted into
+       exactly one viewport at `background-size: cover` — which makes the
+       shaft's left edge a pure function of viewport size, with no JS and
+       no resize listener needed.
+
+       cover picks the larger of the two axis ratios against the source's
+       intrinsic 1532x1037, and the x-position is centered, so the edge —
+       which sits 560/1532 across the source — lands at
+       50vw - (766 - 560)px * scale. The 11px is the grid's own left
+       offset (main's px-4), constant at every width.
+
+       Clamped so the column can't collapse or outgrow its content on
+       extreme aspect ratios; within the clamp it follows the art exactly.
+       Re-measure --vault-shaft-x if the art is ever recropped. */
+    --vault-cover-scale: max(100vw / 1532, 100vh / 1037);
+    --vault-shaft-x: calc(50vw - 206 * var(--vault-cover-scale));
+    /* px bounds, not rem: a rem-bounded clamp() here resolved to a flat
+       672px at every width, ignoring both bounds and the tracked value. */
+    grid-template-columns:
+      clamp(340px, calc(var(--vault-shaft-x) - 11px), 1400px)
+      1fr;
     grid-template-rows: auto auto;
     align-items: start;
     gap: 1.5rem;
@@ -218,7 +239,7 @@
   }
   .vault-col-right {
     grid-column: 2;
-    grid-row: 1 / -1;
+    grid-row: 2;
   }
 }
 

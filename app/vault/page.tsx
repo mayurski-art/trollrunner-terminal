@@ -388,7 +388,11 @@ export default function VaultPage() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg vault-hero-bg" />
       </div>
-      <div className="w-full max-w-7xl vault-content">
+      {/* No max-w cap here: below `lg` .vault-content is a single column
+          whose children carry their own max-w, and at `lg` and up the
+          grid's first track is sized to track the background art (see
+          globals.css), which a wrapper cap would clip on wide screens. */}
+      <div className="w-full vault-content">
         <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           <Nav networkBadge />
           <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
@@ -429,7 +433,7 @@ export default function VaultPage() {
           )}
         </div>
 
-        <div className="vault-col-left max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
+        <div className="vault-col-left max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           {session && (
             <Frame title="redeem for xp" tone="dim" className="mb-6">
               <p className="text-dim text-xs mb-3">
@@ -510,8 +514,7 @@ export default function VaultPage() {
 
           <Frame title="$truths buyer airdrops" tone="dim" className="mb-6 lg:mb-0">
             <p className="text-dim text-xs mb-3">
-              a separate reward: wallets that bought $TRUTHS get $TROLL sent by hand, at 3% of
-              the USD amount bought. every send the operator has made, logged here.
+              a separate reward: wallets that bought $TRUTHS get $TROLL, logged here.
             </p>
             <ul className="space-y-2 text-sm">
               {TRUTHS_AIRDROPS.map((row) => (
