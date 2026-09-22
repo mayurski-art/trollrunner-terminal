@@ -302,6 +302,23 @@
     grid-column: 3;
     grid-row: 2;
   }
+
+  /* The vault's Nav lives inside .vault-col-center, a narrow left column
+     (see the grid-template-columns comment above) — that column is where
+     [ menu ] belongs, but it also pinned the network badge/online-pill/
+     [connected] block to the same cramped left edge, when it reads as a
+     status line for the whole page and wants to sit opposite [ menu ],
+     out at the real right edge of the viewport. Fixed positioning breaks
+     it out of the column; top matches the plain-flow nav's own top so it
+     stays level with [ menu ] regardless of scroll, and the right offset
+     reuses --vault-shaft-right so it lines up with .vault-col-right's
+     panels below it instead of hugging the viewport's bare edge. */
+  .nav-status-float {
+    position: fixed;
+    top: 2.5rem;
+    right: calc(100vw - var(--vault-shaft-right));
+    z-index: 10;
+  }
 }
 
 /* Native cross-document page transitions between the terminal's own

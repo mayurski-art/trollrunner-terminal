@@ -147,7 +147,11 @@ export default function Nav({ networkBadge = false }: NavProps) {
           </div>
         )}
       </div>
-      <div className="flex flex-col items-end min-w-0 max-w-full">
+      <div
+        className={`flex flex-col items-end min-w-0 max-w-full${
+          networkBadge ? " nav-status-float" : ""
+        }`}
+      >
         {networkBadge && (
           <p className="text-[11px] sm:text-xs text-foreground text-right mb-1 max-w-full">
             part of the{" "}

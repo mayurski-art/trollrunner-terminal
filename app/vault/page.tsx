@@ -396,7 +396,7 @@ export default function VaultPage() {
         <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           <Nav networkBadge />
           <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
-          <p className="text-dim text-sm mb-8">
+          <p className="text-foreground text-sm mb-8">
             your signal balance · xp redemption live, more protocols coming
           </p>
 
