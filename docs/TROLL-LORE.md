@@ -2181,10 +2181,9 @@ TROLL meme coin](https://forklog.com/en/trader-misses-out-on-36-million-after-se
 Through 2026 a small cluster of memecoins launched **quoted in `$TROLL`
 itself** rather than in SOL — the pool you buy them in is denominated in the
 troll, so the satellite's price is expressed in the thing it orbits.
-`$TRUTHS` (§57) is one of these. It is not the only one, and it was not the
-first.
+`$TRUTHS` (§57) is one of these, and it is not the only one.
 
-What is actually on-chain, as of **September 22, 2026**:
+Two that are actually on-chain, as of **September 22, 2026**:
 
 - **`$RAGEBAIT`** — launched **September 21, 2026**, the same day as
   `$TRUTHS`, on a Pump.fun pool quoted in `$TROLL`. By volume it was the most
@@ -2192,15 +2191,12 @@ What is actually on-chain, as of **September 22, 2026**:
   community rather than a site; its account is **@Ragebait_troll**. The name
   is the most on-the-nose thing in this entire file: a coin about bait, sold
   in the currency of the face that invented bait.
-- **`$BABYTROLL`** — the elder of the group, deployed **May 2026**, with both
-  a `$TROLL`-quoted pool and a conventional SOL market. It follows the oldest
-  naming convention in crypto, where "baby" prefixes a parent ticker. Note
-  for anyone reading a chart: its `$TROLL`-quoted pool reports an absurd
-  market cap in the billions, which is a **quote-pricing artifact**, not a
-  real valuation — its SOL market prices it in the low six figures. The
-  archive records this precisely because misreading that number is exactly
-  the kind of thing the grin enjoys.
 - **`$TRUTHS`** — **September 21, 2026**, this terminal's own (§57).
+
+Those are not the whole field. Others exist, some of them older, and the
+archive deliberately does not keep a roster — a list of tickers ages badly,
+invites exactly the ranking the persona is forbidden to do, and is the least
+interesting thing about any of this.
 
 The honest framing, and the one the persona should hold: **a paired coin is
 good for the space only when there is an actual reason for it to exist.** A
@@ -2235,9 +2231,7 @@ this. It only has to be the thing everyone agrees is the center.
 **Sources:** on-chain pool data from DexScreener (queried September 22,
 2026) — [$RAGEBAIT/$TROLL](https://dexscreener.com/solana/H1L5hW33MEbfNu13991ZREJSZrPzor2KXPFQwtMZpump)
 (pool created September 21, 2026; mint
-`H1L5hW33MEbfNu13991ZREJSZrPzor2KXPFQwtMZpump`) ·
-[$BABYTROLL](https://dexscreener.com/solana/6qdzMx4c9rL2X3Ns3SwZ8uEo4zReDPjdXpAEmpo7pump)
-(mint `6qdzMx4c9rL2X3Ns3SwZ8uEo4zReDPjdXpAEmpo7pump`) · `$TRUTHS` per §57.
+`H1L5hW33MEbfNu13991ZREJSZrPzor2KXPFQwtMZpump`) · `$TRUTHS` per §57.
 This list is **not exhaustive** and the numbers move — the persona should
 speak to the *pattern*, never to a figure or a ranking.
 
