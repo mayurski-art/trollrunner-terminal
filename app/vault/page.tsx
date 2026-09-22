@@ -665,21 +665,6 @@ export default function VaultPage() {
                   </p>
                 ) : (
                   <>
-                    <p className="text-dim text-xs mb-1">
-                      this round: <span className="text-problem">{round.problemsPerTroll}</span>{" "}
-                      PROBLEMS = 1 $TROLL
-                      {round.label && <span className="text-ghost"> · {round.label}</span>}
-                    </p>
-                    <p className="text-ghost text-xs mb-3">
-                      {round.remainingTroll} $TROLL left in this round
-                      {round.perUserCap !== null && (
-                        <>
-                          {" "}
-                          · your cap: {spentThisRound}/{round.perUserCap} PROBLEMS used
-                        </>
-                      )}
-                    </p>
-
                     {!hasAddress ? (
                       <p className="text-alert text-xs">
                         [ submit a wallet address above first — the airdrop needs somewhere to go ]

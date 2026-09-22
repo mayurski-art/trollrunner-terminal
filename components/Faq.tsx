@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Entry = { q: string; a: string };
 
@@ -82,42 +83,49 @@ export default function Faq({ trigger = "block" }: FaqProps) {
     </button>
   );
 
-  return (
-    <div className={trigger === "inline" ? "relative z-[1] inline" : "relative z-[1] mt-3 text-center"}>
-      {button}
-      {open && (
-        <>
-          <div
-            className="fixed inset-0 z-40 bg-background/90"
+  const Wrapper = trigger === "inline" ? "span" : "div";
+
+  // The dialog is fixed-position overlay content — never valid as a
+  // descendant of the "inline" trigger's <p> parent (Nav's networkBadge
+  // line), so it portals to document.body instead of nesting inline.
+  const dialog = open ? (
+    <>
+      <div
+        className="fixed inset-0 z-40 bg-background/90"
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="what is this site?"
+        className="fixed inset-4 z-50 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-2xl sm:max-h-[80vh] overflow-y-auto border border-dim bg-panel/95 backdrop-blur-sm text-left p-4 sm:p-6 space-y-4"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-terminal text-sm tracking-wide">[ what is this site? ]</span>
+          <button
+            type="button"
             onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="what is this site?"
-            className="fixed inset-4 z-50 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-2xl sm:max-h-[80vh] overflow-y-auto border border-dim bg-panel/95 backdrop-blur-sm text-left p-4 sm:p-6 space-y-4"
+            aria-label="close"
+            className="text-ghost hover:text-terminal transition-colors text-xs shrink-0"
           >
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-terminal text-sm tracking-wide">[ what is this site? ]</span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="close"
-                className="text-ghost hover:text-terminal transition-colors text-xs shrink-0"
-              >
-                [ close ]
-              </button>
-            </div>
-            {ENTRIES.map((entry) => (
-              <div key={entry.q}>
-                <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>
-                <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed">{entry.a}</p>
-              </div>
-            ))}
+            [ close ]
+          </button>
+        </div>
+        {ENTRIES.map((entry) => (
+          <div key={entry.q}>
+            <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>
+            <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed">{entry.a}</p>
           </div>
-        </>
-      )}
-    </div>
+        ))}
+      </div>
+    </>
+  ) : null;
+
+  return (
+    <Wrapper className={trigger === "inline" ? "relative z-[1] inline" : "relative z-[1] mt-3 text-center"}>
+      {button}
+      {open && typeof document !== "undefined" ? createPortal(dialog, document.body) : null}
+    </Wrapper>
   );
 }
