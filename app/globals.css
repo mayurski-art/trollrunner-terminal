@@ -153,13 +153,48 @@
    hero background above, but its own art (the "indecisive problems"
    circuit-trollface-in-a-suit render) rather than the site-wide face.
    Layered on top of .home-hero-bg via a second class on the same div, so
-   only background-image changes and everything else stays inherited. */
+   only background-image/position/mask change and opacity/filter stay
+   inherited.
+
+   Desktop: figure pinned near the left edge (background-position-x low)
+   and the content column pushed right (see .vault-content) so the two
+   sit side by side instead of the panel covering the face.
+
+   Mobile: there's no spare width to split the figure and the panel
+   side by side, so instead the figure is pushed further down
+   (background-position-y higher) so its head clears the panel's bottom
+   edge — and the top-fade of the mask is relaxed (less opaque black at
+   0%) since the default mask was tuned for the site-wide crop, whose
+   bright figure sits higher in frame; on this crop the same mask left
+   almost the whole visible area reading as flat near-black. */
 .vault-hero-bg {
   background-image: url("/assets/vault-terminal-face-desktop.jpg");
+  background-position: 4% 10%;
 }
 @media (max-width: 760px) {
   .vault-hero-bg {
     background-image: url("/assets/vault-terminal-face-mobile.jpg");
+    background-position: 50% 55%;
+    opacity: 0.85;
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      color-mix(in srgb, black 15%, transparent) 0%,
+      black 60%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      color-mix(in srgb, black 15%, transparent) 0%,
+      black 60%
+    );
+  }
+}
+
+.vault-content {
+  margin-left: auto;
+}
+@media (min-width: 761px) {
+  .vault-content {
+    margin-right: 6vw;
   }
 }
 
