@@ -39,6 +39,28 @@ type WalletSubmission = {
   problemsEarned: number;
 };
 
+type Round = {
+  id: string;
+  problemsPerTroll: number;
+  poolTroll: number;
+  perUserCap: number | null;
+  isOpen: boolean;
+  label: string | null;
+  committedTroll: number;
+};
+
+type RedemptionRequest = {
+  id: string;
+  username: string;
+  problemsSpent: number;
+  rateAtRequest: number;
+  owedTroll: number;
+  address: string;
+  status: "pending" | "paid" | "refunded";
+  amountTroll: number | null;
+  createdAt: string;
+};
+
 const LIVE_POLL_MS = 5000;
 
 async function authHeader(): Promise<Record<string, string>> {
@@ -61,6 +83,13 @@ export default function Inspect() {
   const [payoutInputs, setPayoutInputs] = useState<Record<string, string>>({});
   const [submissionBusy, setSubmissionBusy] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [rounds, setRounds] = useState<Round[]>([]);
+  const [redemptions, setRedemptions] = useState<RedemptionRequest[]>([]);
+  const [redemptionBusy, setRedemptionBusy] = useState<string | null>(null);
+  const [newRate, setNewRate] = useState("69");
+  const [newPool, setNewPool] = useState("175");
+  const [newCap, setNewCap] = useState("500");
+  const [roundBusy, setRoundBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   async function loadUsers() {
@@ -131,6 +160,8 @@ export default function Inspect() {
     }
   }
 
+  const openRound = rounds.find((r) => r.isOpen) ?? null;
+
   async function copyAddress(id: string, address: string) {
     try {
       await navigator.clipboard.writeText(address);
@@ -141,9 +172,87 @@ export default function Inspect() {
     }
   }
 
+  async function loadRedemptions() {
+    const headers = await authHeader();
+    if (!headers.Authorization) return;
+    const res = await fetch("/api/admin/redemptions", { headers });
+    const data = await res.json();
+    if (res.ok) {
+      setRounds(data.rounds ?? []);
+      setRedemptions(data.requests ?? []);
+    }
+  }
+
+  // "pay" records a transfer already made by hand; "refund" returns the
+  // user's PROBLEMS. Neither sends anything.
+  async function reviewRedemption(
+    id: string,
+    action: "pay" | "refund" | "unreview",
+    amountTroll?: number
+  ) {
+    if (redemptionBusy) return;
+    setRedemptionBusy(id);
+    try {
+      const headers = await authHeader();
+      if (!headers.Authorization) return;
+      const res = await fetch("/api/admin/redemptions", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ action, id, amountTroll: amountTroll ?? null }),
+      });
+      if (res.ok) await loadRedemptions();
+      else {
+        const data = await res.json();
+        setError(data.error ?? "could not update request");
+      }
+    } catch {
+      setError("connection lost");
+    } finally {
+      setRedemptionBusy(null);
+    }
+  }
+
+  async function manageRound(action: "open_round" | "close_round") {
+    if (roundBusy) return;
+    setRoundBusy(true);
+    try {
+      const headers = await authHeader();
+      if (!headers.Authorization) return;
+      const body =
+        action === "open_round"
+          ? {
+              action,
+              problemsPerTroll: Number(newRate),
+              poolTroll: Number(newPool),
+              perUserCap: newCap.trim() === "" ? null : Number(newCap),
+            }
+          : { action };
+      const res = await fetch("/api/admin/redemptions", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) await loadRedemptions();
+      else {
+        const data = await res.json();
+        setError(data.error ?? "could not update the round");
+      }
+    } catch {
+      setError("connection lost");
+    } finally {
+      setRoundBusy(false);
+    }
+  }
+
   useEffect(() => {
     (async () => {
-      await Promise.all([loadUsers(), loadLive(), loadBugReports(), loadSubmissions()]);
+      await Promise.all([
+        loadUsers(),
+        loadLive(),
+        loadBugReports(),
+        loadSubmissions(),
+        loadRedemptions(),
+      ]);
       setLoaded(true);
     })();
     const interval = setInterval(loadLive, LIVE_POLL_MS);
@@ -320,6 +429,140 @@ export default function Inspect() {
                   type="button"
                   disabled={submissionBusy === s.id}
                   onClick={() => reviewSubmission(s.id, "pending")}
+                  className="text-ghost hover:text-dim transition-colors disabled:opacity-40"
+                >
+                  undo
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p className="text-ghost text-xs pt-2">
+          [ redemption round ]
+          {redemptions.some((r) => r.status === "pending") && (
+            <span className="text-problem">
+              {" "}
+              · {redemptions.filter((r) => r.status === "pending").length} pending
+            </span>
+          )}
+        </p>
+        <div className="border border-dim px-2 py-1.5 text-xs space-y-1.5">
+          {openRound ? (
+            <>
+              <p className="text-you">
+                {openRound.problemsPerTroll} PROBLEMS = 1 TROLL
+                {openRound.label && <span className="text-ghost"> · {openRound.label}</span>}
+              </p>
+              <p className="text-ghost">
+                pool {openRound.committedTroll}/{openRound.poolTroll} TROLL committed
+                {openRound.perUserCap !== null && <> · cap {openRound.perUserCap}/user</>}
+              </p>
+              <button
+                type="button"
+                disabled={roundBusy}
+                onClick={() => manageRound("close_round")}
+                className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+              >
+                close round
+              </button>
+            </>
+          ) : (
+            <p className="text-ghost">no round open</p>
+          )}
+
+          <div className="flex gap-1 pt-1 border-t border-dim">
+            <input
+              type="number"
+              value={newRate}
+              onChange={(e) => setNewRate(e.target.value)}
+              title="PROBLEMS per TROLL"
+              placeholder="rate"
+              className="w-12 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+            />
+            <input
+              type="number"
+              value={newPool}
+              onChange={(e) => setNewPool(e.target.value)}
+              title="pool in TROLL"
+              placeholder="pool"
+              className="w-14 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+            />
+            <input
+              type="number"
+              value={newCap}
+              onChange={(e) => setNewCap(e.target.value)}
+              title="per-user cap in PROBLEMS (blank = none)"
+              placeholder="cap"
+              className="w-12 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+            />
+            <button
+              type="button"
+              disabled={roundBusy}
+              onClick={() => manageRound("open_round")}
+              className="border border-terminal text-terminal px-1.5 hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+            >
+              open
+            </button>
+          </div>
+          <p className="text-ghost">opening a round closes the current one.</p>
+        </div>
+
+        <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+          {redemptions.length === 0 && (
+            <p className="text-dim text-sm">no redemption requests yet</p>
+          )}
+          {redemptions.map((r) => (
+            <div key={r.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+              <p className="text-you">
+                {r.username}
+                <span className="text-ghost">
+                  {" "}
+                  · {r.problemsSpent} PROBLEMS @ {r.rateAtRequest}
+                </span>
+              </p>
+              <p className="text-problem">owes {r.owedTroll} TROLL</p>
+              <button
+                type="button"
+                onClick={() => copyAddress(r.id, r.address)}
+                title={r.address}
+                className="font-mono text-dim break-all text-left hover:text-terminal transition-colors"
+              >
+                {shortenAddress(r.address, 6, 6)}
+                <span className="text-ghost"> {copiedId === r.id ? "[copied]" : "[copy]"}</span>
+              </button>
+              <p className="text-ghost">
+                {timeAgo(r.createdAt)}
+                {r.status === "paid" && (
+                  <span className="text-gain"> · sent {r.amountTroll ?? r.owedTroll} TROLL</span>
+                )}
+                {r.status === "refunded" && <span className="text-ghost"> · refunded</span>}
+              </p>
+              {r.status === "pending" && (
+                <div className="flex gap-1 pt-0.5">
+                  <button
+                    type="button"
+                    disabled={redemptionBusy === r.id}
+                    onClick={() => reviewRedemption(r.id, "pay", r.owedTroll)}
+                    className="border border-gain text-gain px-1.5 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
+                  >
+                    sent {r.owedTroll}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={redemptionBusy === r.id}
+                    onClick={() => reviewRedemption(r.id, "refund")}
+                    className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+                  >
+                    refund
+                  </button>
+                </div>
+              )}
+              {r.status === "paid" && (
+                <button
+                  type="button"
+                  disabled={redemptionBusy === r.id}
+                  onClick={() => reviewRedemption(r.id, "unreview")}
                   className="text-ghost hover:text-dim transition-colors disabled:opacity-40"
                 >
                   undo

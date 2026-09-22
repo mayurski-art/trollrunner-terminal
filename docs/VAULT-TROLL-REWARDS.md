@@ -4,7 +4,19 @@ Design doc for distributing real `$TROLL` to terminal users, drafted
 2026-09-22. Nothing here is built yet. Two separate systems share one
 budget and one manual-approval principle.
 
-**Status: awaiting approval. No code written.**
+**Status: all four phases BUILT (2026-09-22). Both migrations still need
+running against the live database — until then the forms error.**
+
+| Phase | Status |
+|---|---|
+| 1 — wallet submission | built: migration `020`, `/api/vault/wallet`, `/api/admin/wallet-submissions` |
+| 2 — round schema + operator controls | built: migration `021`, `/api/admin/redemptions` |
+| 3 — user redemption flow | built: `/api/vault/redeem-troll`, `/vault` panel |
+| 4 — refund-on-skip, caps, round close | built: refund action, per-user cap, one-open-round index |
+
+**To go live:** run `supabase/migrations/020_wallet_submissions.sql` then
+`021_redemption_rounds.sql` in the Supabase SQL editor. `021` seeds round 1
+at 69 PROBLEMS = 1 TROLL, a 175 TROLL pool and a 500-PROBLEMS per-user cap.
 
 ---
 
@@ -305,17 +317,34 @@ Phase 1 is independently shippable and useful on its own.
 
 ## 8. Open questions
 
-1. ~~**Minimum and per-user cap for Path B?**~~ **Minimum resolved: 5
-   PROBLEMS**, matching XP redemption — at the round-1 rate of 69 that is
-   0.072 TROLL, and a higher floor would exclude most real users (top
-   balance 26). A **per-round per-user cap is still open**; it matters
-   little at 109 real PROBLEMS but should exist before the user base
-   grows.
-2. **Should Path A require any qualification** (a minimum lifetime_earned,
-   say) or accept all submissions and let review sort it out?
-3. **Does a Path B request reuse the Path A address,** or is it entered
-   per request? Reuse is simpler; per-request is safer if a user's wallet
-   changes.
-4. **What happens to the operator's 33,297 PROBLEMS?** They should be
-   excluded from any supply statistic shown publicly, or zeroed, so the
-   `/vault` ladder and any future rate math aren't distorted.
+1. ~~**Minimum and per-user cap for Path B?**~~ **Both resolved.** Minimum
+   is 5 PROBLEMS, matching XP redemption (0.072 TROLL at 69:1); a higher
+   floor would exclude most real users (top balance 26). Round 1 seeds a
+   **500-PROBLEMS per-user cap** — non-binding at today's balances, in
+   place before it needs to be.
+2. ~~**Should Path A require any qualification?**~~ **No gate.** Anyone
+   signed in may submit; the operator sees each filer's PROBLEMS balance
+   and lifetime earned next to their address and decides from there.
+   Review is the filter, which is the whole premise of a manual system.
+3. ~~**Does a Path B request reuse the Path A address?**~~ **Reuse.**
+   `/api/vault/redeem-troll` requires a Path A submission and copies that
+   address onto the request, rather than offering a second field. One
+   address, typed once, validated once — a second entry point is a second
+   chance to typo an address that real tokens get sent to. The address is
+   **frozen onto the request** at file time, so changing your wallet later
+   never redirects a payout already in the queue.
+4. **What happens to the operator's 33,297 PROBLEMS?** Still open. They
+   should be excluded from any public supply statistic, or zeroed, so the
+   `/vault` ladder and future rate math aren't distorted. Nothing built so
+   far reads them — `checkRedemption` works per-user — but the top-miners
+   ladder still shows them.
+
+### Deliberately not built
+
+- **Automatic payouts.** Every transfer is the operator sending by hand.
+  No keys, no signing, no custody anywhere in this project.
+- **Un-refunding.** Undo works on a `paid` mark only. A refund already
+  moved PROBLEMS back to the user; reversing it would have to debit them
+  again, which is a new request, not an undo.
+- **A published rate history.** RLS exposes only the open round, so
+  `/vault` can't be mined for a rate schedule that looks like a promise.
