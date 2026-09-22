@@ -48,3 +48,36 @@ export async function GET(request: Request) {
     })),
   });
 }
+
+const VALID_STATUSES = ["open", "resolved"] as const;
+type Status = (typeof VALID_STATUSES)[number];
+
+export async function POST(request: Request) {
+  const owner = await requireOwner(request);
+  if (!owner) {
+    return NextResponse.json({ error: "not authorized" }, { status: 403 });
+  }
+  const { supabase } = owner;
+
+  let body: { id?: string; status?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "invalid request body" }, { status: 400 });
+  }
+
+  const id = (body.id ?? "").trim();
+  if (!id) return NextResponse.json({ error: "missing report id" }, { status: 400 });
+
+  const status = body.status as Status | undefined;
+  if (!status || !VALID_STATUSES.includes(status)) {
+    return NextResponse.json({ error: "invalid status" }, { status: 400 });
+  }
+
+  const { error } = await supabase.from("terminal_bug_reports").update({ status }).eq("id", id);
+  if (error) {
+    return NextResponse.json({ error: "could not update report" }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
+}

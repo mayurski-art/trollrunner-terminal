@@ -11,13 +11,7 @@ import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
 import { BANNER_VAULT } from "@/lib/ascii";
 import { describeAddressProblem, isValidSolanaAddress, shortenAddress } from "@/lib/solanaAddress";
-import {
-  MIN_REDEEM_PROBLEMS,
-  MIN_WALLET_SUBMIT_PROBLEMS,
-  checkRedemption,
-  problemsForOneTroll,
-  trollForProblems,
-} from "@/lib/redemption";
+import { MIN_WALLET_SUBMIT_PROBLEMS, trollForProblems } from "@/lib/redemption";
 
 type Wallet = {
   balance: number;
@@ -82,11 +76,6 @@ export default function VaultPage() {
   const [editingAddress, setEditingAddress] = useState(false);
   const [round, setRound] = useState<OpenRound | null>(null);
   const [requests, setRequests] = useState<RedemptionRequest[]>([]);
-  const [spentThisRound, setSpentThisRound] = useState(0);
-  const [trollInput, setTrollInput] = useState("");
-  const [trollBusy, setTrollBusy] = useState(false);
-  const [trollError, setTrollError] = useState<string | null>(null);
-  const [trollFiled, setTrollFiled] = useState(false);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -230,7 +219,6 @@ export default function VaultPage() {
       const result = await res.json();
       setRound(result.round ?? null);
       setRequests(result.requests ?? []);
-      setSpentThisRound(result.spentThisRound ?? 0);
     } catch {
       // Non-fatal — the rest of the vault still renders.
     }
@@ -246,40 +234,6 @@ export default function VaultPage() {
       cancelled = true;
     };
   }, [session, loadRedemption]);
-
-  async function redeemForTroll() {
-    const problems = Math.floor(Number(trollInput));
-    if (trollBusy || !session || !round) return;
-    setTrollBusy(true);
-    setTrollError(null);
-    setTrollFiled(false);
-    try {
-      const { data } = await getPublicClient().auth.getSession();
-      const token = data.session?.access_token;
-      if (!token) {
-        setTrollError("sign in required");
-        return;
-      }
-      const res = await fetch("/api/vault/redeem-troll", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ problems }),
-      });
-      const result = await res.json();
-      if (!res.ok) {
-        setTrollError(result.error ?? "could not file your request");
-        return;
-      }
-      setWallet((w) => (w ? { ...w, balance: result.balance } : w));
-      setTrollInput("");
-      setTrollFiled(true);
-      await loadRedemption();
-    } catch {
-      setTrollError("connection to the terminal was lost");
-    } finally {
-      setTrollBusy(false);
-    }
-  }
 
   async function saveAddress() {
     const address = addressInput.trim();
@@ -360,26 +314,6 @@ export default function VaultPage() {
   const redeemAmount = Math.floor(Number(redeemInput));
   const redeemValid = Number.isFinite(redeemAmount) && redeemAmount >= MIN_REDEEM;
 
-  // Same rule set the server enforces (lib/redemption.ts), so the form can
-  // never invite a spend the route will refuse.
-  const trollAmount = Math.floor(Number(trollInput));
-  const trollCheck =
-    round && trollInput.trim() !== ""
-      ? checkRedemption({
-          problems: trollAmount,
-          balance: wallet?.balance ?? 0,
-          round: {
-            id: "",
-            problemsPerTroll: round.problemsPerTroll,
-            poolTroll: round.remainingTroll,
-            perUserCap: round.perUserCap,
-            committedTroll: 0,
-            label: round.label,
-          },
-          alreadySpentThisRound: spentThisRound,
-        })
-      : null;
-  const hasAddress = Boolean(submission?.address);
   const pendingRequests = requests.filter((r) => r.status === "pending");
 
   return (
@@ -619,76 +553,6 @@ export default function VaultPage() {
               <p className="text-ghost text-xs mt-3">
                 double-check it. an airdrop sent to a wrong address is not my PROBLEM. haha.
               </p>
-
-              <div className="border-t border-dim mt-4 pt-4">
-                <p className="text-dim text-xs mb-3">redeem PROBLEMS for $TROLL:</p>
-                {!round ? (
-                  <p className="text-dim text-xs">
-                    no redemption round is open right now. the terminal opens them when the pool
-                    has something in it.
-                  </p>
-                ) : (
-                  <>
-                    {!hasAddress ? (
-                      <p className="text-alert text-xs">
-                        [ submit a wallet address above first — the airdrop needs somewhere to go ]
-                      </p>
-                    ) : (
-                      <>
-                        <div className="flex gap-2 vault-amount-form">
-                          <input
-                            type="number"
-                            min={MIN_REDEEM_PROBLEMS}
-                            step={1}
-                            value={trollInput}
-                            onChange={(e) => {
-                              setTrollInput(e.target.value);
-                              setTrollError(null);
-                              setTrollFiled(false);
-                            }}
-                            placeholder={`${MIN_REDEEM_PROBLEMS}+`}
-                            disabled={trollBusy}
-                            className="w-28 bg-transparent border border-dim px-2 py-1 text-sm text-problem outline-none focus:border-problem disabled:opacity-50"
-                          />
-                          <button
-                            type="button"
-                            onClick={redeemForTroll}
-                            disabled={trollBusy || !trollCheck?.ok}
-                            className="border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
-                          >
-                            {trollBusy ? "..." : "request"}
-                          </button>
-                        </div>
-
-                        {trollCheck?.ok && (
-                          <p className="text-dim text-xs mt-2">
-                            → {trollCheck.troll} $TROLL, pending review
-                          </p>
-                        )}
-                        {trollCheck && !trollCheck.ok && (
-                          <p className="text-alert text-xs mt-2">[ {trollCheck.error} ]</p>
-                        )}
-                        {!trollInput.trim() && (
-                          <p className="text-ghost text-xs mt-2">
-                            {problemsForOneTroll(round.problemsPerTroll)} PROBLEMS gets you a whole
-                            coin.
-                          </p>
-                        )}
-                        {trollError && <p className="text-alert text-xs mt-2">[ {trollError} ]</p>}
-                        {trollFiled && (
-                          <p className="text-terminal text-xs mt-2">
-                            [ filed — your PROBLEMS are spent. the operator sends these by hand. ]
-                          </p>
-                        )}
-                      </>
-                    )}
-
-                    <p className="text-ghost text-xs mt-3">
-                      rate applies to this round only and can change in the next one.
-                    </p>
-                  </>
-                )}
-              </div>
 
               {requests.length > 0 && (
                 <ul className="mt-4 space-y-1 text-xs border-t border-dim pt-3">
