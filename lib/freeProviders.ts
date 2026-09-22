@@ -13,6 +13,14 @@
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 
+// The exact model ids the rotation generates with. Exported because the
+// owner-only health check (app/api/admin/free-tier) must probe the SAME ids —
+// it used to hardcode its own copy, which drifted the moment a slug was
+// re-picked here and left the meter reporting on a model nothing used.
+export const GROQ_MODEL = "qwen/qwen3.8-27b";
+export const OPENROUTER_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free";
+export const GEMINI_MODEL = "gemini-3.5-flash-lite";
+
 type FreeProvider = {
   name: string;
   enabled: () => boolean;
@@ -115,14 +123,20 @@ async function callGroq(
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      // groq/compound-mini — verified 2026-08-29 to return clean `content`
-      // with an empty `reasoning` field. Groq's plain-instruct Llama models
-      // (llama-3.3-70b-versatile) were retired from their catalog; most of
-      // what's left (gpt-oss-*, qwen3.6-*) are reasoning models that either
-      // eat the token budget on invisible thinking or (qwen) leak
-      // "<think>...</think>" straight into content. Re-check
-      // console.groq.com/docs/models if this one ever 404s.
-      model: "groq/compound-mini",
+      // qwen/qwen3.8-27b — re-picked 2026-09-21 after groq/compound-mini
+      // 404'd out of the catalog (every call to it had been failing, which
+      // is a third of the rotation silently gone; the whole compound-* and
+      // llama-3.3 family is retired now). Verified live against the real
+      // voice rules: ~130ms, empty `reasoning` field, no "<think>" leak in
+      // content, and it answers in character. Rejected in the same pass:
+      // openai/gpt-oss-120b and gpt-oss-20b both answer fine on banter but
+      // hit a safety refusal on token-price questions ("I'm sorry, but I
+      // can't help with that"), which would ship straight to the
+      // troublemaker as a terminal reply — and they burn 300-1100 invisible
+      // reasoning tokens per turn on top. Re-check
+      // console.groq.com/docs/models if this one ever 404s, and always
+      // verify a replacement's actual output, not just a 200.
+      model: GROQ_MODEL,
       max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
     }),
@@ -166,7 +180,7 @@ async function callOpenRouter(
       // Check openrouter.ai/api/v1/models for `:free` ids if this 404s, and
       // always verify a replacement's actual output against the persona's
       // voice rules, not just that it returns 200.
-      model: "nvidia/nemotron-3-ultra-550b-a55b:free",
+      model: OPENROUTER_MODEL,
       max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
     }),
@@ -186,10 +200,17 @@ async function callGemini(
   if (!apiKey) return null;
 
   const res = await fetch(
-    // gemini-2.0-flash was retired; gemini-3.6-flash is the current free-tier
-    // equivalent as of 2026-08-29. Google deprecates model ids on a real
-    // cadence — check ai.google.dev/gemini-api/docs/models if this 404s.
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
+    // gemini-3.5-flash-lite, swapped in 2026-09-21. The previous pick
+    // (gemini-3.6-flash) still resolves, but its free tier is only 20
+    // requests PER DAY — the terminal burns that before lunch and then 429s
+    // for the rest of the day, which is most of why replies were coming back
+    // as static. The -lite tier carries a much larger free daily quota, and
+    // measured live it's also ~13x faster (846ms vs 10.9s) because it spends
+    // no invisible reasoning budget: the full model reported 204 thought
+    // tokens against 18 visible ones, and at 10-18s it was routinely being
+    // killed by PROVIDER_TIMEOUT_MS even when it was healthy.
+    // Check ai.google.dev/gemini-api/docs/models if this 404s.
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
     {
       method: "POST",
       signal,
@@ -300,6 +321,18 @@ export async function generateFreeReply(
       const label = (err as Error).name === "AbortError" ? "timed out" : (err as Error).message;
       if (err instanceof ProviderError && err.retryAfterSeconds !== null) {
         retryHints.push(err.retryAfterSeconds);
+      }
+      // A 404 means the model id itself is gone, not that the provider is
+      // busy — no amount of waiting fixes it, and it had silently removed a
+      // third of the rotation for weeks at a time (twice on openrouter, once
+      // on groq). Shout about this one specifically so it shows up in logs
+      // as something to go re-pick rather than as ordinary free-tier noise.
+      if (err instanceof ProviderError && /^\S+ 404:/.test(err.message)) {
+        console.error(
+          `[freeProviders] DEAD MODEL SLUG on ${provider.name} — the configured model id no longer ` +
+            `exists. This provider is permanently out of the rotation until the id is updated in ` +
+            `lib/freeProviders.ts.`
+        );
       }
       console.error(`[freeProviders] ${provider.name} failed:`, label);
     } finally {
