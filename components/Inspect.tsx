@@ -15,7 +15,14 @@ type UserRow = {
   lastActiveAt: string | null;
 };
 
-type ChatMsg = { role: "user" | "terminal"; content: string; created_at: string; is_gossip: boolean };
+type ChatMsg = {
+  role: "user" | "terminal";
+  content: string;
+  created_at: string;
+  is_gossip: boolean;
+  image_url: string | null;
+  image_caption: string | null;
+};
 
 type BugReport = {
   id: string;
@@ -333,18 +340,32 @@ export default function Inspect() {
               <div ref={scrollRef} className="space-y-2 max-h-64 overflow-y-auto pr-1">
                 {chatMessages.length === 0 && <p className="text-dim text-sm">no messages</p>}
                 {chatMessages.map((m, i) => (
-                  <p
-                    key={i}
-                    className={`text-sm leading-snug ${
-                      m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
-                    }`}
-                  >
-                    <span className="text-dim">
-                      {m.is_gossip ? "gossip> " : m.role === "terminal" ? "terminal> " : "user> "}
-                    </span>
-                    {renderTightLines(m.content)}
-                    <span className="text-ghost text-xs ml-2">{timeAgo(m.created_at)}</span>
-                  </p>
+                  <div key={i}>
+                    <p
+                      className={`text-sm leading-snug ${
+                        m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
+                      }`}
+                    >
+                      <span className="text-dim">
+                        {m.is_gossip ? "gossip> " : m.role === "terminal" ? "terminal> " : "user> "}
+                      </span>
+                      {renderTightLines(m.content)}
+                      <span className="text-ghost text-xs ml-2">{timeAgo(m.created_at)}</span>
+                    </p>
+                    {m.image_url && (
+                      <div className="mt-1 ml-2">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={m.image_url}
+                          alt={m.image_caption ?? "lore image"}
+                          className="max-h-40 border border-dim"
+                        />
+                        {m.image_caption && (
+                          <p className="text-ghost text-xs mt-0.5">{m.image_caption}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

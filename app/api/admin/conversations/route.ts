@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   const [{ data: chatMessages }, { data: sessions }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
-      .select("role, content, created_at, is_gossip")
+      .select("role, content, created_at, is_gossip, image_url, image_caption")
       .eq("user_id", userId)
       .order("created_at", { ascending: true }),
     supabase
