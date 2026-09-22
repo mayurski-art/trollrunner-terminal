@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
+import { shortenAddress } from "@/lib/solanaAddress";
 
 type UserRow = {
   userId: string;
@@ -25,6 +26,19 @@ type BugReport = {
   createdAt: string;
 };
 
+type WalletSubmission = {
+  id: string;
+  username: string;
+  address: string;
+  status: "pending" | "airdropped" | "skipped";
+  amountTroll: number | null;
+  txSignature: string | null;
+  note: string | null;
+  createdAt: string;
+  problemsBalance: number;
+  problemsEarned: number;
+};
+
 const LIVE_POLL_MS = 5000;
 
 async function authHeader(): Promise<Record<string, string>> {
@@ -43,6 +57,10 @@ export default function Inspect() {
   const [loadingConvo, setLoadingConvo] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bugReports, setBugReports] = useState<BugReport[]>([]);
+  const [submissions, setSubmissions] = useState<WalletSubmission[]>([]);
+  const [payoutInputs, setPayoutInputs] = useState<Record<string, string>>({});
+  const [submissionBusy, setSubmissionBusy] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   async function loadUsers() {
@@ -73,9 +91,59 @@ export default function Inspect() {
     if (res.ok) setBugReports(data.reports ?? []);
   }
 
+  async function loadSubmissions() {
+    const headers = await authHeader();
+    if (!headers.Authorization) return;
+    const res = await fetch("/api/admin/wallet-submissions", { headers });
+    const data = await res.json();
+    if (res.ok) setSubmissions(data.submissions ?? []);
+  }
+
+  // Records a transfer the operator already made by hand — this never sends
+  // anything. Amount and signature are optional; the status is the point.
+  async function reviewSubmission(id: string, status: WalletSubmission["status"]) {
+    if (submissionBusy) return;
+    setSubmissionBusy(id);
+    try {
+      const headers = await authHeader();
+      if (!headers.Authorization) return;
+      const raw = (payoutInputs[id] ?? "").trim();
+      const res = await fetch("/api/admin/wallet-submissions", {
+        method: "POST",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status, amountTroll: raw === "" ? null : Number(raw) }),
+      });
+      if (res.ok) {
+        setPayoutInputs((prev) => {
+          const next = { ...prev };
+          delete next[id];
+          return next;
+        });
+        await loadSubmissions();
+      } else {
+        const data = await res.json();
+        setError(data.error ?? "could not update submission");
+      }
+    } catch {
+      setError("connection lost");
+    } finally {
+      setSubmissionBusy(null);
+    }
+  }
+
+  async function copyAddress(id: string, address: string) {
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId((c) => (c === id ? null : c)), 1500);
+    } catch {
+      // Clipboard can be blocked; the address is selectable on screen anyway.
+    }
+  }
+
   useEffect(() => {
     (async () => {
-      await Promise.all([loadUsers(), loadLive(), loadBugReports()]);
+      await Promise.all([loadUsers(), loadLive(), loadBugReports(), loadSubmissions()]);
       setLoaded(true);
     })();
     const interval = setInterval(loadLive, LIVE_POLL_MS);
@@ -175,7 +243,93 @@ export default function Inspect() {
       </div>
 
       <div className="sm:w-72 shrink-0 space-y-2">
-        <p className="text-ghost text-xs">[ bug reports ]</p>
+        <p className="text-ghost text-xs">
+          [ wallet submissions ]
+          {submissions.some((s) => s.status === "pending") && (
+            <span className="text-problem">
+              {" "}
+              · {submissions.filter((s) => s.status === "pending").length} pending
+            </span>
+          )}
+        </p>
+        <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+          {submissions.length === 0 && (
+            <p className="text-dim text-sm">no addresses submitted yet</p>
+          )}
+          {submissions.map((s) => (
+            <div key={s.id} className="border border-dim px-2 py-1.5 text-xs space-y-1">
+              <p className="text-you">
+                {s.username}
+                <span className="text-ghost">
+                  {" "}
+                  · {s.problemsBalance} PROBLEMS ({s.problemsEarned} earned)
+                </span>
+              </p>
+              <button
+                type="button"
+                onClick={() => copyAddress(s.id, s.address)}
+                title={s.address}
+                className="font-mono text-problem break-all text-left hover:text-terminal transition-colors"
+              >
+                {shortenAddress(s.address, 6, 6)}
+                <span className="text-ghost"> {copiedId === s.id ? "[copied]" : "[copy]"}</span>
+              </button>
+              <p className="text-ghost">
+                {timeAgo(s.createdAt)}
+                {s.status === "airdropped" && (
+                  <span className="text-gain">
+                    {" "}
+                    · airdropped{s.amountTroll ? ` ${s.amountTroll} TROLL` : ""}
+                  </span>
+                )}
+                {s.status === "skipped" && <span className="text-ghost"> · skipped</span>}
+              </p>
+              {s.status === "pending" && (
+                <div className="flex gap-1 pt-0.5">
+                  <input
+                    type="number"
+                    min={0}
+                    step="any"
+                    value={payoutInputs[s.id] ?? ""}
+                    onChange={(e) =>
+                      setPayoutInputs((prev) => ({ ...prev, [s.id]: e.target.value }))
+                    }
+                    placeholder="TROLL"
+                    className="w-16 bg-transparent border border-dim px-1 py-0.5 text-xs text-problem outline-none focus:border-problem"
+                  />
+                  <button
+                    type="button"
+                    disabled={submissionBusy === s.id}
+                    onClick={() => reviewSubmission(s.id, "airdropped")}
+                    className="border border-gain text-gain px-1.5 hover:bg-gain hover:text-background transition-colors disabled:opacity-40"
+                  >
+                    sent
+                  </button>
+                  <button
+                    type="button"
+                    disabled={submissionBusy === s.id}
+                    onClick={() => reviewSubmission(s.id, "skipped")}
+                    className="border border-dim text-dim px-1.5 hover:border-alert hover:text-alert transition-colors disabled:opacity-40"
+                  >
+                    skip
+                  </button>
+                </div>
+              )}
+              {s.status !== "pending" && (
+                <button
+                  type="button"
+                  disabled={submissionBusy === s.id}
+                  onClick={() => reviewSubmission(s.id, "pending")}
+                  className="text-ghost hover:text-dim transition-colors disabled:opacity-40"
+                >
+                  undo
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p className="text-ghost text-xs pt-2">[ bug reports ]</p>
         <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
           {bugReports.length === 0 && <p className="text-dim text-sm">nothing filed yet</p>}
           {bugReports.map((r) => (

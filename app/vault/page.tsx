@@ -11,6 +11,7 @@ import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
 import Faq from "@/components/Faq";
 import { BANNER_VAULT } from "@/lib/ascii";
+import { describeAddressProblem, isValidSolanaAddress, shortenAddress } from "@/lib/solanaAddress";
 
 type Wallet = {
   balance: number;
@@ -20,13 +21,20 @@ type Wallet = {
 
 type LedgerRow = { id: string; delta: number; reason: string; created_at: string };
 type LadderRow = { user_id: string; balance: number; username: string | null };
+type WalletSubmission = {
+  address: string;
+  status: "pending" | "airdropped" | "skipped";
+  created_at: string;
+  updated_at: string;
+};
 
 const QUALIFYING_INTERVAL = 7;
 const XP_PER_PROBLEM = 25;
 const MIN_REDEEM = 5;
 
+// The $TROLL airdrop line is no longer locked — it's the wallet-submission
+// form below (docs/VAULT-TROLL-REWARDS.md Path A).
 const LOCKED_ITEMS = [
-  { cost: null, label: "$TROLL airdrop" },
   { cost: null, label: "cosmetic profile unlock" },
   { cost: null, label: "leaderboard crown" },
   { cost: null, label: "something it won't describe yet" },
@@ -44,6 +52,12 @@ export default function VaultPage() {
   const [redeemResult, setRedeemResult] = useState<{ xpAwarded: number; level: number } | null>(
     null
   );
+  const [submission, setSubmission] = useState<WalletSubmission | null>(null);
+  const [addressInput, setAddressInput] = useState("");
+  const [addressBusy, setAddressBusy] = useState(false);
+  const [addressError, setAddressError] = useState<string | null>(null);
+  const [addressSaved, setAddressSaved] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(false);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -141,6 +155,78 @@ export default function VaultPage() {
     };
   }, [session]);
 
+  // The wallet submission is read through the API rather than the public
+  // client: RLS would allow a direct select, but the route already shapes
+  // the response and deliberately withholds the operator's private payout
+  // record (amount, signature) from the user.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      // Signed out: clear whatever the previous session left on screen. Done
+      // inside the async body so the effect never calls setState
+      // synchronously during render.
+      if (!session) {
+        if (!cancelled) setSubmission(null);
+        return;
+      }
+      try {
+        const { data } = await getPublicClient().auth.getSession();
+        const token = data.session?.access_token;
+        if (!token) return;
+        const res = await fetch("/api/vault/wallet", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const result = await res.json();
+        if (!cancelled) setSubmission(result.submission ?? null);
+      } catch {
+        // Non-fatal: the form still works, it just won't prefill.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [session]);
+
+  async function saveAddress() {
+    const address = addressInput.trim();
+    if (addressBusy || !session) return;
+    const problem = describeAddressProblem(address);
+    if (problem) {
+      setAddressError(problem);
+      return;
+    }
+    setAddressBusy(true);
+    setAddressError(null);
+    setAddressSaved(false);
+    try {
+      const { data } = await getPublicClient().auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) {
+        setAddressError("sign in required");
+        return;
+      }
+      const res = await fetch("/api/vault/wallet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ address }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        setAddressError(result.error ?? "could not save your address");
+        return;
+      }
+      setSubmission(result.submission ?? null);
+      setAddressInput("");
+      setAddressSaved(true);
+      setEditingAddress(false);
+    } catch {
+      setAddressError("connection to the terminal was lost");
+    } finally {
+      setAddressBusy(false);
+    }
+  }
+
   async function redeem() {
     const amount = Math.floor(Number(redeemInput));
     if (redeemBusy || !session || !Number.isFinite(amount) || amount < MIN_REDEEM) return;
@@ -180,7 +266,7 @@ export default function VaultPage() {
   return (
     <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
       <div className="home-hero-bg-frame" aria-hidden="true">
-        <div className="home-hero-bg" />
+        <div className="home-hero-bg vault-hero-bg" />
       </div>
       <div className="w-full max-w-3xl">
         <Nav />
@@ -249,6 +335,94 @@ export default function VaultPage() {
                   [ +{redeemResult.xpAwarded} xp — now level {redeemResult.level} ]
                 </p>
               )}
+            </Frame>
+
+            <Frame title="$troll airdrop — submit a wallet" tone="dim" className="mb-6">
+              {submission && !editingAddress ? (
+                <>
+                  <p className="text-dim text-xs mb-2">you&apos;re in the queue.</p>
+                  <p className="text-problem text-sm font-mono break-all mb-2">
+                    {shortenAddress(submission.address, 6, 6)}
+                  </p>
+                  <p className="text-dim text-xs mb-3">
+                    status:{" "}
+                    {submission.status === "pending" && (
+                      <span className="text-problem">waiting on review</span>
+                    )}
+                    {submission.status === "airdropped" && (
+                      <span className="text-gain">airdropped</span>
+                    )}
+                    {submission.status === "skipped" && (
+                      <span className="text-ghost">not this time</span>
+                    )}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingAddress(true);
+                      setAddressInput(submission.address);
+                      setAddressSaved(false);
+                      setAddressError(null);
+                    }}
+                    className="border border-dim text-dim px-3 py-1 text-xs hover:border-terminal hover:text-terminal transition-colors"
+                  >
+                    change address
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-dim text-xs mb-3">
+                    paste a solana address to be considered for a $TROLL airdrop. reviewed by
+                    hand — this is a request, not a claim.
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={addressInput}
+                      onChange={(e) => {
+                        setAddressInput(e.target.value);
+                        setAddressError(null);
+                        setAddressSaved(false);
+                      }}
+                      placeholder="your solana address"
+                      spellCheck={false}
+                      autoComplete="off"
+                      disabled={addressBusy}
+                      className="flex-1 min-w-0 bg-transparent border border-dim px-2 py-1 text-sm text-problem font-mono outline-none focus:border-problem disabled:opacity-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={saveAddress}
+                      disabled={addressBusy || !isValidSolanaAddress(addressInput)}
+                      className="shrink-0 border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+                    >
+                      {addressBusy ? "..." : "submit"}
+                    </button>
+                  </div>
+                  {editingAddress && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingAddress(false);
+                        setAddressInput("");
+                        setAddressError(null);
+                      }}
+                      className="text-ghost text-xs mt-2 hover:text-dim transition-colors"
+                    >
+                      cancel
+                    </button>
+                  )}
+                  {addressError && <p className="text-alert text-xs mt-2">[ {addressError} ]</p>}
+                </>
+              )}
+              {addressSaved && (
+                <p className="text-terminal text-xs mt-2">
+                  [ submitted — the operator reviews these by hand. no promises. ]
+                </p>
+              )}
+              <p className="text-ghost text-xs mt-3">
+                double-check it. an airdrop sent to a wrong address is gone.
+              </p>
             </Frame>
 
           </>
