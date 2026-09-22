@@ -149,6 +149,20 @@
   }
 }
 
+/* /vault only — same treatment (mask, filter, dual crop) as the shared
+   hero background above, but its own art (the "indecisive problems"
+   circuit-trollface-in-a-suit render) rather than the site-wide face.
+   Layered on top of .home-hero-bg via a second class on the same div, so
+   only background-image changes and everything else stays inherited. */
+.vault-hero-bg {
+  background-image: url("/assets/vault-terminal-face-desktop.jpg");
+}
+@media (max-width: 760px) {
+  .vault-hero-bg {
+    background-image: url("/assets/vault-terminal-face-mobile.jpg");
+  }
+}
+
 /* Native cross-document page transitions between the terminal's own
    same-origin pages. Mobile only — desktop keeps instant navigation. */
 @media (max-width: 760px) {
