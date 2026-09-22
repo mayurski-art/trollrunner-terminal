@@ -201,7 +201,7 @@
 }
 @media (min-width: 1024px) {
   .vault-content {
-    grid-template-columns: 1fr minmax(0, 22rem) 1fr;
+    grid-template-columns: 1fr minmax(0, 34rem) 1fr;
     align-items: start;
     gap: 1.5rem;
     max-width: none;

@@ -9,7 +9,6 @@ import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
-import Faq from "@/components/Faq";
 import { BANNER_VAULT } from "@/lib/ascii";
 import { describeAddressProblem, isValidSolanaAddress, shortenAddress } from "@/lib/solanaAddress";
 import {
@@ -390,9 +389,9 @@ export default function VaultPage() {
         <div className="home-hero-bg vault-hero-bg" />
       </div>
       <div className="w-full max-w-7xl vault-content">
-        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
-          <Nav />
-          <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
+        <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
+          <Nav networkBadge />
+          <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
           <p className="text-dim text-sm mb-8">
             your signal balance · xp redemption live, more protocols coming
           </p>
@@ -403,7 +402,10 @@ export default function VaultPage() {
 
           {session ? (
             <Frame title="your signal" tone="problem" className="mb-6">
-              <p className="text-4xl text-problem mb-3">{wallet?.balance ?? "..."}</p>
+              <p className="text-4xl text-problem mb-3">
+                {wallet?.balance ?? "..."}{" "}
+                <span className="text-sm text-dim align-middle">PROBLEMS</span>
+              </p>
               <p className="text-dim text-xs mb-3">
                 lifetime mined: {wallet?.lifetime_earned ?? 0}
               </p>
@@ -786,19 +788,6 @@ export default function VaultPage() {
           )}
         </div>
 
-        <p className="vault-col-center relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
-          part of the{" "}
-          <a
-            href="https://trollrunner.net"
-            className="glow-loop underline decoration-dim underline-offset-4"
-          >
-            trollrunner.net
-          </a>{" "}
-          network
-        </p>
-        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
-          <Faq />
-        </div>
       </div>
     </main>
   );
