@@ -156,24 +156,18 @@
    only background-image/position/mask change and opacity/filter stay
    inherited.
 
-   Desktop: figure pinned right at the left edge (background-position-x
-   near 0) and the content column pushed right (see .vault-content) so
-   the two sit side by side instead of the panel covering the face.
-   Brightness/opacity/saturation are boosted well past the inherited
-   .home-hero-bg values — this crop reads much darker than the site-wide
-   one at the same filter settings, so left as inherited it was barely
-   visible ("blacked out").
-
-   Mobile: there's no spare width to split the figure and the panel
-   side by side, so instead the figure is pushed further down
-   (background-position-y higher) so its head clears the panel's bottom
-   edge — and the top-fade of the mask is relaxed (less opaque black at
-   0%) since the default mask was tuned for the site-wide crop, whose
-   bright figure sits higher in frame; on this crop the same mask left
-   almost the whole visible area reading as flat near-black. */
+   The figure sits dead center in both source crops, so the background is
+   kept centered (background-position-x 50%) and the page layout works
+   around it instead of the other way around: the three-column grid below
+   (.vault-content) keeps the "your signal" identity block centered over
+   the figure and pushes every other panel out to flanking side columns,
+   so nothing sits directly on top of the trollface. Brightness/opacity/
+   saturation are boosted well past the inherited .home-hero-bg values —
+   this crop reads much darker than the site-wide one at the same filter
+   settings, so left as inherited it was barely visible ("blacked out"). */
 .vault-hero-bg {
   background-image: url("/assets/vault-terminal-face-desktop.jpg");
-  background-position: 0% 10%;
+  background-position: 50% 10%;
   opacity: 0.9;
   filter: saturate(1.4) brightness(1.05) contrast(1.15);
 }
@@ -196,12 +190,30 @@
   }
 }
 
+/* Three-column split: center column keeps the identity block (nav,
+   banner, "your signal") over the centered figure; left/right columns
+   take every other panel so the face stays uncovered. Single column
+   (everything stacked, center content first via DOM order) below `lg`
+   where there's no spare width to split into thirds. */
 .vault-content {
-  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr;
 }
-@media (min-width: 761px) {
+@media (min-width: 1024px) {
   .vault-content {
-    margin-right: 6vw;
+    grid-template-columns: 1fr minmax(0, 22rem) 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    max-width: none;
+  }
+  .vault-col-center {
+    grid-column: 2;
+  }
+  .vault-col-left {
+    grid-column: 1;
+  }
+  .vault-col-right {
+    grid-column: 3;
   }
 }
 

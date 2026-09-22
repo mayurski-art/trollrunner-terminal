@@ -383,18 +383,19 @@ export default function VaultPage() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg vault-hero-bg" />
       </div>
-      <div className="w-full max-w-3xl vault-content">
-        <Nav />
-        <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
-        <p className="text-dim text-sm mb-8">
-          your signal balance · xp redemption live, more protocols coming
-        </p>
+      <div className="w-full max-w-7xl vault-content">
+        <div className="vault-col-center max-w-3xl mx-auto w-full lg:mx-0">
+          <Nav />
+          <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
+          <p className="text-dim text-sm mb-8">
+            your signal balance · xp redemption live, more protocols coming
+          </p>
 
-        {session ? (
-          <>
-            {loadError && (
-              <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
-            )}
+          {loadError && (
+            <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
+          )}
+
+          {session ? (
             <Frame title="your signal" tone="problem" className="mb-6">
               <p className="text-4xl text-problem mb-3">{wallet?.balance ?? "..."}</p>
               <p className="text-dim text-xs mb-3">
@@ -407,7 +408,21 @@ export default function VaultPage() {
                 label={`mining progress: ${wallet?.qualifying_count ?? 0}/${QUALIFYING_INTERVAL}`}
               />
             </Frame>
+          ) : (
+            <Frame title="your signal" tone="dim" className="mb-6">
+              <p className="text-dim text-sm">
+                sign in on the{" "}
+                <Link href="/" className="underline hover:text-terminal">
+                  terminal
+                </Link>{" "}
+                to see your balance.
+              </p>
+            </Frame>
+          )}
+        </div>
 
+        <div className="vault-col-left max-w-3xl mx-auto w-full lg:mx-0">
+          {session && (
             <Frame title="redeem for xp" tone="dim" className="mb-6">
               <p className="text-dim text-xs mb-3">
                 1 PROBLEM = {XP_PER_PROBLEM} XP, one-way, minimum {MIN_REDEEM} at a time.
@@ -451,7 +466,44 @@ export default function VaultPage() {
                 </p>
               )}
             </Frame>
+          )}
 
+          <Frame title="redemption protocols — offline" tone="alert" className="mb-6">
+            <ul className="space-y-2 text-sm">
+              {LOCKED_ITEMS.map((item) => (
+                <li key={item.label} className="flex justify-between text-dim">
+                  <span>
+                    <span className="text-problem">{item.cost ? `? ${item.cost}` : "??"}</span>{" "}
+                    {item.label}
+                  </span>
+                  <span className="text-alert text-xs">[ LOCKED ]</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-dim text-xs mt-4">
+              the terminal is still negotiating with its handlers. your balance is real.
+              spend paths are coming.
+            </p>
+          </Frame>
+
+          <Frame title="top miners" tone="dim" className="mb-6 lg:mb-0">
+            {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
+            <ol className="space-y-1 text-sm">
+              {ladder.map((row, i) => (
+                <li key={row.user_id} className="flex justify-between text-dim">
+                  <span>
+                    {i + 1}. {row.username ?? `troublemaker_${row.user_id.slice(0, 6)}`}
+                  </span>
+                  <span className="text-problem">{row.balance}</span>
+                </li>
+              ))}
+            </ol>
+          </Frame>
+        </div>
+
+        <div className="vault-col-right max-w-3xl mx-auto w-full lg:mx-0">
+          {session && (
+            <>
             <Frame title="$troll airdrop — submit a wallet" tone="dim" className="mb-6">
               {submission && !editingAddress ? (
                 <>
@@ -651,71 +703,27 @@ export default function VaultPage() {
               )}
             </Frame>
 
-          </>
-        ) : (
-          <Frame title="your signal" tone="dim" className="mb-6">
-            <p className="text-dim text-sm">
-              sign in on the{" "}
-              <Link href="/" className="underline hover:text-terminal">
-                terminal
-              </Link>{" "}
-              to see your balance.
-            </p>
-          </Frame>
-        )}
+            <Frame title="ledger" tone="dim">
+              {ledger.length === 0 && (
+                <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
+              )}
+              <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
+                {ledger.map((row) => (
+                  <li key={row.id} className="flex justify-between gap-3 text-dim">
+                    <span className="text-problem">
+                      {row.delta > 0 ? "+" : ""}
+                      {row.delta} {row.reason}
+                    </span>
+                    <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
+            </Frame>
+            </>
+          )}
+        </div>
 
-        <Frame title="redemption protocols — offline" tone="alert" className="mb-6">
-          <ul className="space-y-2 text-sm">
-            {LOCKED_ITEMS.map((item) => (
-              <li key={item.label} className="flex justify-between text-dim">
-                <span>
-                  <span className="text-problem">{item.cost ? `? ${item.cost}` : "??"}</span>{" "}
-                  {item.label}
-                </span>
-                <span className="text-alert text-xs">[ LOCKED ]</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-dim text-xs mt-4">
-            the terminal is still negotiating with its handlers. your balance is real.
-            spend paths are coming.
-          </p>
-        </Frame>
-
-        <Frame title="top miners" tone="dim">
-          {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
-          <ol className="space-y-1 text-sm">
-            {ladder.map((row, i) => (
-              <li key={row.user_id} className="flex justify-between text-dim">
-                <span>
-                  {i + 1}. {row.username ?? `troublemaker_${row.user_id.slice(0, 6)}`}
-                </span>
-                <span className="text-problem">{row.balance}</span>
-              </li>
-            ))}
-          </ol>
-        </Frame>
-
-        {session && (
-          <Frame title="ledger" tone="dim" className="mt-6">
-            {ledger.length === 0 && (
-              <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
-            )}
-            <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
-              {ledger.map((row) => (
-                <li key={row.id} className="flex justify-between gap-3 text-dim">
-                  <span className="text-problem">
-                    {row.delta > 0 ? "+" : ""}
-                    {row.delta} {row.reason}
-                  </span>
-                  <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
-                </li>
-              ))}
-            </ul>
-          </Frame>
-        )}
-
-        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
+        <p className="vault-col-center relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
           part of the{" "}
           <a
             href="https://trollrunner.net"
@@ -725,7 +733,9 @@ export default function VaultPage() {
           </a>{" "}
           network
         </p>
-        <Faq />
+        <div className="vault-col-center max-w-3xl mx-auto w-full lg:mx-0">
+          <Faq />
+        </div>
       </div>
     </main>
   );
