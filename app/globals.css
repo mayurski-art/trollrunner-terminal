@@ -156,9 +156,13 @@
    only background-image/position/mask change and opacity/filter stay
    inherited.
 
-   Desktop: figure pinned near the left edge (background-position-x low)
-   and the content column pushed right (see .vault-content) so the two
-   sit side by side instead of the panel covering the face.
+   Desktop: figure pinned right at the left edge (background-position-x
+   near 0) and the content column pushed right (see .vault-content) so
+   the two sit side by side instead of the panel covering the face.
+   Brightness/opacity/saturation are boosted well past the inherited
+   .home-hero-bg values — this crop reads much darker than the site-wide
+   one at the same filter settings, so left as inherited it was barely
+   visible ("blacked out").
 
    Mobile: there's no spare width to split the figure and the panel
    side by side, so instead the figure is pushed further down
@@ -169,13 +173,16 @@
    almost the whole visible area reading as flat near-black. */
 .vault-hero-bg {
   background-image: url("/assets/vault-terminal-face-desktop.jpg");
-  background-position: 4% 10%;
+  background-position: 0% 10%;
+  opacity: 0.9;
+  filter: saturate(1.4) brightness(1.05) contrast(1.15);
 }
 @media (max-width: 760px) {
   .vault-hero-bg {
     background-image: url("/assets/vault-terminal-face-mobile.jpg");
     background-position: 50% 55%;
-    opacity: 0.85;
+    opacity: 0.95;
+    filter: saturate(1.4) brightness(1.05) contrast(1.15);
     -webkit-mask-image: linear-gradient(
       180deg,
       color-mix(in srgb, black 15%, transparent) 0%,
