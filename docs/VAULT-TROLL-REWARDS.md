@@ -185,15 +185,44 @@ from a failed redemption.
 
 ### 4.5 Setting each round's rate
 
-Suggested method, not a formula to hardcode:
+**Round 1 rate: `69 PROBLEMS = 1 TROLL`** — chosen 2026-09-22.
+
+How it measures up against the two things that matter:
+
+| | |
+|---|---|
+| 1 TROLL costs | 69 PROBLEMS = **483 chat messages** (or 7 correct guesses) |
+| Top real user (26 PROBLEMS) | **0.377 TROLL** — within sight of a whole coin |
+| Minimum redeem (5 PROBLEMS) | 0.072 TROLL |
+| Pool absorbs | **12,090 PROBLEMS — 111x the current real supply** |
+| Everyone redeems all 109 | 1.58 TROLL = **0.9% of the pool** |
+
+It is reachable without being farmable at today's prices, which is the
+balance the rate has to strike. A much larger number (420 was considered)
+is equally safe but puts a whole coin 2,940 messages away and leaves the
+top real user at 6% of one — technically fine, motivationally dead.
+
+**Watch this line as `$TROLL` appreciates:**
+
+| $TROLL price | Effective value per chat message |
+|---|---|
+| $0.054 (today) | $0.00011 |
+| $0.54 | $0.00112 |
+| $5.40 | $0.01118 |
+| $54.00 | **$0.11180** |
+
+Around the $5–50 range, farming chat messages starts to pay for itself.
+That is the trigger to lower the rate for the next round — which is
+precisely why the rate is per-round and never published as permanent
+(§2). 69 is *this round's* rate.
+
+General method for later rounds:
 
 ```
 rate = pool_for_this_round / expected_PROBLEMS_redeemed
 ```
 
-With 109 real PROBLEMS outstanding and ~175 TROLL available, even
-redeeming the entire real supply is comfortably covered. Start
-conservative, watch one round, adjust. The rate is a dial, not a
+Start conservative, watch one round, adjust. The rate is a dial, not a
 constant.
 
 ---
@@ -276,9 +305,12 @@ Phase 1 is independently shippable and useful on its own.
 
 ## 8. Open questions
 
-1. **Minimum and per-user cap for Path B?** With a top real balance of 26,
-   a 25-PROBLEM minimum would exclude every real user today. Suggest a
-   minimum of 5 (matching XP redemption) and a per-round cap.
+1. ~~**Minimum and per-user cap for Path B?**~~ **Minimum resolved: 5
+   PROBLEMS**, matching XP redemption — at the round-1 rate of 69 that is
+   0.072 TROLL, and a higher floor would exclude most real users (top
+   balance 26). A **per-round per-user cap is still open**; it matters
+   little at 109 real PROBLEMS but should exist before the user base
+   grows.
 2. **Should Path A require any qualification** (a minimum lifetime_earned,
    say) or accept all submissions and let review sort it out?
 3. **Does a Path B request reuse the Path A address,** or is it entered
