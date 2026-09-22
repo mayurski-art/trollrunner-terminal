@@ -27,7 +27,7 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 export const GROQ_MODEL = "qwen/qwen3.8-27b";
 export const OPENROUTER_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free";
 export const GEMINI_MODEL = "gemini-3.5-flash-lite";
-export const MISTRAL_MODEL = "mistral-small-latest";
+export const MISTRAL_MODEL = "ministral-3b-latest";
 
 type FreeProvider = {
   name: string;
@@ -290,13 +290,29 @@ async function callMistral(
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      // mistral-small-latest, added 2026-09-21 as a 4th rotation leg —
-      // groq's dead slug and gemini/openrouter's exhausted daily quotas all
-      // landing the same night is what motivated adding headroom instead of
-      // just re-picking within the same three. -small (not -large) is the
-      // one meant for the free/eval tier; check docs.mistral.ai/api if this
-      // 404s, and re-verify voice + refusal behavior against the real
-      // prompts, same as every other provider here.
+      // ministral-3b-latest, added 2026-09-21 as a 4th rotation leg — groq's
+      // dead slug and gemini/openrouter's exhausted daily quotas all landing
+      // the same night is what motivated adding headroom instead of just
+      // re-picking within the same three.
+      //
+      // IMPORTANT: model choice here is a QUOTA decision, not just a quality
+      // one. mistral-small-latest (the obvious first pick, and what this
+      // shipped with initially) is gated to paid plans: it answers 429 with
+      // `x-ratelimit-limit-req-minute: 0` on a free workspace, which is
+      // indistinguishable from a broken account unless you check that header
+      // — it cost a long debugging detour through billing settings and key
+      // regeneration before the model turned out to be the variable. Free
+      // tier verified live 2026-09-21: ministral-3b-latest 750 req/min,
+      // ministral-8b-latest / mistral-tiny / open-mistral-7b /
+      // open-mistral-nemo all 188. 3b picked for the 4x quota headroom plus
+      // the closest read on the persona's voice at 450-1100ms.
+      //
+      // All the free ids above answered the token-price question in
+      // character rather than safety-refusing it (the exact failure that
+      // disqualified groq's gpt-oss-* models), so any of them is a valid
+      // swap if this one ever goes paid too. Check the limit header on a
+      // real call before trusting a replacement — a 200 from /v1/models says
+      // nothing about whether chat completions are gated.
       model: MISTRAL_MODEL,
       max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
