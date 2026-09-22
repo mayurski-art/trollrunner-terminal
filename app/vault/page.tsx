@@ -9,7 +9,6 @@ import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
-import Faq from "@/components/Faq";
 import { BANNER_VAULT } from "@/lib/ascii";
 import { describeAddressProblem, isValidSolanaAddress, shortenAddress } from "@/lib/solanaAddress";
 import {
@@ -390,9 +389,9 @@ export default function VaultPage() {
         <div className="home-hero-bg vault-hero-bg" />
       </div>
       <div className="w-full max-w-7xl vault-content">
-        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
-          <Nav />
-          <Banner art={BANNER_VAULT} label="the vault" tone="alert" />
+        <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
+          <Nav networkBadge />
+          <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
           <p className="text-dim text-sm mb-8">
             your signal balance · xp redemption live, more protocols coming
           </p>
@@ -403,7 +402,10 @@ export default function VaultPage() {
 
           {session ? (
             <Frame title="your signal" tone="problem" className="mb-6">
-              <p className="text-4xl text-problem mb-3">{wallet?.balance ?? "..."}</p>
+              <p className="text-4xl text-problem mb-3">
+                {wallet?.balance ?? "..."}{" "}
+                <span className="text-sm text-dim align-middle">PROBLEMS</span>
+              </p>
               <p className="text-dim text-xs mb-3">
                 lifetime mined: {wallet?.lifetime_earned ?? 0}
               </p>
@@ -554,7 +556,7 @@ export default function VaultPage() {
         <div className="vault-col-right max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           {session && (
             <>
-            <Frame title="$troll airdrop — submit a wallet" tone="dim" className="mb-6">
+            <Frame title="$troll airdrop" tone="dim" className="mb-6">
               {submission && !editingAddress ? (
                 <>
                   <p className="text-dim text-xs mb-2">you&apos;re in the queue.</p>
@@ -653,90 +655,91 @@ export default function VaultPage() {
               <p className="text-ghost text-xs mt-3">
                 double-check it. an airdrop sent to a wrong address is gone.
               </p>
-            </Frame>
 
-            <Frame title="redeem problems for $troll" tone="dim" className="mb-6">
-              {!round ? (
-                <p className="text-dim text-xs">
-                  no redemption round is open right now. the terminal opens them when the pool
-                  has something in it.
-                </p>
-              ) : (
-                <>
-                  <p className="text-dim text-xs mb-1">
-                    this round: <span className="text-problem">{round.problemsPerTroll}</span>{" "}
-                    PROBLEMS = 1 $TROLL
-                    {round.label && <span className="text-ghost"> · {round.label}</span>}
+              <div className="border-t border-dim mt-4 pt-4">
+                <p className="text-dim text-xs mb-3">redeem PROBLEMS for $TROLL:</p>
+                {!round ? (
+                  <p className="text-dim text-xs">
+                    no redemption round is open right now. the terminal opens them when the pool
+                    has something in it.
                   </p>
-                  <p className="text-ghost text-xs mb-3">
-                    {round.remainingTroll} $TROLL left in this round
-                    {round.perUserCap !== null && (
+                ) : (
+                  <>
+                    <p className="text-dim text-xs mb-1">
+                      this round: <span className="text-problem">{round.problemsPerTroll}</span>{" "}
+                      PROBLEMS = 1 $TROLL
+                      {round.label && <span className="text-ghost"> · {round.label}</span>}
+                    </p>
+                    <p className="text-ghost text-xs mb-3">
+                      {round.remainingTroll} $TROLL left in this round
+                      {round.perUserCap !== null && (
+                        <>
+                          {" "}
+                          · your cap: {spentThisRound}/{round.perUserCap} PROBLEMS used
+                        </>
+                      )}
+                    </p>
+
+                    {!hasAddress ? (
+                      <p className="text-alert text-xs">
+                        [ submit a wallet address above first — the airdrop needs somewhere to go ]
+                      </p>
+                    ) : (
                       <>
-                        {" "}
-                        · your cap: {spentThisRound}/{round.perUserCap} PROBLEMS used
+                        <div className="flex gap-2">
+                          <input
+                            type="number"
+                            min={MIN_REDEEM_PROBLEMS}
+                            step={1}
+                            value={trollInput}
+                            onChange={(e) => {
+                              setTrollInput(e.target.value);
+                              setTrollError(null);
+                              setTrollFiled(false);
+                            }}
+                            placeholder={`${MIN_REDEEM_PROBLEMS}+`}
+                            disabled={trollBusy}
+                            className="w-28 bg-transparent border border-dim px-2 py-1 text-sm text-problem outline-none focus:border-problem disabled:opacity-50"
+                          />
+                          <button
+                            type="button"
+                            onClick={redeemForTroll}
+                            disabled={trollBusy || !trollCheck?.ok}
+                            className="border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+                          >
+                            {trollBusy ? "..." : "request"}
+                          </button>
+                        </div>
+
+                        {trollCheck?.ok && (
+                          <p className="text-dim text-xs mt-2">
+                            → {trollCheck.troll} $TROLL, pending review
+                          </p>
+                        )}
+                        {trollCheck && !trollCheck.ok && (
+                          <p className="text-alert text-xs mt-2">[ {trollCheck.error} ]</p>
+                        )}
+                        {!trollInput.trim() && (
+                          <p className="text-ghost text-xs mt-2">
+                            {problemsForOneTroll(round.problemsPerTroll)} PROBLEMS gets you a whole
+                            coin.
+                          </p>
+                        )}
+                        {trollError && <p className="text-alert text-xs mt-2">[ {trollError} ]</p>}
+                        {trollFiled && (
+                          <p className="text-terminal text-xs mt-2">
+                            [ filed — your PROBLEMS are spent. the operator sends these by hand. ]
+                          </p>
+                        )}
                       </>
                     )}
-                  </p>
 
-                  {!hasAddress ? (
-                    <p className="text-alert text-xs">
-                      [ submit a wallet address above first — the airdrop needs somewhere to go ]
+                    <p className="text-ghost text-xs mt-3">
+                      rate applies to this round only and can change in the next one.
                     </p>
-                  ) : (
-                    <>
-                      <div className="flex gap-2">
-                        <input
-                          type="number"
-                          min={MIN_REDEEM_PROBLEMS}
-                          step={1}
-                          value={trollInput}
-                          onChange={(e) => {
-                            setTrollInput(e.target.value);
-                            setTrollError(null);
-                            setTrollFiled(false);
-                          }}
-                          placeholder={`${MIN_REDEEM_PROBLEMS}+`}
-                          disabled={trollBusy}
-                          className="w-28 bg-transparent border border-dim px-2 py-1 text-sm text-problem outline-none focus:border-problem disabled:opacity-50"
-                        />
-                        <button
-                          type="button"
-                          onClick={redeemForTroll}
-                          disabled={trollBusy || !trollCheck?.ok}
-                          className="border border-terminal text-terminal px-3 text-xs hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
-                        >
-                          {trollBusy ? "..." : "request"}
-                        </button>
-                      </div>
-
-                      {trollCheck?.ok && (
-                        <p className="text-dim text-xs mt-2">
-                          → {trollCheck.troll} $TROLL, pending review
-                        </p>
-                      )}
-                      {trollCheck && !trollCheck.ok && (
-                        <p className="text-alert text-xs mt-2">[ {trollCheck.error} ]</p>
-                      )}
-                      {!trollInput.trim() && (
-                        <p className="text-ghost text-xs mt-2">
-                          {problemsForOneTroll(round.problemsPerTroll)} PROBLEMS gets you a whole
-                          coin.
-                        </p>
-                      )}
-                      {trollError && <p className="text-alert text-xs mt-2">[ {trollError} ]</p>}
-                      {trollFiled && (
-                        <p className="text-terminal text-xs mt-2">
-                          [ filed — your PROBLEMS are spent. the operator sends these by hand. ]
-                        </p>
-                      )}
-                    </>
-                  )}
-
-                  <p className="text-ghost text-xs mt-3">
-                    rate applies to this round only and can change in the next one.
-                  </p>
-                </>
-              )}
+                  </>
+                )}
+              </div>
 
               {requests.length > 0 && (
                 <ul className="mt-4 space-y-1 text-xs border-t border-dim pt-3">
@@ -786,19 +789,6 @@ export default function VaultPage() {
           )}
         </div>
 
-        <p className="vault-col-center relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
-          part of the{" "}
-          <a
-            href="https://trollrunner.net"
-            className="glow-loop underline decoration-dim underline-offset-4"
-          >
-            trollrunner.net
-          </a>{" "}
-          network
-        </p>
-        <div className="vault-col-center max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
-          <Faq />
-        </div>
       </div>
     </main>
   );

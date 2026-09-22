@@ -50,7 +50,13 @@ const ENTRIES: Entry[] = [
 // Renders as a centered modal overlay (with its own background-scroll
 // lock) rather than expanding inline, so opening it doesn't push the rest
 // of the page down.
-export default function Faq() {
+type FaqProps = {
+  // "inline" drops the centered/spaced wrapper so the trigger can sit
+  // inside another line of text (see Nav's networkBadge).
+  trigger?: "block" | "inline";
+};
+
+export default function Faq({ trigger = "block" }: FaqProps) {
   const [open, setOpen] = useState(false);
 
   // No scroll-lock effect needed here: the terminal page (app/page.tsx)
@@ -65,16 +71,20 @@ export default function Faq() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const button = (
+    <button
+      type="button"
+      onClick={() => setOpen(true)}
+      aria-expanded={open}
+      className="glow-loop text-xs underline decoration-dim underline-offset-4 [text-shadow:0_1px_3px_var(--background)]"
+    >
+      [ what is this site? ]
+    </button>
+  );
+
   return (
-    <div className="relative z-[1] mt-3 text-center">
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-expanded={open}
-        className="glow-loop text-xs underline decoration-dim underline-offset-4 [text-shadow:0_1px_3px_var(--background)]"
-      >
-        [ what is this site? ]
-      </button>
+    <div className={trigger === "inline" ? "relative z-[1] inline" : "relative z-[1] mt-3 text-center"}>
+      {button}
       {open && (
         <>
           <div

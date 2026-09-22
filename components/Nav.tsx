@@ -10,8 +10,16 @@ import AuthPanel from "@/components/AuthPanel";
 import OwnerCredits from "@/components/OwnerCredits";
 import Presence from "@/components/Presence";
 import ThemeToggle from "@/components/ThemeToggle";
+import Faq from "@/components/Faq";
 
-export default function Nav() {
+type NavProps = {
+  // Shows the "part of trollrunner.net network" + FAQ trigger in the
+  // top-right corner instead of its usual spot at the bottom of the page.
+  // Vault-only for now — see app/vault/page.tsx.
+  networkBadge?: boolean;
+};
+
+export default function Nav({ networkBadge = false }: NavProps) {
   const [session, setSession] = useState<Session | null>(null);
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
@@ -162,6 +170,19 @@ export default function Nav() {
           </div>
         )}
         <OwnerCredits session={session} section="lock" />
+        {networkBadge && (
+          <p className="text-[11px] sm:text-xs text-dim text-right mt-1 whitespace-nowrap">
+            part of the{" "}
+            <a
+              href="https://trollrunner.net"
+              className="glow-loop underline decoration-dim underline-offset-4"
+            >
+              trollrunner.net
+            </a>{" "}
+            network ·{" "}
+            <Faq trigger="inline" />
+          </p>
+        )}
       </div>
     </nav>
   );
