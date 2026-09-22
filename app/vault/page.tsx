@@ -18,7 +18,6 @@ import {
   problemsForOneTroll,
   trollForProblems,
 } from "@/lib/redemption";
-import { TRUTHS_AIRDROPS } from "@/lib/truthsAirdrops";
 
 type Wallet = {
   balance: number;
@@ -498,7 +497,7 @@ export default function VaultPage() {
             </p>
           </Frame>
 
-          <Frame title="top miners" tone="dim" className="mb-6">
+          <Frame title="top miners" tone="dim" className="mb-6 lg:mb-0">
             {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
             <ol className="space-y-1 text-sm">
               {ladder.map((row, i) => (
@@ -510,49 +509,6 @@ export default function VaultPage() {
                 </li>
               ))}
             </ol>
-          </Frame>
-
-          <Frame title="$truths buyer airdrops" tone="dim" className="mb-6 lg:mb-0">
-            <p className="text-dim text-xs mb-3">
-              a separate reward: wallets that bought $TRUTHS get $TROLL, logged here.
-            </p>
-            <ul className="space-y-2 text-sm">
-              {TRUTHS_AIRDROPS.map((row) => (
-                <li key={row.wallet} className="border-t border-dim pt-2 first:border-t-0 first:pt-0">
-                  <div className="flex justify-between gap-3">
-                    <span className="text-problem font-mono">{shortenAddress(row.wallet, 6, 6)}</span>
-                    <span className="shrink-0 text-dim">
-                      {row.trollAmount !== undefined && `${row.trollAmount} $TROLL`}
-                      {row.trollAmount !== undefined && row.trollSentUsd !== undefined && " · "}
-                      {row.trollSentUsd !== undefined && `~$${row.trollSentUsd.toFixed(2)}`}
-                      {row.trollAmount === undefined && row.trollSentUsd === undefined && (
-                        <span className="text-ghost">amount TBD</span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-3 text-xs text-ghost mt-1">
-                    <span>
-                      {row.ratePct !== undefined && row.truthsBoughtUsd !== undefined
-                        ? `${row.ratePct}% of $${row.truthsBoughtUsd.toFixed(2)} bought`
-                        : row.ratePct !== undefined
-                          ? `${row.ratePct}% rate`
-                          : ""}
-                    </span>
-                    <span>{row.date ?? "date TBD"}</span>
-                  </div>
-                  {row.txSignature && (
-                    <a
-                      href={`https://solscan.io/tx/${row.txSignature}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-ghost underline hover:text-dim"
-                    >
-                      view tx
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
           </Frame>
         </div>
 
