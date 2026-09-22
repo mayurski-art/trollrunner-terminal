@@ -198,32 +198,52 @@
    order) below `lg` where there's no spare width to split. */
 .vault-content {
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, 1fr), not 1fr: a bare 1fr track still sizes to its item's
+     min-content by default, and the banner's <pre> (one long unbroken
+     line of box-drawing glyphs before JS shrinks its font-size) has a
+     huge intrinsic width — that was stretching this column past the
+     viewport on mobile instead of letting the banner's own fit-to-width
+     logic shrink it down. */
+  grid-template-columns: minmax(0, 1fr);
 }
 @media (min-width: 1024px) {
   .vault-content {
     /* Track the lit shaft in the background art. .home-hero-bg-frame is
        `position: fixed; inset: 0`, so the art is always painted into
-       exactly one viewport at `background-size: cover` — which makes the
-       shaft's left edge a pure function of viewport size, with no JS and
-       no resize listener needed.
+       exactly one viewport at `background-size: cover` — which makes both
+       shaft edges a pure function of viewport size, with no JS and no
+       resize listener needed.
 
        cover picks the larger of the two axis ratios against the source's
-       intrinsic 1532x1037, and the x-position is centered, so the edge —
-       which sits 560/1532 across the source — lands at
-       50vw - (766 - 560)px * scale. The 11px is the grid's own left
-       offset (main's px-4), constant at every width.
+       actual pixel size (1521x1034 — confirmed via sharp metadata, not the
+       file's advertised/rounded dimensions), and the x-position is
+       centered, so an edge N source-px from center lands at
+       50vw ± N * scale. Both edges were located by scanning horizontal
+       rows above the figure for the sharpest brightness jump and averaged
+       across 4 of 5 sample rows (the 5th sampled low enough to clip the
+       figure's shoulder, which isn't part of the shaft edge, and was
+       discarded): left edge 210.5px left of center, right edge 217.5px
+       right of center. If the art is ever recropped: scan a few
+       horizontal rows of the new file above the figure for the largest
+       brightness delta between adjacent pixels on each side of center
+       (sharp's raw pixel buffer makes this a few lines of script) and
+       update the two offsets below. The 11px is the grid's own side
+       padding (main's px-4), constant at every width on both sides.
 
-       Clamped so the column can't collapse or outgrow its content on
-       extreme aspect ratios; within the clamp it follows the art exactly.
-       Re-measure --vault-shaft-x if the art is ever recropped. */
-    --vault-cover-scale: max(100vw / 1532, 100vh / 1037);
-    --vault-shaft-x: calc(50vw - 206 * var(--vault-cover-scale));
+       Three tracks: left panels sized to end at the left edge, a flexible
+       spacer, right panels sized to start at the right edge. Each side is
+       independently clamped so its column can't collapse or outgrow its
+       content on extreme aspect ratios; within the clamps both edges
+       follow the art exactly. */
+    --vault-cover-scale: max(100vw / 1521, 100vh / 1034);
+    --vault-shaft-left: calc(50vw - 210.5 * var(--vault-cover-scale));
+    --vault-shaft-right: calc(50vw + 217.5 * var(--vault-cover-scale));
     /* px bounds, not rem: a rem-bounded clamp() here resolved to a flat
        672px at every width, ignoring both bounds and the tracked value. */
     grid-template-columns:
-      clamp(340px, calc(var(--vault-shaft-x) - 11px), 1400px)
-      1fr;
+      clamp(340px, calc(var(--vault-shaft-left) - 11px), 1400px)
+      1fr
+      clamp(340px, calc(100vw - 11px - var(--vault-shaft-right)), 1400px);
     grid-template-rows: auto auto;
     align-items: start;
     gap: 1.5rem;
@@ -238,7 +258,7 @@
     grid-row: 2;
   }
   .vault-col-right {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 2;
   }
 }

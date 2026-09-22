@@ -560,6 +560,11 @@ export default function VaultPage() {
           {session && (
             <>
             <Frame title="$troll airdrop" tone="dim" className="mb-6">
+              {round && (
+                <p className="text-dim text-xs mb-3">
+                  {round.problemsPerTroll} PROBLEMS: 1 $TROLL
+                </p>
+              )}
               {submission && !editingAddress ? (
                 <>
                   <p className="text-dim text-xs mb-2">you&apos;re in the queue.</p>
@@ -601,8 +606,8 @@ export default function VaultPage() {
                       </>
                     ) : (
                       <>
-                        paste a solana address to be considered for a $TROLL airdrop. reviewed by
-                        hand — this is a request, not a claim.
+                        paste YOUR solana address for a $TROLL airdrop. reviewed — this is a
+                        request, not a claim.
                       </>
                     )}
                   </p>
@@ -656,7 +661,7 @@ export default function VaultPage() {
                 </p>
               )}
               <p className="text-ghost text-xs mt-3">
-                double-check it. an airdrop sent to a wrong address is gone.
+                double-check it. an airdrop sent to a wrong address is not my PROBLEM. haha.
               </p>
 
               <div className="border-t border-dim mt-4 pt-4">

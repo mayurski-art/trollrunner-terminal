@@ -186,7 +186,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
         )}
         <OwnerCredits session={session} section="lock" />
         {networkBadge && (
-          <p className="text-[11px] sm:text-xs text-foreground text-left mt-1 whitespace-nowrap">
+          <p className="text-[11px] sm:text-xs text-foreground text-left mt-1 max-w-full">
             part of the{" "}
             <a
               href="https://trollrunner.net"
