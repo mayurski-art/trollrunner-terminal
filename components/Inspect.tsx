@@ -89,6 +89,7 @@ export default function Inspect() {
   const [newRate, setNewRate] = useState("69");
   const [newPool, setNewPool] = useState("175");
   const [newCap, setNewCap] = useState("500");
+  const [newLabel, setNewLabel] = useState("");
   const [roundBusy, setRoundBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -225,6 +226,7 @@ export default function Inspect() {
               problemsPerTroll: Number(newRate),
               poolTroll: Number(newPool),
               perUserCap: newCap.trim() === "" ? null : Number(newCap),
+              label: newLabel.trim(),
             }
           : { action };
       const res = await fetch("/api/admin/redemptions", {
@@ -495,6 +497,14 @@ export default function Inspect() {
               title="per-user cap in PROBLEMS (blank = none)"
               placeholder="cap"
               className="w-12 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
+            />
+            <input
+              type="text"
+              value={newLabel}
+              onChange={(e) => setNewLabel(e.target.value)}
+              title="round name, shown on /vault (optional)"
+              placeholder="label"
+              className="w-16 min-w-0 bg-transparent border border-dim px-1 py-0.5 text-problem outline-none focus:border-problem"
             />
             <button
               type="button"
