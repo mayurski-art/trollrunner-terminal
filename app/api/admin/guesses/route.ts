@@ -24,6 +24,7 @@ export async function GET(request: Request) {
       "id, post_id, user_id, last_guess_text, attempts, correct, resolved, cost_paid, overridden_by, created_at, resolved_at, terminal_posts(clue_tag, content)"
     )
     .eq("resolved", true)
+    .eq("dismissed", false)
     .order("resolved_at", { ascending: false })
     .limit(200);
 
@@ -121,4 +122,37 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ guess: updated });
+}
+
+// Dismiss: hide a guess from the review queue without touching its
+// correct/payout state — just a persisted "stop showing me this" flag, so
+// it doesn't reappear on refresh.
+export async function PATCH(request: Request) {
+  const owner = await requireOwner(request);
+  if (!owner) {
+    return NextResponse.json({ error: "not authorized" }, { status: 403 });
+  }
+
+  let body: { id?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "malformed request" }, { status: 400 });
+  }
+
+  const { id } = body;
+  if (!id || typeof id !== "string") {
+    return NextResponse.json({ error: "missing guess id" }, { status: 400 });
+  }
+
+  const { error } = await owner.supabase
+    .from("terminal_post_guesses")
+    .update({ dismissed: true })
+    .eq("id", id);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
 }

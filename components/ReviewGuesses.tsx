@@ -32,7 +32,6 @@ export default function ReviewGuesses() {
   const [error, setError] = useState<string | null>(null);
   const [showCorrect, setShowCorrect] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
 
   const authedFetch = useCallback(async (init?: RequestInit) => {
     const sb = getPublicClient();
@@ -91,10 +90,26 @@ export default function ReviewGuesses() {
   }
 
   const denied = guesses.filter((g) => !g.correct);
-  const visible = (showCorrect ? guesses : denied).filter((g) => !dismissedIds.has(g.id));
+  const visible = showCorrect ? guesses : denied;
 
-  function dismiss(id: string) {
-    setDismissedIds((prev) => new Set(prev).add(id));
+  async function dismiss(id: string) {
+    setError(null);
+    setBusyId(id);
+    const previous = guesses;
+    setGuesses((prev) => prev.filter((g) => g.id !== id));
+    try {
+      const res = await authedFetch({ method: "PATCH", body: JSON.stringify({ id }) });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setGuesses(previous);
+        setError(body.error ?? "that didn't take");
+      }
+    } catch {
+      setGuesses(previous);
+      setError("connection to the terminal was lost");
+    } finally {
+      setBusyId(null);
+    }
   }
 
   return (
