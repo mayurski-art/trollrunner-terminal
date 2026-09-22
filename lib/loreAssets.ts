@@ -443,6 +443,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["garrett jin", "zec short", "zcash short", "insider whale", "gate.io co-founder"],
     sections: [55],
   },
+  {
+    id: "trollworld-island-map-countdown",
+    url: "/lore/trollworld-island-map-countdown.png",
+    caption:
+      "the TROLLWORLD island map on trollface.io, header showing the 69:69:69 countdown state, with the /cave, /observatory and other named routes visible as physical landmarks",
+    keywords: ["trollworld", "trollface.io", "island map", "69:69:69", "countdown", "trollworld island"],
+    sections: [60],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
