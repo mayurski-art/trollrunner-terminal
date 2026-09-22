@@ -387,6 +387,13 @@ export type GeneratedChatReply = {
   // had thought to hand-write a keyword for. This is a real decision the
   // model makes from the actual conversation.
   imageId: string | null;
+  // Which free-tier provider actually wrote this reply (see
+  // lib/freeProviders.ts's rotation). Surfaced so the owner can judge each
+  // model's real output quality from the live chat log rather than from
+  // test prompts — the rotation is flat round-robin, so every provider
+  // writes roughly its share of replies and the weakest one is only
+  // identifiable if replies are attributable.
+  provider: string;
   usage: {
     input_tokens: number;
     output_tokens: number;
@@ -485,6 +492,7 @@ export async function generateChatReply(
   return {
     content: replyText || "static\nlost that one, ask again",
     imageId,
+    provider: freeResult.provider,
     usage,
   };
 }

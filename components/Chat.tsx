@@ -3,6 +3,8 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { getPublicClient } from "@/lib/supabase";
+import { displayName } from "@/lib/auth";
+import { OWNER_USERNAME } from "@/lib/ownerUsername";
 import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
@@ -16,6 +18,12 @@ type Message = {
   is_gossip?: boolean;
   image_url?: string | null;
   image_caption?: string | null;
+  // Which free-tier provider wrote this reply (groq/gemini/openrouter/
+  // mistral). Rendered owner-only, so model quality can be judged from real
+  // traffic rather than test prompts. Absent on user messages, on replies
+  // written before supabase/migrations/019_chat_provider.sql was run, and
+  // on the canned non-generated replies (rate limits, chat locked).
+  provider?: string | null;
 };
 
 // MessageRow is memoized so the 250ms cooldown tick and 1800ms thinking-verb
@@ -28,12 +36,16 @@ const MessageRow = memo(function MessageRow({
   message,
   remembered,
   memoryBusy,
+  isOwner,
   onToggleMemory,
   onOpenLightbox,
 }: {
   message: Message;
   remembered: boolean;
   memoryBusy: boolean;
+  // Gates the provider label below — it's a quality-assessment tool for the
+  // owner, not something troublemakers should see attached to the persona.
+  isOwner: boolean;
   onToggleMemory: (m: Message) => void;
   onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
 }) {
@@ -104,6 +116,14 @@ const MessageRow = memo(function MessageRow({
       )}
       <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
         {m.created_at && <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>}
+        {/* Owner-only: which free provider wrote this reply. Italic and dim
+            so it reads as a margin note on the log rather than part of the
+            terminal's own voice. */}
+        {isOwner && m.role === "terminal" && m.provider && (
+          <span className="text-dim text-xs italic" title="free-tier provider that generated this reply">
+            {m.provider}
+          </span>
+        )}
         <button
           type="button"
           onClick={() => onToggleMemory(m)}
@@ -266,6 +286,11 @@ export default function Chat({
   const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
   const [cooldownNow, setCooldownNow] = useState(() => Date.now());
   const [loaded, setLoaded] = useState(false);
+  // Owner-only UI gate for the provider label on each reply. Resolved from
+  // the session the same way OwnerCredits does; this is a display gate only,
+  // and the provider value itself is harmless — nothing sensitive hangs off
+  // being wrong here, unlike the owner-gated admin routes.
+  const [isOwner, setIsOwner] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [confirmingClear, setConfirmingClear] = useState(false);
@@ -386,6 +411,23 @@ export default function Chat({
   useEffect(() => {
     return () => {
       if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  // Resolve owner status once for the provider label (see MessageRow).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const sb = getPublicClient();
+        const { data } = await sb.auth.getSession();
+        if (!cancelled) setIsOwner(displayName(data.session) === OWNER_USERNAME);
+      } catch {
+        // Not signed in / storage blocked — stays false, label just hides.
+      }
+    })();
+    return () => {
+      cancelled = true;
     };
   }, []);
 
@@ -517,6 +559,7 @@ export default function Chat({
           created_at: new Date().toISOString(),
           image_url: data.imageUrl ?? null,
           image_caption: data.imageCaption ?? null,
+          provider: data.provider ?? null,
         },
       ]);
       speak(data.reply);
@@ -925,6 +968,7 @@ export default function Chat({
             message={m}
             remembered={memories.has(m.content)}
             memoryBusy={memoryBusy === m.content}
+            isOwner={isOwner}
             onToggleMemory={toggleMemory}
             onOpenLightbox={setLightbox}
           />

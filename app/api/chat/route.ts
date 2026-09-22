@@ -107,13 +107,28 @@ export async function GET(request: Request) {
   }
   const userId = userData.user.id;
 
+  // `provider` is only present once supabase/migrations/019_chat_provider.sql has
+  // been run. Selecting a column that doesn't exist fails the whole query,
+  // which would blank the entire chat history over a debug-only field — so
+  // the column list is chosen once per request and falls back below.
+  const HISTORY_COLUMNS = "role, content, created_at, is_gossip, image_url, image_caption";
   const [{ data: historyRows }, { data: wallet }, { data: config }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
-      .select("role, content, created_at, is_gossip, image_url, image_caption")
+      .select(`${HISTORY_COLUMNS}, provider`)
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
-      .limit(HISTORY_TURNS * 2),
+      .limit(HISTORY_TURNS * 2)
+      .then((res) =>
+        res.error && /provider/i.test(res.error.message)
+          ? supabase
+              .from("terminal_chat_messages")
+              .select(HISTORY_COLUMNS)
+              .eq("user_id", userId)
+              .order("created_at", { ascending: false })
+              .limit(HISTORY_TURNS * 2)
+          : res
+      ),
     supabase
       .from("terminal_wallets")
       .select("balance, qualifying_count, friendship_score")
@@ -439,22 +454,42 @@ export async function POST(request: Request) {
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
   await recordSpend(supabase, estimatedCostUsd);
 
-  const { error: insertError } = await supabase.from("terminal_chat_messages").insert([
-    { user_id: userId, role: "user", content: message, qualifying },
-    {
-      user_id: userId,
-      role: "terminal",
-      content: generated.content,
-      qualifying: false,
-      input_tokens: generated.usage.input_tokens,
-      output_tokens: generated.usage.output_tokens,
-      cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
-      cache_read_input_tokens: generated.usage.cache_read_input_tokens,
-      estimated_cost_usd: estimatedCostUsd,
-      image_url: loreAsset?.url ?? null,
-      image_caption: loreAsset?.caption ?? null,
-    },
-  ]);
+  const terminalRow: Record<string, unknown> = {
+    user_id: userId,
+    role: "terminal",
+    content: generated.content,
+    qualifying: false,
+    input_tokens: generated.usage.input_tokens,
+    output_tokens: generated.usage.output_tokens,
+    cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
+    cache_read_input_tokens: generated.usage.cache_read_input_tokens,
+    estimated_cost_usd: estimatedCostUsd,
+    image_url: loreAsset?.url ?? null,
+    image_caption: loreAsset?.caption ?? null,
+    provider: generated.provider,
+  };
+  const userRow = { user_id: userId, role: "user", content: message, qualifying };
+
+  let { error: insertError } = await supabase
+    .from("terminal_chat_messages")
+    .insert([userRow, terminalRow]);
+
+  // `provider` is a new column (see supabase/migrations/019_chat_provider.sql). If
+  // that migration hasn't been run on this database yet, PostgREST rejects
+  // the whole insert with PGRST204 and BOTH messages would be lost — the
+  // reply the user just read would vanish on refresh over a debug-only
+  // field. Retry once without it so the conversation always survives; the
+  // live reply still shows its provider marker either way, since that comes
+  // from the response body rather than the database.
+  if (insertError && /provider/i.test(insertError.message)) {
+    console.error(
+      "[chat] provider column missing — saving without it. Run supabase/migrations/019_chat_provider.sql to persist provider tags."
+    );
+    delete terminalRow.provider;
+    ({ error: insertError } = await supabase
+      .from("terminal_chat_messages")
+      .insert([userRow, terminalRow]));
+  }
   if (insertError) {
     console.error("[chat] failed to save chat messages:", insertError.message);
   }
@@ -571,6 +606,10 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     reply: generated.content,
+    // Which free provider wrote this reply. The client shows it as a small
+    // owner-only marker so model quality can be judged from real traffic
+    // (see ProviderMark in components/Chat.tsx).
+    provider: generated.provider,
     imageUrl: loreAsset?.url ?? null,
     imageCaption: loreAsset?.caption ?? null,
     wallet: {

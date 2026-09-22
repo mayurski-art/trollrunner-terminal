@@ -1,0 +1,14 @@
+-- Which free-tier provider (see lib/freeProviders.ts) generated each
+-- terminal reply. Rides on the existing terminal_chat_messages table, same
+-- as is_gossip/image_url in 007.
+--
+-- The rotation is flat round-robin across groq/gemini/openrouter/mistral,
+-- so every provider writes roughly its share of replies. Recording which
+-- one wrote each reply is what makes it possible to judge a model's real
+-- output quality from live traffic instead of from a handful of test
+-- prompts — the owner sees it rendered next to each reply in the chat log.
+--
+-- Nullable with no default on purpose: rows written before this migration
+-- genuinely have no known provider, and a default would invent an
+-- attribution that was never measured.
+alter table terminal_chat_messages add column if not exists provider text;
