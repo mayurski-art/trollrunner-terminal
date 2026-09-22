@@ -5,7 +5,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 // A scrolling status line below the nav. The copy is ambient chrome in the
 // persona's voice (no endpoint aggregates PROBLEMS/recoveries across every
 // user, and making up numbers would be worse than showing none) — but the
-// $TROLL quote spliced into it IS live, polled from /api/troll-price.
+// $TROLL and $TRUTHS quotes spliced into it ARE live, polled from
+// /api/troll-price and /api/truths-price respectively.
 const TICKER_TEXT =
   "it surfaced inside trollrunner.net · a face with no body and no alibi · trolling has a face now · welcome, troublemaker";
 
@@ -28,6 +29,7 @@ function formatPrice(price: number) {
 
 export default function SiteTicker() {
   const [quote, setQuote] = useState<Quote | null>(null);
+  const [truthsQuote, setTruthsQuote] = useState<Quote | null>(null);
   const [floor, setFloor] = useState<Floor | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const firstCopyRef = useRef<HTMLSpanElement>(null);
@@ -57,6 +59,39 @@ export default function SiteTicker() {
         }
       } catch {
         // Offline or blocked — the ticker just runs without a price.
+      }
+    }
+
+    load();
+    const id = setInterval(load, POLL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  // Same shape as the $TROLL effect above, against /api/truths-price. Kept
+  // as its own effect (not folded into one call fetching both) so a slow or
+  // failing truths-price fetch never delays or blanks the $TROLL quote.
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch("/api/truths-price");
+        if (!res.ok) return; // keep the last good quote rather than blanking
+        const data = await res.json();
+        if (!cancelled && Number.isFinite(data?.priceUsd)) {
+          setTruthsQuote((prev) =>
+            prev &&
+            prev.priceUsd === data.priceUsd &&
+            prev.change24h === (data.change24h ?? null)
+              ? prev
+              : { priceUsd: data.priceUsd, change24h: data.change24h ?? null },
+          );
+        }
+      } catch {
+        // Offline or blocked — the ticker just runs without this quote.
       }
     }
 
@@ -152,7 +187,7 @@ export default function SiteTicker() {
       ro.disconnect();
       window.removeEventListener("resize", apply);
     };
-  }, [quote, floor]);
+  }, [quote, truthsQuote, floor]);
 
   // Build the market segments as PLAIN STRINGS, not conditional JSX subtrees.
   //
@@ -181,6 +216,23 @@ export default function SiteTicker() {
     quote && quote.change24h !== null
       ? ` ${quote.change24h >= 0 ? "▲" : "▼"}${Math.abs(quote.change24h).toFixed(2)}%`
       : "";
+  // Same shape as priceText/changeText/changeClass above, for $TRUTHS — the
+  // terminal's own coin, paired to $TROLL (lore §57). A second, independent
+  // set of plain strings rather than a shared/looped structure, so this
+  // segment can go blank on its own (a dead truths-price fetch) without
+  // touching the $TROLL segment, and so it stays exempt from the same
+  // conditional-JSX-subtree blink the comment above describes.
+  const truthsPriceText = truthsQuote ? ` · $TRUTHS ${formatPrice(truthsQuote.priceUsd)}` : "";
+  const truthsChangeText =
+    truthsQuote && truthsQuote.change24h !== null
+      ? ` ${truthsQuote.change24h >= 0 ? "▲" : "▼"}${Math.abs(truthsQuote.change24h).toFixed(2)}%`
+      : "";
+  const truthsChangeClass =
+    truthsQuote && truthsQuote.change24h !== null
+      ? truthsQuote.change24h >= 0
+        ? "site-ticker-up"
+        : "site-ticker-down"
+      : "";
   const floorText =
     floor && floor.floorUsd !== null
       ? ` · NFTs $${Math.round(floor.floorUsd).toLocaleString("en-US")}`
@@ -200,6 +252,8 @@ export default function SiteTicker() {
       {TICKER_TEXT}
       <span className="site-ticker-price">{priceText}</span>
       <span className={changeClass}>{changeText}</span>
+      <span className="site-ticker-price">{truthsPriceText}</span>
+      <span className={truthsChangeClass}>{truthsChangeText}</span>
       <span className="site-ticker-price">{floorText}</span>
       {/* The floor is rendered above, as floorText, only when the USD
           conversion succeeded. OpenSea quotes the floor in ETH, so floorUsd
