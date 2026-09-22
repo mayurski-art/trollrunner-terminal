@@ -1,18 +1,13 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { checkRedemption, remainingPool, type RoundState } from "@/lib/redemption";
+import { remainingPool, type RoundState } from "@/lib/redemption";
 
 export const runtime = "nodejs";
 
-// PROBLEMS -> $TROLL redemption — docs/VAULT-TROLL-REWARDS.md Path B.
-//
-// Deliberately NOT part of /api/vault/redeem (the XP path). That route
-// debits PROBLEMS and rolls the debit back if the downstream award fails,
-// because the award is synchronous. Here the payout is a human sending
-// tokens by hand hours or days later, so there is nothing to roll back
-// against: the debit lands now and the request sits 'pending' until the
-// operator marks it paid or refunds it. Sharing the XP route would make a
-// legitimately pending airdrop look identical to a failed redemption.
+// The redemption rate/history display on /vault — docs/VAULT-TROLL-REWARDS.md
+// Path B. Filing new requests (the old POST handler) was torn out along with
+// the redeem form and its [inspect] review panel; this route is now
+// read-only, showing the open round's rate and this user's past requests.
 //
 // Nothing in this file moves a token.
 
@@ -65,179 +60,33 @@ async function loadOpenRound(supabase: ServiceClient): Promise<RoundState | null
   };
 }
 
-async function spentThisRound(
-  supabase: ServiceClient,
-  roundId: string,
-  userId: string
-): Promise<number> {
-  // Refunded requests don't count against the cap — the user got those
-  // PROBLEMS back, so spending them again is not a second bite.
-  const { data } = await supabase
-    .from("terminal_redemption_requests")
-    .select("problems_spent")
-    .eq("round_id", roundId)
-    .eq("user_id", userId)
-    .in("status", ["pending", "paid"]);
-  return (data ?? []).reduce((sum, r) => sum + Number(r.problems_spent ?? 0), 0);
-}
-
-// GET: what /vault needs to render the panel — the open round, this user's
-// allowance within it, and their own request history.
+// GET: what /vault needs to render the panel — the open round and this
+// user's own request history.
 export async function GET(request: Request) {
   const auth = await getUser(request);
   const supabase = auth?.supabase ?? getServiceClient();
 
   const round = await loadOpenRound(supabase);
+  const roundOut = round
+    ? {
+        problemsPerTroll: round.problemsPerTroll,
+        remainingTroll: remainingPool(round),
+        perUserCap: round.perUserCap,
+        label: round.label,
+      }
+    : null;
 
   // Signed out: the rate is public, the rest isn't.
   if (!auth) {
-    return NextResponse.json({
-      round: round
-        ? {
-            problemsPerTroll: round.problemsPerTroll,
-            remainingTroll: remainingPool(round),
-            perUserCap: round.perUserCap,
-            label: round.label,
-          }
-        : null,
-      requests: [],
-      spentThisRound: 0,
-    });
+    return NextResponse.json({ round: roundOut, requests: [] });
   }
 
-  const [{ data: requests }, spent] = await Promise.all([
-    supabase
-      .from("terminal_redemption_requests")
-      .select("id, problems_spent, rate_at_request, status, amount_troll, address, created_at")
-      .eq("user_id", auth.userId)
-      .order("created_at", { ascending: false })
-      .limit(20),
-    round ? spentThisRound(supabase, round.id, auth.userId) : Promise.resolve(0),
-  ]);
-
-  return NextResponse.json({
-    round: round
-      ? {
-          problemsPerTroll: round.problemsPerTroll,
-          remainingTroll: remainingPool(round),
-          perUserCap: round.perUserCap,
-          label: round.label,
-        }
-      : null,
-    requests: requests ?? [],
-    spentThisRound: spent,
-  });
-}
-
-export async function POST(request: Request) {
-  const auth = await getUser(request);
-  if (!auth) return NextResponse.json({ error: "sign in required" }, { status: 401 });
-  const { supabase, userId } = auth;
-
-  let body: { problems?: number };
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "invalid request body" }, { status: 400 });
-  }
-
-  const problems = Math.floor(Number(body.problems));
-
-  const round = await loadOpenRound(supabase);
-  if (!round) {
-    return NextResponse.json({ error: "no redemption round is open right now" }, { status: 400 });
-  }
-
-  // A payout needs somewhere to go. Requiring the Path A submission rather
-  // than taking an address here keeps one address per user, already typed
-  // and checked, instead of a second place for a typo to cost real tokens.
-  const { data: submission } = await supabase
-    .from("terminal_wallet_submissions")
-    .select("address")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  if (!submission?.address) {
-    return NextResponse.json(
-      { error: "submit a wallet address first — the airdrop needs somewhere to go" },
-      { status: 400 }
-    );
-  }
-
-  const { data: wallet } = await supabase
-    .from("terminal_wallets")
-    .select("balance, lifetime_spent")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  const balance = wallet?.balance ?? 0;
-  const alreadySpent = await spentThisRound(supabase, round.id, userId);
-
-  const check = checkRedemption({ problems, balance, round, alreadySpentThisRound: alreadySpent });
-  if (!check.ok) {
-    return NextResponse.json({ error: check.error }, { status: 400 });
-  }
-
-  // Create the request BEFORE debiting. If the insert fails the user still
-  // has their PROBLEMS; if the debit fails we delete the request we just
-  // made. The reverse order could leave a debit with nothing recording why.
-  const { data: created, error: insertError } = await supabase
+  const { data: requests } = await supabase
     .from("terminal_redemption_requests")
-    .insert({
-      user_id: userId,
-      round_id: round.id,
-      problems_spent: problems,
-      rate_at_request: round.problemsPerTroll,
-      address: submission.address,
-      status: "pending",
-    })
     .select("id, problems_spent, rate_at_request, status, amount_troll, address, created_at")
-    .maybeSingle();
+    .eq("user_id", auth.userId)
+    .order("created_at", { ascending: false })
+    .limit(20);
 
-  if (insertError || !created) {
-    return NextResponse.json({ error: "could not file your request" }, { status: 500 });
-  }
-
-  const newBalance = balance - problems;
-  const { error: debitError } = await supabase
-    .from("terminal_wallets")
-    .update({ balance: newBalance, lifetime_spent: (wallet?.lifetime_spent ?? 0) + problems })
-    .eq("user_id", userId)
-    // Optimistic concurrency: if the balance moved between the read above
-    // and this write (another tab, a chat message landing), the update
-    // matches nothing and we unwind rather than overwriting it.
-    .eq("balance", balance);
-
-  if (debitError) {
-    await supabase.from("terminal_redemption_requests").delete().eq("id", created.id);
-    return NextResponse.json({ error: "could not debit your balance" }, { status: 500 });
-  }
-
-  // .update() reports no error when zero rows match, so confirm the debit
-  // actually landed before leaving a request standing against it.
-  const { data: after } = await supabase
-    .from("terminal_wallets")
-    .select("balance")
-    .eq("user_id", userId)
-    .maybeSingle();
-
-  if ((after?.balance ?? 0) !== newBalance) {
-    await supabase.from("terminal_redemption_requests").delete().eq("id", created.id);
-    return NextResponse.json(
-      { error: "your balance changed — try that again" },
-      { status: 409 }
-    );
-  }
-
-  await supabase.from("terminal_token_ledger").insert({
-    user_id: userId,
-    delta: -problems,
-    reason: "troll_redemption",
-  });
-
-  return NextResponse.json({
-    request: created,
-    balance: newBalance,
-    troll: check.troll,
-  });
+  return NextResponse.json({ round: roundOut, requests: requests ?? [] });
 }
