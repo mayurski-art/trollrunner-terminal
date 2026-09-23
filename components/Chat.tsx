@@ -331,6 +331,8 @@ export default function Chat({
   const [hopTarget, setHopTarget] = useState<LiveUser | null>(null);
   const [hopMessages, setHopMessages] = useState<Message[]>([]);
   const [hopLoading, setHopLoading] = useState(false);
+  const [hopSending, setHopSending] = useState(false);
+  const [hopError, setHopError] = useState<string | null>(null);
 
   useEffect(() => {
     // New image (or closed) — snap pan back to center.
@@ -618,6 +620,7 @@ export default function Chat({
       // targets never shows the previous person's transcript under the new
       // person's name.
       setHopMessages([]);
+      setHopError(null);
     };
   }, [hopTarget, stableAuthHeader]);
 
@@ -856,6 +859,36 @@ export default function Chat({
       const last = m[m.length - 1];
       return last?.role === "user" && last.content === text ? m.slice(0, -1) : m;
     });
+  }
+
+  // Speak into the hopped-into conversation as the terminal. Appends locally
+  // on success so the line shows immediately, rather than waiting up to a
+  // poll interval for it to come back around.
+  async function sendAsTerminal(e: React.FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || hopSending || !hopTarget) return;
+    setHopSending(true);
+    setHopError(null);
+    try {
+      const headers = { "Content-Type": "application/json", ...(await authHeader()) };
+      const res = await fetch("/api/admin/say", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ userId: hopTarget.userId, message: text }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setHopError(data.error ?? "could not send that");
+        return;
+      }
+      setInput("");
+      if (data.message) setHopMessages((m) => [...m, data.message as Message]);
+    } catch {
+      setHopError("connection to the terminal was lost");
+    } finally {
+      setHopSending(false);
+    }
   }
 
   async function send(e: React.FormEvent) {
@@ -1203,21 +1236,40 @@ export default function Chat({
           border clear of the panel's own glowing border at every width —
           mb-1 wasn't enough clearance and still read as a collision on
           mobile. */}
-      <form onSubmit={send} className="flex gap-2 shrink-0 mt-1 mb-3">
+      {hopError && <p className="text-alert text-xs mb-1 shrink-0">[ {hopError} ]</p>}
+      {/* While hopped in, the whole row is ringed in the hop-in colour — a
+          placeholder alone is too easy to miss, and sending a private thought
+          to a stranger as the terminal is not a recoverable mistake. */}
+      <form
+        onSubmit={hopTarget ? sendAsTerminal : send}
+        className={`flex gap-2 shrink-0 mt-1 mb-3 ${
+          hopTarget ? "border border-problem/60 bg-problem/5 p-1" : ""
+        }`}
+      >
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={hopTarget ? "watching — send comes next" : "say something_"}
+          placeholder={
+            hopTarget ? `speak as the terminal to ${hopTarget.username}_` : "say something_"
+          }
           maxLength={1000}
-          disabled={busy || !!hopTarget}
-          className="flex-1 bg-transparent border border-dim px-2 py-1.5 text-sm text-you outline-none focus:border-terminal disabled:opacity-50"
+          disabled={hopTarget ? hopSending : busy}
+          className={`flex-1 bg-transparent border px-2 py-1.5 text-sm outline-none disabled:opacity-50 ${
+            hopTarget
+              ? "border-problem/50 text-problem focus:border-problem"
+              : "border-dim text-you focus:border-terminal"
+          }`}
         />
         <button
           type="submit"
-          disabled={busy || !input.trim() || !!hopTarget}
-          className="glitch-btn border border-terminal text-terminal px-3 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
+          disabled={(hopTarget ? hopSending : busy) || !input.trim()}
+          className={`glitch-btn border px-3 text-sm transition-colors disabled:opacity-40 ${
+            hopTarget
+              ? "border-problem text-problem hover:bg-problem hover:text-background"
+              : "border-terminal text-terminal hover:bg-terminal hover:text-background"
+          }`}
         >
-          &gt;
+          {hopTarget && hopSending ? "..." : ">"}
         </button>
       </form>
 
