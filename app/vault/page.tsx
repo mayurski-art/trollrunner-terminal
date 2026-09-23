@@ -60,6 +60,10 @@ const QUALIFYING_INTERVAL = 7;
 const XP_PER_PROBLEM = 25;
 const MIN_REDEEM = 5;
 const LADDER_REFRESH_MS = 12_000;
+// Top miners shows a full 20. The board is the last panel in its column and
+// stretches to match the taller column beside it (see .vault-col-left in
+// globals.css), so a 10-name list left a large empty gap under the names.
+const LADDER_SIZE = 20;
 
 export default function VaultPage() {
   const [session, setSession] = useState<Session | null>(null);
@@ -202,7 +206,7 @@ export default function VaultPage() {
           .from("terminal_wallets")
           .select("user_id, balance")
           .order("balance", { ascending: false })
-          .limit(10);
+          .limit(LADDER_SIZE);
         if (ladderError) throw ladderError;
 
         // terminal_wallets has no FK to troll_profiles (both just reference
@@ -443,12 +447,44 @@ export default function VaultPage() {
           )}
 
           {session ? (
+            /* The ledger used to be its own Frame over in the right column.
+               It tells the same story as the numbers above it — what you
+               have, and where it came from — so it lives inside this panel
+               now as a labelled section rather than a separate box. Popping
+               out still lifts the whole Frame into its own window (see the
+               `ledgerPopped` className below), where the history is the
+               point and the balance block reads as its header. */
             <Frame
               title="your signal"
               tone="problem"
-              className="mb-6"
+              className={
+                ledgerPopped
+                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
+                  : "mb-6 flex flex-col min-h-0"
+              }
+              style={
+                ledgerPopped && isDesktop
+                  ? {
+                      top: `${popoutPos.top}px`,
+                      left: `${popoutPos.left}px`,
+                      width: `${POPOUT_SIZE.width}px`,
+                      height: `${POPOUT_SIZE.height}px`,
+                      right: "auto",
+                      bottom: "auto",
+                    }
+                  : undefined
+              }
+              bodyClassName="flex flex-col flex-1 min-h-0"
               titleEffect="trace"
               traceHue="#ffd21f"
+              cornerAction={<div ref={ledgerPopoutPortalRef} />}
+              onHeaderPointerDown={
+                ledgerPopped && isDesktop ? handlePopoutHeaderPointerDown : undefined
+              }
+              onHeaderPointerMove={
+                ledgerPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined
+              }
+              onHeaderPointerUp={ledgerPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
             >
               <p className="text-4xl text-problem mb-3">
                 {wallet?.balance ?? "..."}{" "}
@@ -463,6 +499,34 @@ export default function VaultPage() {
                 tone="problem"
                 label={`mining progress: ${wallet?.qualifying_count ?? 0}/${QUALIFYING_INTERVAL}`}
               />
+
+              {/* Hairline rule + label stand in for the border the ledger
+                  used to have, so the history still reads as its own thing
+                  inside the shared panel. */}
+              <p className="mt-4 mb-2 border-t border-dim/40 pt-3 text-xs tracking-wide text-dim">
+                ledger
+              </p>
+              {ledger.length === 0 && (
+                <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
+              )}
+              {/* In-flow the list is capped so the merged panel can't run
+                  away down the page; popped out it drops the cap and fills
+                  the window instead, which is the reason to pop it. */}
+              <ul
+                className={`chat-scroll space-y-1 text-sm overflow-y-auto pr-1 ${
+                  ledgerPopped ? "flex-1 min-h-0" : "max-h-64"
+                }`}
+              >
+                {ledger.map((row) => (
+                  <li key={row.id} className="flex justify-between gap-3 text-dim">
+                    <span className="text-problem">
+                      {row.delta > 0 ? "+" : ""}
+                      {row.delta} {row.reason}
+                    </span>
+                    <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
             </Frame>
           ) : (
             <Frame title="your signal" tone="dim" className="mb-6">
@@ -474,6 +538,30 @@ export default function VaultPage() {
                 to see your balance.
               </p>
             </Frame>
+          )}
+
+          {/* Portals into the merged panel's own top-right corner
+              (Frame's cornerAction), so the control sits on the box it
+              pops rather than anywhere in the flow. */}
+          {ledgerPopoutPortalEl &&
+            createPortal(
+              <button
+                type="button"
+                onClick={toggleLedgerPopped}
+                aria-label={ledgerPopped ? "shrink ledger" : "pop out ledger"}
+                className="rounded border border-problem/50 bg-problem/10 px-2 py-1 text-xs font-semibold tracking-wide text-problem transition-colors hover:bg-problem/20 hover:border-problem"
+              >
+                {ledgerPopped ? "⤡ shrink" : "⤢ pop out"}
+              </button>,
+              ledgerPopoutPortalEl
+            )}
+
+          {ledgerPopped && (
+            <div
+              className="fixed inset-0 z-40 bg-background/90"
+              onClick={() => setLedgerPopped(false)}
+              aria-hidden="true"
+            />
           )}
         </div>
 
@@ -541,7 +629,6 @@ export default function VaultPage() {
 
         <div className="vault-col-right max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
           {session && (
-            <>
             <Frame title="$troll airdrop" tone="dim" className="mb-6">
               {round && (
                 <p className="text-dim text-xs mb-3">
@@ -674,84 +761,6 @@ export default function VaultPage() {
                 </p>
               )}
             </Frame>
-
-            {/* In-column, this Frame is the flex-grow member of
-                .vault-col-right (globals.css) — it stretches so this column
-                ends level with redeem-for-xp + top-miners on the left, and
-                the list below scrolls inside whatever height that leaves.
-                Popped, it breaks out to a fixed, draggable window instead,
-                so a long history is readable without that cap. */}
-            <Frame
-              title="ledger"
-              tone="dim"
-              className={
-                ledgerPopped
-                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
-                  : "flex flex-col min-h-0"
-              }
-              style={
-                ledgerPopped && isDesktop
-                  ? {
-                      top: `${popoutPos.top}px`,
-                      left: `${popoutPos.left}px`,
-                      width: `${POPOUT_SIZE.width}px`,
-                      height: `${POPOUT_SIZE.height}px`,
-                      right: "auto",
-                      bottom: "auto",
-                    }
-                  : undefined
-              }
-              bodyClassName="flex flex-col flex-1 min-h-0"
-              cornerAction={<div ref={ledgerPopoutPortalRef} />}
-              onHeaderPointerDown={
-                ledgerPopped && isDesktop ? handlePopoutHeaderPointerDown : undefined
-              }
-              onHeaderPointerMove={
-                ledgerPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined
-              }
-              onHeaderPointerUp={ledgerPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
-            >
-              {ledger.length === 0 && (
-                <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
-              )}
-              {/* No max-height of its own: the list fills whatever the Frame
-                  gives it (the stretched column slot, or the popout window)
-                  and scrolls inside that. min-h-0 so it can actually shrink
-                  below its content height as a flex child. */}
-              <ul className="chat-scroll space-y-1 text-sm flex-1 min-h-0 overflow-y-auto pr-1">
-                {ledger.map((row) => (
-                  <li key={row.id} className="flex justify-between gap-3 text-dim">
-                    <span className="text-problem">
-                      {row.delta > 0 ? "+" : ""}
-                      {row.delta} {row.reason}
-                    </span>
-                    <span className="shrink-0">{new Date(row.created_at).toLocaleString()}</span>
-                  </li>
-                ))}
-              </ul>
-            </Frame>
-
-            {ledgerPopoutPortalEl &&
-              createPortal(
-                <button
-                  type="button"
-                  onClick={toggleLedgerPopped}
-                  aria-label={ledgerPopped ? "shrink ledger" : "pop out ledger"}
-                  className="rounded border border-problem/50 bg-problem/10 px-2 py-1 text-xs font-semibold tracking-wide text-problem transition-colors hover:bg-problem/20 hover:border-problem"
-                >
-                  {ledgerPopped ? "⤡ shrink" : "⤢ pop out"}
-                </button>,
-                ledgerPopoutPortalEl
-              )}
-
-            {ledgerPopped && (
-              <div
-                className="fixed inset-0 z-40 bg-background/90"
-                onClick={() => setLedgerPopped(false)}
-                aria-hidden="true"
-              />
-            )}
-            </>
           )}
         </div>
 
