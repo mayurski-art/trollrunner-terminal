@@ -15,8 +15,8 @@
 // the start, defeating the point of marking it deep at all.
 export const SEEDED_OPEN_SECTIONS = new Set([1, 2, 3, 6, 8, 12]);
 
-// depth: 2 — redacted title (`??`) until unlocked, and the dearer purchase
-// price. Per docs/TERMINAL-V4-DESIGN.md §11: the sections that are the
+// depth: 2 — redacted title (`??`) until unlocked. Costs the same flat
+// PROBLEM price as every other file. Per docs/TERMINAL-V4-DESIGN.md §11: the sections that are the
 // most load-bearing lore, kept as the archive's rarest finds. §33 (the
 // section about the site's owner personally) is deliberately in this set
 // AND public — the deepest file being the one that rewards going all the

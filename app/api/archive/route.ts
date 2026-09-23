@@ -43,7 +43,7 @@ export async function GET(request: Request) {
         .maybeSingle(),
       supabase
         .from("terminal_config")
-        .select("archive_unlock_cost, archive_deep_unlock_cost")
+        .select("archive_unlock_cost")
         .single(),
     ]);
 
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       state: open ? ("open" as const) : ("sealed" as const),
       body,
       images: open ? findLoreImagesForArchiveSection(number) : [],
-      cost: open ? null : depth === 2 ? config?.archive_deep_unlock_cost ?? 3 : config?.archive_unlock_cost ?? 1,
+      cost: open ? null : config?.archive_unlock_cost ?? 1,
     };
   });
 
@@ -118,14 +118,11 @@ export async function POST(request: Request) {
     supabase.from("terminal_wallets").select("balance, lifetime_spent").eq("user_id", userId).maybeSingle(),
     supabase
       .from("terminal_config")
-      .select("archive_unlock_cost, archive_deep_unlock_cost")
+      .select("archive_unlock_cost")
       .single(),
   ]);
 
-  const cost =
-    sectionDepth(section) === 2
-      ? config?.archive_deep_unlock_cost ?? 3
-      : config?.archive_unlock_cost ?? 1;
+  const cost = config?.archive_unlock_cost ?? 1;
   const balance = wallet?.balance ?? 0;
   if (balance < cost) {
     return NextResponse.json({ error: "not enough PROBLEMS" }, { status: 400 });
