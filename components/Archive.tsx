@@ -134,6 +134,33 @@ export default function Archive() {
     load();
   }, [load]);
 
+  // Deep link from the front page's archive-of-the-day panel
+  // (/archive?file=N): expand that file once the manifest has loaded, and
+  // scroll it into view. Only expands files that are actually open —
+  // pointing at a sealed one just scrolls to it with its [ unlock ] button
+  // showing, which is the intended funnel.
+  const deepLinkedRef = useRef(false);
+  useEffect(() => {
+    if (deepLinkedRef.current || files.length === 0) return;
+    const raw = new URLSearchParams(window.location.search).get("file");
+    if (!raw) return;
+    const number = Number(raw);
+    if (!Number.isInteger(number)) return;
+    const target = files.find((f) => f.number === number);
+    if (!target) return;
+    deepLinkedRef.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (target.state === "open") setOpenNumber(number);
+    // Deferred a frame so the expanded body is in the DOM before scrolling,
+    // otherwise the card is measured at its collapsed height and lands off
+    // position.
+    requestAnimationFrame(() => {
+      document
+        .getElementById(`archive-file-${number}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }, [files]);
+
   // Instant local filter — every open file's title/body, matched client-side
   // as the user types. Zero cost, zero latency, no network round trip.
   const q = query.trim().toLowerCase();

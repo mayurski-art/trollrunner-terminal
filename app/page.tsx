@@ -14,6 +14,7 @@ import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
+import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
 import Faq from "@/components/Faq";
 import { BANNER_TROLLFACE, BANNER_TROLLFACE_WIDE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
@@ -413,6 +414,11 @@ export default function Home() {
           <Faq />
         </div>
       </div>
+
+      {/* Hidden while the chat popout is up: that panel is a focused modal
+          with its own backdrop, and a spotlight sliding in over it would
+          both overlap the popout and sit under its z-40 scrim. */}
+      {!chatPopped && <ArchiveOfTheDay />}
     </main>
   );
 }

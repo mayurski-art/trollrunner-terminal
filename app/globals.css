@@ -1922,3 +1922,74 @@ html[data-custom-cursor] label {
     animation: none;
   }
 }
+
+/* Archive of the day — the once-a-day lore spotlight that slides in on the
+   front page (components/ArchiveOfTheDay.tsx).
+
+   Two sets of keyframes rather than one: the panel is bottom-docked on
+   mobile and centred on the right edge at sm+, where Tailwind's
+   -translate-y-1/2 holds the vertical centring. Animating `transform` at
+   that breakpoint would overwrite the centring mid-flight and make the
+   panel slide diagonally, so the sm+ keyframes bake the -50% back in. */
+.aotd-in {
+  animation: aotd-in-y 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.aotd-out {
+  animation: aotd-out-y 0.24s ease-in forwards;
+}
+@keyframes aotd-in-y {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes aotd-out-y {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (min-width: 640px) {
+  .aotd-in {
+    animation-name: aotd-in-x;
+  }
+  .aotd-out {
+    animation-name: aotd-out-x;
+  }
+  @keyframes aotd-in-x {
+    0% {
+      opacity: 0;
+      transform: translate(18px, -50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  @keyframes aotd-out-x {
+    0% {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(18px, -50%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aotd-in,
+  .aotd-out {
+    animation: none;
+  }
+}
