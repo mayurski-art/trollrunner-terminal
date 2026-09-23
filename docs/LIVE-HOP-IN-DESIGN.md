@@ -10,7 +10,16 @@
    the persona keeps talking · you can take the wheel
 ```
 
-Status: **proposed** — not built. Awaiting approval.
+Status: **all four phases shipped (2026-09-22)** — live on main. Verified with
+two browsers at once against the real app: the owner typed into a visitor's
+conversation and it arrived on the visitor's already-open page, rendered as
+the terminal, with no reload and no economy side effects.
+
+One optional step is outstanding: **migration 022 has not been run** on the
+live database. Nothing is blocked by that — the insert retries without the
+column, and that fallback is the path the tests actually exercised. Running it
+adds the `from_owner` tag for telling your own lines from the model's when
+re-reading a transcript later.
 
 Prior docs: [`TERMINAL-V2-DESIGN.md`](TERMINAL-V2-DESIGN.md) (chat + PROBLEMS
 economy), [`TERMINAL-V4-DESIGN.md`](TERMINAL-V4-DESIGN.md) (the archive).
@@ -49,7 +58,7 @@ read-only.
 | Read a user's transcript | [`app/api/admin/conversations/route.ts`](../app/api/admin/conversations/route.ts) | **Works.** Owner-gated, returns full `chatMessages`. |
 | Owner gate | [`lib/admin.ts`](../lib/admin.ts) `requireOwner()` | **Works.** Bearer token → service client → username check. |
 | Roster + transcript UI | [`components/Inspect.tsx`](../components/Inspect.tsx) | **Works, read-only.** 5s poll for the ● live dot; transcript loads once on click and never updates. |
-| Owner detection client-side | [`components/Chat.tsx`](../components/Chat.tsx) `isOwner` | **Works.** Already resolved for the provider label. |
+| Owner detection client-side | [`components/Chat.tsx`](../components/Chat.tsx) `isOwner` | **Was broken, fixed in phase 3.** It sampled the session once on mount, so a session restored a moment later left `isOwner` false for the life of the page. Harmless while it only hid a provider label; it silently hid the whole roster. Subscribes to auth changes now. |
 
 ### 1.1 The four real gaps
 
@@ -246,7 +255,13 @@ Shipping Phase 1 alone changes nothing visible — it's plumbing.
 - Clicking a name puts the panel into **hop-in mode**: the transcript area
   swaps from the owner's own conversation to that user's, loaded from
   `GET /api/admin/conversations?userId=…` (already built) and kept fresh by
-  the same poll. A clear `[ back ]` control returns to the owner's own chat.
+  its own 4s poll. A clear `[ back ]` control returns to the owner's own chat.
+
+  **This view polls rather than streaming**, unlike the visitor side.
+  `/api/chat/stream` is deliberately scoped to the caller's own `user_id` — it
+  must never become a way to read someone else's messages — and this is a
+  single owner screen rather than every visitor, so the egress argument that
+  chose SSE (§2.1) does not apply.
 - The owner's own conversation state is preserved, not discarded, while
   hopped in.
 
