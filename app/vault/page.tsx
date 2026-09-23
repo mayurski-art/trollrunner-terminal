@@ -47,14 +47,7 @@ type RedemptionRequest = {
 const QUALIFYING_INTERVAL = 7;
 const XP_PER_PROBLEM = 25;
 const MIN_REDEEM = 5;
-
-// The $TROLL airdrop line is no longer locked — it's the wallet-submission
-// form below (docs/VAULT-TROLL-REWARDS.md Path A).
-const LOCKED_ITEMS = [
-  { cost: null, label: "cosmetic profile unlock" },
-  { cost: null, label: "leaderboard crown" },
-  { cost: null, label: "something it won't describe yet" },
-];
+const LADDER_REFRESH_MS = 12_000;
 
 export default function VaultPage() {
   const [session, setSession] = useState<Session | null>(null);
@@ -166,8 +159,17 @@ export default function VaultPage() {
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("focus", load);
 
+    // The ladder moves while you sit and watch it — someone else mining does
+    // not fire any of the events above, so without this the top miners board
+    // stays frozen until you tab away and back. Gated on visibility so a
+    // backgrounded vault isn't querying forever.
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") load();
+    }, LADDER_REFRESH_MS);
+
     return () => {
       cancelled = true;
+      clearInterval(id);
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("focus", load);
     };
@@ -330,7 +332,7 @@ export default function VaultPage() {
           <Nav networkBadge />
           <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
           <p className="text-foreground text-sm mb-8">
-            your signal balance · xp redemption live, more protocols coming
+            your signal balance · xp redemption and $troll airdrops, live
           </p>
 
           {loadError && (
@@ -412,24 +414,6 @@ export default function VaultPage() {
               )}
             </Frame>
           )}
-
-          <Frame title="redemption protocols — offline" tone="alert" className="mb-6">
-            <ul className="space-y-2 text-sm">
-              {LOCKED_ITEMS.map((item) => (
-                <li key={item.label} className="flex justify-between text-dim">
-                  <span>
-                    <span className="text-problem">{item.cost ? `? ${item.cost}` : "??"}</span>{" "}
-                    {item.label}
-                  </span>
-                  <span className="text-alert text-xs">[ LOCKED ]</span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-dim text-xs mt-4">
-              the terminal is still negotiating with its handlers. your balance is real.
-              spend paths are coming.
-            </p>
-          </Frame>
 
           <Frame title="top miners" tone="dim" className="mb-6 lg:mb-0">
             {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
