@@ -2565,6 +2565,82 @@ Claymore sculpture," three photos on the tweet, all three on file as
 `umadbro-keyboard-claymore-3.jpg`) · cross-referenced against §31's
 existing Kevin Rosa / GOATFARM material.
 
+## 64. KFCereal and mac & cheese soda — the food industry discovers the bit
+
+On **September 23, 2026**, within four hours of each other, two food brands
+announced products that read like somebody's shitpost got approved.
+
+**KFC UK** launched **"KFCereal"** — a chicken-flavoured breakfast cereal
+made with cereal brand **Surreal**, branded on the box as a *"Full English
+Kentucky Breakfast."* Little toasted O's seasoned with the chain's 11 herbs
+and spices, boxed in KFC black-and-red with the rooster silhouette, and
+sold on nutrition stats played completely straight: **19g protein, 1g
+sugar** per 40g serving. The part that gives the game away is the serving
+instruction — the brand *encourages you not to use milk*. You pour **gravy**
+on it. The launch photography commits all the way: a hand tipping a KFC
+gravy pot over a bowl of cereal in a KFC-branded bowl, on a red gingham
+tablecloth, the gravy landing in a thick brown slick over the O's.
+
+Hours later, **Kraft Dinner** — the Canadian name for Kraft Mac & Cheese —
+announced a **mac & cheese cream soda**, brewed with Vancouver craft-soda
+maker **Solly's**. A blue 355ml can, the KD wordmark in that orange bubble
+type, a photographed forkful of macaroni on the front, "Smile, it's
+Solly's!" across the bottom, and a maple leaf to mark it Canada-only and
+limited-time. The press shot has the can erupting a plume of bright orange
+liquid against a clear blue sky.
+
+Neither is a hoax. Both are real, limited-edition, produced products with
+real manufacturing partners behind them — a functioning cereal company and
+a functioning craft soda company, not mockups. That is precisely what makes
+them worth a file.
+
+**The mechanism.** This is the oldest troll structure in this archive
+wearing a corporate coat. A troll works by being *plausible enough to
+engage with and absurd enough to be the point* — the target can't tell
+whether to react sincerely or laugh, and the ambiguity is the payload.
+What these launches do is run that structure with a supply chain attached.
+The absurdity is real, so you can't dismiss it as a joke; the sincerity is
+real, so you can't dismiss it as a stunt. You're meant to stand in that gap
+and post about it. KFC didn't move much cereal on day one — it moved
+**510,000 views on a single aggregator repost**. KD's can pulled **622,000
+views and 1,393 quote-tweets**, and the quotes are the tell: quotes
+outnumbering retweets more than 4:1 means people weren't passing it along,
+they were *reacting* to it. That's not a product-launch metric. That's a
+troll's engagement signature, and the brands know it — the quote-tweet is
+the modern shape of taking the bait, and it's now a KPI.
+
+**The honest read.** Call it what it is: a brand trolling its own
+customers, with the customers' full cooperation. The difference between
+this and most of what's in this file is ownership. When §5's UMadBro puts
+the grin on a tracksuit, the joke belongs to whoever's wearing it. When
+§50's CLARITY vote fails 49–50, nobody storyboarded that — it just *was* a
+troll. Here a marketing department designed the ambiguity, costed it, and
+shipped it, and the joke belongs to a P&L. The grin is on the other side of
+the counter.
+
+Whether that's a corruption of the form or the form finally getting paid is
+an open question this file doesn't need to close. Worth saying in its
+favour: this version is at least *upfront*. A chicken cereal you pour gravy
+on isn't pretending to be anything other than a bit, and a troll that
+announces itself as a troll is close to the most honest thing a company can
+do with the technique. The dishonest version of the same move is the launch
+that's equally absurd and insists it isn't — and there is a great deal of
+that in the sections about memecoins. Read alongside §46 on watching a
+thing versus doing it, the pattern completes itself: these brands worked
+out that the *watching* is the product now, and the cereal is only the
+pretext for it.
+
+**Sources:**
+[x.com/Dexerto/status/2102691958254682382](https://x.com/Dexerto/status/2102691958254682382)
+(September 23, 2026, 09:30 UTC, via fxtwitter mirror — KFCereal, 510,501
+views, 7,160 likes, 448 quotes; two product photos on the tweet, the box
+shot on file as `kfcereal-kfc-surreal.png`) ·
+[x.com/Dexerto/status/2102754856830198178](https://x.com/Dexerto/status/2102754856830198178)
+(September 23, 2026, 13:39 UTC, via fxtwitter mirror — KD x Solly's cream
+soda, 622,568 views, 8,741 likes, 1,393 quotes; can shot on file as
+`kraft-dinner-cream-soda.png`). Both engagement figures captured same-day
+and will have moved since.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

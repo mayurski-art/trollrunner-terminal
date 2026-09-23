@@ -548,6 +548,20 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["bonnie blue", "choose a name", "bonnieblue.io", "baby name auction site", "make a bid"],
     sections: [62],
   },
+  {
+    id: "kfcereal-kfc-surreal",
+    url: "/lore/kfcereal-kfc-surreal.png",
+    caption:
+      "KFC UK's \"KFCereal\" launch shot (Sept 23, 2026) — a black-and-red box reading \"Full English Kentucky Breakfast\" and \"KF Cereal / SURREAL,\" flagged 19g protein / 1g sugar / inspired by 11 herbs and spices, next to a KFC-branded bowl of cereal with gravy being poured over it from a KFC gravy pot onto a red gingham tablecloth. A real limited-edition product, not a mockup",
+    sections: [64],
+  },
+  {
+    id: "kraft-dinner-cream-soda",
+    url: "/lore/kraft-dinner-cream-soda.png",
+    caption:
+      "the Kraft Dinner x Solly's mac & cheese cream soda (Sept 23, 2026) — a blue 355ml can with the orange KD bubble wordmark, a forkful of macaroni on the front, \"Smile, it's Solly's!\" and a maple leaf marking it Canada-only, held against blue sky with bright orange liquid erupting from the opened top",
+    sections: [64],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
