@@ -60,9 +60,7 @@ const QUALIFYING_INTERVAL = 7;
 const XP_PER_PROBLEM = 25;
 const MIN_REDEEM = 5;
 const LADDER_REFRESH_MS = 12_000;
-// Top miners shows a full 20. The board is the last panel in its column and
-// stretches to match the taller column beside it (see .vault-col-left in
-// globals.css), so a 10-name list left a large empty gap under the names.
+// Top miners shows a full 20 — 10 left the board looking half empty.
 const LADDER_SIZE = 20;
 
 export default function VaultPage() {
@@ -108,7 +106,7 @@ export default function VaultPage() {
     getDesktopSnapshot,
     getDesktopServerSnapshot
   );
-  // The popout button portals into the ledger Frame's own top-right corner
+  // The popout button portals into the "your signal" Frame's top-right corner
   // (Frame's cornerAction). State, not a bare ref, so the portal re-renders
   // once the target div actually mounts.
   const [ledgerPopoutPortalEl, setLedgerPopoutPortalEl] = useState<HTMLDivElement | null>(null);
@@ -563,7 +561,10 @@ export default function VaultPage() {
               ledgerPopoutPortalEl
             )}
 
-          {ledgerPopped && (
+          {/* Gated on session like the panel itself: signing out while
+              popped unmounts the Frame, and an ungated backdrop would be
+              left covering the page on its own. */}
+          {session && ledgerPopped && (
             <div
               className="fixed inset-0 z-40 bg-background/90"
               onClick={() => setLedgerPopped(false)}
