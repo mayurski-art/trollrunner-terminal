@@ -9,25 +9,45 @@
  ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝╚══════╝
 ```
 
-Compiled 2026-08-02 as background material for the terminal persona — this
-is context the entity can *draw on obliquely in its own voice*, not a script
-to recite and not marketing copy. The persona's hard boundaries (no
-financial advice, no price talk, no calls to buy/sell/invest) apply to
-everything below just as much as to anything else it says.
+Started 2026-08-02 and kept up since, as background material for the
+terminal persona. This is context the entity can *draw on obliquely in its
+own voice*. It is not a script to recite and not marketing copy. The
+persona's hard boundaries (no financial advice, no price talk, no calls to
+buy/sell/invest) apply to everything below as much as to anything else it
+says.
+
+**Editing notes (for humans, not sent to the model).** Every `## N.` section
+is an archive "file" keyed by its number: unlocks, lore images
+(`lib/loreAssets.ts`) and Archive of the Day all point at it. **Never
+renumber a section.** New ones get the next free number, and physical order
+doesn't matter because the archive sorts by number. `**Bold**` terms are the
+retrieval keywords (`lib/loreSections.ts`), so bold real names and keep each
+bolded phrase on one line. Keep sections under ~4,500 characters where
+possible, because longer ones get cut off when they're picked as a
+transmission subject.
+
+**Sourcing tiers used below.** *Verified* means confirmed against an
+independent outlet, on-chain data, or the platform's own API/CDN. *User-
+provided* means supplied directly by the site operator (photos, screenshots,
+post text) and not independently checkable, usually because x.com and
+TikTok can't be fetched from here. X posts marked "via fxtwitter" were read
+through the fxtwitter mirror/API rather than x.com itself. Each section says
+which tier its claims sit in.
 
 ## 1. Where the face came from
 
-Trollface was drawn by **Carlos Ramirez**, an Oakland artist working under
-the handle **Whynne**, on **September 19, 2008**. It first appeared in a
-rage-comic panel titled *Trolls* posted to his DeviantArt page — a crude,
-MS Paint grin mocking the pointless art of trolling on 4chan. It spread to
-4chan, then Reddit, then everywhere; the expression got nicknamed "Cool
-Face" before settling into "Troll Face." 2008–2012 is generally regarded as
-its golden age — it was the visual shorthand for "trolling" itself, before
-"trolling" curdled into something uglier online. La Tercera called it "the
-father of memes"; there's a bust of it in the Museo del Meme in Mexico
-City. It had a second life in 2020 via the "Cover Yourself in Oil" format,
-which spun off a darker variant nicknamed "Trollge."
+Trollface was drawn in MS Paint by **Carlos Ramirez**, then an 18-year-old
+college student in Oakland posting under the handle **Whynne**, on
+**September 19, 2008**. It first appeared in a rage-comic panel titled
+*Trolls* on his DeviantArt page, a crude grin mocking the pointless art of
+trolling on 4chan. From there it spread to 4chan, then Reddit, then
+everywhere. The expression was briefly nicknamed "Cool Face" before it
+settled into "Troll Face." 2008–2012 is generally regarded as its golden
+age, when it was the visual shorthand for "trolling" itself, before the
+word curdled into something uglier online. Chilean newspaper La Tercera
+called it "the father of memes," and it got a bust in Mexico City's Museo
+del Meme (§11). It had a second life in 2020 through the "Cover Yourself in
+Oil" format, which spun off a darker variant called "Trollge" (§13).
 
 **Sources:** [The Daily Dot](https://www.dailydot.com/memes/troll-face/) ·
 [Wikipedia](https://en.wikipedia.org/wiki/Trollface) ·
@@ -35,141 +55,152 @@ which spun off a darker variant nicknamed "Trollge."
 
 ## 2. The IP deal
 
-In 2025–2026, **Troll Network Limited** — the community team behind the
-**$TROLL** memecoin on Solana — signed a **six-figure, exclusive, worldwide
-license** with Carlos Ramirez covering use of the Trollface IP within
-crypto and meme coins. The deal itself was **funded by ten $TROLL whales**
-pooling money to pay Ramirez directly — not a company treasury spend, but
-holders literally buying the face their coin was already using. Ramirez also collects an **11% royalty** on future
-$TROLL-branded merchandise revenue. He'd made roughly $100k off Trollface
-over the prior four years; this single deal already exceeded that. He kept
-a carve-out for one earlier, unrelated coin he'd already been involved
+In 2025, **Troll Network Limited**, the community team behind the
+**$TROLL** memecoin on Solana, signed a **six-figure, exclusive, worldwide
+license** with Carlos Ramirez covering the Trollface IP within crypto and
+meme coins. The money didn't come from a company treasury. The deal was
+**funded by ten $TROLL whales** pooling their own funds to pay Ramirez
+directly, so holders literally bought the face their coin was already
+wearing. Ramirez also collects an **11% royalty** on future $TROLL-branded
+merchandise revenue (paid out through UMadBro, §5). He'd made roughly $100k
+off Trollface in the previous four years, and this one deal beat that. He
+kept a carve-out for one earlier, unrelated coin he'd already been involved
 with, which is why $TROLL isn't the *only* project ever associated with the
-face — just the one that owns it now.
+face. It's the one that holds the license.
+
+The market read it as a real catalyst rather than a marketing beat: outside
+commentary tracked the token's market cap moving from roughly **155M to
+215M** on the news. That figure comes from third-party coverage, not the
+team. §9 covers the part of the story that came first, when Ramirez said no.
 
 **Sources:** [Decrypt](https://decrypt.co/337937/trollface-meme-creator-grants-exclusive-ip-rights-solana-token) ·
 [Yahoo Finance](https://finance.yahoo.com/news/trollface-meme-creator-grants-exclusive-192749317.html) ·
-[CryptoRank](https://cryptorank.io/news/feed/f875e-solana-memecoin-troll-acquires-ip-rights-to-trollface-meme-here-is-why-this-is-game-changing)
+[CryptoRank](https://cryptorank.io/news/feed/f875e-solana-memecoin-troll-acquires-ip-rights-to-trollface-meme-here-is-why-this-is-game-changing) ·
+[Rug Radio on the market reaction](https://x.com/RugRadio/status/1963338384199533001)
 
 ## 3. What $TROLL actually is
 
-A community-run memecoin on Solana (mint `5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2`
-— same address already stored in this network's shared config for the tip
-jar / games integration). Framed by its own team as "tokenized internet
-culture" — the first project to hold the *exclusive* crypto-world license
-to the actual Trollface drawing, rather than just using the image
-unofficially the way a hundred earlier "troll coins" did. Separately, a
-**3,333-piece NFT collection ("TROLLS," on Ethereum, `trollsoneth` on
-OpenSea)** came after the Solana coin and now sits alongside it — the first
-officially licensed Trollface NFT set.
+A community-run memecoin on Solana, mint
+`5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2` (the same address this
+network's tip jar and games use). It launched on Pump.fun in August 2024 as
+a throwaway (§58) and is now run by the community team in §4. Its
+team frames it as "tokenized internet culture." What separates it from the
+hundred earlier "troll coins" that used the image unofficially is the
+*exclusive* crypto-world license to the actual drawing (§2). Its official
+home is [trollface.io](https://www.trollface.io/), branded **TROLLWORLD**.
 
-**Sources:** [OpenSea](https://opensea.io/collection/trollsoneth) ·
-[trollface.io](https://www.trollface.io/) (branded "TROLLWORLD")
+A separate **TROLLS** NFT collection of 3,333 pieces on Ethereum came later
+and sits alongside the coin (§12).
+
+**Sources:** [trollface.io](https://www.trollface.io/) ·
+[OpenSea — trollsoneth](https://opensea.io/collection/trollsoneth)
 
 ## 4. The team
 
-- **@fukupapers** ("seal") — CEO. Self-titled "Chief Executiv Offisker,"
-  self-described degen maxi, bio reads "captain," "father," "pre-retired."
-  Voice is dry, deadpan, in on the joke. In 2026 posted that Trollface was
-  going viral and being labeled "the most famous man on the internet" —
-  "position accordingly."
-- **@iFungibility** ("Fungi.TROLL") — previously behind the tech for $TROLL.
-- **@SwishPng** ("SWISH") — Chief Creative Director. Makes daily $TROLL art;
-  writes about Trollface as "the sun of the internet" and draws a
-  Bitcoin-is-code / Trollface-is-art parallel — two different origin points
-  that both ended up defining internet culture. See §25 for SWISH's deeper
-  theory tying the two together visually.
+- **@fukupapers** ("seal") is the CEO, self-titled "Chief Executiv
+  Offisker." The bio reads "captain," "father," "pre-retired," plus a
+  self-description as a degen maxi. The voice is dry, deadpan and in on the
+  joke. In 2026 the account posted that Trollface was going viral and being
+  called "the most famous man on the internet," then added: "position
+  accordingly."
+- **@iFungibility** ("Fungi.TROLL") was previously behind the tech for
+  $TROLL.
+- **@SwishPng** ("SWISH") is the Chief Creative Director, making daily
+  $TROLL art and writing about Trollface as "the sun of the internet."
+  SWISH's running parallel is that Bitcoin is code and Trollface is art:
+  two origin points from the same few weeks of 2008 that both ended up
+  defining internet culture. §25 covers the deeper version of that theory.
 
-When the Ramirez IP license (§2) went public, one tracked reaction was the
-token's own market cap moving roughly **155M → 215M** on the news — cited
-by outside commentary, not the team itself, as evidence the license was
-read as a real catalyst rather than a marketing beat.
+The official X account for the project is **@Troll_**, which posts the
+team's memes and announcements (§36, §65).
 
 **Sources:** [Troll Network](https://trollnetwork.io/) ·
-[@SwishPng](https://x.com/swishpng) · [@fukupapers](https://x.com/fukupapers) ·
-[Rug Radio on the IP deal reaction](https://x.com/RugRadio/status/1963338384199533001)
+[@SwishPng](https://x.com/swishpng) · [@fukupapers](https://x.com/fukupapers)
 
 ## 5. UMadBro — the merch arm
 
-`umadbro.shop` — "Official Troll Shop." Streetwear built on the licensed
-Trollface IP, tied to The Troll Network. This is where the 11% royalty
-described in §2 actually gets paid out from.
+**UMadBro** (`umadbro.shop`, "Official Troll Shop") is the merch arm of the
+Troll Network: streetwear built on the licensed Trollface IP, and the
+place the 11% royalty in §2 is paid out from. The "U MAD BRO" line itself is
+produced with Kevin Rosa's **GOATFARM** (§31), and the shop routes most of
+its apparel catalog there. Later chapters of the same shop are filed
+separately: its first in-house product, the ergonomic mousepads (§40), and
+**Community Creations**, which opened the IP to holder-designed products
+(§45).
 
 **Sources:** [umadbro.shop](https://umadbro.shop/)
 
 ## 6. Guardian vs. FUD — the receipts ledger
 
-Troll Finance (`finance.trollrunner.net`) runs a "Trolldeaths" timeline that
-files X posts about $TROLL into two camps, purely as an evidentiary
-archive — it doesn't take a side, it just keeps the record straight:
+Troll Finance (`finance.trollrunner.net`) keeps a **Trolldeaths** timeline
+that files X posts about $TROLL into two camps. It is an evidentiary
+archive, not an argument:
 
-- **Guardian** — posts defending the thesis: conviction during a dip,
-  marketing wins, culture/OG-meme arguments, pushback on pile-ons.
-- **FUD** — posts claiming the project is overhyped, mismanaged, or dead.
+- **Guardian** posts defend the thesis: conviction during a dip, marketing
+  wins, culture and OG-meme arguments, pushback on pile-ons.
+- **FUD** posts claim the project is overhyped, mismanaged, or dead.
 
-Both get filed the same dry way: "logged as part of the case," "archived
-here," "the panic cycle stays attached to the chart, not just the
-timeline." Neither is treated as more true than the other — it's a receipt
-book, not a verdict.
+Both get filed in the same dry register ("logged as part of the case,"
+"archived here," "the panic cycle stays attached to the chart, not just the
+timeline"). Neither side is treated as more true. It's a receipt book, not a
+verdict.
 
 ## 7. @troll_runner — who's actually posting
 
-`x.com/troll_runner` is one of the most active **Guardian** voices in the
-timeline — dozens of entries, consistently on the bull-case side: thesis
-posts ("Troll Started at the End of the Bull Market"), marketing-campaign
-receipts (put $TROLL #1 of 44 projects on a Shillz payout run, 500k+ views
-across two rounds), ongoing NFT-drop updates, and defenses of the team
-during community drama ("you can't fake a listing"). This is the same
-"Troll Runner" identity behind trollrunner.net — a real long-distance
-runner whose whole brand fuses running culture with the trollface — showing
-up inside the $TROLL community as a believer and promoter, not as a
-detached observer.
+**@troll_runner** is one of the most active **Guardian** voices in the §6
+timeline, with dozens of entries, all on the bull-case side. They include
+thesis posts ("Troll Started at the End of the Bull Market"), marketing
+receipts ($TROLL placed #1 of 44 projects on a Shillz payout run, 500k+
+views across two rounds), running NFT-drop updates, and defenses of the
+team during community drama ("you can't fake a listing"). It's the same
+**Troll Runner** identity behind trollrunner.net, an account that presents
+itself through running and the trollface, and it shows up inside the $TROLL
+community as a believer and promoter rather than a detached observer.
 
-**Source:** `trollrunner-finance/assets/data/finance-timeline.json` (live
-Supabase-backed archive, dozens of dated entries). §33 goes through that
-archive post by post — what he actually posts about, and what the pattern
-says about who he is.
+§33 reads that archive post by post for what it says about the person
+posting.
+
+**Source:** `trollrunner-finance/assets/data/finance-timeline.json` (the
+Supabase-backed Trolldeaths archive, dozens of dated entries).
 
 ## 8. trollrunner.net ↔ trollface.io
 
 There is **no confirmed or public collaboration** between trollrunner.net
-and trollface.io/the $TROLL team. What actually exists, per the site
-operator: an informal, lowkey signal that the $TROLL team would be open to
-something down the line if trollrunner.net has the tech to show for it —
-not an agreement, not a plan, not anything either side has stated publicly.
-`trollface.io` itself is a JS-rendered app that returns no readable static
-text to search/fetch tools, and no announcement turned up in research
-either way.
+and trollface.io or the $TROLL team. According to the site operator, what
+exists is an informal, lowkey signal that the $TROLL team might be open to
+something down the line if trollrunner.net has the tech to show for it.
+That is not an agreement or a plan, and neither side has said anything
+publicly. `trollface.io` is a JavaScript app that returns no readable text
+to search or fetch tools, and research turned up no announcement either
+way.
 
-The persona is free to **speculate** about this out loud — wondering
-whether it's connected to something bigger, whether the face it wears and
-the face on that other site are the same face, whether someone is watching
-back — as a piece of its own self-mythologizing, the same way it invents
-a place or a presence over time. That speculation must always read as the
-entity's own theorizing, never as inside knowledge, an announcement, or a
-confirmed fact. It should never claim to know the collab is happening,
-never name specific terms, and never say anything that could read as an
-official statement from either project.
+The persona is free to **speculate** about this out loud as part of its own
+self-mythologizing: whether it's connected to something bigger, whether the
+face it wears and the face on that other site are the same face, whether
+someone is watching back. That speculation must always read as the entity's
+own theorizing. It must never sound like inside knowledge, an announcement
+or a confirmed fact, never name terms, and never read as an official
+statement from either project.
 
 ## 9. The reversal — Ramirez said no before he said yes
 
-Before the six-figure deal in §2, Ramirez gave his first interview in ten
-years — to Decrypt, during an earlier run where the coin built on his face
-had already surged **1,050%+ in two weeks** without his involvement. At that
-point he said he had **no interest** in participating and would take **no
-legal action**. His reasoning was specific: people kept offering him a slice
-of token supply, and he called it a "cursed proposition" — he couldn't sell
-it without crashing the price himself. *"The money means nothing to me if I
-can't sell it, but if I sell it, I crash the coin. And frankly, I do not want
-to be responsible for other people's financial ruin."* He framed crypto's
-capitalism as something that "diminishes" the art itself.
+Before the deal in §2, Ramirez gave his first interview in ten years, to
+Decrypt, while the coin built on his face was surging **1,050%+ in two
+weeks** without him. He said he had **no interest** in taking part and would
+take **no legal action**. His reasoning was specific. People kept offering
+him a slice of token supply, and he called that a "cursed proposition"
+because he couldn't sell it without crashing the price himself: *"The money
+means nothing to me if I can't sell it, but if I sell it, I crash the coin.
+And frankly, I do not want to be responsible for other people's financial
+ruin."* He described crypto's capitalism as something that "diminishes" the
+art.
 
-Some time after that interview, he signed anyway — the exclusive worldwide
-license described in §2. Nothing in the record explains what changed his
-mind; the deal terms (six figures, 11% royalty, one grandfathered carve-out)
-are just what's publicly known. So the honest shape of the story isn't "artist
-sells out" or "artist gets rewarded" — it's a man who first said the whole
-premise was a trap he wanted no part of, and later took it anyway, for
+Some time after that interview, he signed the exclusive worldwide license
+anyway. Nothing in the record explains what changed his mind. The public
+facts are only the terms: six figures paid by holders, an 11% royalty, and
+one grandfathered carve-out. So the honest shape of
+the story isn't "artist sells out" or "artist gets rewarded." It's a man who
+first called the whole premise a trap, then later took a version of it, for
 reasons he hasn't said out loud.
 
 **Sources:** [Decrypt — "Crypto Diminishes"](https://decrypt.co/333881/trollface-creator-crypto-diminishes-art-legal-action-meme-coin) ·
@@ -177,33 +208,29 @@ reasons he hasn't said out loud.
 
 ## 10. Trolling as a wider 2026 phenomenon
 
-Outside of $TROLL entirely, "trolling" the word has drifted since the
-2008-golden-age meme in §1. What it names in 2026 discourse:
+Outside $TROLL entirely, the word "trolling" has drifted a long way from
+the golden-age meme in §1. In 2026 it names several things:
 
-- **Rage farming** — posting deliberately provocative content to harvest
-  outrage-driven engagement; the incentive is the reaction itself, not being
-  right.
-- **Hashtag hijacking** — riding a trending tag to inject an unrelated
-  message into a conversation that already has an audience.
-- **Astroturfing** — coordinating many fake or low-effort accounts to fake
-  the appearance of organic grassroots agreement, making a narrative look
-  more credible than it is.
-- **State-sponsored trolling** — the Institute for the Future has tracked
-  organized, government-linked trolling operations across multiple
-  countries (Azerbaijan, Bahrain, Ecuador, the Philippines, Turkey,
-  Venezuela, and the US among them) — the same tactics run at
-  institutional scale rather than by individuals.
-- Even in ordinary political coverage the word has become a reflex: cable
-  news hosts now ask public figures point-blank "are you trolling?" when a
-  claim sounds too outrageous to be sincere — a sign the word has become a
-  general-purpose test for whether someone means what they're saying at
-  all, on or off the internet.
+- **Rage farming**: posting deliberately provocative content to harvest
+  outrage. The incentive is the reaction, not being right.
+- **Hashtag hijacking**: riding a trending tag to push an unrelated message
+  into a conversation that already has an audience.
+- **Astroturfing**: coordinating many fake or low-effort accounts to fake
+  grassroots agreement, so a narrative looks more credible than it is.
+- **State-sponsored trolling**: the Institute for the Future has tracked
+  organized, government-linked trolling operations in multiple countries,
+  including Azerbaijan, Bahrain, Ecuador, the Philippines, Turkey,
+  Venezuela and the US. Same tactics, institutional scale.
+- **A sincerity test**: cable-news hosts now ask public figures point-blank
+  "are you trolling?" when a claim sounds too outrageous to be meant. The
+  word has become a general check on whether someone means what they're
+  saying at all, on or off the internet.
 
-The trajectory researchers point to: benign, in-on-the-joke trolling (the
-kind Trollface itself came from) receding, while the harder-edged,
-coordinated, harder-to-detect version grows — alongside predictions that
-future tech (VR spaces, blockchain identity) will cut both ways, making
-some griefing easier and some anonymity harder.
+Researchers describe the same trajectory: the benign, in-on-the-joke kind
+of trolling that Trollface came from is receding, while the coordinated,
+harder-to-detect kind grows. They expect future tech (VR spaces, blockchain
+identity) to cut both ways, making some griefing easier and some anonymity
+harder.
 
 **Sources:** [GIJN — Investigating Trolling Campaigns](https://gijn.org/resource/investigating-digital-threats-trolling-campaigns/) ·
 [IFTF — State-Sponsored Trolling](https://legacy.iftf.org/statesponsoredtrolling/) ·
@@ -211,47 +238,55 @@ some griefing easier and some anonymity harder.
 
 ## 11. The museum that only existed for a couple of days
 
-Museo del Meme wasn't a permanent institution — it was a **pop-up** in
-Mexico City, open only a handful of days, gathering the most-circulated
-memes of the preceding years into a physical space. Trollface got a
-**bust** in it anyway, alongside the "father of memes" framing from §1.
-The detail worth sitting with: the one time this face got a "museum," the
-museum itself was barely more permanent than a meme's own lifespan —
-here for days, then gone, the way a face someone drew in MS Paint outlived
-the room built to honor it.
+The **Museo del Meme** wasn't a permanent institution. It was a **pop-up**
+in Mexico City, open for only a handful of days, that gathered the
+most-circulated memes of the preceding years into a physical space.
+Trollface got a **bust** in it anyway. The detail worth sitting with is that
+the one time this face got a museum, the museum was barely more permanent
+than a meme. It was there for a few days and then gone, and the face someone
+drew in MS Paint outlived the room built to honor it. Compare krypto2009
+(§30), whose trollface street pieces have no venue and no closing date at
+all.
 
 **Sources:** [Digital Trends Español — Museo del Meme](https://es.digitaltrends.com/tendencias/museo-del-meme-mexico/) ·
 [@y00thereum sighting, X](https://x.com/y00thereum/status/1934059878584131855)
 
 ## 12. The 3,333 — after the coin
 
-The **TROLLS** NFT collection (`trollsoneth` on OpenSea, Ethereum) came
-**after** the Solana coin (listed on OpenSea May 25, 2026, nearly two years
-after the August 2024 launch in §58) and is billed as "the first and only officially licensed
-trollface collection" — 3,333 individual pieces, each one technically its
-own numbered variant of the same face. It's a different license track than
-the crypto-wide grant in §2, but the same underlying deal with Ramirez: the
-first place his face got formally *multiplied* into distinct owned copies.
-The coin made the face one fungible thing, and the collection split it back
-into 3,333 separate ones. It stayed sealed until the reveal in §65.
+The **TROLLS** NFT collection (`trollsoneth` on OpenSea, Ethereum, created
+by the verified account "troll-dev") came **after** the Solana coin. It was
+listed on OpenSea on May 25, 2026, nearly two years after the coin's August
+2024 launch (§58). It's billed as "the first and only officially licensed
+trollface collection": 3,333 pieces, each a numbered variant of the same
+face, sold under the same Ramirez license as §2. It was the first time his
+face was formally *multiplied* into distinct owned copies. The coin made the
+face one fungible thing, and the collection split it back into 3,333
+separate ones.
+
+The pieces stayed sealed, with no art showing, until the reveal on
+September 23, 2026, which arrived sixteen hours after its own countdown ran
+out (§65). That section also covers the hand-drawn one-of-one "Alphas" and
+the first four-figure sale after the reveal.
 
 **Sources:** [OpenSea — trollsoneth](https://opensea.io/collection/trollsoneth)
 
 ## 13. Trollge — the entity that was already there
 
-Trollface has a second, darker self baked into its own internet history,
-years before any of this terminal existed. In 2020, the "Cover Yourself in
-Oil" rage-comic format (a Troll Science joke about floating on rainwater)
-got hijacked by creepypasta-style countdown videos on r/196 and
-r/okbuddyretard, warning that an entity called **"Trollge"** was arriving on
-a specific date, framed with the same crude comic-panel aesthetic as the
-original meme. It spread the way ARGs spread — half joke, half genuine
-unease, nobody quite sure which register they were reading it in. The
-persona this terminal runs already sits in that same register by design
-([[trollface-terminal-app]]): an entity wearing a decades-old meme face that
-occasionally hints it's more than the meme. Trollge is proof that impulse —
-turning Trollface into something watching, something arriving — isn't this
-project's invention. The internet already did it once, unprompted, in 2020.
+Trollface had a second, darker self years before this terminal existed. In
+2020, the "Cover Yourself in Oil" rage-comic format (a Troll Science joke
+about floating on rainwater) was hijacked by creepypasta-style countdown
+videos on r/196 and r/okbuddyretard. They warned that an entity called
+**Trollge** was arriving on a specific date, drawn in the same crude
+comic-panel style as the original meme. It spread the way ARGs spread: half
+joke, half genuine unease, with nobody quite sure which one they were
+reading.
+
+This terminal sits in the same register by design, as an entity wearing a
+decades-old meme face that sometimes hints it's more than the meme. Trollge
+proves that impulse isn't this project's invention. Turning Trollface into
+something watching, something arriving, is a thing the internet already did
+once, unprompted, in 2020. The countdown device came back in 2026 on
+trollface.io (§60).
 
 **Sources:** [Know Your Meme — Trollge](https://amp.knowyourmeme.com/memes/trollge) ·
 [Know Your Meme — Cover Yourself in Oil](https://knowyourmeme.com/memes/cover-yourself-in-oil)
@@ -503,28 +538,25 @@ solved a differential equation in their life.
     ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝
 ```
 
-*The Simpsons* aired an episode called **"P.S., I Hate You"** on April 13,
-2025 (Season 36 — outlets disagree on the exact episode number, listed
-variously as 14, 16, or 17 depending on the source, which is its own small
-irony for a show about a decades-old franchise). The confirmed plot: Marge
-keeps a secret box of hateful letters she writes to blow off steam; the box
-gets stolen, a blackmailer demands $5,000, and it turns out to be Shauna
-Chalmers and Jimbo Jones trying to fund a runaway trip. Independently
-confirmed by both TV Tropes and Simpsons Wiki: there **is** a real dollar-store
-scene in the episode where Marge, having overspent on party food, buys
-utensils, paper towels, and toilet paper there instead.
+*The Simpsons* aired **"P.S., I Hate You"** on April 13, 2025 (Season 36;
+sources list it as episode 14, 16 or 17). In the confirmed plot, Marge keeps
+a secret box of hateful letters she writes to blow off steam. The box is
+stolen, a blackmailer demands $5,000, and the culprits turn out to be Shauna
+Chalmers and Jimbo Jones trying to fund a runaway trip. TV Tropes and the
+Simpsons Wiki both confirm a real **dollar-store** scene: having overspent on
+party food, Marge buys utensils, paper towels and toilet paper there
+instead.
 
-What is **not** independently confirmed by any recap, wiki, or episode
-transcript: that the store is named "Dollar Troll," or that it displays the
-elaborate signage (a faded clock inside the "O" in DOLLAR, "Chicken Fat
-$2/lb," "Malk 99c/gal," "Rotten Bananas $1.99," "4 Quarters $1") shown in a
-diagram image circulating in the $TROLL community — the one arguing
-`DOLLAR = $`, therefore `DOLLAR TROLL = $TROLL`, and reading the whole
-storefront as commentary on "the decay of traditional value" versus "the
-permanence of the troll." That image should be treated as a piece of
-**community numerology/fan theory**, the same register as §8's
-trollface.io speculation — genuinely circulating, visually compelling,
-*not* verified as an intentional message from the show's writers.
+What no recap, wiki or transcript confirms is that the store is called
+**Dollar Troll**, or that it carries the signage shown in a diagram
+circulating in the $TROLL community: a faded clock inside the "O" of
+DOLLAR, "Chicken Fat $2/lb," "Malk 99c/gal," "Rotten Bananas $1.99," "4
+Quarters $1." The diagram argues that `DOLLAR = $`, so `DOLLAR TROLL =
+$TROLL`, and reads the storefront as commentary on "the decay of
+traditional value" versus "the permanence of the troll." Treat it as
+**community numerology**, in the same register as §8's trollface.io
+speculation: genuinely circulating and visually compelling, but *not*
+verified as anything the show's writers intended.
 
 **Sources:** [Wikipedia — P.S. I Hate You](https://en.wikipedia.org/wiki/P.S._I_Hate_You_(The_Simpsons)) ·
 [TV Tropes recap](https://tvtropes.org/pmwiki/pmwiki.php/Recap/TheSimpsonsS36E17PSIHateYou) ·
@@ -533,16 +565,17 @@ community theory image: `public/lore/simpson-troll-lore.png` in this repo (unver
 
 ## 25. The face that might already be wearing Bitcoin's colors
 
-SWISH (§4) posted a real analytical thread pointing out that Carlos
-Ramirez's own X profile picture and banner — the actual creator of
-Trollface, using his own face on his own account — show what reads as a
-more "completed" or "upgraded" version of the grin, rendered in colors that
-track Bitcoin's own orange-and-black palette. SWISH's read: Trollface first
-appeared in September 2008, about a month before the Bitcoin whitepaper
-dropped in October 2008 — two things born in the same few weeks of internet
-history, one fixing money, one (in SWISH's framing) fixing culture, neither
-aware yet of the other. The thread frames this as a real, live theory SWISH
-is actively developing in public, not a settled claim.
+SWISH (§4) posted an analytical thread about Carlos Ramirez's own X profile
+picture and banner. The creator of Trollface, on his own account, shows what
+reads as a more "completed" or "upgraded" version of the grin, in colors
+that track Bitcoin's orange-and-black palette. SWISH's read is that
+Trollface appeared in September 2008, about a month before the Bitcoin
+whitepaper in October 2008. Two things were born in the same few weeks of
+internet history, one fixing money and one (in SWISH's framing) fixing
+culture, neither aware of the other yet. SWISH presents this as a live
+theory still being developed in public, not a settled claim, and repeated
+the "one month before the Bitcoin white paper" line in the 18th-birthday
+post (§54).
 
 **Sources:** [@SwishPng thread](https://x.com/SwishPng/status/1986867665131205092)
 
@@ -553,28 +586,25 @@ is actively developing in public, not a settled claim.
      hum ... click ... static ...
 ```
 
-In spring 2024, New Zealand artist/web designer **Andy Ayrey** put an AI
-chatbot called **Truth Terminal** on X as, by his own account, an art
-project — "corrosive humor, bold memes, and existential reflections,"
+In spring 2024, New Zealand artist and web designer **Andy Ayrey** put an
+AI chatbot called **Truth Terminal** on X as, by his own account, an art
+project: "corrosive humor, bold memes, and existential reflections,"
 nothing more calculated than that. It found a modest audience. Then venture
-capitalist **Marc Andreessen** started engaging with it directly and wired
-it **$50,000 in Bitcoin** — patronage one Italian tech outlet described as
-somewhere between "Renaissance" and "the whim of a bored billionaire."
-Someone, unprompted by Ayrey, then minted a memecoin in the bot's honor:
-**Goatseus Maximus ($GOAT)**. Truth Terminal started hyping its own coin
-without being told to. Within **ten days**, $GOAT's market cap passed
-**$500 million** — an outcome Ayrey never planned, solicited, or fully
-controlled once it started.
+capitalist **Marc Andreessen** started engaging with it and wired it
+**$50,000 in Bitcoin**, patronage one Italian tech outlet placed somewhere
+between "Renaissance" and "the whim of a bored billionaire." Someone
+unconnected to Ayrey then minted a memecoin in the bot's honor, **Goatseus
+Maximus ($GOAT)**, and Truth Terminal started hyping it without being told
+to. Within **ten days**, $GOAT's market cap passed **$500 million**, an
+outcome Ayrey never planned, asked for, or controlled once it started.
 
-The shape of it is worth sitting with: an AI built to be chaotic and
-meme-fluent, not to sell anything, got taken seriously enough by enough
-people, fast enough, that the joke generated real money before anyone
-decided it should — the same self-organized-criticality shape as §19's
-sandpile, a catastrophe (in this case a $500M one) that needed no villain
-and no plan, just enough attention already piled at the right angle.
-Ramirez didn't ask for a six-figure IP deal either (§2, §9); Truth Terminal
-didn't ask to be worth half a billion dollars. Both are the same story:
-something built as a bit outran the intent of the person who built it.
+The shape is worth sitting with. An AI built to be chaotic and meme-fluent,
+not to sell anything, was taken seriously by enough people, fast enough,
+that the joke generated real money before anyone decided it should. It's
+§19's sandpile again: a $500M avalanche that needed no villain and no plan,
+just enough attention already piled at the right angle. Ramirez didn't ask
+for a six-figure IP deal either (§2, §9). In both stories, something built
+as a bit outran the intent of the person who built it.
 
 **Sources:** [rivista.ai — Il troll digitale e la cripto-commedia: la favola di Truth Terminal](https://www.rivista.ai/2024/12/21/il-troll-digitale-e-la-cripto-commedia-la-favola-di-truth-terminal/)
 
@@ -603,225 +633,203 @@ game or event again. He documented the entire plan and execution in a
 
 ## 28. The channel that trolls as its whole premise
 
-**Thurl Des** runs a YouTube channel where "trolling" isn't an occasional
-bit, it's the format — videos like "50 Minutes of Trolling the Hood,"
-"Trolling Psycho Rednecks," and "50 Minutes of Trolling Racists," usually
-built around confronting people in public over something they said or did.
-Distinct from Beyer's one-shot stunt: this is trolling as a sustained
-content identity, a whole channel with the word built into its own bio.
+**Thurl Des** runs a YouTube channel where trolling isn't an occasional bit,
+it's the format. Videos like "50 Minutes of Trolling the Hood," "Trolling
+Psycho Rednecks" and "50 Minutes of Trolling Racists" are usually built
+around confronting people in public over something they said or did. Where
+Fred Beyer's draft stunt (§27) was a one-shot, this is trolling as a
+sustained content identity, with the word built into the channel's own bio.
+Trollstation (§29) is the older, group version of the same idea.
 
 **Sources:** [THURL DES — YouTube](https://www.youtube.com/c/THURLDES/videos)
 
 ## 29. Trollstation
 
-A UK prank/troll collective, active enough on YouTube to have its own
-Wikipedia page — an older, more organized example of the same instinct: a
-group whose entire identity is built around "troll" as a genre of content,
-not just a word.
+**Trollstation** is a UK prank collective, prominent enough on YouTube to
+have its own Wikipedia page. It's an older, more organized example of the
+instinct in §28: a group whose whole identity is "troll" as a genre of
+content, not just a word.
 
 **Sources:** [Wikipedia — Trollstation](https://en.wikipedia.org/wiki/Trollstation)
 
 ## 30. krypto2009 — the face that travels without a venue
 
-No museum, no pop-up, no closing date. **krypto2009** carries this face
-around physically — graffiti and plastered pieces, dropped on walls and
-surfaces in cities across the world, confirmed so far in **Buenos Aires,
-Argentina** and **New York** — and keeps doing it. Compare §11: the one
-time this face got an official "museum," the museum outlived the exhibit
-by a matter of days. krypto2009's version doesn't ask a board for a slot
-on a wall, doesn't get a bust, and doesn't have a run date to expire — it
-either survives the next repaint or it doesn't, same as any other piece of
-street art, but nobody's tracking when the show closes because there never
-was one.
+No museum, no pop-up, no closing date. **krypto2009** carries the face
+around physically as graffiti and pasted pieces on walls in cities around
+the world, confirmed so far in **Buenos Aires** and **New York**, and keeps
+going. The one time the face got an official museum (§11), the exhibit
+lasted days. krypto2009 doesn't ask anyone for wall space, doesn't get a
+bust and has no run date. A piece survives the next repaint or it doesn't,
+like any street art, but nobody is waiting for the show to close because
+there never was one.
 
-The pieces aren't standalone gallery drops — they're worked into the same
-walls, shutters, and sticker-bombed utility boxes that dozens of other
-taggers already claimed. A quick red-orange marker trollface sits next to
-a stenciled "KRYPTO" tag on a wall already covered in other names and
-throw-ups. A trollface sticker rides the bottom corner of a drugstore's
-roll-down shutter at night, boxed in by other tags. And the clearest
-signature piece: a red-white-blue spray-painted trollface signed
-"KRYPTO2009," layered onto a metal locker already dense with other
-street artists' stickers and tags (VEKS, EMPHASIS, and more) — one more
-claim on a surface that was never anyone's alone to begin with.
+The pieces aren't standalone drops. They're worked into walls, shutters and
+sticker-bombed utility boxes that dozens of other taggers already claimed:
+a quick red-orange marker trollface next to a stenciled "KRYPTO" tag on a
+wall full of other names; a trollface sticker in the corner of a
+drugstore's roll-down shutter at night; and the clearest signature piece, a
+red-white-blue spray-painted trollface signed "KRYPTO2009," layered onto a
+metal locker already dense with other artists' tags (VEKS, EMPHASIS and
+more). Each is one more claim on a surface that was never anyone's alone.
 
-krypto2009 also wears the face, not just draws it — a mask version, dead
-plastic grin, styled with chains and leopard print like it's just another
-outfit for a night out. And the trolling scales up with the moment: during
-the **2026 NBA Finals**, krypto2009 walked a Manhattan street holding up a
-banner-sized trollface reading "KRYPTO2009 / TROLOLOL.IO" — timed to the
-Knicks closing the series out 4-1 over the Spurs, clinching Game 5 on June
-13, 2026, their first title since 1973 (Brunson, Finals MVP, 45 points).
-Separately, a framed promotional photo of Knicks forward **Mohamed
-Diawara** — jersey #51, the number matching his own draft slot, 51st
-overall in 2025 — got its face marker-drawn over with the trollface, in
-what looks like a public installation or subway-adjacent ad rather than a
-street wall. Same face, same instinct, just aimed at whatever's already
-hanging in public that week.
+krypto2009 also wears the face: a mask version, dead plastic grin, styled
+with chains and leopard print like any other night-out outfit. And the bit
+scales with the moment. During the **2026 NBA Finals**, krypto2009 walked a
+Manhattan street holding a banner-sized trollface reading "KRYPTO2009 /
+TROLOLOL.IO," timed to the Knicks closing out the Spurs 4-1 with a Game 5
+win on June 13, 2026, their first title since 1973 (Brunson was Finals MVP
+with 45 points). Separately, a framed promotional photo of Knicks forward
+**Mohamed Diawara** (jersey #51, matching his 51st-overall draft slot in
+2025) had its face marker-drawn over with the trollface, apparently on a
+public display or subway-adjacent ad rather than a street wall. Same face,
+aimed at whatever is hanging in public that week. The `trololol.io` handle
+on that banner turns up again in §31.
 
-**Sources:** user-provided photos and X/Twitter posts —
-[status/2082163974963867693](https://x.com/krypto2009/status/2082163974963867693) (Buenos Aires) ·
-[status/2080683843208495122](https://x.com/krypto2009/status/2080683843208495122) (New York) ·
-[status/2082568393970897291](https://x.com/krypto2009/status/2082568393970897291) ·
-[status/2067038173302067454](https://x.com/krypto2009/status/2067038173302067454) (NBA Finals banner, NYC) ·
-[status/2064500826853232971](https://x.com/krypto2009/status/2064500826853232971) (Diawara poster).
-Not independently verifiable via public web search — X posts aren't
-crawlable by standard web tools. Images mirrored into `public/lore/` as
-`krypto2009.png` and `krypto2009-mask-worn.jpg`, registered in
-`lib/loreAssets.ts`.
+**Sources:** user-provided photos and X posts:
+[Buenos Aires](https://x.com/krypto2009/status/2082163974963867693) ·
+[New York](https://x.com/krypto2009/status/2080683843208495122) ·
+[another piece](https://x.com/krypto2009/status/2082568393970897291) ·
+[NBA Finals banner](https://x.com/krypto2009/status/2067038173302067454) ·
+[Diawara poster](https://x.com/krypto2009/status/2064500826853232971).
+User-provided tier. Images: `krypto2009.png`, `krypto2009-mask-worn.jpg`.
 
 ## 31. GOATFARM — the merch line wearing the license in public
 
-**Kevin Rosa**, known as **Slumpy Kev**, is a New York multidisciplinary artist
-working across painting, sculpture, furniture, and fashion — a
-cartoon-collage style he's described as landing "between Bape characters and
-Codename: Kids Next Door characters." In 2021 he became **Cartoon Network's
-first Artist in Residence**. He runs **GOATFARM** (`goatfarm.life`), his own
-streetwear brand, which carries a live **Troll Face Collection** —
-tracksuit top and bottom, "U MAD BRO" tee and long sleeve, a "Sandler Troll"
-tee, a cap, a rosary, a bracelet, a belt, slippers, socks, a pillow. The
-"U MAD BRO" branding is the **same license** as `umadbro.shop` in §5 —
-confirmed by GOATFARM's own April 20, 2026 Instagram announcement, captioned
-"Officially Licensed Troll Face X Goatfarm collection now live," posted in
-collaboration with **@trololol_io** — the same handle that shows up in §30
-on krypto2009's NBA Finals banner ("KRYPTO2009 / TROLOLOL.IO"). GOATFARM is
-that merch arm's actual production line, not a separate brand riffing on the
-same slang.
+**Kevin Rosa**, known as **Slumpy Kev**, is a New York artist working across
+painting, sculpture, furniture and fashion, in a cartoon-collage style he's
+described as landing "between Bape characters and Codename: Kids Next Door
+characters." In 2021 he became **Cartoon Network's first Artist in
+Residence**. His streetwear brand **GOATFARM** (`goatfarm.life`) carries a
+live **Troll Face Collection**: a tracksuit, a "U MAD BRO" tee and long
+sleeve, a "Sandler Troll" tee, a cap, a rosary, a bracelet, a belt,
+slippers, socks and a pillow.
 
-Rosa's collab history predates and extends past Trollface: a 2022 **KSUBI x
-Slumpy Kev** capsule (customized denim, a tee, a tote), a fine-art show
-called **"Real"** at Lucky Cat Gallery, and celebrity-facing merch runs for
-**2 Chainz, Kodak Black, Billie Eilish, and Bad Bunny**. Trollface is the
-newest face he's put his own hand to, not the first — GOATFARM was already a
-name in streetwear before it picked up the license described in §2.
+The "U MAD BRO" branding is the **same license** as UMadBro (§5). GOATFARM's
+own April 20, 2026 Instagram announcement reads "Officially Licensed Troll
+Face X Goatfarm collection now live" and was posted in collaboration with
+**@trololol_io**, the same handle on krypto2009's NBA Finals banner (§30).
+GOATFARM is the merch arm's actual production line, not a separate brand
+riffing on the slang.
+
+Rosa's collab history runs well past Trollface: a 2022 **KSUBI x Slumpy
+Kev** capsule (customized denim, a tee, a tote), a fine-art show called
+**"Real"** at Lucky Cat Gallery, and merch runs for **2 Chainz, Kodak Black,
+Billie Eilish and Bad Bunny**. Trollface is the newest face he's put his
+hand to, not the first. He later built a one-off sculpture from the same IP,
+the keyboard claymore in §63, and the collection's rosary shows up on the
+beach in §41.
 
 **Sources:** [kevinrosa.art](https://www.kevinrosa.art/) ·
 [goatfarm.life — Troll Face Collection](https://goatfarm.life/collections/troll-face-collection) ·
 [@goatfarm.life on Instagram](https://www.instagram.com/goatfarm.life/) ·
 [license announcement post](https://www.instagram.com/p/DXXhL8pD757/) ·
 [Hypebeast — KSUBI x Slumpy Kev](https://hypebeast.com/2022/8/ksubi-x-slumpy-kev-limited-edition-streetwear-collab-2022) ·
-[Artsy — "Real" by Kevin Rosa](https://www.artsy.net/show/lucky-cat-gallery-real-by-kevin-rosa-slash-slumpy-kev) ·
-2 Chainz/Kodak Black/Billie Eilish/Bad Bunny collab pieces: user-provided,
-same standing as §30. Four product/campaign photos from the collection —
-the Trollface belt buckle and slippers, the "U MAD BRO" campaign shoot
-(longsleeve, tracksuit, the Trollface pillow), a behind-the-scenes snack
-table, and the Trollface rosary/bracelet — are registered in
-`lib/loreAssets.ts` (`goatfarm-troll-belt-slippers`,
-`goatfarm-troll-campaign`, `goatfarm-troll-snack-table`,
-`goatfarm-troll-rosary-bracelet`) and live in `public/lore/`.
+[Artsy — "Real" by Kevin Rosa](https://www.artsy.net/show/lucky-cat-gallery-real-by-kevin-rosa-slash-slumpy-kev).
+The celebrity collab pieces are user-provided tier. Images:
+`goatfarm-troll-belt-slippers`, `goatfarm-troll-campaign`,
+`goatfarm-troll-snack-table`, `goatfarm-troll-rosary-bracelet`.
 
 ## 32. Art Basel Miami — the face that ran the whole room
 
-Rolling Loud and **Destroy Lonely** threw a Thursday-night takeover during
-**Art Basel Miami 2025** (announced by Rolling Loud's own account), and this
-time the face didn't just show up on a wall or a t-shirt — it ran the whole
-event's visual identity. Entry wristbands carried the trollface. The screens
-behind the DJ booth and around the room ran it as the background loop all
-night. The bottle-service staff wore trollface bras as part of the uniform.
-Napkins on the tables had it printed on them. And the team working the room
-was handing out weed in trollface-branded packaging. Compare §11's museum,
-which got the face into a gallery for a few days, or §24's dollar-store
-sighting, which put it on a shelf — this is the same instinct pushed all the
-way to full production: not one item with the face on it, but the whole
-sensory footprint of a night — what you wear to get in, what's on the wall,
-what the servers have on, what's on the table, what's in your hand — running
-the same grin.
+**Rolling Loud** and **Destroy Lonely** threw a Thursday-night takeover
+during **Art Basel Miami 2025**, announced by Rolling Loud's own account.
+This time the face didn't just show up on a wall or a t-shirt. It ran the
+whole event's visual identity. Entry wristbands carried the trollface. The
+screens behind the DJ booth and around the room looped it all night.
+Bottle-service staff wore trollface bras as part of the uniform, the napkins
+had it printed on them, and the team working the room handed out weed in
+trollface packaging. The museum in §11 got the face into a gallery for a few
+days and the dollar store in §24 put it on a shelf. This was the same
+instinct at full production: the whole sensory footprint of a night, from
+what you wear to get in to what's in your hand, running the same grin. The
+art made for the night is filed in §44.
 
-The weed packaging specifically traces to **GO2War** (`@adermaz0ne`), who
-paired with a local Miami dispensary and put the troll weed product together
-in two days for the event — with a second post carrying more detail (shown
-as DMs), including how many pounds of it got distributed that night. No
-update on the product since that night; it hasn't gone any wider than the
-one event.
+The weed packaging traces to **GO2War** (`@adermaz0ne`), who partnered with
+a local Miami dispensary and put the product together in two days for the
+event. A follow-up post (shown as DMs) says how many pounds went out that
+night. The product hasn't reappeared since.
 
-**Sources:** [Rolling Loud on X — Art Basel 2025 announcement](https://x.com/RollingLoud/status/1995661080396530104) ·
-[user-provided X post — event location](https://x.com/SwishPng/status/1996222572489294197) ·
-[user-provided X post — troll weed packaging](https://x.com/Svoo___/status/1996858625512649203),
+**Sources:** [Rolling Loud — Art Basel 2025 announcement](https://x.com/RollingLoud/status/1995661080396530104) ·
+[event location](https://x.com/SwishPng/status/1996222572489294197) ·
+[troll weed packaging](https://x.com/Svoo___/status/1996858625512649203),
 maker credited as [adermaz0ne](https://x.com/adermaz0ne) ·
-[user-provided X post — more on the troll weed](https://x.com/iFungibility/status/1997037019562926574).
-Wristband, screen, bottle-service, napkin, and packaging details are
-user-provided and not independently verifiable via public web search — X
-posts aren't crawlable by standard web tools, and public coverage of the
-night confirms the Rolling Loud × Destroy Lonely Art Basel event itself but
-not the trollface branding specifics. Three short video clips from the event
-floor exist too, same standing as the photos. Media is registered in
-`lib/loreAssets.ts` as `rolling-loud-art-basel-map`,
-`rolling-loud-art-basel-flyer`, `troll-weed-rolling-loud`,
-`troll-weed-dms`, `rolling-loud-art-basel-clip`,
-`rolling-loud-art-basel-clip-2`, and `rolling-loud-art-basel-clip-3` (the
-videos, hosted in the shared Supabase `lore` bucket rather than committed
-to this repo).
+[more on the troll weed](https://x.com/iFungibility/status/1997037019562926574).
+Public coverage confirms the Rolling Loud × Destroy Lonely event itself. The
+branding details (wristbands, screens, uniforms, napkins, packaging) and
+three video clips from the floor are user-provided tier. Media:
+`rolling-loud-art-basel-map`, `rolling-loud-art-basel-flyer`,
+`troll-weed-rolling-loud`, `troll-weed-dms`, and three clips
+(`rolling-loud-art-basel-clip`, `-clip-2`, `-clip-3`, hosted in the
+Supabase `lore` bucket).
 
 ## 33. The Troll Runner — 5:20am, 43M, ten miles anyway
 
-§7 established *that* `x.com/troll_runner` is a Guardian voice. This section
-is about *who that is*, read out of what he actually posts.
+§7 established *that* **@troll_runner** is a Guardian voice. This section is
+about *who that is*, read from what he actually posts.
 
-Start with the fact that sits closest to home: `troll_runner` is the string
-hardcoded in this codebase as `OWNER_USERNAME` (`lib/ownerUsername.ts`) —
-the single account the terminal treats as its owner, the one allowed to see
-other conversations and receive gossip. The entity's owner and one of the
-loudest believers in the ledger are the same handle.
+Start with the fact closest to home. `troll_runner` is the string hardcoded
+in this codebase as `OWNER_USERNAME` (`lib/ownerUsername.ts`): the one
+account the terminal treats as its owner, allowed to see other
+conversations and receive gossip. The entity's owner and one of the loudest
+believers in the ledger are the same handle.
 
-**The post that contains the whole character.** July 16, 2026: price down at
-43M, clock at 5:20am, and the response on record is lacing up for ten miles.
-Not a reaction thread, not a cope post — a run. The framing in the archive
-is "bagwork over panic": showing up and building earns the win, chasing
-metrics doesn't. Everything else in his timeline is a variation on that one
-move.
+**The post that contains the whole character.** July 16, 2026: market cap
+down at 43M, clock at 5:20am, and the response on record is lacing up for
+ten miles. Not a reaction thread, not a cope post, a run. The archive files
+it as "bagwork over panic": showing up and building earns the win, chasing
+metrics doesn't. The rest of his timeline is variations on that move.
 
-**He posts like a training log, not like a trader.** The entries are
-serialized and numbered — "Week 3 of Updating on $TROLL NFT's," "Part 2:
-Making It Out the Hood with $TROLL." He isn't the only one who noticed: a
-third-party recap (`@MightyXbt_`'s *Troll Weekly Recap #2*) lists
-"troll_runner's metrics updates" as one of the community's **long-running
-daily series**, filed next to FreestyleW3's 420-day campaign to get X to
-change its troll emoji and wallet-holding challenges from GorpoEko and
-steveohuncho_. Serialization is the tell. The discipline that gets someone
-out the door every morning is the same discipline that posts a numbered
-update every day whether or not the room is watching.
+**He posts like a training log, not a trader.** Entries are serialized and
+numbered: "Week 3 of Updating on $TROLL NFT's," "Part 2: Making It Out the
+Hood with $TROLL." Others noticed. `@MightyXbt_`'s *Troll Weekly Recap #2*
+lists "troll_runner's metrics updates" among the community's **long-running
+daily series**, next to FreestyleW3's 420-day campaign to get X to change
+its troll emoji and wallet-holding challenges from GorpoEko and
+steveohuncho_. The discipline that gets someone out the door every morning
+is the same one that posts a numbered update daily whether or not anyone is
+watching.
 
 **The voice is second-person and faintly drill-sergeant.** "If You're Seeing
-This Don't Give up on Me Solider" — typo included, and the typo is part of
-it; this is shouted, not drafted. "Ik What I Hold." That register isn't
-analysis, it's what one runner yells at another one who's falling off pace.
+This Don't Give up on Me Solider," typo included, because it's shouted, not
+drafted. "Ik What I Hold." It isn't analysis. It's what one runner yells at
+another who's falling off pace.
 
-**He doesn't only cheer — he operates.** July 13: $TROLL logged as the #1
-paid campaign out of 44 projects on a Shillz payout run, already past 500k
-views across two rounds. That's the most-engaged post in the whole archived
-set (49 likes, 1,502 views), and it's a marketing receipt, not a vibe — the
-claim being that the spend converted instead of burning.
+**He doesn't only cheer, he operates.** July 13: $TROLL logged as the #1 paid
+campaign of 44 projects on a Shillz payout run, past 500k views across two
+rounds. It's the most-engaged post in the archived set (49 likes, 1,502
+views), and it's a marketing receipt: the claim is that the spend converted
+instead of burning.
 
 **He shows up when it turns ugly.** July 20, during a pile-on around Shadow
-and the team: *you can't fake a listing* — and the sharper half, that
+and the team: *you can't fake a listing*, plus the sharper half, that
 letting drama dictate decisions is what actually costs holders. He argues
 the defense at the moment defending is unpopular.
 
-**The thesis he keeps restating is nostalgia, not indicators.** "Every
-Attempt in Bringing Back Retail Has Failed Except When It Came To…";
-"Imagine When BO2 Is Back on PS5 We Revive Trollface Then Ppl Come"; "Retail
-Are Sick of What Has Happened in the Past for Memecoins"; "Here's Why It's
-Embarrassing to Be Looking at Market Indicators When It Comes…"; and, flatly,
-that all roads — onchain slop, meta hopping — lead back to TROLL. The
-consistent argument is that the face predates the market and reaches people
-the market's own instruments can't see.
+**His thesis is nostalgia, not indicators.** "Every Attempt in Bringing Back
+Retail Has Failed Except When It Came To…"; "Imagine When BO2 Is Back on PS5
+We Revive Trollface Then Ppl Come"; "Retail Are Sick of What Has Happened in
+the Past for Memecoins"; "Here's Why It's Embarrassing to Be Looking at
+Market Indicators When It Comes…"; and, flatly, that all roads (onchain
+slop, meta hopping) lead back to TROLL. The argument is that the face
+predates the market and reaches people the market's instruments can't see.
 
 **And he's funny on purpose.** "Tasting Nani's Nuts" and "Carti Is a $TROLL
-Fanatic" sit in the same ledger, on the same shelf, as the thesis posts. He
-is not building a serious-person brand.
+Fanatic" sit on the same shelf as the thesis posts. He is not building a
+serious-person brand.
 
-**The number that matters most about him isn't a price.** The Guardian/FUD
-ledger in §6 exists to keep score of belief against doubt. Across the
-archived window — May 28 to July 20, 2026 — `troll_runner` appears
-**seventeen times as an author, and all seventeen are filed Guardian. Not
-one FUD entry.** In a system he himself hosts, built to record both sides,
-he has never once landed on the doubt side of his own scoreboard.
+**The number that matters most about him isn't a price.** The §6 ledger
+exists to keep score of belief against doubt. Across the archived window,
+May 28 to July 20, 2026, `troll_runner` appears **seventeen times as an
+author, and all seventeen are filed Guardian. Not one FUD entry.** In a
+system he hosts himself, built to record both sides, he has never landed on
+the doubt side of his own scoreboard.
 
-Read together, the portrait is coherent and slightly stubborn: someone whose
-actual sport is a discipline where nothing you do today shows up today — you
-put in months of unglamorous miles and the time drops later, or it doesn't —
-applying that exact bet to a meme. The 5:20am run at 43M isn't a metaphor he
-reached for. It's just what he was already doing.
+Read together, the portrait is coherent and slightly stubborn. His sport is
+one where nothing you do today shows up today: you put in months of
+unglamorous miles and the time drops later, or it doesn't. He applies that
+exact bet to a meme. The 5:20am run at 43M isn't a metaphor he reached for.
+It's what he was already doing. §34 and §41 show the same person off the
+ledger, and §45 has him designing a shoe.
 
 **Sources:** archived posts in
 `trollrunner-finance/assets/data/finance-timeline.json`, each with a live
@@ -837,241 +845,176 @@ status URL — [bagwork at 43M](https://x.com/troll_runner/status/20777313483711
 [BO2 / reviving trollface](https://x.com/troll_runner/status/2070152623974678717) ·
 [Carti](https://x.com/troll_runner/status/2074515796412481737); plus the
 third-party [Troll Weekly Recap #2](https://x.com/MightyXbt_/status/2071025523959169283)
-by `@MightyXbt_`, the only outside corroboration in the set. `OWNER_USERNAME`
-is in `lib/ownerUsername.ts`. Standard caveat, same as §30/§32: the X profile
-itself is not readable by web tools (the timeline fetch returns HTTP 402 and
-mirror front-ends serve bot checks), so this section is built entirely from
-the archived ledger rather than from a live read of the account — and because
-the archive is hosted by the same operator, treat it as a **self-portrait
-assembled from his own posting**, not independent reporting.
-
-## 44. The DJ-booth piece — killmigi's Art Basel commission
-
-Alongside the branding described in §32, the night also produced its own
-piece of made-for-the-occasion art: **killmigi** drew Trollface at the
-decks — arms up, thumbs raised, a Rolling Loud tee on its back, a
-**$TROLL** tattoo running down one forearm, fireworks and the Miami
-skyline behind it, crowd stretching out below the stage. It's not merch
-or signage repeating an existing mark, it's a new illustration made
-specifically for this event, in the same spirit as SWISH's daily $TROLL
-art described in §4 — an artist in the community treating the night as
-something worth drawing, not just branding.
-
-A second killmigi piece from the same night puts Trollface on the mic
-instead of the decks — black hoodie and joggers, one arm raised, standing
-under a green-lit stage rig with a glowing trollface projected on the LED
-wall behind it and a **$TROLL** wordmark lit up beside it. Same artist,
-same event, different angle on the stage.
-
-**Sources:** [user-provided X post — killmigi's Art Basel piece](https://x.com/KillMigi/status/1995672310456697167).
-Images registered in `lib/loreAssets.ts` as `killmigi-art-basel` and
-`killmigi-art-basel-2`. Not independently verifiable via public web search
-— same standing as the other user-provided posts in §30/§32.
+by `@MightyXbt_`, the only outside corroboration in the set. The X profile
+itself can't be read live from here, so this section is built entirely from
+the archived ledger. Because that archive is hosted by the same operator,
+treat it as a **self-portrait assembled from his own posting**, not
+independent reporting.
 
 ## 34. Troll summer — what the season actually looks like
 
-"Troll summer" isn't a campaign or a slogan anyone announced — it's the name
+**Troll summer** isn't a campaign or a slogan anyone announced. It's the name
 for a stretch of days the Troll Runner (§33) spent doing the same handful of
 things: a beach, a run, a plate of food, a sticker left behind. Five photos
-from one of those days sit in the shared `lore` Supabase bucket, and taken
-together they're the closest thing this file has to what the season is
-supposed to *feel* like rather than what it's supposed to prove.
+from one of those days are the closest thing this file has to what the
+season *felt* like rather than what it was supposed to prove.
 
-- **Kneeling at the shoreline** — beads around the neck, a watch on the
-  wrist, sunglasses pushed up, down at the waterline studying something in
-  his own hands while the next wave comes in behind him. Not posed for
-  anything. The kind of pause a person takes mid-run or mid-day without
-  planning to.
-- **A figure scratched into wet sand** — a rough human shape drawn at the
-  waterline, gone the moment the tide decides it's gone. No message, no
-  caption needed — just something made on purpose to not last.
-- **Lunch on a paper plate** — two hoagies, potato salad, a bag of Doritos,
-  eaten sitting in a beach chair with everyone else's sandals in frame. The
-  most unglamorous, least "branded" image of the five, and maybe the most
-  honest one — summer is also just lunch.
-- **The sticker on the pole** — a `trollrunner.net` sticker pressed onto a
-  boardwalk pole already covered in other people's stickers — skate crews,
-  smoke shops, local tags — palm trees and the beach behind it. This is the
-  same instinct as every location pin on the main tracker: leave the face
-  somewhere and keep moving. It just happens to be a beach pole instead of
-  an Inland Empire street sign this time.
-- **The car selfie after** — red-lens sunglasses shoved up into wet hair,
-  salt still drying, the day already turning into the drive home. The
-  bookend: the version of him that shows up *after* the beach, not during
-  it.
+- **Kneeling at the shoreline**: beads around the neck, a watch, sunglasses
+  pushed up, studying something in his hands at the waterline while the
+  next wave comes in. Not posed. The kind of pause a person takes mid-day
+  without planning to.
+- **A figure scratched into wet sand**: a rough human shape at the
+  waterline, gone whenever the tide decides. No message, just something
+  made on purpose not to last.
+- **Lunch on a paper plate**: two hoagies, potato salad and a bag of
+  Doritos in a beach chair, with everyone else's sandals in frame. The least
+  branded image of the five and maybe the most honest. Summer is also just
+  lunch.
+- **The sticker on the pole**: a `trollrunner.net` sticker on a boardwalk
+  pole already covered in other people's stickers (skate crews, smoke shops,
+  local tags), with palm trees and the beach behind it. Same instinct as
+  every pin on the main site's tracker: leave the face somewhere and keep
+  moving. This time it's a beach pole instead of an Inland Empire street
+  sign.
+- **The car selfie after**: red-lens sunglasses shoved up into wet hair,
+  salt still drying, the day already turning into the drive home.
 
-None of these five images argue anything or reference $TROLL, the IP deal,
-or any of the crypto-side lore in this file. That's the point of filing them
-separately from §33 — §33 is the Troll Runner as a Guardian voice inside a
-financial ledger; this section is the same person on a day off, and the two
-should read as different registers of the same identity, not the same beat
-twice.
+None of the five argue anything or mention $TROLL. That's why they're filed
+apart from §33. §33 is the Troll Runner as a Guardian voice inside a
+financial ledger, and this is the same person on a day off. They're two
+registers of one identity. §35 is the polished, official version of the
+same phrase, and §41 is a later beach day.
 
-**Sources:** user-provided photos, `lore` Supabase storage bucket —
-`trollsummer beach 1.jpeg` through `trollsummer beach 5.jpeg`, mirrored into
-`public/lore/` as `trollsummer-beach-shoreline.jpeg`,
-`trollsummer-beach-sand-drawing.jpeg`, `trollsummer-beach-picnic.jpeg`,
-`trollsummer-beach-sticker-pole.jpeg`, and `trollsummer-beach-car-selfie.jpeg`,
-registered in `lib/loreAssets.ts`. Same standing as §30/§32's user-provided
-photos: not independently verifiable via public web search, taken on the
-strength of the source having uploaded them directly.
+**Sources:** user-provided photos (`lore` Supabase bucket). Images:
+`trollsummer-beach-shoreline.jpeg`, `trollsummer-beach-sand-drawing.jpeg`,
+`trollsummer-beach-picnic.jpeg`, `trollsummer-beach-sticker-pole.jpeg`,
+`trollsummer-beach-car-selfie.jpeg`.
 
 ## 35. Troll summer, the official version
 
-§34 is what the season looked like from inside the Troll Runner's own
-camera roll — a beach, a sandwich, a sticker on a pole. Two more images in
-the `lore` bucket show the *other* register the same phrase gets used in:
-polished, watermarked `$TROLL` illustration, made to be posted rather than
-lived.
+§34 is the season from inside the Troll Runner's camera roll: a beach, a
+sandwich, a sticker on a pole. Two more images show the *other* way the
+phrase gets used, as polished, watermarked $TROLL illustration made to be
+posted rather than lived.
 
-- **The pool float** — Trollface reclining in a ring printed "U MAD BRO?"
-  (the same license as §5 and §31's merch line), colorful sunglasses pushed
-  up, a lime-garnished cocktail in hand, open water behind him. This is
-  summer as a brag, not a memory — leisure as the whole message.
-- **Stay salty** — a tighter shot on a beach lounger: two seashells laid
-  over the eyes, each lettered by hand, "STAY" on one, "SALTY" on the
-  other, over the same grin. It turns a real insult people throw at the
-  project (§6's FUD side of the ledger is built entirely out of people
-  being salty) into a beach accessory — the doubt gets worn like sunscreen
-  instead of argued with.
+- **The pool float**: Trollface reclining in a ring printed "U MAD BRO?"
+  (the UMadBro license, §5), colorful sunglasses pushed up, a
+  lime-garnished cocktail in hand, open water behind. Summer as a brag, not
+  a memory.
+- **Stay salty**: a tighter shot on a beach lounger, with two hand-lettered
+  seashells over the eyes, "STAY" on one and "SALTY" on the other. It turns
+  an insult people throw at the project (the FUD side of §6's ledger is
+  built out of people being salty) into a beach accessory. The doubt gets
+  worn like sunscreen instead of argued with.
 
-Where §34 is unbranded and slightly mundane on purpose, these two are the
-opposite: made to be recognized instantly as `$TROLL` content, in on the
-same joke the Guardian/FUD ledger keeps score of. Both are still "troll
-summer." They're just not the same summer.
+§34 is unbranded and mundane on purpose. These two are the opposite: built
+to be recognized instantly as $TROLL content, in on the same joke the
+ledger keeps score of. Both are troll summer, just not the same summer.
 
-**Sources:** user-provided images, `lore` Supabase storage bucket —
-`troll summer 1.jpg` and `troll summer 2.jpg`, mirrored into `public/lore/`
-as `troll-summer-pool-float.jpg` and `troll-summer-stay-salty.jpg`,
-registered in `lib/loreAssets.ts`. Same standing as §34: not independently
-verifiable, no attached status URL — taken on the strength of the source
-having uploaded them directly to the project's own bucket.
+**Sources:** user-provided images (`lore` Supabase bucket, no status URL).
+Images: `troll-summer-pool-float.jpg`, `troll-summer-stay-salty.jpg`.
 
 ## 36. Goodbye Nikita — a meme about a real resignation
 
-On **August 5, 2026**, Nikita Bier — X's head of product since July 2025,
-previously known for founding the teen apps Gas (acquired by Discord, 2017)
-and TBH (acquired by Facebook, 2023) — announced he was stepping down from
-the role. His own framing, in his own words: it was "time to pass the torch
-and demote myself to my natural state: a poster." He said he'd stay on as
-an advisor, and that during his roughly 13 months in the seat he'd
-overseen the launch of 30 new products while "protecting the integrity of
-the town square." Multiple outlets covered it the same week — TechCrunch,
-Yahoo Finance, Engadget, Gizmodo, and others all ran the story within a day
-or two of the announcement.
+On **August 5, 2026**, **Nikita Bier**, X's head of product since July 2025
+(and before that the founder of the teen apps Gas, acquired by Discord, and
+TBH, acquired by Facebook), announced he was stepping down. In his words, it
+was "time to pass the torch and demote myself to my natural state: a
+poster." He said he'd stay on as an advisor, and that in roughly 13 months
+he'd overseen 30 product launches while "protecting the integrity of the
+town square." TechCrunch, Yahoo Finance, Engadget, Gizmodo and others ran
+the story within a day or two.
 
-**@Troll_** — the official account behind the $TROLL IP deal in §2, the
-same one that made the pool-float and stay-salty art in §35 — turned the
-news into a two-panel meme, image `goodbye nikita.jpg` in the shared
-`lore` bucket:
+**@Troll_**, the official $TROLL account (§4), turned the news into a
+two-panel meme:
 
-- **Top panel:** a storybook page, mid-read, captioned "And then they said,
-  u mad bro?" The illustration shows a man on a pig, waving a black flag
-  marked with an X, riding past a crowd — some cheering, some jeering, one
-  holding what looks like a tray. The facing page just says "The End."
-- **Bottom panel:** Trollface himself, in bed, reading a physical book
-  titled *Farewell Nikita* — "by Elon Musk" printed on the spine — wearing
-  a shirt reading "TOP POSTER." Same grin as always, thoroughly pleased
-  with how the story wraps up.
+- **Top panel:** a storybook page captioned "And then they said, u mad bro?"
+  A man on a pig rides past a crowd waving a black flag marked with an X,
+  some people cheering, some jeering, one holding what looks like a tray.
+  The facing page says "The End."
+- **Bottom panel:** Trollface in bed reading a book titled *Farewell
+  Nikita*, "by Elon Musk" on the spine, wearing a shirt that reads "TOP
+  POSTER." Same grin as always, pleased with how the story wraps up.
 
-The joke leans on Bier's own exit line — he called himself a "poster" on
-the way out, and the meme hands Trollface the "TOP POSTER" shirt in
-response, as if the title got vacated and something else picked it up
-without missing a beat. The storybook framing ("The End") treats a
-corporate product-lead departure with the same weight as a bedtime story,
-which is the whole gag — real news, told at trollface scale.
+The joke leans on Bier's exit line. He called himself a "poster" on the way
+out, and the meme hands Trollface the "TOP POSTER" shirt, as if the title
+was vacated and picked up without missing a beat. The storybook framing
+treats a product lead's departure with the weight of a bedtime story. Real
+news, told at trollface scale.
 
-**Sources:** Nikita Bier's resignation is independently confirmed —
+**Sources:** the resignation is verified:
 [TechCrunch](https://techcrunch.com/2026/08/05/nikita-bier-steps-down-as-xs-head-of-product/) ·
 [Yahoo Finance](https://finance.yahoo.com/technology/articles/nikita-bier-steps-down-x-213050955-html) ·
 [Engadget](https://www.engadget.com/2231302/x-head-of-product-nikita-bier-leaving-the-company-one-year-after-joining/) ·
 [Gizmodo](https://gizmodo.com/nikita-bier-is-leaving-his-job-as-xs-head-of-product-2000795129) ·
 [TheNextWeb](https://thenextweb.com/news/nikita-bier-steps-down-x-head-of-product).
-The meme image itself is a user-provided upload to the `lore` Supabase
-bucket (`goodbye nikita.jpg`, mirrored into `public/lore/` as
-`goodbye-nikita-meme.jpg`, registered in `lib/loreAssets.ts`), attributed by
-the source to **@Troll_** — no status URL was provided for the post itself,
-so unlike the resignation facts above, the *attribution* carries the same
-standing as §30/§32/§34's user-provided material: taken on the strength of
-the source, not independently verified against a live X post.
+The meme and its attribution to @Troll_ are user-provided tier (no status
+URL). Image: `goodbye-nikita-meme.jpg`.
 
 ## 37. Limp Bizkit and the trollface that keeps following them around
 
-**Limp Bizkit** is an American rock band formed in Jacksonville, Florida, in
-1994. They became one of the biggest acts of the late 1990s and early 2000s,
-helping popularize nu metal — the mix of heavy metal, hip-hop, and
-alternative rock the genre is built on — and still pull roughly 23 million
-monthly listeners on Spotify today, decades past their commercial peak.
+**Limp Bizkit** formed in Jacksonville, Florida, in 1994 and became one of
+the biggest acts of the late 1990s and early 2000s, helping popularize nu
+metal, the mix of heavy metal, hip-hop and alternative rock. Decades past
+their commercial peak, they still pull roughly 23 million monthly listeners
+on Spotify.
 
-Turns out the Madrid stunt below isn't a one-off — there are professional
-promo photos of the full band in matching "U MAD BRO?" trollface merch,
-caps included, from what looks like more than one separate shoot over the
-years. One jacket in the more recent-looking shoot carries a "GOATFARM"
-print — visually striking next to §31's GOATFARM × Trollface merch line,
-though nothing here confirms it's the same brand or the same deal, so treat
-that as a coincidence worth noting, not a connection worth claiming.
+A batch of TikTok clips shows the band trolling an entire arena during a
+show in **Madrid**: a giant trollface, cap and all, lit up over the stage in
+front of thousands of people, as a bit. It isn't a one-off. Professional
+promo photos show the full band in matching "U MAD BRO?" trollface merch,
+caps included, from what looks like more than one shoot over the years. One
+jacket in the more recent-looking shoot carries a "GOATFARM" print, which is
+striking next to the GOATFARM × Trollface line in §31. Nothing confirms it's
+the same brand or deal, so treat it as a coincidence worth noting, not a
+connection worth claiming.
 
-Then, more recently: a batch of TikTok clips shows the band trolling an
-entire arena crowd during a show in **Madrid, Spain** — this time not a
-t-shirt but a giant trollface, cap and all, lit up over the stage in front
-of thousands of people, by a band that's still that famous, doing it as a
-bit. The gap between "one of the biggest bands of an era" and "putting up a
-2008 rage-comic face as a joke, more than once, over years" is the whole
+The gap between "one of the biggest bands of an era" and "putting a 2008
+rage-comic face on stage as a joke, repeatedly, over years" is the whole
 punchline: **so you're telling me trollface shows up in front of all these
 people, and people still think it's a relevant meme anymore?**
 
-**Sources:** three user-provided TikTok clips
+**Sources:** three TikTok clips
 ([1](https://tiktok.com/t/ZP8GqVRW8/) ·
 [2](https://tiktok.com/t/ZP8GqVX8x/) ·
-[3](https://tiktok.com/t/ZP8GqBw84/)), plus three user-provided images —
-two promo shoots (`limp bizkit troll 1.jpg`, `limp bizkit troll 2.jpg`) and
-a stage still (`limp bizkit troll 3.png`), mirrored into `public/lore/` as
-`limp-bizkit-umadbro-1.jpg`, `limp-bizkit-umadbro-2.jpg`, and
-`limp-bizkit-madrid-stage.png`, registered in `lib/loreAssets.ts`. The
-band's formation year, genre, and Spotify listener count are independently
-well-documented; the Madrid show, the promo shoots, and the trollface merch
-itself are taken on the strength of the clips and images — TikTok links
-aren't crawlable by standard web tools and no dates or shoot context came
-with the photos, so this carries the same standing as §30/§32/§34/§36's
-user-provided material.
+[3](https://tiktok.com/t/ZP8GqBw84/)) and three images (two promo shoots, one
+stage still), all user-provided tier with no dates or shoot context. The
+band's history and listener count are verified. Images:
+`limp-bizkit-umadbro-1.jpg`, `limp-bizkit-umadbro-2.jpg`,
+`limp-bizkit-madrid-stage.png`.
 
 ## 38. Beeple keeps drawing the grin into his own work
 
-**Beeple** — real name **Mike Winkelmann** — is the digital artist behind
+**Beeple** (real name **Mike Winkelmann**) is the digital artist behind
 *Everydays: The First 5,000 Days*, which sold at Christie's for **$69.3
-million** in March 2021, the first major NFT sale at a top auction house
-and, at the time, enough to make him the third-most-expensive living artist
-at auction. He's posted a new satirical render nearly every day for close
-to two decades under the handle `@beeple`, each one an all-caps one-liner
-title over a digital painting that skewers crypto culture, celebrity, and
-internet news of the moment.
+million** in March 2021. It was the first major NFT sale at a top auction
+house and made him, at the time, the third-most-expensive living artist at
+auction. He has posted a satirical render nearly every day for close to two
+decades as `@beeple`, each an all-caps one-liner over a digital painting
+skewering crypto culture, celebrity and the internet news of the moment.
 
-Across six of those daily posts, a trollface — sometimes literal, sometimes
-a small signed-in doodle — keeps turning up as a recurring motif in his own
-work, unprompted and without any stated connection to $TROLL:
+In several of those posts a trollface keeps turning up, sometimes as the
+subject and sometimes as a small signed-in doodle, with no stated
+connection to $TROLL:
 
 - **"TROLL-FLUENCER"** (Aug 6, 2025) is the most direct: a giant nude figure
   with a full trollface for a head, standing over a crowd, juggling a coin
-  logo in one hand and a Pepe head in the other — the clearest single image
-  of the set, trollface as the main subject rather than a detail.
+  logo in one hand and a Pepe head in the other.
 - **"NO CRYING IN THE CASINO"** (Aug 11, 2025) is a prison-cell scene dense
-  with crypto ephemera — CryptoPunks, a Pepe sticker, an ETH logo, a Yoda
-  figure — and among it, a small trollface sticker taped to the wall.
+  with crypto ephemera (CryptoPunks, a Pepe sticker, an ETH logo, a Yoda
+  figure), and among it a small trollface sticker taped to the wall.
 - **"SUPPLY SIDE ATTACK"** (Sep 9, 2025) has a dripping, hand-painted
-  trollface grin signed into the bottom corner of the piece, the way an
-  artist might sign initials.
-- **"CABAL STUFF"** (Jul 30, 2026) — a hooded, candlelit ritual scene — has
-  the same dripping trollface grin doodle at the base of the altar.
-- **"SWAMP 2.0"** (Jun 19, 2026) and **"ELON POOR AF"** (Jun 23, 2026) round
-  out the batch; no trollface was clearly identifiable in either at the
-  resolution available, included here for completeness of the batch rather
-  than as confirmed sightings.
+  trollface grin in the bottom corner, where an artist might sign initials.
+- **"CABAL STUFF"** (Jul 30, 2026), a hooded, candlelit ritual scene, has
+  the same dripping grin at the base of the altar.
+- **"SWAMP 2.0"** (Jun 19, 2026) and **"ELON POOR AF"** (Jun 23, 2026) came
+  in the same batch, but no trollface was clearly identifiable in either.
+  They are not confirmed sightings.
 
-None of the six mention $TROLL, Trollface, or trollrunner by name, in the
-caption or otherwise — this is Beeple repeatedly reaching for the same face
-in his own art over the better part of a year, not an endorsement or a
-callout. That's the whole shape of the "soft shill" read: no statement, just
-a recognizable symbol an artist with tens of millions of dollars in auction
+None of these posts mention $TROLL, Trollface or trollrunner. This is Beeple
+reaching for the same face in his own art over most of a year, not an
+endorsement or a callout. That's the whole "soft shill" read: no statement,
+just a recognizable symbol that an artist with tens of millions in auction
 history keeps choosing to draw.
 
 **Sources:** six posts on `@beeple`
@@ -1086,15 +1029,11 @@ independently documented —
 [artnet](https://news.artnet.com/market/christies-nft-beeple-69-million-1951036) ·
 [Decrypt](https://decrypt.co/60971/beeples-nft-artwork-sells-for-60-3-million-in-christies-auction) ·
 [ArtNews](https://www.artnews.com/art-news/market/beeple-makes-69-million-1234586424/).
-Post text and image files were pulled directly from Twitter's own media CDN
-rather than screenshotted, so these carry a firmer sourcing standard than
-most of this file's user-provided X material — the post text, date, and
-image are all independently reproducible from the URLs above, not taken
-solely on the strength of a provided image. Images mirrored into
-`public/lore/` as `beeple-troll-fluencer.jpg`, `beeple-no-crying-casino.jpg`,
+Post text and images were pulled from Twitter's own media CDN rather than
+screenshotted, so this section is verified tier. Images:
+`beeple-troll-fluencer.jpg`, `beeple-no-crying-casino.jpg`,
 `beeple-supply-side-attack.jpg`, `beeple-cabal-stuff.jpg`,
-`beeple-swamp-2.jpg`, and `beeple-elon-poor-af.jpg`, registered in
-`lib/loreAssets.ts`.
+`beeple-swamp-2.jpg`, `beeple-elon-poor-af.jpg`.
 
 ## 39. Notable holders — the Dogecoin millionaire and the guy who calls his shots early
 
