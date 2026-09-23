@@ -605,3 +605,58 @@ export function findLoreImagesForArchiveSection(sectionNumber: number): LoreAsse
       (!isVideoAsset(asset.url) || asset.loopGif) && asset.sections.includes(sectionNumber)
   );
 }
+
+// Lays a section's prose and its pictures out as one interleaved reading
+// order for the archive (docs/TERMINAL-V4-DESIGN.md §3.1). The archive used
+// to render the whole body as a single block and then dump every image
+// underneath it, so a file like §32 (seven pictures) or §48 (thirty-six
+// paragraphs) read as an essay followed by an unrelated contact sheet —
+// the pictures arrived long after the sentences they illustrate.
+//
+// Placement is positional, not semantic: paragraphs and images are spread
+// evenly so pictures land at even intervals through the prose. Matching an
+// image to the paragraph that names it would need per-asset paragraph
+// anchors that don't exist in TROLL-LORE.md, and the keyword scorer that
+// findLoreImagesForArchiveSection's comment warns about is exactly the
+// wrong tool for it. Even spacing is the honest version: it never claims a
+// picture belongs to a sentence it doesn't.
+//
+// The first paragraph always leads — a file opens on prose, never on an
+// image. Sections with more images than gaps (§31 and §32 both carry more
+// pictures than paragraphs) put the surplus in the trailing block, which
+// still renders as a grid, so nothing is dropped.
+export type LoreFlowItem =
+  | { kind: "text"; text: string }
+  | { kind: "images"; images: LoreAsset[] };
+
+export function buildLoreFlow<T extends { id: string }>(
+  body: string,
+  images: T[]
+): ({ kind: "text"; text: string } | { kind: "images"; images: T[] })[] {
+  const paragraphs = body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  if (paragraphs.length === 0) {
+    return images.length > 0 ? [{ kind: "images", images }] : [];
+  }
+  if (images.length === 0) {
+    return paragraphs.map((text) => ({ kind: "text" as const, text }));
+  }
+
+  // Slots are the gaps AFTER each paragraph; the last gap is the end of the
+  // file, so a picture placed there still reads as part of the section
+  // rather than as an appendix to it.
+  const slots = paragraphs.length;
+  const buckets: T[][] = Array.from({ length: slots }, () => []);
+  images.forEach((image, i) => {
+    // Spread across the gaps: with 2 images and 5 paragraphs this puts them
+    // after paragraphs 2 and 4 rather than both at the top or both at the end.
+    const slot = Math.min(slots - 1, Math.floor(((i + 1) * slots) / (images.length + 1)));
+    buckets[slot].push(image);
+  });
+
+  const flow: ({ kind: "text"; text: string } | { kind: "images"; images: T[] })[] = [];
+  paragraphs.forEach((text, i) => {
+    flow.push({ kind: "text", text });
+    if (buckets[i].length > 0) flow.push({ kind: "images", images: buckets[i] });
+  });
+  return flow;
+}
