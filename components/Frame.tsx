@@ -53,10 +53,22 @@ export default function Frame({
 }: FrameProps) {
   const borderStyle = variant === "double" ? "border-double" : "border-solid";
   const borderWidth = variant === "double" ? "border-[6px]" : "border";
+  // The title/corner-action/trace-border layers are absolutely positioned
+  // against this root, so it needs a containing block — but `relative` is
+  // only the DEFAULT, not a given. A caller that positions the whole panel
+  // itself (the popped-out chat and ledger both go `fixed`) has to be able
+  // to win: Tailwind emits .relative and .fixed in the same layer, so the
+  // later-appended class does NOT take precedence — source order decides,
+  // and .relative won regardless, leaving those panels stuck in flow.
+  // Dropping it here when the caller supplies its own position class lets
+  // theirs apply, and `fixed`/`absolute` establish a containing block just
+  // as well, so the inner layers are unaffected either way.
+  const callerPositions = /(^|\s)(fixed|absolute|sticky|static|relative)(\s|$)/.test(className);
+  const position = callerPositions ? "" : "relative";
 
   return (
     <div
-      className={`relative ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/85 backdrop-blur-sm ${className}`}
+      className={`${position} ${borderWidth} ${borderStyle} ${TONE_COLOR[tone]} bg-panel/85 backdrop-blur-sm ${className}`}
       style={{ ...(traceHue ? { "--trace-hue": traceHue } : undefined), ...style } as CSSProperties}
     >
       {titleEffect === "trace" && (

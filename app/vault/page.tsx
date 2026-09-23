@@ -1,10 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
+import {
+  centeredPopoutPos,
+  clampPopoutPos,
+  getDesktopServerSnapshot,
+  getDesktopSnapshot,
+  subscribeDesktop,
+} from "@/lib/popout";
 import { getPublicClient } from "@/lib/supabase";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
@@ -45,6 +52,10 @@ type RedemptionRequest = {
   created_at: string;
 };
 
+// Popped-out ledger's desktop size, in viewport px. Module scope, not the
+// component body - as a fresh object each render it counts as a changing
+// dependency of every callback that reads it.
+const POPOUT_SIZE = { width: 720, height: 640 };
 const QUALIFYING_INTERVAL = 7;
 const XP_PER_PROBLEM = 25;
 const MIN_REDEEM = 5;
@@ -76,7 +87,6 @@ export default function VaultPage() {
   // is read a few rows at a time. Popping it out gives it a real window.
   // Same pattern as the homepage's "speak to it" chat popout.
   const [ledgerPopped, setLedgerPopped] = useState(false);
-  const POPOUT_SIZE = { width: 720, height: 640 };
   // Viewport px; the popped Frame is position:fixed and draggable by its
   // title bar. Re-centred each time it opens, then follows the drag.
   const [popoutPos, setPopoutPos] = useState({ top: 0, left: 0 });
@@ -87,10 +97,13 @@ export default function VaultPage() {
     startTop: number;
     startLeft: number;
   } | null>(null);
-  // Mirrors Tailwind's lg breakpoint so the inline positioning style only
-  // overrides the fixed-inset classes on desktop, matching the lg:-prefixed
-  // classes it sits alongside.
-  const [isDesktop, setIsDesktop] = useState(false);
+  // Drives the desktop-only sizing/drag of the popout, matching the
+  // lg:-prefixed classes it sits alongside.
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktop,
+    getDesktopSnapshot,
+    getDesktopServerSnapshot
+  );
   // The popout button portals into the ledger Frame's own top-right corner
   // (Frame's cornerAction). State, not a bare ref, so the portal re-renders
   // once the target div actually mounts.
@@ -104,23 +117,23 @@ export default function VaultPage() {
     return onAuthChange(setSession);
   }, []);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(mq.matches);
-    const onChange = () => setIsDesktop(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+  // Opening the popout centers it; closing leaves the position alone so it
+  // isn't recomputed on the way out. Centering happens here rather than in
+  // an effect so the panel is placed in the same render that shows it.
+  const toggleLedgerPopped = useCallback(() => {
+    setLedgerPopped((wasPopped) => {
+      if (!wasPopped) setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
+      return !wasPopped;
+    });
   }, []);
 
+  // A popped panel that was dragged near an edge can end up off-screen when
+  // the window shrinks; re-center rather than leaving it stranded.
   useEffect(() => {
     if (!ledgerPopped || !isDesktop) return;
-    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
-    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
-    setPopoutPos({
-      top: Math.max(0, (window.innerHeight - h) / 2),
-      left: Math.max(0, (window.innerWidth - w) / 2),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const onResize = () => setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, [ledgerPopped, isDesktop]);
 
   useEffect(() => {
@@ -150,15 +163,13 @@ export default function VaultPage() {
   const handlePopoutHeaderPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragStateRef.current;
     if (!drag || drag.pointerId !== e.pointerId) return;
-    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
-    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
-    const nextTop = drag.startTop + (e.clientY - drag.startY);
-    const nextLeft = drag.startLeft + (e.clientX - drag.startX);
-    setPopoutPos({
-      top: Math.min(Math.max(0, nextTop), Math.max(0, window.innerHeight - h)),
-      left: Math.min(Math.max(0, nextLeft), Math.max(0, window.innerWidth - w)),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setPopoutPos(
+      clampPopoutPos(
+        POPOUT_SIZE,
+        drag.startTop + (e.clientY - drag.startY),
+        drag.startLeft + (e.clientX - drag.startX)
+      )
+    );
   }, []);
   const handlePopoutHeaderPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (dragStateRef.current?.pointerId === e.pointerId) {
@@ -678,25 +689,16 @@ export default function VaultPage() {
                   ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
                   : "flex flex-col min-h-0"
               }
-              /* position is set inline rather than left to the `fixed`
-                 utility class: Frame hardcodes `relative` on its own root
-                 and Tailwind emits both in the same layer, so .relative wins
-                 on source order no matter which class is appended — which
-                 left the popped panel in normal flow, scrolled off the right
-                 edge of the page instead of centered over it. */
               style={
-                ledgerPopped
-                  ? isDesktop
-                    ? {
-                        position: "fixed",
-                        top: `${popoutPos.top}px`,
-                        left: `${popoutPos.left}px`,
-                        width: `${POPOUT_SIZE.width}px`,
-                        height: `${POPOUT_SIZE.height}px`,
-                        right: "auto",
-                        bottom: "auto",
-                      }
-                    : { position: "fixed" }
+                ledgerPopped && isDesktop
+                  ? {
+                      top: `${popoutPos.top}px`,
+                      left: `${popoutPos.left}px`,
+                      width: `${POPOUT_SIZE.width}px`,
+                      height: `${POPOUT_SIZE.height}px`,
+                      right: "auto",
+                      bottom: "auto",
+                    }
                   : undefined
               }
               bodyClassName="flex flex-col flex-1 min-h-0"
@@ -733,7 +735,7 @@ export default function VaultPage() {
               createPortal(
                 <button
                   type="button"
-                  onClick={() => setLedgerPopped((v) => !v)}
+                  onClick={toggleLedgerPopped}
                   aria-label={ledgerPopped ? "shrink ledger" : "pop out ledger"}
                   className="rounded border border-problem/50 bg-problem/10 px-2 py-1 text-xs font-semibold tracking-wide text-problem transition-colors hover:bg-problem/20 hover:border-problem"
                 >

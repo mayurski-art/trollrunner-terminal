@@ -1,8 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
+import {
+  centeredPopoutPos,
+  clampPopoutPos,
+  getDesktopServerSnapshot,
+  getDesktopSnapshot,
+  subscribeDesktop,
+} from "@/lib/popout";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
@@ -45,6 +52,14 @@ function TransmissionText({ content, justRevealed }: { content: string; justReve
   );
 }
 
+// Popped-out chat's desktop (lg+) size. Sized generously (rather than the
+// old 768x605) so the message list and the input box are both visible
+// without scrolling on a laptop-class screen, capped by lg:max-w-[95vw]
+// lg:max-h-[95vh] on the Frame itself for smaller viewports. Module scope,
+// not the component body — as a fresh object each render it counts as a
+// changing dependency of every callback that reads it.
+const POPOUT_SIZE = { width: 960, height: 720 };
+
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
   const [latest, setLatest] = useState<Post | null>(null);
@@ -76,37 +91,36 @@ export default function Home() {
     setPopoutPortalEl(el);
   }, []);
 
-  // Popped-out chat's desktop (lg+) size. Sized generously (rather than the
-  // old 768x605) so the message list and the input box are both visible
-  // without scrolling on a laptop-class screen, capped by lg:max-w-[95vw]
-  // lg:max-h-[95vh] on the Frame itself for smaller viewports.
-  const POPOUT_SIZE = { width: 960, height: 720 };
   // top/left are viewport px (the Frame is position:fixed once popped), and
   // are draggable via the title bar (Frame's onHeaderPointerDown) — starts
   // centered each time the popout opens, then follows wherever it's dragged.
   const [popoutPos, setPopoutPos] = useState({ top: 0, left: 0 });
   const dragStateRef = useRef<{ pointerId: number; startX: number; startY: number; startTop: number; startLeft: number } | null>(null);
-  // Mirrors Tailwind's lg breakpoint (1024px) so the inline positioning
-  // style only overrides the fixed/inset-4 classes on desktop, matching
-  // the lg:-prefixed classes it's meant to sit alongside.
-  const [isDesktop, setIsDesktop] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(mq.matches);
-    const onChange = () => setIsDesktop(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+  // Mirrors Tailwind's lg breakpoint (1024px), driving the desktop-only
+  // sizing/drag of the popout alongside the lg:-prefixed classes.
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktop,
+    getDesktopSnapshot,
+    getDesktopServerSnapshot
+  );
+
+  // Opening the popout centers it; closing leaves the position alone so it
+  // isn't recomputed on the way out. Centering happens here rather than in
+  // an effect so the panel is placed in the same render that shows it.
+  const toggleChatPopped = useCallback(() => {
+    setChatPopped((wasPopped) => {
+      if (!wasPopped) setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
+      return !wasPopped;
+    });
   }, []);
 
+  // A popped panel that was dragged near an edge can end up off-screen when
+  // the window shrinks; re-center rather than leaving it stranded.
   useEffect(() => {
     if (!chatPopped || !isDesktop) return;
-    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
-    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
-    setPopoutPos({
-      top: Math.max(0, (window.innerHeight - h) / 2),
-      left: Math.max(0, (window.innerWidth - w) / 2),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const onResize = () => setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, [chatPopped, isDesktop]);
 
   const handlePopoutHeaderPointerDown = useCallback(
@@ -127,14 +141,13 @@ export default function Home() {
   const handlePopoutHeaderPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragStateRef.current;
     if (!drag || drag.pointerId !== e.pointerId) return;
-    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
-    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
-    const nextTop = drag.startTop + (e.clientY - drag.startY);
-    const nextLeft = drag.startLeft + (e.clientX - drag.startX);
-    setPopoutPos({
-      top: Math.min(Math.max(0, nextTop), Math.max(0, window.innerHeight - h)),
-      left: Math.min(Math.max(0, nextLeft), Math.max(0, window.innerWidth - w)),
-    });
+    setPopoutPos(
+      clampPopoutPos(
+        POPOUT_SIZE,
+        drag.startTop + (e.clientY - drag.startY),
+        drag.startLeft + (e.clientX - drag.startX)
+      )
+    );
   }, []);
   const handlePopoutHeaderPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (dragStateRef.current?.pointerId === e.pointerId) {
@@ -379,7 +392,7 @@ export default function Home() {
               <Chat
                 onSteerTransmission={hasDraft ? handleSteer : undefined}
                 popped={chatPopped}
-                onTogglePopout={() => setChatPopped((v) => !v)}
+                onTogglePopout={toggleChatPopped}
                 controlsPortalEl={controlsPortalEl}
                 statusPortalEl={statusPortalEl}
                 popoutPortalEl={popoutPortalEl}
