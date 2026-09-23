@@ -73,7 +73,8 @@
 /* Site-wide page background. The gold circuit-board trollface hero art
    that used to live here was removed by request — every route now sits on
    flat black, except /vault which keeps its own art (.vault-hero-bg
-   below). .home-hero-bg-frame still spans exactly one viewport and is
+   below). "Black" is var(--background), so the light theme still works.
+   .home-hero-bg-frame still spans exactly one viewport and is
    still used by every route (app/page.tsx, app/archive, app/vault,
    app/logs, app/transmit, app/inspect, app/reports), because /vault
    layers its background onto it and the fixed-position behaviour
@@ -115,18 +116,21 @@
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  /* Plain black. The site-wide circuit-trollface hero art was removed by
-     request — every route except /vault now sits on a flat background.
+  /* Flat page color. The site-wide circuit-trollface hero art was removed
+     by request — every route except /vault now sits on a plain background.
+     var(--background), not a literal #000: it is near-black (#0a0a0a) in
+     the default dark theme, and the light theme (:root[data-theme="light"])
+     sets dark #1c1c1c text that a hardcoded black would have swallowed.
      The element itself is kept (rather than deleted from all 10 pages) so
      /vault can keep layering .vault-hero-bg onto it, and so restoring a
      site-wide background later is a one-rule change here. */
-  background: #000;
+  background: var(--background);
 }
 
 /* /vault only — the last page that still carries hero art (the
    "indecisive problems" circuit-trollface-in-a-suit render). Still a
    second class on the same div as .home-hero-bg, but that rule is now a
-   flat black fill, so this one is self-contained: it sets its own
+   flat color fill, so this one is self-contained: it sets its own
    background-size and mask rather than inheriting them.
 
    The figure sits dead center in both source crops, so the background is
@@ -144,7 +148,7 @@
   opacity: 0.9;
   filter: saturate(1.4) brightness(1.05) contrast(1.15);
   /* background-size and the desktop fade-out mask used to be inherited
-     from .home-hero-bg. That rule is now a flat black fill (the site-wide
+     from .home-hero-bg. That rule is now a flat color fill (the site-wide
      art was removed), so the vault carries its own copies — unchanged
      values, kept here verbatim so /vault renders exactly as before. */
   background-size: cover;
