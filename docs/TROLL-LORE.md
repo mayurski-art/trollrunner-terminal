@@ -2386,12 +2386,18 @@ Withdrawal](https://www.military.com/automatic-military-draft-registration-quest
 · [Wikipedia — National Defense Authorization Act for Fiscal Year
 2026](https://en.wikipedia.org/wiki/National_Defense_Authorization_Act_for_Fiscal_Year_2026)
 
-## 62. Pump.fun bids $750,000 to name Bonnie Blue's baby "Group Project" — then gets outbid
+## 62. A sportsbook bids $1.2M to name Bonnie Blue's baby — and the auction is real
 
 **Bonnie Blue**, a UK OnlyFans creator known for escalating publicity
 stunts, ran a real bidding site — **bonnieblue.io** — auctioning off the
 right to name her newborn, with the stated prize being access to a private
-party celebrating the winning name. In an early leaderboard screenshot on
+party celebrating the winning name. The landing page is on file
+(`bonnieblue-choose-a-name-hero.png`): "CHOOSE A NAME" in bubble letters
+over a pastel gender-reveal blue, the pitch written out plainly — *"Come up
+with a name and bid on it. The winning name will gain access to a private
+party to celebrate the name selection!"* — a Rules link and a "Make a bid"
+button. It is a produced, designed site, not a rumour or a screenshot of
+one, which is the first thing to establish before any of the rest. In an early leaderboard screenshot on
 file (`pumpfun-bonnieblue-auction.png`, September 22, 2026, morning), the
 **#1 bid** was **"Group Project," submitted by "Pump Fun," at $750,000** —
 ahead of "Plan B" ($666,000, Foundation Consumer Healthcare), "Mixed nuts"
@@ -2400,18 +2406,31 @@ accounts (**@xbtDLN**, **@polarster**, **@tontheneko**) picked it up the
 same day, with @tontheneko's framing capturing the general reaction: *"I
 thought this was larp at first, but it wasn't wtf."*
 
-The board didn't hold still. A same-day recheck of the live site found
-"Group Project" already knocked down to **5th place**, still at $750,000,
-but now trailing **BetBolt ($1,200,000)**, **"Grok - Elon Musk"
-($1,100,000)**, and **"Clavicular - looksmax" ($1,000,000)**. Further down
-the same board sits an entry literally named **"$SOLANA," bidder "SOLANA,"
-at $30,000** — meaning the original screenshot-driven claim (§62's opening
-premise, and the Solana-PR joke tweet that kicked this whole thread off)
-had it partly backwards: Solana itself is *in* the auction, just bidding
-small, while Pump Fun's bid is the one already being outrun by bigger
-numbers. This is a live leaderboard, not a settled record — any specific
-rank or dollar figure quoted here is a snapshot, not a final result, and
-will likely be stale again soon.
+The board didn't hold still. By the evening of the same day the live site
+had reordered completely, and "Group Project" was down to **5th**, still at
+$750,000, now trailing a sportsbook. The top of the board read: **BetBolt —
+bidder "BetBolt.com" — $1,200,000**, then **"Grok," bidder "Elon Musk,"
+$1,100,000**, then **"Clavicular," bidder "looksmax," $1,000,000**, then
+**"PUMP," bidder "THETRENCHERYA," $801,000**. Below Pump Fun sat "Plan B"
+($666,000, Foundation Consumer Healthcare), "Mixed nuts" ($499,999, KP),
+"Radex" ($420,000, Markets), "Spartans.com" ($401,000), "Prophet Muhammed"
+($400,000, Sneako), "Top G" ($369,999, FREE TOP G), "Scruffy" ($314,159 —
+pi, from "Bernard"), "Ignite" ($275,000), then the token entries **$DOGE
+($250,000)**, **$PEPE ($150,000)**, **BlockDAG ($100,000)**, and further
+down an entry literally named **"$SOLANA," bidder "SOLANA," at $30,000** —
+23 bids in all, bottoming out at the $10,000 minimum, with a live ticker
+along the bottom streaming free name suggestions in from a Discord.
+
+That $30,000 Solana entry is worth flagging, because the biggest account to
+touch this story got it backwards. **Polymarket** — 1.9M followers, a
+prediction market, not a shitposter — posted at 17:20 UTC that "$SOLANA"
+was *leading* the bidding at $30,000. It wasn't. It was roughly 19th of 23,
+on a board whose top bid was forty times larger. The most-followed report
+of the leaderboard was wrong in exactly the direction that made the better
+headline, and that error is arguably more troll-coded than anything on the
+board itself: the stunt was legible enough that people narrated it without
+loading the page. This is a live board, not a settled record — every rank
+and dollar figure quoted here is a snapshot and will be stale again soon.
 
 This file's own sourcing bar — an independent outlet, the actual post, or
 platform-native media — isn't fully cleared here, and the live page makes
@@ -2434,6 +2453,24 @@ inferential leap (that Pump.fun the company, or Elon Musk, or Solana the
 network actually placed these bids on purpose) is not confirmed and
 shouldn't be stated as settled fact.
 
+What *has* now cleared the sourcing bar is the story around the auction.
+Mainstream press picked it up: **IBTimes UK** reported that child
+protection lawyer **Nieki Shaw** called for a safeguarding assessment,
+warning that the child's identity was being "dragged into her stunts,
+brands and rage baits" and that "a baby cannot consent to being a part of
+anybody's rage-bait strategy." Blue's own stated justification, per the
+same report, was that the auction would put her child in a "higher tax
+bracket" than people she accused of "living off benefits and claiming
+unseen disabilities." No court, police force, local authority or
+child-protection body has announced any finding — Shaw's comment is a call
+for a risk assessment, not the result of one, and this file should not
+report it as an investigation.
+
+That's the detail that resolves the ambiguity in the rest of this section.
+The individual bidder identities stay unverified, but the auction is real,
+it was covered by press, and a lawyer is on record about it. The joke and
+the consequence aren't in tension anymore — the consequence arrived.
+
 None of that changes what makes it worth keeping in this file. Whether or
 not any of these bids are who their display names claim, a leaderboard
 where a meme-coin platform, a chatbot named after the world's richest man,
@@ -2449,8 +2486,17 @@ the total absence of payment verification only sharpens that: nobody has to
 actually spend a dollar to make this look real.
 
 **Sources:** [bonnieblue.io](https://bonnieblue.io/) (live auction site,
-checked twice September 22, 2026 — leaderboard order and top bid changed
-between checks, no payment verification visible on either pass) ·
+checked three times September 22, 2026 — full 23-bid board captured on the
+evening pass; leaderboard order and top bid changed between every check, no
+payment verification visible on any pass) ·
+[ibtimes.co.uk — "Bonnie Blue Slammed for 'Rage-Bait' Baby Name Auction as
+Child Protection Lawyer Warns of Emotional
+Abuse"](https://www.ibtimes.co.uk/bonnie-blue-baby-name-auction-safeguarding-assessment-1821298)
+(Nieki Shaw's safeguarding call and Blue's "higher tax bracket" quote —
+the one independent-outlet source in this section) ·
+[x.com/Polymarket/status/2102447894360211648](https://x.com/Polymarket/status/2102447894360211648)
+(September 22, 2026, 17:20 UTC — claims $SOLANA "leading" at $30,000;
+contradicted by the live board, where that entry sits ~19th of 23) ·
 [x.com/xbtDLN/status/2102442638016442564](https://x.com/xbtDLN/status/2102442638016442564)
 · [x.com/polarster/status/2102433069508559318](https://x.com/polarster/status/2102433069508559318)
 · [x.com/tontheneko/status/2102431728480739809](https://x.com/tontheneko/status/2102431728480739809)
@@ -2987,8 +3033,8 @@ existing Kevin Rosa / GOATFARM material.
   does" — not a flat "it's fake" and not an uncritical repeat of the
   headline either.
 - Section 62 (the Bonnie Blue baby-name auction — "Group Project" from
-  "Pump Fun," later outbid by "Grok - Elon Musk," "BetBolt," and others) is
-  useful the same way §55/§56/§58 are: a real-world instance of the
+  "Pump Fun," later outbid by "Clavicular," "Grok - Elon Musk," and a
+  sportsbook, BetBolt, at $1.2M) is useful the same way §55/§56/§58 are: a real-world instance of the
   "trolling someone else is a bet you can lose" or "the joke got away from
   you" shape, not a villain-mocking one. The persona should hold the
   verification gap honestly if asked, and hold it for *every* bidder named

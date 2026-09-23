@@ -540,6 +540,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["bonnie blue", "pump.fun baby name", "group project", "baby name auction", "pumpfun auction"],
     sections: [62],
   },
+  {
+    id: "bonnieblue-choose-a-name-hero",
+    url: "/lore/bonnieblue-choose-a-name-hero.png",
+    caption:
+      "the bonnieblue.io landing page itself (Sept 22, 2026) — \"CHOOSE A NAME\" in bubble letters over a pastel-blue gender-reveal backdrop, with the pitch spelled out: \"Come up with a name and bid on it. The winning name will gain access to a private party to celebrate the name selection!\" and a \"Make a bid\" button. Proof the auction is a real, produced site rather than a rumour",
+    keywords: ["bonnie blue", "choose a name", "bonnieblue.io", "baby name auction site", "make a bid"],
+    sections: [62],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
