@@ -25,13 +25,13 @@ begin
     set balance = 42069,
         lifetime_earned = greatest(terminal_wallets.lifetime_earned, 42069);
 
-  -- Unlock every numbered section in docs/TROLL-LORE.md. 47 sections exist
+  -- Unlock every numbered section in docs/TROLL-LORE.md. 66 sections exist
   -- as of this writing (lib/loreSections.ts parses "## N." headings); the
-  -- generate_series upper bound is padded to 60 and the insert is a no-op
+  -- generate_series upper bound is padded to 150 and the insert is a no-op
   -- for any number the archive doesn't actually serve.
   insert into terminal_lore_unlocks (user_id, section_number, source)
   select target_user_id, n, 'seed'
-  from generate_series(1, 60) as n
+  from generate_series(1, 150) as n
   on conflict (user_id, section_number) do nothing;
 
   raise notice 'done for user_id = %', target_user_id;

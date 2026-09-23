@@ -562,6 +562,13 @@ export const LORE_ASSETS: LoreAsset[] = [
       "the Kraft Dinner x Solly's mac & cheese cream soda (Sept 23, 2026) — a blue 355ml can with the orange KD bubble wordmark, a forkful of macaroni on the front, \"Smile, it's Solly's!\" and a maple leaf marking it Canada-only, held against blue sky with bright orange liquid erupting from the opened top",
     sections: [64],
   },
+  {
+    id: "trolls-first-1k-sale-after-reveal",
+    url: "/lore/trolls-first-1k-sale-after-reveal.png",
+    caption:
+      "OpenSea activity for the TROLLS collection on reveal day (Sept 23, 2026), filtered to sales over $1,000: TROLLS #1969 sold for $1,844.25 about 35 minutes earlier, the first four-figure sale since the reveal, above two sales from three months before it, \"Pepe\" at $3,559.61 and TROLLS #88 from KillMigi at $1,258.65",
+    sections: [66],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
