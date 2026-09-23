@@ -24,7 +24,8 @@ export async function GET(request: Request) {
       .from("terminal_chat_messages")
       .select("role, content, created_at, is_gossip, image_url, image_caption")
       .eq("user_id", userId)
-      .order("created_at", { ascending: true }),
+      .order("created_at", { ascending: true })
+      .order("role", { ascending: false }), // tied legacy pairs: question first
     supabase
       .from("terminal_undervoice_sessions")
       .select("id, status, opened_at, closed_at, outcome, message_count")

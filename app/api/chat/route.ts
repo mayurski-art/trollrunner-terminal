@@ -17,12 +17,34 @@ const BURST_MAX_MESSAGES = 3; // the 3rd message inside BURST_WINDOW_MS gets hel
 const QUALIFYING_INTERVAL = 7; // messages per 1 PROBLEM
 const MAX_MESSAGE_LENGTH = 1000;
 const HISTORY_TURNS = 12;
+// Character ceiling on the history sent to the model. HISTORY_TURNS alone
+// doesn't bound size — a user message can be 1000 chars — and nothing
+// else trims chat history before it reaches the free providers, where Groq
+// 413s an oversized request (see MAX_LORE_CHARS in lib/loreSections.ts for
+// the same failure on transmissions). Ordinary short-message conversations
+// fit all 12 turns; a run of long pastes drops its oldest turns instead.
+const MAX_HISTORY_CHARS = 8000;
 const RECENT_DUPLICATE_WINDOW = 5; // how many past user messages count as "repeats" for mining
 const MIN_UNIQUE_WORD_RATIO = 0.4; // below this, a message reads as one word/phrase looped
 const SPAM_WARNING_COUNT = 2; // this many consecutive spammy messages are just warned, not charged
 
 function todayUtc(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+// Every turn is saved as ONE two-row insert, and the created_at column
+// defaults to Postgres now() — the transaction's start time — so left to the
+// default, a message and its reply got the identical timestamp. The primary
+// key is a random uuid, so nothing broke the tie: the reply could render
+// above the question it answered, and the client could never match a row
+// arriving over /api/chat/stream to the copy it already had on screen,
+// which doubled replies. Stamped explicitly instead: the message at the
+// moment the request arrived, the reply strictly after it.
+function turnTimestamps(receivedAt: number): { userAt: string; replyAt: string } {
+  return {
+    userAt: new Date(receivedAt).toISOString(),
+    replyAt: new Date(Math.max(Date.now(), receivedAt + 1)).toISOString(),
+  };
 }
 
 function normalizeForCompare(text: string): string {
@@ -118,6 +140,10 @@ export async function GET(request: Request) {
       .select(`${HISTORY_COLUMNS}, provider`)
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
+      // Pairs saved before turnTimestamps() share one created_at; "terminal"
+      // sorts before "user", which the .reverse() below turns into question
+      // first, reply second.
+      .order("role", { ascending: true })
       .limit(HISTORY_TURNS * 2)
       .then((res) =>
         res.error && /provider/i.test(res.error.message)
@@ -126,6 +152,7 @@ export async function GET(request: Request) {
               .select(HISTORY_COLUMNS)
               .eq("user_id", userId)
               .order("created_at", { ascending: false })
+              .order("role", { ascending: true })
               .limit(HISTORY_TURNS * 2)
           : res
       ),
@@ -187,6 +214,7 @@ export async function DELETE(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const receivedAt = Date.now();
   const authHeader = request.headers.get("authorization") ?? "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
   if (!token) {
@@ -292,7 +320,13 @@ export async function POST(request: Request) {
       .select("role, content, created_at")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
-      .limit(HISTORY_TURNS),
+      .order("role", { ascending: true }) // tied legacy pairs — see GET above
+      // * 2 because a "turn" is two rows (the troublemaker's message and the
+      // reply). A bare .limit(HISTORY_TURNS) fetched 12 ROWS — only ~6
+      // exchanges — so the model lost sight of what it had already said
+      // and looped openers back at people. The hydration query above has
+      // always used HISTORY_TURNS * 2; this one silently did not.
+      .limit(HISTORY_TURNS * 2),
     supabase
       .from("terminal_memories")
       .select("content")
@@ -301,7 +335,17 @@ export async function POST(request: Request) {
   ]);
   const memories = (memoryRows ?? []).map((r) => r.content as string);
 
-  const history: ChatMessage[] = (historyRows ?? [])
+  // historyRows is newest-first, so the budget keeps the latest turns and
+  // drops the oldest. Always keeps at least one row.
+  const budgetedRows: NonNullable<typeof historyRows> = [];
+  let historyChars = 0;
+  for (const r of historyRows ?? []) {
+    historyChars += (r.content as string).length;
+    if (historyChars > MAX_HISTORY_CHARS && budgetedRows.length > 0) break;
+    budgetedRows.push(r);
+  }
+
+  const history: ChatMessage[] = budgetedRows
     .slice()
     .reverse()
     .map((r) => ({
@@ -354,9 +398,10 @@ export async function POST(request: Request) {
         ? "[loop detected]\nsay something new or i stop paying attention"
         : "[loop detected again]\nkeep repeating and PROBLEMS start disappearing";
 
+    const spamAt = turnTimestamps(receivedAt);
     const { error: spamInsertError } = await supabase.from("terminal_chat_messages").insert([
-      { user_id: userId, role: "user", content: message, qualifying: false },
-      { user_id: userId, role: "terminal", content: reply, qualifying: false },
+      { user_id: userId, role: "user", content: message, qualifying: false, created_at: spamAt.userAt },
+      { user_id: userId, role: "terminal", content: reply, qualifying: false, created_at: spamAt.replyAt },
     ]);
     if (spamInsertError) console.error("[chat] failed to save chat messages:", spamInsertError.message);
 
@@ -394,6 +439,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       reply,
+      userCreatedAt: spamAt.userAt,
+      replyCreatedAt: spamAt.replyAt,
       wallet: {
         balance: persistedWallet?.balance ?? newBalance,
         qualifyingCount: persistedWallet?.qualifying_count ?? wallet.qualifying_count,
@@ -454,10 +501,12 @@ export async function POST(request: Request) {
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
   await recordSpend(supabase, estimatedCostUsd);
 
+  const turnAt = turnTimestamps(receivedAt);
   const terminalRow: Record<string, unknown> = {
     user_id: userId,
     role: "terminal",
     content: generated.content,
+    created_at: turnAt.replyAt,
     qualifying: false,
     input_tokens: generated.usage.input_tokens,
     output_tokens: generated.usage.output_tokens,
@@ -468,7 +517,7 @@ export async function POST(request: Request) {
     image_caption: loreAsset?.caption ?? null,
     provider: generated.provider,
   };
-  const userRow = { user_id: userId, role: "user", content: message, qualifying };
+  const userRow = { user_id: userId, role: "user", content: message, qualifying, created_at: turnAt.userAt };
 
   let { error: insertError } = await supabase
     .from("terminal_chat_messages")
@@ -606,6 +655,11 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     reply: generated.content,
+    // The exact created_at of both saved rows, so the client can key its own
+    // copies to them — the stream (app/api/chat/stream) delivers the same two
+    // rows, and components/Chat.tsx dedupes on created_at + content.
+    userCreatedAt: turnAt.userAt,
+    replyCreatedAt: turnAt.replyAt,
     // Which free provider wrote this reply. The client shows it as a small
     // owner-only marker so model quality can be judged from real traffic
     // (see ProviderMark in components/Chat.tsx).

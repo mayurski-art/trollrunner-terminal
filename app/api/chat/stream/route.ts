@@ -93,6 +93,10 @@ export async function GET(request: Request) {
           .eq("user_id", userId)
           .gt("created_at", after)
           .order("created_at", { ascending: true })
+          // A user message and its reply saved before the chat route stamped
+          // distinct timestamps share one created_at — "user" sorts after
+          // "terminal", so descending puts the question first.
+          .order("role", { ascending: false })
           .limit(20);
 
         if (error) {

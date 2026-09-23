@@ -26,7 +26,35 @@ type Message = {
   // written before supabase/migrations/019_chat_provider.sql was run, and
   // on the canned non-generated replies (rate limits, chat locked).
   provider?: string | null;
+  // Drawn on screen by this client (an optimistic send, a canned reply) but
+  // not yet matched to a saved row, so created_at is the browser's clock,
+  // not the database's. See reconcileSaved below.
+  local?: boolean;
 };
+
+// Folds saved rows into the transcript without drawing any of them twice.
+// The same row can reach the client two ways — the POST /api/chat response
+// and /api/chat/stream — in either order. A row already present under its
+// saved created_at is skipped; otherwise the newest still-local copy with
+// the same role and text (this client's own send) adopts the saved row in
+// place; anything else is new and appended. Keying on created_at alone
+// never matched, because local copies carry the browser's timestamp: every
+// turn rendered twice while the stream was open.
+function reconcileSaved(prev: Message[], saved: Message[]): Message[] {
+  let next = prev;
+  const seen = new Set(prev.map((m) => `${m.created_at ?? ""}|${m.content}`));
+  for (const row of saved) {
+    const key = `${row.created_at ?? ""}|${row.content}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    let i = next.length - 1;
+    while (i >= 0 && !(next[i].local && next[i].role === row.role && next[i].content === row.content)) i--;
+    next = next.slice();
+    if (i >= 0) next[i] = { ...next[i], ...row, local: false };
+    else next.push(row);
+  }
+  return next;
+}
 
 // MessageRow is memoized so the 250ms cooldown tick and 1800ms thinking-verb
 // tick (both stored in Chat's own state) don't force a re-diff of every past
@@ -547,16 +575,10 @@ export default function Chat({
         // resumes from the right point.
         since: newestCreatedAtRef.current ?? undefined,
         onMessages: (incoming: StreamMessage[]) => {
-          setMessages((prev) => {
-            // The stream carries this user's own turns too, which send()
-            // already appended optimistically — and the terminal's reply
-            // arrives both in the POST response and here. Dedupe on the pair
-            // that identifies a row, since content alone would wrongly drop a
-            // genuinely repeated line.
-            const seen = new Set(prev.map((m) => `${m.created_at ?? ""}|${m.content}`));
-            const added = incoming.filter((m) => !seen.has(`${m.created_at}|${m.content}`));
-            return added.length === 0 ? prev : [...prev, ...added];
-          });
+          // The stream carries this user's own turns too, which send()
+          // already drew optimistically — and the terminal's reply arrives
+          // both in the POST response and here, in either order.
+          setMessages((prev) => reconcileSaved(prev, incoming));
         },
       });
     }
@@ -627,6 +649,9 @@ export default function Chat({
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
     for (const m of messages) {
+      // Local rows carry the browser's clock; letting one set the stream
+      // cursor could skip past rows the database saved a moment earlier.
+      if (m.local) continue;
       if (m.created_at && (!newestCreatedAtRef.current || m.created_at > newestCreatedAtRef.current)) {
         newestCreatedAtRef.current = m.created_at;
       }
@@ -694,17 +719,22 @@ export default function Chat({
         return;
       }
       setPending(null);
-      setMessages((m) => [
-        ...m,
-        {
-          role: "terminal",
-          content: data.reply,
-          created_at: new Date().toISOString(),
-          image_url: data.imageUrl ?? null,
-          image_caption: data.imageCaption ?? null,
-          provider: data.provider ?? null,
-        },
-      ]);
+      // userCreatedAt/replyCreatedAt are only present when the turn was
+      // actually saved; canned replies (paused, daily limit) stay local.
+      const saved = typeof data.replyCreatedAt === "string";
+      const reply: Message = {
+        role: "terminal",
+        content: data.reply,
+        created_at: saved ? data.replyCreatedAt : new Date().toISOString(),
+        image_url: data.imageUrl ?? null,
+        image_caption: data.imageCaption ?? null,
+        provider: data.provider ?? null,
+      };
+      setMessages((m) =>
+        saved
+          ? reconcileSaved(m, [{ role: "user", content: text, created_at: data.userCreatedAt }, reply])
+          : [...m, { ...reply, local: true }]
+      );
       speak(data.reply);
       if (data.wallet) {
         setWallet(data.wallet);
@@ -903,18 +933,22 @@ export default function Chat({
     if (onSteerTransmission && isTransmissionSteer(text)) {
       setMessages((m) => [
         ...m,
-        { role: "user", content: text, created_at: new Date().toISOString() },
+        { role: "user", content: text, created_at: new Date().toISOString(), local: true },
         {
           role: "terminal",
           content: "[reshaping the pending transmission]",
           created_at: new Date().toISOString(),
+          local: true,
         },
       ]);
       onSteerTransmission(text);
       return;
     }
 
-    setMessages((m) => [...m, { role: "user", content: text, created_at: new Date().toISOString() }]);
+    setMessages((m) => [
+      ...m,
+      { role: "user", content: text, created_at: new Date().toISOString(), local: true },
+    ]);
     await deliver(text);
   }
 
