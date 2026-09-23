@@ -1,44 +1,142 @@
 // Archive of the day — one numbered TROLL-LORE.md file spotlighted on the
-// front page, rotating once a day at 5 PM PST.
+// front page, rotating once a day at 5 PM California time, year-round.
 //
-// The pick is derived from the date rather than stored: a hash of the
-// current "archive day" indexes into the section list, so every visitor
-// sees the same file on the same day with no DB row, no cron and no write
-// path. Change the section count (i.e. add a section to TROLL-LORE.md) and
-// the rotation reshuffles, which is fine — it's a spotlight, not a
-// schedule anyone is holding us to.
+// The pick is derived from the date rather than stored: the current
+// "archive day" deals a card from a shuffled deck of section numbers, so
+// every visitor sees the same file on the same day with no DB row, no
+// cron and no write path. Change the section count (i.e. add a section to
+// TROLL-LORE.md) and the rotation reshuffles, which is fine — it's a
+// spotlight, not a schedule anyone is holding us to.
 
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
 import { findLoreImagesForArchiveSection, type LoreAsset } from "@/lib/loreAssets";
 import { sectionDepth, isSeeded } from "@/lib/loreArchive";
 
-// 5 PM PST = 01:00 UTC the following day. Deliberately a fixed UTC offset
-// rather than a real America/Los_Angeles conversion: PST is UTC-8
-// year-round here, so during PDT (roughly Mar–Nov) the rollover lands at
-// 6 PM local. The owner asked for "5 PM PST" specifically, and a fixed
-// offset keeps the boundary stable and testable — it never shifts under a
-// DST transition, which a tz-aware version would do twice a year.
-const ROLLOVER_UTC_HOUR = 1;
+// The file rotates at 5 PM California time, year-round — 17:00 PST in
+// winter and 17:00 PDT in summer, so it always lands at 5 PM for a local
+// reader. That means the UTC hour of the rollover moves (01:00 UTC under
+// PST, 00:00 UTC under PDT), which is why this resolves the real
+// America/Los_Angeles offset per instant instead of hardcoding UTC-8.
+//
+// Intl is the whole implementation on purpose: no tz database to vendor,
+// no dependency, and it tracks future DST rule changes with the runtime.
+const ZONE = "America/Los_Angeles";
+const ROLLOVER_LOCAL_HOUR = 17;
 
-// The "archive day" a given instant belongs to, as a YYYY-MM-DD string in
-// the rolled-over frame. Anything before 01:00 UTC still belongs to the
-// previous day's pick.
+// Los Angeles' UTC offset in minutes at a given instant (e.g. -480 under
+// PST, -420 under PDT). Formats the instant in the zone, reads that wall
+// time back as if it were UTC, and diffs — the standard trick for getting
+// a zone offset out of Intl without a tz library.
+function zoneOffsetMinutes(at: Date): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: ZONE,
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).formatToParts(at);
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+  // Intl renders midnight as hour 24 in some runtimes; normalise to 0 so
+  // the arithmetic below doesn't land a day out.
+  const hour = get("hour") % 24;
+  const asUTC = Date.UTC(get("year"), get("month") - 1, get("day"), hour, get("minute"), get("second"));
+  // Seconds are floored out of `at` before diffing: formatToParts has
+  // whole-second resolution, so leaving millis in would make the offset
+  // come out a fraction short and round the wrong way.
+  return Math.round((asUTC - Math.floor(at.getTime() / 1000) * 1000) / 60000);
+}
+
+// The instant 5 PM local occurs on the LA calendar date that `at` falls on.
+// Offsets are resolved twice because the offset itself can differ between
+// `at` and the target instant (e.g. `at` is PDT but the rollover is PST on
+// a transition day); the second pass settles it.
+function rolloverInstantFor(at: Date): number {
+  const ymd = new Intl.DateTimeFormat("en-CA", {
+    timeZone: ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(at);
+  const [y, m, d] = ymd.split("-").map(Number);
+  const wall = Date.UTC(y, m - 1, d, ROLLOVER_LOCAL_HOUR);
+  let guess = wall - zoneOffsetMinutes(at) * 60000;
+  guess = wall - zoneOffsetMinutes(new Date(guess)) * 60000;
+  return guess;
+}
+
+// The LA calendar date `at` falls on, as YYYY-MM-DD.
+function zoneDate(at: Date): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(at);
+}
+
+// The LA date immediately before `sameDate`, found by stepping back from
+// `from` until the local date actually differs. A fixed subtraction can't
+// do this reliably: the fall-back day is 25 hours long locally, so -18h
+// and even -24h from some instants still land on the same date.
+function previousZoneDate(from: Date, sameDate: string): string {
+  for (const hours of [20, 24, 26, 30]) {
+    const candidate = zoneDate(new Date(from.getTime() - hours * 3600000));
+    if (candidate !== sameDate) return candidate;
+  }
+  // Unreachable for real timezones (no zone shifts a full day), but a
+  // defined fallback beats returning the same key and stalling the
+  // rotation.
+  return zoneDate(new Date(from.getTime() - 48 * 3600000));
+}
+
+// The first 5 PM rollover strictly after `at`.
+//
+// Deliberately a scan of the next few local days rather than "+24h then
+// re-resolve": from 11 PM on the eve of a DST change, +24h lands two
+// local dates ahead and silently skips a day's rollover entirely (found
+// by the sweep below — it produced a 41-hour gap).
+function nextRolloverAfter(at: Date): number {
+  // Today's 5 PM, if it hasn't happened yet.
+  const todays = rolloverInstantFor(at);
+  if (todays > at.getTime()) return todays;
+  // Otherwise the next one is on the following LOCAL date. That date is
+  // computed on the calendar and converted back, rather than reached by
+  // adding hours to an instant: hour arithmetic either overshoots (+24h
+  // from 11 PM on a spring-forward eve skips a whole day) or undershoots
+  // (the fall-back day is 25 hours long), and both were live bugs here.
+  const [y, m, d] = zoneDate(at).split("-").map(Number);
+  // Date.UTC normalises a month/day overflow (Dec 32 -> Jan 1), so
+  // month ends and year ends need no special casing.
+  const tomorrow = new Date(Date.UTC(y, m - 1, d + 1, 12));
+  return rolloverInstantFor(tomorrow);
+}
+
+// The "archive day" a given instant belongs to: the LA date of the 5 PM
+// rollover that has most recently passed.
+//
+// Note this is NOT simply the local calendar date — that would change the
+// file at midnight. From 5 PM Thursday through 4:59 PM Friday the key is
+// Thursday's, so the pick turns over at 5 PM exactly once per day, which
+// is the whole point of the feature.
 export function archiveDayKey(now: Date = new Date()): string {
-  const shifted = new Date(now.getTime() - ROLLOVER_UTC_HOUR * 60 * 60 * 1000);
-  return shifted.toISOString().slice(0, 10);
+  const todaysRollover = rolloverInstantFor(now);
+  // Already past today's 5 PM -> today's date owns the current file.
+  if (now.getTime() >= todaysRollover) return zoneDate(now);
+  // Otherwise the file still belongs to yesterday's 5 PM. The previous LA
+  // date is found by stepping back and re-checking rather than by a fixed
+  // offset: on the fall-back day the local day is 25 hours long, so a
+  // flat -18h (or even -24h from some instants) still lands on today.
+  return previousZoneDate(new Date(todaysRollover), zoneDate(now));
 }
 
 // When the current archive day ends, as an ISO timestamp — the client uses
 // this to swap the panel over without a reload, and to scope "dismissed"
 // to the current day only.
 export function archiveDayEndsAt(now: Date = new Date()): string {
-  const shifted = new Date(now.getTime() - ROLLOVER_UTC_HOUR * 60 * 60 * 1000);
-  const nextMidnightShifted = Date.UTC(
-    shifted.getUTCFullYear(),
-    shifted.getUTCMonth(),
-    shifted.getUTCDate() + 1
-  );
-  return new Date(nextMidnightShifted + ROLLOVER_UTC_HOUR * 60 * 60 * 1000).toISOString();
+  return new Date(nextRolloverAfter(now)).toISOString();
 }
 
 // FNV-1a. Small, dependency-free, and well-mixed enough that consecutive

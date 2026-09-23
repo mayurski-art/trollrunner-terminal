@@ -53,7 +53,7 @@ function countdown(endsAt: string, now: number): string {
   return `${m}m ${s}s`;
 }
 
-// One lore file spotlighted a day, rotating at 5 PM PST. Slides in from the
+// One lore file spotlighted a day, rotating at 5 PM Pacific. Slides in from the
 // right on the front page. Shows a title, one image and the opening couple
 // of sentences — never the full body, which still costs PROBLEMS to
 // recover in the archive. The CTA deep-links to that file.
@@ -200,7 +200,7 @@ export default function ArchiveOfTheDay() {
             >
               [ {cta} ]
             </a>
-            <span className="text-dim text-[10px] tabular-nums" title="next file at 5 PM PST">
+            <span className="text-dim text-[10px] tabular-nums" title="next file at 5 PM Pacific">
               {countdown(pick.endsAt, now)}
             </span>
           </div>
