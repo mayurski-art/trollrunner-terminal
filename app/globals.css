@@ -207,14 +207,14 @@
   grid-template-columns: minmax(0, 1fr);
 }
 @media (max-width: 1023px) {
-  /* The $TROLL airdrop/redeem form and ledger (.vault-col-right) are the
-     panels a signed-in visitor actually came to use, but plain DOM order
-     stacked them dead last — after the balance card, the XP-redeem form,
-     the still-locked "redemption protocols" placeholder, the top-miners
-     leaderboard and the $truths airdrop log, four panels of pure scroll
-     with nothing to interact with. `order` moves the right column up
+  /* "spend your signal" — the merged redeem-for-xp + $TROLL-airdrop panel
+     (.vault-col-right) — is what a signed-in visitor actually came to
+     use, but plain DOM order stacked it after the top-miners leaderboard,
+     pure scroll with nothing to interact with. `order` moves it up
      directly under the balance card without touching the JSX (which the
-     desktop 3-track grid above still depends on for its column split). */
+     desktop 3-track grid above still depends on for its column split).
+     The desktop padding-top that clears the fixed status bar is dropped
+     here: the flex stack has no fixed overlay to avoid. */
   .vault-content {
     display: flex;
     flex-direction: column;
@@ -224,6 +224,7 @@
   }
   .vault-col-right {
     order: 2;
+    padding-top: 0;
   }
   .vault-col-left {
     order: 3;
@@ -301,27 +302,34 @@
     grid-column: 1;
     grid-row: 2;
   }
+  /* Row 1, not row 2: "spend your signal" is the merged redeem-for-xp +
+     $troll-airdrop panel, and it sits on the same line as "your signal"
+     in column 1 — the two identity/action panels flanking the figure at
+     equal height, one per shaft edge. Column 3 is sized by the same
+     clamp() against the right shaft edge that column 1 uses against the
+     left, so the pair is symmetric about the art by construction. */
   .vault-col-right {
     grid-column: 3;
-    grid-row: 2;
+    grid-row: 1;
+    /* .nav-status-float is fixed at top: 2.5rem and runs ~38px tall on the
+       right edge of the viewport — exactly the space this column now
+       occupies, so the status line landed on the panel's header (measured
+       302x27px of overlap at 1366/1600/1920). Clearing its bottom edge
+       drops the panel just below it (measured: panel top 72.8 vs status
+       bottom 66.4). The "your signal" panel opposite needs no such
+       offset: column 1 starts under the nav in normal flow, so the two
+       panels still read as a matched pair flanking the figure. */
+    padding-top: 3rem;
   }
 
-  /* Row 2's two columns hold unrelated stacks — redeem-for-xp + top-miners
-     on the left, $troll-airdrop + ledger on the right — whose natural
-     heights have no reason to agree, so the shorter column stopped well
-     above the taller one and left a ragged bottom edge across the page.
-     Both columns are stretched to the row's height (overriding the grid's
-     align-items: start, which row 1 still wants) and laid out as flex
-     columns; the last panel in each (top miners, ledger) is the flexible
-     one, so the two stacks end on exactly the same line no matter which
-     side is naturally taller.
-
-     Driven by the grid rather than a fixed height: the shared total is
-     whatever the taller column needs, so this holds up as ledger rows and
-     miners come and go, and as the airdrop panel grows through its
-     queue/status/request-list states. */
-  .vault-col-left,
-  .vault-col-right {
+  /* Row 2 now holds only the left column (top miners). It is still
+     stretched and laid out as a flex column so its last panel absorbs
+     the row's slack — that keeps the miners list filling the space under
+     "your signal" rather than stopping short of it. The right column no
+     longer takes part: it moved up to row 1 to sit opposite "your
+     signal", so there is no second stack left to agree on a bottom edge
+     with. */
+  .vault-col-left {
     align-self: stretch;
     display: flex;
     flex-direction: column;
@@ -331,8 +339,7 @@
      — flex items default to min-height: auto and refuse to go below their
      content height, which would push the panel past the row instead of
      letting the list scroll inside it. */
-  .vault-col-left > :last-child,
-  .vault-col-right > :last-child {
+  .vault-col-left > :last-child {
     flex: 1 1 auto;
     min-height: 0;
   }

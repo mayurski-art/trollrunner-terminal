@@ -438,9 +438,6 @@ export default function VaultPage() {
         <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           <Nav networkBadge />
           <Banner art={BANNER_VAULT} label="the vault" tone="problem" maxFontPx={30} />
-          <p className="text-foreground text-sm mb-8">
-            your signal balance · xp redemption and $troll airdrops, live
-          </p>
 
           {loadError && (
             <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
@@ -566,8 +563,31 @@ export default function VaultPage() {
         </div>
 
         <div className="vault-col-left max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
+
+          <Frame title="top miners" tone="dim" className="mb-6 lg:mb-0">
+            {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
+            <ol className="space-y-1 text-sm">
+              {ladder.map((row, i) => (
+                <li key={row.user_id} className="flex justify-between text-dim">
+                  <span>
+                    {i + 1}. {row.username ?? `troublemaker_${row.user_id.slice(0, 6)}`}
+                  </span>
+                  <span className="text-problem">{row.balance}</span>
+                </li>
+              ))}
+            </ol>
+          </Frame>
+        </div>
+
+        <div className="vault-col-right max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
+          {/* redeem-for-xp and $troll-airdrop were two separate panels in
+              two different columns, but they are one decision — what to
+              spend PROBLEMS on — so they read as one panel with two
+              labelled halves, using the same hairline-rule treatment the
+              ledger uses inside "your signal" above. */}
           {session && (
-            <Frame title="redeem for xp" tone="dim" className="mb-6">
+            <Frame title="spend your signal" tone="dim" className="mb-6">
+              <p className="mb-2 text-xs tracking-wide text-dim">redeem for xp</p>
               <p className="text-dim text-xs mb-3">
                 1 PROBLEM = {XP_PER_PROBLEM} XP, one-way, minimum {MIN_REDEEM} at a time.
               </p>
@@ -609,27 +629,10 @@ export default function VaultPage() {
                   [ +{redeemResult.xpAwarded} xp — now level {redeemResult.level} ]
                 </p>
               )}
-            </Frame>
-          )}
 
-          <Frame title="top miners" tone="dim" className="mb-6 lg:mb-0">
-            {ladder.length === 0 && <p className="text-dim text-sm">nobody has fed it yet.</p>}
-            <ol className="space-y-1 text-sm">
-              {ladder.map((row, i) => (
-                <li key={row.user_id} className="flex justify-between text-dim">
-                  <span>
-                    {i + 1}. {row.username ?? `troublemaker_${row.user_id.slice(0, 6)}`}
-                  </span>
-                  <span className="text-problem">{row.balance}</span>
-                </li>
-              ))}
-            </ol>
-          </Frame>
-        </div>
-
-        <div className="vault-col-right max-w-4xl lg:max-w-3xl mx-auto w-full lg:mx-0">
-          {session && (
-            <Frame title="$troll airdrop" tone="dim" className="mb-6">
+              <p className="mt-4 mb-2 border-t border-dim/40 pt-3 text-xs tracking-wide text-dim">
+                $troll airdrop
+              </p>
               {round && (
                 <p className="text-dim text-xs mb-3">
                   {round.problemsPerTroll} PROBLEMS: 1 $TROLL
