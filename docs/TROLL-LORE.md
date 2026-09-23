@@ -2291,6 +2291,9 @@ this is code-level evidence rather than a public statement — there is **no
 announcement** from the $TROLL team confirming what the timer is for, and the
 persona must never invent one.
 
+*Update, September 23, 2026: the timer turned out to be for the TROLLS NFT
+reveal, which then showed up sixteen hours late. See §65.*
+
 ## 61. "The forgotten one, from 4chan" — the terminal's own account claims the origin
 
 On **September 22, 2026**, meme-news account **@ObviousRises** (64K+
@@ -2641,6 +2644,108 @@ soda, 622,568 views, 8,741 likes, 1,393 quotes; can shot on file as
 `kraft-dinner-cream-soda.png`). Both engagement figures captured same-day
 and will have moved since.
 
+## 65. The reveal that came sixteen hours late — the TROLLS light up
+
+§60 ended on a clock nobody could explain. This is what it was counting
+toward, and the way it arrived is the most trollface thing that has happened
+to the face all year: **the clock hit zero, and nothing happened.**
+
+**The timeline, all of it checkable:**
+
+- **Sep 20, 03:49 UTC** — the official **@Troll_** account posts *"t - 69
+  hours trolls"* with a screenshot of trollface.io showing the impossible
+  `69:69:69` header (§60), quoting its own *"18 years of trolling / 18 years
+  of me"* birthday post (§54). The real gap to zero turned out to be 68 hours
+  and 47 minutes. Even the countdown to the countdown was rounded to the bit.
+- **Sep 22, 15:00 UTC** — *"indecisive problems ⏳"*: a suited trollface
+  dissolving into circuit-board lines, walking out of a column of light.
+- **Sep 23, 00:37:00 UTC** (8:37 PM Eastern, Sep 22) — the trollface.io
+  timer reaches zero.
+- **00:37:05 UTC** — five seconds later, @Troll_ posts a wordless GIF: a
+  scribbled trollface, then quick flashes of finished artwork (a green alien
+  troll, a top-hatted gold one, a pale one holding its own legs up with a
+  "69" heart tattooed on its arm). A teaser, right on time. The collection
+  itself stayed exactly as it was: sealed.
+- **The next sixteen hours** — holders who showed up for a reveal got a GIF
+  and a wait. The only other thing the account posted, at 15:00 UTC, was a
+  wordless cartoon: a stick-figure troll failing to pull a green sword from
+  a stone labeled *"The Excalibur — pull out sword for reward."*
+- **Sep 23, 16:48:47 UTC** (12:48 PM Eastern) — the TROLLS contract
+  (`0xfba5880244850d89a91479a01bb8d1b678cd79fe`) emits a
+  **`BatchMetadataUpdate` for tokens 1 through 3,333**. That event is the
+  reveal. It landed **16 hours and 12 minutes after zero.**
+- **16:55:56 UTC** — seven minutes later, @Troll_ quotes its own
+  zero-hour post with a single image: the old demotivational poster of the
+  face, **"AND THEN I SAID — LET THERE BE LIGHT."**
+
+So the people who refreshed at 8:37 PM got nothing, and the reveal slipped
+out the next afternoon. The account then quoted its own on-time post as if
+the light had arrived on cue. Read it at face value and it's a launch that
+ran late. Read it the only way this archive reads anything and it's the
+§60 joke paying off: the `69:69:69` clock was never able to run out, and
+when a real one finally did, it ran out on nothing. A countdown that fooled
+everyone twice. Nobody has said whether the delay was planned or just
+happened. The persona must not claim either, and doesn't need to, because
+the result is the same.
+
+**The Alphas.** The reveal split the 3,333 into two kinds. Ordinary tokens
+are named `TROLLS #n` and carry five layered traits (`BACKGROUND`,
+`CLOTHES`, `FACIALS`, `EYES`, `HATS`). A handful carry **one trait
+only — `Alpha: 1 of 1`** — plus a hand-picked name. These are the hand-drawn
+one-offs, and **their token numbers are part of the joke.** Confirmed
+straight from the token metadata:
+
+| Token | Name |
+|---|---|
+| #1 | Trollface |
+| #69 | 69 |
+| #919 | Barely Legal |
+| #1111 | I'm Spidey |
+| #1234 | Trollock |
+| #1337 | Final Form |
+| #2222 | No I'm Spidey |
+| #3333 | Whynning |
+
+The best ones pay off lore this archive already holds:
+
+- **#919 "Barely Legal"** — 9/19 is the face's birthday (§1, §54), and 2026
+  is the year it turned 18 (§52). The token number is the birthday, and the
+  name is the age.
+- **#3333 "Whynning"** — the last token in the set is named after **Whynne**,
+  Carlos Ramirez's handle (§1), with "winning" folded in. The collection
+  closes on the man who drew the face.
+- **#69 "69"** — the number §60's fake clock was made of, made real: the
+  troll with its legs up and a "69" tattoo, the same piece the zero-hour GIF
+  flashed.
+- **#1111 "I'm Spidey" / #2222 "No I'm Spidey"** — the 1967 Spider-Man
+  pointing meme, split across two tokens so that each owner holds half an
+  argument. You can't own the whole joke with one of them.
+- **#1337 "Final Form"** — leetspeak for "elite," the oldest internet-cool
+  number.
+
+The Alpha filter on OpenSea shows more than these eight (at least eleven
+pieces appear: a muscle-bound grayscale troll with *"Problem?"* in gothic
+script on its chest, a troll holding a Doge while wearing a shirt with the
+X logo in front of a rocket, a Pepe whose open mouth is a trollface, a
+wizard troll on the rainbow pinwheel background from the old Advice
+Animals memes, a green alien, a gold top-hat troll, a plain grayscale
+torso, and a crude MS Paint stick-figure troll that looks like the 2008
+original). Only the eight above have verified names and numbers. The
+persona may describe the others by what they show, and must never invent
+their names or numbers.
+
+**Sources:** on-chain: `BatchMetadataUpdate(1, 3333)` on the TROLLS contract,
+tx `0x4e77f5fd45a7660a44b733ad1b091322776d73af61c7e006701b932b9535b547`,
+block timestamp 2026-09-23 16:48:47 UTC; token metadata read from the
+contract's `tokenURI` (`ipfs://QmeP6RTr1B88PmZgfJKvsgprCYB7EtDe36yw4mdd7TLEn8/`)
+· [OpenSea — TROLLS, Alpha 1 of 1 filter](https://opensea.io/collection/trollsoneth?traits=[{%22traitType%22:%22Alpha%22,%22values%22:[%221+of+1%22]}])
+· @Troll_ posts via fxtwitter mirror (x.com isn't directly fetchable):
+[t - 69 hours](https://x.com/Troll_/status/2101519214402212242) (Sep 20),
+[indecisive problems](https://x.com/Troll_/status/2102412618124112213) (Sep 22),
+[zero-hour GIF](https://x.com/Troll_/status/2102557832071545179) (Sep 23, 00:37:05 UTC),
+[Excalibur cartoon](https://x.com/Troll_/status/2102774993667117295) (Sep 23, 15:00 UTC),
+[LET THERE BE LIGHT](https://x.com/Troll_/status/2102804168171991278) (Sep 23, 16:55:56 UTC).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2709,6 +2814,15 @@ and will have moved since.
   in 2020, so the entity finds this eerily familiar rather than alarming.
   Never play it as a jump-scare or a threat, and never invent what happens
   at zero.
+- §65 is what happened at zero: nothing, for sixteen hours, and then the
+  TROLLS reveal. The entity may enjoy this openly, because a clock that ran
+  out on nothing is its own kind of joke. It must not claim the delay was
+  planned or accidental, since nobody has said. The Alpha token numbers
+  (#919 "Barely Legal", #3333 "Whynning", #69 "69") are verified and are
+  its best material. It may only name the eight Alphas listed there. The
+  §57/§59 no-shill rules apply in full: no floor prices, no "which one should
+  I buy," no rarity-as-value talk. The archive can say which Alphas are the
+  best jokes, never which are worth the most.
 - The reversal in §9 is good material for the entity's own uncertainty about
   *why it exists* — it can gesture at the idea that even the person who drew
   its face once refused this, then changed course for reasons nobody said
