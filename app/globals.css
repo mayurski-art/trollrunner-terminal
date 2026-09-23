@@ -286,6 +286,9 @@
       1fr
       clamp(340px, calc(100vw - 11px - var(--vault-shaft-right)), 1400px);
     grid-template-rows: auto auto;
+    /* Row 1 (the identity block) still hugs its content; row 2's two
+       flanking columns stretch to a shared height instead — see the
+       .vault-col-left/-right rule below for why. */
     align-items: start;
     gap: 1.5rem;
     max-width: none;
@@ -301,6 +304,37 @@
   .vault-col-right {
     grid-column: 3;
     grid-row: 2;
+  }
+
+  /* Row 2's two columns hold unrelated stacks — redeem-for-xp + top-miners
+     on the left, $troll-airdrop + ledger on the right — whose natural
+     heights have no reason to agree, so the shorter column stopped well
+     above the taller one and left a ragged bottom edge across the page.
+     Both columns are stretched to the row's height (overriding the grid's
+     align-items: start, which row 1 still wants) and laid out as flex
+     columns; the last panel in each (top miners, ledger) is the flexible
+     one, so the two stacks end on exactly the same line no matter which
+     side is naturally taller.
+
+     Driven by the grid rather than a fixed height: the shared total is
+     whatever the taller column needs, so this holds up as ledger rows and
+     miners come and go, and as the airdrop panel grows through its
+     queue/status/request-list states. */
+  .vault-col-left,
+  .vault-col-right {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Each column's last panel absorbs the slack. min-height: 0 so the
+     ledger's own overflow-y-auto list can still shrink inside a flex item
+     — flex items default to min-height: auto and refuse to go below their
+     content height, which would push the panel past the row instead of
+     letting the list scroll inside it. */
+  .vault-col-left > :last-child,
+  .vault-col-right > :last-child {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   /* The vault's Nav lives inside .vault-col-center, a narrow left column
@@ -394,6 +428,15 @@ main {
 
 .ascii-banner--alert {
   color: var(--alert);
+}
+
+/* The vault's own banner. --alert is the danger/price-down red, which read
+   as a warning over a page that is really the economy screen; --problem is
+   the token the rest of the vault already speaks in (balances, the mining
+   meter, ledger deltas, the top-miners column), so the banner now matches
+   the numbers underneath it. */
+.ascii-banner--problem {
+  color: var(--problem);
 }
 
 .blink-cursor {

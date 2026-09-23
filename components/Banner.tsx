@@ -8,7 +8,7 @@ type BannerProps = {
   // `art` — see BANNER_TROLLFACE_WIDE in lib/ascii.ts for why this exists.
   wideArt?: string;
   label: string; // real text for screen readers
-  tone?: "terminal" | "alert";
+  tone?: "terminal" | "alert" | "problem";
   maxFontPx?: number;
   // Cap for `wideArt` specifically. Desktop containers are much wider, so
   // reusing `maxFontPx` there forces a needlessly small font-size — and
@@ -87,7 +87,7 @@ function FitBanner({
 }: {
   art: string;
   cap: number;
-  tone: "terminal" | "alert";
+  tone: "terminal" | "alert" | "problem";
   className?: string;
 }) {
   const { wrapperRef, preRef, fontSize } = useFitFontSize(cap);
@@ -96,7 +96,7 @@ function FitBanner({
       <pre
         ref={preRef}
         aria-hidden="true"
-        className={`ascii-banner ${tone === "alert" ? "ascii-banner--alert" : ""}`}
+        className={`ascii-banner ${tone === "terminal" ? "" : `ascii-banner--${tone}`}`}
         style={{ fontSize: `${fontSize}px` }}
       >
         {art}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import type { Session } from "@supabase/supabase-js";
 import { getSession, onAuthChange } from "@/lib/auth";
@@ -70,9 +71,100 @@ export default function VaultPage() {
   const [round, setRound] = useState<OpenRound | null>(null);
   const [requests, setRequests] = useState<RedemptionRequest[]>([]);
 
+  // The ledger is the one panel here that's a list rather than a form —
+  // inside the column it's capped to a short scroll box, so a long history
+  // is read a few rows at a time. Popping it out gives it a real window.
+  // Same pattern as the homepage's "speak to it" chat popout.
+  const [ledgerPopped, setLedgerPopped] = useState(false);
+  const POPOUT_SIZE = { width: 720, height: 640 };
+  // Viewport px; the popped Frame is position:fixed and draggable by its
+  // title bar. Re-centred each time it opens, then follows the drag.
+  const [popoutPos, setPopoutPos] = useState({ top: 0, left: 0 });
+  const dragStateRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startTop: number;
+    startLeft: number;
+  } | null>(null);
+  // Mirrors Tailwind's lg breakpoint so the inline positioning style only
+  // overrides the fixed-inset classes on desktop, matching the lg:-prefixed
+  // classes it sits alongside.
+  const [isDesktop, setIsDesktop] = useState(false);
+  // The popout button portals into the ledger Frame's own top-right corner
+  // (Frame's cornerAction). State, not a bare ref, so the portal re-renders
+  // once the target div actually mounts.
+  const [ledgerPopoutPortalEl, setLedgerPopoutPortalEl] = useState<HTMLDivElement | null>(null);
+  const ledgerPopoutPortalRef = useCallback((el: HTMLDivElement | null) => {
+    setLedgerPopoutPortalEl(el);
+  }, []);
+
   useEffect(() => {
     getSession().then(setSession);
     return onAuthChange(setSession);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(mq.matches);
+    const onChange = () => setIsDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!ledgerPopped || !isDesktop) return;
+    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
+    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
+    setPopoutPos({
+      top: Math.max(0, (window.innerHeight - h) / 2),
+      left: Math.max(0, (window.innerWidth - w) / 2),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ledgerPopped, isDesktop]);
+
+  useEffect(() => {
+    if (!ledgerPopped) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLedgerPopped(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [ledgerPopped]);
+
+  const handlePopoutHeaderPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!isDesktop) return;
+      e.preventDefault();
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      dragStateRef.current = {
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        startTop: popoutPos.top,
+        startLeft: popoutPos.left,
+      };
+    },
+    [isDesktop, popoutPos]
+  );
+  const handlePopoutHeaderPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragStateRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const w = Math.min(POPOUT_SIZE.width, window.innerWidth * 0.95);
+    const h = Math.min(POPOUT_SIZE.height, window.innerHeight * 0.95);
+    const nextTop = drag.startTop + (e.clientY - drag.startY);
+    const nextLeft = drag.startLeft + (e.clientX - drag.startX);
+    setPopoutPos({
+      top: Math.min(Math.max(0, nextTop), Math.max(0, window.innerHeight - h)),
+      left: Math.min(Math.max(0, nextLeft), Math.max(0, window.innerWidth - w)),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const handlePopoutHeaderPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStateRef.current?.pointerId === e.pointerId) {
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    }
+    dragStateRef.current = null;
   }, []);
 
   useEffect(() => {
@@ -330,7 +422,7 @@ export default function VaultPage() {
       <div className="w-full vault-content">
         <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           <Nav networkBadge />
-          <Banner art={BANNER_VAULT} label="the vault" tone="alert" maxFontPx={30} />
+          <Banner art={BANNER_VAULT} label="the vault" tone="problem" maxFontPx={30} />
           <p className="text-foreground text-sm mb-8">
             your signal balance · xp redemption and $troll airdrops, live
           </p>
@@ -340,7 +432,13 @@ export default function VaultPage() {
           )}
 
           {session ? (
-            <Frame title="your signal" tone="problem" className="mb-6">
+            <Frame
+              title="your signal"
+              tone="problem"
+              className="mb-6"
+              titleEffect="trace"
+              traceHue="#ffd21f"
+            >
               <p className="text-4xl text-problem mb-3">
                 {wallet?.balance ?? "..."}{" "}
                 <span className="text-sm text-dim align-middle">PROBLEMS</span>
@@ -566,11 +664,59 @@ export default function VaultPage() {
               )}
             </Frame>
 
-            <Frame title="ledger" tone="dim">
+            {/* In-column, this Frame is the flex-grow member of
+                .vault-col-right (globals.css) — it stretches so this column
+                ends level with redeem-for-xp + top-miners on the left, and
+                the list below scrolls inside whatever height that leaves.
+                Popped, it breaks out to a fixed, draggable window instead,
+                so a long history is readable without that cap. */}
+            <Frame
+              title="ledger"
+              tone="dim"
+              className={
+                ledgerPopped
+                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
+                  : "flex flex-col min-h-0"
+              }
+              /* position is set inline rather than left to the `fixed`
+                 utility class: Frame hardcodes `relative` on its own root
+                 and Tailwind emits both in the same layer, so .relative wins
+                 on source order no matter which class is appended — which
+                 left the popped panel in normal flow, scrolled off the right
+                 edge of the page instead of centered over it. */
+              style={
+                ledgerPopped
+                  ? isDesktop
+                    ? {
+                        position: "fixed",
+                        top: `${popoutPos.top}px`,
+                        left: `${popoutPos.left}px`,
+                        width: `${POPOUT_SIZE.width}px`,
+                        height: `${POPOUT_SIZE.height}px`,
+                        right: "auto",
+                        bottom: "auto",
+                      }
+                    : { position: "fixed" }
+                  : undefined
+              }
+              bodyClassName="flex flex-col flex-1 min-h-0"
+              cornerAction={<div ref={ledgerPopoutPortalRef} />}
+              onHeaderPointerDown={
+                ledgerPopped && isDesktop ? handlePopoutHeaderPointerDown : undefined
+              }
+              onHeaderPointerMove={
+                ledgerPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined
+              }
+              onHeaderPointerUp={ledgerPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
+            >
               {ledger.length === 0 && (
                 <p className="text-dim text-sm">no transactions yet — go talk to it.</p>
               )}
-              <ul className="chat-scroll space-y-1 text-sm max-h-64 overflow-y-auto pr-1">
+              {/* No max-height of its own: the list fills whatever the Frame
+                  gives it (the stretched column slot, or the popout window)
+                  and scrolls inside that. min-h-0 so it can actually shrink
+                  below its content height as a flex child. */}
+              <ul className="chat-scroll space-y-1 text-sm flex-1 min-h-0 overflow-y-auto pr-1">
                 {ledger.map((row) => (
                   <li key={row.id} className="flex justify-between gap-3 text-dim">
                     <span className="text-problem">
@@ -582,6 +728,27 @@ export default function VaultPage() {
                 ))}
               </ul>
             </Frame>
+
+            {ledgerPopoutPortalEl &&
+              createPortal(
+                <button
+                  type="button"
+                  onClick={() => setLedgerPopped((v) => !v)}
+                  aria-label={ledgerPopped ? "shrink ledger" : "pop out ledger"}
+                  className="rounded border border-problem/50 bg-problem/10 px-2 py-1 text-xs font-semibold tracking-wide text-problem transition-colors hover:bg-problem/20 hover:border-problem"
+                >
+                  {ledgerPopped ? "⤡ shrink" : "⤢ pop out"}
+                </button>,
+                ledgerPopoutPortalEl
+              )}
+
+            {ledgerPopped && (
+              <div
+                className="fixed inset-0 z-40 bg-background/90"
+                onClick={() => setLedgerPopped(false)}
+                aria-hidden="true"
+              />
+            )}
             </>
           )}
         </div>
