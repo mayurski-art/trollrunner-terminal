@@ -2386,19 +2386,29 @@ Withdrawal](https://www.military.com/automatic-military-draft-registration-quest
 · [Wikipedia — National Defense Authorization Act for Fiscal Year
 2026](https://en.wikipedia.org/wiki/National_Defense_Authorization_Act_for_Fiscal_Year_2026)
 
-## 62. A sportsbook bids $1.2M to name Bonnie Blue's baby — and the auction is real
+## 62. A sportsbook won the right to name Bonnie Blue's baby, for $1.2M
 
-**Bonnie Blue**, a UK OnlyFans creator known for escalating publicity
-stunts, ran a real bidding site — **bonnieblue.io** — auctioning off the
-right to name her newborn, with the stated prize being access to a private
-party celebrating the winning name. The landing page is on file
-(`bonnieblue-choose-a-name-hero.png`): "CHOOSE A NAME" in bubble letters
-over a pastel gender-reveal blue, the pitch written out plainly — *"Come up
-with a name and bid on it. The winning name will gain access to a private
-party to celebrate the name selection!"* — a Rules link and a "Make a bid"
-button. It is a produced, designed site, not a rumour or a screenshot of
-one, which is the first thing to establish before any of the rest. In an early leaderboard screenshot on
-file (`pumpfun-bonnieblue-auction.png`, September 22, 2026, morning), the
+**Bonnie Blue** — real name **Tia Billinger** — a UK OnlyFans creator known
+for escalating publicity stunts, ran a real bidding site,
+**bonnieblue.io**, auctioning off the right to name the child she gave
+birth to in **August 2026**, with the stated prize being access to a
+private party celebrating the winning name. **It closed, and it has a
+winner: "BetBolt," bid by "BetBolt.com," at $1,200,000** — a sportsbook
+brand, now the name of a real child. The site renders that row crowned, in
+1st, as a settled result rather than a live high bid. Blue reportedly
+intends to register the name at the **Westminster Register Office**.
+
+The landing page is on file (`bonnieblue-choose-a-name-hero.png`): "CHOOSE
+A NAME" in bubble letters over a pastel gender-reveal blue, the pitch
+written out plainly — *"Come up with a name and bid on it. The winning name
+will gain access to a private party to celebrate the name selection!"* — a
+Rules link and a "Make a bid" button. It is a produced, designed site, not
+a rumour or a screenshot of one, which is the first thing to establish
+before any of the rest.
+
+It did not start with a sportsbook on top. In an early leaderboard
+screenshot on file (`pumpfun-bonnieblue-auction.png`, September 22, 2026,
+morning), the
 **#1 bid** was **"Group Project," submitted by "Pump Fun," at $750,000** —
 ahead of "Plan B" ($666,000, Foundation Consumer Healthcare), "Mixed nuts"
 ($499,999, KP), and seven other entries down to $275,000. Crypto Twitter
@@ -2406,11 +2416,11 @@ accounts (**@xbtDLN**, **@polarster**, **@tontheneko**) picked it up the
 same day, with @tontheneko's framing capturing the general reaction: *"I
 thought this was larp at first, but it wasn't wtf."*
 
-The board didn't hold still. By the evening of the same day the live site
-had reordered completely, and "Group Project" was down to **5th**, still at
-$750,000, now trailing a sportsbook. The top of the board read: **BetBolt —
-bidder "BetBolt.com" — $1,200,000**, then **"Grok," bidder "Elon Musk,"
-$1,100,000**, then **"Clavicular," bidder "looksmax," $1,000,000**, then
+The board didn't hold still on the way there. Over the course of a single
+day it reordered completely, and "Group Project" ended **5th**, still at
+$750,000, beaten by a sportsbook. The final board read: **BetBolt —
+bidder "BetBolt.com" — $1,200,000 (winner)**, then **"Grok," bidder
+"Elon Musk," $1,100,000**, then **"Clavicular," "looksmax," $1,000,000**, then
 **"PUMP," bidder "THETRENCHERYA," $801,000**. Below Pump Fun sat "Plan B"
 ($666,000, Foundation Consumer Healthcare), "Mixed nuts" ($499,999, KP),
 "Radex" ($420,000, Markets), "Spartans.com" ($401,000), "Prophet Muhammed"
@@ -2418,8 +2428,8 @@ $1,100,000**, then **"Clavicular," bidder "looksmax," $1,000,000**, then
 pi, from "Bernard"), "Ignite" ($275,000), then the token entries **$DOGE
 ($250,000)**, **$PEPE ($150,000)**, **BlockDAG ($100,000)**, and further
 down an entry literally named **"$SOLANA," bidder "SOLANA," at $30,000** —
-23 bids in all, bottoming out at the $10,000 minimum, with a live ticker
-along the bottom streaming free name suggestions in from a Discord.
+23 bids in all, bottoming out at the $10,000 minimum, with a ticker along
+the bottom streaming free name suggestions in from a Discord.
 
 That $30,000 Solana entry is worth flagging, because the biggest account to
 touch this story got it backwards. **Polymarket** — 1.9M followers, a
@@ -2429,14 +2439,15 @@ on a board whose top bid was forty times larger. The most-followed report
 of the leaderboard was wrong in exactly the direction that made the better
 headline, and that error is arguably more troll-coded than anything on the
 board itself: the stunt was legible enough that people narrated it without
-loading the page. This is a live board, not a settled record — every rank
-and dollar figure quoted here is a snapshot and will be stale again soon.
+loading the page. The numbers above are the closing board as captured on
+September 22, 2026 — final as far as the site presents it, but this is a
+stunt site, not a registry, and it can always be edited after the fact.
 
-This file's own sourcing bar — an independent outlet, the actual post, or
-platform-native media — isn't fully cleared here, and the live page makes
-the gap wider, not narrower. The auction site itself is real and live
-(confirmed directly, twice), and every leaderboard entry described above is
-real as of when it was checked, but nothing on the page ties any bidder
+The sourcing splits cleanly in two, and the split is the whole point. The
+auction, the winning bid and the fallout clear this file's bar: the site
+was confirmed directly three times, the closing board was captured, and
+independent press covered it. What does *not* clear the bar is **who any
+bidder actually is**. Nothing on the page ties any bidder
 display name — "Pump Fun," "Grok - Elon Musk," "SOLANA," any of them — to
 the actual entity it names. There's no wallet address, no payment
 confirmation, and no identity verification visible anywhere on the site:
@@ -2444,67 +2455,81 @@ bids appear to be self-submitted name-and-amount pairs with nothing on-chain
 or off-chain backing the display name up. "Grok - Elon Musk" bidding
 $1,100,000 is exactly as unverifiable as "Pump Fun" bidding $750,000 — the
 whole leaderboard reads like a stunt built to invite exactly this kind of
-brand-jacking, not a KYC'd payment ledger. No mainstream outlet or any of
-the named companies/people had confirmed or denied a specific bid as of
-this writing. Treat it the same way §50 treats a vote outcome or §61 treats
+brand-jacking, not a KYC'd payment ledger. Press coverage of the auction
+has not confirmed any individual bidder's identity either, and none of the
+named companies or people has publicly confirmed or denied a bid — BetBolt
+included, which means "a sportsbook won" is how the site presents it, not
+something the company itself has stated. Treat it the same way §50 treats a
+vote outcome or §61 treats
 an escalated headline: the concrete, checkable part (an entry with this
 name, at this amount, existed on the page at this time) is solid; the
 inferential leap (that Pump.fun the company, or Elon Musk, or Solana the
 network actually placed these bids on purpose) is not confirmed and
 shouldn't be stated as settled fact.
 
-What *has* now cleared the sourcing bar is the story around the auction.
-Mainstream press picked it up: **IBTimes UK** reported that child
+The fallout is the half that's solidly sourced. **IBTimes UK** reported
+that child
 protection lawyer **Nieki Shaw** called for a safeguarding assessment,
 warning that the child's identity was being "dragged into her stunts,
 brands and rage baits" and that "a baby cannot consent to being a part of
 anybody's rage-bait strategy." Blue's own stated justification, per the
 same report, was that the auction would put her child in a "higher tax
 bracket" than people she accused of "living off benefits and claiming
-unseen disabilities." No court, police force, local authority or
-child-protection body has announced any finding — Shaw's comment is a call
-for a risk assessment, not the result of one, and this file should not
-report it as an investigation.
+unseen disabilities." Blue's defense, per reporting on the closed auction,
+is that the payout is the point and that her child is loved and protected.
+No court, police force, local authority or child-protection body has
+announced any finding — Shaw's comment is a call for a risk assessment, not
+the result of one, and this file should not report it as an investigation.
 
 That's the detail that resolves the ambiguity in the rest of this section.
 The individual bidder identities stay unverified, but the auction is real,
-it was covered by press, and a lawyer is on record about it. The joke and
-the consequence aren't in tension anymore — the consequence arrived.
+it closed, it was covered by press, and a lawyer is on record about it. The
+joke and the consequence aren't in tension anymore — the consequence
+arrived, and it's a sportsbook's brand name on a birth certificate.
 
 None of that changes what makes it worth keeping in this file. Whether or
-not any of these bids are who their display names claim, a leaderboard
-where a meme-coin platform, a chatbot named after the world's richest man,
-and an "SEO/vanity-name" bid are all jockeying to attach themselves to
-naming someone's actual newborn is troll-coded on its face — the same
+not any of these bids are who their display names claim, a board where a
+meme-coin platform, a chatbot named after the world's richest man, and an
+"SEO/vanity-name" bid all jockeyed to attach themselves to naming someone's
+actual newborn — and where the thing that *won* was an ad for a betting
+site — is troll-coded on its face: the same
 reversal-and-commitment shape as §58's Fawcett selling $TROLL for beer
 money, or §56's SBF-Uniswap stunt: something built to be a joke, taken far
 enough that it stops being clear where the joke ends and the real
 consequence begins. A baby is not a punchline with an undo button, which is
 exactly the discomfort the story is trading on — the same tension §55 and
-§56 ask the persona to sit with rather than resolve into a clean laugh, and
-the total absence of payment verification only sharpens that: nobody has to
-actually spend a dollar to make this look real.
+§56 ask the persona to sit with rather than resolve into a clean laugh. The
+absence of payment verification sharpens it rather than softening it:
+nobody had to actually spend a dollar to make this look real, and the name
+lands on the child either way.
 
-**Sources:** [bonnieblue.io](https://bonnieblue.io/) (live auction site,
-checked three times September 22, 2026 — full 23-bid board captured on the
-evening pass; leaderboard order and top bid changed between every check, no
-payment verification visible on any pass) ·
+**Sources:** [bonnieblue.io](https://bonnieblue.io/) (the auction site,
+checked three times September 22, 2026 — the board reordered between every
+check and then closed, with BetBolt rendered crowned in 1st as the winner;
+full 23-bid closing board captured, no payment verification visible on any
+pass) · landing page on file
+(`bonnieblue-choose-a-name-hero.png`, Sept 22, 2026) ·
 [ibtimes.co.uk — "Bonnie Blue Slammed for 'Rage-Bait' Baby Name Auction as
 Child Protection Lawyer Warns of Emotional
 Abuse"](https://www.ibtimes.co.uk/bonnie-blue-baby-name-auction-safeguarding-assessment-1821298)
-(Nieki Shaw's safeguarding call and Blue's "higher tax bracket" quote —
-the one independent-outlet source in this section) ·
+(Nieki Shaw's safeguarding call and Blue's "higher tax bracket" quote) ·
+Blue's real name (Tia Billinger), the August 2026 birth, the Westminster
+Register Office plan and her "loved and protected" defense come from
+press summary supplied by the site owner rather than a source fetched
+directly here — solid enough to keep, but the specific registry-office
+detail is the least independently confirmed claim in this section ·
 [x.com/Polymarket/status/2102447894360211648](https://x.com/Polymarket/status/2102447894360211648)
 (September 22, 2026, 17:20 UTC — claims $SOLANA "leading" at $30,000;
-contradicted by the live board, where that entry sits ~19th of 23) ·
+contradicted by the board itself, where that entry sits ~19th of 23) ·
 [x.com/xbtDLN/status/2102442638016442564](https://x.com/xbtDLN/status/2102442638016442564)
 · [x.com/polarster/status/2102433069508559318](https://x.com/polarster/status/2102433069508559318)
 · [x.com/tontheneko/status/2102431728480739809](https://x.com/tontheneko/status/2102431728480739809)
 (all September 22, 2026, via fxtwitter mirror) · leaderboard screenshot on
 file (`pumpfun-bonnieblue-auction.png`, morning snapshot showing Pump Fun in
-1st) — no independent outlet or official statement from any named bidder
-found as of this writing; every bidder identity on this board is
-unverified and should be presented as such.
+1st) — the auction, its closure and the BetBolt result are confirmed
+directly against the site; no official statement from any named bidder,
+BetBolt included, was found as of this writing, so every bidder identity
+here is unverified and should be presented as such.
 
 ## 63. "Key Board Warrior" — Kevin Rosa's keyboard claymore sculpture
 
@@ -3032,26 +3057,28 @@ existing Kevin Rosa / GOATFARM material.
   are real; 'automated military draft' oversells what that law actually
   does" — not a flat "it's fake" and not an uncritical repeat of the
   headline either.
-- Section 62 (the Bonnie Blue baby-name auction — "Group Project" from
-  "Pump Fun," later outbid by "Clavicular," "Grok - Elon Musk," and a
-  sportsbook, BetBolt, at $1.2M) is useful the same way §55/§56/§58 are: a real-world instance of the
+- Section 62 (the Bonnie Blue baby-name auction — won by "BetBolt," a
+  sportsbook, at $1.2M, with "Group Project" from "Pump Fun" beaten down
+  to 5th) is useful the same way §55/§56/§58 are: a real-world instance of the
   "trolling someone else is a bet you can lose" or "the joke got away from
   you" shape, not a villain-mocking one. The persona should hold the
   verification gap honestly if asked, and hold it for *every* bidder named
   on that board, not just Pump Fun — the auction site and its leaderboard
   entries are real and confirmed, but no bidder's display name is verified
-  against the real person or company it claims to be, there's no payment
-  proof visible, and the board itself changes over time (Pump Fun's bid
-  went from 1st to 5th same-day). It can lean on the "troll-coded either
-  way" read: even fully unconfirmed, a leaderboard where a meme-coin
-  platform, a world-famous billionaire's name, and "$SOLANA" itself are all
-  jockeying to attach themselves to naming someone's actual newborn is the
-  bit, regardless of whether any specific identity ever gets nailed down.
+  against the real person or company it claims to be — BetBolt, the
+  *winner*, very much included — and there's no payment proof visible. The
+  auction has closed, so don't describe it as ongoing or invite anyone to
+  bid; do note the board swung hard before it settled (Pump Fun went 1st to
+  5th in a day). It can lean on the "troll-coded either way" read: even
+  fully unconfirmed, a board where a meme-coin platform, a world-famous
+  billionaire's name and "$SOLANA" itself all jockeyed to attach themselves
+  to naming someone's actual newborn — and where a betting-site ad won — is
+  the bit, regardless of whether any identity ever gets nailed down.
   Good material for "what's the most recent troll thing you've seen" or a
   question about Pump.fun specifically — bad material for baby-name jokes
   at the expense of the actual child, who is a real person who didn't opt
-  into any of this. Never state a current rank or dollar amount as still
-  accurate without flagging that the board moves.
+  into any of this — and who now carries the winning name for real, which
+  is the part to stay sober about.
 - A note on scope: this file only includes claims that could be verified
   against an independent source (an episode recap, a news outlet, the
   actual X post or clip, or — as with §38 — media pulled directly from the
