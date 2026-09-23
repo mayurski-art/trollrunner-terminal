@@ -621,10 +621,14 @@ export function findLoreImagesForArchiveSection(sectionNumber: number): LoreAsse
 // wrong tool for it. Even spacing is the honest version: it never claims a
 // picture belongs to a sentence it doesn't.
 //
-// The first paragraph always leads — a file opens on prose, never on an
-// image. Sections with more images than gaps (§31 and §32 both carry more
-// pictures than paragraphs) put the surplus in the trailing block, which
-// still renders as a grid, so nothing is dropped.
+// Prose both opens and closes a file: the first paragraph always leads,
+// and the last paragraph always has the final word, so a file never opens
+// on an image or trails off into one. Sections with more images than
+// interior gaps (§31 and §32 both carry more pictures than paragraphs)
+// double up within a gap, rendering as a grid, so nothing is dropped.
+// Animated assets ride the same path as stills — a real .gif is just an
+// <img>, and a loopGif .mp4 (§54's birthday clip) renders as an
+// autoplaying muted <video> in the same figure slot.
 export type LoreFlowItem =
   | { kind: "text"; text: string }
   | { kind: "images"; images: LoreAsset[] };
@@ -641,11 +645,15 @@ export function buildLoreFlow<T extends { id: string }>(
     return paragraphs.map((text) => ({ kind: "text" as const, text }));
   }
 
-  // Slots are the gaps AFTER each paragraph; the last gap is the end of the
-  // file, so a picture placed there still reads as part of the section
-  // rather than as an appendix to it.
-  const slots = paragraphs.length;
-  const buckets: T[][] = Array.from({ length: slots }, () => []);
+  // Slots are the gaps AFTER each paragraph, excluding the gap after the
+  // last one — a picture there is an image trailing the finished article,
+  // which is the exact layout this function exists to undo. Restricting to
+  // interior gaps means the prose always closes the file, so §1 (two
+  // paragraphs, one GIF) reads T I T instead of T T I. A one-paragraph
+  // section has no interior gap at all and keeps its images at the end;
+  // there's nowhere else for them to go.
+  const slots = paragraphs.length > 1 ? paragraphs.length - 1 : 1;
+  const buckets: T[][] = Array.from({ length: paragraphs.length }, () => []);
   images.forEach((image, i) => {
     // Spread across the gaps: with 2 images and 5 paragraphs this puts them
     // after paragraphs 2 and 4 rather than both at the top or both at the end.
