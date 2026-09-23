@@ -435,10 +435,20 @@ export default function VaultPage() {
           grid's first track is sized to track the background art (see
           globals.css), which a wrapper cap would clip on wide screens. */}
       <div className="w-full vault-content">
-        <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
+        {/* Nav + banner are their own full-width row so they stop setting
+            the start height of column 1. The banner is fit-to-width ASCII
+            art whose height tracks the viewport (measured 59.8px at 1100
+            up to 158.3px at 2560) — while it sat inside .vault-col-center,
+            "your signal" started that much lower than "spend your signal"
+            opposite it, and no fixed offset could follow it. With the
+            header lifted out, both panels begin the next grid row and
+            align by construction at every width. */}
+        <div className="vault-col-head max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           <Nav networkBadge />
           <Banner art={BANNER_VAULT} label="the vault" tone="problem" maxFontPx={30} />
+        </div>
 
+        <div className="vault-col-center max-w-4xl lg:max-w-none mx-auto w-full lg:mx-0">
           {loadError && (
             <p className="text-alert text-xs mb-3">[ {loadError} ]</p>
           )}

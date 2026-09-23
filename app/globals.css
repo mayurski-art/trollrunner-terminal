@@ -70,25 +70,14 @@
   --font-transmission: var(--font-transmission);
 }
 
-/* Site-wide hero background — the gold circuit-board trollface. Full
-   color/contrast up top, fading to solid --background by the lower third
-   so page content stays readable. Applied to every route's own <main>
-   (app/page.tsx, app/archive, app/vault, app/logs,
-   app/transmit, app/inspect, app/reports). .home-hero-bg-frame spans the
-   full viewport width and exactly one viewport height, so the image
-   covers edge to edge on every screen size rather than being letterboxed
-   to the content column — and without rescaling on long pages.
-
-   Two source crops, swapped by viewport width media query rather than
-   `background-size: cover` alone: troll-terminal-face-desktop.jpg is a
-   wide landscape crop for desktop/tablet, troll-terminal-face-mobile.jpg
-   is a tall portrait crop of the same source render so the face stays
-   framed (not stretched/cropped oddly) on narrow phone screens. Both are
-   pre-sharpened at the source, so no CSS unsharp-mask overlay is needed
-   here (a previous version stacked a second blurred/contrast-boosted copy
-   in `overlay` blend mode to fake sharpness out of a much lower-res
-   source — no longer necessary now that the assets themselves are sharp
-   at hero size). */
+/* Site-wide page background. The gold circuit-board trollface hero art
+   that used to live here was removed by request — every route now sits on
+   flat black, except /vault which keeps its own art (.vault-hero-bg
+   below). .home-hero-bg-frame still spans exactly one viewport and is
+   still used by every route (app/page.tsx, app/archive, app/vault,
+   app/logs, app/transmit, app/inspect, app/reports), because /vault
+   layers its background onto it and the fixed-position behaviour
+   documented below is what keeps that art from rescaling. */
 .home-hero {
   position: relative;
   overflow: hidden;
@@ -126,35 +115,19 @@
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url("/assets/troll-terminal-face-desktop.jpg");
-  background-size: cover;
-  background-position: 50% 12%;
-  opacity: 0.62;
-  filter: saturate(1.25) brightness(0.7) contrast(1.25);
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    color-mix(in srgb, black 55%, transparent) 0%,
-    black 88%
-  );
-  mask-image: linear-gradient(
-    180deg,
-    color-mix(in srgb, black 55%, transparent) 0%,
-    black 88%
-  );
-}
-@media (max-width: 760px) {
-  .home-hero-bg {
-    background-image: url("/assets/troll-terminal-face-mobile.jpg");
-    background-position: 50% 8%;
-  }
+  /* Plain black. The site-wide circuit-trollface hero art was removed by
+     request — every route except /vault now sits on a flat background.
+     The element itself is kept (rather than deleted from all 10 pages) so
+     /vault can keep layering .vault-hero-bg onto it, and so restoring a
+     site-wide background later is a one-rule change here. */
+  background: #000;
 }
 
-/* /vault only — same treatment (mask, filter, dual crop) as the shared
-   hero background above, but its own art (the "indecisive problems"
-   circuit-trollface-in-a-suit render) rather than the site-wide face.
-   Layered on top of .home-hero-bg via a second class on the same div, so
-   only background-image/position/mask change and opacity/filter stay
-   inherited.
+/* /vault only — the last page that still carries hero art (the
+   "indecisive problems" circuit-trollface-in-a-suit render). Still a
+   second class on the same div as .home-hero-bg, but that rule is now a
+   flat black fill, so this one is self-contained: it sets its own
+   background-size and mask rather than inheriting them.
 
    The figure sits dead center in both source crops, so the background is
    kept centered (background-position-x 50%) and the page layout works
@@ -170,6 +143,21 @@
   background-position: 50% 10%;
   opacity: 0.9;
   filter: saturate(1.4) brightness(1.05) contrast(1.15);
+  /* background-size and the desktop fade-out mask used to be inherited
+     from .home-hero-bg. That rule is now a flat black fill (the site-wide
+     art was removed), so the vault carries its own copies — unchanged
+     values, kept here verbatim so /vault renders exactly as before. */
+  background-size: cover;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, black 55%, transparent) 0%,
+    black 88%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, black 55%, transparent) 0%,
+    black 88%
+  );
 }
 @media (max-width: 760px) {
   .vault-hero-bg {
@@ -222,9 +210,11 @@
   .vault-col-center {
     order: 1;
   }
+  .vault-col-head {
+    order: 0;
+  }
   .vault-col-right {
     order: 2;
-    padding-top: 0;
   }
   .vault-col-left {
     order: 3;
@@ -286,7 +276,11 @@
       clamp(340px, calc(var(--vault-shaft-left) - 11px), 1400px)
       1fr
       clamp(340px, calc(100vw - 11px - var(--vault-shaft-right)), 1400px);
-    grid-template-rows: auto auto;
+    /* Row 1 is the full-width header (nav + banner), rows 2 and 3 are the
+       panel rows. The header owns its own row so the banner's
+       viewport-dependent height stops offsetting column 1 against
+       column 3 — see .vault-col-head below. */
+    grid-template-rows: auto auto auto;
     /* Row 1 (the identity block) still hugs its content; row 2's two
        flanking columns stretch to a shared height instead — see the
        .vault-col-left/-right rule below for why. */
@@ -294,13 +288,23 @@
     gap: 1.5rem;
     max-width: none;
   }
-  .vault-col-center {
+  /* Its own row, but still only as wide as column 1. Banner sizes its
+     ASCII art to fit its wrapper, so letting the header span all three
+     tracks blew "THE VAULT" up to 216px tall (from 101.8px) and pushed
+     the whole page down. Width-capped to the first track, the banner
+     renders exactly as it always did; the point of the separate row is
+     only that its height no longer offsets column 1 against column 3. */
+  .vault-col-head {
     grid-column: 1;
     grid-row: 1;
   }
-  .vault-col-left {
+  .vault-col-center {
     grid-column: 1;
     grid-row: 2;
+  }
+  .vault-col-left {
+    grid-column: 1;
+    grid-row: 3;
   }
   /* Row 1, not row 2: "spend your signal" is the merged redeem-for-xp +
      $troll-airdrop panel, and it sits on the same line as "your signal"
@@ -308,27 +312,21 @@
      equal height, one per shaft edge. Column 3 is sized by the same
      clamp() against the right shaft edge that column 1 uses against the
      left, so the pair is symmetric about the art by construction. */
+  /* Row 2, the same row as "your signal" in column 1 — the two panels are
+     grid siblings now, so they share a start edge at every viewport width
+     with no offset to maintain. The fixed .nav-status-float that used to
+     collide with this column sits up in the header row's band instead. */
   .vault-col-right {
     grid-column: 3;
-    grid-row: 1;
-    /* .nav-status-float is fixed at top: 2.5rem and runs ~38px tall on the
-       right edge of the viewport — exactly the space this column now
-       occupies, so the status line landed on the panel's header (measured
-       302x27px of overlap at 1366/1600/1920). Clearing its bottom edge
-       drops the panel just below it (measured: panel top 72.8 vs status
-       bottom 66.4). The "your signal" panel opposite needs no such
-       offset: column 1 starts under the nav in normal flow, so the two
-       panels still read as a matched pair flanking the figure. */
-    padding-top: 3rem;
+    grid-row: 2;
   }
 
-  /* Row 2 now holds only the left column (top miners). It is still
-     stretched and laid out as a flex column so its last panel absorbs
-     the row's slack — that keeps the miners list filling the space under
-     "your signal" rather than stopping short of it. The right column no
-     longer takes part: it moved up to row 1 to sit opposite "your
-     signal", so there is no second stack left to agree on a bottom edge
-     with. */
+  /* Row 3 holds only the left column (top miners). It is still stretched
+     and laid out as a flex column so its last panel absorbs the row's
+     slack — that keeps the miners list filling the space under "your
+     signal" rather than stopping short of it. The right column no longer
+     takes part: it sits in row 2 opposite "your signal", so there is no
+     second stack left to agree on a bottom edge with. */
   .vault-col-left {
     align-self: stretch;
     display: flex;
