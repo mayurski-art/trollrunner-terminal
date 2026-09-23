@@ -2179,10 +2179,13 @@ sculpture, not just apparel.
 sculpture," three photos). Images: `umadbro-keyboard-claymore-1.jpg`,
 `-2.jpg`, `-3.jpg`.
 
-## 64. KFCereal and mac & cheese soda — the food industry discovers the bit
+## 64. The shitpost menu — the food industry discovers the bit
 
-On **September 23, 2026**, within four hours of each other, two food brands
-announced products that read like somebody's shitpost got approved.
+On **September 23, 2026**, inside about seven hours, three food brands
+announced products that read like somebody's shitpost got approved: a
+cereal you eat with gravy, a soda that tastes like mac & cheese, and a
+pizza sauced with Dr Pepper. One is a coincidence, two is a trend, and
+three is a menu.
 
 **KFC UK** launched **"KFCereal"** — a chicken-flavoured breakfast cereal
 made with cereal brand **Surreal**, branded on the box as a *"Full English
@@ -2203,9 +2206,20 @@ Solly's!" across the bottom, and a maple leaf to mark it Canada-only and
 limited-time. The press shot has the can erupting a plume of bright orange
 liquid against a clear blue sky.
 
-Neither is a hoax. Both are real, limited-edition products with real
-manufacturing partners, a working cereal company and a working craft-soda
-company. That's exactly what makes them worth a file.
+That afternoon, West Coast chain **Round Table Pizza** closed out the day
+with a **Dr Pepper pizza**: a **Dr Pepper-flavored BBQ sauce** drizzled over
+pepperoni, cheese and green onions. It's the most edible of the three, and
+that's the trick. BBQ sauce with soda in it is a real regional thing, so the
+product itself is defensible. The *name* is the bait. The shot is a full pie
+shingled edge to edge with crispy cupped pepperoni, each cup holding a
+little pool of grease, the dark sauce streaked diagonally across the
+whole thing like it was flicked on, and green onion confetti scattered on
+top.
+
+None of them is a hoax. All three are real, limited-edition products with
+real partners behind them: a working cereal company, a working craft-soda
+company and a 60-plus-year-old pizza chain. That's exactly what makes them
+worth a file.
 
 **The mechanism.** It's the oldest troll structure in this archive in a
 corporate coat. A troll works by being *plausible enough to engage with and
@@ -2217,8 +2231,11 @@ it as a stunt. You're meant to stand in that gap and post about it. On day
 one KFC didn't move much cereal. It moved
 **510,000 views on a single aggregator repost**. KD's can pulled
 **622,000 views and 1,393 quote-tweets**, and the quotes are the tell: people weren't passing it
-along, they were *reacting*. The quote-tweet is the modern shape of taking
-the bait, and it's now a KPI.
+along, they were *reacting*. The Dr Pepper pizza pulled
+**362,000 views and 1,339 bookmarks** in its first hours. The bookmark is the other tell: that's
+someone saving it to actually order. The quote-tweet is the modern shape of
+taking the bait, the bookmark is the bait getting eaten, and both are KPIs
+now.
 
 **The honest read.** It's a brand trolling its own customers with their
 full cooperation. What separates it from most of this file is ownership.
@@ -2231,6 +2248,7 @@ counter.
 Whether that corrupts the form or finally gets it paid is a question this
 file doesn't need to close. In its favor, this version is *upfront*. A
 chicken cereal you pour gravy on isn't pretending to be anything but a bit,
+and neither is a pizza named after a soda,
 and a troll that announces itself is about the most honest thing a company
 can do with the technique. The dishonest version is the launch that's just
 as absurd and insists it isn't, and the memecoin sections have plenty of
@@ -2240,9 +2258,12 @@ out that the *watching* is the product now, and the cereal is the pretext.
 **Sources:** [Dexerto on KFCereal](https://x.com/Dexerto/status/2102691958254682382)
 (September 23, 2026, 09:30 UTC, via fxtwitter: 510,501 views, 7,160 likes,
 448 quotes) · [Dexerto on the KD soda](https://x.com/Dexerto/status/2102754856830198178)
-(13:39 UTC, via fxtwitter: 622,568 views, 8,741 likes, 1,393 quotes).
-Figures captured same-day and will have moved. Images:
-`kfcereal-kfc-surreal.png`, `kraft-dinner-cream-soda.png`.
+(13:39 UTC, via fxtwitter: 622,568 views, 8,741 likes, 1,393 quotes) ·
+[Dexerto on the Dr Pepper pizza](https://x.com/Dexerto/status/2102792748793274799)
+(16:10 UTC, via fxtwitter: 362,102 views, 7,905 likes, 372 quotes, 1,339
+bookmarks). Figures captured same-day and will have moved. Images:
+`kfcereal-kfc-surreal.png`, `kraft-dinner-cream-soda.png`,
+`roundtable-dr-pepper-pizza.png`.
 
 ## 65. The reveal that came sixteen hours late — the TROLLS light up
 

@@ -565,6 +565,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [64],
   },
   {
+    id: "roundtable-dr-pepper-pizza",
+    url: "/lore/roundtable-dr-pepper-pizza.png",
+    caption:
+      "Round Table Pizza's Dr Pepper pizza (Sept 23, 2026) — a full pie covered edge to edge in crispy cupped pepperoni holding little pools of grease, a dark Dr Pepper BBQ sauce streaked diagonally across the melted cheese, and chopped green onions scattered on top. A real limited-time menu item, not a mockup",
+    keywords: ["round table", "dr pepper pizza", "dr pepper", "dr. pepper", "soda pizza"],
+    sections: [64],
+  },
+  {
     id: "trolls-first-1k-sale-after-reveal",
     url: "/lore/trolls-first-1k-sale-after-reveal.png",
     caption:
