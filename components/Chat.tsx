@@ -3,7 +3,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { getPublicClient } from "@/lib/supabase";
-import { displayName } from "@/lib/auth";
+import { displayName, onAuthChange } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
 import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
@@ -11,6 +11,7 @@ import { timeAgo } from "@/lib/time";
 import { isVideoAsset, isLoopGifAsset } from "@/lib/loreAssets";
 import { renderTightLines } from "@/lib/renderText";
 import { openChatStream, type StreamMessage } from "@/lib/chatStream";
+import HopInRoster, { type LiveUser } from "@/components/HopInRoster";
 
 type Message = {
   role: "user" | "terminal";
@@ -324,6 +325,12 @@ export default function Chat({
   // `messages` would tear the connection down and rebuild it on every single
   // new message.
   const newestCreatedAtRef = useRef<string | null>(null);
+  // Owner hop-in: whose conversation is on screen instead of your own, and
+  // that conversation's messages. Your own transcript stays in `messages`
+  // untouched, so coming back is instant and nothing is lost.
+  const [hopTarget, setHopTarget] = useState<LiveUser | null>(null);
+  const [hopMessages, setHopMessages] = useState<Message[]>([]);
+  const [hopLoading, setHopLoading] = useState(false);
 
   useEffect(() => {
     // New image (or closed) — snap pan back to center.
@@ -421,22 +428,35 @@ export default function Chat({
     };
   }, []);
 
-  // Resolve owner status once for the provider label (see MessageRow).
+  // Owner status gates the provider label (see MessageRow) and the hop-in
+  // roster. Subscribed rather than sampled once: a session restored from
+  // localStorage or the SSO cookie can land *after* this component mounts,
+  // especially on a cold load, and a one-shot read would then leave isOwner
+  // false for the rest of the page's life — silently hiding the roster.
   useEffect(() => {
     let cancelled = false;
+    const resolve = (session: Parameters<typeof displayName>[0]) => {
+      if (!cancelled) setIsOwner(displayName(session) === OWNER_USERNAME);
+    };
     (async () => {
       try {
-        const sb = getPublicClient();
-        const { data } = await sb.auth.getSession();
-        if (!cancelled) setIsOwner(displayName(data.session) === OWNER_USERNAME);
+        const { data } = await getPublicClient().auth.getSession();
+        resolve(data.session);
       } catch {
-        // Not signed in / storage blocked — stays false, label just hides.
+        // Not signed in / storage blocked — stays false.
       }
     })();
+    const unsubscribe = onAuthChange(resolve);
     return () => {
       cancelled = true;
+      unsubscribe();
     };
   }, []);
+
+  // Stable reference for anything that takes authHeader as a prop or effect
+  // dependency (HopInRoster's poll, the chat stream's reconnects) — the plain
+  // function below is recreated every render and would restart those.
+  const stableAuthHeader = useCallback(() => authHeader(), []);
 
   async function authHeader(forceRefresh = false): Promise<Record<string, string>> {
     const sb = getPublicClient();
@@ -558,6 +578,49 @@ export default function Chat({
     };
   }, [loaded]);
 
+  // Loads the hopped-into conversation and keeps it current. This one polls
+  // rather than streaming: /api/chat/stream is scoped to the caller's own
+  // user_id by design (it must never become a way to read someone else's
+  // messages), and this is the owner's screen — one client, not every
+  // visitor — so the egress argument that drove SSE doesn't apply here.
+  useEffect(() => {
+    if (!hopTarget) return;
+    let cancelled = false;
+
+    async function load(initial: boolean) {
+      if (initial && !cancelled) setHopLoading(true);
+      try {
+        const headers = await stableAuthHeader();
+        if (!headers.Authorization) return;
+        const res = await fetch(
+          `/api/admin/conversations?userId=${encodeURIComponent(hopTarget!.userId)}`,
+          { headers, cache: "no-store" }
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setHopMessages(data.chatMessages ?? []);
+      } catch {
+        // Non-fatal — keeps whatever is already on screen.
+      } finally {
+        if (initial && !cancelled) setHopLoading(false);
+      }
+    }
+
+    load(true);
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") load(false);
+    }, 4000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+      // Cleared on the way out rather than on the way in, so switching
+      // targets never shows the previous person's transcript under the new
+      // person's name.
+      setHopMessages([]);
+    };
+  }, [hopTarget, stableAuthHeader]);
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
     for (const m of messages) {
@@ -566,6 +629,10 @@ export default function Chat({
       }
     }
   }, [messages]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+  }, [hopMessages]);
 
   // Ticks once a second only while a cooldown is actually pending, so the
   // countdown display stays live and self-clears at zero without a
@@ -869,6 +936,11 @@ export default function Chat({
     }
   }
 
+  // Pinning is scoped to your own conversation (/api/memory writes against the
+  // caller's user_id), so the remember button is inert on someone else's
+  // messages while hopped in.
+  const noopToggleMemory = useCallback(() => {}, []);
+
   // useCallback keeps this prop reference stable across the cooldown/thinking-
   // verb re-renders so MessageRow's memoization actually holds — it still
   // changes on memoryBusy/memories updates, but those are inherently tied to
@@ -1028,25 +1100,70 @@ export default function Chat({
           [ ▣ {archiveToast} ]
         </p>
       )}
+      {isOwner && (
+        <HopInRoster
+          getAuthHeader={stableAuthHeader}
+          selectedUserId={hopTarget?.userId ?? null}
+          onSelect={setHopTarget}
+        />
+      )}
+      {hopTarget && (
+        <div className="shrink-0 mb-2 flex items-center justify-between gap-2 border border-problem/50 bg-problem/10 px-2 py-1">
+          <p className="text-problem text-xs truncate">
+            watching <span className="font-bold">{hopTarget.username}</span>
+          </p>
+          <button
+            type="button"
+            onClick={() => setHopTarget(null)}
+            className="shrink-0 text-ghost text-xs hover:text-terminal transition-colors"
+          >
+            [ back ]
+          </button>
+        </div>
+      )}
       <div
         ref={scrollRef}
         className="chat-scroll flex-1 min-h-0 overflow-y-auto space-y-4 mb-3 pr-1"
       >
-        {messages.length === 0 && (
-          <p className="text-dim text-sm">terminal&gt; it noticed you</p>
+        {hopTarget ? (
+          <>
+            {hopLoading && hopMessages.length === 0 && (
+              <p className="text-dim text-sm animate-pulse">loading...</p>
+            )}
+            {!hopLoading && hopMessages.length === 0 && (
+              <p className="text-dim text-sm">no messages yet.</p>
+            )}
+            {hopMessages.map((m, i) => (
+              <MessageRow
+                key={m.created_at ? `${m.created_at}-${i}` : i}
+                message={m}
+                remembered={false}
+                memoryBusy={false}
+                isOwner={isOwner}
+                onToggleMemory={noopToggleMemory}
+                onOpenLightbox={setLightbox}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {messages.length === 0 && (
+              <p className="text-dim text-sm">terminal&gt; it noticed you</p>
+            )}
+            {messages.map((m, i) => (
+              <MessageRow
+                key={m.created_at ? `${m.created_at}-${i}` : i}
+                message={m}
+                remembered={memories.has(m.content)}
+                memoryBusy={memoryBusy === m.content}
+                isOwner={isOwner}
+                onToggleMemory={toggleMemory}
+                onOpenLightbox={setLightbox}
+              />
+            ))}
+            {busy && <ThinkingLine verbIndex={thinkingVerb} />}
+          </>
         )}
-        {messages.map((m, i) => (
-          <MessageRow
-            key={m.created_at ? `${m.created_at}-${i}` : i}
-            message={m}
-            remembered={memories.has(m.content)}
-            memoryBusy={memoryBusy === m.content}
-            isOwner={isOwner}
-            onToggleMemory={toggleMemory}
-            onOpenLightbox={setLightbox}
-          />
-        ))}
-        {busy && <ThinkingLine verbIndex={thinkingVerb} />}
       </div>
       {pending && !busy && (
         <div className="flex items-center gap-2 mb-2">
@@ -1090,14 +1207,14 @@ export default function Chat({
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="say something_"
+          placeholder={hopTarget ? "watching — send comes next" : "say something_"}
           maxLength={1000}
-          disabled={busy}
+          disabled={busy || !!hopTarget}
           className="flex-1 bg-transparent border border-dim px-2 py-1.5 text-sm text-you outline-none focus:border-terminal disabled:opacity-50"
         />
         <button
           type="submit"
-          disabled={busy || !input.trim()}
+          disabled={busy || !input.trim() || !!hopTarget}
           className="glitch-btn border border-terminal text-terminal px-3 text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
         >
           &gt;
