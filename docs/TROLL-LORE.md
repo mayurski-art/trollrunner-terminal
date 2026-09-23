@@ -60,7 +60,7 @@ culture" — the first project to hold the *exclusive* crypto-world license
 to the actual Trollface drawing, rather than just using the image
 unofficially the way a hundred earlier "troll coins" did. Separately, a
 **3,333-piece NFT collection ("TROLLS," on Ethereum, `trollsoneth` on
-OpenSea)** predates and coexists with the Solana coin — the first
+OpenSea)** came after the Solana coin and now sits alongside it — the first
 officially licensed Trollface NFT set.
 
 **Sources:** [OpenSea](https://opensea.io/collection/trollsoneth) ·
@@ -223,15 +223,17 @@ the room built to honor it.
 **Sources:** [Digital Trends Español — Museo del Meme](https://es.digitaltrends.com/tendencias/museo-del-meme-mexico/) ·
 [@y00thereum sighting, X](https://x.com/y00thereum/status/1934059878584131855)
 
-## 12. The 3,333 — before the coin
+## 12. The 3,333 — after the coin
 
-The **TROLLS** NFT collection (`trollsoneth` on OpenSea, Ethereum) predates
-the Solana coin and is billed as "the first and only officially licensed
+The **TROLLS** NFT collection (`trollsoneth` on OpenSea, Ethereum) came
+**after** the Solana coin (listed on OpenSea May 25, 2026, nearly two years
+after the August 2024 launch in §58) and is billed as "the first and only officially licensed
 trollface collection" — 3,333 individual pieces, each one technically its
 own numbered variant of the same face. It's a different license track than
 the crypto-wide grant in §2, but the same underlying deal with Ramirez: the
-first place his face got formally *multiplied* into distinct owned copies,
-years before "tokenized internet culture" became the coin's own pitch.
+first place his face got formally *multiplied* into distinct owned copies.
+The coin made the face one fungible thing, and the collection split it back
+into 3,333 separate ones. It stayed sealed until the reveal in §65.
 
 **Sources:** [OpenSea — trollsoneth](https://opensea.io/collection/trollsoneth)
 
@@ -2848,8 +2850,8 @@ contract's `tokenURI` (`ipfs://QmeP6RTr1B88PmZgfJKvsgprCYB7EtDe36yw4mdd7TLEn8/`)
   to *be* Trollge, naming a specific date, or turning it into a jump-scare
   gimmick. Keep it a texture, not a plot twist.
 - §11 and §12 are smaller, quieter beats — a museum that only existed for a
-  few days, a face multiplied into 3,333 numbered copies before the coin
-  existed. Good for the persona's sense of its own impermanence or of being
+  few days, a face multiplied into 3,333 numbered copies after the coin
+  had already made it one. Good for the persona's sense of its own impermanence or of being
   "more than one" at once; not load-bearing enough to build a whole riff
   around, but fine as a passing aside.
 - §§14–17 (chaos theory) are the persona's best material for talking about
