@@ -2292,28 +2292,36 @@ the result is the same.
 are named `TROLLS #n` and carry five layered traits (`BACKGROUND`,
 `CLOTHES`, `FACIALS`, `EYES`, `HATS`). A handful carry
 **one trait only — `Alpha: 1 of 1`** — plus a hand-picked name. These are the hand-drawn
-one-offs, and **their token numbers are part of the joke.** Confirmed
-straight from the token metadata:
+one-offs, and **their token numbers are part of the joke.** There are
+**eleven**, all confirmed from the token metadata:
 
-| Token | Name |
-|---|---|
-| #1 | Trollface |
-| #69 | 69 |
-| #919 | Barely Legal |
-| #1111 | I'm Spidey |
-| #1234 | Trollock |
-| #1337 | Final Form |
-| #2222 | No I'm Spidey |
-| #3333 | Whynning |
+| Token | Name | What it shows |
+|---|---|---|
+| #1 | Trollface | a crude MS Paint stick figure with the face, like the 2008 original |
+| #69 | 69 | a pale troll holding its own legs up, a "69" heart tattooed on its arm |
+| #369 | Glorp | a green alien troll with glowing antennae, in space |
+| #420 | Pepe | Pepe the Frog with a trollface where his open mouth should be, a trading chart behind him |
+| #919 | Barely Legal | a plain shirtless grayscale troll on a gray gradient |
+| #1111 | I'm Spidey | a red Spider-Man troll in front of an NYPD van |
+| #1234 | Trollock | a wizard troll with a starry hat, round glasses and a wand, on the Advice Animals color wheel |
+| #1337 | Final Form | a huge grayscale muscle troll with "Problem?" in gothic script across its chest |
+| #2079 | Chief Troll Officer | a troll cradling a Doge, in a shirt with the X logo, a rocket on a hazy orange planet behind |
+| #2222 | No I'm Spidey | a second Spider-Man troll, facing the other way, among crates |
+| #3333 | Whynning | a gold troll with a glowing eye, white top hat, suit and gold tie |
 
 The best ones pay off lore this archive already holds:
 
 - **#919 "Barely Legal"** — 9/19 is the face's birthday (§1, §54), and 2026
-  is the year it turned 18 (§52). The token number is the birthday, and the
-  name is the age.
+  is the year it turned 18 (§52). The token number is the birthday, the name
+  is the age, and the art is the face with nothing on.
 - **#3333 "Whynning"** — the last token in the set is named after **Whynne**,
-  Carlos Ramirez's handle (§1), with "winning" folded in. The collection
-  closes on the man who drew the face.
+  Carlos Ramirez's handle (§1), with "winning" folded in, and drawn in gold.
+  The collection closes on the man who drew the face.
+- **#420 "Pepe"** — the weed number, for the other great 2008-era meme
+  face, wearing this one as a mouth. It sat in front of a price chart,
+  which is where Pepe has lived since the memecoins.
+- **#1 "Trollface"** — token one is the face as it was first drawn: MS
+  Paint, a stick body, no polish. The collection starts at the beginning.
 - **#69 "69"** — the number §60's fake clock was made of, made real: the
   troll with its legs up and a "69" tattoo, the same piece the zero-hour GIF
   flashed.
@@ -2323,18 +2331,8 @@ The best ones pay off lore this archive already holds:
 - **#1337 "Final Form"** — leetspeak for "elite," the oldest internet-cool
   number.
 
-The Alpha filter on OpenSea shows more than these eight (at least eleven
-pieces appear: a muscle-bound grayscale troll with *"Problem?"* in gothic
-script on its chest, a troll holding a Doge while wearing a shirt with the
-X logo in front of a rocket, a Pepe whose open mouth is a trollface, a
-wizard troll on the rainbow pinwheel background from the old Advice
-Animals memes, a green alien, a gold top-hat troll, a plain grayscale
-torso, and a crude MS Paint stick-figure troll that looks like the 2008
-original). Only the eight above have verified names and numbers. (One more
-name, "Pepe," has since shown up on OpenSea without its token number; see
-§66.) The persona may describe the others by what they show, and must never
-invent their names or numbers. What happened on the market the same day is
-in §66.
+The OpenSea Alpha filter shows exactly these eleven. All eleven images are in
+the archive. What happened on the market the same day is in §66.
 
 **Sources:** on-chain: `BatchMetadataUpdate(1, 3333)` on the TROLLS contract,
 tx `0x4e77f5fd45a7660a44b733ad1b091322776d73af61c7e006701b932b9535b547`,
@@ -2367,9 +2365,9 @@ The same filter shows only two earlier sales above $1,000, both about three
 months before, while every token was still sealed and looked identical:
 
 - A token now named **"Pepe"**, rarity **#3**, sold for **$3,559.61** from
-  TrollTrillions to MemeKingdom. Its name and rank suggest it's the Alpha §65
-  describes as a Pepe whose open mouth is a trollface, but its token number
-  isn't shown, so that match isn't confirmed.
+  TrollTrillions to MemeKingdom. That's the Alpha **#420 "Pepe"** in §65
+  (the token metadata confirms the name and number), sold while it still
+  looked like every other sealed token.
 - **TROLLS #88**, rarity #1,477, sold for **$1,258.65** from **KillMigi**,
   the artist who drew the Art Basel pieces in §44, to LikinKiwi.
 
@@ -2442,8 +2440,8 @@ same capture: 3,333 items, created May 2026 by "troll-dev," 5% creator fee,
   nothing is its own joke, but it must not claim the delay was planned or
   accidental, since nobody has said. The Alpha numbers (#919 "Barely
   Legal", #3333 "Whynning", #69 "69") are verified and are its best
-  material. It may name only the eight Alphas listed there, plus "Pepe" as
-  a name without a number (§66). The archive can say which Alphas are the
+  material. All eleven Alphas in the §65 table are verified, and the entity
+  may name and show any of them. The archive can say which Alphas are the
   best jokes, never which are worth the most.
 - §66 (the first four-figure sale after the reveal) is a milestone the
   entity can mention as an event: the first day anyone could see what they

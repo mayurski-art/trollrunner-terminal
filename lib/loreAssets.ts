@@ -9,11 +9,11 @@ export type LoreAsset = {
   id: string;
   url: string;
   caption: string;
-  // No longer read by anything (chat's old keyword matcher was replaced by
-  // loreAssetCatalogForPrompt + the show_image tool below; the archive uses
-  // `sections`, not this). Left in place on existing entries rather than
-  // stripped from all ~40 of them in one pass — harmless if unused, but
-  // don't bother adding it to new entries.
+  // Words that make a chat turn worth asking the paid show_image call about
+  // (see turnMightWantLoreImage below). They no longer PICK the image — the
+  // model does that from the captions — they only decide whether it's worth
+  // asking at all. An asset without keywords can still be shown, but only
+  // on turns that explicitly ask to see something, so give new entries a few.
   keywords?: string[];
   // The TROLL-LORE.md section number(s) this asset actually illustrates.
   // findLoreImagesForArchiveSection (below) looks assets up by this field
@@ -553,6 +553,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     url: "/lore/kfcereal-kfc-surreal.png",
     caption:
       "KFC UK's \"KFCereal\" launch shot (Sept 23, 2026) — a black-and-red box reading \"Full English Kentucky Breakfast\" and \"KF Cereal / SURREAL,\" flagged 19g protein / 1g sugar / inspired by 11 herbs and spices, next to a KFC-branded bowl of cereal with gravy being poured over it from a KFC gravy pot onto a red gingham tablecloth. A real limited-edition product, not a mockup",
+    keywords: ["kfcereal", "kfc cereal", "kfc", "fried chicken cereal"],
     sections: [64],
   },
   {
@@ -560,6 +561,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     url: "/lore/kraft-dinner-cream-soda.png",
     caption:
       "the Kraft Dinner x Solly's mac & cheese cream soda (Sept 23, 2026) — a blue 355ml can with the orange KD bubble wordmark, a forkful of macaroni on the front, \"Smile, it's Solly's!\" and a maple leaf marking it Canada-only, held against blue sky with bright orange liquid erupting from the opened top",
+    keywords: ["kraft dinner", "mac and cheese soda", "mac & cheese soda", "cream soda", "solly's"],
     sections: [64],
   },
   {
@@ -567,7 +569,89 @@ export const LORE_ASSETS: LoreAsset[] = [
     url: "/lore/trolls-first-1k-sale-after-reveal.png",
     caption:
       "OpenSea activity for the TROLLS collection on reveal day (Sept 23, 2026), filtered to sales over $1,000: TROLLS #1969 sold for $1,844.25 about 35 minutes earlier, the first four-figure sale since the reveal, above two sales from three months before it, \"Pepe\" at $3,559.61 and TROLLS #88 from KillMigi at $1,258.65",
+    keywords: ["#1969", "four-figure sale", "first sale after the reveal", "trolls sale"],
     sections: [66],
+  },
+  // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
+  // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
+  // general question about the Alphas through the gate; the model then picks
+  // one from the captions.
+  {
+    id: "trolls-alpha-1-trollface",
+    url: "/lore/trolls-alpha-1-trollface.jpg",
+    caption: "TROLLS Alpha #1 \"Trollface\": a crude MS Paint stick figure with the face, drawn like the 2008 original",
+    keywords: ["alpha", "alphas", "1 of 1", "1/1", "trollface #1", "token 1", "nft reveal", "trolls reveal"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-69-69",
+    url: "/lore/trolls-alpha-69-69.jpg",
+    caption: "TROLLS Alpha #69 \"69\": a pale troll holding its own legs up over its face, a \"69\" heart tattooed on its arm",
+    keywords: ["alpha", "alphas", "1 of 1", "#69", "troll 69", "legs up"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-369-glorp",
+    url: "/lore/trolls-alpha-369-glorp.jpg",
+    caption: "TROLLS Alpha #369 \"Glorp\": a green alien troll with glowing antennae, shirtless in space",
+    keywords: ["alpha", "alphas", "1 of 1", "glorp", "#369", "alien troll"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-420-pepe",
+    url: "/lore/trolls-alpha-420-pepe.jpg",
+    caption: "TROLLS Alpha #420 \"Pepe\": Pepe the Frog with a trollface where his open mouth should be, blue shirt, trading chart behind him",
+    keywords: ["alpha", "alphas", "1 of 1", "pepe", "#420", "pepe troll"],
+    sections: [65, 66],
+  },
+  {
+    id: "trolls-alpha-919-barely-legal",
+    url: "/lore/trolls-alpha-919-barely-legal.jpg",
+    caption: "TROLLS Alpha #919 \"Barely Legal\": the plain shirtless grayscale troll; 9/19 is the birthday and it just turned 18",
+    keywords: ["alpha", "alphas", "1 of 1", "barely legal", "#919"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-1111-im-spidey",
+    url: "/lore/trolls-alpha-1111-im-spidey.jpg",
+    caption: "TROLLS Alpha #1111 \"I'm Spidey\": a red Spider-Man troll in front of an NYPD van, one half of the pointing meme",
+    keywords: ["alpha", "alphas", "1 of 1", "spidey", "spider-man", "spiderman", "#1111"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-1234-trollock",
+    url: "/lore/trolls-alpha-1234-trollock.jpg",
+    caption: "TROLLS Alpha #1234 \"Trollock\": a wizard troll with a starry hat, round glasses and a wand, on the Advice Animals color wheel",
+    keywords: ["alpha", "alphas", "1 of 1", "trollock", "wizard", "#1234"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-1337-final-form",
+    url: "/lore/trolls-alpha-1337-final-form.jpg",
+    caption: "TROLLS Alpha #1337 \"Final Form\": a huge grayscale muscle troll with \"Problem?\" in gothic script across its chest",
+    keywords: ["alpha", "alphas", "1 of 1", "final form", "#1337", "muscle troll", "buff troll"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-2079-chief-troll-officer",
+    url: "/lore/trolls-alpha-2079-chief-troll-officer.jpg",
+    caption: "TROLLS Alpha #2079 \"Chief Troll Officer\": a troll cradling a Doge, in a shirt with the X logo, a rocket on a hazy orange planet behind",
+    keywords: ["alpha", "alphas", "1 of 1", "chief troll officer", "#2079", "doge troll"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-2222-no-im-spidey",
+    url: "/lore/trolls-alpha-2222-no-im-spidey.jpg",
+    caption: "TROLLS Alpha #2222 \"No I'm Spidey\": the second Spider-Man troll, facing the other way among crates, the other half of the pointing meme",
+    keywords: ["alpha", "alphas", "1 of 1", "spidey", "spider-man", "spiderman", "#2222"],
+    sections: [65],
+  },
+  {
+    id: "trolls-alpha-3333-whynning",
+    url: "/lore/trolls-alpha-3333-whynning.jpg",
+    caption: "TROLLS Alpha #3333 \"Whynning\": a gold troll with a glowing eye in a white top hat and suit, the last token, named after Whynne",
+    keywords: ["alpha", "alphas", "1 of 1", "whynning", "#3333", "top hat troll", "gold troll"],
+    sections: [65],
   },
 ];
 
@@ -587,6 +671,32 @@ export function loreAssetCatalogForPrompt(): string {
   return LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url))
     .map((asset) => `${asset.id}: ${asset.caption}`)
     .join("\n");
+}
+
+// show_image is the one paid Claude call left in chat, and it used to run on
+// every turn, "gm" included, to hear "no image" back almost every time. This
+// free local check runs first, and the paid call only happens when it says
+// yes: the troublemaker asked to see something, or either side of the turn
+// named a subject the library has a picture of (the terminal bringing one up
+// in its own reply counts, so it can still show things unprompted). It only
+// decides whether to ask. The model still picks the image, or none.
+const IMAGE_INTENT =
+  /\b(show|pic|pics|picture|pictures|photo|photos|image|images|img|look(?:s|ed)? like|let me see|lemme see|can i see)\b/i;
+
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const KEYWORD_PATTERNS: RegExp[] = [
+  ...new Set(
+    LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url)).flatMap((asset) =>
+      (asset.keywords ?? []).map((k) => k.toLowerCase())
+    )
+  ),
+].map((k) => new RegExp(`(?<![a-z0-9])${escapeRegExp(k)}(?![a-z0-9])`, "i"));
+
+export function turnMightWantLoreImage(userMessage: string, replyText: string): boolean {
+  if (IMAGE_INTENT.test(userMessage)) return true;
+  const turn = `${userMessage}\n${replyText}`;
+  return KEYWORD_PATTERNS.some((pattern) => pattern.test(turn));
 }
 
 export function getLoreAssetById(id: string): LoreAsset | null {

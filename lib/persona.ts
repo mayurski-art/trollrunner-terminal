@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { selectLoreSections, pickLoreSubject, loreSubjectBlock } from "@/lib/loreSections";
-import { getLoreAssetById, loreAssetCatalogForPrompt } from "@/lib/loreAssets";
+import { getLoreAssetById, loreAssetCatalogForPrompt, turnMightWantLoreImage } from "@/lib/loreAssets";
 import {
   generateFreeReply,
   lastCooldownSeconds,
@@ -575,41 +575,52 @@ export async function generateChatReply(
   // The one remaining paid call: picking which lore image (if any) to show
   // alongside this reply. Substance grading used to be a second Claude call
   // here; it now falls through to the caller's length heuristic instead.
-  const imageResponse = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
-    max_tokens: 60,
-    system: [
-      { type: "text", text: IMAGE_SYSTEM_PROMPT_PREFIX, cache_control: { type: "ephemeral", ttl: "1h" } },
-      {
-        type: "text",
-        text: "IMAGE LIBRARY (id: what it shows):\n" + loreAssetCatalogForPrompt(),
-        cache_control: { type: "ephemeral", ttl: "1h" },
-      },
-    ],
-    tools: [IMAGE_TOOL],
-    tool_choice: { type: "tool", name: "show_image" },
-    messages: [
-      {
-        role: "user",
-        content:
-          `Troublemaker's last message:\n${lastUserMessage}\n\n` +
-          `Terminal's reply this turn:\n${replyText}`,
-      },
-    ],
-  });
-
-  const imageToolUse = imageResponse.content.find(
-    (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "show_image"
-  );
-  const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
-  const imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
-
-  const usage = {
-    input_tokens: imageResponse.usage.input_tokens,
-    output_tokens: imageResponse.usage.output_tokens,
-    cache_creation_input_tokens: imageResponse.usage.cache_creation_input_tokens ?? 0,
-    cache_read_input_tokens: imageResponse.usage.cache_read_input_tokens ?? 0,
+  // Skipped entirely (no request, no spend) unless the free local check in
+  // lib/loreAssets.ts says this turn could plausibly want a picture.
+  let imageId: string | null = null;
+  let usage = {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
   };
+  if (turnMightWantLoreImage(lastUserMessage, replyText)) {
+    const imageResponse = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 60,
+      system: [
+        { type: "text", text: IMAGE_SYSTEM_PROMPT_PREFIX, cache_control: { type: "ephemeral", ttl: "1h" } },
+        {
+          type: "text",
+          text: "IMAGE LIBRARY (id: what it shows):\n" + loreAssetCatalogForPrompt(),
+          cache_control: { type: "ephemeral", ttl: "1h" },
+        },
+      ],
+      tools: [IMAGE_TOOL],
+      tool_choice: { type: "tool", name: "show_image" },
+      messages: [
+        {
+          role: "user",
+          content:
+            `Troublemaker's last message:\n${lastUserMessage}\n\n` +
+            `Terminal's reply this turn:\n${replyText}`,
+        },
+      ],
+    });
+
+    const imageToolUse = imageResponse.content.find(
+      (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use" && b.name === "show_image"
+    );
+    const rawImageId = (imageToolUse?.input as { image_id?: string } | undefined)?.image_id;
+    imageId = rawImageId && getLoreAssetById(rawImageId) ? rawImageId : null;
+
+    usage = {
+      input_tokens: imageResponse.usage.input_tokens,
+      output_tokens: imageResponse.usage.output_tokens,
+      cache_creation_input_tokens: imageResponse.usage.cache_creation_input_tokens ?? 0,
+      cache_read_input_tokens: imageResponse.usage.cache_read_input_tokens ?? 0,
+    };
+  }
 
   return {
     content: replyText || "static\nlost that one, ask again",
