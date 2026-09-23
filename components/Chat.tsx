@@ -10,6 +10,7 @@ import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
 import { isVideoAsset, isLoopGifAsset } from "@/lib/loreAssets";
 import { renderTightLines } from "@/lib/renderText";
+import { openChatStream, type StreamMessage } from "@/lib/chatStream";
 
 type Message = {
   role: "user" | "terminal";
@@ -318,6 +319,11 @@ export default function Chat({
   const lightboxImgRef = useRef<HTMLImageElement>(null);
   const [dragging, setDragging] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  // Newest created_at currently rendered. A ref, not derived state: the
+  // stream effect reads it when (re)connecting, and keying that effect on
+  // `messages` would tear the connection down and rebuild it on every single
+  // new message.
+  const newestCreatedAtRef = useRef<string | null>(null);
 
   useEffect(() => {
     // New image (or closed) — snap pan back to center.
@@ -470,7 +476,14 @@ export default function Chat({
         }
         const data = await chatRes.json();
         if (!cancelled && chatRes.ok) {
-          setMessages(data.messages ?? []);
+          const history: Message[] = data.messages ?? [];
+          setMessages(history);
+          // Seeded here rather than left to the effect that tracks it: the
+          // stream effect runs before that one on the render where `loaded`
+          // flips, and would otherwise open from "now" and miss anything that
+          // landed while this fetch was in flight.
+          const newest = history[history.length - 1]?.created_at;
+          if (newest) newestCreatedAtRef.current = newest;
           setWallet(data.wallet ?? wallet);
           if (data.dailyLimit) setDailyLimit(data.dailyLimit);
         } else if (!cancelled) {
@@ -491,8 +504,67 @@ export default function Chat({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Live delivery of messages that didn't come from this client's own send —
+  // specifically the ones the owner injects while hopped into this
+  // conversation (docs/LIVE-HOP-IN-DESIGN.md). Without this they'd sit in the
+  // database unseen until a full reload.
+  //
+  // Held open only while the tab is visible: a backgrounded tab has nobody
+  // reading it, and leaving the connection up would keep a serverless function
+  // querying Postgres on its behalf.
+  useEffect(() => {
+    if (!loaded) return;
+    let stop: (() => void) | null = null;
+
+    function start() {
+      if (stop) return;
+      stop = openChatStream({
+        getAuthHeader: () => authHeader(),
+        // The newest message already on screen — so a stream opened after a
+        // slow history load doesn't replay what's rendered, and a reconnect
+        // resumes from the right point.
+        since: newestCreatedAtRef.current ?? undefined,
+        onMessages: (incoming: StreamMessage[]) => {
+          setMessages((prev) => {
+            // The stream carries this user's own turns too, which send()
+            // already appended optimistically — and the terminal's reply
+            // arrives both in the POST response and here. Dedupe on the pair
+            // that identifies a row, since content alone would wrongly drop a
+            // genuinely repeated line.
+            const seen = new Set(prev.map((m) => `${m.created_at ?? ""}|${m.content}`));
+            const added = incoming.filter((m) => !seen.has(`${m.created_at}|${m.content}`));
+            return added.length === 0 ? prev : [...prev, ...added];
+          });
+        },
+      });
+    }
+
+    function stopStream() {
+      stop?.();
+      stop = null;
+    }
+
+    function onVisibility() {
+      if (document.visibilityState === "visible") start();
+      else stopStream();
+    }
+
+    if (document.visibilityState === "visible") start();
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      stopStream();
+    };
+  }, [loaded]);
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
+    for (const m of messages) {
+      if (m.created_at && (!newestCreatedAtRef.current || m.created_at > newestCreatedAtRef.current)) {
+        newestCreatedAtRef.current = m.created_at;
+      }
+    }
   }, [messages]);
 
   // Ticks once a second only while a cooldown is actually pending, so the
