@@ -604,6 +604,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["gracy chen", "gracy", "bitget ceo", "ceo of bitget"],
     sections: [67],
   },
+  {
+    id: "bitget-proof-of-reserves-sept-2026",
+    url: "/lore/bitget-proof-of-reserves-sept-2026.png",
+    caption:
+      "Bitget's September 2026 Proof of Reserves page (snapshot Sept 15, 17:00 UTC+8), as posted by @0xG00gly nine days later during the drain: 135% total reserve ratio with a green \"Sufficient reserves\" badge and a Merkle root, then per-coin tiles: LINK 131%, BTC 133%, USDT 100%, ETH 160%, LTC 126%, USDC 140%, NEAR 182%, USDGO 216%",
+    keywords: ["proof of reserves", "reserve ratio", "bitget reserves", "por", "merkle"],
+    sections: [67],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

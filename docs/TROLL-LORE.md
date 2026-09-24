@@ -2452,6 +2452,10 @@ the biggest exchanges in Asia, on its birthday.
 - **20:12** — **Hacken** posts that users are reporting blocked withdrawals.
   Estimates climb through $170M and $183M. Bitget still hasn't said
   anything.
+- **21:16** — before Bitget speaks, **Googly** (**@0xG00gly**, building at
+  Plasma) posts the calming take: "3% of Bitget assets got impacted by the
+  hack. They had 35% excess in last week's Proof of Reserves. Decent
+  cushion to absorb losses." Attached is Bitget's own reserve page.
 - **21:30** — three hours after detection, Gracy Chen posts a **[SECURITY
   NOTICE]**. The official account and Xie Jiayin follow within minutes.
   Her profile picture while she posts it is still the birthday edition: a
@@ -2472,6 +2476,24 @@ the Chinese version of her post, and only there, Chen adds that she's
 preparing a **livestream** to take any question directly. The English
 notice closes: *"We will not run from this."* Bitget's token **BGB** slid
 about **4%**, to around $1.96.
+
+**The cushion, read closely.** Googly's screenshot is Bitget's September
+**Proof of Reserves** (issue 46, snapshot **September 15, 17:00 UTC+8**,
+published the 17th). It shows a **135% total reserve ratio**, a green
+"Sufficient reserves" badge, and a Merkle root (`d393340f79f3a3d0`) anyone
+can check their own balance against. His read holds at the top line. A
+$351.6M loss is a small slice of the platform, and 35% over what users are
+owed is real room. The per-coin tiles tell a sharper story, though. ETH sat
+at **160%**, BTC at **133%**, USDC at **140%**, NEAR at **182%**, and
+Bitget's own **USDGO** stablecoin at **216%**. **USDT** sat at **100%**:
+**1,198,662,755** held against **1,195,470,630** owed, a spare **$3.2
+million**. USDT was the hacker's favorite. The Arkham rows alone show
+**$54.4M** in USDT and USDT0 leaving, seventeen times the tether cushion.
+The 35% is an average. The coin that got hit hardest had almost none of
+it, which is why the protection fund, not the reserve surplus, is what
+actually covers this. None of that makes the post wrong. It makes it a
+week-old snapshot doing the job of a statement, fourteen minutes before
+the company made one.
 
 **The joke, checked against the facts.** The obvious play on the saying
 writes itself:
@@ -2529,7 +2551,11 @@ summit image is an image here) ·
 (21:38 UTC) · [Xie Jiayin, "今天凌晨2:31"](https://x.com/xiejiayinBitget/status/2103236175528104073)
 (21:32 UTC) · [@bitget statement](https://x.com/bitget/status/2103236552482848927)
 (21:34 UTC) · [Gracy Chen, CEO Chat Series](https://x.com/GracyBitget/status/2103097764100153711)
-(12:22 UTC) · [Hacken](https://x.com/hackenclub/status/2103216092583964978)
+(12:22 UTC) · [Googly on Proof of Reserves](https://x.com/0xG00gly/status/2103232023716560972)
+(21:16 UTC, via fxtwitter: 7,017 views, 106 likes; his screenshot of
+Bitget's September PoR page is an image here) ·
+[Bitget PoR, issue 46](https://www.bitget.com/support/articles/12560603895370)
+(published September 17, 2026, 135% total) · [Hacken](https://x.com/hackenclub/status/2103216092583964978)
 (20:12 UTC) · [Decrypt](https://decrypt.co/379275/bitget-potentially-hacked-as-183-million-vanishes-from-exchange-wallets)
 (second address, BGB price) ·
 [Bitcoin.com News](https://news.bitcoin.com/security/bitget-hit-by-351m-hack-withdrawals-frozen-as-probe-begins/)
@@ -2539,7 +2565,8 @@ The "employees went to sleep" lines are wordplay on the saying written for
 this file, not a quoted post. Figures are same-day and the 24-hour incident
 report was still pending when this was written. Images:
 `bitget-drain-arkham-transfers`, `bitget-turns8-summit-post`,
-`bitget-ceo-gracy-chen` (her X profile picture on the night).
+`bitget-ceo-gracy-chen` (her X profile picture on the night),
+`bitget-proof-of-reserves-sept-2026`.
 
 ## How the persona should use this
 
