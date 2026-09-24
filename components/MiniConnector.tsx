@@ -11,6 +11,17 @@ const PACKET_CYCLE_MS = 3200;
 const FACE_GRIN = "/boot/trollface-grin.svg";
 const FACE_SAD = "/boot/trollface-sad.svg";
 
+// Where each node (box and label alike) goes when clicked. Opened in a new
+// tab so the terminal session in the panel survives the click.
+const LINKS = {
+  carlos: "https://x.com/saint_whynne",
+  umadbro: "https://umadbro.shop",
+  hub: "https://x.com/trolltruths",
+  nft: "https://opensea.io/trollsoneth",
+  crypto: "https://www.trollface.io/city",
+} as const;
+const EXTERNAL = { target: "_blank", rel: "noopener noreferrer" } as const;
+
 // The persistent connector widget in the [ speak to it ] panel header —
 // trolltruths as the hub, one horizontal row, spokes to every source/persona
 // feeding it: carlos (the art), umadbro.shop (the merch arm), the NFT
@@ -57,34 +68,34 @@ export default function MiniConnector() {
   return (
     <div className="mini-connector">
       <div className="mc-node-slot">
-        <div className="mc-node mc-node--carlos">
+        <a className="mc-node mc-node--carlos" href={LINKS.carlos} {...EXTERNAL}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/carlos-ramirez.webp" alt="Carlos Ramirez" />
-        </div>
+        </a>
       </div>
       <div className="mc-node-slot">
-        <div className="mc-node mc-node--umadbro">
+        <a className="mc-node mc-node--umadbro" href={LINKS.umadbro} {...EXTERNAL}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/umadbro.jpg" alt="UMadBro" />
-        </div>
+        </a>
       </div>
       <div className="mc-node-slot">
-        <div className="mc-hub-ring">
+        <a className="mc-hub-ring" href={LINKS.hub} {...EXTERNAL}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img ref={faceRef} src={FACE_GRIN} alt="TrollTruths" />
-        </div>
+        </a>
       </div>
       <div className="mc-node-slot">
-        <div className="mc-node mc-node--nft">
+        <a className="mc-node mc-node--nft" href={LINKS.nft} {...EXTERNAL}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/troll-nft.jpg" alt="Troll NFT" />
-        </div>
+        </a>
       </div>
       <div className="mc-node-slot">
-        <div className="mc-node mc-node--crypto">
+        <a className="mc-node mc-node--crypto" href={LINKS.crypto} {...EXTERNAL}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/troll-crypto.jpg" alt="Troll crypto" />
-        </div>
+        </a>
       </div>
 
       <div className="mc-stem" />
@@ -105,11 +116,11 @@ export default function MiniConnector() {
         <div className="mc-packet mc-packet-in--crypto" />
       </div>
 
-      <div className="mc-label mc-label--carlos">carlos</div>
-      <div className="mc-label mc-label--umadbro">umadbro.shop</div>
-      <div className="mc-label mc-label--hub">trolltruths</div>
-      <div className="mc-label mc-label--nft">NFT</div>
-      <div className="mc-label mc-label--crypto">crypto</div>
+      <a className="mc-label mc-label--carlos" href={LINKS.carlos} {...EXTERNAL} tabIndex={-1}>carlos</a>
+      <a className="mc-label mc-label--umadbro" href={LINKS.umadbro} {...EXTERNAL} tabIndex={-1}>umadbro.shop</a>
+      <a className="mc-label mc-label--hub" href={LINKS.hub} {...EXTERNAL} tabIndex={-1}>trolltruths</a>
+      <a className="mc-label mc-label--nft" href={LINKS.nft} {...EXTERNAL} tabIndex={-1}>NFT</a>
+      <a className="mc-label mc-label--crypto" href={LINKS.crypto} {...EXTERNAL} tabIndex={-1}>crypto</a>
     </div>
   );
 }

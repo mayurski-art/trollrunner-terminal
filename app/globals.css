@@ -1436,6 +1436,30 @@ main {
   font-weight: 600;
 }
 
+/* Every node box, the hub ring and every label is a link out (see LINKS in
+   components/MiniConnector.tsx). No underline by default so the widget still
+   reads as a diagram, not a nav bar; hover/focus brightens the box and
+   underlines the label as the "this is clickable" tell. */
+.mini-connector a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.mini-connector a.mc-node,
+.mini-connector a.mc-hub-ring {
+  transition: filter 0.15s ease-out, border-color 0.15s ease-out;
+}
+.mini-connector a.mc-node:hover,
+.mini-connector a.mc-node:focus-visible,
+.mini-connector a.mc-hub-ring:hover,
+.mini-connector a.mc-hub-ring:focus-visible {
+  filter: brightness(1.35);
+  border-color: var(--terminal);
+  outline: none;
+}
+.mini-connector a.mc-label:hover {
+  text-decoration: underline;
+}
+
 /* Each spoke is two packets, not one bouncing dot: a colored one carries
    the node's own accent out to the hub (0-50% of the cycle), then a grey
    one carries the hub's reply back out to the node (50-100%). Color is
