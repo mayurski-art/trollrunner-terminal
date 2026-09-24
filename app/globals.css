@@ -1460,6 +1460,37 @@ main {
   text-decoration: underline;
 }
 
+/* The "these are links" tell under the row, styled as a prompt line with
+   the site's blinking block cursor. Idle it just says the nodes are
+   clickable (works on touch, where there's no hover); while a node is
+   hovered/focused it reads out that node's destination instead. */
+.mini-connector .mc-hint {
+  grid-row: 5;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: color-mix(in srgb, var(--terminal) 65%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mini-connector:hover .mc-hint,
+.mini-connector:focus-within .mc-hint {
+  color: var(--terminal);
+}
+.mini-connector .mc-hint-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+
 /* Each spoke is two packets, not one bouncing dot: a colored one carries
    the node's own accent out to the hub (0-50% of the cycle), then a grey
    one carries the hub's reply back out to the node (50-100%). Color is

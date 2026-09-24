@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
 // Must match the packet keyframes' full loop length in globals.css
@@ -20,7 +20,7 @@ const LINKS = {
   nft: "https://opensea.io/trollsoneth",
   crypto: "https://www.trollface.io/city",
 } as const;
-const EXTERNAL = { target: "_blank", rel: "noopener noreferrer" } as const;
+type NodeKey = keyof typeof LINKS;
 
 // The persistent connector widget in the [ speak to it ] panel header —
 // trolltruths as the hub, one horizontal row, spokes to every source/persona
@@ -44,6 +44,18 @@ const EXTERNAL = { target: "_blank", rel: "noopener noreferrer" } as const;
 // floating below a run of labels.
 export default function MiniConnector() {
   const faceRef = useRef<HTMLImageElement>(null);
+  // Which node the pointer/focus is on, if any — drives the hint line under
+  // the row, which otherwise just says the nodes are clickable at all.
+  const [active, setActive] = useState<NodeKey | null>(null);
+  const linkProps = (key: NodeKey) => ({
+    href: LINKS[key],
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onMouseEnter: () => setActive(key),
+    onMouseLeave: () => setActive(null),
+    onFocus: () => setActive(key),
+    onBlur: () => setActive(null),
+  });
 
   useEffect(() => {
     const face = faceRef.current;
@@ -68,31 +80,31 @@ export default function MiniConnector() {
   return (
     <div className="mini-connector">
       <div className="mc-node-slot">
-        <a className="mc-node mc-node--carlos" href={LINKS.carlos} {...EXTERNAL}>
+        <a className="mc-node mc-node--carlos" {...linkProps("carlos")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/carlos-ramirez.webp" alt="Carlos Ramirez" />
         </a>
       </div>
       <div className="mc-node-slot">
-        <a className="mc-node mc-node--umadbro" href={LINKS.umadbro} {...EXTERNAL}>
+        <a className="mc-node mc-node--umadbro" {...linkProps("umadbro")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/umadbro.jpg" alt="UMadBro" />
         </a>
       </div>
       <div className="mc-node-slot">
-        <a className="mc-hub-ring" href={LINKS.hub} {...EXTERNAL}>
+        <a className="mc-hub-ring" {...linkProps("hub")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img ref={faceRef} src={FACE_GRIN} alt="TrollTruths" />
         </a>
       </div>
       <div className="mc-node-slot">
-        <a className="mc-node mc-node--nft" href={LINKS.nft} {...EXTERNAL}>
+        <a className="mc-node mc-node--nft" {...linkProps("nft")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/troll-nft.jpg" alt="Troll NFT" />
         </a>
       </div>
       <div className="mc-node-slot">
-        <a className="mc-node mc-node--crypto" href={LINKS.crypto} {...EXTERNAL}>
+        <a className="mc-node mc-node--crypto" {...linkProps("crypto")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/boot/troll-crypto.jpg" alt="Troll crypto" />
         </a>
@@ -116,11 +128,20 @@ export default function MiniConnector() {
         <div className="mc-packet mc-packet-in--crypto" />
       </div>
 
-      <a className="mc-label mc-label--carlos" href={LINKS.carlos} {...EXTERNAL} tabIndex={-1}>carlos</a>
-      <a className="mc-label mc-label--umadbro" href={LINKS.umadbro} {...EXTERNAL} tabIndex={-1}>umadbro.shop</a>
-      <a className="mc-label mc-label--hub" href={LINKS.hub} {...EXTERNAL} tabIndex={-1}>trolltruths</a>
-      <a className="mc-label mc-label--nft" href={LINKS.nft} {...EXTERNAL} tabIndex={-1}>NFT</a>
-      <a className="mc-label mc-label--crypto" href={LINKS.crypto} {...EXTERNAL} tabIndex={-1}>crypto</a>
+      <a className="mc-label mc-label--carlos" {...linkProps("carlos")} tabIndex={-1}>carlos</a>
+      <a className="mc-label mc-label--umadbro" {...linkProps("umadbro")} tabIndex={-1}>umadbro.shop</a>
+      <a className="mc-label mc-label--hub" {...linkProps("hub")} tabIndex={-1}>trolltruths</a>
+      <a className="mc-label mc-label--nft" {...linkProps("nft")} tabIndex={-1}>NFT</a>
+      <a className="mc-label mc-label--crypto" {...linkProps("crypto")} tabIndex={-1}>crypto</a>
+
+      <div className="mc-hint" aria-hidden="true">
+        {active ? (
+          <>&gt; open {LINKS[active].replace(/^https:\/\/(www\.)?/, "")} &#8599;</>
+        ) : (
+          <>&gt; click a node</>
+        )}
+        <span className="mc-hint-cursor" />
+      </div>
     </div>
   );
 }
