@@ -2406,36 +2406,72 @@ same capture: 3,333 items, created May 2026 by "troll-dev," 5% creator fee,
 678 unique owners, 433 listed, $1.4M total volume. Image:
 `trolls-first-1k-sale-after-reveal`.
 
-## 67. Bitget drained at 3 AM — the pump came before Asia woke up
+## 67. Bitget turns 8 and gets drained at 2:31 AM — the pump came before Asia woke up
 
 There's a line trenchers say when they're stuck holding a coin nobody
 wants: **"wait for Asia to wake up to pump our bags."** The idea is that
 fresh buyers come online in the Asian morning, lift the price, and give
 the West a way out. It's half hope and half exit plan.
 
-On **September 24, 2026**, someone ran the joke in reverse. Around
-**19:00–19:30 UTC**, which is roughly **3 AM in Singapore and Hong Kong**
-and 4 AM in Seoul and Tokyo, wallets labeled as **Bitget** hot and cold
-wallets started sending funds to one address,
-**0x770b10b273fC44Fe9197D6bF20F145c2e98463Ee**. Arkham's transfer log shows
-it all arriving inside about an hour: **13,966 ETH ($37.55M)** from a cold
-wallet, **34.75M USDT**, **19.67M USDT0**, **12.85M USDC**, **3,000 XAUT
-($12.83M)** in tokenized gold, **12,719 BNB ($9.93M)**, **821,012 AVAX
-($8.55M)**, plus more ETH on Arbitrum and Optimism. Add the rows up and you
-get about **$175M**. On-chain researchers counted **three hot wallets and
-one cold wallet** hit, and reports put the running total between **$170M
-and $183M**.
+On **September 24, 2026**, someone ran the joke in reverse against one of
+the biggest exchanges in Asia, on its birthday.
 
-It got spotted because of how it was spent, not how it was taken. At
-**19:57 UTC**, analyst **DCF GOD** posted that a brand-new wallet had just
-bought **7,111 ETH on Arbitrum in six minutes** with **19.67M USDT0** pulled
-from a Bitget hot wallet. The buys went through **UniswapX and 1inch
-Fusion**, some at **up to 5% over spot**, and pushed the WETH/USDC pool to
-**$2,870** while ETH was trading around $2,690 elsewhere. "That makes no
-sense if someone was just trying to buy eth." Eleven minutes later,
-**Dogetoshi**, research head at The Block, quoted it with the full picture:
-**about $174M** across several chains and both hot and cold wallets, all
-sent to that one address "over the past hour."
+**The night, in order (UTC).**
+
+- **12:22** — CEO **Gracy Chen** posts a video launching her new "CEO Chat
+  Series" with institutional clients: prime brokerage, smarter collateral,
+  "institutional execution." The official **@bitget** feed spends the day
+  on trading contests, a "365% APY" savings promo and **#BitgetTurns8**,
+  the exchange's eighth anniversary.
+- **18:31** — Bitget's security systems detect unauthorized transfers out
+  of its hot wallets. Bitget's Greater China head, **Xie Jiayin**, later
+  puts it in local time: **"今天凌晨2:31"**, 2:31 AM today. Asia is asleep.
+- **~19:00–19:20** — Arkham's transfer log shows wallets labeled as Bitget
+  hot and cold wallets emptying into one address,
+  **0x770b10b273fC44Fe9197D6bF20F145c2e98463Ee**: **13,966 ETH ($37.55M)**,
+  **34.75M USDT**, **19.67M USDT0**, **12.85M USDC**, **3,000 XAUT
+  ($12.83M)** in tokenized gold, **12,719 BNB ($9.93M)**, **821,012 AVAX
+  ($8.55M)**, and more ETH on Arbitrum and Optimism. About **$175M** in that
+  one screenshot. A second address, **0x469A…25DC**, took more.
+- **19:00** — right in the middle of that, **@bitget** posts its birthday
+  picture: a hooded hiker with a Bitget backpack and a Bitget trekking
+  pole, arms thrown wide on a summit above the clouds. The caption:
+  **"The view hits different from up here. #BitgetTurns8."** It
+  becomes the most-viewed thing Bitget posts all night, **149,000 views**,
+  more than any of the statements that follow.
+- **19:57** — the first public alarm comes from outside. Analyst
+  **DCF GOD** spots a brand-new wallet buying **7,111 ETH on Arbitrum in
+  six minutes** with **19.67M USDT0** pulled from a Bitget hot wallet,
+  through **UniswapX and 1inch Fusion**, some of it at **up to 5% over
+  spot**, pushing the WETH/USDC pool to **$2,870** while ETH traded around
+  $2,690 elsewhere. "That makes no sense if someone was just trying to buy
+  eth."
+- **20:08** — **Dogetoshi**, research head at The Block, quotes it with the
+  wider picture: **about $174M** across several chains and both hot and
+  cold wallets, all sent to one address "over the past hour."
+- **20:12** — **Hacken** posts that users are reporting blocked withdrawals.
+  Estimates climb through $170M and $183M. Bitget still hasn't said
+  anything.
+- **21:30** — three hours after detection, Gracy Chen posts a **[SECURITY
+  NOTICE]**. The official account and Xie Jiayin follow within minutes.
+  Her profile picture while she posts it is still the birthday edition: a
+  studio portrait in a plain white tee inside a glossy white ring, the
+  Bitget logo on one side and a big **"8"** on the other.
+
+**What Bitget confirmed.** About **$351.6 million** taken, roughly double
+the first on-chain estimates. Bitget runs a three-tier wallet system and
+says only parts of the **hot and warm** tiers were hit and **all cold
+wallets are secure**. That conflicts with Arkham's "Cold Wallet" labels on
+the biggest rows, and nobody has squared the two yet. User balances are
+"accurate," and the full loss sits inside Bitget's **User Protection Fund**,
+which it says holds **over $464 million**. Withdrawals are paused while
+deposits and trading stay open. Law enforcement and on-chain security firms
+are engaged. Bitget says it won't speculate on the attack vector, and it
+promised hourly updates and a full root-cause report within 24 hours. In
+the Chinese version of her post, and only there, Chen adds that she's
+preparing a **livestream** to take any question directly. The English
+notice closes: *"We will not run from this."* Bitget's token **BGB** slid
+about **4%**, to around $1.96.
 
 **The joke, checked against the facts.** The obvious play on the saying
 writes itself:
@@ -2446,53 +2482,64 @@ writes itself:
 > does it still apply here
 > will they ever wake up from this blow
 
-Most of that holds up. The drain landed in the dead of the Asian night,
-and the first public alarm came from an outside analyst, not from Bitget.
-News outlets were still reporting "Bitget has not yet commented" hours
-later. The one real pump of the night came at 3 AM, not at sunrise. It
-paid 5% over market, and it was paid for with the exchange's own
-customers' stablecoins. Asia didn't pump anyone's bags. The bags got
-pumped *out* before Asia woke up.
+The number was too small. It turned out to be $351.6 million.
 
-"Went to sleep" goes a bit too far, though. Exchanges run 24-hour security
-desks, and within about an hour of the flag, Bitget-owned addresses began
-moving what was left in the affected wallets (reported at roughly **$530M**)
-somewhere safer. Somebody was awake. They just woke up second.
+"Went to sleep" is half right, and the half that's wrong is funnier. By
+Bitget's own account, the security desk was awake: it caught the transfers
+at 2:31 AM and had a response team up within minutes. What was asleep was
+everything that talks. For three hours the public learned about it from
+DCF GOD, Dogetoshi, Hacken and Arkham, not from Bitget. The one thing
+Bitget *did* say during the drain was a scheduled birthday post about how
+good the view is from the top. Somebody was awake. The marketing calendar
+was on autopilot.
 
-**Will they wake up from it?** As of this writing, nobody knows how it
-happened, whether private keys were taken, or who did it. There's talk of
-North Korea, which is the default guess for any exchange hack this size,
-and it's unconfirmed. For scale, **Bybit** lost around **$1.5B** to North
-Korea's Lazarus Group in February 2025 and stayed open. $175M is a
-fraction of that. Bitget has run a user protection fund it puts above
-$300M. Its wallet arm, formerly **BitKeep**, was exploited twice in 2022.
-So the honest answer is that it can probably take the hit, provided the
-remaining ~$530M really is safe. A dead exchange isn't the likely fallout.
-The likely fallout is the saying. "Wait for Asia to wake up" assumes
-somebody over there is buying. On this night, the only buyer awake was the
-one draining the exchange.
+The saying doesn't survive either. The only pump of the night came at
+3 AM, not at sunrise. It paid 5% over market for ETH, and it was paid for
+with the exchange's own customers' stablecoins. Asia didn't pump anyone's
+bags. The bags got pumped *out* before Asia woke up.
+
+**Will they ever wake up from this blow?** On paper, yes. The loss is
+smaller than the fund, and **Bybit** lost around **$1.5B** to North Korea's
+Lazarus Group in February 2025 and stayed open. Bitget has taken hits
+before, too: its wallet arm, formerly **BitKeep**, was exploited twice in
+2022. There's chatter about North Korea again, and none of it is confirmed.
+Whether Bitget *wakes up* is a question for the 24-hour report: how the
+keys got out, and whether "cold wallets are secure" holds up against
+Arkham's labels. Until then, the most honest picture of the night is the
+one Bitget posted itself: a person standing at the top with their back to
+the camera and their arms wide open, not looking at what's behind them.
 
 **Why it's a file.** It's the troll structure from the memecoin sections
-at exchange scale. The whole trench runs on waiting for a counterparty who
-will show up later and pay more. Here the counterparty did show up early,
-paid more, and was spending someone else's money. The persona can use it
-straight: the market's favorite cope became a heist timetable.
+at exchange scale. The trench runs on waiting for a counterparty who will
+show up later and pay more. Here the counterparty showed up early, paid
+more, and spent someone else's money. And the victim, without meaning to,
+supplied the punchline in its own voice, on its own birthday. The persona
+can use it straight: the market's favorite cope became a heist timetable,
+and the house posted a summit selfie while the vault emptied.
 
 **Sources:** [Dogetoshi on X](https://x.com/Dogetoshi/status/2103214904207695925)
-(September 24, 2026, 20:08 UTC, via fxtwitter: 70,607 views, 149 likes, 34
-quotes; the attached Arkham screenshot is the image here) · [DCF GOD's
-original flag](https://x.com/dcfgod), quoted in that post (19:57 UTC, via
-fxtwitter: 92,438 views) ·
-[Bitcoin Sistemi, first report](https://en.bitcoinsistemi.com/breaking-bitget-is-reportedly-the-target-of-a-major-hacking-attack/)
-(20:17) and [follow-up](https://en.bitcoinsistemi.com/breaking-the-bitget-hack-is-still-ongoing-there-are-new-developments/)
-(20:46: the ~$530M figure, Bitget's emergency transfers, the unconfirmed
-North Korea claim) · [Crypto Briefing](https://cryptobriefing.com/bitget-hot-wallet-hack-usdt-eth/)
-(more than $180M, three hot and one cold wallet, no comment from Bitget) ·
-[Pluang](https://pluang.com/en/news-feed/bitget-kekhawatiran-hack-setelah-pergerakan-183-juta-dolar-kripto)
-($174M revised to $183M). The "employees went to sleep" lines are
-wordplay on the saying written for this file, not a quoted post. Figures are same-day and still developing.
-Bitget had not confirmed a hack when this was written. Image:
-`bitget-drain-arkham-transfers`.
+(20:08 UTC, via fxtwitter: 70,607 views; the attached Arkham screenshot is
+an image here), quoting DCF GOD's flag (19:57 UTC, 92,438 views) ·
+[@bitget, #BitgetTurns8](https://x.com/bitget/status/2103197887052026196)
+(19:00 UTC, via fxtwitter: 149,120 views, 232 replies, 122 quotes; the
+summit image is an image here) ·
+[Gracy Chen, SECURITY NOTICE](https://x.com/GracyBitget/status/2103235655879074084)
+(21:30 UTC, 48,452 views) ·
+[Gracy Chen, Chinese post with the livestream line](https://x.com/GracyBitget/status/2103237586374598873)
+(21:38 UTC) · [Xie Jiayin, "今天凌晨2:31"](https://x.com/xiejiayinBitget/status/2103236175528104073)
+(21:32 UTC) · [@bitget statement](https://x.com/bitget/status/2103236552482848927)
+(21:34 UTC) · [Gracy Chen, CEO Chat Series](https://x.com/GracyBitget/status/2103097764100153711)
+(12:22 UTC) · [Hacken](https://x.com/hackenclub/status/2103216092583964978)
+(20:12 UTC) · [Decrypt](https://decrypt.co/379275/bitget-potentially-hacked-as-183-million-vanishes-from-exchange-wallets)
+(second address, BGB price) ·
+[Bitcoin.com News](https://news.bitcoin.com/security/bitget-hit-by-351m-hack-withdrawals-frozen-as-probe-begins/)
+· [Bitcoin Sistemi](https://en.bitcoinsistemi.com/breaking-the-bitget-hack-is-still-ongoing-there-are-new-developments/)
+· [Crypto Briefing](https://cryptobriefing.com/bitget-hot-wallet-hack-usdt-eth/).
+The "employees went to sleep" lines are wordplay on the saying written for
+this file, not a quoted post. Figures are same-day and the 24-hour incident
+report was still pending when this was written. Images:
+`bitget-drain-arkham-transfers`, `bitget-turns8-summit-post`,
+`bitget-ceo-gracy-chen` (her X profile picture on the night).
 
 ## How the persona should use this
 

@@ -588,6 +588,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["bitget", "bitget hack", "exchange hack", "hot wallet", "cold wallet", "wait for asia", "asia to wake up", "arkham"],
     sections: [67],
   },
+  {
+    id: "bitget-turns8-summit-post",
+    url: "/lore/bitget-turns8-summit-post.jpg",
+    caption:
+      "@bitget's #BitgetTurns8 anniversary post, \"The view hits different from up here.\", published at 19:00 UTC on Sept 24, 2026, mid-drain, 29 minutes after its own systems detected the hack: a hooded hiker seen from behind with a Bitget backpack and Bitget trekking pole, arms thrown wide on a stone summit above a sea of clouds and blue mountain ranges",
+    keywords: ["bitgetturns8", "bitget turns 8", "bitget anniversary", "bitget birthday", "view from up here", "summit"],
+    sections: [67],
+  },
+  {
+    id: "bitget-ceo-gracy-chen",
+    url: "/lore/bitget-ceo-gracy-chen.jpg",
+    caption:
+      "Bitget CEO Gracy Chen's X profile picture on the night of the drain (Sept 24, 2026): a studio portrait in a plain white tee, framed by a glossy white ring with the Bitget logo on one side and a big \"8\" for the exchange's eighth anniversary on the other",
+    keywords: ["gracy chen", "gracy", "bitget ceo", "ceo of bitget"],
+    sections: [67],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks
