@@ -54,7 +54,7 @@ export async function GET(request: Request) {
 
   const { data: recentRows } = await supabase
     .from("terminal_posts")
-    .select("content, posted_at")
+    .select("content, posted_at, clue_tag")
     // A pending post is one the owner may still trash, so it must not shape
     // the next transmission as if it were part of the published history.
     .eq("pending", false)
@@ -64,6 +64,7 @@ export async function GET(request: Request) {
   const recent = (recentRows ?? []).map((r) => ({
     content: r.content as string,
     posted_at: r.posted_at as string,
+    clue_tag: r.clue_tag as string | null,
   }));
 
   // Date.now() rather than recent.length — see admin/generate-transmission's

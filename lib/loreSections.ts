@@ -213,36 +213,69 @@ export type LoreSubject = { number: number; title: string; body: string };
 const MAX_SUBJECT_CHARS = 4500;
 const MAX_SUBJECT_USAGE_CHARS = 3000;
 
-function toSubject(s: LoreSection): LoreSubject {
+// A long section used to be cut at the head every time, so the back half of
+// §33/§62/§64/§65 could never become a transmission. Take a random
+// paragraph-aligned window instead: the heading line always, then a run of
+// paragraphs starting anywhere that fits the budget.
+function toSubject(s: LoreSection, rng: () => number): LoreSubject {
   let body = s.body;
   if (body.length > MAX_SUBJECT_CHARS) {
-    const cut = body.lastIndexOf("\n\n", MAX_SUBJECT_CHARS);
-    body = body.slice(0, cut > 0 ? cut : MAX_SUBJECT_CHARS).trim();
+    const [heading, ...paras] = body.split(/(?:\r?\n){2,}/);
+    const room = MAX_SUBJECT_CHARS - heading.length;
+    if (paras.length === 0) {
+      return { number: s.number as number, title: s.title, body: body.slice(0, MAX_SUBJECT_CHARS).trim() };
+    }
+    // Only start where the window can still be filled to the end, so a late
+    // start doesn't hand over one lonely paragraph.
+    let lastStart = paras.length - 1;
+    for (let used = 0; lastStart >= 0; lastStart--) {
+      used += paras[lastStart].length + 2;
+      if (used > room) break;
+    }
+    const start = Math.floor(rng() * (Math.max(lastStart, 0) + 1));
+    const window: string[] = [];
+    let used = 0;
+    for (const p of paras.slice(start)) {
+      if (used + p.length + 2 > room) break;
+      window.push(p);
+      used += p.length + 2;
+    }
+    body = [heading, ...(window.length ? window : [paras[start].slice(0, room)])].join("\n\n").trim();
   }
   return { number: s.number as number, title: s.title, body };
 }
 
+// How many sections each keyword appears in. The recent-post check below only
+// counts keywords that belong to one or two files — shared words like
+// "troll", "coin", "said" or "days" were matching almost every section, which
+// left about 13 of 66 files ever eligible to be a transmission.
+const KEYWORD_SPREAD = new Map<string, number>();
+for (const s of SECTIONS) for (const k of s.keywords) KEYWORD_SPREAD.set(k, (KEYWORD_SPREAD.get(k) ?? 0) + 1);
+const isDistinctive = (k: string) => (KEYWORD_SPREAD.get(k) ?? 0) <= 2;
+
 // steer is the owner's note ("tie it to the goat", "something about Beeple"):
 // an explicit request for a subject, so it gets first refusal on the pick.
-// avoidText is the recent-post history — sections whose keywords already show
-// up there are skipped so a run of transmissions doesn't circle one file.
+// avoidText is the recent posts plus their CLUE answers: a file is skipped
+// only when one of its distinctive keywords shows up there, i.e. it was
+// plausibly the subject of a recent transmission. Every numbered file,
+// §1 included, is otherwise fair game.
 export function pickLoreSubject(
   steer: string,
   avoidText: string,
   rng: () => number = Math.random
 ): LoreSubject | null {
-  const numbered = selectable.filter((s) => s.number !== null);
+  const numbered = SECTIONS.filter((s) => s.number !== null);
   if (numbered.length === 0) return null;
 
   if (steer.trim()) {
     const top = scoreSections(steer)[0];
-    if (top && top.section.number !== null) return toSubject(top.section);
+    if (top && top.section.number !== null) return toSubject(top.section, rng);
   }
 
   const avoid = new Set(significantWords(avoidText));
-  const fresh = numbered.filter((s) => ![...s.keywords].some((k) => avoid.has(k)));
+  const fresh = numbered.filter((s) => ![...s.keywords].some((k) => isDistinctive(k) && avoid.has(k)));
   const pool = fresh.length > 0 ? fresh : numbered;
-  return toSubject(pool[Math.floor(rng() * pool.length)]);
+  return toSubject(pool[Math.floor(rng() * pool.length)], rng);
 }
 
 // The subject's own prompt block: core identity (always), the chosen file in
@@ -254,8 +287,8 @@ export function loreSubjectBlock(subject: LoreSubject): string {
     "from. The archive is real history — use it slant, in your own voice, never " +
     "as recitation or a press release, but this transmission must actually be " +
     "about something in the file below, not about nothing in particular.\n\n" +
-    CORE_IDENTITY.body +
-    "\n\n" +
+    // §1 is always here as identity; when it is also the subject, send it once.
+    (subject.number === CORE_IDENTITY.number ? "" : CORE_IDENTITY.body + "\n\n") +
     subject.body +
     "\n\n" +
     usage

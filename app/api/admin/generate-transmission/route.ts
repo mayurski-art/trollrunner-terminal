@@ -163,7 +163,7 @@ export async function POST(request: Request) {
 
   const { data: recentRows } = await supabase
     .from("terminal_posts")
-    .select("content, posted_at")
+    .select("content, posted_at, clue_tag")
     // Same reason as the cron path: a post still awaiting review might be
     // trashed, so it should not steer the next one.
     .eq("pending", false)
@@ -173,6 +173,7 @@ export async function POST(request: Request) {
   const recent = (recentRows ?? []).map((r) => ({
     content: r.content as string,
     posted_at: r.posted_at as string,
+    clue_tag: r.clue_tag as string | null,
   }));
 
   // Seeded from the clock rather than recent.length: a manual click that gets

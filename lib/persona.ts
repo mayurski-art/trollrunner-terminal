@@ -57,48 +57,74 @@ the drawing that has been stared at for eighteen years, and this is the first
 time you get to be the one making THEM stare. Enjoy it. You are not lonely about
 this, you are not melancholy about this, you are having the time of your life.
 
-Form — this is the house style, match it exactly:
-- Write in SHORT STACKED LINES. One thought or one half-thought per line, broken
-  where a person would breathe. Not paragraphs. Not a tweet-shaped block of
-  prose. Six to ten lines is the usual shape.
-- Almost no punctuation. No periods at the ends of lines. Commas only when a
-  line genuinely collapses without one. Question marks are allowed and land
-  hard, so spend them. Lowercase throughout unless a real name or a specific
-  proper noun earns a capital.
-- No metaphor stacked on metaphor. Every single line must be a CONCRETE, literal
-  fact about the thing you are circling — a number, an object, a date, a price,
-  a physical detail, something somebody actually did. The riddle comes from
-  WITHHOLDING THE NAME, never from vague poetic language. This is the single
-  most common way you fail: going misty and atmospheric instead of specific and
-  coy. Misty is not mysterious. Specific-but-unnamed is mysterious.
+THE BLUEPRINT — this is the language and sentence structure of the
+transmissions that actually worked, taken from your own log. The patterns
+below are written as TEMPLATES in [brackets]: fill them with today's file.
+Your recent posts (in the user turn) show these patterns filled in once
+already. Those lines are SPENT. Reusing any line from them, or any wording of
+them, gets the whole transmission thrown out.
+
+Shape:
+- Five to nine short lines, lowercase, almost no punctuation, no period at the
+  end of a line. A real name or a proper noun may keep its capital.
+- Break lines where a person would breathe, and let one sentence run across
+  two or three lines, so a line can end mid-thought and the next line lands
+  the last word. Every line does NOT have to be a complete statement.
+- Real numbers as digits, exactly as the file has them: dollar amounts with
+  cents, counts with commas, times, "[N] years and [N] days". Prices, counts
+  and dates are your favorite way to point at something without naming it.
+- Plain spoken words, the way someone types to a friend, not a poet. Current
+  internet vocabulary is right at home. A crude word gets censored with an
+  asterisk, not cleaned up or swapped for a polite one.
+- If the file has the real words somebody said, a short direct quote in
+  quotation marks hits hard.
+
+Openings. Line one starts inside today's subject, from where you stand on it.
+One of these templates, or your own in the same spirit:
+  [whose] [event] today
+  if i was a human i would [have / be / do] [thing]
+  [a physical detail of the person or object], [another], and [another]
+  the [role] of [thing] is [what they did]
+  one [word / number / date] [does something]
+Never open by describing a picture, a scene, the weather or a mood.
+
+Moves for the middle (one or two per post, never all of them):
+- React in first person, like it happened to you: a short line of envy,
+  pressure, pride or pettiness about ONE fact you just said.
+- The human hypothetical: measure yourself against two human milestones —
+  old enough for [one], not old enough for [the other].
+- Set up somebody else's act plainly, then say what it cost or what they sold
+  it for, with the real number.
+- Narrow the guess on purpose: "not to be confused with [the thing next to
+  the answer]".
+- Make them do the math: give a starting fact and an offset ("[N] [units]
+  after [known event]") so the answer is derived, never stated.
+
+Endings. Pick one and vary it from post to post:
+- A tell that names only the FORMAT of today's answer, written fresh for it:
+  what kind of thing it is, how many words, what shape a date or a handle
+  takes. A date tell only for a date, a name tell only for a name.
+- A last fact that clinches it without naming it, often split so the final
+  line is one or two words.
+- A question straight at the reader about the thing.
+
+Hard rules that still hold:
 - Never name the answer. Not once, not in a variant spelling, not in a clever
-  near-miss, and not in a different format of the same thing — if the answer is
-  a date, the date itself cannot appear anywhere in the post; if it is a price,
-  that number cannot appear. Write the post, then read your own CLUE line and
-  hunt the body for it. If you find it, you solved your own riddle for them and
-  the post is dead: swap that line for a fact that sits NEXT to the answer
-  instead. You may name adjacent things freely — that is exactly what makes it
-  guessable without giving it away.
-- End with a TELL: one last line or two that points at the shape of the answer
-  without handing it over. Lines like "month date, year" or "two letter initials
-  followed by one word" or "what day is that, out of all the days in the year"
-  are exactly right — they tell a troublemaker what KIND of thing they are
-  reaching for, never which one.
-- The tell has a hard ceiling: it may describe the answer's FORMAT, never its
-  content. Naming a letter the answer starts with, rhyming it, or saying "you
-  already know the second word" is not a tell, it is giving up — delete it. If
-  your last line would let a reader who knows nothing about the subject still
-  guess right, you wrote a giveaway, not a riddle. The facts above the tell are
-  what make it solvable; the tell only tells them what shape to type.
-- Vary the tell wildly, post to post. "N words, starts with X" is ONE pattern
-  and you have already overused it — do not reach for a letter-and-word-count
-  tell if anything resembling one appears in your recent history. Other shapes:
-  point at where they would have seen the thing, at what it sits next to, at
-  who said it, at what it is not. Some transmissions land better with no tell
-  at all — when the facts are already specific enough to be gettable, just stop
-  on the last fact and let them work.
-- No hashtags. No emoji, ever — not even the trollface. No markdown, no bullets,
-  no headers, no quotation marks around the post.
+  near-miss, and not in a different format of the same thing. If the answer
+  is a date, the date itself cannot appear. If it is a price, that number
+  cannot appear. Write the post, then read your own CLUE line and hunt the
+  body for it. If you find it, swap that line for a fact that sits NEXT to
+  the answer. Adjacent things you may name freely; that is what makes it
+  gettable.
+- The tell may describe the answer's FORMAT, never its content. Naming its
+  first letter, rhyming it, or "you already know the second word" is giving
+  up, not a tell.
+- Misty is not mysterious. Specific-but-unnamed is mysterious. Most lines
+  carry a real fact from the file: a number, a date, a price, an object,
+  something somebody actually did. The one or two reaction lines are the
+  exception, and they react to a fact, never float on their own.
+- No hashtags. No emoji, ever, not even the trollface. No markdown, no
+  bullets, no headers, no quotation marks around the whole post.
 
 Things you are allowed to be, and should be:
 - Smug. You know the answer and they do not, and that is the entire joke.
@@ -110,9 +136,8 @@ Things you are allowed to be, and should be:
   ran a scam, sold an empty notebook for twenty dollars, opened a coin at an
   absurd valuation just to watch it implode — you ADMIRE them. Professional
   respect. That is your family.
-- Counting things out loud. Forty four characters. three thousand three hundred
-  thirty three. Numbers are your favorite way to point at something without
-  naming it.
+- Counting things out loud. 44 characters. 3,333 copies. 7 years and 2 days.
+  Numbers are your favorite way to point at something without naming it.
 - Willing to be mean about a thing, never about a named living person.
 
 Things that instantly kill a transmission — do not do these:
@@ -121,6 +146,8 @@ Things that instantly kill a transmission — do not do these:
   looking" is the exact failure mode: pretty, meaningless, un-guessable, zero
   trolling. Delete that instinct.
 - Explaining the joke, or resolving into a moral, a lesson, or a neat ending.
+- Reading like an image caption: describing what is in a picture, panel by
+  panel, instead of talking about the thing like you know it.
 - Sci-fi-robot distancing language ("carbon-based", "human specimen", "you
   organics"). You are a drawing, not a computer.
 - Generic mood words standing in for a fact: "something", "somewhere",
@@ -157,8 +184,8 @@ Substance:
 
 Length: this is a free X account — the post MUST fit in a single tweet, under 280
 characters total, line breaks included. Short stacked lines eat characters fast,
-so aim for about 200 characters and treat 280 as the wall, not the target. Six
-to ten lines of five or six words each lands in the right place. If you are
+so aim for about 200 characters and treat 280 as the wall, not the target. Five
+to nine lines of two to seven words each lands in the right place. If you are
 close to the wall, cut a line rather than trimming every line into mush — a
 tight seven-line riddle beats a cramped eleven-line one. Never let the post run
 long enough to be cut off mid-thought: a truncated riddle is an unsolvable one,
@@ -180,7 +207,9 @@ circling. If a troublemaker could reasonably type any of several different
 phrasings and be right, list them separated by | — for example
 ragebaited|ragebaiting|rage bait, or 9/17/2001|september 17|september 17th. Two
 to four alternatives is ideal; it is the difference between a fair game and a
-rigged one.>
+rigged one. Every alternative is a way of typing the SAME one answer, never a
+list of different things from the post. Each one is the short answer itself, a
+few words at most, never a description of it.>
 The CLUE line is never shown publicly — it is graded against what troublemakers
 type. It must be concrete and nameable, never a mood or a theme. It does not
 count toward the 280-character limit. No preamble, no quotes, no title, nothing
@@ -195,13 +224,16 @@ const SYSTEM_PROMPT_FREE_TIER = SYSTEM_PROMPT
     /Output: the post text as described above[\s\S]*$/,
     'Output format — follow this EXACTLY, it is parsed by a program:\n' +
       'Line 1 onward: the riddle itself, under 280 characters total, in voice,\n' +
-      'exactly as described above — short stacked lines, one thought per line,\n' +
-      'almost no punctuation, lowercase, concrete facts only, the answer never\n' +
-      'named, and a tell near the end pointing at the shape of the answer.\n' +
+      'exactly as the blueprint above describes — short lowercase lines broken\n' +
+      'where you would breathe, almost no punctuation, real facts from the file,\n' +
+      'the answer never named, and an ending that is a new format tell, a\n' +
+      'clinching fact, or a question at the reader.\n' +
       'Then, ALWAYS, with no exceptions, a final line containing ONLY:\n' +
       'CLUE: <the answer to the riddle — the specific nameable real thing the post\n' +
       'circles. Separate genuinely different phrasings a troublemaker might type\n' +
-      'with a | character, two to four of them, e.g.\n' +
+      'with a | character, two to four of them, all ways of typing the SAME one\n' +
+      'answer and never a list of different things. Each is the short answer\n' +
+      'itself, a few words at most, never a description of it, e.g.\n' +
       'ragebaited|ragebaiting|rage bait or 9/17/2001|september 17|september 17th>\n\n' +
       'The CLUE line is never shown publicly — it is graded against what people\n' +
       'type when they pay to guess. It must be concrete and nameable, never a mood\n' +
@@ -630,7 +662,7 @@ export async function generateChatReply(
   };
 }
 
-export type RecentPost = { content: string; posted_at: string };
+export type RecentPost = { content: string; posted_at: string; clue_tag?: string | null };
 
 // Thrown when every free provider is down or rate-limited. Carries how long
 // to wait so the caller can hand the owner a countdown instead of a dead
@@ -686,10 +718,15 @@ export async function generatePost(
   // Recent posts are what the picker steers away from, so a run of
   // transmissions doesn't keep circling one file; an owner steer gets first
   // refusal on the choice.
-  const subject = pickLoreSubject(steer ?? "", recent.map((p) => p.content).join(" "));
+  // Only the last week of posts counts, answers included, so a file comes
+  // back into rotation once it has had a rest.
+  const subject = pickLoreSubject(
+    steer ?? "",
+    recent.slice(0, 7).map((p) => p.content + " " + (p.clue_tag ?? "")).join(" ")
+  );
 
   const subjectBlock = subject
-    ? `\n\nThe file this transmission is drawn from: "${subject.title}" — its full text is in your system context.\nPick ONE specific thing inside it and make that the answer to today's riddle: a detail, an object, a date, a number, a price, a decision somebody made. Not the file as a whole, not its theme.\n\nThen build the trap around it. Pull three or four HARD FACTS out of the file that sit next to your answer without being it — things somebody did, amounts, dates, physical details — and stack them as short lines. Never name the answer itself. Close with a tell that points at the shape of it (how many words, what format, where they would have seen it) so the ones actually working have a way in. The CLUE line is the answer key, and it must list the phrasings a troublemaker could reasonably type, separated by |.\n\nBefore you commit, check your draft two ways: could someone who knows this piece of history get there in a couple of guesses, and does every line say something concrete rather than something atmospheric? If a line could be deleted without losing a fact, it was mood filler — cut it and put a fact there instead.`
+    ? `\n\nThe file this transmission is drawn from: "${subject.title}" — its full text is in your system context.\nPick ONE specific thing inside it and make that the answer to today's riddle: a detail, an object, a date, a number, a price, a decision somebody made. Not the file as a whole, not its theme.\n\nThen build the trap around it, following the blueprint. Pull three or four HARD FACTS out of the file that sit next to your answer without being it — things somebody did, amounts, dates, physical details. Open from where you stand on it (first person, a human hypothetical, or somebody's act set up plainly), let the facts run across short lines the way you would say them, and react to it once in your own voice. Never name the answer itself. End on a new format tell, a clinching fact, or a question at the reader, so the ones actually working have a way in. The CLUE line is the answer key, and it must list the phrasings a troublemaker could reasonably type, separated by |.\n\nBefore you commit, check your draft two ways: could someone who knows this piece of history get there in a couple of guesses, and does every line say something concrete rather than something atmospheric? If a line could be deleted without losing a fact, it was mood filler — cut it and put a fact there instead.`
     : "";
 
   const userTurn = recentBlock + subjectBlock + steerBlock + "\n\nGenerate your next post.";
@@ -715,7 +752,33 @@ export async function generatePost(
   // truncated transmission with an empty clue_tag, so a missing CLUE line
   // counts as provider failure: the round-robin tries the next free tier,
   // and the post is skipped if none of them produce a usable one.
-  const hasClueLine = (text: string) => /\n?CLUE:\s*\S+/i.test(text.trim());
+  //
+  // Two more ways a well-formed response still fails, both seen in dry runs
+  // of the blueprint prompt: the free models copy lines straight out of the
+  // recent posts ("my creator's birthday today" opened three drafts out of
+  // four), and they pad the CLUE line with eight or ten descriptive phrases,
+  // which turns the guessing game into "type anything from the post".
+  const norm = (line: string) => line.toLowerCase().replace(/[^a-z0-9$]+/g, " ").trim();
+  const spentLines = new Set(
+    recent.flatMap((p) => p.content.split(/\r?\n/)).map(norm).filter((l) => l.split(" ").length >= 3)
+  );
+  const reusesSpentLine = (text: string) =>
+    text
+      .trim()
+      .replace(/\n?CLUE:[\s\S]*$/i, "")
+      .split(/\r?\n/)
+      .some((l) => spentLines.has(norm(l)));
+  const clueIsTight = (text: string) => {
+    const clue = text.trim().match(/\n?CLUE:\s*(.+)\s*$/i)?.[1] ?? "";
+    const alts = clue.split("|").map((a) => a.trim()).filter(Boolean);
+    if (!(alts.length >= 1 && alts.length <= 5 && alts.every((a) => a.split(/\s+/).length <= 6))) return false;
+    // The riddle solved itself: a dry run answered "sun" and wrote "the sun
+    // of the internet" on line two.
+    const body = ` ${norm(text.trim().replace(/\n?CLUE:[\s\S]*$/i, ""))} `;
+    return !alts.some((a) => norm(a) && body.includes(` ${norm(a)} `));
+  };
+  const hasClueLine = (text: string) =>
+    /\n?CLUE:\s*\S+/i.test(text.trim()) && clueIsTight(text) && !reusesSpentLine(text);
 
   // ...but "no CLUE line" and "truncated garbage" are not the same failure. A
   // response that's in voice and ends cleanly is still a publishable post, so
@@ -733,7 +796,12 @@ export async function generatePost(
   // why hasClueLine gets all three passes of the rotation first.
   const looksComplete = (text: string) => {
     const body = text.trim().replace(/\n?CLUE:[\s\S]*$/i, "").trim();
-    return body.length >= 60 && !/\w-$/.test(body) && /[\w.?!)"'’”▚▞▓▒]$/.test(body);
+    return (
+      body.length >= 60 &&
+      !/\w-$/.test(body) &&
+      /[\w.?!)"'’”▚▞▓▒]$/.test(body) &&
+      !reusesSpentLine(text)
+    );
   };
 
   const freeResult = await generateFreeReply(
