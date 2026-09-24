@@ -580,6 +580,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["#1969", "four-figure sale", "first sale after the reveal", "trolls sale"],
     sections: [66],
   },
+  {
+    id: "bitget-drain-arkham-transfers",
+    url: "/lore/bitget-drain-arkham-transfers.webp",
+    caption:
+      "Arkham transfer log from the Bitget drain (Sept 24, 2026): thirteen rows of Bitget hot and cold wallets sending to one address, 0x770b10b273fC44Fe9197…, within about an hour. 13,966 ETH ($37.55M), 34.75M USDT, 19.67M USDT0, 12.85M USDC, 3K XAUT, 12,719 BNB and 821K AVAX, across Ethereum, Arbitrum, Optimism, BNB Chain and Avalanche, about $175M in total",
+    keywords: ["bitget", "bitget hack", "exchange hack", "hot wallet", "cold wallet", "wait for asia", "asia to wake up", "arkham"],
+    sections: [67],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks
