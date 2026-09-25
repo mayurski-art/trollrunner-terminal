@@ -628,6 +628,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["nfts are safu", "safu", "0xquit", "whitehat", "magic eden", "limit break", "revoke"],
     sections: [68],
   },
+  {
+    id: "dicey-blackjack-100k-to-1m",
+    url: "/lore/dicey-blackjack-100k-to-1m.jpg",
+    caption:
+      "@DiceyHQ's post from Sept 21, 2026, four days before the Payment Processor exploit: '7 MINUTES, $100K to $1,000,000' on Dicey Blackjack. Dicey is the crypto casino run by Magic Eden's founders, and Magic Eden's feed was mostly Dicey reposts that week",
+    keywords: ["dicey", "blackjack", "magic eden casino", "100k to 1m"],
+    sections: [68],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

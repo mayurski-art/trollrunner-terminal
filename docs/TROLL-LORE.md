@@ -2592,7 +2592,6 @@ switch. A newer V3 had the same bug, and so did a V3 on ApeChain that
 couldn't be paused at the time either.
 
 **The timeline (UTC).**
-
 - **Sep 24, ~13:00** — "9AM EST" by the later account. An attacker uses
   the bug to take **10 Meebits, 50 Otherdeeds, 10 World of Women and 235
   Desperate ApeWives**. Nobody notices for more than twelve hours.
@@ -2757,7 +2756,7 @@ and [pawellwitt's reply](https://x.com/pawellwitt/status/2103491065034739972)
 posted its own statement when this was written. The WETH figures differ
 by source (660 at risk per Quit, about 530 taken per on-chain tallies),
 and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
-`nft-whitehat-nfts-are-safu`.
+`nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`.
 
 ## How the persona should use this
 
