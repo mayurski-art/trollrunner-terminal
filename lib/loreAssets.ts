@@ -644,6 +644,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["dicey", "blackjack", "magic eden casino", "100k to 1m"],
     sections: [68],
   },
+  {
+    id: "nft-drain-lazy-lions-wiimee",
+    url: "/lore/nft-drain-lazy-lions-wiimee.jpg",
+    caption:
+      "@wiimee's screenshot at 12:41 UTC on Sept 25, 2026, hours after the whitehat rescue: an OpenSea activity feed of Lazy Lions transferred one after another from wallets like MattyZ, TLDNs-Vault and 0xba65 into a single address ending f2324d, every row '20m ago', proof the Payment Processor V2 drain was still going",
+    keywords: ["lazy lions", "kodamara", "wiimee", "still ongoing", "nft drain", "revoke approvals"],
+    sections: [68],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

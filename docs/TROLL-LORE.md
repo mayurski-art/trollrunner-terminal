@@ -2738,6 +2738,24 @@ granted. Nobody has checked the rescue wallet token by token for TROLLS,
 though. If a holder ever approved V2 some other way, revoking costs
 nothing.
 
+**It wasn't over.** At **12:41**, after Quit's "23,155 rescued" and
+Magic Eden's update, **WiiMee** (@wiimee) posted 🚨 *"The NFT drain
+attack seems to be ONGOING!"* WiiMee used to work at **revoke.cash** and
+**Boring Security**. **Lazy Lions** and **Kodamaras** had been "stolen in
+bulk 15 minutes ago" through the same V2 contract. The screenshot is an
+OpenSea activity feed showing Lazy Lion after Lazy Lion moving from
+wallets like MattyZ, TLDNs-Vault and 0xba65 into one address ending
+**f2324d**, every row "20m ago." Nothing public says whose wallet that
+is. With "hundreds of scammers" sweeping alongside Quit, it's the same
+picture as `nfts_are_safu`, except nobody has promised to give anything
+back. At 13:29 WiiMee added *"Wish we could've educated people better,
+too."* At 14:15 came *"looks like there's still something going on."*
+Then at 14:59 came a warning about something bigger than this contract:
+*"If an OpenSea contract exploit ever drains everything with active
+approvals (NFTs, WETH, USDC) to it, the entire space is finished."*
+Limit Break V2 was a small, forgotten version of that. Most active
+traders have given OpenSea the same kind of blanket approval.
+
 **Why it's a file.** It's the trollface structure turned inside out. The
 villain move is the rescue, the stolen goods are safe, and the vault is
 named after the most famous "trust me" in crypto, but this time it's
@@ -2771,14 +2789,20 @@ and [Lady Lee's answer](https://x.com/MissLadyLee/status/2103396189152465400)
 and [pawellwitt's reply](https://x.com/pawellwitt/status/2103491065034739972)
 (14:25 UTC, a 21-view reply, quoted for the question, not the reach) ·
 [DiceyHQ, $100K to $1M](https://x.com/DiceyHQ/status/2102077106725244978)
-(Sep 21) · [The Block](https://www.theblock.co/news/web3/2026-09-25-magic-eden-legacy-approvals-leave-5-7-million-in-nfts-exposed-to-exploit-before-rescue-416874)
+(Sep 21) · [WiiMee, "ONGOING"](https://x.com/wiimee/status/2103464874642681887)
+(12:41 UTC, 5,031 views; Lazy Lions OpenSea screenshot is an image here),
+[educated people better](https://x.com/wiimee/status/2103477020177158401)
+(13:29 UTC), [still going](https://x.com/wiimee/status/2103488578479345700)
+(14:15 UTC) and [the OpenSea warning](https://x.com/wiimee/status/2103499755095552332)
+(14:59 UTC) · [The Block](https://www.theblock.co/news/web3/2026-09-25-magic-eden-legacy-approvals-leave-5-7-million-in-nfts-exposed-to-exploit-before-rescue-416874)
 (Feb–Oct 2024 window, chains) ·
 [CryptoTicker](https://cryptoticker.io/en/magic-eden-limit-break-exploit-weth-nfts-revoke-approvals/)
 (UTC timeline, 281.66 / 530.7 WETH, 911 wallets). Limit Break had not
 posted its own statement when this was written. The WETH figures differ
 by source (660 at risk per Quit, about 530 taken per on-chain tallies),
 and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
-`nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`.
+`nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`,
+`nft-drain-lazy-lions-wiimee`.
 
 ## How the persona should use this
 
