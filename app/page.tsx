@@ -334,7 +334,7 @@ export default function Home() {
                 (below) so it stays clear of the taller node-system art;
                 mobile keeps it inline here since there's no separate corner
                 to pin it to in the stacked layout. */}
-            <p className="lg:hidden relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
+            <p className="lg:hidden relative z-[1] text-foreground text-sm mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
               part of the{" "}
               <a
                 href="https://trollrunner.net?enter=1"
@@ -409,7 +409,7 @@ export default function Home() {
         </div>
 
         <div className="hidden lg:flex flex-col items-end fixed bottom-4 right-4 z-[1]">
-          <p className="text-foreground text-xs text-right [text-shadow:0_1px_3px_var(--background)]">
+          <p className="text-foreground text-base text-right [text-shadow:0_1px_3px_var(--background)]">
             part of the{" "}
             <a
               href="https://trollrunner.net?enter=1"

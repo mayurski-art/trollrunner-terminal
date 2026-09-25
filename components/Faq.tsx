@@ -77,7 +77,7 @@ export default function Faq({ trigger = "block" }: FaqProps) {
       type="button"
       onClick={() => setOpen(true)}
       aria-expanded={open}
-      className="glow-loop text-xs underline decoration-dim underline-offset-4 [text-shadow:0_1px_3px_var(--background)]"
+      className="glow-loop text-sm lg:text-base underline decoration-dim underline-offset-4 [text-shadow:0_1px_3px_var(--background)]"
     >
       [ what is this site? ]
     </button>

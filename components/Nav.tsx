@@ -50,7 +50,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
   return (
     <nav
       ref={navRef}
-      className="relative flex flex-wrap items-start justify-between text-[11px] sm:text-sm text-dim mb-8 gap-x-3 gap-y-2"
+      className="relative flex flex-wrap items-start justify-between text-[13px] sm:text-lg text-dim mb-8 gap-x-3 gap-y-2"
     >
       <div className="relative flex flex-col items-start min-w-0 max-w-full">
         <div className="flex items-center gap-3">

@@ -1309,15 +1309,26 @@ main {
   border-bottom: none;
   margin-bottom: 0;
 }
+/* The hub ring (trolltruths + its spinning grin/sad face) runs larger than
+   the lineage boxes in the header, so it reads as the center of the system
+   rather than a smaller sibling of carlos/umadbro/NFT/crypto. */
+.mini-connector.mini-connector--header .mc-hub-ring {
+  max-width: 46px;
+}
+@media (min-width: 761px) {
+  .mini-connector.mini-connector--header .mc-hub-ring {
+    max-width: 68px;
+  }
+}
 @media (min-width: 1024px) {
   .mini-connector--header .mc-node {
     max-width: 5.5rem;
   }
-  .mini-connector--header .mc-hub-ring {
-    max-width: 4rem;
+  .mini-connector.mini-connector--header .mc-hub-ring {
+    max-width: 6.5rem;
   }
-  .mini-connector--header .mc-label,
-  .mini-connector--header .mc-hint {
+  .mini-connector.mini-connector--header .mc-label,
+  .mini-connector.mini-connector--header .mc-hint {
     font-size: 0.8rem;
   }
 }
