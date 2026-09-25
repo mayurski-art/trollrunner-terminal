@@ -298,13 +298,13 @@ export default function PostGuess({
         <p className="sr-only">grading transmission…</p>
         <p
           aria-hidden="true"
-          className="text-[10px] tracking-[0.4em] text-center text-problem/70 mb-1.5 animate-pulse"
+          className="text-[10px] lg:text-sm tracking-[0.4em] text-center text-problem/70 mb-1.5 animate-pulse"
         >
           ▓▓ grading guess ▓▓
         </p>
         <div
           aria-hidden="true"
-          className="pg-grading-glyph text-[10px] tracking-[0.4em] text-center text-terminal overflow-hidden whitespace-nowrap"
+          className="pg-grading-glyph text-[10px] lg:text-sm tracking-[0.4em] text-center text-terminal overflow-hidden whitespace-nowrap"
         >
           {gradeStrip}
         </div>

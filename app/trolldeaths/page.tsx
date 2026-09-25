@@ -117,7 +117,7 @@ export default function TrollDeathsPage() {
                   <p className="text-foreground text-sm font-bold mb-1">{item.title}</p>
                   <p className="text-dim text-sm leading-relaxed flex-1">{item.copy}</p>
                   {item.tags && item.tags.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2 text-[10px] text-dim">
+                    <div className="mt-3 flex flex-wrap gap-2 text-[10px] lg:text-sm text-dim">
                       {item.tags.map((tag) => (
                         <span key={tag} className="border border-dim px-1.5 py-0.5">
                           {tag}

@@ -241,7 +241,7 @@ export default function Home() {
         </div>
         {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
             which otherwise paints over non-positioned content like this. */}
-        <p className="relative z-[1] text-terminal text-[8px] lg:text-[0.75rem] tracking-wide mb-1 text-center">
+        <p className="relative z-[1] text-terminal text-[8px] lg:text-[0.875rem] tracking-wide mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         {/* Sits between the tagline and the ticker so it lands in the same

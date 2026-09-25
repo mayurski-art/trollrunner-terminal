@@ -38,7 +38,7 @@ export default function CrypticWait({ label = "decoding transmission" }: { label
       <p className="sr-only">{label}…</p>
       <p
         aria-hidden="true"
-        className="text-[10px] tracking-[0.4em] text-center text-problem/70 mb-2 animate-pulse"
+        className="text-[10px] lg:text-sm tracking-[0.4em] text-center text-problem/70 mb-2 animate-pulse"
       >
         ▓▓ {label} ▓▓
       </p>
@@ -46,7 +46,7 @@ export default function CrypticWait({ label = "decoding transmission" }: { label
         {rows.map((row, i) => (
           <div
             key={i}
-            className="text-[10px] tracking-[0.4em] text-terminal overflow-hidden h-3 whitespace-nowrap"
+            className="text-[10px] lg:text-sm lg:h-5 tracking-[0.4em] text-terminal overflow-hidden h-3 whitespace-nowrap"
           >
             {row}
           </div>
@@ -54,7 +54,7 @@ export default function CrypticWait({ label = "decoding transmission" }: { label
       </div>
       <p
         aria-hidden="true"
-        className="mt-2 text-center text-[10px] tracking-[0.4em] text-ghost animate-pulse"
+        className="mt-2 text-center text-[10px] lg:text-sm tracking-[0.4em] text-ghost animate-pulse"
       >
         ░ stand by ░
       </p>

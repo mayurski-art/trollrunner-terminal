@@ -149,7 +149,7 @@ export default function LogsPage() {
                           type="button"
                           onClick={() => setExpanded(post)}
                           aria-label="pop out transmission"
-                          className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+                          className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] lg:text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
                         >
                           ⤢ pop out
                         </button>

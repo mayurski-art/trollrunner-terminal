@@ -384,13 +384,13 @@ html {
 }
 
 /* Bigger screens scale that base back up so the site doesn't read as a
-   small island in the middle of a large monitor. 11.2px (the 70% above) is
-   the floor, reached at 1440x900; past that it grows with whichever of
-   width or height is tighter, so a wide-but-short window never scales the
-   scroll-locked terminal page taller than the viewport. */
+   small island in the middle of a large monitor. 12px is the floor
+   (~13px at 1440x900, ~15.7px at 1920x1080, ~21px at 2560x1440); it grows
+   with whichever of width or height is tighter, so a wide-but-short window
+   never scales the scroll-locked terminal page taller than the viewport. */
 @media (min-width: 1024px) {
   html {
-    font-size: clamp(11.2px, min(0.78vw, 1.24vh), 20px);
+    font-size: clamp(12px, min(0.92vw, 1.45vh), 22px);
   }
 }
 
@@ -2138,5 +2138,35 @@ html[data-custom-cursor] label {
   .aotd-in,
   .aotd-out {
     animation: none;
+  }
+}
+
+/* Desktop: the node-system labels above are fixed px (sized for phones),
+   so they'd never follow the root font-size's large-screen scale-up. Kept
+   at the end of the file so it outranks those same-specificity base rules;
+   the homepage header's own 0.8rem (.mini-connector.mini-connector--header)
+   still wins over this. */
+@media (min-width: 1024px) {
+  .mini-connector .mc-label,
+  .mini-connector .mc-hint {
+    font-size: 0.7rem;
+  }
+  .boot-connector .bc-labels {
+    font-size: 0.85rem;
+  }
+}
+
+/* Desktop vault: its panels are written almost entirely in text-xs/text-sm,
+   the smallest steps on the scale, so they read tiny next to the rest of
+   the site on a big screen. Re-pointing Tailwind's size tokens inside the
+   panel columns (not the Nav/banner row) bumps each one a step. */
+@media (min-width: 1024px) {
+  .vault-col-left,
+  .vault-col-center,
+  .vault-col-right {
+    --text-xs: 0.875rem;
+    --text-xs--line-height: calc(1.25 / 0.875);
+    --text-sm: 1rem;
+    --text-sm--line-height: 1.5;
   }
 }

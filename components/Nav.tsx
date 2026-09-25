@@ -153,7 +153,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
         }`}
       >
         {networkBadge && (
-          <p className="text-[11px] sm:text-xs text-foreground text-right mb-1 max-w-full">
+          <p className="text-[11px] sm:text-sm text-foreground text-right mb-1 max-w-full">
             part of the{" "}
             <a
               href="https://trollrunner.net"

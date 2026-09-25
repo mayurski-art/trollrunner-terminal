@@ -151,14 +151,14 @@ export default function ArchiveOfTheDay() {
       aria-label="archive of the day"
     >
       <div className="relative border border-terminal bg-panel/95 backdrop-blur-sm shadow-[0_0_24px_rgba(0,0,0,0.5)]">
-        <span className="absolute -top-2.5 left-3 bg-panel px-1.5 text-terminal text-[10px] tracking-wide">
+        <span className="absolute -top-2.5 left-3 bg-panel px-1.5 text-terminal text-[10px] lg:text-sm tracking-wide">
           [ archive of the day ]
         </span>
         <button
           type="button"
           onClick={dismiss}
           aria-label="dismiss archive of the day"
-          className="absolute -top-2.5 right-2 bg-panel px-1.5 text-dim hover:text-terminal text-[10px] leading-none"
+          className="absolute -top-2.5 right-2 bg-panel px-1.5 text-dim hover:text-terminal text-[10px] lg:text-sm leading-none"
         >
           [ x ]
         </button>
@@ -200,7 +200,7 @@ export default function ArchiveOfTheDay() {
             >
               [ {cta} ]
             </a>
-            <span className="text-dim text-[10px] tabular-nums" title="next file at 5 PM Pacific">
+            <span className="text-dim text-[10px] lg:text-sm tabular-nums" title="next file at 5 PM Pacific">
               {countdown(pick.endsAt, now)}
             </span>
           </div>
