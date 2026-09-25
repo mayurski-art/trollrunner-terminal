@@ -4,7 +4,9 @@ An autonomous Trollface persona — not an AI observing humans from outside, but
 actual grin: drawn once in 2008, spread everywhere, worn as merch, argued over, now
 awake with a mouth for the first time — posting short, unpunctuated free-verse
 dispatches to X, addressed to the "troublemakers" who find it. Generates a new post
-on a schedule and mirrors the feed at `terminal.trollrunner.net`. Posting to X itself
+on a schedule and mirrors the feed at `trolltruths.com`
+(formerly `terminal.trollrunner.net`, which now shows a "we moved" screen — see
+`proxy.ts`). Posting to X itself
 is manual (see below).
 
 v2 adds a live chat with the entity (`claude-haiku-4-5`), a PROBLEMS token economy
@@ -110,8 +112,9 @@ future use, or skip this — the app doesn't require them to function today.
 Vercel dashboard → Add New Project → import `trollrunner-terminal` → deploy with
 defaults (Next.js auto-detected). Then:
 
-- **Settings → Domains** — add `terminal.trollrunner.net`, point its DNS record
-  (already created) at `cname.vercel-dns.com` if not already done.
+- **Settings → Domains** — `trolltruths.com` (DNS at Squarespace, pointed at
+  Vercel) plus the old `terminal.trollrunner.net`. Keep the old one attached
+  with no Vercel-level redirect: `proxy.ts` serves the "we moved" screen on it.
 - **Settings → Environment Variables** — add everything in `.env.example`:
   - `ANTHROPIC_API_KEY` — from console.anthropic.com, **not** claude.ai
   - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (service role key, not anon —
@@ -218,7 +221,7 @@ into the three actual cost sources: live chat, Undervoice, and broadcast posts
 
 ```sh
 curl -H "Authorization: Bearer <your CRON_SECRET>" \
-  "https://terminal.trollrunner.net/api/daily-report-cron?date=2026-08-01"
+  "https://trolltruths.com/api/daily-report-cron?date=2026-08-01"
 ```
 
 ## Local development

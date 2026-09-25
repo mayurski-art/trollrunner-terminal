@@ -19,7 +19,7 @@ jobs:
         run: |
           status=$(curl -s -o /dev/stderr -w "%{http_code}" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            https://terminal.trollrunner.net/api/musing-cron)
+            https://trolltruths.com/api/musing-cron)
           echo "HTTP status: $status"
           if [ "$status" -ge 300 ]; then
             exit 1
