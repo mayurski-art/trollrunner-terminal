@@ -42,7 +42,9 @@ type NodeKey = keyof typeof LINKS;
 // row, one shared wire row, label row) rather than nesting each node with
 // its own label, so the wire visibly terminates at every box instead of
 // floating below a run of labels.
-export default function MiniConnector() {
+// variant="header": the homepage's top-of-page placement (where the
+// TROLLTRUTHS banner used to be), which gets bigger nodes on desktop.
+export default function MiniConnector({ variant }: { variant?: "header" } = {}) {
   const faceRef = useRef<HTMLImageElement>(null);
   // Which node the pointer/focus is on, if any — drives the hint line under
   // the row, which otherwise just says the nodes are clickable at all.
@@ -78,7 +80,7 @@ export default function MiniConnector() {
   }, []);
 
   return (
-    <div className="mini-connector">
+    <div className={`mini-connector${variant === "header" ? " mini-connector--header" : ""}`}>
       <div className="mc-node-slot">
         <a className="mc-node mc-node--carlos" {...linkProps("carlos")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}

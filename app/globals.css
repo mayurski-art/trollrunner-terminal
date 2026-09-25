@@ -383,6 +383,17 @@ html {
   font-size: 70%;
 }
 
+/* Bigger screens scale that base back up so the site doesn't read as a
+   small island in the middle of a large monitor. 11.2px (the 70% above) is
+   the floor, reached at 1440x900; past that it grows with whichever of
+   width or height is tighter, so a wide-but-short window never scales the
+   scroll-locked terminal page taller than the viewport. */
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(11.2px, min(0.78vw, 1.24vh), 20px);
+  }
+}
+
 html,
 body {
   overflow-x: hidden;
@@ -1288,6 +1299,26 @@ main {
 @media (min-width: 761px) {
   .mini-connector .mc-node {
     max-width: 54px;
+  }
+}
+/* The homepage header placement (MiniConnector variant="header") stands in
+   for the old ASCII banner, so it drops the dashed divider it used as a
+   panel header, and on desktop sizes in rem so it grows with the root
+   font-size's large-screen scale-up instead of staying fixed-px. */
+.mini-connector--header {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+@media (min-width: 1024px) {
+  .mini-connector--header .mc-node {
+    max-width: 5.5rem;
+  }
+  .mini-connector--header .mc-hub-ring {
+    max-width: 4rem;
+  }
+  .mini-connector--header .mc-label,
+  .mini-connector--header .mc-hint {
+    font-size: 0.8rem;
   }
 }
 .mini-connector .mc-node img {

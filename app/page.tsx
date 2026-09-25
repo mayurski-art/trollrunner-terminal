@@ -11,7 +11,6 @@ import {
   subscribeDesktop,
 } from "@/lib/popout";
 import Nav from "@/components/Nav";
-import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import Chat from "@/components/Chat";
 import MiniConnector from "@/components/MiniConnector";
@@ -23,7 +22,6 @@ import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
 import Faq from "@/components/Faq";
-import { BANNER_TROLLFACE, BANNER_TROLLFACE_WIDE } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 
@@ -229,22 +227,21 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14 lg:py-8 lg:h-dvh">
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
-      <div className="w-full max-w-7xl">
+      {/* Desktop: this column fills the viewport and the panel row below
+          takes whatever height is left, so the chat grows with the screen
+          instead of sitting at a fixed height. */}
+      <div className="w-full max-w-7xl lg:flex-1 lg:min-h-0 lg:flex lg:flex-col">
         <Nav />
-        <div className="max-w-md md:max-w-2xl mx-auto mb-2">
-          <Banner
-            art={BANNER_TROLLFACE}
-            wideArt={BANNER_TROLLFACE_WIDE}
-            label="trolltruths terminal"
-            maxFontPx={9}
-            wideMaxFontPx={14}
-          />
+        <div className="max-w-xl lg:max-w-2xl mx-auto w-full mt-3 mb-4">
+          <MiniConnector variant="header" />
         </div>
-        <p className="text-terminal text-[8px] tracking-wide mb-1 text-center">
+        {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
+            which otherwise paints over non-positioned content like this. */}
+        <p className="relative z-[1] text-terminal text-[8px] lg:text-[0.75rem] tracking-wide mb-1 text-center">
           explore the infinite knowledge behind trolling
         </p>
         {/* Sits between the tagline and the ticker so it lands in the same
@@ -255,13 +252,14 @@ export default function Home() {
         </div>
         <SiteTicker />
 
-        <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6">
-          <div className="order-2 lg:order-none lg:w-1/3 flex flex-col lg:h-[34rem] lg:min-h-0">
+        <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6 lg:mb-0 lg:flex-1 lg:min-h-[34rem]">
+          <div className="order-2 lg:order-none lg:w-1/3 flex flex-col lg:min-h-0">
             <Frame
               title="latest transmission"
               tone="terminal"
-              // Desktop pins the whole left column to the row height (34rem,
-              // matching the chat Frame beside it) and lets this panel be the
+              // Desktop pins the whole left column to the row height (which
+              // fills the viewport, 34rem minimum, matching the chat Frame
+              // beside it) and lets this panel be the
               // part that shrinks: min-h-0 lets it drop below its content
               // height so the controls Frame under it is never pushed off the
               // page — which matters because the page itself is scroll-locked
@@ -361,8 +359,8 @@ export default function Home() {
                   // that centered box, but sat a bit low and right of true
                   // center on an iPhone 13 Pro, so it's nudged left and up.
                   "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
-                : `order-1 lg:order-none lg:w-2/3 lg:h-[34rem] lg:max-h-none ${
-                    session ? "h-[80vh] max-h-[42rem]" : "h-48"
+                : `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none ${
+                    session ? "h-[85dvh] max-h-[52rem]" : "h-48"
                   }`
             }
             style={
@@ -385,9 +383,6 @@ export default function Home() {
             onHeaderPointerMove={chatPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined}
             onHeaderPointerUp={chatPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
           >
-            <div className="shrink-0 max-w-xl mx-auto w-full">
-              <MiniConnector />
-            </div>
             {session ? (
               <Chat
                 onSteerTransmission={hasDraft ? handleSteer : undefined}
