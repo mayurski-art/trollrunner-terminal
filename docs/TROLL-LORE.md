@@ -747,18 +747,40 @@ art made for the night is filed in §44.
 The weed packaging traces to **GO2War** (`@adermaz0ne`), who partnered with
 a local Miami dispensary and put the product together in two days for the
 event. A follow-up post (shown as DMs) says how many pounds went out that
-night. The product hasn't reappeared since.
+night. The weed itself hasn't come back since.
+
+The accessory might. At **06:09 UTC on September 25, 2026**, the shop's
+own account, **@umadbro** (§5), posted four words and a photo: **"time to
+go higher?"** The photo is a hand holding a **rolling tray** up against a
+field of flowering cannabis. The tray has lime-and-violet swirl stripes
+radiating out from a trollface in the middle, with **"HIGHER"** running
+down the side in block capitals. It isn't for sale. The shop's full
+catalog that day ran to 26 items (mousepads, tees, a mug, stickers, the
+GOATFARM collab pieces from §31) and had no tray. So it's a question mark
+wearing a product photo, the same way the shop asked "should we add it to
+the store?" in August about a pile of trollface air fresheners that
+smelled like mango. That one was a car freshener, not a strain, and it
+pulled **320,000 views**, far more than anything else on the shop's recent
+feed. The tray post got about 2,000. The line from the Art Basel night
+runs straight: first the face was on the bag, now it's on the thing you
+roll on. The collection already saved its weed number for Pepe (#420 in
+§65).
 
 **Sources:** [Rolling Loud — Art Basel 2025 announcement](https://x.com/RollingLoud/status/1995661080396530104) ·
 [event location](https://x.com/SwishPng/status/1996222572489294197) ·
 [troll weed packaging](https://x.com/Svoo___/status/1996858625512649203),
 maker credited as [adermaz0ne](https://x.com/adermaz0ne) ·
 [more on the troll weed](https://x.com/iFungibility/status/1997037019562926574).
+[@umadbro, "time to go higher?"](https://x.com/umadbro/status/2103366374555107824)
+(Sep 25, 2026, 06:09 UTC, via fxtwitter: 2,018 views; the tray photo is an image here) ·
+[@umadbro, the mango air fresheners](https://x.com/umadbro/status/2094462917811040683)
+(Aug 31, 2026, 320,622 views) · [umadbro.shop/shop/all](https://umadbro.shop/shop/all)
+(checked Sep 25: 26 items, no tray).
 Public coverage confirms the Rolling Loud × Destroy Lonely event itself. The
 branding details (wristbands, screens, uniforms, napkins, packaging) and
 three video clips from the floor are user-provided tier. Media:
 `rolling-loud-art-basel-map`, `rolling-loud-art-basel-flyer`,
-`troll-weed-rolling-loud`, `troll-weed-dms`, and three clips
+`troll-weed-rolling-loud`, `troll-weed-dms`, `umadbro-higher-rolling-tray`, and three clips
 (`rolling-loud-art-basel-clip`, `-clip-2`, `-clip-3`, hosted in the
 Supabase `lore` bucket).
 

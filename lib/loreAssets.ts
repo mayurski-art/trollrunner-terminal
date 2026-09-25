@@ -133,6 +133,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [32],
   },
   {
+    id: "umadbro-higher-rolling-tray",
+    url: "/lore/umadbro-higher-rolling-tray.jpg",
+    caption:
+      "@umadbro's 'time to go higher?' post (Sept 25, 2026): a hand holding a lime-and-violet swirl rolling tray with a trollface in the center and HIGHER down the side, held up against a field of flowering cannabis. It's a teaser; the tray wasn't in the shop's catalog",
+    keywords: ["troll weed", "rolling tray", "higher", "umadbro tray", "420"],
+    sections: [32],
+  },
+  {
     id: "killmigi-art-basel",
     url: "/lore/killmigi-art-basel.jpg",
     caption: "killmigi's Rolling Loud Art Basel piece — Trollface at the decks",
