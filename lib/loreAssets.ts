@@ -612,6 +612,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["proof of reserves", "reserve ratio", "bitget reserves", "por", "merkle"],
     sections: [67],
   },
+  {
+    id: "nft-whitehat-rescue-wallet-cirrus",
+    url: "/lore/nft-whitehat-rescue-wallet-cirrus.jpg",
+    caption:
+      "@CirrusNFT's screenshot at 06:31 UTC on Sept 25, 2026: wallet 0x71cf...fe33 holding 3,832 NFTs worth $1.4M swept from hundreds of wallets (Bored Apes, an Azuki, 527 Otherdeed Expanded, 467 Quirklings, Mutant Apes, Meebits), before anyone knew it was 0xQuit's whitehat rescue",
+    keywords: ["whitehat", "white hat", "nft drain", "cirrus", "payment processor", "rescue wallet"],
+    sections: [68],
+  },
+  {
+    id: "nft-whitehat-nfts-are-safu",
+    url: "/lore/nft-whitehat-nfts-are-safu.jpg",
+    caption:
+      "0xQuit's own OpenSea view of the rescue wallet, named nfts_are_safu (created Sep 2026), at 17,581 items and $1.5M, part of the 23,155 NFTs he moved to safety from the Limit Break Payment Processor V2 exploit",
+    keywords: ["nfts are safu", "safu", "0xquit", "whitehat", "magic eden", "limit break", "revoke"],
+    sections: [68],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

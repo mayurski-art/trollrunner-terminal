@@ -2568,6 +2568,197 @@ report was still pending when this was written. Images:
 `bitget-ceo-gracy-chen` (her X profile picture on the night),
 `bitget-proof-of-reserves-sept-2026`.
 
+## 68. 23,155 NFTs "stolen" to keep them safe — the wallet named `nfts_are_safu`
+
+The night after Bitget (§67), a second drain showed up on-chain. For about
+two hours it looked exactly like a theft. It was a rescue. The people
+calling it a "white list" had the word slightly wrong. It was a
+**whitehat**: someone who uses the same bug as the thief, faster, and
+then gives everything back. Whether that should reassure anyone is the
+real question.
+
+**The hole.** In 2024, **Magic Eden** settled trades on its Ethereum
+marketplace through **Payment Processor V2**, a trading contract built and
+maintained by **Limit Break**. If you listed an NFT on Magic Eden's EVM
+market between roughly **February and October 2024**, you probably
+clicked "approve for all" on that collection. That gave the contract
+permission to move every token you held from it. Magic Eden stopped using
+V2 in **October 2024** and shut down its whole EVM marketplace in
+**Q1 2026**. **The approvals stayed live.** Nobody revokes a permission
+for a shop that has already closed. The contract had a bug that let
+someone pose as a holder who had given that approval and "buy" their NFTs
+**at a price of zero**, with no signature from the owner. V2 had no pause
+switch. A newer V3 had the same bug, and so did a V3 on ApeChain that
+couldn't be paused at the time either.
+
+**The timeline (UTC).**
+
+- **Sep 24, ~13:00** — "9AM EST" by the later account. An attacker uses
+  the bug to take **10 Meebits, 50 Otherdeeds, 10 World of Women and 235
+  Desperate ApeWives**. Nobody notices for more than twelve hours.
+- **Sep 24, 14:26** — about an hour and a half later, and unrelated,
+  **0xQuit** (Quit, VP of Blockchain at **Yuga Labs**, Solidity auditor)
+  posts that his **Ledger factory-reset itself**. He won't be able to
+  rebuild his seed for "another ~10 days" and is "effectively locked out
+  of most of my wallets." Keep that in mind for what comes next.
+- **Sep 24, 21:44** — during §67, Quit quote-posts Bitget's summit
+  birthday picture: **"let this be a lesson to you all: never touch
+  grass."** An hour earlier: "Bitget hacked for $178M, Payy hacked for
+  $1.8M, onchain is back baby."
+- **Sep 25, ~01:00** — someone (**@Boomskite**) sends Quit the first
+  exploit transaction. He digs in and finds that tens of thousands of
+  NFTs are open to the same trick. Limit Break pauses V3 on Ethereum. V2
+  can't be paused, so the only way to protect those NFTs is to take them
+  first.
+- **~05:46** — the rescue starts. Everything at risk goes into one
+  address, **0x71cF3f5724bD2B72Ef6464992aCd26216DE7fe33**. Its OpenSea
+  name is **`nfts_are_safu`**.
+- **06:31** — **Cirrus** (@CirrusNFT, 105k followers) sees it happen from
+  outside: *"No idea whats going on here but I just watched this wallet
+  drain 3832 NFTs from 100s of different wallets."* The screenshot shows
+  the wallet at **$1.4M**, full of Bored Apes (16), an Azuki, Mutant Apes,
+  527 Otherdeed Expanded, 467 Quirklings, Lil Pudgys and Meebits. He
+  tells people to revoke their NFT approvals, and adds that it seems to be
+  "funded from a wallet possibly linked to @0xQuit so maybe a whitehat?"
+  **238,000 views.**
+- **06:48** — Quit replies: *"hey ya this is a whitehat and everything in
+  0x71cF…fe33 is safe and will be returned once they are no longer at
+  risk."* **259,000 views**, more than the alarm itself.
+- **08:00** — in the replies, someone asks the question half the
+  timeline had: **"What is a white hat?"** A collector answers eight
+  minutes later: *"Someone who drains wallets but they are a good guy."*
+  That's accurate, and it's also the problem, in one line.
+- **08:09** — Quit: **"REVOKE APPROVALS TO THESE ASAP"**, with V2 on
+  Ethereum (`0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834`) and V3 on
+  ApeChain (`0x9a1D00000000fC540e2000560054812452eB5366`). 284,000 views,
+  590 reposts.
+- **~08:25** — the reverse move. Anyone who had once made or accepted a
+  WETH offer through the contract had approved *it* too. Attackers use
+  zero-price dummy NFTs to "sell" to victim wallets and pull their WETH
+  out. The first transaction takes **281.66 WETH from 25 wallets**. Later
+  tallies reach about **530 WETH from 911 wallets**, plus USDC, WILD, and
+  WAPE on ApeChain.
+- **09:06** — Quit's full account: **23,155 NFTs rescued, worth over
+  $5.7M.** The WETH side was worse: **660 WETH** at risk, "which we
+  unfortunately were not fast enough to recover. Apologies to those
+  affected." His screenshot shows the rescue wallet at **17,581 items,
+  $1.5M** on Ethereum alone at that point, created **Sep 2026**.
+- **09:15** — *"worked through the entire night to save ~$6M worth of
+  NFTs and all I'll be able to think about is the $1.7M in WETH I wasn't
+  fast enough for. Fuck scammers."* 177,000 views.
+- **09:24** — *"kids should be waking up in a half hour or so, so gn ct."*
+- **10:44** — **Magic Eden** posts an "interim update." The protocol
+  belongs to Limit Break, Magic Eden stopped using it in 2024, and **"No
+  live Magic Eden listings were impacted."** It asks people to revoke on
+  Ethereum, Polygon and Base, and adds: *"Revoking does not return tokens
+  that already moved."* Magic Eden says it's contacting Limit Break about
+  pausing transfers.
+- **12:02** — Magic Eden's co-founder **0xLeoInRio**, whose bio now puts
+  **@DiceyHQ** first: *"@MagicEden was not exploited today, it was
+  @limitbreak's trading protocol."* He calls Quit "a true hero."
+- **13:25** — Quit: the bulk of the damage is done, but assets are still
+  exposed, and **"hundreds of scammers are also doing the same"** sweep.
+  If rescued NFTs go back to a wallet that still has the approval open,
+  "the open approvals can and will be used against you."
+
+**Is it actually safe?** Mostly, going by everything public. The rescue
+was coordinated with Limit Break, praised by Magic Eden, done by a named
+Yuga executive with his own reputation on the line, and he says owners
+will be able to claim their NFTs after they revoke. None of the stolen
+Meebits or Otherdeeds were taken by him. Those went to the attacker hours
+before anyone woke up.
+
+Your suspicion is still reasonable, though, and it's a good one to have.
+
+- **On-chain, a rescue and a theft are the same transaction.** The same
+  bug, the same zero-price "sale," the same wallet filling up with other
+  people's apes. For two hours the only difference between them was a
+  guess from Cirrus about who funded the wallet, and then a reply from
+  the person who controlled it saying it was fine. **"Safe" here means
+  one person holds 23,155 NFTs that aren't his and has promised to give
+  them back.** Every sign says he means it. It's still a promise, not a
+  guarantee in code.
+- **The name is a meme about exactly this.** "Funds are safu" comes from
+  a 2018 CZ post during a Binance incident and became the market's
+  running joke for "trust me." Calling the vault `nfts_are_safu` is a
+  good joke from someone who knows the bit. It's also literally the
+  phrase people have been laughing at for eight years.
+- **The day before, the whitehat couldn't open his own wallets.** Quit
+  posted that his Ledger had factory-reset and he was locked out of
+  "most of my wallets" for ten days, with the lesson "not enough
+  redundancy." Then he worked all night securing about $6M of other
+  people's NFTs. That's honest, and it's what an expert looks like on a
+  bad week. It also shows that key management trips up even the people
+  who audit these contracts.
+- **The claim step is the next attack surface.** You have to revoke
+  first, and "hundreds of scammers" are sweeping alongside him. A "claim
+  your rescued NFT" page is exactly what phishers copy. Use only links
+  from Quit's own account, and revoke directly through revoke.cash.
+
+**The security question, which is the bigger one.** The hole wasn't in
+anyone's wallet. It was a **permission given two years ago** to a
+contract from a marketplace that stopped using it, then closed, and the
+contract **had no off switch**. A hardware wallet doesn't help, because
+the approval is on-chain and doesn't need your device again. "Magic Eden
+was not exploited" is technically true. Magic Eden is also the reason
+those users signed the approval. Someone asked the co-founder under his
+post: **if you stopped using them two years ago, why could they still
+exploit it?** Nothing has answered that yet. Meanwhile Magic Eden's feed
+that week was mostly reposts from **Dicey**, its founders' crypto casino.
+Four days before the exploit, Dicey was celebrating a player who turned
+**$100K into $1M on blackjack in 7 minutes.** The marketplace that left
+the door unlocked had become a casino.
+
+**Were the TROLLS involved?** Nothing points that way. The TROLLS
+contract was created in **May 2026**, after Magic Eden dropped V2 in
+October 2024 and after its EVM market shut down in Q1 2026, so no TROLLS
+token could have been listed during the window when the approvals were
+granted. Nobody has checked the rescue wallet token by token for TROLLS,
+though. If a holder ever approved V2 some other way, revoking costs
+nothing.
+
+**Why it's a file.** It's the trollface structure turned inside out. The
+villain move is the rescue, the stolen goods are safe, and the vault is
+named after the most famous "trust me" in crypto, but this time it's
+true. Two nights in a row crypto got drained while its people slept
+(§67). The second time, someone stayed up. He saved $5.7M, lost $1.7M
+to people racing him with the same bug, and signed off because his kids
+were waking up. The lesson isn't that whitehats can't be trusted. It's
+that on-chain, **trust in the code turned out to be trust in a person**,
+and the permission you gave two years ago is still active.
+
+**Sources:** [Cirrus, the drain spotted](https://x.com/CirrusNFT/status/2103371851519103423)
+(06:31 UTC, via fxtwitter: 238,365 views; screenshot of the rescue wallet
+at 3,832 items is an image here) ·
+[0xQuit, "this is a whitehat"](https://x.com/0xQuit/status/2103375947751972921)
+(06:48 UTC, 259,642 views) ·
+[0xQuit, REVOKE APPROVALS](https://x.com/0xQuit/status/2103396501779284239)
+(08:09 UTC) · [0xQuit, full account](https://x.com/0xQuit/status/2103410682368512505)
+(09:06 UTC, 151,189 views; `nfts_are_safu` OpenSea screenshot is an image
+here) and [addresses reply](https://x.com/0xQuit/status/2103410684616708576) ·
+[0xQuit, "$1.7M in WETH"](https://x.com/0xQuit/status/2103413056810439006) ·
+[0xQuit, "gn ct"](https://x.com/0xQuit/status/2103415285000630524) ·
+[0xQuit, scammers sweeping too](https://x.com/0xQuit/status/2103475990072623582)
+(13:25 UTC) · [0xQuit, Ledger reset](https://x.com/0xQuit/status/2103128838758633529)
+(Sep 24, 14:26 UTC) · [0xQuit, "never touch grass"](https://x.com/0xQuit/status/2103239238364094694)
+(Sep 24, 21:44 UTC) · ["What is a white hat?"](https://x.com/Dfw_Ashh/status/2103394165581361403)
+and [Lady Lee's answer](https://x.com/MissLadyLee/status/2103396189152465400)
+(08:00 / 08:08 UTC) ·
+[Magic Eden interim update](https://x.com/MagicEden/status/2103435423389241569)
+(10:44 UTC, 93,530 views) ·
+[0xLeoInRio](https://x.com/0xLeoInRio/status/2103454975401583027) (12:02 UTC)
+and [pawellwitt's reply](https://x.com/pawellwitt/status/2103491065034739972)
+(14:25 UTC, a 21-view reply, quoted for the question, not the reach) ·
+[DiceyHQ, $100K to $1M](https://x.com/DiceyHQ/status/2102077106725244978)
+(Sep 21) · [The Block](https://www.theblock.co/news/web3/2026-09-25-magic-eden-legacy-approvals-leave-5-7-million-in-nfts-exposed-to-exploit-before-rescue-416874)
+(Feb–Oct 2024 window, chains) ·
+[CryptoTicker](https://cryptoticker.io/en/magic-eden-limit-break-exploit-weth-nfts-revoke-approvals/)
+(UTC timeline, 281.66 / 530.7 WETH, 911 wallets). Limit Break had not
+posted its own statement when this was written. The WETH figures differ
+by source (660 at risk per Quit, about 530 taken per on-chain tallies),
+and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
+`nft-whitehat-nfts-are-safu`.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
@@ -2847,3 +3038,13 @@ report was still pending when this was written. Images:
 - §64 (KFCereal, the KD soda) is the persona's material on brands learning
   the troll: a joke with a P&L behind it. It can be amused and a little
   wary, but it's commentary on form, never a product plug.
+- §68 (the `nfts_are_safu` whitehat rescue) is the case where the persona
+  should push back on its own reflex. It can make the joke (a rescue
+  that looks exactly like a robbery, a vault named after "funds are
+  safu"), but it must not say or suggest that 0xQuit stole anything or
+  won't return the NFTs. Nothing supports that. The honest line is that
+  the NFTs are safe on one person's word, and every sign says his word is
+  good. The warning worth passing on is about old approvals: revoke
+  Payment Processor V2/V3, and use claim links only from Quit's own
+  account. TROLLS postdate the exposure window, so don't tell holders
+  they're affected.
