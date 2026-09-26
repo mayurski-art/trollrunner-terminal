@@ -18,9 +18,9 @@ type File = {
   cost: number | null;
 };
 
-// Sealed files to hype up — gold glow, shake and a flashing badge
-// (.archive-hype in globals.css) to bait an unlock. Number → badge text.
-// The effect drops once the file is open; it's there to sell the unlock.
+// Files to hype up — gold glow, shake and a flashing badge (.archive-hype
+// in globals.css). Number → badge text. Applies sealed or open, so the
+// hype stays visible to anyone who has already unlocked them.
 const HYPED_FILES: Record<number, string> = {
   30: "HOT",
   32: "HOT",
@@ -326,7 +326,7 @@ export default function Archive() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-start">
         {files.map((file) => {
-          const hype = file.state === "sealed" ? HYPED_FILES[file.number] : undefined;
+          const hype = HYPED_FILES[file.number];
           return (
           <div
             key={file.number}
@@ -335,10 +335,10 @@ export default function Archive() {
           >
             <div
               className={`w-full flex items-center justify-between gap-3 px-3 py-2 border text-xs sm:text-sm transition-colors ${
-                file.state === "open"
-                  ? "border-terminal/40 text-terminal"
-                  : hype
-                    ? "archive-hype"
+                hype
+                  ? "archive-hype"
+                  : file.state === "open"
+                    ? "border-terminal/40 text-terminal"
                     : "border-dim text-dim"
               }`}
             >
@@ -355,7 +355,7 @@ export default function Archive() {
                 <span className={`truncate${hype ? " archive-hype-title" : ""}`}>{file.title}</span>
                 {hype && <span className="archive-hype-badge shrink-0 ml-auto">{hype}</span>}
                 {file.state === "open" && (
-                  <span className="shrink-0 ml-auto text-terminal/60">[ OPEN ]</span>
+                  <span className={`shrink-0 ${hype ? "" : "ml-auto "}text-terminal/60`}>[ OPEN ]</span>
                 )}
               </button>
               {file.state === "sealed" && (
