@@ -41,7 +41,6 @@ type InitialState = {
   guess: GuessState;
   balance: number;
   cost: number;
-  maxAttempts: number;
 };
 
 // The logs grid mounts a PostGuess per card, then the [ pop out ] modal
@@ -68,7 +67,6 @@ export default function PostGuess({
   const [guessState, setGuessState] = useState<GuessState>(null);
   const [balance, setBalance] = useState(0);
   const [cost, setCost] = useState(1);
-  const [maxAttempts, setMaxAttempts] = useState(2);
   const [stage, setStage] = useState<Stage>("idle");
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -102,7 +100,6 @@ export default function PostGuess({
       setGuessState(cached.guess);
       setBalance(cached.balance);
       setCost(cached.cost);
-      setMaxAttempts(cached.maxAttempts);
       if (cached.guess && !cached.guess.resolved) setStage("open");
       setLoaded(true);
       return;
@@ -124,14 +121,12 @@ export default function PostGuess({
             guess: data.guess ?? null,
             balance: data.wallet?.balance ?? 0,
             cost: data.cost ?? 1,
-            maxAttempts: data.maxAttempts ?? 2,
           };
           initialStateCache.set(cacheKey(postId, userId), state);
           setGuessable(state.guessable);
           setGuessState(state.guess);
           setBalance(state.balance);
           setCost(state.cost);
-          setMaxAttempts(state.maxAttempts);
           // Already started (page reload mid-attempt) — skip the confirm
           // step, go straight back to the open input.
           if (state.guess && !state.guess.resolved) setStage("open");
@@ -239,6 +234,7 @@ export default function PostGuess({
       const newBalance = data.wallet?.balance ?? balance;
       setGuessState(newGuessState);
       setBalance(newBalance);
+      window.dispatchEvent(new Event("problems-changed"));
       setInput("");
       setStage(data.resolved ? "idle" : "open");
       // Keep the cross-mount cache (card + pop-out modal) in step so the
@@ -330,8 +326,8 @@ export default function PostGuess({
     return (
       <div className="mt-3 pt-3 border-t border-dim">
         <p className="text-dim text-xs">
-          ready to answer? only {maxAttempts} attempts, each costs {cost} PROBLEM
-          {cost === 1 ? "" : "S"}.
+          ready to answer? each attempt costs {cost} PROBLEM{cost === 1 ? "" : "S"} — guess as
+          many times as you like.
         </p>
         <div className="mt-1.5 flex gap-3 text-xs">
           <button
@@ -339,7 +335,7 @@ export default function PostGuess({
             onClick={() => setStage("open")}
             className="text-problem hover:underline"
           >
-            [ yes, spend {cost} PROBLEM{cost === 1 ? "" : "S"} ]
+            [ yes, let me guess ]
           </button>
           <button
             type="button"
@@ -357,8 +353,8 @@ export default function PostGuess({
     <div className="mt-3 pt-3 border-t border-dim">
       <form onSubmit={submitGuess} className="space-y-1.5">
         <p className="text-dim text-xs">
-          what's it circling? ({maxAttempts - (guessState?.attempts ?? 0)} guess
-          {maxAttempts - (guessState?.attempts ?? 0) === 1 ? "" : "es"} left · balance {balance})
+          what's it circling? ({cost} PROBLEM{cost === 1 ? "" : "S"} per guess
+          {guessState?.attempts ? ` · ${guessState.attempts} tried` : ""} · balance {balance})
         </p>
         <div className="flex gap-2">
           <input

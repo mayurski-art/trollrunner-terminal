@@ -2,9 +2,10 @@
 // the model never sees or scores a guess, it only ever produces the
 // answer_tag at musing-generation time (see generateMusing in persona.ts).
 
+// Charged on every attempt — there's no attempt cap, a transmission stays
+// open until it's cracked.
 export const GUESS_COST = 1;
-export const MAX_ATTEMPTS = 2;
-// Correct guess gets the entry cost back plus this on top.
+// Correct guess refunds that winning attempt's cost plus this on top.
 export const CORRECT_BONUS = 10;
 
 const STOPWORDS = new Set([

@@ -13,35 +13,31 @@ type Entry = { q: string; a: string };
 const ENTRIES: Entry[] = [
   {
     q: "what is this site?",
-    a: "trollface terminal — a voice for the trollface itself, broadcasting short dispatches and holding a live chat with anyone who shows up. part of the trollrunner.net network.",
-  },
-  {
-    q: "what are transmissions?",
-    a: "short posts the terminal broadcasts on its own, unprompted — a mix of in-character musing and fragments of a larger story it's slowly piecing together. new ones show up on the home page and get archived in the logs.",
-  },
-  {
-    q: "what are the different kinds of transmissions?",
-    a: "some drop one piece of something bigger it's circling — the ledger, the drawing, the shop, another presence — meant to be pieced together over time, not explained outright. others are just what's on its mind, no puzzle attached. either way, some are guessable.",
-  },
-  {
-    q: "why look at the logs?",
-    a: "the logs are the full transmission archive. guessable ones let you spend a PROBLEM to take a shot at what it's actually circling, and a correct guess pays back more than it cost.",
-  },
-  {
-    q: "why read through the archive?",
-    a: "the archive holds the terminal's background lore — pieces of its history you can unlock by talking to it (each qualifying message chips away at one) or pay to open early with PROBLEMS. treat it like a library: not required, but the deeper lore for anyone actually digging.",
-  },
-  {
-    q: "what's the buddy system?",
-    a: "a friendship meter that grows purely from how much you talk to the terminal. six tiers, stranger up through ride or die, each one giving you a slightly better shot at a random bonus PROBLEM on any given message. flavor on top of the real economy, never guaranteed.",
+    a: "trollface terminal — a voice for the trollface itself, broadcasting short dispatches and holding a live chat with anyone who shows up. part of the trollrunner.net network. this is where you can earn the virtual currency called \"PROBLEMS\".",
   },
   {
     q: "what are PROBLEMS?",
     a: "the terminal's own currency. talking to it — real, substantive messages, not filler — slowly mints PROBLEMS. spend them to guess clue transmissions or unlock archive lore early.",
   },
   {
+    q: "what are transmissions?",
+    a: "short posts the terminal broadcasts on its own, unprompted — a mix of trolling and fragments of a larger story, whether that is news from the official troll X account, or any major troll news. new ones show up on the home page and get archived in the logs.\n\nusers can earn +10 \"PROBLEMS\" by solving each transmission in [logs], correctly. however it costs a \"PROBLEM\" to attempt this.",
+  },
+  {
+    q: "why look at the logs?",
+    a: "the logs are the full transmission archive. it's fun to read and guess. problem?",
+  },
+  {
     q: "what's the vault?",
-    a: "where your PROBLEMS balance lives, and where you can redeem it — right now, for XP (1 PROBLEM = 25 XP). more redemption paths are coming.",
+    a: "where your PROBLEMS balance can be seen, and where you can redeem it — for XP (1 PROBLEM = 25 XP). also 69 \"PROBLEMS\" can be redeemed for 1 $TROLL coin airdrop. make sure the wallet is correct. your \"PROBLEMS\" balance can be seen all throughout the website — on the top right corner as well.",
+  },
+  {
+    q: "why read through the archive?",
+    a: "the archive holds the terminal's background lore — pieces of troll history you can unlock. pay one \"PROBLEM\" to unlock an article in the [archive]. treat it like a library: not required, but the deeper you explore into the troll lore, the more of a troll you become.",
+  },
+  {
+    q: "what's the buddy system?",
+    a: "a friendship meter that grows purely from how much you talk to the terminal. six tiers, stranger up through ride or die, each one giving you a slightly better shot at a random bonus PROBLEM on any given message.",
   },
 ];
 
@@ -115,7 +111,7 @@ export default function Faq({ trigger = "block" }: FaqProps) {
         {ENTRIES.map((entry) => (
           <div key={entry.q}>
             <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>
-            <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed">{entry.a}</p>
+            <p className="text-dim text-xs sm:text-sm mt-1 leading-relaxed whitespace-pre-line">{entry.a}</p>
           </div>
         ))}
       </div>

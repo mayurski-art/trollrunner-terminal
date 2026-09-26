@@ -79,7 +79,7 @@ is the right time.
 | Source | Rate |
 |---|---|
 | Chatting | 1 PROBLEM per 7 qualifying messages |
-| **Correct musing guess** | **+10 PROBLEMS** (costs 1 to attempt, 2 attempts max) |
+| **Correct musing guess** | **+10 PROBLEMS** (costs 1 per attempt, unlimited attempts) |
 
 | Sink | Cost |
 |---|---|

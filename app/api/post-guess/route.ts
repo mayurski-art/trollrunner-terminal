@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { gradeGuess, GUESS_COST, MAX_ATTEMPTS, CORRECT_BONUS } from "@/lib/musingGuess";
+import { gradeGuess, GUESS_COST, CORRECT_BONUS } from "@/lib/musingGuess";
 
 export const runtime = "nodejs";
 
@@ -80,14 +80,13 @@ export async function GET(request: Request) {
           resolved: guess.resolved,
           netDelta: guess.resolved
             ? guess.correct
-              ? CORRECT_BONUS
+              ? GUESS_COST + CORRECT_BONUS - guess.cost_paid
               : -guess.cost_paid
             : null,
         }
       : null,
     wallet,
     cost: GUESS_COST,
-    maxAttempts: MAX_ATTEMPTS,
   });
 }
 
@@ -134,17 +133,19 @@ export async function POST(request: Request) {
 
   const wallet = await loadWallet(supabase, userId);
 
+  // Every attempt costs GUESS_COST — no attempt cap, so the charge happens
+  // per guess rather than once when the guess row is opened.
+  if (wallet.balance < GUESS_COST) {
+    return NextResponse.json(
+      { error: `not enough PROBLEMS — need ${GUESS_COST}, have ${wallet.balance}` },
+      { status: 400 }
+    );
+  }
+  await applyWalletDelta(supabase, userId, wallet, -GUESS_COST, "post_guess_spend");
+  wallet.balance -= GUESS_COST;
+
   let guessRow = existing;
   if (!guessRow) {
-    if (wallet.balance < GUESS_COST) {
-      return NextResponse.json(
-        { error: `not enough PROBLEMS — need ${GUESS_COST}, have ${wallet.balance}` },
-        { status: 400 }
-      );
-    }
-    await applyWalletDelta(supabase, userId, wallet, -GUESS_COST, "post_guess_spend");
-    wallet.balance -= GUESS_COST;
-
     const { data: inserted, error: insertError } = await supabase
       .from("terminal_post_guesses")
       .insert({ post_id: postId, user_id: userId, cost_paid: GUESS_COST })
@@ -162,7 +163,10 @@ export async function POST(request: Request) {
 
   const correct = gradeGuess(guessText, post.clue_tag);
   const attempts = guessRow.attempts + 1;
-  const resolved = correct || attempts >= MAX_ATTEMPTS;
+  const resolved = correct;
+  // A freshly inserted row already carries this attempt's cost; an
+  // existing one gets it added now.
+  const costPaid = existing ? guessRow.cost_paid + GUESS_COST : guessRow.cost_paid;
 
   let newBalance = wallet.balance;
   if (correct) {
@@ -170,7 +174,7 @@ export async function POST(request: Request) {
       supabase,
       userId,
       wallet,
-      guessRow.cost_paid + CORRECT_BONUS,
+      GUESS_COST + CORRECT_BONUS,
       "post_guess_correct"
     );
   }
@@ -181,6 +185,7 @@ export async function POST(request: Request) {
       attempts,
       correct,
       resolved,
+      cost_paid: costPaid,
       last_guess_text: guessText,
       resolved_at: resolved ? new Date().toISOString() : null,
     })
@@ -189,9 +194,8 @@ export async function POST(request: Request) {
   return NextResponse.json({
     correct,
     attempts,
-    attemptsRemaining: Math.max(0, MAX_ATTEMPTS - attempts),
     resolved,
-    netDelta: resolved ? (correct ? CORRECT_BONUS : -guessRow.cost_paid) : null,
+    netDelta: resolved ? GUESS_COST + CORRECT_BONUS - costPaid : null,
     wallet: { balance: newBalance },
   });
 }
