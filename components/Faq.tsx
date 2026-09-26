@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import FaqDiagram from "@/components/FaqDiagram";
 
 type Entry = { q: string; a: string };
 
@@ -108,6 +109,7 @@ export default function Faq({ trigger = "block" }: FaqProps) {
             [ close ]
           </button>
         </div>
+        <FaqDiagram />
         {ENTRIES.map((entry) => (
           <div key={entry.q}>
             <p className="text-terminal text-xs sm:text-sm">{entry.q}</p>

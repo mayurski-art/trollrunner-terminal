@@ -18,6 +18,19 @@ type File = {
   cost: number | null;
 };
 
+// Sealed files to hype up — gold glow, shake and a flashing badge
+// (.archive-hype in globals.css) to bait an unlock. Number → badge text.
+// The effect drops once the file is open; it's there to sell the unlock.
+const HYPED_FILES: Record<number, string> = {
+  30: "HOT",
+  32: "HOT",
+  37: "HOT",
+  43: "HOT",
+  48: "HOT",
+  49: "HOT",
+  54: "HOT",
+};
+
 type SearchHit = { number: number; title: string; snippet: string; reason: string | null };
 
 // The lore archive — docs/TERMINAL-V4-DESIGN.md §3. Every numbered section
@@ -312,7 +325,9 @@ export default function Archive() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 items-start">
-        {files.map((file) => (
+        {files.map((file) => {
+          const hype = file.state === "sealed" ? HYPED_FILES[file.number] : undefined;
+          return (
           <div
             key={file.number}
             id={`archive-file-${file.number}`}
@@ -322,7 +337,9 @@ export default function Archive() {
               className={`w-full flex items-center justify-between gap-3 px-3 py-2 border text-xs sm:text-sm transition-colors ${
                 file.state === "open"
                   ? "border-terminal/40 text-terminal"
-                  : "border-dim text-dim"
+                  : hype
+                    ? "archive-hype"
+                    : "border-dim text-dim"
               }`}
             >
               <button
@@ -335,7 +352,8 @@ export default function Archive() {
                 <span className="text-ghost">
                   {String(file.number).padStart(2, "0")}
                 </span>
-                <span className="truncate">{file.title}</span>
+                <span className={`truncate${hype ? " archive-hype-title" : ""}`}>{file.title}</span>
+                {hype && <span className="archive-hype-badge shrink-0 ml-auto">{hype}</span>}
                 {file.state === "open" && (
                   <span className="shrink-0 ml-auto text-terminal/60">[ OPEN ]</span>
                 )}
@@ -416,7 +434,8 @@ export default function Archive() {
               </Frame>
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {lightbox && (
