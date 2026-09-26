@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { getPublicClient } from "@/lib/supabase";
 import { displayName, onAuthChange } from "@/lib/auth";
 import { OWNER_USERNAME } from "@/lib/ownerUsername";
-import Meter from "@/components/Meter";
 import TerminalFace from "@/components/TerminalFace";
 import { timeAgo } from "@/lib/time";
 import { isVideoAsset, isLoopGifAsset } from "@/lib/loreAssets";
@@ -1059,11 +1058,6 @@ export default function Chat({
             <div className="shrink-0">
               <TerminalFace />
             </div>
-            <Meter
-              width={10}
-              fraction={wallet.qualifyingCount / wallet.qualifyingInterval}
-              label={`mining ${wallet.qualifyingCount}/${wallet.qualifyingInterval}`}
-            />
             <span className="text-dim whitespace-nowrap">
               buddy: <span className="text-terminal">{wallet.buddyTier}</span>
             </span>

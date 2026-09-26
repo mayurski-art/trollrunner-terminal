@@ -14,7 +14,10 @@ export const maxDuration = 30;
 const MAX_MESSAGES_PER_DAY = 60;
 const BURST_WINDOW_MS = 10_000;
 const BURST_MAX_MESSAGES = 3; // the 3rd message inside BURST_WINDOW_MS gets held
-const QUALIFYING_INTERVAL = 7; // messages per 1 PROBLEM
+// Every qualifying message mints 1 PROBLEM (was 1 per 7). Still reported to
+// the client, and qualifying_count stays in the schema, but it no longer
+// accumulates — it's always reset to 0.
+const QUALIFYING_INTERVAL = 1;
 const MAX_MESSAGE_LENGTH = 1000;
 const HISTORY_TURNS = 12;
 // Character ceiling on the history sent to the model. HISTORY_TURNS alone
@@ -544,10 +547,10 @@ export async function POST(request: Request) {
   }
 
 
-  // Mining: every QUALIFYING_INTERVAL qualifying messages mints 1 PROBLEM.
-  const newQualifyingCount = wallet.qualifying_count + (qualifying ? 1 : 0);
-  const minted = Math.floor(newQualifyingCount / QUALIFYING_INTERVAL);
-  const remainder = newQualifyingCount % QUALIFYING_INTERVAL;
+  // Mining: each qualifying message mints 1 PROBLEM. Any progress left over
+  // from the old 1-per-7 counter is dropped rather than paid out.
+  const minted = qualifying ? 1 : 0;
+  const remainder = 0;
 
   // Buddy system: friendship grows with every real (non-spam) message, and
   // occasionally throws in a bonus PROBLEM regardless of mining progress —

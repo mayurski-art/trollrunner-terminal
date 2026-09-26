@@ -16,7 +16,6 @@ import { getPublicClient } from "@/lib/supabase";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
-import Meter from "@/components/Meter";
 import { BANNER_VAULT } from "@/lib/ascii";
 import SpendSignal from "@/components/SpendSignal";
 
@@ -32,7 +31,6 @@ type LadderRow = { user_id: string; balance: number; username: string | null };
 // component body - as a fresh object each render it counts as a changing
 // dependency of every callback that reads it.
 const POPOUT_SIZE = { width: 720, height: 640 };
-const QUALIFYING_INTERVAL = 7;
 const LADDER_REFRESH_MS = 12_000;
 // Top miners shows a full 20 — 10 left the board looking half empty.
 const LADDER_SIZE = 20;
@@ -313,15 +311,9 @@ export default function VaultPage() {
                 {wallet?.balance ?? "..."}{" "}
                 <span className="text-sm text-dim align-middle">PROBLEMS</span>
               </p>
-              <p className="text-dim text-xs mb-3">
+              <p className="text-dim text-xs">
                 lifetime mined: {wallet?.lifetime_earned ?? 0}
               </p>
-              <Meter
-                width={10}
-                fraction={(wallet?.qualifying_count ?? 0) / QUALIFYING_INTERVAL}
-                tone="problem"
-                label={`mining progress: ${wallet?.qualifying_count ?? 0}/${QUALIFYING_INTERVAL}`}
-              />
 
               {/* Hairline rule + label stand in for the border the ledger
                   used to have, so the history still reads as its own thing
