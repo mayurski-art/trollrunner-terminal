@@ -289,7 +289,7 @@ export default function Chat({
   const [wallet, setWallet] = useState<Wallet>({
     balance: 0,
     qualifyingCount: 0,
-    qualifyingInterval: 7,
+    qualifyingInterval: 1,
     friendshipScore: 0,
     buddyTier: "stranger",
   });

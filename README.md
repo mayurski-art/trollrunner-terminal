@@ -10,7 +10,7 @@ on a schedule and mirrors the feed at `trolltruths.com`
 is manual (see below).
 
 v2 adds a live chat with the entity (`claude-haiku-4-5`), a PROBLEMS token economy
-(mine 1 PROBLEM per 7 qualifying messages), a black/white/grey terminal reskin with
+(mine 1 PROBLEM per qualifying message), a black/white/grey terminal reskin with
 FIGlet banners and box-drawing frames, and shared TrollRunner account login. See
 [`docs/TERMINAL-V2-DESIGN.md`](docs/TERMINAL-V2-DESIGN.md) for the full design.
 

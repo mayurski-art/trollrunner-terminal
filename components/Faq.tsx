@@ -18,7 +18,7 @@ const ENTRIES: Entry[] = [
   },
   {
     q: "what are PROBLEMS?",
-    a: "the terminal's own currency. talking to it — real, substantive messages, not filler — slowly mints PROBLEMS. spend them to guess clue transmissions or unlock archive lore early.",
+    a: "the terminal's own currency. talking to it — real, substantive messages, not filler — mints 1 PROBLEM per message. spend them to guess clue transmissions or unlock archive lore early.",
   },
   {
     q: "what are transmissions?",

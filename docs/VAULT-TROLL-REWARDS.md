@@ -78,7 +78,7 @@ is the right time.
 
 | Source | Rate |
 |---|---|
-| Chatting | 1 PROBLEM per 7 qualifying messages |
+| Chatting | 1 PROBLEM per qualifying message (was 1 per 7 until 2026-09-26) |
 | **Correct musing guess** | **+10 PROBLEMS** (costs 1 per attempt, unlimited attempts) |
 
 | Sink | Cost |
