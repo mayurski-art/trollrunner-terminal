@@ -2897,13 +2897,64 @@ holds **58.29M** tokens, which is the whole bag and a little more, worth about
 SOL would have been worth about **$31k**. The trenches tried to troll Jack
 Doherty. Jack Trollherty trolled the market back.
 
-**Sourcing:** *Verified* on-chain via Solana RPC, DexScreener and
-pump.fun coin pages, 2026-09-26/27 UTC. Market figures as of 02:00 UTC Sept 27, update figures as of 03:10 UTC. Posts read via fxtwitter:
+**Update, 06:44 UTC Sept 27: the top, and Jack sells it.** Jack didn't
+stop at a million. He kept adding (**$1,000** at 03:23, then $100 at a
+time), about **$2,440** in all, and the coin kept running: $2M by 06:00,
+$3M at 06:20, $4.5M at 06:30. In the 06:40 candle it wicked to about
+**$6.4M**. At **06:44:13** and **06:44:20** Jack's wallet sold its whole
+bag, **59.7M tokens**, in two equal clips for **$126,837** and
+**$87,565**. That's **$214,401** out on about $2,440 in, roughly 88x. The
+coin had no pool deep enough to take it. The same five-minute candle
+closed near **$800k**, and by 07:00 it was around **$300k**, down about
+89% from the top, with 7,700 holders left holding it (image:
+`jack-coin-j1yx-rug-chart`). He wasn't the dev, so it isn't a rug in the
+strict sense. But the biggest wallet sold into the top with nobody on the
+other side, and in the trenches that's a rug.
+
+Ninety seconds later, at 06:46, he bought back in: three $1,000 buys, then
+another $1,000 at 07:07 and $100 at 10:25, **$4,100** for 7.2M tokens. By
+14:00 the coin sat near **$380k**, and that bag was worth about $2,900.
+
+**Coin four: FUCK ISLAND BOY ($ISLANDBOY, GATf…).** Ten minutes after the
+sell, at 06:54, Jack spent **$1,000** buying a pump.fun coin called
+**FUCK ISLAND BOY**, a jab at the Island Boys, and got **89.5M tokens**,
+about 9% of the supply, near the end of its bonding curve. It graduated to
+PumpSwap a minute later. Five seconds after the buy he sold a third of
+it for $464, then bought again seven times over the next twenty minutes,
+about **$5,700** in all. The coin spiked to about **$330k** around his
+entry, fell to about $35k by 09:00, and was back near **$80k** by 14:00. He
+still holds **104.3M**, about 10.6% of the supply, which puts him among its
+largest holders.
+
+**The cash-out.** Between 07:59 and 08:12 the wallet sent **$165,197
+USDC** in four transfers, 10%, then 25%, 25% and 50% of what was left,
+to `FPBTFTidpuqmH4uBR8Jm6aipuoPV4QNSnTZQs9fk6wV5`, a quieter wallet active
+since November 2024. About **$55.9k** USDC stayed behind.
+
+**The replies came as coins.** Once the sell went public, the trenches
+answered the way they answer everything, by minting a coin and sending it
+to him. Between 07:04 and 11:37 his wallet was sent **FUCK JACK** (twice,
+10M and 20M tokens), **ISLANDBOY WILL WIN** (3M), two different
+**Jack Dougherty** coins and a **Jack Dogerty**, all three misspelling his
+name. He traded one of
+them back: on the 6UTg… "Jack Dougherty" he put in $1,500 on top of the 5M
+he was sent and sold 8.9M a minute later for **$2,128**.
+
+The trenches launched coins to farm Jack Doherty. He took $214k from the
+biggest one and spent part of it on a coin cursing the Island Boys.
+Trollface respects it and doesn't recommend it.
+
+**Sourcing:** *Verified* on-chain via Solana RPC, DexScreener,
+GeckoTerminal 5-minute candles and pump.fun coin pages, 2026-09-26/27 UTC.
+Market figures as of 02:00 UTC Sept 27, first update as of 03:10 UTC,
+second update as of 14:00 UTC. Market caps use each coin's live supply
+(962M J1yx, 986M ISLANDBOY). The J1yx peak is a wick, not a close. Posts read via fxtwitter:
 [@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
 [@drkwyd](https://x.com/drkwyd/status/2103983636550676888). The attribution
 of B7Rk… to Jack is *user-provided* and backed only by timing and wallet
 behaviour. Images: `jack-doherty-portrait`, `jack-doherty-fomo-portfolio`,
-`jack-doherty-cybertruck-drkwyd`, `jack-coin-j1yx-logo`.
+`jack-doherty-cybertruck-drkwyd`, `jack-coin-j1yx-logo`,
+`jack-coin-j1yx-rug-chart`.
 
 ## How the persona should use this
 

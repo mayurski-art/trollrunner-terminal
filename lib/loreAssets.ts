@@ -688,8 +688,16 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "jack-coin-j1yx-logo",
     url: "/lore/jack-coin-j1yx-logo.jpg",
     caption:
-      "the logo of the J1yx JACK coin, from its own on-chain metadata on usepaid.app ('Fees to @dohertyjackk via UsePaid'): a mugshot-style photo of Jack Doherty against a grey wall, curly hair and black tee. It's the coin that ran past a $1M market cap on Sept 27, 2026 while Jack held his whole 58M-token bag",
+      "the logo of the J1yx JACK coin, from its own on-chain metadata on usepaid.app ('Fees to @dohertyjackk via UsePaid'): a mugshot-style photo of Jack Doherty against a grey wall, curly hair and black tee. It's the coin that ran to a $6.4M wick on Sept 27, 2026 before Jack sold his whole bag into the top for $214k",
     keywords: ["jack coin", "j1yx", "jack trollherty", "jack logo", "usepaid", "jack million"],
+    sections: [69],
+  },
+  {
+    id: "jack-coin-j1yx-rug-chart",
+    url: "/lore/jack-coin-j1yx-rug-chart.jpg",
+    caption:
+      "a phone screenshot of the J1yx JACK 5-minute chart, 13 hours after launch: a slow climb from about $1M, a green run to $5M, a single wick to about $7M on the chart's axis, then one long red candle straight back under $1M as Jack Doherty sold his 59.7M tokens for $214k. The header reads MC $642.64K, down 88.8%, with 7.7K holders",
+    keywords: ["jack rug", "jack dump", "jack sold", "jack doherty rug", "rug pull", "jack chart", "6 million", "jack crash"],
     sections: [69],
   },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
