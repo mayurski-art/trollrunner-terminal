@@ -851,7 +851,8 @@ one where nothing you do today shows up today: you put in months of
 unglamorous miles and the time drops later, or it doesn't. He applies that
 exact bet to a meme. The 5:20am run at 43M isn't a metaphor he reached for.
 It's what he was already doing. §34 and §41 show the same person off the
-ledger, and §45 has him designing a shoe.
+ledger, §45 has him designing a shoe, and §66 has him buying the troll
+dressed like him (#1718) and putting it on his running watch.
 
 **Sources:** archived posts in
 `trollrunner-finance/assets/data/finance-timeline.json`, each with a live
@@ -2433,6 +2434,47 @@ Runner** is a neon-green racing singlet with RUNNER across the chest.
 a trollface out on an easy run. It wasn't a four-figure sale. It's the
 man who runs at 5:20am buying the one troll dressed for it.
 
+**Troll tek — #1718 goes on the wrist.** About fourteen hours after the
+buy, at 15:35 UTC the same day, `@troll_runner` posted *"troll tek just got
+upgraded"*: his $TROLL NFT set as the face of his **COROS** running watch,
+calling it a new trend, "$troll NFT's on digital watches," and signing off
+"TROLL #1718." Read cold, the post looks like a man bragging about a
+watch. Read after the paragraph above, it's the obvious next step. He
+bought the troll that dresses like him, and then put it on the one thing
+he actually looks at while he runs. Four images came with it:
+
+- **The MAD? selfie**: the Troll Runner against a cinderblock wall with his
+  forearm over his eyes, in the black **MAD?** cap, a white Trollface **"YOU
+  MAD?"** tee and the GOATFARM rosary from §41. The COROS on that wrist
+  shows #1718 in the moustache and RUNNER tank at 06:46. It's the §33
+  morning schedule, now logged on a troll's face.
+- **The wrist shot**: the watch reading 07:00 with #1718 on a blue
+  backlight, a woven red strap, ripped jeans, and a second bracelet of
+  enamel trollface charms on the same arm.
+- **The hat collage**: #1718 in the middle, surrounded by eight real-life
+  photos of the **MAD?** cap. They include the cap held up on the sand,
+  Jedo wearing it at Huntington Beach (§41), a corgi next to it (twice), a
+  gym-mirror selfie, the cap pulled on in a GOATFARM track jacket, and the
+  cap on a park table next to a GOATFARM comic bag and the rosary box. One
+  tile shows the COROS after a **13.11-mile half marathon in 2:02:47 at a
+  9:22 pace**. This is the "no one shills the hat harder than i do" line.
+  The NFT's *Goatfarm Hat* trait is the U MAD BRO? cap from the merch line
+  in §31. He's been wearing the real-life version all summer, and now
+  his troll wears it too.
+- **The OpenSea card** he attached as a receipt: the TROLLS page with the
+  floor at **$186.59, up 14.4% in a day**, a $158.47 top offer, $11K in
+  24-hour volume, $1.4M total, **684 unique owners** and 551 listed. Four
+  days earlier, the reveal-day capture above showed 678 owners and 433
+  listed. The owner count went up by six and the listings went up by 118:
+  more people are holding, and more of them are also offering to sell.
+
+The sequence is the part that holds together. He bought #1718 at 01:53 UTC,
+set it as his watch face by the morning run, and was posting it before
+lunch. That's the §33 pattern of acting on the belief instead of arguing
+it, applied to an NFT. "Troll tek" is his name for it. Whether anyone else
+starts a trend of trolls on watches is still open. So far it's a trend of
+one.
+
 **Sources:** user-provided: the "BREAKING" post text (no link) and an
 OpenSea screenshot of the TROLLS activity tab filtered to Sale / Price >
 $1K USD, captured about 35 minutes after the sale. Collection stats in the
@@ -2442,7 +2484,14 @@ same capture: 3,333 items, created May 2026 by "troll-dev," 5% creator fee,
 (via fxtwitter), the
 [OpenSea item](https://opensea.io/item/ethereum/0xfba5880244850d89a91479a01bb8d1b678cd79fe/1718),
 and traits *verified* from the token's on-chain `tokenURI` metadata on IPFS.
-Images: `trolls-first-1k-sale-after-reveal`, `trolls-1718-tank-runner`.
+Troll tek: the
+[@troll_runner post](https://x.com/troll_runner/status/2104233361778921970)
+(September 27, 2026, 15:35 UTC, time decoded from the status ID), with its
+four attached images. The watch brand, times and half-marathon stats are
+read off the photos.
+Images: `trolls-first-1k-sale-after-reveal`, `trolls-1718-tank-runner`,
+`troll-tek-1718-watch-selfie`, `troll-tek-1718-watch-wrist`,
+`troll-tek-mad-hat-collage`, `troll-tek-opensea-floor`.
 
 ## 67. Bitget turns 8 and gets drained at 2:31 AM — the pump came before Asia woke up
 

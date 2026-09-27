@@ -597,6 +597,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [66],
   },
   {
+    id: "troll-tek-1718-watch-selfie",
+    url: "/lore/troll-tek-1718-watch-selfie.jpg",
+    caption:
+      "\"troll tek\" (Sept 27, 2026): the Troll Runner against a cinderblock wall, forearm over his eyes, in the black MAD? cap, a white trollface YOU MAD? tee and the GOATFARM rosary, with his COROS watch showing TROLLS #1718 as its face at 06:46",
+    keywords: ["troll tek", "watch face", "coros", "nft on a watch", "nft watch", "troll watch"],
+    sections: [66],
+  },
+  {
+    id: "troll-tek-1718-watch-wrist",
+    url: "/lore/troll-tek-1718-watch-wrist.jpg",
+    caption:
+      "\"troll tek\" close-up (Sept 27, 2026): the Troll Runner's COROS watch at 07:00 with TROLLS #1718 (moustache, U MAD BRO? cap, RUNNER tank) glowing on a blue backlight, a woven red strap, and a bracelet of enamel trollface charms on the same wrist over ripped jeans",
+    keywords: ["troll tek", "watch face", "coros", "nft on a watch", "trollface bracelet", "troll watch"],
+    sections: [66],
+  },
+  {
+    id: "troll-tek-mad-hat-collage",
+    url: "/lore/troll-tek-mad-hat-collage.jpg",
+    caption:
+      "\"no one shills the hat harder\": TROLLS #1718 in the middle of eight real photos of the black MAD? cap: held up on the sand, Jedo at Huntington Beach, with a corgi (twice), a gym mirror selfie, in a GOATFARM jacket, next to a GOATFARM bag and rosary, and over a COROS showing a 13.11-mile half marathon in 2:02:47",
+    keywords: ["mad hat", "mad cap", "mad? hat", "shills the hat", "hat collage", "half marathon", "corgi"],
+    sections: [66],
+  },
+  {
+    id: "troll-tek-opensea-floor",
+    url: "/lore/troll-tek-opensea-floor.jpg",
+    caption:
+      "OpenSea TROLLS collection card attached to the \"troll tek\" post (Sept 27, 2026): floor $186.59 (+14.4% on the day), top offer $158.47, $11K 24h volume, $1.4M total volume, 684 unique owners, 551 listed, 3,333 items by troll-dev",
+    keywords: ["trolls floor", "floor price", "nft floor", "opensea trolls"],
+    sections: [66],
+  },
+  {
     id: "bitget-drain-arkham-transfers",
     url: "/lore/bitget-drain-arkham-transfers.webp",
     caption:
