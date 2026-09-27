@@ -684,6 +684,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["jack doherty", "drkwyd", "cybertruck", "jack doherty official", "jack doherty coin"],
     sections: [69],
   },
+  {
+    id: "jack-coin-j1yx-logo",
+    url: "/lore/jack-coin-j1yx-logo.jpg",
+    caption:
+      "the logo of the J1yx JACK coin, from its own on-chain metadata on usepaid.app ('Fees to @dohertyjackk via UsePaid'): a mugshot-style photo of Jack Doherty against a grey wall, curly hair and black tee. It's the coin that ran past a $1M market cap on Sept 27, 2026 while Jack held his whole 58M-token bag",
+    keywords: ["jack coin", "j1yx", "jack trollherty", "jack logo", "usepaid", "jack million"],
+    sections: [69],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks
