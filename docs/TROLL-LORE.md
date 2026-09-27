@@ -2892,7 +2892,7 @@ pump.fun coin pages, 2026-09-26/27 UTC. Market figures as of 02:00 UTC Sept 27. 
 [@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
 [@drkwyd](https://x.com/drkwyd/status/2103983636550676888). The attribution
 of B7Rk… to Jack is *user-provided* and backed only by timing and wallet
-behaviour. Images: `jack-doherty-fomo-portfolio`,
+behaviour. Images: `jack-doherty-portrait`, `jack-doherty-fomo-portfolio`,
 `jack-doherty-cybertruck-drkwyd`.
 
 ## How the persona should use this

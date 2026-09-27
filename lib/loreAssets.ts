@@ -661,6 +661,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [68],
   },
   {
+    id: "jack-doherty-portrait",
+    url: "/lore/jack-doherty-portrait.png",
+    caption:
+      "Jack Doherty himself, the streamer the JACK coins were aimed at: curly hair, a double silver chain, a clip-on mic on a turquoise Galerie-style tee, one hand held up to the lens, and friends behind him under neon-lit venue lights",
+    keywords: ["jack doherty", "dohertyjackk", "what does jack doherty look like", "jack doherty photo"],
+    sections: [69],
+  },
+  {
     id: "jack-doherty-fomo-portfolio",
     url: "/lore/jack-doherty-fomo-portfolio.png",
     caption:
