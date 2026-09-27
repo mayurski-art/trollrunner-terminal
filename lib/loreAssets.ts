@@ -716,6 +716,16 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["jack portfolio", "141k", "jack doherty fomo", "never selling", "10m by the morning", "jack shill", "jack tiktok"],
     sections: [69],
   },
+  {
+    // AI-generated joke, not a real photo: Jack has not been charged or
+    // jailed. Keywords stay narrow so it only shows when asked for.
+    id: "jack-doherty-jail-meme-eyewhales",
+    url: "/lore/jack-doherty-jail-meme-eyewhales.jpg",
+    caption:
+      "an AI-GENERATED MEME, NOT A REAL PHOTO: a Jack Doherty lookalike asleep on a prison bunk in an orange jumpsuit behind rusty bars, posted by @EyeWhales under Jack's 'only going up from here' tweet after the JACK sell with 'Good night and have a nice sleep'. Jack has not been charged with anything; always call it a fake/AI joke when showing it",
+    keywords: ["jack jail meme", "jack prison meme", "jack jail pic", "jack prison pic", "jack in jail", "jack in prison", "eyewhales"],
+    sections: [69],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

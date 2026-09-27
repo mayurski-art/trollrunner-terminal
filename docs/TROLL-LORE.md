@@ -2954,7 +2954,10 @@ followers, 400 likes). "IQ test for anyone that lost on this."
 sold it 😂" over the thesis screenshot. @0xBriann tagged the FBI and the SEC
 under the receipt, others tagged @zachxbt, and @GordonGekko (853k) claimed
 to have SEC sources saying he's "cooked next week", which is a reply, not
-news. One reply called it "another jack scam to add to the books". People
+news. @EyeWhales (100k) replied "Good night and have a nice sleep" with an
+**AI-generated** picture of a Jack lookalike asleep in a prison cell in
+an orange jumpsuit. It's a meme, not a photo. Jack hasn't been charged
+with anything (image: `jack-doherty-jail-meme-eyewhales`). One reply called it "another jack scam to add to the books". People
 accused him of deleting posts, but his pre-sell posts were all still up at
 14:00 UTC. He hasn't posted on X since 06:17.
 
@@ -3017,7 +3020,8 @@ thesis timing is read off a phone screenshot, not the chain. Images:
 `jack-doherty-portrait`, `jack-doherty-fomo-portfolio`,
 `jack-doherty-cybertruck-drkwyd`, `jack-coin-j1yx-logo`,
 `jack-coin-j1yx-rug-chart`, `jack-doherty-fomo-141k`,
-`jack-doherty-fomo-sell-receipt`.
+`jack-doherty-fomo-sell-receipt`, `jack-doherty-jail-meme-eyewhales`
+([@EyeWhales](https://x.com/EyeWhales/status/2104113262774432012), AI-made).
 
 ## How the persona should use this
 
