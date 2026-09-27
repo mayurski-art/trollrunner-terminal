@@ -2873,6 +2873,34 @@ coin had run from about $50k to about **$294k** on **$1.24M** of volume,
 and his 58M tokens were worth about **$17k**. He sold none. Every trade
 also paid creator fees to his own X account.
 
+**The coin that sent him a tenth: Jack Doherty Coin ($Jack, 2pd3…).** At
+22:48 @pscldev_pf quoted one of Jack's Fomo posts with "It's real.. If we
+get his Solana wallet im gonna send him fees!! … Official Jack Doherty
+Coin". At 22:57 @0xSpongey posted "No fees or supply at 100k? / B7Rk… /
+His wallet sending 10%". At **22:58:11** pump.fun wallet
+`9aztChMYbsF5HRFG2ECkjfEdHHZChB1b3tRHQ2TPgKjv` created **Jack Doherty
+Coin** (`2pd39VKJQKxwgfvx36E7hzX5cum4xCaY6KEhXJ4t3TKz`) through j7tracker,
+with the @0xSpongey post as its X link, and bought **24.8%** of the supply
+for 9.1 SOL. In that same second, three other wallets bought for five
+wallets between them: `9ygm…T4Eb` with `Akef…cEVF`, `7QZa…FioK` with
+`FSEX…cnh4`, and `6ePF…dyPS`. Together they held **about 48%** from the
+launch block. The five were 85 to 107 days old, each funded from a
+different exchange (MEXC, KuCoin, Bitget, Binance). A trading terminal
+tags all six as "DEV", and here, unlike the "13 devs" below, the tag fits.
+It was one launch bundle.
+
+At **22:58:24**, 13 seconds after launch, the creator wallet itself sent
+**103.8M tokens**, 10.4% of the supply, straight to Jack's wallet. That
+was nearly half its own bag. It then sold the remaining 143.8M in 11 sells. The
+coin never graduated and topped out at about **$18.5k** around 00:20. The
+six bundle wallets finished about **$1,840** up between them, mostly the
+creator (+$1.66k). Jack never paid for his tenth and never sold a token. He
+still holds **104.1M**, worth a few hundred dollars. It never showed up
+on his Fomo cards either. When he posted "Never selling my Jack Doherty coin
+holding forever" at 01:26, his cards show he meant J1yx. This was the
+first Jack coin with Jack in it, and the one that went nowhere. The
+one he actually bought, ninety minutes later, went to $6.4M.
+
 **Coin three: Jack Doherty Official ($JACK, 26LA…).** At 23:02 creator
 **DRK** (`@drkwyd`, bio "made pumpathon") launched a tribute coin from
 pump.fun wallet `E4WuDtSt39GpUacPoFnaqU1jSni8LMG3nGt2mWL331NA`, posting
@@ -3002,6 +3030,10 @@ second update as of 14:00 UTC. Market caps use each coin's live supply
 (962M J1yx, 986M ISLANDBOY). The J1yx peak is a wick, not a close. Posts read via fxtwitter:
 [@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
 [@drkwyd](https://x.com/drkwyd/status/2103983636550676888) ·
+[@pscldev_pf](https://x.com/pscldev_pf/status/2103979940722934186) and
+[@0xSpongey](https://x.com/0xSpongey/status/2103982444323979611) (Jack
+Doherty Coin's metadata links the latter; bundle wallets per the launch
+block and a terminal's "DEV 6" top-traders view) ·
 [Jack posts the B7Rk address](https://x.com/dohertyjackk/status/2103999666069348456)
 (00:06 UTC) · ["IM NEVER SELLING"](https://x.com/dohertyjackk/status/2104043106891153442)
 (02:59) · ["knock the island boys out"](https://x.com/dohertyjackk/status/2104019896405303554)
