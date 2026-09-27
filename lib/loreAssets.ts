@@ -700,6 +700,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["jack rug", "jack dump", "jack sold", "jack doherty rug", "rug pull", "jack chart", "6 million", "jack crash"],
     sections: [69],
   },
+  {
+    id: "jack-doherty-fomo-sell-receipt",
+    url: "/lore/jack-doherty-fomo-sell-receipt.jpg",
+    caption:
+      "a screenshot of Jack Doherty's Fomo profile right after he sold: his JACK position marked 'Closed', the chart with a column of green buy markers and one red sell marker at the spike, +$213,060.60 and +8,810.86%, avg entry $38.9K MC, avg exit $3.4M MC, and under it his own Fomo thesis post 'WERE GOING TO SMASH THROUGH 10m!!!'. Posted by @0xBriann tagging the FBI and SEC",
+    keywords: ["jack rug", "jack sold", "jack receipt", "213k", "214k", "smash through 10m", "jack thesis", "jack profit", "jack doherty scam"],
+    sections: [69],
+  },
+  {
+    id: "jack-doherty-fomo-141k",
+    url: "/lore/jack-doherty-fomo-141k.jpg",
+    caption:
+      "the Fomo portfolio card Jack Doherty posted at 05:57 UTC Sept 27, 2026 with '$2m market cap on fomo! We're hitting $10m by the morning and $100m when I post my TikTok!!': $141,789.20 total, JACK worth $123.7K and up $121,475.69, plus small BRANDRISK and PONS bags, and his 'code dohertyjackk' banner. He sold the JACK bag 47 minutes later",
+    keywords: ["jack portfolio", "141k", "jack doherty fomo", "never selling", "10m by the morning", "jack shill", "jack tiktok"],
+    sections: [69],
+  },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
   // general question about the Alphas through the gate; the model then picks

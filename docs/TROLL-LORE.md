@@ -2820,7 +2820,7 @@ and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
 `nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`,
 `nft-drain-lazy-lions-wiimee`.
 
-## 69. Jack Doherty opens a Fomo account, and three "JACK" coins follow him in
+## 69. Jack Doherty opens a Fomo account, the "JACK" coins follow him in, and he sells the top
 
 At 16:57 UTC on **September 26, 2026**, streamer **Jack Doherty**
 (`@dohertyjackk`, 124k followers) posted "Just made a Fomo account… what
@@ -2829,9 +2829,18 @@ a flat line that shoots straight up, and a "10% off fees with code
 dohertyjackk" referral banner. 87,000 views. He didn't launch a coin. The
 trenches launched them at him.
 
-**The wallet.** The site operator identified
-`B7RkXpM4PW4CUy283TFCMwm913k8mBRMz6V5TJCzCWEY` (pump.fun name
-**BlueCedarRanger**) as his. On-chain it fits: first funded at 16:55, two
+The trenches knew the name. On **November 23, 2024**, Jack launched a coin
+on stream (McLaren/SOL, named after the $200k McLaren he'd crashed),
+and it dumped within minutes. Wallets had bought in ahead of the stream,
+and he deleted his promo posts afterwards. Crypto X has called him a
+serial rugger ever since. He's also booked to box **Island Boy
+Kodiyakredd** at Adin Ross's **Brand Risk 16** on **October 16, 2026** in
+Miami, which explains the names of two coins below.
+
+**The wallet.** `B7RkXpM4PW4CUy283TFCMwm913k8mBRMz6V5TJCzCWEY` (pump.fun
+name **BlueCedarRanger**). The site operator flagged it first, and at 00:06
+UTC Sept 27 Jack posted the address himself: "Solana address B7Rk…"
+(43.6k views). On-chain it fits too: first funded at 16:55, two
 minutes before the post; holds USDC and no SOL; every trade is signed by
 the same gasless relayer, which is how a Fomo app wallet behaves. His first
 buys were **$500 of PAID** (the usepaid.app launchpad token), then $250 of
@@ -2841,8 +2850,8 @@ tokens it never asked for.
 **Coin one: BRANDRISK.** At 20:05 a trader wallet,
 `7VnmAhAHgD8mbofADCg8aUrDXZQrQQ7sRd7ihvmayj1v`, funded a fresh wallet,
 `HN2Nu8q4b3y3Q3behBeCSY2jqTRcikdABZ3XeRUvyzUu`, which launched
-**Brand Risk Promotions ($BRANDRISK)** at 20:09. The name is the insult
-that follows Jack's career around. Seven minutes later Jack's wallet spent $500 and got
+**Brand Risk Promotions ($BRANDRISK)** at 20:09. It's named after Adin
+Ross's boxing promotion, the one putting on Jack's October fight. Seven minutes later Jack's wallet spent $500 and got
 about **7.8% of the supply**. He then traded it in and out all night,
 about $2,000 in and $7,700 out, and still held 14M tokens at 00:32. The
 coin graduated, did roughly **$520k in volume** and fell 77% in an hour.
@@ -2897,6 +2906,23 @@ holds **58.29M** tokens, which is the whole bag and a little more, worth about
 SOL would have been worth about **$31k**. The trenches tried to troll Jack
 Doherty. Jack Trollherty trolled the market back.
 
+**What he was posting.** The whole night, Jack's X feed read like a
+shill account. Every post pushed his Fomo referral code:
+- **00:42** "Never selling holding until up up a M"
+- **00:58** "Just getting started. I'm just gonna keep buying more and more"
+- **01:26** "Never selling my Jack Doherty coin holding forever. It's going
+  to go crazy once I knock the island boys out October 16th"
+- **01:34** $10,000 giveaway "once $JACK hits $1M market cap", or at 10k
+  Fomo followers
+- **02:59** "Let's hit $10m by the morning and I'll 10x the giveaway
+  amount! … **IM NEVER SELLING**" (58k views)
+- **03:14** "Posted a #TikTok promoting $JACK"
+- **05:57** "$2m market cap on fomo! We're hitting $10m by the morning and
+  $100m when I post my TikTok!!", with a Fomo card showing **$141,789**,
+  JACK alone up $121,476 (image: `jack-doherty-fomo-141k`)
+- **06:17** "We're not stopping anytime soon… [J1yx] is only going up from
+  here" (317k views). This was 27 minutes before he sold.
+
 **Update, 06:44 UTC Sept 27: the top, and Jack sells it.** Jack didn't
 stop at a million. He kept adding (**$1,000** at 03:23, then $100 at a
 time), about **$2,440** in all, and the coin kept running: $2M by 06:00,
@@ -2911,13 +2937,35 @@ closed near **$800k**, and by 07:00 it was around **$300k**, down about
 strict sense. But the biggest wallet sold into the top with nobody on the
 other side, and in the trenches that's a rug.
 
+**Fomo's own receipt.** Screenshots of Jack's Fomo profile went around
+within minutes. His JACK position reads **"Closed"**: **+$213,060.60**,
+**+8,810.86%**, average entry **$38.9K MC**, average exit **$3.4M MC**,
+$2,418.16 invested over 17 transactions, and two sells of 29.8M, one "at
+$4.1M MC" and one "at $2.8M MC". Pinned under it is Jack's own Fomo
+"Thesis" post: **"WERE GOING TO SMASH THROUGH 10m!!!"** One timestamped
+capture shows the thesis a minute old next to sells from the same minute,
+so he posted it while he was selling or right after (image:
+`jack-doherty-fomo-sell-receipt`).
+
+**The replies.** His 06:17 "only going up from here" post became where
+people came to shout at him. "Lmao $0 soon" (@CryptoWizardd, 812k
+followers, 400 likes). "IQ test for anyone that lost on this."
+"Still shilling after Cashing out 200k is diabolical." "he said it after he
+sold it 😂" over the thesis screenshot. @0xBriann tagged the FBI and the SEC
+under the receipt, others tagged @zachxbt, and @GordonGekko (853k) claimed
+to have SEC sources saying he's "cooked next week", which is a reply, not
+news. One reply called it "another jack scam to add to the books". People
+accused him of deleting posts, but his pre-sell posts were all still up at
+14:00 UTC. He hasn't posted on X since 06:17.
+
 Ninety seconds later, at 06:46, he bought back in: three $1,000 buys, then
 another $1,000 at 07:07 and $100 at 10:25, **$4,100** for 7.2M tokens. By
 14:00 the coin sat near **$380k**, and that bag was worth about $2,900.
 
 **Coin four: FUCK ISLAND BOY ($ISLANDBOY, GATf…).** Ten minutes after the
 sell, at 06:54, Jack spent **$1,000** buying a pump.fun coin called
-**FUCK ISLAND BOY**, a jab at the Island Boys, and got **89.5M tokens**,
+**FUCK ISLAND BOY**, aimed at Kodiyakredd, his opponent on October 16,
+and got **89.5M tokens**,
 about 9% of the supply, near the end of its bonding curve. It graduated to
 PumpSwap a minute later. Five seconds after the buy he sold a third of
 it for $464, then bought again seven times over the next twenty minutes,
@@ -2950,11 +2998,26 @@ Market figures as of 02:00 UTC Sept 27, first update as of 03:10 UTC,
 second update as of 14:00 UTC. Market caps use each coin's live supply
 (962M J1yx, 986M ISLANDBOY). The J1yx peak is a wick, not a close. Posts read via fxtwitter:
 [@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
-[@drkwyd](https://x.com/drkwyd/status/2103983636550676888). The attribution
-of B7Rk… to Jack is *user-provided* and backed only by timing and wallet
-behaviour. Images: `jack-doherty-portrait`, `jack-doherty-fomo-portfolio`,
+[@drkwyd](https://x.com/drkwyd/status/2103983636550676888) ·
+[Jack posts the B7Rk address](https://x.com/dohertyjackk/status/2103999666069348456)
+(00:06 UTC) · ["IM NEVER SELLING"](https://x.com/dohertyjackk/status/2104043106891153442)
+(02:59) · ["knock the island boys out"](https://x.com/dohertyjackk/status/2104019896405303554)
+(01:26) · [$141k card](https://x.com/dohertyjackk/status/2104088004201726361)
+(05:57) · ["only going up from here"](https://x.com/dohertyjackk/status/2104093035990516168)
+(06:17) and its replies:
+[@0xBriann's Fomo receipt](https://x.com/0xBriann/status/2104102577063469531),
+[@Daredevil1998](https://x.com/Daredevil1998/status/2104101522162557324),
+[@CryptoWizardd](https://x.com/CryptoWizardd/status/2104110833462648938),
+[@umutak47shawty](https://x.com/umutak47shawty/status/2104136287066186229),
+[@GordonGekko](https://x.com/GordonGekko/status/2104136541643870563).
+Fight: [Sportskeeda, Brand Risk 16](https://www.sportskeeda.com/us/streamers/news-jack-doherty-set-fight-island-boy-kodiyakredd-adin-ross-brand-risk-16-fans-react)
+(Sep 16, 2026). 2024 coin: [Sportskeeda](https://www.sportskeeda.com/us/streamers/news-what-jack-doherty-do-controversial-streamer-s-alleged-cryptocurrency-pump-and-dump-scandal-explored)
+(Nov 24, 2024). Jack's own post confirms the B7Rk wallet is his. The
+thesis timing is read off a phone screenshot, not the chain. Images:
+`jack-doherty-portrait`, `jack-doherty-fomo-portfolio`,
 `jack-doherty-cybertruck-drkwyd`, `jack-coin-j1yx-logo`,
-`jack-coin-j1yx-rug-chart`.
+`jack-coin-j1yx-rug-chart`, `jack-doherty-fomo-141k`,
+`jack-doherty-fomo-sell-receipt`.
 
 ## How the persona should use this
 
