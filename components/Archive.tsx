@@ -29,6 +29,7 @@ const HYPED_FILES: Record<number, string> = {
   48: "HOT",
   49: "HOT",
   54: "HOT",
+  69: "HOT",
 };
 
 type SearchHit = { number: number; title: string; snippet: string; reason: string | null };

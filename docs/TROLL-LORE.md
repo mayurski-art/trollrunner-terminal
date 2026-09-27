@@ -2887,8 +2887,18 @@ The pattern: one operator ran a fee-farming coin and a coin that pays
 It left early and still made money, while Jack is paid twice, as holder
 and as fee recipient. Whether 7VnmAh knows Jack is not on-chain.
 
+**Update, 03:10 UTC Sept 27: J1yx hits a million.** An hour after the
+$294k mark, the J1yx JACK tagged **$1M+** across its pools, up about
+1,800% on the day on **$3.7M** of PumpSwap volume, then slipped to about
+**$920k**, dropping 20% in five minutes. Some who bought near the top here called it
+a fake pump. The chain doesn't show Jack dumping. His wallet still
+holds **58.29M** tokens, which is the whole bag and a little more, worth about
+**$56k** on roughly $1,140 in. The 3.4% dev bag that 7VnmAh sold for 2.5
+SOL would have been worth about **$31k**. The trenches tried to troll Jack
+Doherty. Jack Trollherty trolled the market back.
+
 **Sourcing:** *Verified* on-chain via Solana RPC, DexScreener and
-pump.fun coin pages, 2026-09-26/27 UTC. Market figures as of 02:00 UTC Sept 27. Posts read via fxtwitter:
+pump.fun coin pages, 2026-09-26/27 UTC. Market figures as of 02:00 UTC Sept 27, update figures as of 03:10 UTC. Posts read via fxtwitter:
 [@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
 [@drkwyd](https://x.com/drkwyd/status/2103983636550676888). The attribution
 of B7Rk… to Jack is *user-provided* and backed only by timing and wallet
