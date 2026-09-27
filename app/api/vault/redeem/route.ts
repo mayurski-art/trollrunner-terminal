@@ -10,7 +10,6 @@ export const runtime = "nodejs";
 // trusting any number this route sends, so this constant is only ever
 // used here to show the preview and to debit the right amount up front.
 const XP_PER_PROBLEM = 25;
-const MIN_REDEEM = 5;
 
 // Redeem PROBLEMS (trollrunner-terminal's own currency) for real, shared
 // XP. Debits terminal_wallets first — a table this project owns — then
@@ -36,9 +35,9 @@ export async function POST(request: Request) {
   }
 
   const amount = Math.floor(body.amount ?? 0);
-  if (!Number.isFinite(amount) || amount < MIN_REDEEM) {
+  if (!Number.isFinite(amount) || amount < 1) {
     return NextResponse.json(
-      { error: `redeem at least ${MIN_REDEEM} PROBLEMS at a time` },
+      { error: "enter how many PROBLEMS to redeem" },
       { status: 400 }
     );
   }

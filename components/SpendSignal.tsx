@@ -29,7 +29,6 @@ type RedemptionRequest = {
 };
 
 const XP_PER_PROBLEM = 25;
-const MIN_REDEEM = 5;
 
 async function getToken(): Promise<string | null> {
   const { data } = await getPublicClient().auth.getSession();
@@ -157,7 +156,7 @@ export default function SpendSignal({
 
   async function redeem() {
     const amount = Math.floor(Number(redeemInput));
-    if (redeemBusy || !Number.isFinite(amount) || amount < MIN_REDEEM) return;
+    if (redeemBusy || !Number.isFinite(amount) || amount < 1) return;
     setRedeemBusy(true);
     setRedeemError(null);
     setRedeemResult(null);
@@ -190,19 +189,19 @@ export default function SpendSignal({
   }
 
   const redeemAmount = Math.floor(Number(redeemInput));
-  const redeemValid = Number.isFinite(redeemAmount) && redeemAmount >= MIN_REDEEM;
+  const redeemValid = Number.isFinite(redeemAmount) && redeemAmount >= 1;
   const pendingRequests = requests.filter((r) => r.status === "pending");
 
   return (
     <>
       <p className="mb-2 text-xs tracking-wide text-dim">redeem for xp</p>
       <p className="text-dim text-xs mb-3">
-        1 PROBLEM = {XP_PER_PROBLEM} XP, one-way, minimum {MIN_REDEEM} at a time.
+        1 PROBLEM = {XP_PER_PROBLEM} XP.
       </p>
       <div className="flex gap-2 vault-amount-form">
         <input
           type="number"
-          min={MIN_REDEEM}
+          min={1}
           step={1}
           value={redeemInput}
           onChange={(e) => {
@@ -210,7 +209,7 @@ export default function SpendSignal({
             setRedeemResult(null);
             setRedeemError(null);
           }}
-          placeholder={`${MIN_REDEEM}+`}
+          placeholder="amount"
           disabled={redeemBusy}
           className="w-28 bg-transparent border border-dim px-2 py-1 text-sm text-problem outline-none focus:border-problem disabled:opacity-50"
         />
