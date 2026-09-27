@@ -589,6 +589,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [66],
   },
   {
+    id: "trolls-1718-tank-runner",
+    url: "/lore/trolls-1718-tank-runner.jpg",
+    caption:
+      "TROLLS #1718, which troll_runner bought for 0.11 ETH on Sept 27, 2026: a trollface with relaxed closed eyes and a curled French moustache, wearing the black Goatfarm \"U MAD BRO?\" cap and a neon-green racing tank top with RUNNER across the chest, on a grey stone gradient",
+    keywords: ["#1718", "1718", "tank runner", "troll runner nft", "troll_runner nft", "runner troll", "which troll does troll runner own"],
+    sections: [66],
+  },
+  {
     id: "bitget-drain-arkham-transfers",
     url: "/lore/bitget-drain-arkham-transfers.webp",
     caption:
@@ -651,6 +659,22 @@ export const LORE_ASSETS: LoreAsset[] = [
       "@wiimee's screenshot at 12:41 UTC on Sept 25, 2026, hours after the whitehat rescue: an OpenSea activity feed of Lazy Lions transferred one after another from wallets like MattyZ, TLDNs-Vault and 0xba65 into a single address ending f2324d, every row '20m ago', proof the Payment Processor V2 drain was still going",
     keywords: ["lazy lions", "kodamara", "wiimee", "still ongoing", "nft drain", "revoke approvals"],
     sections: [68],
+  },
+  {
+    id: "jack-doherty-fomo-portfolio",
+    url: "/lore/jack-doherty-fomo-portfolio.png",
+    caption:
+      "Jack Doherty's Fomo portfolio card from his Sept 26, 2026 post 'Just made a Fomo account… what meme coins should I buy?': $10,000.87, a flat line that jumps straight up on Sept 26, and a '10% off fees with code dohertyjackk' referral banner along the bottom",
+    keywords: ["jack doherty", "dohertyjackk", "fomo account", "fomo portfolio", "jack doherty wallet"],
+    sections: [69],
+  },
+  {
+    id: "jack-doherty-cybertruck-drkwyd",
+    url: "/lore/jack-doherty-cybertruck-drkwyd.webp",
+    caption:
+      "a night street shot @drkwyd posted with 'I linked up with Jack Doherty and had dinner with him last yr' as he launched the Jack Doherty Official coin: a bright-blue Cybertruck with rainbow underglow parked outside a Lobster Bar Sea Grille, a young guy looking at his phone by the open door (Jack, per the post), and a few guys in black standing around him. The frame carries the tag E4WuDt, the start of drkwyd's own wallet",
+    keywords: ["jack doherty", "drkwyd", "cybertruck", "jack doherty official", "jack doherty coin"],
+    sections: [69],
   },
   // The eleven TROLLS Alpha 1-of-1s (§65), pulled from each token's IPFS
   // image and resized to 800px. Shared keywords ("alpha", "1 of 1") let a
@@ -747,8 +771,15 @@ export const LORE_ASSETS: LoreAsset[] = [
 // asset is worth attaching, the same way a person who'd memorized this
 // index would. The archive's per-section lookup (below) is unrelated and
 // keeps working exactly as before.
+// Chat can show everything the archive shows: stills plus loopGif clips
+// (Chat.tsx renders those as autoplaying GIFs). Only real scrub-through
+// videos stay out of chat.
+function isChatShowable(asset: LoreAsset): boolean {
+  return !isVideoAsset(asset.url) || asset.loopGif === true;
+}
+
 export function loreAssetCatalogForPrompt(): string {
-  return LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url))
+  return LORE_ASSETS.filter(isChatShowable)
     .map((asset) => `${asset.id}: ${asset.caption}`)
     .join("\n");
 }
@@ -756,9 +787,9 @@ export function loreAssetCatalogForPrompt(): string {
 // show_image is the one paid Claude call left in chat, and it used to run on
 // every turn, "gm" included, to hear "no image" back almost every time. This
 // free local check runs first, and the paid call only happens when it says
-// yes: the troublemaker asked to see something, or either side of the turn
-// named a subject the library has a picture of (the terminal bringing one up
-// in its own reply counts, so it can still show things unprompted). It only
+// yes: the troublemaker asked to see something, or their own message named a
+// subject the library has a picture of. Only the troublemaker's words count:
+// the terminal naming a subject in its reply never triggers an image. It only
 // decides whether to ask. The model still picks the image, or none.
 const IMAGE_INTENT =
   /\b(show|pic|pics|picture|pictures|photo|photos|image|images|img|look(?:s|ed)? like|let me see|lemme see|can i see)\b/i;
@@ -767,16 +798,15 @@ const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const KEYWORD_PATTERNS: RegExp[] = [
   ...new Set(
-    LORE_ASSETS.filter((asset) => !isVideoAsset(asset.url)).flatMap((asset) =>
+    LORE_ASSETS.filter(isChatShowable).flatMap((asset) =>
       (asset.keywords ?? []).map((k) => k.toLowerCase())
     )
   ),
 ].map((k) => new RegExp(`(?<![a-z0-9])${escapeRegExp(k)}(?![a-z0-9])`, "i"));
 
-export function turnMightWantLoreImage(userMessage: string, replyText: string): boolean {
+export function turnMightWantLoreImage(userMessage: string): boolean {
   if (IMAGE_INTENT.test(userMessage)) return true;
-  const turn = `${userMessage}\n${replyText}`;
-  return KEYWORD_PATTERNS.some((pattern) => pattern.test(turn));
+  return KEYWORD_PATTERNS.some((pattern) => pattern.test(userMessage));
 }
 
 export function getLoreAssetById(id: string): LoreAsset | null {

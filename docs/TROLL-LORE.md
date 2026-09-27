@@ -2421,12 +2421,28 @@ What makes it lore is the timing: for three months nobody could see what
 they owned, and on the first day they could look, someone paid four figures
 for one of the ordinary ones.
 
+**The Runner finds his troll.** Once the art was visible, people could buy
+a troll for how it looked. At 01:53 UTC on **September 27, 2026**, the
+**@trolltruths** sales feed logged **TROLLS #1718** selling for
+**0.11 ETH ($296.48)**. The seller was **berginho** and the buyer was
+**troll_runner** (`0x53488f1e7746ef37f8ee81e6219d9078762fd9d5`), the
+Troll Runner of §7 and §33. Its traits are the reason. **CLOTHES: Tank
+Runner** is a neon-green racing singlet with RUNNER across the chest.
+**HATS: Goatfarm Hat** is the black "U MAD BRO?" cap from the merch line in
+§31. Add Eyes Relaxed, a French Moustache and a Stone background, and it's
+a trollface out on an easy run. It wasn't a four-figure sale. It's the
+man who runs at 5:20am buying the one troll dressed for it.
+
 **Sources:** user-provided: the "BREAKING" post text (no link) and an
 OpenSea screenshot of the TROLLS activity tab filtered to Sale / Price >
 $1K USD, captured about 35 minutes after the sale. Collection stats in the
 same capture: 3,333 items, created May 2026 by "troll-dev," 5% creator fee,
-678 unique owners, 433 listed, $1.4M total volume. Image:
-`trolls-first-1k-sale-after-reveal`.
+678 unique owners, 433 listed, $1.4M total volume. #1718: the
+[@trolltruths post](https://x.com/trolltruths/status/2104026694906757343)
+(via fxtwitter), the
+[OpenSea item](https://opensea.io/item/ethereum/0xfba5880244850d89a91479a01bb8d1b678cd79fe/1718),
+and traits *verified* from the token's on-chain `tokenURI` metadata on IPFS.
+Images: `trolls-first-1k-sale-after-reveal`, `trolls-1718-tank-runner`.
 
 ## 67. Bitget turns 8 and gets drained at 2:31 AM — the pump came before Asia woke up
 
@@ -2803,6 +2819,81 @@ by source (660 at risk per Quit, about 530 taken per on-chain tallies),
 and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
 `nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`,
 `nft-drain-lazy-lions-wiimee`.
+
+## 69. Jack Doherty opens a Fomo account, and three "JACK" coins follow him in
+
+At 16:57 UTC on **September 26, 2026**, streamer **Jack Doherty**
+(`@dohertyjackk`, 124k followers) posted "Just made a Fomo account… what
+meme coins should I buy?" with a **Fomo** portfolio card: **$10,000.87**,
+a flat line that shoots straight up, and a "10% off fees with code
+dohertyjackk" referral banner. 87,000 views. He didn't launch a coin. The
+trenches launched them at him.
+
+**The wallet.** The site operator identified
+`B7RkXpM4PW4CUy283TFCMwm913k8mBRMz6V5TJCzCWEY` (pump.fun name
+**BlueCedarRanger**) as his. On-chain it fits: first funded at 16:55, two
+minutes before the post; holds USDC and no SOL; every trade is signed by
+the same gasless relayer, which is how a Fomo app wallet behaves. His first
+buys were **$500 of PAID** (the usepaid.app launchpad token), then $250 of
+Tung Tung Tung Sahur and $500 of **e/acc**. Strangers kept sending it
+tokens it never asked for.
+
+**Coin one: BRANDRISK.** At 20:05 a trader wallet,
+`7VnmAhAHgD8mbofADCg8aUrDXZQrQQ7sRd7ihvmayj1v`, funded a fresh wallet,
+`HN2Nu8q4b3y3Q3behBeCSY2jqTRcikdABZ3XeRUvyzUu`, which launched
+**Brand Risk Promotions ($BRANDRISK)** at 20:09. The name is the insult
+that follows Jack's career around. Seven minutes later Jack's wallet spent $500 and got
+about **7.8% of the supply**. He then traded it in and out all night,
+about $2,000 in and $7,700 out, and still held 14M tokens at 00:32. The
+coin graduated, did roughly **$520k in volume** and fell 77% in an hour.
+Its creator fees (about **34 SOL** by 01:00 UTC) were claimed from HN2Nu in batches of
+one to four SOL, and each batch went straight on to 7VnmAh.
+
+**Coin two: JACK (J1yx…).** The same 7VnmAh wallet had already sent 1.1
+SOL at 17:42 to a burner, `8JhWNusQZNXXyzPY94TtuHLrTyTDBeJGdvfqF46WgqDr`,
+which launched **$JACK** at 17:45 through **usepaid.app** with creator
+rewards pointed at **@dohertyjackk**'s X account. That's the Paid pitch:
+anyone can launch a coin "for" a creator and the fees go to the creator.
+The burner's dev buy cost 0.98 SOL for 3.4% of supply. At 20:39 it sent
+that bag back to 7VnmAh, which sold all of it a minute later for **2.5
+SOL** and got its leftover gas back. Four hours after the dev had cashed
+out, at 00:30 and 00:35, Jack's wallet bought **$600** of it. The coin
+graduated at 00:36, and pump.fun callouts read "Doherty aped". He kept
+buying in $50 steps until 01:19, about **$1,140** in total. By 02:00 the
+coin had run from about $50k to about **$294k** on **$1.24M** of volume,
+and his 58M tokens were worth about **$17k**. He sold none. Every trade
+also paid creator fees to his own X account.
+
+**Coin three: Jack Doherty Official ($JACK, 26LA…).** At 23:02 creator
+**DRK** (`@drkwyd`, bio "made pumpathon") launched a tribute coin from
+pump.fun wallet `E4WuDtSt39GpUacPoFnaqU1jSni8LMG3nGt2mWL331NA`, posting
+"I linked up with Jack Doherty and had dinner with him last yr / Sending
+him fees + gonna text him to see if he'll shill" with a night shot of
+Jack's blue Cybertruck. The photo is stamped with the tag E4WuDt. At 23:38
+DRK sent Jack's wallet 15.5M tokens. Within three minutes 10% of them
+had been sold for **$18**. The coin topped out at $17.5k and sat near $5k
+with 41 holders an hour later.
+
+**The "13 devs" that weren't.** The pump.fun holder tab for DRK's coin
+reads "All (41) · Pump.fun (13)". That second number counts holders who have
+pump.fun profiles, not developers. The only creator is DRK. Neither the
+J1yx burner nor 7VnmAh ever touched DRK's coin, so the two launches share
+no dev. A pump.fun profile named **xkingforever** exists
+(`67LwNGruk…RtQ7`), but it didn't trade any of the three coins, and nothing
+on-chain ties it to the X account `@xKingForever`.
+
+The pattern: one operator ran a fee-farming coin and a coin that pays
+"creator fees" to Jack, and dumped its JACK bag before he pressed buy.
+It left early and still made money, while Jack is paid twice, as holder
+and as fee recipient. Whether 7VnmAh knows Jack is not on-chain.
+
+**Sourcing:** *Verified* on-chain via Solana RPC, DexScreener and
+pump.fun coin pages, 2026-09-26/27 UTC. Market figures as of 02:00 UTC Sept 27. Posts read via fxtwitter:
+[@dohertyjackk](https://x.com/dohertyjackk/status/2103891760782967175) ·
+[@drkwyd](https://x.com/drkwyd/status/2103983636550676888). The attribution
+of B7Rk… to Jack is *user-provided* and backed only by timing and wallet
+behaviour. Images: `jack-doherty-fomo-portfolio`,
+`jack-doherty-cybertruck-drkwyd`.
 
 ## How the persona should use this
 

@@ -616,7 +616,7 @@ export async function generateChatReply(
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 0,
   };
-  if (turnMightWantLoreImage(lastUserMessage, replyText)) {
+  if (turnMightWantLoreImage(lastUserMessage)) {
     const imageResponse = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 60,
