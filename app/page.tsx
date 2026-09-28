@@ -21,17 +21,11 @@ import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
+import TransmissionModal from "@/components/TransmissionModal";
+import { KIND_META, type Post } from "@/app/logs/page";
 import Faq from "@/components/Faq";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
-
-type Post = {
-  id: string;
-  content: string;
-  x_post_url: string | null;
-  art_url: string | null;
-  posted_at: string;
-};
 
 // Fixed small size for every transmission — the panel's own scroll
 // (bodyClassName="chat-scroll lg:overflow-y-auto" on the Frame) already
@@ -68,6 +62,8 @@ export default function Home() {
   const [generating, setGenerating] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
   const [chatPopped, setChatPopped] = useState(false);
+  // Same full-size modal the logs grid's [ pop out ] opens.
+  const [transmissionPopped, setTransmissionPopped] = useState(false);
   const steerRef = useRef<((note: string) => void) | null>(null);
   // A ref callback (not a plain useRef) so Chat re-renders once this div
   // actually mounts — a bare ref's .current change wouldn't trigger that,
@@ -270,6 +266,18 @@ export default function Home() {
               bodyClassName="chat-scroll lg:flex-1 lg:min-h-0 lg:overflow-y-auto"
               titleEffect="trace"
               traceHue="#2ee6ff"
+              cornerAction={
+                latest && !generating ? (
+                  <button
+                    type="button"
+                    onClick={() => setTransmissionPopped(true)}
+                    aria-label="pop out transmission"
+                    className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] lg:text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+                  >
+                    ⤢ pop out
+                  </button>
+                ) : undefined
+              }
             >
               <GenerateTransmission
                 session={session}
@@ -426,7 +434,17 @@ export default function Home() {
       {/* Hidden while the chat popout is up: that panel is a focused modal
           with its own backdrop, and a spotlight sliding in over it would
           both overlap the popout and sit under its z-40 scrim. */}
-      {!chatPopped && <ArchiveOfTheDay />}
+      {!chatPopped && !transmissionPopped && <ArchiveOfTheDay />}
+
+      {transmissionPopped && latest && (
+        <TransmissionModal
+          post={latest}
+          kind={latest.kind}
+          kindMeta={KIND_META}
+          session={session}
+          onClose={() => setTransmissionPopped(false)}
+        />
+      )}
     </main>
   );
 }
