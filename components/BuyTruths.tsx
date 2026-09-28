@@ -39,7 +39,9 @@ export default function BuyTruths() {
           aria-hidden={i === 0 ? undefined : true}
           tabIndex={i === 0 ? undefined : -1}
           className={`glitch-btn glitch-btn-auto flex-1 min-w-[7.5rem] text-center border border-terminal text-terminal px-3 py-1.5 text-sm hover:bg-terminal hover:text-background transition-colors ${
-            i >= MOBILE_BUTTON_COUNT ? "hidden sm:block" : ""
+            // lg shares its row with the node system (app/page.tsx), which
+            // leaves room for only four until xl.
+            i >= MOBILE_BUTTON_COUNT ? "hidden sm:block lg:hidden xl:block" : ""
           }`}
         >
           [ buy $TRUTHS ]

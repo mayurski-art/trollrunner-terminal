@@ -283,7 +283,7 @@ export default function SiteTicker() {
   );
 
   return (
-    <div className="site-ticker mb-6">
+    <div className="site-ticker">
       {/* ONE animated element (the track) holding two inline copies of the
           text. Everything else about this is subordinate to that: earlier
           versions animated the two copies as two SEPARATE elements with

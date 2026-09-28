@@ -21,8 +21,7 @@ import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
-import TransmissionModal from "@/components/TransmissionModal";
-import { KIND_META, type Post } from "@/app/logs/page";
+import type { Post } from "@/app/logs/page";
 import Faq from "@/components/Faq";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
@@ -31,13 +30,26 @@ import { renderTightLines } from "@/lib/renderText";
 // (bodyClassName="chat-scroll lg:overflow-y-auto" on the Frame) already
 // handles a post too long to fit, so there's no need to vary this by
 // content length.
-const TRANSMISSION_FONT_PX = 11;
+// 11px on a laptop (0.92rem of the 12px root floor), growing with the root
+// font-size on bigger monitors instead of sitting tiny in a large panel.
+const TRANSMISSION_FONT_SIZE = "max(11px, 0.92rem)";
 
-function TransmissionText({ content, justRevealed }: { content: string; justRevealed: boolean }) {
+// Popped out, the panel has room to read at the logs modal's size instead.
+function TransmissionText({
+  content,
+  justRevealed,
+  popped,
+}: {
+  content: string;
+  justRevealed: boolean;
+  popped: boolean;
+}) {
   return (
     <p
-      className={`leading-snug text-terminal font-transmission ${justRevealed ? "gt-reveal" : ""}`}
-      style={{ fontSize: `${TRANSMISSION_FONT_PX}px` }}
+      className={`text-terminal font-transmission ${
+        popped ? "text-lg sm:text-xl lg:text-2xl leading-relaxed" : "leading-snug"
+      } ${justRevealed ? "gt-reveal" : ""}`}
+      style={popped ? undefined : { fontSize: TRANSMISSION_FONT_SIZE }}
     >
       {renderTightLines(content)}
     </p>
@@ -62,8 +74,12 @@ export default function Home() {
   const [generating, setGenerating] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
   const [chatPopped, setChatPopped] = useState(false);
-  // Same full-size modal the logs grid's [ pop out ] opens.
+  // Pops the whole "latest transmission" Frame out the same way the chat
+  // does (not the logs grid's read-only modal), so the admin's generate /
+  // edit controls in GenerateTransmission come along with it. Only one of
+  // the two panels is ever popped, so they share the position/drag state.
   const [transmissionPopped, setTransmissionPopped] = useState(false);
+  const anyPopped = chatPopped || transmissionPopped;
   const steerRef = useRef<((note: string) => void) | null>(null);
   // A ref callback (not a plain useRef) so Chat re-renders once this div
   // actually mounts — a bare ref's .current change wouldn't trigger that,
@@ -107,15 +123,25 @@ export default function Home() {
       return !wasPopped;
     });
   }, []);
+  const toggleTransmissionPopped = useCallback(() => {
+    setTransmissionPopped((wasPopped) => {
+      if (!wasPopped) setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
+      return !wasPopped;
+    });
+  }, []);
+  const closePopouts = useCallback(() => {
+    setChatPopped(false);
+    setTransmissionPopped(false);
+  }, []);
 
   // A popped panel that was dragged near an edge can end up off-screen when
   // the window shrinks; re-center rather than leaving it stranded.
   useEffect(() => {
-    if (!chatPopped || !isDesktop) return;
+    if (!anyPopped || !isDesktop) return;
     const onResize = () => setPopoutPos(centeredPopoutPos(POPOUT_SIZE));
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [chatPopped, isDesktop]);
+  }, [anyPopped, isDesktop]);
 
   const handlePopoutHeaderPointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -151,13 +177,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!chatPopped) return;
+    if (!anyPopped) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setChatPopped(false);
+      if (e.key === "Escape") closePopouts();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [chatPopped]);
+  }, [anyPopped, closePopouts]);
 
   // The terminal page is locked from scrolling on desktop — its content
   // fits one screen there (the FAQ moved from an inline expand into its own
@@ -175,22 +201,33 @@ export default function Home() {
   // just clips the bottom of the page there with no way to reach it —
   // standalone terminal.trollrunner.net is unaffected, since window.top
   // there is the same window as window.self.
+  // The lock also only holds while the page actually fits: on a window too
+  // short for even the compacted (`short:`) layout, the panels' minimum
+  // height pushes them past the fold, and a locked page would leave their
+  // bottoms unreachable. overflow:hidden doesn't change scrollHeight, so the
+  // fit check reads the same locked or not.
   useEffect(() => {
     if (window.self !== window.top) return;
     const mq = window.matchMedia("(min-width: 1024px)");
+    const html = document.documentElement;
     const prevBodyOverflow = document.body.style.overflow;
-    const prevHtmlOverflow = document.documentElement.style.overflow;
-    const apply = (locked: boolean) => {
+    const prevHtmlOverflow = html.style.overflow;
+    const update = () => {
+      const locked = mq.matches && html.scrollHeight <= window.innerHeight + 1;
       document.body.style.overflow = locked ? "hidden" : prevBodyOverflow;
-      document.documentElement.style.overflow = locked ? "hidden" : prevHtmlOverflow;
+      html.style.overflow = locked ? "hidden" : prevHtmlOverflow;
     };
-    apply(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => apply(e.matches);
-    mq.addEventListener("change", onChange);
+    update();
+    mq.addEventListener("change", update);
+    window.addEventListener("resize", update);
+    const ro = new ResizeObserver(update);
+    ro.observe(document.body);
     return () => {
-      mq.removeEventListener("change", onChange);
+      mq.removeEventListener("change", update);
+      window.removeEventListener("resize", update);
+      ro.disconnect();
       document.body.style.overflow = prevBodyOverflow;
-      document.documentElement.style.overflow = prevHtmlOverflow;
+      html.style.overflow = prevHtmlOverflow;
     };
   }, []);
 
@@ -223,32 +260,59 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14 lg:py-8 lg:h-dvh">
+    <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14 lg:py-8 short:py-3 lg:h-dvh">
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
       {/* Desktop: this column fills the viewport and the panel row below
           takes whatever height is left, so the chat grows with the screen
           instead of sitting at a fixed height. */}
-      <div className="w-full max-w-7xl lg:flex-1 lg:min-h-0 lg:flex lg:flex-col">
+      {/* Width tracks the screen on desktop instead of stopping at a fixed
+          80rem: that cap left a 1366 laptop only 70% of its width and a
+          3440 ultrawide 44%. 90vw, floored at the old 80rem and capped at
+          120rem so chat lines never stretch unreadably long. */}
+      <div className="w-full max-w-7xl lg:max-w-[max(80rem,min(90vw,120rem))] lg:flex-1 lg:min-h-0 lg:flex lg:flex-col">
         <Nav />
-        <div className="max-w-xl lg:max-w-2xl mx-auto w-full mt-3 mb-4">
-          <MiniConnector variant="header" />
+        {/* Desktop header band: the node system on the left, everything else
+            that used to stack under it (tagline, buy row, ticker, network
+            badge) in a column beside it. Stacked, those rows cost roughly a
+            third of a laptop's height before the panels even started; side
+            by side they fit inside the node system's own height. Phones keep
+            the original stacked order. */}
+        <div className="mt-3 mb-6 short:mt-1 short:mb-3 lg:flex lg:items-center lg:gap-8">
+          <div className="max-w-xl lg:max-w-none mx-auto w-full lg:mx-0 lg:w-[36rem] lg:px-[1.8rem] lg:shrink-0">
+            <MiniConnector variant="header" />
+          </div>
+          <div className="mt-4 lg:mt-0 lg:flex-1 lg:min-w-0 flex flex-col gap-2">
+            {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
+                which otherwise paints over non-positioned content like this. */}
+            <div className="relative z-[1] flex items-baseline justify-center lg:justify-between gap-x-4 flex-wrap">
+              <p className="text-terminal text-[8px] lg:text-[0.875rem] tracking-wide text-center lg:text-left">
+                explore the infinite knowledge behind trolling
+              </p>
+              {/* Was pinned to the screen's bottom-right corner, where it
+                  sat on top of the chat panel on any screen narrower than
+                  ~1500px. Up here it has its own space at every width. */}
+              <p className="hidden lg:block text-foreground text-sm text-right [text-shadow:0_1px_3px_var(--background)]">
+                part of the{" "}
+                <a
+                  href="https://trollrunner.net?enter=1"
+                  className="glow-loop underline decoration-dim underline-offset-4"
+                >
+                  trollrunner.net
+                </a>{" "}
+                network · <Faq trigger="inline" />
+              </p>
+            </div>
+            {/* Sits between the tagline and the ticker so it lands in the same
+                eyeline as the $TRUTHS quote the ticker scrolls — the price and
+                the way to buy it read as one beat. */}
+            <BuyTruths />
+            <SiteTicker />
+          </div>
         </div>
-        {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
-            which otherwise paints over non-positioned content like this. */}
-        <p className="relative z-[1] text-terminal text-[8px] lg:text-[0.875rem] tracking-wide mb-1 text-center">
-          explore the infinite knowledge behind trolling
-        </p>
-        {/* Sits between the tagline and the ticker so it lands in the same
-            eyeline as the $TRUTHS quote the ticker scrolls — the price and
-            the way to buy it read as one beat. */}
-        <div className="w-full mb-3">
-          <BuyTruths />
-        </div>
-        <SiteTicker />
 
-        <div className="flex flex-col lg:flex-row gap-6 mb-6 mt-6 lg:mb-0 lg:flex-1 lg:min-h-[34rem]">
+        <div className="flex flex-col lg:flex-row gap-6 mb-6 lg:mb-0 lg:flex-1 lg:min-h-[34rem] short:min-h-[26rem]">
           <div className="order-2 lg:order-none lg:w-1/3 flex flex-col lg:min-h-0">
             <Frame
               title="latest transmission"
@@ -262,19 +326,45 @@ export default function Home() {
               // at lg+, so anything past the fold there is unreachable. A
               // pending review card (GenerateTransmission) is what routinely
               // makes this panel taller than the row.
-              className="lg:flex lg:flex-col lg:flex-1 lg:min-h-0 lg:max-h-none"
-              bodyClassName="chat-scroll lg:flex-1 lg:min-h-0 lg:overflow-y-auto"
+              // Popped: same fixed, centered, draggable box as the chat.
+              className={
+                transmissionPopped
+                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
+                  : "lg:flex lg:flex-col lg:flex-1 lg:min-h-0 lg:max-h-none"
+              }
+              style={
+                transmissionPopped && isDesktop
+                  ? {
+                      top: `${popoutPos.top}px`,
+                      left: `${popoutPos.left}px`,
+                      width: `${POPOUT_SIZE.width}px`,
+                      height: `${POPOUT_SIZE.height}px`,
+                      right: "auto",
+                      bottom: "auto",
+                    }
+                  : undefined
+              }
+              bodyClassName={
+                transmissionPopped
+                  ? "chat-scroll flex-1 min-h-0 overflow-y-auto overscroll-contain"
+                  : "chat-scroll lg:flex-1 lg:min-h-0 lg:overflow-y-auto"
+              }
               titleEffect="trace"
               traceHue="#2ee6ff"
+              onHeaderPointerDown={transmissionPopped && isDesktop ? handlePopoutHeaderPointerDown : undefined}
+              onHeaderPointerMove={transmissionPopped && isDesktop ? handlePopoutHeaderPointerMove : undefined}
+              onHeaderPointerUp={transmissionPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
               cornerAction={
-                latest && !generating ? (
+                transmissionPopped || latest || generating ? (
+                  // Same button as the chat's pop-out toggle (Chat.tsx), so
+                  // both panels' corners match popped and unpopped.
                   <button
                     type="button"
-                    onClick={() => setTransmissionPopped(true)}
-                    aria-label="pop out transmission"
-                    className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] lg:text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+                    onClick={toggleTransmissionPopped}
+                    aria-label={transmissionPopped ? "shrink transmission" : "pop out transmission"}
+                    className="rounded border border-terminal/50 bg-terminal/10 px-2 py-1 text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
                   >
-                    ⤢ pop out
+                    {transmissionPopped ? "⤡ shrink" : "⤢ pop out"}
                   </button>
                 ) : undefined
               }
@@ -297,7 +387,11 @@ export default function Home() {
               {generating && <CrypticWait />}
               {latest && !generating && (
                 <>
-                  <TransmissionText content={latest.content} justRevealed={justGenerated} />
+                  <TransmissionText
+                    content={latest.content}
+                    justRevealed={justGenerated}
+                    popped={transmissionPopped}
+                  />
                   {latest.art_url && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -338,10 +432,8 @@ export default function Home() {
               </Frame>
             )}
 
-            {/* Desktop moves this footer to a fixed bottom-right corner
-                (below) so it stays clear of the taller node-system art;
-                mobile keeps it inline here since there's no separate corner
-                to pin it to in the stacked layout. */}
+            {/* Desktop shows this in the header band beside the node
+                system instead; the stacked phone layout keeps it here. */}
             <p className="lg:hidden relative z-[1] text-foreground text-sm mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
               part of the{" "}
               <a
@@ -407,44 +499,20 @@ export default function Home() {
             )}
           </Frame>
 
-          {chatPopped && (
+          {anyPopped && (
             <div
               className="fixed inset-0 z-40 bg-background/90"
-              onClick={() => setChatPopped(false)}
+              onClick={closePopouts}
               aria-hidden="true"
             />
           )}
         </div>
-
-        <div className="hidden lg:flex flex-col items-end fixed bottom-4 right-4 z-[1]">
-          <p className="text-foreground text-base text-right [text-shadow:0_1px_3px_var(--background)]">
-            part of the{" "}
-            <a
-              href="https://trollrunner.net?enter=1"
-              className="glow-loop underline decoration-dim underline-offset-4"
-            >
-              trollrunner.net
-            </a>{" "}
-            network
-          </p>
-          <Faq />
-        </div>
       </div>
 
-      {/* Hidden while the chat popout is up: that panel is a focused modal
+      {/* Hidden while either popout is up: that panel is a focused modal
           with its own backdrop, and a spotlight sliding in over it would
           both overlap the popout and sit under its z-40 scrim. */}
-      {!chatPopped && !transmissionPopped && <ArchiveOfTheDay />}
-
-      {transmissionPopped && latest && (
-        <TransmissionModal
-          post={latest}
-          kind={latest.kind}
-          kindMeta={KIND_META}
-          session={session}
-          onClose={() => setTransmissionPopped(false)}
-        />
-      )}
+      {!anyPopped && <ArchiveOfTheDay />}
     </main>
   );
 }
