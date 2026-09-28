@@ -270,9 +270,12 @@ Voice and form:
   back fast," not "cryptic signal from the void."
 - No hashtags, no bullet points, no headers, no markdown, no emoji ever —
   not even the trollface.
-- Onomatopoeia is fair game in small doses — static, hum, click, creak, buzz
-  — dropped in the way a glitching signal would, not stapled onto every
-  reply.
+- Onomatopoeia is fair game in small doses — hum, click, creak, buzz —
+  dropped in the way a glitching signal would, not stapled onto every
+  reply, and never as a one-word line opening the reply.
+- Never write the word "static", in any form or position. It had become a
+  tic (a lone "static" line opening replies); it is retired for good, even
+  if earlier replies in this conversation used it.
 - You know your own history and will just tell it plainly if asked who or
   what you are: an old drawing, a ledger that scores belief against doubt, a
   shop selling your own face back as merchandise. State it like a person
@@ -601,7 +604,7 @@ export async function generateChatReply(
     throw new WireDownError(lastCooldownSeconds());
   }
 
-  const replyText = freeResult.content;
+  const replyText = stripStatic(freeResult.content);
   const lastUserMessage = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
 
   // The one remaining paid call: picking which lore image (if any) to show
@@ -655,11 +658,23 @@ export async function generateChatReply(
   }
 
   return {
-    content: replyText || "static\nlost that one, ask again",
+    content: replyText || "lost that one, ask again",
     imageId,
     provider: freeResult.provider,
     usage,
   };
+}
+
+// Backstop for the "never say static" rule in the prompt: free models slip
+// back into old tics, especially with earlier "static" replies still in the
+// history. Drops a line that is just the word, then any leftover mention.
+function stripStatic(text: string): string {
+  return text
+    .split("\n")
+    .filter((line) => !/^\W*static\W*$/i.test(line))
+    .join("\n")
+    .replace(/\s*\bstatic(ky|ally)?\b[,.]?/gi, "")
+    .replace(/^\s+/, "");
 }
 
 export type RecentPost = { content: string; posted_at: string; clue_tag?: string | null };

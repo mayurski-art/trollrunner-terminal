@@ -39,18 +39,44 @@ type Message = {
 // place; anything else is new and appended. Keying on created_at alone
 // never matched, because local copies carry the browser's timestamp: every
 // turn rendered twice while the stream was open.
+//
+// The timestamp is keyed as epoch ms, not the raw string: the POST response
+// carries JS's toISOString() ("…T11:14:00.123Z") while the stream hands back
+// PostgREST's rendering of the same instant ("…T11:14:00.123+00:00"), so a
+// string key never matched across the two paths and every reply drew twice.
+// A row that is already present still merges in, so whichever copy arrives
+// second fills what the first lacked (the stream has no `provider`).
+function savedKey(m: Message): string {
+  const t = m.created_at ? Date.parse(m.created_at) : NaN;
+  return `${Number.isNaN(t) ? (m.created_at ?? "") : t}|${m.role}|${m.content}`;
+}
+
 function reconcileSaved(prev: Message[], saved: Message[]): Message[] {
   let next = prev;
-  const seen = new Set(prev.map((m) => `${m.created_at ?? ""}|${m.content}`));
+  const index = new Map<string, number>();
+  prev.forEach((m, i) => {
+    if (!m.local) index.set(savedKey(m), i);
+  });
   for (const row of saved) {
-    const key = `${row.created_at ?? ""}|${row.content}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
+    const key = savedKey(row);
+    const existing = index.get(key);
+    next = next.slice();
+    if (existing !== undefined) {
+      const merged = { ...next[existing] };
+      for (const [k, v] of Object.entries(row)) {
+        if (v !== null && v !== undefined) (merged as Record<string, unknown>)[k] = v;
+      }
+      next[existing] = merged;
+      continue;
+    }
     let i = next.length - 1;
     while (i >= 0 && !(next[i].local && next[i].role === row.role && next[i].content === row.content)) i--;
-    next = next.slice();
     if (i >= 0) next[i] = { ...next[i], ...row, local: false };
-    else next.push(row);
+    else {
+      next.push(row);
+      i = next.length - 1;
+    }
+    index.set(key, i);
   }
   return next;
 }
@@ -224,7 +250,7 @@ function speakableText(text: string): string {
 
 // Cycled under the "terminal>" line while a reply is in flight, so the wait
 // reads as the thing thinking rather than a dead prompt. Kept in the
-// terminal's own register — signal/static/ledger words, lowercase, no
+// terminal's own register — signal/ledger words, lowercase, no
 // punctuation — rather than generic "loading" filler.
 const THINKING_VERBS = [
   "considering",
@@ -238,7 +264,7 @@ const THINKING_VERBS = [
   "remembering something",
   "sharpening a reply",
   "counting your visits",
-  "pulling static apart",
+  "pulling the signal apart",
   "weighing what to admit",
   "reading between your lines",
 ];
