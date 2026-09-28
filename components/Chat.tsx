@@ -94,8 +94,12 @@ const MessageRow = memo(function MessageRow({
   isOwner,
   onToggleMemory,
   onOpenLightbox,
+  revealMs,
 }: {
   message: Message;
+  // Set only on a fresh terminal reply: the lel troll walks across it and
+  // the text wipes in behind him over this many ms.
+  revealMs?: number;
   remembered: boolean;
   memoryBusy: boolean;
   // Gates the provider label below — it's a quality-assessment tool for the
@@ -112,16 +116,31 @@ const MessageRow = memo(function MessageRow({
       : "border-you/30";
   return (
     <div className={`border-l-2 pl-2.5 ${borderColor}`}>
-      <p
-        className={`text-sm leading-snug ${
-          m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
-        }`}
+      <div
+        className={revealMs ? "troll-reveal" : undefined}
+        style={revealMs ? ({ "--reveal-ms": `${revealMs}ms` } as React.CSSProperties) : undefined}
       >
-        <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
-          {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
-        </span>
-        {renderTightLines(m.content)}
-      </p>
+        <p
+          className={`text-sm leading-snug ${
+            m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
+          } ${revealMs ? "troll-reveal-text" : ""}`}
+        >
+          <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
+            {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
+          </span>
+          {renderTightLines(m.content)}
+        </p>
+        {revealMs && (
+          // eslint-disable-next-line @next/next/no-img-element -- animated GIF, next/image would freeze it
+          <img
+            src="/stickers/troll-lel.gif"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="troll-sticker troll-reveal-walker"
+          />
+        )}
+      </div>
       {m.image_url && isVideoAsset(m.image_url) && (
         <div className="mt-2 max-w-xs border border-dim">
           {isLoopGifAsset(m.image_url) ? (
@@ -322,6 +341,10 @@ export default function Chat({
   const [dailyLimit, setDailyLimit] = useState<DailyLimit | null>(null);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  // The reply the lel troll is currently walking in (see MessageRow's
+  // revealMs). Matched by content on the last row rather than by timestamp,
+  // since reconcileSaved/the stream can rewrite created_at formats.
+  const [reveal, setReveal] = useState<{ content: string; ms: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   // The message that was in flight when the network dropped. The chat route
   // only persists a turn after the reply generates (both rows go in one
@@ -760,6 +783,10 @@ export default function Chat({
           ? reconcileSaved(m, [{ role: "user", content: text, created_at: data.userCreatedAt }, reply])
           : [...m, { ...reply, local: true }]
       );
+      // Longer replies take him longer to cross, within reason.
+      const revealMs = Math.min(3500, Math.max(1200, data.reply.length * 30));
+      setReveal({ content: data.reply, ms: revealMs });
+      setTimeout(() => setReveal((r) => (r?.content === data.reply ? null : r)), revealMs + 200);
       speak(data.reply);
       if (data.wallet) {
         setWallet(data.wallet);
@@ -1246,6 +1273,11 @@ export default function Chat({
                 isOwner={isOwner}
                 onToggleMemory={toggleMemory}
                 onOpenLightbox={setLightbox}
+                revealMs={
+                  reveal && i === messages.length - 1 && m.role === "terminal" && m.content === reveal.content
+                    ? reveal.ms
+                    : undefined
+                }
               />
             ))}
             {busy && <ThinkingLine verbIndex={thinkingVerb} />}
@@ -1291,6 +1323,19 @@ export default function Chat({
           mb-1 wasn't enough clearance and still read as a collision on
           mobile. */}
       {hopError && <p className="text-alert text-xs mb-1 shrink-0">[ {hopError} ]</p>}
+      {/* Revived from the old trollrunner.net/stickers site. Decorative only.
+          Steps off his perch (invisible, still holding the space) while he's
+          off walking a reply in. */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- animated GIF, next/image would freeze it */}
+      <img
+        src="/stickers/troll-lel.gif"
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        className={`troll-sticker shrink-0 self-end h-24 w-auto -mb-1 pointer-events-none select-none transition-opacity ${
+          reveal && !hopTarget ? "opacity-0" : ""
+        }`}
+      />
       {/* While hopped in, the whole row is ringed in the hop-in colour — a
           placeholder alone is too easy to miss, and sending a private thought
           to a stranger as the terminal is not a recoverable mistake. */}
