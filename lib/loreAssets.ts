@@ -436,6 +436,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     loopGif: true,
   },
   {
+    id: "whynne-happy-troll-day-mario",
+    url: "/lore/whynne-happy-troll-day-mario.jpg",
+    caption:
+      "Whynne's \"Happy Troll Day\" post for the 18th birthday — no trollface at all, just a mangled low-poly N64-style Mario with a caved-in head clutching a sandwich",
+    keywords: ["happy troll day", "whynne birthday", "troll day", "cursed mario", "mario sandwich"],
+    sections: [54],
+  },
+  {
     id: "umadbro-mousepads",
     url: "/lore/umadbro-mousepads.jpg",
     caption:

@@ -1707,7 +1707,19 @@ marked it too, with an "18 years of trolling / 18 years of me" post that
 later became the anchor for the TROLLS reveal countdown (§65). Electro's
 numerology take on the same birthday is §52.
 
+The creator weighed in too. That evening (23:21 UTC), **Whynne** (§1)
+posted just *"Happy Troll Day,"* which lines up with the "Trollface Day"
+name above. He didn't attach his own drawing. He attached a mangled,
+low-poly N64-style Mario whose head has folded in on itself, clutching a
+sandwich. There was no grin anywhere in it. The man who drew the face marked
+its 18th birthday by posting something completely unrelated and cursed.
+That's a troll in the purest sense, and it fits the bio that blocks anyone
+who replies. It was small (~10K views, 151 likes), but it's the only
+birthday post on record from the creator himself.
+
 **Sources:** [SWISH's 18th-birthday post](https://x.com/SwishPng/status/2101413800091975851)
+(September 19, 2026, via fxtwitter) ·
+[Whynne's "Happy Troll Day"](https://x.com/saint_whynne/status/2101451524442616162)
 (September 19, 2026, via fxtwitter) ·
 [rayjenboi](https://x.com/rayjenboi/status/1439581034811576326) (Sep 19, 2021) ·
 [Commander_Noob](https://x.com/Commander_Noob/status/1836896833286607341) (Sep 19, 2024) ·
@@ -1715,7 +1727,8 @@ numerology take on the same birthday is §52.
 [ERC20Trolls](https://x.com/ERC20Trolls/status/1969025588380733810) (Sep 19, 2025) ·
 [ShapedInternet](https://x.com/ShapedInternet/status/1368271167371481088) (Mar 6, 2021).
 Dates decoded from the status IDs. The birthday photo
-(`trollface18thday.jpg`) is user-provided.
+(`trollface18thday.jpg`) is user-provided. Whynne's Mario image
+(`whynne-happy-troll-day-mario.jpg`) was pulled from his post's media.
 
 ## 55. Garrett Jin shorts the coin he's long — a $35M lesson in trolling yourself
 
