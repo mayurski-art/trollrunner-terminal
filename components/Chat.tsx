@@ -109,13 +109,24 @@ const MessageRow = memo(function MessageRow({
   onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
 }) {
   const m = message;
-  const borderColor = m.is_gossip
-    ? "border-problem/50"
-    : m.role === "terminal"
-      ? "border-terminal/40"
-      : "border-you/30";
+  // Two voices, two sides: the terminal speaks flush left like console
+  // output; the troublemaker's own lines sit right in a tinted block, so a
+  // glance down the log tells who said what without reading the labels.
+  const isYou = m.role === "user" && !m.is_gossip;
+  const frame = m.is_gossip
+    ? "border-l-2 pl-2.5 border-problem/50"
+    : isYou
+      ? "ml-auto w-fit max-w-[85%] border-r-2 border-you/40 bg-you/[0.07] pl-3 pr-2.5 py-1.5"
+      : "border-l-2 pl-2.5 border-terminal/60";
   return (
-    <div className={`border-l-2 pl-2.5 ${borderColor}`}>
+    <div className={frame} data-msg={m.created_at ? `${m.role}:${m.created_at}` : undefined}>
+      <p
+        className={`text-[10px] uppercase tracking-widest mb-0.5 ${
+          m.is_gossip ? "text-problem/80" : isYou ? "text-dim text-right" : "text-dim"
+        }`}
+      >
+        {m.is_gossip ? "gossip" : isYou ? "you" : "terminal>"}
+      </p>
       <div
         className={revealMs ? "troll-reveal" : undefined}
         style={revealMs ? ({ "--reveal-ms": `${revealMs}ms` } as React.CSSProperties) : undefined}
@@ -125,9 +136,6 @@ const MessageRow = memo(function MessageRow({
             m.is_gossip ? "text-problem" : m.role === "terminal" ? "text-terminal" : "text-you"
           } ${revealMs ? "troll-reveal-text" : ""}`}
         >
-          <span className="text-dim text-xs uppercase tracking-wide mr-1.5">
-            {m.is_gossip ? "gossip" : m.role === "terminal" ? "terminal" : "you"}
-          </span>
           {renderTightLines(m.content)}
         </p>
         {revealMs && (
@@ -189,7 +197,11 @@ const MessageRow = memo(function MessageRow({
           )}
         </div>
       )}
-      <div className="mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+      <div
+        className={`mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity ${
+          isYou ? "justify-end" : ""
+        }`}
+      >
         {m.created_at && <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>}
         {/* Owner-only: which free provider wrote this reply. Italic and dim
             so it reads as a margin note on the log rather than part of the
@@ -256,6 +268,9 @@ type Wallet = {
 type DailyLimit = { used: number; cap: number | null };
 
 const VOICE_PREF_KEY = "terminal_voice_enabled";
+// created_at of the last message this device had on screen — see
+// restoreLastSeen in Chat.
+const LAST_SEEN_KEY = "terminal_chat_last_seen";
 
 // Strips the ASCII/markdown dressing the terminal writes in (box chars,
 // asterisks, backticks) so narration reads as speech, not symbol soup.
@@ -709,6 +724,74 @@ export default function Chat({
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [hopMessages]);
+
+  // This device remembers the last message the reader had on screen (the
+  // lowest row visible in the transcript), and every time the transcript
+  // opens or changes size — first load, popping out, shrinking, a window
+  // resize — it lands back on that message instead of wherever scrollTop
+  // happened to leave it. Read to the end and it's simply the bottom.
+  // Skipped while hopped into someone else's conversation, which shares
+  // this scroll box but isn't the reader's own log.
+  const hopTargetRef = useRef(hopTarget);
+  useEffect(() => {
+    hopTargetRef.current = hopTarget;
+  }, [hopTarget]);
+  const restoreLastSeen = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let key: string | null = null;
+    try {
+      key = localStorage.getItem(LAST_SEEN_KEY);
+    } catch {}
+    const rows = el.querySelectorAll<HTMLElement>("[data-msg]");
+    const target = key ? [...rows].find((r) => r.dataset.msg === key) : undefined;
+    if (!target || target === rows[rows.length - 1]) {
+      el.scrollTo({ top: el.scrollHeight });
+      return;
+    }
+    // Put that message's bottom edge at the bottom of the view.
+    // Divided by the box's current scale: the popout opens with a brief
+    // scale-in (.chat-popout-in) and screen px would be off by that much.
+    const box = el.getBoundingClientRect();
+    const scale = box.height / el.offsetHeight || 1;
+    const offset = (target.getBoundingClientRect().bottom - box.bottom) / scale;
+    el.scrollTo({ top: el.scrollTop + offset + 8 });
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (hopTargetRef.current) return;
+      const viewBottom = el.getBoundingClientRect().bottom;
+      let seen: string | undefined;
+      for (const r of el.querySelectorAll<HTMLElement>("[data-msg]")) {
+        if (r.getBoundingClientRect().top < viewBottom) seen = r.dataset.msg;
+        else break;
+      }
+      if (!seen) return;
+      try {
+        localStorage.setItem(LAST_SEEN_KEY, seen);
+      } catch {}
+    };
+    const ro = new ResizeObserver(() => {
+      if (!hopTargetRef.current) restoreLastSeen();
+    });
+    restoreLastSeen();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      ro.disconnect();
+    };
+    // The transcript only mounts once loaded (see the early return below).
+  }, [loaded, restoreLastSeen]);
+
+  // The popout's new size is committed in the same render (app/page.tsx
+  // swaps the Frame's classes), so the layout read inside is already final.
+  useEffect(() => {
+    restoreLastSeen();
+  }, [popped, restoreLastSeen]);
 
   // Ticks once a second only while a cooldown is actually pending, so the
   // countdown display stays live and self-clears at zero without a
