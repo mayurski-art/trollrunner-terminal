@@ -786,7 +786,9 @@ export default function Chat({
       // Longer replies take him longer to cross, within reason.
       const revealMs = Math.min(3500, Math.max(1200, data.reply.length * 30));
       setReveal({ content: data.reply, ms: revealMs });
-      setTimeout(() => setReveal((r) => (r?.content === data.reply ? null : r)), revealMs + 200);
+      // Cleared right as the walker finishes fading so the perch sticker
+      // fades back in over the tail of his exit, not after a blank gap.
+      setTimeout(() => setReveal((r) => (r?.content === data.reply ? null : r)), revealMs);
       speak(data.reply);
       if (data.wallet) {
         setWallet(data.wallet);
@@ -1332,7 +1334,7 @@ export default function Chat({
         alt=""
         aria-hidden="true"
         draggable={false}
-        className={`troll-sticker shrink-0 self-end h-24 w-auto -mb-1 pointer-events-none select-none transition-opacity ${
+        className={`troll-sticker shrink-0 self-end h-24 w-auto -mb-1 pointer-events-none select-none transition-opacity duration-300 ${
           reveal && !hopTarget ? "opacity-0" : ""
         }`}
       />

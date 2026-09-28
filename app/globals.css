@@ -2305,7 +2305,27 @@ html[data-custom-cursor] label {
   width: fit-content;
   max-width: 100%;
 }
+/* Feathered wipe rather than a hard clip edge: --troll-wipe is registered so
+   the gradient stop interpolates smoothly (unregistered browsers just flip
+   the text in at the halfway mark). It overshoots by the feather width so
+   the last characters end fully opaque. */
+@property --troll-wipe {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
 .troll-reveal-text {
+  --troll-feather: 24px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 calc(var(--troll-wipe) - var(--troll-feather)),
+    transparent var(--troll-wipe)
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 calc(var(--troll-wipe) - var(--troll-feather)),
+    transparent var(--troll-wipe)
+  );
   animation: troll-wipe var(--reveal-ms) linear both;
 }
 .troll-reveal-walker {
@@ -2319,15 +2339,19 @@ html[data-custom-cursor] label {
   animation: troll-walk var(--reveal-ms) linear both;
 }
 @keyframes troll-wipe {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
+  from { --troll-wipe: 0%; }
+  to { --troll-wipe: calc(100% + 24px); }
 }
+/* Fades in while the perch sticker fades out (Chat.tsx, duration-300) and
+   fades out just as the perch fades back in, so it reads as one troll
+   hopping down and back rather than a copy popping in and out. */
 @keyframes troll-walk {
-  0% { left: 0; transform: translate(0, -50%); opacity: 1; }
-  85% { opacity: 1; }
-  100% { left: 100%; transform: translate(-100%, -50%); opacity: 0; }
+  0% { left: 0; transform: translate(0, -50%) scale(0.85); opacity: 0; }
+  10% { transform: translate(-10%, -50%) scale(1); opacity: 1; }
+  88% { transform: translate(-88%, -50%) scale(1); opacity: 1; }
+  100% { left: 100%; transform: translate(-100%, -50%) scale(0.85); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .troll-reveal-text { animation: none; }
+  .troll-reveal-text { animation: none; -webkit-mask-image: none; mask-image: none; }
   .troll-reveal-walker { display: none; }
 }

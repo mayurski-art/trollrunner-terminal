@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { selectLoreSections, pickLoreSubject, loreSubjectBlock } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt, turnMightWantLoreImage } from "@/lib/loreAssets";
+import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
 import {
   generateFreeReply,
   lastCooldownSeconds,
@@ -586,7 +587,11 @@ export async function generateChatReply(
       : "";
 
   const freeSystemPrompt =
-    CHAT_SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recentText) + memoryBlock;
+    CHAT_SYSTEM_PROMPT_FREE_TIER +
+    "\n\n" +
+    selectLoreSections(recentText) +
+    memoryBlock +
+    (await getOwnerVoiceBlock());
   const freeHistory: ChatTurn[] = history.map((m) => ({ role: m.role, content: m.content }));
 
   const freeResult = await generateFreeReply(freeSystemPrompt, freeHistory, rotationSeed);
@@ -757,9 +762,11 @@ export async function generatePost(
   // always matched nothing — the model wrote with no concrete material in
   // front of it, which is exactly why transmissions read as too ambiguous.
   // The keyword path stays only as a fallback for a subject-less pick.
-  const freeSystemPrompt = subject
-    ? SYSTEM_PROMPT_FREE_TIER + "\n\n" + loreSubjectBlock(subject)
-    : SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "");
+  const freeSystemPrompt =
+    (subject
+      ? SYSTEM_PROMPT_FREE_TIER + "\n\n" + loreSubjectBlock(subject)
+      : SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "")) +
+    (await getOwnerVoiceBlock());
 
   // A free model that ran out of tokens mid-answer still returns 200 with a
   // plausible-looking partial post — verified in practice as text ending on
