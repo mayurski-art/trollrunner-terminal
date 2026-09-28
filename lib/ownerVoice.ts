@@ -49,10 +49,21 @@ function clean(lines: string[]): string[] {
   return out;
 }
 
+let inFlight: Promise<string> | null = null;
+
 // Returns "" (never throws) when there's nothing yet or the lookup fails —
-// the terminal must still answer if this is broken.
-export async function getOwnerVoiceBlock(): Promise<string> {
-  if (blockCache && Date.now() - blockCache.at < CACHE_MS) return blockCache.text;
+// the terminal must still answer if this is broken. Concurrent callers share
+// one load, so the chat route can start it early (alongside its own
+// database reads) and the prompt builder's later call just joins it.
+export function getOwnerVoiceBlock(): Promise<string> {
+  if (blockCache && Date.now() - blockCache.at < CACHE_MS) return Promise.resolve(blockCache.text);
+  inFlight ??= loadOwnerVoiceBlock().finally(() => {
+    inFlight = null;
+  });
+  return inFlight;
+}
+
+async function loadOwnerVoiceBlock(): Promise<string> {
   let text = "";
   try {
     const supabase = getServiceClient();

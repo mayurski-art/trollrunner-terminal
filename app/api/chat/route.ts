@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { generateChatReply, WireDownError, type ChatMessage } from "@/lib/persona";
 import { estimateCostUsd } from "@/lib/pricing";
@@ -7,6 +7,7 @@ import { getBuddyTier, rollBuddyBonus } from "@/lib/buddy";
 import { getLoreAssetById } from "@/lib/loreAssets";
 import { allSectionTitles, pickTopSection } from "@/lib/loreSections";
 import { isSeeded } from "@/lib/loreArchive";
+import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -132,33 +133,20 @@ export async function GET(request: Request) {
   }
   const userId = userData.user.id;
 
-  // `provider` is only present once supabase/migrations/019_chat_provider.sql has
-  // been run. Selecting a column that doesn't exist fails the whole query,
-  // which would blank the entire chat history over a debug-only field — so
-  // the column list is chosen once per request and falls back below.
+  // `provider` is deliberately not selected: which free API wrote a reply is
+  // kept in the database for logs only and never shown in the chat.
   const HISTORY_COLUMNS = "role, content, created_at, is_gossip, image_url, image_caption";
   const [{ data: historyRows }, { data: wallet }, { data: config }] = await Promise.all([
     supabase
       .from("terminal_chat_messages")
-      .select(`${HISTORY_COLUMNS}, provider`)
+      .select(HISTORY_COLUMNS)
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       // Pairs saved before turnTimestamps() share one created_at; "terminal"
       // sorts before "user", which the .reverse() below turns into question
       // first, reply second.
       .order("role", { ascending: true })
-      .limit(HISTORY_TURNS * 2)
-      .then((res) =>
-        res.error && /provider/i.test(res.error.message)
-          ? supabase
-              .from("terminal_chat_messages")
-              .select(HISTORY_COLUMNS)
-              .eq("user_id", userId)
-              .order("created_at", { ascending: false })
-              .order("role", { ascending: true })
-              .limit(HISTORY_TURNS * 2)
-          : res
-      ),
+      .limit(HISTORY_TURNS * 2),
     supabase
       .from("terminal_wallets")
       .select("balance, qualifying_count, friendship_score")
@@ -248,10 +236,40 @@ export async function POST(request: Request) {
     );
   }
 
-  const { data: config } = await supabase
-    .from("terminal_config")
-    .select("chat_paused, chat_daily_global_cap, chat_messages_today, chat_messages_day")
-    .single();
+  // Everything the turn needs from the database, fetched at once. These used
+  // to run one after another — config, then the spend check (itself two
+  // steps), then the wallet, then history — each a full round trip to
+  // Supabase before the model was even asked. The gates below still apply in
+  // the same order; they just read results that are already in hand. The
+  // owner voice sample is warmed here too, so the prompt builder doesn't
+  // start that lookup from cold after all of this.
+  void getOwnerVoiceBlock();
+  const [{ data: config }, spendCheck, { data: existingWallet }, { data: historyRows }, { data: memoryRows }] =
+    await Promise.all([
+      supabase
+        .from("terminal_config")
+        .select("chat_paused, chat_daily_global_cap, chat_messages_today, chat_messages_day")
+        .single(),
+      checkAndReserveSpend(supabase),
+      supabase.from("terminal_wallets").select("*").eq("user_id", userId).maybeSingle(),
+      supabase
+        .from("terminal_chat_messages")
+        .select("role, content, created_at")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .order("role", { ascending: true }) // tied legacy pairs — see GET above
+        // * 2 because a "turn" is two rows (the troublemaker's message and the
+        // reply). A bare .limit(HISTORY_TURNS) fetched 12 ROWS — only ~6
+        // exchanges — so the model lost sight of what it had already said
+        // and looped openers back at people. The hydration query above has
+        // always used HISTORY_TURNS * 2; this one silently did not.
+        .limit(HISTORY_TURNS * 2),
+      supabase
+        .from("terminal_memories")
+        .select("content")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: true }),
+    ]);
 
   if (config?.chat_paused) {
     return NextResponse.json(
@@ -274,7 +292,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const spendCheck = await checkAndReserveSpend(supabase);
   if (!spendCheck.allowed) {
     return NextResponse.json(
       {
@@ -289,12 +306,6 @@ export async function POST(request: Request) {
   }
 
   // Load or create the wallet row.
-  const { data: existingWallet } = await supabase
-    .from("terminal_wallets")
-    .select("*")
-    .eq("user_id", userId)
-    .maybeSingle();
-
   const wallet = existingWallet ?? {
     user_id: userId,
     balance: 0,
@@ -316,26 +327,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // Load recent history + pinned memories for context.
-  const [{ data: historyRows }, { data: memoryRows }] = await Promise.all([
-    supabase
-      .from("terminal_chat_messages")
-      .select("role, content, created_at")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false })
-      .order("role", { ascending: true }) // tied legacy pairs — see GET above
-      // * 2 because a "turn" is two rows (the troublemaker's message and the
-      // reply). A bare .limit(HISTORY_TURNS) fetched 12 ROWS — only ~6
-      // exchanges — so the model lost sight of what it had already said
-      // and looped openers back at people. The hydration query above has
-      // always used HISTORY_TURNS * 2; this one silently did not.
-      .limit(HISTORY_TURNS * 2),
-    supabase
-      .from("terminal_memories")
-      .select("content")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: true }),
-  ]);
   const memories = (memoryRows ?? []).map((r) => r.content as string);
 
   // historyRows is newest-first, so the budget keeps the latest turns and
@@ -462,11 +453,7 @@ export async function POST(request: Request) {
 
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
-    generated = await generateChatReply(
-      [...history, { role: "user", content: message }],
-      memories,
-      globalToday
-    );
+    generated = await generateChatReply([...history, { role: "user", content: message }], memories);
   } catch (err) {
     // Every free provider down or rate-limited is a wait, not a bug — hand
     // the frontend the same shape it already renders for the 429 burst-limit
@@ -502,7 +489,6 @@ export async function POST(request: Request) {
   const qualifying = isSubstantiveMessage(message);
 
   const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
-  await recordSpend(supabase, estimatedCostUsd);
 
   const turnAt = turnTimestamps(receivedAt);
   const terminalRow: Record<string, unknown> = {
@@ -522,30 +508,29 @@ export async function POST(request: Request) {
   };
   const userRow = { user_id: userId, role: "user", content: message, qualifying, created_at: turnAt.userAt };
 
-  let { error: insertError } = await supabase
-    .from("terminal_chat_messages")
-    .insert([userRow, terminalRow]);
-
-  // `provider` is a new column (see supabase/migrations/019_chat_provider.sql). If
-  // that migration hasn't been run on this database yet, PostgREST rejects
-  // the whole insert with PGRST204 and BOTH messages would be lost — the
-  // reply the user just read would vanish on refresh over a debug-only
-  // field. Retry once without it so the conversation always survives; the
-  // live reply still shows its provider marker either way, since that comes
-  // from the response body rather than the database.
-  if (insertError && /provider/i.test(insertError.message)) {
-    console.error(
-      "[chat] provider column missing — saving without it. Run supabase/migrations/019_chat_provider.sql to persist provider tags."
-    );
-    delete terminalRow.provider;
-    ({ error: insertError } = await supabase
+  const saveMessages = async () => {
+    let { error: insertError } = await supabase
       .from("terminal_chat_messages")
-      .insert([userRow, terminalRow]));
-  }
-  if (insertError) {
-    console.error("[chat] failed to save chat messages:", insertError.message);
-  }
+      .insert([userRow, terminalRow]);
 
+    // `provider` is a new column (see supabase/migrations/019_chat_provider.sql). If
+    // that migration hasn't been run on this database yet, PostgREST rejects
+    // the whole insert with PGRST204 and BOTH messages would be lost — the
+    // reply the user just read would vanish on refresh over a debug-only
+    // field. Retry once without it so the conversation always survives.
+    if (insertError && /provider/i.test(insertError.message)) {
+      console.error(
+        "[chat] provider column missing — saving without it. Run supabase/migrations/019_chat_provider.sql to persist provider tags."
+      );
+      delete terminalRow.provider;
+      ({ error: insertError } = await supabase
+        .from("terminal_chat_messages")
+        .insert([userRow, terminalRow]));
+    }
+    if (insertError) {
+      console.error("[chat] failed to save chat messages:", insertError.message);
+    }
+  };
 
   // Mining: each qualifying message mints 1 PROBLEM. Any progress left over
   // from the old 1-per-7 counter is dropped rather than paid out.
@@ -560,99 +545,108 @@ export async function POST(request: Request) {
 
   const newBalance = wallet.balance + minted + buddyBonus;
 
-  // select() the row back so the response reflects what's actually
-  // persisted, not just the in-memory math — a silent upsert failure here
-  // used to still report a "minted" reply with numbers that never hit the
-  // database (wallet stayed stuck at 0 while chat kept working).
-  const { data: persistedWallet, error: walletError } = await supabase
-    .from("terminal_wallets")
-    .upsert({
-      user_id: userId,
-      balance: newBalance,
-      lifetime_earned: wallet.lifetime_earned + minted + buddyBonus,
-      lifetime_spent: wallet.lifetime_spent,
-      qualifying_count: remainder,
-      friendship_score: newFriendshipScore,
-      spam_streak: 0,
-      messages_today: messagesToday + 1,
-      last_message_at: new Date().toISOString(),
-      last_message_day: today,
-    })
-    .select("balance, qualifying_count, friendship_score")
-    .single();
-  if (walletError) {
-    console.error("[chat] failed to persist wallet:", walletError.message);
-  }
-
-  if (minted > 0) {
-    const { error: ledgerError } = await supabase.from("terminal_token_ledger").insert({
-      user_id: userId,
-      delta: minted,
-      reason: "mined",
-    });
-    if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
-  }
-
-  if (buddyBonus > 0) {
-    const { error: ledgerError } = await supabase.from("terminal_token_ledger").insert({
-      user_id: userId,
-      delta: buddyBonus,
-      reason: "buddy_bonus",
-    });
-    if (ledgerError) console.error("[chat] failed to write ledger entry:", ledgerError.message);
-  }
-
   // Archive Path A (docs/TERMINAL-V4-DESIGN.md §3.2) — a qualifying reply
   // unlocks, at most, the single lore section it was actually about. Never
-  // more than one per reply even though the model was fed up to four
-  // sections for context, so the archive fills at conversation pace, not
-  // instantly. Seeded sections are already open for everyone, so there's
-  // nothing to unlock there. Best-effort: a failure here should never
-  // break the reply the user is waiting on.
-  let archiveUnlock: { section: number; title: string } | null = null;
-  if (qualifying) {
+  // more than one per reply even though the model was fed several sections
+  // for context, so the archive fills at conversation pace, not instantly.
+  // Seeded sections are already open for everyone, so there's nothing to
+  // unlock there. Best-effort: a failure here should never break the reply
+  // the user is waiting on.
+  const unlockArchive = async (): Promise<{ section: number; title: string } | null> => {
+    if (!qualifying) return null;
     try {
       const section = pickTopSection(message);
-      if (section !== null && !isSeeded(section)) {
-        const { error: unlockError, data: unlockRow } = await supabase
-          .from("terminal_lore_unlocks")
-          .insert({ user_id: userId, section_number: section, source: "chat" })
-          .select("section_number")
-          .maybeSingle();
-        if (!unlockError && unlockRow) {
-          const title = allSectionTitles().find((s) => s.number === section)?.title;
-          if (title) archiveUnlock = { section, title };
-        } else if (unlockError && unlockError.code !== "23505") {
-          // 23505 = unique_violation — this section is already open for
-          // this user, not an error worth logging.
-          console.error("[chat] failed to unlock archive section:", unlockError.message);
-        }
+      if (section === null || isSeeded(section)) return null;
+      const { error: unlockError, data: unlockRow } = await supabase
+        .from("terminal_lore_unlocks")
+        .insert({ user_id: userId, section_number: section, source: "chat" })
+        .select("section_number")
+        .maybeSingle();
+      if (!unlockError && unlockRow) {
+        const title = allSectionTitles().find((s) => s.number === section)?.title;
+        if (title) return { section, title };
+      } else if (unlockError && unlockError.code !== "23505") {
+        // 23505 = unique_violation — this section is already open for
+        // this user, not an error worth logging.
+        console.error("[chat] failed to unlock archive section:", unlockError.message);
       }
     } catch (err) {
       console.error("[chat] archive unlock threw:", (err as Error).message);
     }
+    return null;
+  };
+
+  // The three writes whose results the reply reports, run side by side
+  // rather than one after another.
+  const [, { data: persistedWallet, error: walletError }, archiveUnlock] = await Promise.all([
+    saveMessages(),
+    // select() the row back so the response reflects what's actually
+    // persisted, not just the in-memory math — a silent upsert failure here
+    // used to still report a "minted" reply with numbers that never hit the
+    // database (wallet stayed stuck at 0 while chat kept working).
+    supabase
+      .from("terminal_wallets")
+      .upsert({
+        user_id: userId,
+        balance: newBalance,
+        lifetime_earned: wallet.lifetime_earned + minted + buddyBonus,
+        lifetime_spent: wallet.lifetime_spent,
+        qualifying_count: remainder,
+        friendship_score: newFriendshipScore,
+        spam_streak: 0,
+        messages_today: messagesToday + 1,
+        last_message_at: new Date().toISOString(),
+        last_message_day: today,
+      })
+      .select("balance, qualifying_count, friendship_score")
+      .single(),
+    unlockArchive(),
+  ]);
+  if (walletError) {
+    console.error("[chat] failed to persist wallet:", walletError.message);
   }
 
-  const { error: configError } = await supabase
-    .from("terminal_config")
-    .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
-    .eq("id", true);
-  if (configError) console.error("[chat] failed to update daily config counters:", configError.message);
+  // Bookkeeping nothing in the reply depends on — spend tracking, the
+  // ledger, the global daily counter, shared XP — runs after the response
+  // is sent (next/server's after()) instead of holding the reply for
+  // several more round trips.
+  after(async () => {
+    const ledger = (delta: number, reason: string) =>
+      delta > 0
+        ? supabase
+            .from("terminal_token_ledger")
+            .insert({ user_id: userId, delta, reason })
+            .then(({ error }) => {
+              if (error) console.error("[chat] failed to write ledger entry:", error.message);
+            })
+        : null;
 
-  // Shared TrollRunner XP, same server-enforced rules as the main site
-  // (see assets/supabase/troll_terminal_xp.sql) — once per ~day per user,
-  // so this is safe to call on every message. Best-effort: a hiccup here
-  // shouldn't fail the chat reply the user is waiting on.
-  try {
-    await supabase.rpc("troll_award_xp_service", {
-      p_user_id: userId,
-      p_event: "terminal_session",
-      p_source: "terminal",
-      p_meta: {},
-    });
-  } catch {
-    // ignore
-  }
+    await Promise.all([
+      recordSpend(supabase, estimatedCostUsd).catch((err) =>
+        console.error("[chat] failed to record spend:", (err as Error).message)
+      ),
+      ledger(minted, "mined"),
+      ledger(buddyBonus, "buddy_bonus"),
+      supabase
+        .from("terminal_config")
+        .update({ chat_messages_today: globalToday + 1, chat_messages_day: today })
+        .eq("id", true)
+        .then(({ error }) => {
+          if (error) console.error("[chat] failed to update daily config counters:", error.message);
+        }),
+      // Shared TrollRunner XP, same server-enforced rules as the main site
+      // (see assets/supabase/troll_terminal_xp.sql) — once per ~day per user,
+      // so this is safe to call on every message. Best-effort.
+      Promise.resolve(
+        supabase.rpc("troll_award_xp_service", {
+          p_user_id: userId,
+          p_event: "terminal_session",
+          p_source: "terminal",
+          p_meta: {},
+        })
+      ).catch(() => {}),
+    ]);
+  });
 
   const persistedFriendshipScore = persistedWallet?.friendship_score ?? newFriendshipScore;
 
@@ -663,10 +657,6 @@ export async function POST(request: Request) {
     // rows, and components/Chat.tsx dedupes on created_at + content.
     userCreatedAt: turnAt.userAt,
     replyCreatedAt: turnAt.replyAt,
-    // Which free provider wrote this reply. The client shows it as a small
-    // owner-only marker so model quality can be judged from real traffic
-    // (see ProviderMark in components/Chat.tsx).
-    provider: generated.provider,
     imageUrl: loreAsset?.url ?? null,
     imageCaption: loreAsset?.caption ?? null,
     wallet: {

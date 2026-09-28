@@ -2297,25 +2297,35 @@ html[data-custom-cursor] label {
 
 /* A fresh terminal reply: the lel troll walks across it left to right and
    the text wipes in behind him (components/Chat.tsx, MessageRow revealMs).
-   w-fit so a one-word reply isn't a long walk across empty panel; the
-   walker's translate tracks its own width so he never pokes past the
-   right edge and sets off a horizontal scrollbar in the transcript. */
+   w-fit so a one-word reply isn't a long walk across empty panel.
+
+   One animated value, --troll-wipe, drives both the text's reveal edge and
+   the walker's position, so the text appears exactly where he is. They used
+   to run on two separate timelines (a mask sweep and a translate) that
+   drifted apart — text surfaced under his feet or ahead of him — and he was
+   centred vertically at 3rem tall, which on a one-line reply sat on top of
+   the "terminal>" label and the timestamp row, and on a longer one hid the
+   middle lines. Now he's smaller and stands on the bottom edge of the text.
+   Registered and inherited so the children read the parent's animated
+   value; percentages resolve against each child's own box, and the text and
+   the container are the same width. */
+@property --troll-wipe {
+  syntax: "<length-percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
 .troll-reveal {
+  --troll-feather: 24px;
+  /* The GIF is 498x332 (3:2); feet sit ~11% up from its bottom edge. */
+  --troll-h: 2rem;
+  --troll-w: calc(var(--troll-h) * 1.5);
   position: relative;
   width: fit-content;
   max-width: 100%;
-}
-/* Feathered wipe rather than a hard clip edge: --troll-wipe is registered so
-   the gradient stop interpolates smoothly (unregistered browsers just flip
-   the text in at the halfway mark). It overshoots by the feather width so
-   the last characters end fully opaque. */
-@property --troll-wipe {
-  syntax: "<length-percentage>";
-  inherits: false;
-  initial-value: 0%;
+  /* Overshoots by the feather width so the last characters end fully opaque. */
+  animation: troll-wipe var(--reveal-ms) linear both;
 }
 .troll-reveal-text {
-  --troll-feather: 24px;
   -webkit-mask-image: linear-gradient(
     to right,
     #000 calc(var(--troll-wipe) - var(--troll-feather)),
@@ -2326,32 +2336,39 @@ html[data-custom-cursor] label {
     #000 calc(var(--troll-wipe) - var(--troll-feather)),
     transparent var(--troll-wipe)
   );
-  animation: troll-wipe var(--reveal-ms) linear both;
 }
 .troll-reveal-walker {
   position: absolute;
-  top: 50%;
-  height: 3rem;
-  width: auto;
+  z-index: 1;
+  bottom: calc(var(--troll-h) * -0.11);
+  /* Centred on the reveal edge, trailing it slightly so the freshly shown
+     text is at his back; clamped so he never leaves the reply's own box
+     (past the right edge he'd set off a horizontal scrollbar). */
+  left: clamp(0px, calc(var(--troll-wipe) - var(--troll-w) * 0.6), calc(100% - var(--troll-w)));
+  height: var(--troll-h);
+  width: var(--troll-w);
   max-width: none;
   pointer-events: none;
   user-select: none;
+  transform-origin: 50% 100%;
   animation: troll-walk var(--reveal-ms) linear both;
 }
 @keyframes troll-wipe {
   from { --troll-wipe: 0%; }
-  to { --troll-wipe: calc(100% + 24px); }
+  to { --troll-wipe: calc(100% + var(--troll-feather)); }
 }
 /* Fades in while the perch sticker fades out (Chat.tsx, duration-300) and
    fades out just as the perch fades back in, so it reads as one troll
-   hopping down and back rather than a copy popping in and out. */
+   hopping down and back rather than a copy popping in and out. Position
+   comes from --troll-wipe above; this is only the hop on and off. */
 @keyframes troll-walk {
-  0% { left: 0; transform: translate(0, -50%) scale(0.85); opacity: 0; }
-  10% { transform: translate(-10%, -50%) scale(1); opacity: 1; }
-  88% { transform: translate(-88%, -50%) scale(1); opacity: 1; }
-  100% { left: 100%; transform: translate(-100%, -50%) scale(0.85); opacity: 0; }
+  0% { transform: scale(0.85); opacity: 0; }
+  10% { transform: scale(1); opacity: 1; }
+  88% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .troll-reveal-text { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .troll-reveal { animation: none; }
+  .troll-reveal-text { -webkit-mask-image: none; mask-image: none; }
   .troll-reveal-walker { display: none; }
 }

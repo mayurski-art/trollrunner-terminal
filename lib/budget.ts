@@ -18,13 +18,20 @@ export type UsageSummary = {
 // broadcast posts, and (historically) musings. Shared by /api/posts (public
 // usage display) and checkAndReserveSpend below (the actual spend guard) so
 // there's exactly one definition of "how much have we spent."
+//
+// Only rows that actually cost something are fetched. This used to pull the
+// cost column of EVERY row — every chat message ever sent — on every single
+// chat turn (it runs inside checkAndReserveSpend), growing with each message,
+// and PostgREST caps a response at 1000 rows, so past that it would have
+// silently undercounted. Nearly everything is written by free providers at
+// zero cost now, so paid rows are rare. Same totals either way.
 export async function getRemainingUsd(supabase: SupabaseClient): Promise<UsageSummary> {
   const [configRes, postCostRes, chatCostRes, undervoiceCostRes, musingCostRes] = await Promise.all([
     supabase.from("terminal_config").select("starting_credit_usd").single(),
-    supabase.from("terminal_posts").select("estimated_cost_usd"),
-    supabase.from("terminal_chat_messages").select("estimated_cost_usd"),
-    supabase.from("terminal_undervoice_messages").select("estimated_cost_usd"),
-    supabase.from("terminal_musings").select("estimated_cost_usd"),
+    supabase.from("terminal_posts").select("estimated_cost_usd").gt("estimated_cost_usd", 0),
+    supabase.from("terminal_chat_messages").select("estimated_cost_usd").gt("estimated_cost_usd", 0),
+    supabase.from("terminal_undervoice_messages").select("estimated_cost_usd").gt("estimated_cost_usd", 0),
+    supabase.from("terminal_musings").select("estimated_cost_usd").gt("estimated_cost_usd", 0),
   ]);
 
   const startingCreditUsd = Number(configRes.data?.starting_credit_usd ?? 0);
@@ -72,6 +79,9 @@ export async function checkAndReserveSpend(supabase: SupabaseClient): Promise<Sp
 // first if the stored day has rolled over. Call right after estimateCostUsd
 // for every chat / undervoice / cron / musing-cron generation.
 export async function recordSpend(supabase: SupabaseClient, costUsd: number): Promise<void> {
+  // Most chat turns cost nothing (free providers, no image call) — skip the
+  // two round trips rather than adding zero.
+  if (!(costUsd > 0)) return;
   const { data: config } = await supabase
     .from("terminal_config")
     .select("spend_today_usd, spend_day")

@@ -27,12 +27,15 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 export const GROQ_MODEL = "qwen/qwen3.8-27b";
 export const OPENROUTER_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free";
 export const GEMINI_MODEL = "gemini-3.5-flash-lite";
-export const MISTRAL_MODEL = "ministral-3b-latest";
+export const MISTRAL_MODEL = "open-mistral-nemo";
 
 type FreeProvider = {
   name: string;
   enabled: () => boolean;
   generate: (system: string, history: ChatTurn[], maxTokens: number, signal: AbortSignal) => Promise<string | null>;
+  // Largest prompt (system + history, in characters) this provider's free
+  // tier can accept at all. Only the fast chat path checks it.
+  maxInputChars?: number;
 };
 
 // None of the three providers ever timed out on their own — a slow (not
@@ -313,6 +316,12 @@ async function callMistral(
       // swap if this one ever goes paid too. Check the limit header on a
       // real call before trusting a replacement — a 200 from /v1/models says
       // nothing about whether chat completions are gated.
+      //
+      // Switched 3b -> open-mistral-nemo 2026-09-28, when mistral became
+      // chat's always-available fallback (generateBestReply). Side by side on
+      // the real chat prompt, nemo (12B) held the voice better — asked follow-up questions, fewer
+      // invented details ("worn by every troll coin since 2025") — at ~1.2s
+      // vs ~0.8s, and its 188 req/min is still far above chat traffic.
       model: MISTRAL_MODEL,
       max_tokens: maxTokens,
       messages: [{ role: "system", content: system }, ...history],
@@ -324,7 +333,12 @@ async function callMistral(
 }
 
 const PROVIDERS: FreeProvider[] = [
-  { name: "groq", enabled: () => !!process.env.GROQ_API_KEY, generate: callGroq },
+  // groq's free tier caps qwen at 8,000 tokens PER MINUTE, input included —
+  // a full chat prompt (persona + lore + voice sample + history) runs 6-10k
+  // tokens, so a big one can never succeed there and is skipped up front
+  // rather than spending a round trip on a guaranteed 413/429. ~3.5 chars per
+  // token, leaving room for the reply itself.
+  { name: "groq", enabled: () => !!process.env.GROQ_API_KEY, generate: callGroq, maxInputChars: 24_000 },
   { name: "gemini", enabled: () => !!process.env.GEMINI_API_KEY, generate: callGemini },
   { name: "openrouter", enabled: () => !!process.env.OPENROUTER_API_KEY, generate: callOpenRouter },
   { name: "mistral", enabled: () => !!process.env.MISTRAL_API_KEY, generate: callMistral },
@@ -411,23 +425,7 @@ export async function generateFreeReply(
         `[freeProviders] ${provider.name} returned ${content ? "an unusable response" : "no content"}`
       );
     } catch (err) {
-      const label = (err as Error).name === "AbortError" ? "timed out" : (err as Error).message;
-      if (err instanceof ProviderError && err.retryAfterSeconds !== null) {
-        retryHints.push(err.retryAfterSeconds);
-      }
-      // A 404 means the model id itself is gone, not that the provider is
-      // busy — no amount of waiting fixes it, and it had silently removed a
-      // third of the rotation for weeks at a time (twice on openrouter, once
-      // on groq). Shout about this one specifically so it shows up in logs
-      // as something to go re-pick rather than as ordinary free-tier noise.
-      if (err instanceof ProviderError && /^\S+ 404:/.test(err.message)) {
-        console.error(
-          `[freeProviders] DEAD MODEL SLUG on ${provider.name} — the configured model id no longer ` +
-            `exists. This provider is permanently out of the rotation until the id is updated in ` +
-            `lib/freeProviders.ts.`
-        );
-      }
-      console.error(`[freeProviders] ${provider.name} failed:`, label);
+      noteFailure(provider.name, err, retryHints);
     } finally {
       clearTimeout(timer);
     }
@@ -445,6 +443,166 @@ export async function generateFreeReply(
   // short enough not to feel like a ban.
   cooldownSeconds = retryHints.length > 0 ? Math.min(...retryHints) : DEFAULT_COOLDOWN_SECONDS;
   return null;
+}
+
+// Providers that recently told us to back off, and until when (epoch ms).
+// Module state, so it only lives as long as a warm server instance — that's
+// enough: the point is to stop a busy chat from re-asking a provider that
+// 429'd a few seconds ago, which is pure added latency on every turn.
+const benchedUntil = new Map<string, number>();
+// A 503 "high demand" carries no wait; gemini was measured answering these
+// back-to-back for minutes, 2-7s each. Long enough to skip the next few turns.
+const OVERLOADED_BENCH_MS = 30_000;
+// A dead model slug won't fix itself; re-check occasionally so a re-pick
+// deploy isn't needed just to notice it came back.
+const DEAD_SLUG_BENCH_MS = 10 * 60_000;
+
+function noteFailure(name: string, err: unknown, retryHints: number[]): void {
+  const label = (err as Error).name === "AbortError" ? "timed out" : (err as Error).message;
+  if (err instanceof ProviderError) {
+    const status = Number(err.message.match(/^\S+ (\d{3}):/)?.[1]);
+    if (err.retryAfterSeconds !== null) {
+      retryHints.push(err.retryAfterSeconds);
+      benchedUntil.set(name, Date.now() + err.retryAfterSeconds * 1000);
+    } else if (status === 503 || status === 429) {
+      benchedUntil.set(name, Date.now() + OVERLOADED_BENCH_MS);
+    }
+    // A 404 means the model id itself is gone, not that the provider is
+    // busy — no amount of waiting fixes it, and it had silently removed a
+    // third of the rotation for weeks at a time (twice on openrouter, once
+    // on groq). Shout about this one specifically so it shows up in logs
+    // as something to go re-pick rather than as ordinary free-tier noise.
+    if (status === 404) {
+      benchedUntil.set(name, Date.now() + DEAD_SLUG_BENCH_MS);
+      console.error(
+        `[freeProviders] DEAD MODEL SLUG on ${name} — the configured model id no longer ` +
+          `exists. This provider is permanently out of the rotation until the id is updated in ` +
+          `lib/freeProviders.ts.`
+      );
+    }
+  }
+  console.error(`[freeProviders] ${name} failed:`, label);
+}
+
+// Live chat quality ranking (lower is better), from a side-by-side of all
+// four on the real chat prompt, 2026-09-28. openrouter's 550B nemotron wrote
+// the best replies — specific facts from the lore, in voice, short, no
+// markdown — and groq's qwen was close behind; gemini is good when it isn't
+// overloaded; mistral's nemo is fast and dependable but clearly weakest:
+// long bulleted answers, markdown, and it broke hard rules (answered "who's
+// typing?" with "I don't know"). Mistral is the safety net, not the voice.
+const CHAT_RANK: Record<string, number> = { openrouter: 0, groq: 0, gemini: 1, mistral: 2 };
+
+// How chat picks its reply. The old strict round-robin asked one provider at
+// a time, so a turn that started on a slow or failing provider waited out
+// that failure before the next was even asked. A first-answer-wins race fixed
+// the speed but handed nearly every turn to the fastest, weakest model. This
+// asks every available provider at once and waits up to patienceMs for the
+// best-ranked answer: the moment no provider still running could beat the
+// best reply in hand, that reply goes out — so a quick groq answer returns
+// in about a second, and openrouter gets its several seconds only when it's
+// the best thing still coming. Past patienceMs the best answer in hand wins;
+// with nothing in hand yet, the first usable answer does. Transmissions keep
+// the round-robin — they aren't waited on live, and they need its
+// validators.
+//
+// Every call fires every provider, which spends free quota faster — fine,
+// since each one's rate-limit reply benches it (benchedUntil) until the
+// reset it names, rather than being asked again every turn.
+export async function generateBestReply(
+  system: string,
+  history: ChatTurn[],
+  {
+    patienceMs = 9_000,
+    deadlineMs = 22_000,
+    maxTokens = MAX_OUTPUT_TOKENS,
+    // A 200 the caller can't use is handled like a failure.
+    validate = (() => true) as (content: string) => boolean,
+  } = {}
+): Promise<FreeReplyResult> {
+  const now = Date.now();
+  const inputChars = system.length + history.reduce((n, m) => n + m.content.length, 0);
+  const configured = PROVIDERS.filter((p) => p.enabled() && p.name in CHAT_RANK);
+  const lineup = configured.filter(
+    (p) => (benchedUntil.get(p.name) ?? 0) <= now && inputChars <= (p.maxInputChars ?? Infinity)
+  );
+
+  if (lineup.length === 0) {
+    const waits = configured
+      .map((p) => benchedUntil.get(p.name) ?? 0)
+      .filter((until) => until > now)
+      .map((until) => Math.ceil((until - now) / 1000));
+    cooldownSeconds = waits.length > 0 ? Math.min(...waits) : DEFAULT_COOLDOWN_SECONDS;
+    return null;
+  }
+
+  const retryHints: number[] = [];
+  const controllers: AbortController[] = [];
+  const pending = new Set(lineup.map((p) => p.name));
+  let best: { content: string; provider: string; rank: number } | null = null;
+  let patienceOver = false;
+  let done = false;
+
+  return new Promise<FreeReplyResult>((resolve) => {
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(patienceTimer);
+      clearTimeout(deadlineTimer);
+      for (const c of controllers) c.abort();
+      if (!best) {
+        cooldownSeconds = retryHints.length > 0 ? Math.min(...retryHints) : DEFAULT_COOLDOWN_SECONDS;
+        resolve(null);
+      } else {
+        resolve({ content: best.content, provider: best.provider, validated: true });
+      }
+    };
+
+    // Done as soon as waiting longer can't produce a better reply.
+    const settle = () => {
+      if (done) return;
+      if (pending.size === 0) return finish();
+      if (!best) return;
+      const bestStillPossible = Math.min(...[...pending].map((n) => CHAT_RANK[n]));
+      if (patienceOver || best.rank <= bestStillPossible) finish();
+    };
+
+    const patienceTimer = setTimeout(() => {
+      patienceOver = true;
+      settle();
+    }, patienceMs);
+    const deadlineTimer = setTimeout(() => {
+      if (!best) console.error("[freeProviders] chat deadline reached with no reply");
+      finish();
+    }, deadlineMs);
+
+    for (const provider of lineup) {
+      const controller = new AbortController();
+      controllers.push(controller);
+      const timer = setTimeout(() => controller.abort(), Math.max(PROVIDER_TIMEOUT_MS, patienceMs));
+      provider
+        .generate(system, history, maxTokens, controller.signal)
+        .then((content) => {
+          if (done) return;
+          if (content && validate(content)) {
+            const rank = CHAT_RANK[provider.name];
+            if (!best || rank < best.rank) best = { content, provider: provider.name, rank };
+          } else {
+            console.error(
+              `[freeProviders] ${provider.name} returned ${content ? "an unusable response" : "no content"}`
+            );
+          }
+        })
+        .catch((err) => {
+          if (!done) noteFailure(provider.name, err, retryHints);
+        })
+        .finally(() => {
+          clearTimeout(timer);
+          pending.delete(provider.name);
+          settle();
+        });
+    }
+  });
 }
 
 // How long the caller should wait after the most recent exhausted rotation.

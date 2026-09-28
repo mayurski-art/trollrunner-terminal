@@ -17,7 +17,7 @@ const LINKS = {
   carlos: "https://x.com/saint_whynne",
   umadbro: "https://umadbro.shop",
   hub: "https://x.com/trolltruths",
-  nft: "https://opensea.io/trollsoneth",
+  nft: "https://opensea.io/collection/trollsoneth",
   crypto: "https://www.trollface.io/city",
 } as const;
 type NodeKey = keyof typeof LINKS;

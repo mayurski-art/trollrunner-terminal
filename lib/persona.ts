@@ -4,6 +4,7 @@ import { getLoreAssetById, loreAssetCatalogForPrompt, turnMightWantLoreImage } f
 import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
 import {
   generateFreeReply,
+  generateBestReply,
   lastCooldownSeconds,
   MAX_OUTPUT_TOKENS_POST,
   POST_TIMEOUT_MS,
@@ -564,13 +565,11 @@ export type GeneratedChatReply = {
 // one is configured and answers successfully; substance tagging and image
 // selection are always separate small Claude calls, so mining/PROBLEMS and
 // show_image reliability never depend on which provider (or none) wrote
-// the prose. rotationSeed picks the free-provider round-robin starting
-// point — callers pass something that increments every message (the day's
-// running message count works fine) so it actually rotates.
+// the prose. Every provider is asked at once and the best-ranked reply that
+// lands within a patience window wins (see generateBestReply).
 export async function generateChatReply(
   history: ChatMessage[],
-  memories: string[] = [],
-  rotationSeed: number = 0
+  memories: string[] = []
 ): Promise<GeneratedChatReply> {
   const client = getClient();
   const recentText = history
@@ -586,15 +585,27 @@ export async function generateChatReply(
         memories.map((m) => `- ${m}`).join("\n")
       : "";
 
+  // Two lore sections, not the default four: a chat reply is one to three
+  // sentences and draws on one topic at most, while every extra section was
+  // thousands of characters the provider had to read first — and a full-size
+  // prompt is over groq's per-minute token cap on its own.
   const freeSystemPrompt =
     CHAT_SYSTEM_PROMPT_FREE_TIER +
     "\n\n" +
-    selectLoreSections(recentText) +
+    selectLoreSections(recentText, 2) +
     memoryBlock +
     (await getOwnerVoiceBlock());
   const freeHistory: ChatTurn[] = history.map((m) => ({ role: m.role, content: m.content }));
 
-  const freeResult = await generateFreeReply(freeSystemPrompt, freeHistory, rotationSeed);
+  // A better answer is worth a wait — up to ~9s for a real question — but
+  // quick banter ("lol", "ok fair") shouldn't sit for it: a weaker reply to
+  // a throwaway line costs little, a long pause after one feels broken.
+  const lastUser = history[history.length - 1]?.content ?? "";
+  const substantial = /\?/.test(lastUser) || lastUser.trim().split(/\s+/).length >= 8;
+  const freeResult = await generateBestReply(freeSystemPrompt, freeHistory, {
+    patienceMs: substantial ? 9_000 : 4_000,
+    validate: isUsableReply,
+  });
 
   // Paid Claude is reserved for image selection only — there is deliberately
   // no paid fallback for reply text. If every free provider is down/rate-
@@ -609,7 +620,7 @@ export async function generateChatReply(
     throw new WireDownError(lastCooldownSeconds());
   }
 
-  const replyText = stripStatic(freeResult.content);
+  const replyText = cleanReply(freeResult.content);
   const lastUserMessage = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
 
   // The one remaining paid call: picking which lore image (if any) to show
@@ -670,16 +681,56 @@ export async function generateChatReply(
   };
 }
 
-// Backstop for the "never say static" rule in the prompt: free models slip
-// back into old tics, especially with earlier "static" replies still in the
-// history. Drops a line that is just the word, then any leftover mention.
-function stripStatic(text: string): string {
-  return text
-    .split("\n")
-    .filter((line) => !/^\W*static\W*$/i.test(line))
+// Sound words the prompt allows inside a reply but never as a lone opening
+// line — the small free models open with one anyway ("click", "*creak*").
+const SOUND_WORD = "(?:hum+|click|creak|buzz+|bzz+t?|whirr?|beep|clack|tick|hiss|crackle)";
+const LONE_SOUND_LINE = new RegExp(`^\\W*${SOUND_WORD}\\W*$`, "i");
+// "click... hum... you're the one who's up" — same tic, run into the line.
+const LEADING_SOUNDS = new RegExp(`^(?:\\W*\\b${SOUND_WORD}\\b[\\s.…,!*-]*)+(?=\\w)`, "i");
+
+// A reply that is nothing but a sound ("click.") isn't a reply. Rejected
+// inside the provider race so the next provider gets asked, rather than
+// shipping it.
+function isUsableReply(raw: string): boolean {
+  return /\w/.test(cleanReply(raw).replace(new RegExp(`\\b${SOUND_WORD}\\b`, "gi"), ""));
+}
+
+// Backstop for voice rules the free models keep breaking whatever the prompt
+// says, seen in real replies: they drift back into "static" (worse with older
+// "static" replies still in the history), open on a one-word sound line, and
+// write markdown — **bold**, *italics*, [links](url) — which the chat shows
+// as literal asterisks and brackets.
+function cleanReply(text: string): string {
+  const lines = text.split("\n").filter((line) => !/^\W*static\W*$/i.test(line));
+  while (lines.length > 1 && (LONE_SOUND_LINE.test(lines[0]) || !lines[0].trim())) lines.shift();
+  return lines
     .join("\n")
+    .replace(LEADING_SOUNDS, "")
     .replace(/\s*\bstatic(ky|ally)?\b[,.]?/gi, "")
-    .replace(/^\s+/, "");
+    .replace(/\[([^\]]+)\]\((?:https?:\/\/)?([^)\s]+)\)/g, (_m, label: string, url: string) =>
+      label.includes(url) || url.includes(label) ? url : `${label} (${url})`
+    )
+    .replace(/\*\*([^*\n]+)\*\*/g, "$1")
+    .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s).,!?;:]|$)/gm, "$1$2")
+    .replace(/^#+\s+/gm, "")
+    .replace(/^\s*[-•]\s+/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/^\s+/, "")
+    .trimEnd()
+    .replace(/^[\s\S]+$/, clampLength);
+}
+
+// The prompt asks for one to three sentences; the weaker free models write
+// whole explainers anyway (mistral answered "explain $TROLL vs $TRUTHS" with
+// five paragraphs and a bullet list). Cut an over-long reply at the last
+// sentence end that fits. Left alone if there's no clean place to cut —
+// a long reply beats one chopped mid-thought.
+const MAX_REPLY_CHARS = 480;
+function clampLength(text: string): string {
+  if (text.length <= MAX_REPLY_CHARS) return text;
+  const head = text.slice(0, MAX_REPLY_CHARS);
+  const lastEnd = Math.max(...[". ", "? ", "! ", ".\n", "?\n", "!\n"].map((e) => head.lastIndexOf(e)));
+  return lastEnd >= MAX_REPLY_CHARS * 0.4 ? head.slice(0, lastEnd + 1) : text;
 }
 
 export type RecentPost = { content: string; posted_at: string; clue_tag?: string | null };

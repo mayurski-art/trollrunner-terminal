@@ -19,12 +19,6 @@ type Message = {
   is_gossip?: boolean;
   image_url?: string | null;
   image_caption?: string | null;
-  // Which free-tier provider wrote this reply (groq/gemini/openrouter/
-  // mistral). Rendered owner-only, so model quality can be judged from real
-  // traffic rather than test prompts. Absent on user messages, on replies
-  // written before supabase/migrations/019_chat_provider.sql was run, and
-  // on the canned non-generated replies (rate limits, chat locked).
-  provider?: string | null;
   // Drawn on screen by this client (an optimistic send, a canned reply) but
   // not yet matched to a saved row, so created_at is the browser's clock,
   // not the database's. See reconcileSaved below.
@@ -45,7 +39,7 @@ type Message = {
 // PostgREST's rendering of the same instant ("…T11:14:00.123+00:00"), so a
 // string key never matched across the two paths and every reply drew twice.
 // A row that is already present still merges in, so whichever copy arrives
-// second fills what the first lacked (the stream has no `provider`).
+// second fills what the first lacked.
 function savedKey(m: Message): string {
   const t = m.created_at ? Date.parse(m.created_at) : NaN;
   return `${Number.isNaN(t) ? (m.created_at ?? "") : t}|${m.role}|${m.content}`;
@@ -91,7 +85,6 @@ const MessageRow = memo(function MessageRow({
   message,
   remembered,
   memoryBusy,
-  isOwner,
   onToggleMemory,
   onOpenLightbox,
   revealMs,
@@ -102,9 +95,6 @@ const MessageRow = memo(function MessageRow({
   revealMs?: number;
   remembered: boolean;
   memoryBusy: boolean;
-  // Gates the provider label below — it's a quality-assessment tool for the
-  // owner, not something troublemakers should see attached to the persona.
-  isOwner: boolean;
   onToggleMemory: (m: Message) => void;
   onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
 }) {
@@ -203,14 +193,6 @@ const MessageRow = memo(function MessageRow({
         }`}
       >
         {m.created_at && <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>}
-        {/* Owner-only: which free provider wrote this reply. Italic and dim
-            so it reads as a margin note on the log rather than part of the
-            terminal's own voice. */}
-        {isOwner && m.role === "terminal" && m.provider && (
-          <span className="text-dim text-xs italic" title="free-tier provider that generated this reply">
-            {m.provider}
-          </span>
-        )}
         <button
           type="button"
           onClick={() => onToggleMemory(m)}
@@ -380,10 +362,9 @@ export default function Chat({
   const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
   const [cooldownNow, setCooldownNow] = useState(() => Date.now());
   const [loaded, setLoaded] = useState(false);
-  // Owner-only UI gate for the provider label on each reply. Resolved from
-  // the session the same way OwnerCredits does; this is a display gate only,
-  // and the provider value itself is harmless — nothing sensitive hangs off
-  // being wrong here, unlike the owner-gated admin routes.
+  // Owner-only UI gate (the hop-in roster). Resolved from the session the
+  // same way OwnerCredits does; this is a display gate only, unlike the
+  // owner-gated admin routes.
   const [isOwner, setIsOwner] = useState(false);
   const [voiceOn, setVoiceOn] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
@@ -521,8 +502,7 @@ export default function Chat({
     };
   }, []);
 
-  // Owner status gates the provider label (see MessageRow) and the hop-in
-  // roster. Subscribed rather than sampled once: a session restored from
+  // Owner status gates the hop-in roster. Subscribed rather than sampled once: a session restored from
   // localStorage or the SSO cookie can land *after* this component mounts,
   // especially on a cold load, and a one-shot read would then leave isOwner
   // false for the rest of the page's life — silently hiding the roster.
@@ -859,7 +839,6 @@ export default function Chat({
         created_at: saved ? data.replyCreatedAt : new Date().toISOString(),
         image_url: data.imageUrl ?? null,
         image_caption: data.imageCaption ?? null,
-        provider: data.provider ?? null,
       };
       setMessages((m) =>
         saved
@@ -1338,7 +1317,6 @@ export default function Chat({
                 message={m}
                 remembered={false}
                 memoryBusy={false}
-                isOwner={isOwner}
                 onToggleMemory={noopToggleMemory}
                 onOpenLightbox={setLightbox}
               />
@@ -1355,7 +1333,6 @@ export default function Chat({
                 message={m}
                 remembered={memories.has(m.content)}
                 memoryBusy={memoryBusy === m.content}
-                isOwner={isOwner}
                 onToggleMemory={toggleMemory}
                 onOpenLightbox={setLightbox}
                 revealMs={
