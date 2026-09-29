@@ -49,7 +49,8 @@ const ENTRIES: Entry[] = [
 //
 // The tab sits in the upper part of the screen rather than centered, so it
 // never lands under the archive-of-the-day card, which is centered on the
-// right edge on desktop.
+// right edge on desktop. On phones it tucks into the top-right corner so it
+// stays clear of the crypto node's image and text.
 export default function InstructionsTab() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -74,14 +75,14 @@ export default function InstructionsTab() {
     <div
       ref={rootRef}
       data-open={open || undefined}
-      className="instructions-drawer group fixed right-0 top-[4dvh] z-40 flex items-start pointer-events-none"
+      className="instructions-drawer group fixed right-0 top-2 sm:top-[4dvh] z-40 flex items-start pointer-events-none"
     >
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="instructions-panel"
-        className="pointer-events-auto mt-[14dvh] shrink-0 border border-r-0 border-terminal bg-panel/95 backdrop-blur-sm px-1.5 py-3 text-terminal text-xs lg:text-sm tracking-[0.3em] uppercase [writing-mode:vertical-rl] rotate-180 shadow-[0_0_16px_rgba(51,255,102,0.25)] transition-colors hover:bg-terminal hover:text-background group-data-[open]:bg-terminal group-data-[open]:text-background"
+        className="pointer-events-auto sm:mt-[14dvh] shrink-0 border border-r-0 border-terminal bg-panel/95 backdrop-blur-sm px-1.5 py-3 text-terminal text-xs lg:text-sm tracking-[0.3em] uppercase [writing-mode:vertical-rl] rotate-180 shadow-[0_0_16px_rgba(51,255,102,0.25)] transition-colors hover:bg-terminal hover:text-background group-data-[open]:bg-terminal group-data-[open]:text-background"
       >
         instructions
       </button>
