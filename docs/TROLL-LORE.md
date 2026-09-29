@@ -3117,6 +3117,71 @@ thesis timing is read off a phone screenshot, not the chain. Images:
 `jack-doherty-fomo-sell-receipt`, `jack-doherty-jail-meme-eyewhales`
 ([@EyeWhales](https://x.com/EyeWhales/status/2104113262774432012), AI-made).
 
+## 70. OpenAI names its agents "dots", and dot.com already points at Grok
+
+On **September 29, 2026**, at **OpenAI DevDay 2026**, OpenAI launched
+**dots**. They're always-on personal agents powered by **GPT-6 Astra**,
+and each one gets its own cloud computer to work in the background. They
+launched in ChatGPT for Pro and Business Premium users. On stage there was
+a glowing lowercase "dots" and a row of soft blob mascots, one wearing a
+beret and one with round glasses.
+
+That same evening, people typed the obvious domain. **dot.com**, the
+singular, doesn't go to OpenAI. It sends visitors straight to `x.ai/bot`,
+the page for **Grok Bot**, the rival always-on agent from Musk's
+**SpaceXAI**. @birdabo, a verified account whose bio says "chief
+shitposting officer @SpaceXAI", posted it with a wall of AHAHAHA and
+"based lmao". It passed **1.6M views** within hours.
+
+**What the registry says.** dot.com was registered in **1994**. Its record
+was last changed on **July 28, 2026**, and it now runs on AWS nameservers.
+Bloomberg covered Grok Bot's launch on **August 11**. So the domain
+changed hands about two weeks before Grok Bot existed publicly, and two
+months before anyone outside OpenAI knew the name "dots". Most likely
+SpaceXAI bought a great generic domain for its own agent, and OpenAI then
+walked its launch straight into it. No price has been disclosed. xAI and
+OpenAI have both said nothing, and the "SpaceXAI bought it" claim comes
+from the shitposter, not a press release.
+
+**The other half: dots.com.** The plural, the name OpenAI actually used,
+isn't OpenAI's either. It still belongs to **Dots**, a budget women's
+fashion brand ("Love the Looks. Love the Prices."). The site shows a
+relaunch sign-up form, and its registry record hasn't changed since 2022.
+OpenAI's product lives at openai.com/index/introducing-dots/. A company
+worth hundreds of billions shipped a flagship name without either
+domain.
+
+**Why it's a troll and not just a redirect.** Compare §56. SBF paid seven
+figures for `Uniswap.com` to send Uniswap's own users to a fork, and lost
+it for free, because pointing a *trademark* at a rival is exactly what
+lawyers can take away. dot.com is the version that sticks. "Dot" is a plain
+English word, OpenAI's product is "dots", and nobody owns a trademark on
+punctuation. There's no domain to reclaim. The owner of a thirty-year-old
+generic name simply sends the traffic wherever they want on the day it's
+worth the most. The best troll doesn't break any rule. The target just
+walks into it.
+
+**Sourcing:** *Verified.* The redirect (`dot.com` and `www.dot.com` →
+`https://x.ai/bot`, one hop), the dots.com page, and both Verisign RDAP
+records were checked live from here on 2026-09-29. The post was read via
+fxtwitter:
+[@birdabo](https://x.com/birdabo/status/2104987275813917076) (17:30 UTC,
+~1.66M views, 18.8K likes at the time of the check). Launch:
+[OpenAI](https://openai.com/index/introducing-dots/) ·
+[TechCrunch](https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/) ·
+[9to5Google](https://9to5google.com/2026/09/29/openai-dots-agent/).
+Redirect coverage:
+[OfficeChai](https://officechai.com/ai/openai-launched-ai-agent-named-dot-but-dot-com-redirects-to-rival-grok-bot/)
+(ownership "not clear") ·
+[pasqualepillitteri.it](https://pasqualepillitteri.it/en/news/19400/xai-dotcom-grok-bot-openai-devday).
+Grok Bot launch: [Bloomberg](https://www.bloomberg.com/news/articles/2026-08-11/spacexai-unveils-grok-bot-to-work-like-a-team-of-ai-agents)
+(Aug 11, 2026). Who bought dot.com and when is inferred from the registry
+change date and the redirect, and nobody has confirmed it. Images:
+`openai-dots-devday-stage` (via @birdabo), `openai-dots-mascot-board`
+(a frame from [OpenAI's launch video](https://x.com/OpenAI/status/2104984504133918973)),
+`dot-com-grok-bot-redirect` and `dots-com-fashion-brand` (both captured
+here, 2026-09-29).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

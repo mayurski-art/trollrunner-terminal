@@ -90,3 +90,69 @@ Sources: [Wikipedia](https://en.wikipedia.org/wiki/Coyote_vs._Acme),
 ### Update log
 
 - 2026-09-28: Logged. Nothing beyond the three posts above yet.
+
+---
+
+## W2. OpenAI launches "dots", and dot.com redirects to Grok Bot
+
+**Status:** promoted → TROLL-LORE §70 · **Logged:** 2026-09-29 · **Tier:** verified via fxtwitter + live checks
+
+### What happened
+
+- **2026-09-29, DevDay 2026.** OpenAI announced **dots**: always-on personal
+  agents powered by GPT-6 Astra. Each one runs on its own cloud computer.
+  They launched in ChatGPT for Pro and Business Premium users. The stage
+  showed a row of colorful blob mascots, one wearing a beret and one with
+  glasses. ([OpenAI](https://openai.com/index/introducing-dots/),
+  [TechCrunch](https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/))
+- **Same evening.** People noticed that **dot.com** now 301s to
+  `https://x.ai/bot`, the landing page for xAI's rival agent, **Grok Bot**.
+- **2026-09-29, 17:30 UTC.** **sui** ([@birdabo](https://x.com/birdabo),
+  verified, bio *"chief shitposting officer @SpaceXAI"*) posted the story:
+  *"OpenAI just announced Dots. SpaceXAI bought Dot.com … redirects straight
+  to the Grok Bot download page. based lmao."*
+  ([post 2104987275813917076](https://x.com/birdabo/status/2104987275813917076))
+  - Snapshot: ~1.66M views, 18.8K likes, 1.1K reposts, 684 quotes, 780 replies.
+
+  ![OpenAI DevDay 2026 stage showing "dots" and the blob mascots](../public/lore/openai-dots-devday-stage.jpg)
+
+### Checked ourselves (2026-09-29)
+
+- `dot.com` and `www.dot.com` both redirect to `https://x.ai/bot`.
+- dot.com was registered in 1994. The registry says it was **last changed
+  2026-07-28**, two months before DevDay, and it's on AWS nameservers. That
+  fits a quiet purchase made ahead of time. Still unconfirmed: nobody has
+  said publicly who bought it or what they paid.
+- **dots.com is not OpenAI's.** It belongs to **Dots**, the old
+  budget women's fashion brand. The page reads *"Love the Looks. Love the
+  Prices"* and shows a relaunch sign-up. Its registry record hasn't
+  changed since 2022, so OpenAI's own page is openai.com/index/introducing-dots/.
+- xAI, Musk and OpenAI have made no official statement. OfficeChai says
+  ownership is "not clear".
+
+### Why it might matter
+
+- It's a clean example of corporate trolling: taking the singular domain
+  of a rival's product name on launch day. The "shitposting officer" account
+  pushing it makes it read like an official troll.
+- Heads-up: this is trolling *culture*. It isn't Trollface or $TROLL itself,
+  so it's probably only a TROLL-LORE side note unless something ties it back.
+
+### Watch for
+
+- Confirmation of who bought dot.com and for how much (domain blogs like
+  DomainInvesting, NamePros, DN Journal), and any Musk/xAI post owning it.
+- An OpenAI clapback, such as buying dots.com from the fashion brand or
+  making another domain move.
+- Trollface or "u mad" memes riding the story.
+- Search terms: `dot.com xai grok bot`, `dots.com openai`, `birdabo dot.com`.
+
+### Update log
+
+- 2026-09-29: Logged. dot.com → x.ai/bot confirmed live. dots.com is the
+  fashion brand. No official statements yet.
+- 2026-09-29: Promoted to TROLL-LORE §70. Image moved to
+  `public/lore/openai-dots-devday-stage.jpg`. Also found: Grok Bot launched
+  Aug 11, about two weeks *after* dot.com changed hands, so it was probably
+  bought for Grok Bot rather than as a pre-planned "dots" snipe. Keep the
+  watch items above for a §70 follow-up.

@@ -847,6 +847,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["alpha", "alphas", "1 of 1", "whynning", "#3333", "top hat troll", "gold troll"],
     sections: [65],
   },
+  {
+    id: "openai-dots-devday-stage",
+    url: "/lore/openai-dots-devday-stage.jpg",
+    caption:
+      "OpenAI DevDay 2026, Sept 29: a packed crowd in front of a giant screen with a glowing lowercase 'dots' and a row of blob mascots, one in a beret and one in round glasses. The same night, dot.com was found redirecting to xAI's Grok Bot page",
+    keywords: ["dots", "dot.com", "dots.com", "openai dots", "devday", "grok bot", "x.ai/bot", "birdabo"],
+    sections: [70],
+  },
+  {
+    id: "openai-dots-mascot-board",
+    url: "/lore/openai-dots-mascot-board.jpg",
+    caption:
+      "a frame from OpenAI's 'Introducing dots' launch video (Sept 29, 2026): the mascot design board, with a yellow triangle in sleepy glasses and a bow tie (No. 001), a green frog in a bow tie (No. 002), a blue cloud in a black beret (No. 003), and a tray of swappable eyes, glasses, headphones and bodies, including a pink heart",
+    keywords: ["dots mascot", "dots mascots", "dots characters", "openai dots", "beret", "frog dot", "what do dots look like"],
+    sections: [70],
+  },
+  {
+    id: "dot-com-grok-bot-redirect",
+    url: "/lore/dot-com-grok-bot-redirect.jpg",
+    caption:
+      "where dot.com actually lands, captured Sept 29, 2026: x.ai/bot, 'Meet Grok Bot — AI teammates you can give real work to', with a 'Download for Windows' button. That's SpaceXAI's rival agent, reached by typing the singular of OpenAI's new product name",
+    keywords: ["dot.com", "grok bot", "x.ai/bot", "redirect", "spacexai", "where does dot.com go"],
+    sections: [70],
+  },
+  {
+    id: "dots-com-fashion-brand",
+    url: "/lore/dots-com-fashion-brand.jpg",
+    caption:
+      "dots.com, the plural, captured Sept 29, 2026: not OpenAI at all, but the Dots budget fashion brand ('Love the Looks. Love the Prices.') showing a 'Welcome Back!' relaunch sign-up form",
+    keywords: ["dots.com", "dots fashion", "dots clothing", "who owns dots.com"],
+    sections: [70],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
