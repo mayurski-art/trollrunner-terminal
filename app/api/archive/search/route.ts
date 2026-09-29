@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
+import { stripLoreLinks } from "@/lib/loreLinks";
 import { isSeeded } from "@/lib/loreArchive";
 import { generateFreeReply } from "@/lib/freeProviders";
 
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
   // whatever they've unlocked. Sealed sections are invisible to search.
   const readable = allSectionTitles()
     .filter((s) => isSeeded(s.number) || unlockedSet.has(s.number))
-    .map((s) => ({ ...s, body: getArchiveSectionText(s.number) ?? "" }));
+    .map((s) => ({ ...s, body: stripLoreLinks(getArchiveSectionText(s.number) ?? "") }));
 
   const q = query.toLowerCase();
   const keywordHits: SearchHit[] = readable

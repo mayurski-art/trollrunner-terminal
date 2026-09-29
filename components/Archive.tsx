@@ -5,6 +5,7 @@ import { getPublicClient } from "@/lib/supabase";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
 import { buildLoreFlow, isLoopGifAsset } from "@/lib/loreAssets";
+import { renderLoreLinks, stripLoreLinks } from "@/lib/loreLinks";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -221,7 +222,7 @@ export default function Archive() {
   const displayedHits: SearchHit[] =
     suggestionsMatchQuery && suggestions.length > 0
       ? suggestions
-      : localMatches.map((f) => ({ number: f.number, title: f.title, snippet: f.body?.slice(0, 160) ?? "", reason: null }));
+      : localMatches.map((f) => ({ number: f.number, title: f.title, snippet: f.body ? stripLoreLinks(f.body).slice(0, 160) : "", reason: null }));
 
   function jumpTo(number: number) {
     setQuery("");
@@ -388,7 +389,7 @@ export default function Archive() {
                         key={`t${i}`}
                         className="whitespace-pre-wrap leading-relaxed text-sm [&:not(:first-child)]:mt-4"
                       >
-                        {item.text}
+                        {renderLoreLinks(item.text)}
                       </p>
                     ) : (
                       <div

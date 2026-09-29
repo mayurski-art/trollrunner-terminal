@@ -2401,3 +2401,118 @@ html[data-custom-cursor] label {
     transition: none;
   }
 }
+
+/* The front page's "newest file" box (components/NewestFile.tsx). Meant to
+   be the loudest thing on the page: a spinning rainbow border, a light bar
+   sweeping across, a hue-cycling "NEW FILE" banner with an RGB-split glitch,
+   and the archive-hype shake. It is kept under the photosensitive-seizure
+   limits on purpose: colour changes are continuous sweeps rather than
+   on/off flashes, the glitch bursts land at most twice a second, and nothing
+   flashes the full field. Reduced motion gets the same look, standing still. */
+@property --nf-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.newest-file {
+  padding: 2px;
+  background: conic-gradient(
+    from var(--nf-angle),
+    #ff3b3b,
+    #ffd21f,
+    #2ee6ff,
+    #b44bff,
+    #ff3bd4,
+    #ff3b3b
+  );
+  box-shadow: 0 0 18px color-mix(in srgb, #b44bff 45%, transparent);
+  animation:
+    nf-spin 2.4s linear infinite,
+    archive-hype-shake 2.2s linear infinite;
+}
+.newest-file:hover {
+  animation-play-state: running, paused;
+}
+@keyframes nf-spin {
+  to {
+    --nf-angle: 360deg;
+  }
+}
+.newest-file-inner {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+}
+/* The light bar that sweeps across the box. */
+.newest-file-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, #ffffff 16%, transparent) 48%,
+    color-mix(in srgb, #2ee6ff 14%, transparent) 52%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: nf-sweep 2.6s ease-in-out infinite;
+}
+@keyframes nf-sweep {
+  0% { transform: translateX(-100%); }
+  60%,
+  100% { transform: translateX(100%); }
+}
+.newest-file-banner {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  background: linear-gradient(90deg, #ff3b3b, #ffd21f, #2ee6ff, #b44bff, #ff3bd4, #ff3b3b);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, #ff3bd4 60%, transparent));
+  animation: nf-rainbow 1.6s linear infinite;
+}
+@keyframes nf-rainbow {
+  to { background-position: 300% 0; }
+}
+/* RGB-split glitch copies, sliced and jolted sideways in short bursts. */
+.newest-file-banner::before,
+.newest-file-banner::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.newest-file-banner::before {
+  color: #2ee6ff;
+  animation: nf-glitch-a 1s steps(1, end) infinite;
+}
+.newest-file-banner::after {
+  color: #ff3b3b;
+  animation: nf-glitch-b 1s steps(1, end) infinite;
+}
+@keyframes nf-glitch-a {
+  0%, 38%, 50%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
+  40% { opacity: 0.9; transform: translate(-3px, -1px); clip-path: inset(0 0 55% 0); }
+  44% { opacity: 0.9; transform: translate(2px, 0); clip-path: inset(40% 0 20% 0); }
+  90% { opacity: 0.9; transform: translate(-2px, 1px); clip-path: inset(60% 0 0 0); }
+}
+@keyframes nf-glitch-b {
+  0%, 38%, 50%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
+  41% { opacity: 0.9; transform: translate(3px, 1px); clip-path: inset(50% 0 0 0); }
+  46% { opacity: 0.9; transform: translate(-2px, 0); clip-path: inset(0 0 60% 0); }
+  92% { opacity: 0.9; transform: translate(2px, -1px); clip-path: inset(10% 0 50% 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .newest-file,
+  .newest-file-inner::after,
+  .newest-file-banner,
+  .newest-file-banner::before,
+  .newest-file-banner::after {
+    animation: none;
+  }
+}

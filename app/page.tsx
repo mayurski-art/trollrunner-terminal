@@ -21,6 +21,7 @@ import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
+import NewestFile from "@/components/NewestFile";
 import type { Post } from "@/app/logs/page";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
@@ -237,6 +238,7 @@ export default function Home() {
             <MiniConnector variant="header" />
           </div>
           <div className="mt-4 lg:mt-0 lg:flex-1 lg:min-w-0 flex flex-col gap-2">
+            <NewestFile />
             {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
                 which otherwise paints over non-positioned content like this. */}
             <div className="relative z-[1] flex items-baseline justify-center lg:justify-between gap-x-4 flex-wrap">

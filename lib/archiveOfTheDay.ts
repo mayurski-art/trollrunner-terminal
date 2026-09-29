@@ -9,6 +9,7 @@
 // spotlight, not a schedule anyone is holding us to.
 
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
+import { stripLoreLinks } from "@/lib/loreLinks";
 import { findLoreImagesForArchiveSection, type LoreAsset } from "@/lib/loreAssets";
 import { sectionDepth, isSeeded } from "@/lib/loreArchive";
 
@@ -240,7 +241,7 @@ export function pickArchiveOfTheDay(now: Date = new Date()): ArchiveOfTheDay | n
   const body = getArchiveSectionText(picked.number);
   if (!body) return null;
 
-  const { teaser, truncated } = buildTeaser(body);
+  const { teaser, truncated } = buildTeaser(stripLoreLinks(body));
   const images: LoreAsset[] = findLoreImagesForArchiveSection(picked.number);
   // One image only — the panel is a slide-in strip, not a gallery. Rotates
   // with the day key so a section with several images doesn't always show
