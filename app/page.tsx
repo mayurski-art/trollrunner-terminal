@@ -22,7 +22,6 @@ import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
 import type { Post } from "@/app/logs/page";
-import Faq from "@/components/Faq";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 
@@ -301,7 +300,7 @@ export default function Home() {
                 >
                   trollrunner.net
                 </a>{" "}
-                network · <Faq trigger="inline" />
+                network
               </p>
             </div>
             {/* Sits between the tagline and the ticker so it lands in the same
@@ -445,7 +444,6 @@ export default function Home() {
               network
             </p>
             <div className="lg:hidden">
-              <Faq />
             </div>
           </div>
 

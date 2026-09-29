@@ -54,7 +54,7 @@ function fmtCountdown(seconds: number): string {
 // /api/admin/chat-pause are what actually keep this private/effective.
 //
 // Two independent sections so Nav.tsx can place each on its own side of the
-// nav (usage under [ menu ], the lock button under the auth pill) — each
+// nav (usage beside [ light ], the lock button under the auth pill) — each
 // instance only fetches the endpoint its own section needs, rather than
 // both instances polling both endpoints.
 type Section = "usage" | "lock";
@@ -78,11 +78,31 @@ export default function OwnerCredits({
   // this component doesn't need.
   const deadlinesRef = useRef<Record<string, number>>({});
   const [nowTick, setNowTick] = useState(() => Date.now());
-  // Collapsed by default — the full meters + free-tier provider list ran
-  // permanently down the top-left corner of every page for the owner,
-  // eating vertical space nobody but troll_runner ever needed visible at
-  // all times. A one-line summary now stands in until expanded.
+  // Collapsed by default to a bare [ api ] button beside [ light ] — the
+  // full meters + free-tier provider list ran permanently down the top-left
+  // corner of every page for the owner, and even a one-line "$x left"
+  // summary pushed the page down. The details open as a dropdown instead.
   const [expanded, setExpanded] = useState(false);
+
+  const wrapRef = useRef<HTMLSpanElement>(null);
+
+  // Details open as a dropdown under [ api ]; a click anywhere else or
+  // Escape folds them back, same as the [ menu ] dropdown beside it.
+  useEffect(() => {
+    if (!expanded) return;
+    function onClickAway(e: MouseEvent) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setExpanded(false);
+    }
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setExpanded(false);
+    }
+    document.addEventListener("mousedown", onClickAway);
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      document.removeEventListener("mousedown", onClickAway);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, [expanded]);
 
   const isOwner = displayName(session) === OWNER_USERNAME;
 
@@ -222,29 +242,43 @@ export default function OwnerCredits({
 
   if (!usage && !providers) return null;
 
-  if (!expanded) {
-    return (
-      <button
-        type="button"
-        onClick={() => setExpanded(true)}
-        aria-expanded={false}
-        className="mt-2 text-xs text-dim hover:text-terminal transition-colors"
-      >
-        [ {usage ? `api: ${usd(usage.remainingUsd)} left` : "api usage"} · details ]
-      </button>
-    );
-  }
+  const low = !!usage && usage.remainingUsd < 3;
 
   return (
-    <div className="mt-2">
+    <span ref={wrapRef} className="relative">
       <button
         type="button"
-        onClick={() => setExpanded(false)}
-        aria-expanded={true}
-        className="text-xs text-dim hover:text-terminal transition-colors mb-1"
+        onClick={() => setExpanded((v) => !v)}
+        aria-expanded={expanded}
+        aria-controls="owner-api-details"
+        title={usage ? `api credits: ${usd(usage.remainingUsd)} left` : "api usage"}
+        className={`nav-neon nav-neon--terminal whitespace-nowrap${low ? " text-alert" : ""}`}
       >
-        [ hide details ]
+        {low ? "[ api ! ]" : "[ api ]"}
       </button>
+      {expanded && (
+        <ApiDetails usage={usage} providers={providers} deadlines={deadlinesRef.current} nowTick={nowTick} />
+      )}
+    </span>
+  );
+}
+
+function ApiDetails({
+  usage,
+  providers,
+  deadlines,
+  nowTick,
+}: {
+  usage: Usage | null;
+  providers: ProviderStatus[] | null;
+  deadlines: Record<string, number>;
+  nowTick: number;
+}) {
+  return (
+    <div
+      id="owner-api-details"
+      className="absolute left-0 top-full mt-2 z-20 w-max max-w-[80vw] rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg"
+    >
       {usage && (
         <>
           <Meter
@@ -273,7 +307,7 @@ export default function OwnerCredits({
             // retryAfterSeconds from the response, which is already stale by
             // render time. A dead slug (404) has no deadline at all: no
             // amount of waiting fixes that, so it never gets a countdown.
-            const deadline = deadlinesRef.current[p.name];
+            const deadline = deadlines[p.name];
             const secondsLeft = deadline ? Math.max(0, Math.round((deadline - nowTick) / 1000)) : 0;
             const counting = secondsLeft > 0;
             return (

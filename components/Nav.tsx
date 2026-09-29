@@ -10,7 +10,6 @@ import AuthPanel from "@/components/AuthPanel";
 import OwnerCredits from "@/components/OwnerCredits";
 import Presence from "@/components/Presence";
 import ThemeToggle from "@/components/ThemeToggle";
-import Faq from "@/components/Faq";
 
 type NavProps = {
   // Shows the "part of trollrunner.net network" + FAQ trigger at the top
@@ -63,8 +62,8 @@ export default function Nav({ networkBadge = false }: NavProps) {
             [ menu ]
           </button>
           <ThemeToggle />
+          <OwnerCredits session={session} section="usage" />
         </div>
-        <OwnerCredits session={session} section="usage" />
         {open && (
           <div className="absolute left-0 top-full mt-2 z-20 flex flex-col items-start gap-2 rounded-md border border-dim bg-black/90 backdrop-blur px-4 py-3 shadow-lg">
             <a
@@ -161,8 +160,7 @@ export default function Nav({ networkBadge = false }: NavProps) {
             >
               trollrunner.net
             </a>{" "}
-            network ·{" "}
-            <Faq trigger="inline" />
+            network
           </p>
         )}
         {session ? (

@@ -8,7 +8,6 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import PostGuess from "@/components/PostGuess";
 import TransmissionModal from "@/components/TransmissionModal";
-import Faq from "@/components/Faq";
 import { BANNER_LOGS } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
@@ -198,7 +197,6 @@ export default function LogsPage() {
           </a>{" "}
           network
         </p>
-        <Faq />
       </div>
 
       {expanded && (

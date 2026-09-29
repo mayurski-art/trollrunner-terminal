@@ -3,6 +3,7 @@ import { JetBrains_Mono, Share_Tech_Mono } from "next/font/google";
 import Script from "next/script";
 import BootSequence from "@/components/BootSequence";
 import Cursor from "@/components/Cursor";
+import InstructionsTab from "@/components/InstructionsTab";
 import "./globals.css";
 
 const mono = JetBrains_Mono({
@@ -75,6 +76,7 @@ export default function RootLayout({
         <BootSequence />
         <Cursor />
         {children}
+        <InstructionsTab />
         {/* Shared trollrunner.net network-wide lock overlay — same script as
             the main site and sibling subdomains, reading the same Supabase
             site_updates row, so an admin lock on the main site's admin.html

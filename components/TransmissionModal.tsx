@@ -17,7 +17,7 @@ type Props = {
 
 // Centered "pop out" view for a single transmission, opened from the
 // [ pop out ] corner action on its card in the logs grid. Same
-// backdrop + centered role="dialog" convention as Faq.tsx, sized to the
+// backdrop + centered role="dialog" convention the old FAQ modal used, sized to the
 // screen since it's showing one transmission full-size:
 //   phones (<640)     near full-screen, 12px gutter
 //   tablets (640+)    92vw wide

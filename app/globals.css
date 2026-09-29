@@ -2372,3 +2372,28 @@ html[data-custom-cursor] label {
   .troll-reveal-text { -webkit-mask-image: none; mask-image: none; }
   .troll-reveal-walker { display: none; }
 }
+
+/* Instructions drawer (components/InstructionsTab.tsx). Closed, the whole
+   drawer is pushed right by the panel's width so only the vertical tab
+   peeks in; hover, keyboard focus or a tap (data-open) slides it out. The
+   hover rule is gated on real hover support so a tap on a phone can't leave
+   it stuck open. */
+.instructions-drawer {
+  --instructions-w: min(calc(100vw - 3rem), 34rem);
+  transform: translateX(var(--instructions-w));
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.instructions-drawer[data-open],
+.instructions-drawer:has(:focus-visible) {
+  transform: translateX(0);
+}
+@media (hover: hover) {
+  .instructions-drawer:hover {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .instructions-drawer {
+    transition: none;
+  }
+}

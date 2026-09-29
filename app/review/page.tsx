@@ -9,7 +9,6 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import ReviewGuesses from "@/components/ReviewGuesses";
-import Faq from "@/components/Faq";
 import { BANNER_TERMINAL } from "@/lib/ascii";
 
 export default function ReviewPage() {
@@ -66,7 +65,6 @@ export default function ReviewPage() {
           </a>{" "}
           network
         </p>
-        <Faq />
       </div>
     </main>
   );

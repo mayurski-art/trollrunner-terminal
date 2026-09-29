@@ -9,7 +9,6 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import DailyReports from "@/components/DailyReports";
-import Faq from "@/components/Faq";
 import { BANNER_INSPECT } from "@/lib/ascii";
 
 export default function ReportsPage() {
@@ -66,7 +65,6 @@ export default function ReportsPage() {
           </a>{" "}
           network
         </p>
-        <Faq />
       </div>
     </main>
   );
