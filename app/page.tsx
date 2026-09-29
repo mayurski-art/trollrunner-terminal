@@ -414,7 +414,7 @@ export default function Home() {
                   // chat log grew the frame (and the page) instead of
                   // scrolling inside Chat's own message list.
                   `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none lg:[contain:size] ${
-                    session ? "h-[85dvh] max-h-[52rem]" : "h-48"
+                    session ? "h-[min(70dvh,var(--chat-vv-h,70dvh))] max-h-[44rem]" : "h-48"
                   }`
             }
             style={

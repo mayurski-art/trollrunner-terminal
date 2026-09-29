@@ -773,6 +773,30 @@ export default function Chat({
     restoreLastSeen();
   }, [popped, restoreLastSeen]);
 
+  // Phones: the on-screen keyboard covers roughly half the screen, but the
+  // chat box stays sized to the full screen, so reading and typing meant
+  // scrolling the page back and forth between the messages and the input.
+  // While the input has focus, --chat-vv-h tracks the visible area above
+  // the keyboard (app/page.tsx caps the chat box's phone height with it)
+  // and the page is scrolled so the whole box sits in that area.
+  const [inputFocused, setInputFocused] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!inputFocused || popped || !vv || window.matchMedia("(min-width: 1024px)").matches) return;
+    const root = document.documentElement;
+    const fit = () => {
+      root.style.setProperty("--chat-vv-h", `${Math.round(vv.height) - 12}px`);
+      requestAnimationFrame(() => formRef.current?.scrollIntoView({ block: "end" }));
+    };
+    fit();
+    vv.addEventListener("resize", fit);
+    return () => {
+      vv.removeEventListener("resize", fit);
+      root.style.removeProperty("--chat-vv-h");
+    };
+  }, [inputFocused, popped]);
+
   // Ticks once a second only while a cooldown is actually pending, so the
   // countdown display stays live and self-clears at zero without a
   // dangling interval running for the rest of the session.
@@ -1402,6 +1426,7 @@ export default function Chat({
           placeholder alone is too easy to miss, and sending a private thought
           to a stranger as the terminal is not a recoverable mistake. */}
       <form
+        ref={formRef}
         onSubmit={hopTarget ? sendAsTerminal : send}
         className={`flex gap-2 shrink-0 mt-1 mb-3 ${
           hopTarget ? "border border-problem/60 bg-problem/5 p-1" : ""
@@ -1414,8 +1439,13 @@ export default function Chat({
             hopTarget ? `speak as the terminal to ${hopTarget.username}_` : "say something_"
           }
           maxLength={1000}
-          disabled={hopTarget ? hopSending : busy}
-          className={`flex-1 bg-transparent border px-2 py-1.5 text-sm outline-none disabled:opacity-50 ${
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
+          // readOnly, not disabled: disabling a focused input blurs it, which
+          // dropped the phone keyboard after every send. send() and
+          // sendAsTerminal() already refuse while a reply is in flight.
+          readOnly={hopTarget ? hopSending : busy}
+          className={`flex-1 bg-transparent border px-2 py-1.5 text-sm outline-none read-only:opacity-50 ${
             hopTarget
               ? "border-problem/50 text-problem focus:border-problem"
               : "border-dim text-you focus:border-terminal"
