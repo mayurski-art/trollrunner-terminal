@@ -2324,6 +2324,9 @@ html[data-custom-cursor] label {
   max-width: 100%;
   /* Overshoots by the feather width so the last characters end fully opaque. */
   animation: troll-wipe var(--reveal-ms) linear both;
+  /* Negative when the row remounted mid-walk (Chat.tsx MessageRow), so the
+     wipe and the walker pick up where they were instead of starting over. */
+  animation-delay: var(--reveal-delay, 0ms);
 }
 .troll-reveal-text {
   -webkit-mask-image: linear-gradient(
@@ -2352,6 +2355,7 @@ html[data-custom-cursor] label {
   user-select: none;
   transform-origin: 50% 100%;
   animation: troll-walk var(--reveal-ms) linear both;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 @keyframes troll-wipe {
   from { --troll-wipe: 0%; }

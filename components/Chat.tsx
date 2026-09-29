@@ -81,6 +81,10 @@ function reconcileSaved(prev: Message[], saved: Message[]): Message[] {
 // re-render. Props must stay referentially stable across unrelated re-renders
 // for this to pay off, which is why remembered/onToggleMemory are passed in
 // rather than closed over freshly each render.
+// The lel troll sticker, and the length of one loop of it (14 frames x 60ms).
+const TROLL_LEL_SRC = "/stickers/troll-lel.gif";
+const TROLL_LEL_LOOP_MS = 840;
+
 const MessageRow = memo(function MessageRow({
   message,
   remembered,
@@ -88,17 +92,28 @@ const MessageRow = memo(function MessageRow({
   onToggleMemory,
   onOpenLightbox,
   revealMs,
+  revealStart,
+  revealGif,
 }: {
   message: Message;
   // Set only on a fresh terminal reply: the lel troll walks across it and
-  // the text wipes in behind him over this many ms.
+  // the text wipes in behind him over this many ms, starting at revealStart
+  // (performance.now()) and using revealGif as his image when set.
   revealMs?: number;
+  revealStart?: number;
+  revealGif?: string;
   remembered: boolean;
   memoryBusy: boolean;
   onToggleMemory: (m: Message) => void;
   onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
 }) {
   const m = message;
+  // How far into the walk this row mounted — 0 for the first mount, more if
+  // the row was remounted mid-walk — fed in as a negative animation-delay so
+  // the animation resumes rather than restarting.
+  const [revealDelay] = useState(() =>
+    revealStart === undefined ? 0 : Math.max(0, performance.now() - revealStart)
+  );
   // Two voices, two sides: the terminal speaks flush left like console
   // output; the troublemaker's own lines sit right in a tinted block, so a
   // glance down the log tells who said what without reading the labels.
@@ -119,7 +134,11 @@ const MessageRow = memo(function MessageRow({
       </p>
       <div
         className={revealMs ? "troll-reveal" : undefined}
-        style={revealMs ? ({ "--reveal-ms": `${revealMs}ms` } as React.CSSProperties) : undefined}
+        style={
+          revealMs
+            ? ({ "--reveal-ms": `${revealMs}ms`, "--reveal-delay": `-${revealDelay}ms` } as React.CSSProperties)
+            : undefined
+        }
       >
         <p
           className={`text-sm leading-snug ${
@@ -131,7 +150,7 @@ const MessageRow = memo(function MessageRow({
         {revealMs && (
           // eslint-disable-next-line @next/next/no-img-element -- animated GIF, next/image would freeze it
           <img
-            src="/stickers/troll-lel.gif"
+            src={revealGif ?? TROLL_LEL_SRC}
             alt=""
             aria-hidden="true"
             draggable={false}
@@ -341,7 +360,24 @@ export default function Chat({
   // The reply the lel troll is currently walking in (see MessageRow's
   // revealMs). Matched by content on the last row rather than by timestamp,
   // since reconcileSaved/the stream can rewrite created_at formats.
-  const [reveal, setReveal] = useState<{ content: string; ms: number } | null>(null);
+  // start: the reveal's clock, so a row remounted mid-walk (its key follows
+  // created_at, which reconcileSaved/the stream rewrite right after a reply
+  // lands) resumes where he was instead of walking the reply in again.
+  // gifUrl: a fresh object URL per walk — the browser shares one animation
+  // timeline per GIF URL, so reusing the perch's URL (always looping) made
+  // him start mid-loop; a new URL always starts on frame 0.
+  const [reveal, setReveal] = useState<
+    { content: string; ms: number; start: number; gifUrl?: string } | null
+  >(null);
+  const trollLelBlobRef = useRef<Blob | null>(null);
+  useEffect(() => {
+    fetch(TROLL_LEL_SRC)
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => {
+        trollLelBlobRef.current = b;
+      })
+      .catch(() => {});
+  }, []);
   const [error, setError] = useState<string | null>(null);
   // The message that was in flight when the network dropped. The chat route
   // only persists a turn after the reply generates (both rows go in one
@@ -869,12 +905,30 @@ export default function Chat({
           ? reconcileSaved(m, [{ role: "user", content: text, created_at: data.userCreatedAt }, reply])
           : [...m, { ...reply, local: true }]
       );
-      // Longer replies take him longer to cross, within reason.
-      const revealMs = Math.min(3500, Math.max(1200, data.reply.length * 30));
-      setReveal({ content: data.reply, ms: revealMs });
+      // Longer replies take him longer to cross, within reason — always a
+      // whole number of GIF loops, so he never exits partway into a replay.
+      const loops = Math.min(4, Math.max(1, Math.round((data.reply.length * 30) / TROLL_LEL_LOOP_MS)));
+      const revealMs = loops * TROLL_LEL_LOOP_MS;
+      setReveal((prev) => {
+        if (prev?.gifUrl) URL.revokeObjectURL(prev.gifUrl);
+        return {
+          content: data.reply,
+          ms: revealMs,
+          start: performance.now(),
+          gifUrl: trollLelBlobRef.current ? URL.createObjectURL(trollLelBlobRef.current) : undefined,
+        };
+      });
       // Cleared right as the walker finishes fading so the perch sticker
       // fades back in over the tail of his exit, not after a blank gap.
-      setTimeout(() => setReveal((r) => (r?.content === data.reply ? null : r)), revealMs);
+      setTimeout(
+        () =>
+          setReveal((r) => {
+            if (!r || r.content !== data.reply) return r;
+            if (r.gifUrl) URL.revokeObjectURL(r.gifUrl);
+            return null;
+          }),
+        revealMs
+      );
       speak(data.reply);
       if (data.wallet) {
         setWallet(data.wallet);
@@ -1359,11 +1413,9 @@ export default function Chat({
                 memoryBusy={memoryBusy === m.content}
                 onToggleMemory={toggleMemory}
                 onOpenLightbox={setLightbox}
-                revealMs={
-                  reveal && i === messages.length - 1 && m.role === "terminal" && m.content === reveal.content
-                    ? reveal.ms
-                    : undefined
-                }
+                {...(reveal && i === messages.length - 1 && m.role === "terminal" && m.content === reveal.content
+                  ? { revealMs: reveal.ms, revealStart: reveal.start, revealGif: reveal.gifUrl }
+                  : {})}
               />
             ))}
             {busy && <ThinkingLine verbIndex={thinkingVerb} />}
@@ -1414,7 +1466,7 @@ export default function Chat({
           off walking a reply in. */}
       {/* eslint-disable-next-line @next/next/no-img-element -- animated GIF, next/image would freeze it */}
       <img
-        src="/stickers/troll-lel.gif"
+        src={TROLL_LEL_SRC}
         alt=""
         aria-hidden="true"
         draggable={false}
