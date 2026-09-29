@@ -79,17 +79,14 @@ function reconcileSaved(prev: Message[], saved: Message[]): Message[] {
 // tick (both stored in Chat's own state) don't force a re-diff of every past
 // message in a long conversation — only the row(s) whose actual props change
 // re-render. Props must stay referentially stable across unrelated re-renders
-// for this to pay off, which is why remembered/onToggleMemory are passed in
-// rather than closed over freshly each render.
+// for this to pay off, which is why callbacks like onOpenLightbox are passed
+// in rather than closed over freshly each render.
 // The lel troll sticker, and the length of one loop of it (14 frames x 60ms).
 const TROLL_LEL_SRC = "/stickers/troll-lel.gif";
 const TROLL_LEL_LOOP_MS = 840;
 
 const MessageRow = memo(function MessageRow({
   message,
-  remembered,
-  memoryBusy,
-  onToggleMemory,
   onOpenLightbox,
   revealMs,
   revealStart,
@@ -102,9 +99,6 @@ const MessageRow = memo(function MessageRow({
   revealMs?: number;
   revealStart?: number;
   revealGif?: string;
-  remembered: boolean;
-  memoryBusy: boolean;
-  onToggleMemory: (m: Message) => void;
   onOpenLightbox: (img: { url: string; caption?: string | null }) => void;
 }) {
   const m = message;
@@ -206,25 +200,15 @@ const MessageRow = memo(function MessageRow({
           )}
         </div>
       )}
-      <div
-        className={`mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity ${
-          isYou ? "justify-end" : ""
-        }`}
-      >
-        {m.created_at && <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>}
-        <button
-          type="button"
-          onClick={() => onToggleMemory(m)}
-          disabled={memoryBusy}
-          aria-pressed={remembered}
-          aria-label={remembered ? "Forget this message" : "Remember this message"}
-          className={`text-xs font-bold disabled:opacity-40 ${
-            remembered ? "text-problem" : "text-terminal hover:text-terminal transition-colors"
+      {m.created_at && (
+        <div
+          className={`mt-0.5 flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity ${
+            isYou ? "justify-end" : ""
           }`}
         >
-          [ {remembered ? "remembered" : "remember"} ]
-        </button>
-      </div>
+          <span className="text-terminal font-bold text-xs">{timeAgo(m.created_at)}</span>
+        </div>
+      )}
     </div>
   );
 });
@@ -412,10 +396,6 @@ export default function Chat({
   const [bugReportNote, setBugReportNote] = useState<{ text: string; kind: "ok" | "err" } | null>(null);
   const [buddyToast, setBuddyToast] = useState<string | null>(null);
   const [archiveToast, setArchiveToast] = useState<string | null>(null);
-  // content -> memory id, so the button can double as remember/forget and
-  // survive a page reload showing which lines are already pinned.
-  const [memories, setMemories] = useState<Map<string, string>>(new Map());
-  const [memoryBusy, setMemoryBusy] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<{ url: string; caption?: string | null } | null>(null);
   // Pan offset for the enlarged lightbox image, in CSS pixels — reset every
   // time a new image opens so drag position never bleeds from one image to
@@ -585,10 +565,7 @@ export default function Chat({
         return;
       }
       try {
-        let [chatRes, memRes] = await Promise.all([
-          fetch("/api/chat", { headers }),
-          fetch("/api/memory", { headers }),
-        ]);
+        let chatRes = await fetch("/api/chat", { headers });
         // A session restored from localStorage/the SSO cookie can hand back
         // an access token that's already expired (mobile browsers are
         // slower to finish restoring auth state on cold load) — one retry
@@ -596,12 +573,7 @@ export default function Chat({
         // stuck at its zeroed default with no visible error.
         if (chatRes.status === 401) {
           headers = await authHeader(true);
-          if (headers.Authorization) {
-            [chatRes, memRes] = await Promise.all([
-              fetch("/api/chat", { headers }),
-              fetch("/api/memory", { headers }),
-            ]);
-          }
+          if (headers.Authorization) chatRes = await fetch("/api/chat", { headers });
         }
         const data = await chatRes.json();
         if (!cancelled && chatRes.ok) {
@@ -617,11 +589,6 @@ export default function Chat({
           if (data.dailyLimit) setDailyLimit(data.dailyLimit);
         } else if (!cancelled) {
           setError("could not load your wallet — try reloading");
-        }
-        const memData = await memRes.json();
-        if (!cancelled && memRes.ok) {
-          type MemoryRow = { id: string; content: string };
-          setMemories(new Map((memData.memories ?? []).map((r: MemoryRow) => [r.content, r.id])));
         }
       } finally {
         if (!cancelled) setLoaded(true);
@@ -949,6 +916,14 @@ export default function Chat({
         );
         setTimeout(() => setArchiveToast(null), 6000);
       }
+      if (data.learned) {
+        setArchiveToast(
+          data.learned.added
+            ? `learned · ${data.learned.added}`
+            : `forgot · ${data.learned.removed.join(" / ")}`
+        );
+        setTimeout(() => setArchiveToast(null), 8000);
+      }
     } catch {
       // The request died before we read a response — either a real network
       // failure (nothing saved) or a backgrounded tab killing an in-flight
@@ -1197,47 +1172,6 @@ export default function Chat({
     }
   }
 
-  // Pinning is scoped to your own conversation (/api/memory writes against the
-  // caller's user_id), so the remember button is inert on someone else's
-  // messages while hopped in.
-  const noopToggleMemory = useCallback(() => {}, []);
-
-  // useCallback keeps this prop reference stable across the cooldown/thinking-
-  // verb re-renders so MessageRow's memoization actually holds — it still
-  // changes on memoryBusy/memories updates, but those are inherently tied to
-  // a message row re-rendering anyway.
-  const toggleMemory = useCallback(
-    async (m: Message) => {
-      if (memoryBusy) return;
-      const existingId = memories.get(m.content);
-      setMemoryBusy(m.content);
-      try {
-        const headers = { "Content-Type": "application/json", ...(await authHeader()) };
-        if (existingId) {
-          await fetch(`/api/memory?id=${encodeURIComponent(existingId)}`, { method: "DELETE", headers });
-          setMemories((prev) => {
-            const next = new Map(prev);
-            next.delete(m.content);
-            return next;
-          });
-        } else {
-          const res = await fetch("/api/memory", {
-            method: "POST",
-            headers,
-            body: JSON.stringify({ content: m.content, role: m.role }),
-          });
-          const data = await res.json();
-          if (res.ok && data.memory?.id) {
-            setMemories((prev) => new Map(prev).set(m.content, data.memory.id));
-          }
-        }
-      } finally {
-        setMemoryBusy(null);
-      }
-    },
-    [memoryBusy, memories]
-  );
-
   if (!loaded) {
     return <p className="text-dim text-sm animate-pulse">establishing uplink...</p>;
   }
@@ -1393,9 +1327,6 @@ export default function Chat({
               <MessageRow
                 key={m.created_at ? `${m.created_at}-${i}` : i}
                 message={m}
-                remembered={false}
-                memoryBusy={false}
-                onToggleMemory={noopToggleMemory}
                 onOpenLightbox={setLightbox}
               />
             ))}
@@ -1409,9 +1340,6 @@ export default function Chat({
               <MessageRow
                 key={m.created_at ? `${m.created_at}-${i}` : i}
                 message={m}
-                remembered={memories.has(m.content)}
-                memoryBusy={memoryBusy === m.content}
-                onToggleMemory={toggleMemory}
                 onOpenLightbox={setLightbox}
                 {...(reveal && i === messages.length - 1 && m.role === "terminal" && m.content === reveal.content
                   ? { revealMs: reveal.ms, revealStart: reveal.start, revealGif: reveal.gifUrl }

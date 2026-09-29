@@ -8,6 +8,9 @@ import { getLoreAssetById } from "@/lib/loreAssets";
 import { allSectionTitles, pickTopSection } from "@/lib/loreSections";
 import { isSeeded } from "@/lib/loreArchive";
 import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
+import { loadTeachings, learnFromOwner } from "@/lib/teachings";
+import { loadUserNotes, updateUserNotes } from "@/lib/autoMemory";
+import { OWNER_USERNAME } from "@/lib/ownerUsername";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -179,9 +182,12 @@ export async function GET(request: Request) {
 }
 
 // Clears this user's chat history only. Wallet (balance, mining progress,
-// friendship score) and pinned memories are separate tables and are
-// deliberately untouched — "clear" means the terminal forgets the
-// conversation transcript, not that the troublemaker loses anything earned.
+// friendship score), pinned memories and the terminal's own notes about them
+// (lib/autoMemory.ts) are separate tables and are deliberately untouched —
+// "clear" means the transcript goes, not that the troublemaker loses anything
+// earned or that the terminal stops knowing who they are. The notes are
+// brought up to date from the transcript first, so nothing said since the
+// last rewrite is lost with it.
 export async function DELETE(request: Request) {
   const authHeader = request.headers.get("authorization") ?? "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
@@ -196,9 +202,33 @@ export async function DELETE(request: Request) {
   }
   const userId = userData.user.id;
 
+  const [notes, { data: lastRows }] = await Promise.all([
+    loadUserNotes(supabase, userId),
+    supabase
+      .from("terminal_chat_messages")
+      .select("role, content")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .order("role", { ascending: true })
+      .limit(HISTORY_TURNS * 2),
+  ]);
+
   const { error } = await supabase.from("terminal_chat_messages").delete().eq("user_id", userId);
   if (error) {
     return NextResponse.json({ error: "could not clear the conversation" }, { status: 500 });
+  }
+
+  if (notes.turnsSinceUpdate > 0 || !notes.notes) {
+    const recent: ChatMessage[] = (lastRows ?? [])
+      .slice()
+      .reverse()
+      .map((r) => ({ role: r.role === "terminal" ? "assistant" : "user", content: r.content as string }));
+    after(async () => {
+      const usage = await updateUserNotes(supabase, userId, notes, recent, { force: true });
+      if (usage) {
+        await recordSpend(supabase, estimateCostUsd(usage, "claude-haiku-4-5-20251001")).catch(() => {});
+      }
+    });
   }
 
   return NextResponse.json({ ok: true });
@@ -218,6 +248,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid session" }, { status: 401 });
   }
   const userId = userData.user.id;
+  const isOwner = userData.user.user_metadata?.username === OWNER_USERNAME;
 
   let body: { message?: string };
   try {
@@ -244,8 +275,15 @@ export async function POST(request: Request) {
   // owner voice sample is warmed here too, so the prompt builder doesn't
   // start that lookup from cold after all of this.
   void getOwnerVoiceBlock();
-  const [{ data: config }, spendCheck, { data: existingWallet }, { data: historyRows }, { data: memoryRows }] =
-    await Promise.all([
+  const [
+    { data: config },
+    spendCheck,
+    { data: existingWallet },
+    { data: historyRows },
+    { data: memoryRows },
+    teachings,
+    userNotes,
+  ] = await Promise.all([
       supabase
         .from("terminal_config")
         .select("chat_paused, chat_daily_global_cap, chat_messages_today, chat_messages_day")
@@ -269,6 +307,8 @@ export async function POST(request: Request) {
         .select("content")
         .eq("user_id", userId)
         .order("created_at", { ascending: true }),
+      loadTeachings(supabase),
+      loadUserNotes(supabase, userId),
     ]);
 
   if (config?.chat_paused) {
@@ -451,9 +491,22 @@ export async function POST(request: Request) {
     });
   }
 
+  // troll_runner teaching the terminal a standing rule ("when someone says
+  // X, reply Y") — read before the reply so it applies to this very turn,
+  // then to everyone's chat after. See lib/teachings.ts.
+  const learned = isOwner ? await learnFromOwner(supabase, history, message, teachings) : null;
+  const activeTeachings = learned
+    ? [...teachings.filter((t) => !learned.removed.includes(t)), ...(learned.added ? [learned.added] : [])]
+    : teachings;
+
   let generated: Awaited<ReturnType<typeof generateChatReply>>;
   try {
-    generated = await generateChatReply([...history, { role: "user", content: message }], memories);
+    generated = await generateChatReply(
+      [...history, { role: "user", content: message }],
+      memories,
+      activeTeachings,
+      userNotes.notes
+    );
   } catch (err) {
     // Every free provider down or rate-limited is a wait, not a bug — hand
     // the frontend the same shape it already renders for the 429 burst-limit
@@ -488,7 +541,9 @@ export async function POST(request: Request) {
   // word heuristic instead (isSubstantiveMessage above).
   const qualifying = isSubstantiveMessage(message);
 
-  const estimatedCostUsd = estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001");
+  const estimatedCostUsd =
+    estimateCostUsd(generated.usage, "claude-haiku-4-5-20251001") +
+    (learned?.usage ? estimateCostUsd(learned.usage, "claude-haiku-4-5-20251001") : 0);
 
   const turnAt = turnTimestamps(receivedAt);
   const terminalRow: Record<string, unknown> = {
@@ -622,6 +677,16 @@ export async function POST(request: Request) {
         : null;
 
     await Promise.all([
+      // The terminal's own memory of this person — see lib/autoMemory.ts.
+      updateUserNotes(supabase, userId, userNotes, [
+        ...history,
+        { role: "user", content: message },
+        { role: "assistant", content: generated.content },
+      ])
+        .then((usage) =>
+          usage ? recordSpend(supabase, estimateCostUsd(usage, "claude-haiku-4-5-20251001")) : undefined
+        )
+        .catch((err) => console.error("[chat] failed to record notes spend:", (err as Error).message)),
       recordSpend(supabase, estimatedCostUsd).catch((err) =>
         console.error("[chat] failed to record spend:", (err as Error).message)
       ),
@@ -670,6 +735,11 @@ export async function POST(request: Request) {
     walletSaved: !walletError,
     minted: walletError ? 0 : minted,
     archiveUnlock,
+    // Owner-only: what the terminal just learned or dropped, for a toast.
+    learned:
+      learned && (learned.added || learned.removed.length > 0)
+        ? { added: learned.added?.content ?? null, removed: learned.removed.map((t) => t.content) }
+        : null,
     dailyLimit: { used: globalToday + 1, cap: dailyCap },
   });
 }

@@ -2,6 +2,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { selectLoreSections, pickLoreSubject, loreSubjectBlock } from "@/lib/loreSections";
 import { getLoreAssetById, loreAssetCatalogForPrompt, turnMightWantLoreImage } from "@/lib/loreAssets";
 import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
+import { teachingsBlock, type Teaching } from "@/lib/teachings";
+import { userNotesBlock } from "@/lib/autoMemory";
 import {
   generateFreeReply,
   generateBestReply,
@@ -569,7 +571,9 @@ export type GeneratedChatReply = {
 // lands within a patience window wins (see generateBestReply).
 export async function generateChatReply(
   history: ChatMessage[],
-  memories: string[] = []
+  memories: string[] = [],
+  teachings: Teaching[] = [],
+  userNotes = ""
 ): Promise<GeneratedChatReply> {
   const client = getClient();
   const recentText = history
@@ -594,7 +598,10 @@ export async function generateChatReply(
     "\n\n" +
     selectLoreSections(recentText, 2) +
     memoryBlock +
-    (await getOwnerVoiceBlock());
+    userNotesBlock(userNotes) +
+    (await getOwnerVoiceBlock()) +
+    // Last, so the rules outrank the style sample right above them.
+    teachingsBlock(teachings);
   const freeHistory: ChatTurn[] = history.map((m) => ({ role: m.role, content: m.content }));
 
   // A better answer is worth a wait — up to ~9s for a real question — but
