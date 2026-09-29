@@ -18,7 +18,7 @@ export default function FaqDiagram() {
       viewBox="0 0 360 392"
       role="img"
       aria-labelledby="faq-diagram-title faq-diagram-desc"
-      className="block w-full max-w-[440px] mx-auto font-mono"
+      className="block w-full max-w-[440px] lg:max-w-[36rem] mx-auto font-mono"
     >
       <title id="faq-diagram-title">how the terminal works</title>
       <desc id="faq-diagram-desc">

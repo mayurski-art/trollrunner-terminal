@@ -111,7 +111,7 @@ const MessageRow = memo(function MessageRow({
   return (
     <div className={frame} data-msg={m.created_at ? `${m.role}:${m.created_at}` : undefined}>
       <p
-        className={`text-[10px] uppercase tracking-widest mb-0.5 ${
+        className={`text-[10px] lg:text-[0.85rem] uppercase tracking-widest mb-0.5 ${
           m.is_gossip ? "text-problem/80" : isYou ? "text-dim text-right" : "text-dim"
         }`}
       >

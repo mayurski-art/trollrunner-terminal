@@ -145,7 +145,9 @@ export default function ArchiveOfTheDay() {
       // Width is set in px, not a rem utility: this app's root font-size is
       // 11.2px (not the usual 16), so every rem-based Tailwind size renders
       // at 0.7x — sm:w-80 would come out 224px, too cramped for a teaser.
-      className={`fixed z-40 left-3 right-3 bottom-3 sm:left-auto sm:right-4 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:w-[310px] ${
+      // From lg up the root size scales with the screen (12px floor), so
+      // switch to rem there: 26rem is ~310px at the floor and grows with it.
+      className={`fixed z-40 left-3 right-3 bottom-3 sm:left-auto sm:right-4 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:w-[310px] lg:w-[26rem] ${
         closing ? "aotd-out" : "aotd-in"
       }`}
       aria-label="archive of the day"
@@ -172,14 +174,14 @@ export default function ArchiveOfTheDay() {
                 muted
                 loop
                 playsInline
-                className="mb-2 w-full h-[120px] object-cover border border-dim"
+                className="mb-2 w-full h-[120px] lg:h-[10rem] object-cover border border-dim"
               />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={pick.image.url}
                 alt={pick.image.caption}
-                className="mb-2 w-full h-[120px] object-cover border border-dim"
+                className="mb-2 w-full h-[120px] lg:h-[10rem] object-cover border border-dim"
               />
             ))}
 
