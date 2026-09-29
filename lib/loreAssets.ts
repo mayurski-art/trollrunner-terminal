@@ -879,6 +879,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["dots.com", "dots fashion", "dots clothing", "who owns dots.com"],
     sections: [70],
   },
+  {
+    id: "dots-look-closely-riedsschichter",
+    url: "/lore/dots-look-closely-riedsschichter.png",
+    caption:
+      "@riedsschichter's reply to the dot.com post (Sept 29, 2026), 'If you look closely, you can see it': the Peter Parker glasses meme, with the OpenAI DevDay 'dots' stage glasses-off and a 'Grok Bot' stage full of colorful blob agents glasses-on. It's a fan edit, and the Grok Bot stage shot hasn't been verified",
+    keywords: ["look closely", "peter parker", "glasses meme", "dots vs grok", "dots grok bot", "riedsschichter"],
+    sections: [70],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

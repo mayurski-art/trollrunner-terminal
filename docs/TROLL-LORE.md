@@ -3161,12 +3161,20 @@ generic name simply sends the traffic wherever they want on the day it's
 worth the most. The best troll doesn't break any rule. The target just
 walks into it.
 
+**The replies ran with it.** Twenty-five minutes later, @riedsschichter
+answered with the **Peter Parker glasses meme** and "If you look closely,
+you can see it". Glasses off shows the "dots" stage and its blob mascots.
+Glasses on shows a "Grok Bot" stage in the same style, with its own
+colorful blob agents. The joke is that OpenAI's agents are Grok Bot with
+a beret on. It got 41K views and 648 likes. It's a fan edit, and the Grok
+Bot stage shot hasn't been checked.
+
 **Sourcing:** *Verified.* The redirect (`dot.com` and `www.dot.com` →
 `https://x.ai/bot`, one hop), the dots.com page, and both Verisign RDAP
 records were checked live from here on 2026-09-29. The post was read via
 fxtwitter:
-[@birdabo](https://x.com/birdabo/status/2104987275813917076) (17:30 UTC,
-~1.66M views, 18.8K likes at the time of the check). Launch:
+[@birdabo](https://x.com/birdabo/status/2104987275813917076) (17:30 UTC).
+Launch:
 [OpenAI](https://openai.com/index/introducing-dots/) ·
 [TechCrunch](https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/) ·
 [9to5Google](https://9to5google.com/2026/09/29/openai-dots-agent/).
@@ -3180,7 +3188,9 @@ change date and the redirect, and nobody has confirmed it. Images:
 `openai-dots-devday-stage` (via @birdabo), `openai-dots-mascot-board`
 (a frame from [OpenAI's launch video](https://x.com/OpenAI/status/2104984504133918973)),
 `dot-com-grok-bot-redirect` and `dots-com-fashion-brand` (both captured
-here, 2026-09-29).
+here, 2026-09-29), `dots-look-closely-riedsschichter`
+([@riedsschichter](https://x.com/riedsschichter/status/2104993678448308580),
+17:56 UTC, via fxtwitter, fan meme).
 
 ## How the persona should use this
 
