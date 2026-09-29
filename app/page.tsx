@@ -184,52 +184,6 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [anyPopped, closePopouts]);
 
-  // The terminal page is locked from scrolling on desktop — its content
-  // fits one screen there (the FAQ moved from an inline expand into its own
-  // modal, so it no longer needs scroll room below the fold). Mobile stacks
-  // the same content in a single column (transmission panel + chat + FAQ),
-  // which routinely runs taller than the viewport, so the lock only applies
-  // at the lg breakpoint and up — locking it unconditionally left phones
-  // with no way to reach anything below the fold. Locking BOTH html and
-  // body is required — body alone leaves html itself independently
-  // scrollable, since html has no explicit overflow-y rule of its own and
-  // defaults to auto regardless of what body's overflow is set to.
-  // Skipped entirely when embedded in the trollrunner.net desktop shell's
-  // windowed iframe: that window is a fixed-height box shorter than this
-  // page's content, so the lock (tuned for a real full-height browser tab)
-  // just clips the bottom of the page there with no way to reach it —
-  // standalone terminal.trollrunner.net is unaffected, since window.top
-  // there is the same window as window.self.
-  // The lock also only holds while the page actually fits: on a window too
-  // short for even the compacted (`short:`) layout, the panels' minimum
-  // height pushes them past the fold, and a locked page would leave their
-  // bottoms unreachable. overflow:hidden doesn't change scrollHeight, so the
-  // fit check reads the same locked or not.
-  useEffect(() => {
-    if (window.self !== window.top) return;
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const html = document.documentElement;
-    const prevBodyOverflow = document.body.style.overflow;
-    const prevHtmlOverflow = html.style.overflow;
-    const update = () => {
-      const locked = mq.matches && html.scrollHeight <= window.innerHeight + 1;
-      document.body.style.overflow = locked ? "hidden" : prevBodyOverflow;
-      html.style.overflow = locked ? "hidden" : prevHtmlOverflow;
-    };
-    update();
-    mq.addEventListener("change", update);
-    window.addEventListener("resize", update);
-    const ro = new ResizeObserver(update);
-    ro.observe(document.body);
-    return () => {
-      mq.removeEventListener("change", update);
-      window.removeEventListener("resize", update);
-      ro.disconnect();
-      document.body.style.overflow = prevBodyOverflow;
-      html.style.overflow = prevHtmlOverflow;
-    };
-  }, []);
-
   const handleSteer = useCallback((note: string) => {
     steerRef.current?.(note);
   }, []);
@@ -321,10 +275,8 @@ export default function Home() {
               // beside it) and lets this panel be the
               // part that shrinks: min-h-0 lets it drop below its content
               // height so the controls Frame under it is never pushed off the
-              // page — which matters because the page itself is scroll-locked
-              // at lg+, so anything past the fold there is unreachable. A
-              // pending review card (GenerateTransmission) is what routinely
-              // makes this panel taller than the row.
+              // page. A pending review card (GenerateTransmission) is what
+              // routinely makes this panel taller than the row.
               // Popped: same fixed, centered, draggable box as the chat.
               className={
                 transmissionPopped
@@ -457,7 +409,11 @@ export default function Home() {
                   // that centered box, but sat a bit low and right of true
                   // center on an iPhone 13 Pro, so it's nudged left and up.
                   "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
-                : `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none ${
+                : // lg:[contain:size]: the frame stretches to the row's height
+                  // but its content no longer sizes it — without this a long
+                  // chat log grew the frame (and the page) instead of
+                  // scrolling inside Chat's own message list.
+                  `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none lg:[contain:size] ${
                     session ? "h-[85dvh] max-h-[52rem]" : "h-48"
                   }`
             }
