@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Share_Tech_Mono } from "next/font/google";
 import Script from "next/script";
+import AnimatedFavicon from "@/components/AnimatedFavicon";
 import BootSequence from "@/components/BootSequence";
 import Cursor from "@/components/Cursor";
 import InstructionsTab from "@/components/InstructionsTab";
@@ -73,6 +74,7 @@ export default function RootLayout({
               "try{if(localStorage.getItem('theme')==='light'){document.documentElement.setAttribute('data-theme','light')}}catch(e){}",
           }}
         />
+        <AnimatedFavicon />
         <BootSequence />
         <Cursor />
         {children}
