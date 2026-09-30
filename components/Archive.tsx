@@ -7,6 +7,7 @@ import Meter from "@/components/Meter";
 import LoreBody from "@/components/LoreBody";
 import LockReveal from "@/components/LockReveal";
 import { stripLoreLinks } from "@/lib/loreLinks";
+import { isLoopGifAsset } from "@/lib/loreAssets";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -31,8 +32,11 @@ const HYPED_FILES: Record<number, string> = {
   48: "HOT",
   49: "HOT",
   54: "HOT",
+  57: "HOT",
   69: "HOT",
 };
+
+type ThisWeek = { numbers: number[]; startsAt: string; endsAt: string };
 
 type SearchHit = { number: number; title: string; snippet: string; reason: string | null };
 
@@ -46,6 +50,7 @@ export default function Archive() {
   const [recoveredCount, setRecoveredCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [balance, setBalance] = useState(0);
+  const [thisWeek, setThisWeek] = useState<ThisWeek | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openNumber, setOpenNumber] = useState<number | null>(null);
@@ -143,6 +148,7 @@ export default function Archive() {
       setRecoveredCount(body.recoveredCount ?? 0);
       setTotalCount(body.totalCount ?? 0);
       setBalance(body.balance ?? 0);
+      setThisWeek(body.thisWeek ?? null);
     } catch {
       setError("connection to the terminal was lost");
     } finally {
@@ -154,6 +160,15 @@ export default function Archive() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, [load]);
+
+  // A tab left open across Monday 8am Pacific re-reads the manifest, so the
+  // "this week" box resets on its own.
+  useEffect(() => {
+    if (!thisWeek) return;
+    const ms = new Date(thisWeek.endsAt).getTime() - Date.now();
+    const timer = setTimeout(load, Math.max(1000, Math.min(ms + 1000, 2 ** 31 - 1)));
+    return () => clearTimeout(timer);
+  }, [thisWeek, load]);
 
   // Deep link from the front page's archive-of-the-day panel
   // (/archive?file=N): expand that file once the manifest has loaded, and
@@ -237,6 +252,19 @@ export default function Archive() {
     document.getElementById(`archive-file-${number}`)?.scrollIntoView({ block: "nearest" });
   }
 
+  // From the "this week" box: open files expand in place; sealed ones just
+  // scroll into view with their [ unlock ] button showing.
+  function goToWeekFile(file: File) {
+    if (file.state === "open") setOpenNumber(file.number);
+    requestAnimationFrame(() => {
+      document.getElementById(`archive-file-${file.number}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+
+  const weekFiles = (thisWeek?.numbers ?? [])
+    .map((n) => files.find((f) => f.number === n))
+    .filter((f): f is File => !!f);
+
   async function unlock(number: number) {
     if (unlocking !== null) return;
     setError(null);
@@ -286,6 +314,69 @@ export default function Archive() {
 
   return (
     <div className="space-y-5">
+      {weekFiles.length > 0 && (
+        // Same look as the front page's NEW FILE box (.newest-file-* in
+        // globals.css), listing every file posted since Monday 8am Pacific.
+        <section className="newest-file relative z-[1]" aria-label="this week's files">
+          <div className="newest-file-inner px-3 py-2.5">
+            <p className="flex items-center gap-2 leading-none text-[11px] lg:text-sm mb-2">
+              <span className="newest-file-banner">THIS WEEK</span>
+              <span className="newest-file-meta tabular-nums">
+                {weekFiles.length} new {weekFiles.length === 1 ? "file" : "files"}
+              </span>
+            </p>
+            <ul className="divide-y divide-dim/20">
+              {weekFiles.map((file) => {
+                const thumb = file.images[0];
+                return (
+                  <li key={file.number}>
+                    <button
+                      type="button"
+                      onClick={() => goToWeekFile(file)}
+                      className="group w-full flex items-center gap-3 py-1.5 text-left text-xs lg:text-sm"
+                    >
+                      {thumb ? (
+                        isLoopGifAsset(thumb.url) ? (
+                          <video
+                            src={thumb.url}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 object-cover border border-dim"
+                          />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={thumb.url}
+                            alt=""
+                            className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 object-cover border border-dim"
+                          />
+                        )
+                      ) : (
+                        <span
+                          aria-hidden="true"
+                          className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 flex items-center justify-center border border-dim text-dim"
+                        >
+                          {file.state === "open" ? "▣" : "?"}
+                        </span>
+                      )}
+                      <span className="newest-file-meta tabular-nums shrink-0">{String(file.number).padStart(2, "0")}</span>
+                      <span className="min-w-0 flex-1 text-foreground leading-snug line-clamp-2 group-hover:text-terminal">
+                        {file.title.replace(/^\d+\.\s*/, "")}
+                      </span>
+                      <span className="hidden sm:inline shrink-0 text-terminal underline decoration-dim underline-offset-4 group-hover:text-foreground">
+                        [ {file.state === "open" ? "read it" : "recover it"} ]
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
+
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <Meter
           fraction={totalCount > 0 ? recoveredCount / totalCount : 0}

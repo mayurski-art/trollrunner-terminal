@@ -196,6 +196,19 @@ export function newestSection(): { number: number; title: string; postedAt: stri
   return newest ? { number: newest.number as number, title: newest.title, postedAt: newest.postedAt } : null;
 }
 
+// Numbers of the sections whose `posted:` time falls in [sinceMs, now],
+// newest first. Feeds the archive's "this week" box (lib/archiveWeek.ts).
+export function sectionsPostedSince(sinceMs: number): number[] {
+  const now = Date.now();
+  return SECTIONS.filter((s) => {
+    if (s.number === null || !s.postedAt) return false;
+    const t = Date.parse(s.postedAt);
+    return !Number.isNaN(t) && t >= sinceMs && t <= now;
+  })
+    .map((s) => s.number as number)
+    .sort((a, b) => b - a);
+}
+
 // Plain text for the archive page — TROLL-LORE.md is authored as Markdown
 // (## headings, **bold**) for a human reader of the source file, but every
 // text surface in this app renders raw content with whitespace-pre-wrap,

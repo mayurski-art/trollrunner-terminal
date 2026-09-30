@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
+import { allSectionTitles, getArchiveSectionText, sectionsPostedSince } from "@/lib/loreSections";
+import { archiveWeek } from "@/lib/archiveWeek";
 import { isSeeded, sectionDepth } from "@/lib/loreArchive";
 import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
 
@@ -70,8 +71,16 @@ export async function GET(request: Request) {
 
   const recoveredCount = files.filter((f) => f.state === "open").length;
 
+  // The "this week" box: files posted since the last Monday 8am Pacific.
+  const week = archiveWeek();
+
   return NextResponse.json({
     files,
+    thisWeek: {
+      numbers: sectionsPostedSince(week.startsAt),
+      startsAt: new Date(week.startsAt).toISOString(),
+      endsAt: new Date(week.endsAt).toISOString(),
+    },
     recoveredCount,
     totalCount: files.length,
     balance: wallet?.balance ?? 0,
