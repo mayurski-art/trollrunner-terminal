@@ -4,8 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
-import { buildLoreFlow, isLoopGifAsset } from "@/lib/loreAssets";
-import { renderLoreLinks, stripLoreLinks } from "@/lib/loreLinks";
+import LoreBody from "@/components/LoreBody";
+import LockReveal from "@/components/LockReveal";
+import { stripLoreLinks } from "@/lib/loreLinks";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -49,6 +50,11 @@ export default function Archive() {
   const [error, setError] = useState<string | null>(null);
   const [openNumber, setOpenNumber] = useState<number | null>(null);
   const [unlocking, setUnlocking] = useState<number | null>(null);
+  // A file whose unlock went through and whose padlock is mid-animation
+  // (components/LockReveal.tsx). Its body waits in pendingOpen until the
+  // lock finishes opening, then the row flips to open and expands.
+  const [revealing, setRevealing] = useState<number | null>(null);
+  const pendingOpen = useRef<{ number: number; title: string; body: string; images: LoreImage[] } | null>(null);
   const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
   // Pan offset for the enlarged lightbox image, in CSS pixels — reset every
   // time a new image opens so drag position never bleeds from one image to
@@ -249,21 +255,30 @@ export default function Archive() {
       // Keep the nav's counter (components/ProblemsCounter.tsx) in step with
       // the spend that just happened.
       window.dispatchEvent(new Event("problems-changed"));
-      setFiles((prev) =>
-        prev.map((f) =>
-          f.number === number
-            ? { ...f, state: "open", title: body.title, body: body.body, images: body.images ?? [], cost: null }
-            : f
-        )
-      );
-      setRecoveredCount((c) => c + 1);
-      setOpenNumber(number);
+      pendingOpen.current = { number, title: body.title, body: body.body, images: body.images ?? [] };
+      setRevealing(number);
     } catch {
       setError("connection to the terminal was lost");
     } finally {
       setUnlocking(null);
     }
   }
+
+  const finishReveal = useCallback(() => {
+    const p = pendingOpen.current;
+    pendingOpen.current = null;
+    setRevealing(null);
+    if (!p) return;
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.number === p.number
+          ? { ...f, state: "open", title: p.title, body: p.body, images: p.images, cost: null }
+          : f
+      )
+    );
+    setRecoveredCount((c) => c + 1);
+    setOpenNumber(p.number);
+  }, []);
 
   if (loading) {
     return <p className="text-dim text-sm animate-pulse">reading its memory...</p>;
@@ -350,7 +365,14 @@ export default function Archive() {
                 onClick={() => setOpenNumber((n) => (n === file.number ? null : file.number))}
                 className="flex-1 min-w-0 text-left flex items-center gap-3 disabled:cursor-default"
               >
-                <span aria-hidden="true">{file.state === "open" ? "▣" : "▨"}</span>
+                {file.state === "open" ? (
+                  <span aria-hidden="true">▣</span>
+                ) : (
+                  <LockReveal
+                    opening={revealing === file.number}
+                    onOpened={revealing === file.number ? finishReveal : undefined}
+                  />
+                )}
                 <span className="text-ghost">
                   {String(file.number).padStart(2, "0")}
                 </span>
@@ -363,76 +385,18 @@ export default function Archive() {
               {file.state === "sealed" && (
                 <button
                   type="button"
-                  disabled={unlocking !== null}
+                  disabled={unlocking !== null || revealing !== null}
                   onClick={() => unlock(file.number)}
                   className="shrink-0 text-problem hover:text-terminal disabled:opacity-40"
                 >
-                  [ {unlocking === file.number ? "..." : `unlock · ▣${file.cost}`} ]
+                  [ {revealing === file.number ? "unsealing" : unlocking === file.number ? "..." : `unlock · ▣${file.cost}`} ]
                 </button>
               )}
             </div>
 
             {file.state === "open" && openNumber === file.number && file.body && (
               <Frame tone="terminal" className="mt-2">
-                {/* Prose and pictures interleave (lib/loreAssets.ts's
-                    buildLoreFlow) so an image lands beside the part of the
-                    file it illustrates, instead of every picture stacking
-                    into a contact sheet under the finished article. */}
-                <div
-                  className="select-none"
-                  onCopy={(e) => e.preventDefault()}
-                  onContextMenu={(e) => e.preventDefault()}
-                >
-                  {buildLoreFlow(file.body, file.images).map((item, i) =>
-                    item.kind === "text" ? (
-                      <p
-                        key={`t${i}`}
-                        className="whitespace-pre-wrap leading-relaxed text-sm [&:not(:first-child)]:mt-4"
-                      >
-                        {renderLoreLinks(item.text)}
-                      </p>
-                    ) : (
-                      <div
-                        key={`i${i}`}
-                        className={`my-4 grid grid-cols-1 gap-3 ${
-                          item.images.length > 1 ? "sm:grid-cols-2" : ""
-                        }`}
-                      >
-                        {item.images.map((img) => (
-                          <figure key={img.id}>
-                            {isLoopGifAsset(img.url) ? (
-                              <video
-                                src={img.url}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="max-h-[32rem] w-auto max-w-full object-contain border border-dim/40"
-                                aria-label={img.caption}
-                              />
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => setLightbox({ url: img.url, caption: img.caption })}
-                                aria-label={`View full-size: ${img.caption}`}
-                                data-cursor="zoom"
-                                className="block w-full cursor-zoom-in"
-                              >
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                  src={img.url}
-                                  alt={img.caption}
-                                  className="max-h-[32rem] w-auto max-w-full object-contain border border-dim/40 pointer-events-none"
-                                />
-                              </button>
-                            )}
-                            <figcaption className="text-dim text-xs mt-1">{img.caption}</figcaption>
-                          </figure>
-                        ))}
-                      </div>
-                    )
-                  )}
-                </div>
+                <LoreBody body={file.body} images={file.images} onImageClick={setLightbox} />
               </Frame>
             )}
           </div>

@@ -107,7 +107,12 @@ export default function BootSequence() {
   // the entire time — before finally unmounting. No zoom, no transform.
   const handleConverge = useCallback(() => {
     setTimeout(() => setPhase("fading"), REVEAL_MS);
-    setTimeout(() => setVisible(false), REVEAL_MS + FADE_MS);
+    setTimeout(() => {
+      setVisible(false);
+      // Lets page intros that should only play on client-side navigation
+      // (components/ArchiveEntrance.tsx) tell a nav click from a full load.
+      document.documentElement.setAttribute("data-boot-done", "");
+    }, REVEAL_MS + FADE_MS);
   }, []);
 
   if (!visible) return null;

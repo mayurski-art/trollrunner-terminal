@@ -8,6 +8,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import AuthPanel from "@/components/AuthPanel";
 import Archive from "@/components/Archive";
+import ArchiveEntrance from "@/components/ArchiveEntrance";
 import { BANNER_ARCHIVE } from "@/lib/ascii";
 
 export default function ArchivePage() {
@@ -24,6 +25,7 @@ export default function ArchivePage() {
 
   return (
     <main className="home-hero flex-1 flex flex-col items-center px-4 py-10 sm:py-14">
+      <ArchiveEntrance />
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
