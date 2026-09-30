@@ -55,16 +55,6 @@ export default function ReportsPage() {
           )}
         </Frame>
 
-        <p className="relative z-[1] text-foreground text-xs mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
-          part of the{" "}
-          <a
-            href="https://trollrunner.net"
-            className="glow-loop underline decoration-dim underline-offset-4"
-          >
-            trollrunner.net
-          </a>{" "}
-          network
-        </p>
       </div>
     </main>
   );

@@ -12,7 +12,7 @@ type Entry = { q: string; a: string };
 const ENTRIES: Entry[] = [
   {
     q: "what is this site?",
-    a: "trollface terminal — a voice for the trollface itself, broadcasting short dispatches and holding a live chat with anyone who shows up. part of the trollrunner.net network. this is where you can earn the virtual currency called \"PROBLEMS\".",
+    a: "trollface terminal — a voice for the trollface itself, broadcasting short dispatches and holding a live chat with anyone who shows up. this is where you can earn the virtual currency called \"PROBLEMS\".",
   },
   {
     q: "what are PROBLEMS?",

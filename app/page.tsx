@@ -245,19 +245,6 @@ export default function Home() {
               <p className="text-terminal text-[8px] lg:text-[0.875rem] tracking-wide text-center lg:text-left">
                 explore the infinite knowledge behind trolling
               </p>
-              {/* Was pinned to the screen's bottom-right corner, where it
-                  sat on top of the chat panel on any screen narrower than
-                  ~1500px. Up here it has its own space at every width. */}
-              <p className="hidden lg:block text-foreground text-sm text-right [text-shadow:0_1px_3px_var(--background)]">
-                part of the{" "}
-                <a
-                  href="https://trollrunner.net?enter=1"
-                  className="glow-loop underline decoration-dim underline-offset-4"
-                >
-                  trollrunner.net
-                </a>{" "}
-                network
-              </p>
             </div>
             {/* Sits between the tagline and the ticker so it lands in the same
                 eyeline as the $TRUTHS quote the ticker scrolls — the price and
@@ -385,20 +372,6 @@ export default function Home() {
               </Frame>
             )}
 
-            {/* Desktop shows this in the header band beside the node
-                system instead; the stacked phone layout keeps it here. */}
-            <p className="lg:hidden relative z-[1] text-foreground text-sm mt-8 text-center [text-shadow:0_1px_3px_var(--background)]">
-              part of the{" "}
-              <a
-                href="https://trollrunner.net?enter=1"
-                className="glow-loop underline decoration-dim underline-offset-4"
-              >
-                trollrunner.net
-              </a>{" "}
-              network
-            </p>
-            <div className="lg:hidden">
-            </div>
           </div>
 
           <Frame

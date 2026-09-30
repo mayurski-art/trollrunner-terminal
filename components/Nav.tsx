@@ -12,8 +12,8 @@ import Presence from "@/components/Presence";
 import ThemeToggle from "@/components/ThemeToggle";
 
 type NavProps = {
-  // Shows the "part of trollrunner.net network" + FAQ trigger at the top
-  // of the right-hand column, aligned with [ menu ] on the left.
+  // Floats the status column (nav-status-float) at the top of the
+  // right-hand column, aligned with [ menu ] on the left.
   // Vault-only for now — see app/vault/page.tsx.
   networkBadge?: boolean;
 };
@@ -151,18 +151,6 @@ export default function Nav({ networkBadge = false }: NavProps) {
           networkBadge ? " nav-status-float" : ""
         }`}
       >
-        {networkBadge && (
-          <p className="text-[11px] sm:text-sm text-foreground text-right mb-1 max-w-full">
-            part of the{" "}
-            <a
-              href="https://trollrunner.net"
-              className="glow-loop underline decoration-dim underline-offset-4"
-            >
-              trollrunner.net
-            </a>{" "}
-            network
-          </p>
-        )}
         {session ? (
           <div className="flex items-center gap-3 flex-wrap min-w-0 justify-end">
             <Presence />
