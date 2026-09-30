@@ -1705,7 +1705,7 @@ in 2008, one month before the Bitcoin white paper was published"), then
 turns more personal than SWISH's usual analytical threads, into plain
 gratitude for the community: "I've met good people, great role models, and
 real friends here. Feels like family." It closes on the catchphrase, *"u mad
-bro?"*, over a short looping GIF of the grin. The official @Troll_ account
+bro?"*, over a GIF of the grin. The official @Troll_ account
 marked it too, with an "18 years of trolling / 18 years of me" post that
 later became the anchor for the TROLLS reveal countdown (§65). Electro's
 numerology take on the same birthday is §52.
@@ -3317,7 +3317,7 @@ bit, she lost a Porsche and still won the timeline.
 Whether Jadoodoo meant it as a re-enactment is **unconfirmed**. It's the
 crowd's read, and she hasn't said. Images: `jadoodoo-drinks-then-cries`
 (two frames from @MartinezOnChain's clip) and `t1-dumbo-drinking-crying`
-(a silent looping GIF made from @ShiftyMunkey9's clip).
+(from @ShiftyMunkey9's clip).
 
 ## 73. "I'll smack U": Ken Carson's name list, and the fans who kept going
 <!-- posted: 2026-09-30T18:30:28Z -->
@@ -3383,8 +3383,7 @@ screenshots show only the handle `user00xman`, not a date. Images:
 `ken-carson-story-ill-smack-u`, `ken-carson-story-mad-annoying` (the two
 screenshots), `ken-carson-smack-hand-reply` (@lyricTeenX),
 `ken-carson-slow-down-for-me-5` (@topsytpff) and
-`ken-carson-grown-man-x-man` (@ej2627204491317's GIF, re-encoded as a
-silent loop).
+`ken-carson-grown-man-x-man` (@ej2627204491317's GIF).
 
 ## 74. "Why are they always bald?": Vlad Tenev's blue Brian Armstrong
 <!-- posted: 2026-09-30T22:23:10Z -->
@@ -3451,10 +3450,9 @@ Brian's "bald since day 1" is
 quoting [@ProofofIntern](https://x.com/ProofofIntern/status/1956445809727398198).
 The blog dig is
 [@testinprodcap](https://x.com/testinprodcap/status/1732601222849269788),
-quoting @CEOLandshark. Images: `robinhood-agent-bald-avatar` (still),
-`robinhood-agent-bald-loop` (silent GIF), `robinhood-agent-with-hair`
-(still) and
-`robinhood-agent-hair-swap` (silent GIF), all from @coinerhit's clips;
+quoting @CEOLandshark. Images: `robinhood-agent-bald-avatar`,
+`robinhood-agent-bald-loop`, `robinhood-agent-with-hair` and
+`robinhood-agent-hair-swap`, all from @coinerhit's clips;
 `every-crypto-founder-year-1-year-2` (@ProofofIntern) and
 `brian-armstrong-breaking-free-blog` (@CEOLandshark's screenshot).
 

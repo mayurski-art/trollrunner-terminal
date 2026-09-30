@@ -430,7 +430,7 @@ export const LORE_ASSETS: LoreAsset[] = [
   {
     id: "swish-trollface-18th-birthday-gif",
     url: "/lore/swish-trollface-18th-birthday.mp4",
-    caption: "SWISH's looping birthday GIF of the grin, from his 18th-birthday tribute post",
+    caption: "SWISH's birthday GIF of the grin, from his 18th-birthday tribute post",
     keywords: ["swish birthday gif", "trollface gif", "18th birthday gif", "birthday loop", "trollface loop"],
     sections: [54],
     loopGif: true,
@@ -923,7 +923,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "t1-dumbo-drinking-crying",
     url: "/lore/t1-dumbo-drinking-crying.gif",
     caption:
-      "the original T1 'Dumbo' meme as a silent looping GIF: comedian Moon Sang-hoon, T1's April Fools' 'sixth man', chugs a small bottle with his head tipped back and someone patting his head, then ugly-cries at the camera after T1's LCK loss to Dplus KIA (April 17, 2026)",
+      "the original T1 'Dumbo' meme: comedian Moon Sang-hoon, T1's April Fools' 'sixth man', chugs a small bottle with his head tipped back and someone patting his head, then ugly-cries at the camera after T1's LCK loss to Dplus KIA (April 17, 2026)",
     keywords: ["t1 dumbo", "dumbo", "drinking and crying", "crying drinking meme", "asian guy crying", "moon sang-hoon", "esports crying meme"],
     sections: [72],
   },
@@ -979,7 +979,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "robinhood-agent-bald-loop",
     url: "/lore/robinhood-agent-bald-loop.gif",
     caption:
-      "silent looping GIF from the HOOD Summit '26 keynote: the bald, blue-lit Robinhood Agent talks from the big screen while Vlad Tenev and the presenters watch",
+      "HOOD Summit '26 keynote: the bald, blue-lit Robinhood Agent talks from the big screen while Vlad Tenev and the presenters watch",
     keywords: ["blue brian armstrong", "robinhood agents", "bald agent", "always bald", "vlad tenev"],
     sections: [74],
   },
@@ -995,7 +995,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     id: "robinhood-agent-hair-swap",
     url: "/lore/robinhood-agent-hair-swap.gif",
     caption:
-      "silent looping GIF from the HOOD Summit '26 keynote: the new Robinhood Agent, this time with hair, comes up on the big screen while Vlad Tenev walks the stage",
+      "HOOD Summit '26 keynote: the new Robinhood Agent, this time with hair, comes up on the big screen while Vlad Tenev walks the stage",
     keywords: ["why are they always bald", "robinhood agents", "hair swap", "vlad tenev"],
     sections: [74],
   },
