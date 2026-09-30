@@ -377,12 +377,20 @@ export async function generateFreeReply(
     deadlineMs?: number;
     salvage?: (content: string) => boolean;
     passes?: number;
+    // Provider names to try, in this order, instead of the seeded rotation.
+    // Providers left out are skipped. For short-deadline steps that can only
+    // afford the fast ones (lib/transmissionCraft.ts).
+    order?: string[];
   } = {}
 ): Promise<FreeReplyResult> {
-  const enabledProviders = PROVIDERS.filter((p) => p.enabled());
+  const { timeoutMs = PROVIDER_TIMEOUT_MS, deadlineMs, salvage, passes = 1, order } = options;
+  const enabledProviders = PROVIDERS.filter((p) => p.enabled() && (!order || order.includes(p.name)));
+  if (order) {
+    enabledProviders.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+    rotationSeed = 0;
+  }
   if (enabledProviders.length === 0) return null;
 
-  const { timeoutMs = PROVIDER_TIMEOUT_MS, deadlineMs, salvage, passes = 1 } = options;
   const deadline = deadlineMs ? Date.now() + deadlineMs : null;
 
   const startIndex = ((rotationSeed % enabledProviders.length) + enabledProviders.length) % enabledProviders.length;

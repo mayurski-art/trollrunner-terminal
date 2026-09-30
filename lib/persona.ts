@@ -4,6 +4,7 @@ import { getLoreAssetById, loreAssetCatalogForPrompt, turnMightWantLoreImage } f
 import { getOwnerVoiceBlock } from "@/lib/ownerVoice";
 import { teachingsBlock, type Teaching } from "@/lib/teachings";
 import { userNotesBlock } from "@/lib/autoMemory";
+import { EXAMPLE_TRANSMISSION, extractFactSheet, writeFromFactSheet } from "@/lib/transmissionCraft";
 import {
   generateFreeReply,
   generateBestReply,
@@ -820,11 +821,11 @@ export async function generatePost(
   // always matched nothing — the model wrote with no concrete material in
   // front of it, which is exactly why transmissions read as too ambiguous.
   // The keyword path stays only as a fallback for a subject-less pick.
+  const ownerVoice = await getOwnerVoiceBlock();
   const freeSystemPrompt =
     (subject
       ? SYSTEM_PROMPT_FREE_TIER + "\n\n" + loreSubjectBlock(subject)
-      : SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "")) +
-    (await getOwnerVoiceBlock());
+      : SYSTEM_PROMPT_FREE_TIER + "\n\n" + selectLoreSections(recent[0]?.content ?? "")) + ownerVoice;
 
   // A free model that ran out of tokens mid-answer still returns 200 with a
   // plausible-looking partial post — verified in practice as text ending on
@@ -839,8 +840,13 @@ export async function generatePost(
   // four), and they pad the CLUE line with eight or ten descriptive phrases,
   // which turns the guessing game into "type anything from the post".
   const norm = (line: string) => line.toLowerCase().replace(/[^a-z0-9$]+/g, " ").trim();
+  // The owner's standard transmission (lib/transmissionCraft.ts) counts as
+  // spent too: its moves are the lesson, its lines are not for reuse.
   const spentLines = new Set(
-    recent.flatMap((p) => p.content.split(/\r?\n/)).map(norm).filter((l) => l.split(" ").length >= 3)
+    [...recent.map((p) => p.content), EXAMPLE_TRANSMISSION]
+      .flatMap((text) => text.split(/\r?\n/))
+      .map(norm)
+      .filter((l) => l.split(" ").length >= 3)
   );
   const reusesSpentLine = (text: string) =>
     text
@@ -884,6 +890,42 @@ export async function generatePost(
     );
   };
 
+  const usage = {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
+  };
+
+  // First choice: the fact-sheet pipeline (lib/transmissionCraft.ts), still
+  // free tiers only. Extract, then write three drafts, then code picks the
+  // best. Everything shares POST_DEADLINE_MS with the one-shot fallback
+  // below, which keeps a few seconds in reserve for itself.
+  const started = Date.now();
+  const left = () => POST_DEADLINE_MS - (Date.now() - started);
+  if (subject) {
+    const sheet = await extractFactSheet(
+      subject,
+      recent.slice(0, 7).map((p) => p.clue_tag?.split("|")[0] ?? ""),
+      steer,
+      rotationSeed,
+      Math.min(18_000, left() - 20_000)
+    );
+    if (sheet) {
+      const crafted = await writeFromFactSheet(
+        sheet,
+        recent.map((p) => p.content),
+        spentLines,
+        steer,
+        ownerVoice,
+        rotationSeed + 1,
+        left() - 8_000
+      );
+      if (crafted) return { content: crafted.content, clueTag: crafted.clueTag, usage };
+    }
+    console.error("[generatePost] fact-sheet pipeline came up empty, falling back to the one-shot prompt");
+  }
+
   const freeResult = await generateFreeReply(
     freeSystemPrompt,
     [{ role: "user", content: userTurn }],
@@ -899,7 +941,7 @@ export async function generatePost(
     // down, without meaningfully changing behavior when providers are
     // actually rate-limited (that's a real 429, retrying won't help either
     // way and the retryAfterSeconds hint still surfaces).
-    { timeoutMs: POST_TIMEOUT_MS, deadlineMs: POST_DEADLINE_MS, salvage: looksComplete, passes: 3 }
+    { timeoutMs: POST_TIMEOUT_MS, deadlineMs: left(), salvage: looksComplete, passes: 3 }
   );
 
   if (!freeResult) {
@@ -907,12 +949,6 @@ export async function generatePost(
   }
 
   const raw = freeResult.content.trim();
-  const usage = {
-    input_tokens: 0,
-    output_tokens: 0,
-    cache_creation_input_tokens: 0,
-    cache_read_input_tokens: 0,
-  };
 
   // Peel the "CLUE: ..." line off the end before applying the 280-char
   // limit to the post itself — see MUSING's identical ANSWER: handling.
