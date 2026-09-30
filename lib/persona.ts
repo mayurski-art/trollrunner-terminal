@@ -904,13 +904,21 @@ export async function generatePost(
   const started = Date.now();
   const left = () => POST_DEADLINE_MS - (Date.now() - started);
   if (subject) {
-    const sheet = await extractFactSheet(
-      subject,
-      recent.slice(0, 7).map((p) => p.clue_tag?.split("|")[0] ?? ""),
-      steer,
-      rotationSeed,
-      Math.min(18_000, left() - 20_000)
-    );
+    // A file with no guessable answer with a jab in it (a dry science file,
+    // say) only yields a weak fact sheet, so it gets one more file before
+    // settling for the weak one. With a steer the picker lands on the same
+    // file again, which is still a fresh try.
+    const recentAnswers = recent.slice(0, 7).map((p) => p.clue_tag?.split("|")[0] ?? "");
+    let found = await extractFactSheet(subject, recentAnswers, steer, rotationSeed, Math.min(12_000, left() - 26_000));
+    if (!found?.strong) {
+      const avoid = recent.slice(0, 7).map((p) => p.content + " " + (p.clue_tag ?? "")).join(" ");
+      const second = pickLoreSubject(steer ?? "", `${avoid} ${subject.title}`);
+      const retry = second
+        ? await extractFactSheet(second, recentAnswers, steer, rotationSeed, Math.min(12_000, left() - 22_000))
+        : null;
+      if (retry && (retry.strong || !found)) found = retry;
+    }
+    const sheet = found?.sheet;
     if (sheet) {
       const crafted = await writeFromFactSheet(
         sheet,

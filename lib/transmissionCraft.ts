@@ -44,6 +44,7 @@ export type FactSheet = {
   nearMiss: string | null;
   jab: string | null;
   offset: string | null;
+  guessable: number; // the extractor's own 1-5 rating
 };
 
 export const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9$]+/g, " ").trim();
@@ -77,6 +78,17 @@ would actually type as a guess: a known name, handle, domain, date, price.
 Somebody who knows this piece of history should be able to get it from facts
 around it.
 
+Go for the DRAMA in the file, not the textbook part. The best answer has a
+story with a loser: somebody paid too much, got caught, lost it to lawyers,
+showed up late, got scammed, got dunked on, sold out. Famous names and
+companies sitting right next to it make it gettable. A definition, a
+scientist or a piece of theory with nobody embarrassed is a weak answer:
+skip it if the file has anything with more drama.
+
+Then rate GUESSABLE from 1 to 5: how likely a crypto and meme-culture regular
+gets it in three guesses from the facts. Be honest. 5 = a famous stunt or
+name, 1 = only this file mentions it.
+
 Then list 6 to 10 FACTS that sit NEXT to the answer without naming it. Each
 fact is 2 to 6 words, lowercase, bare, like reading off a record:
   good: "registered 1994" / "sold for $69 million" / "3,333 copies" /
@@ -103,10 +115,18 @@ KIND: <what kind of thing it is, e.g. "a domain name", "a date", "a person's han
 NEAR MISS: <the thing people would confuse it with, or none>
 JAB: <the ironic or embarrassing part, one line>
 OFFSET: <relation to a public event, or none>
+GUESSABLE: <1 to 5>
 FACTS:
 - <fact>
 - <fact>
 ...`;
+
+// Several archive files describe their photos in prose ("lime-garnished
+// cocktail in hand, open water behind", "two hoagies on a paper plate"), and
+// the extractor kept handing those over as facts even when told not to. They
+// are captions, not history, so code drops them.
+const PICTURE_WORDS =
+  /\b(photo\w*|image|pictured|picture|jpe?g|png|background|behind (?:him|her|them|us|it)|wearing|worn|reclin\w*|garnish\w*|hoagies?|plate|cocktail|glows?|glowing|skyline|lights? up|sunglasses|printed on|colou?r(?:s|ed)?|beige|violet|lime|pastel|neon|stripes?|swirl\w*|pose[sd]?|posing)\b/i;
 
 function parseFactSheet(raw: string): FactSheet | null {
   const text = raw.replace(/\*\*/g, "").trim();
@@ -136,7 +156,7 @@ function parseFactSheet(raw: string): FactSheet | null {
   const facts = factsBlock
     .split(/\r?\n/)
     .map((l) => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim().replace(/[.;]$/, ""))
-    .filter((f) => f && f.split(/\s+/).length <= 9 && !leaksAnswer(f, alts));
+    .filter((f) => f && f.split(/\s+/).length <= 9 && !leaksAnswer(f, alts) && !PICTURE_WORDS.test(f));
 
   if (facts.length < 4) return null;
   return {
@@ -147,6 +167,7 @@ function parseFactSheet(raw: string): FactSheet | null {
     nearMiss: optional(field("NEAR MISS")),
     jab: optional(field("JAB")),
     offset: optional(field("OFFSET")),
+    guessable: Number(field("GUESSABLE").match(/\d/)?.[0] ?? 0),
   };
 }
 
@@ -156,14 +177,21 @@ export async function extractFactSheet(
   steer: string | undefined,
   rotationSeed: number,
   deadlineMs: number
-): Promise<FactSheet | null> {
+): Promise<{ sheet: FactSheet; strong: boolean } | null> {
   const avoid = avoidAnswers.filter(Boolean);
   const user =
     `The file: "${subject.title}"\n\n${subject.body}\n\n` +
     (avoid.length ? `Already used as answers recently, pick something else: ${avoid.join("; ")}\n\n` : "") +
     (steer?.trim() ? `The owner's direction for this one: ${steer.trim()}\n\n` : "") +
     "Report the fact sheet now.";
+  // A strong sheet has a jab and an answer people could actually get. No
+  // jab, or an answer only this file knows (the Edward Lorenz riddle,
+  // 2026-09-30: well built, but nobody gets it and nobody is dunked on), is
+  // weak: kept in case nothing better turns up, since it still writes a
+  // better riddle than the one-shot prompt. Uniswap.com (seven figures, lost
+  // to the lawyers, Hayden Adams and FTX next to it) is the strong kind.
   let sheet: FactSheet | null = null;
+  let weak: FactSheet | null = null;
   const result = await generateFreeReply(
     EXTRACT_SYSTEM,
     [{ role: "user", content: user }] as ChatTurn[],
@@ -174,13 +202,19 @@ export async function extractFactSheet(
       // The answer has to be something the file actually names. Invented
       // descriptions ("@trolltruths quote-tweet") are unguessable.
       const grounded = parsed && leaksAnswer(`${subject.title}\n${subject.body}`, [parsed.answer]);
-      if (parsed && grounded && !avoid.some((a) => leaksAnswer(parsed.answer, [a]))) sheet = parsed;
+      if (parsed && grounded && !avoid.some((a) => leaksAnswer(parsed.answer, [a]))) {
+        if (parsed.guessable >= 3 && parsed.jab) sheet = parsed;
+        else weak ??= parsed;
+      }
       console.log(`[transmissionCraft] fact sheet: ${parsed ? JSON.stringify(parsed) : "unparseable"}`);
       return sheet !== null;
     },
     { timeoutMs: 12_000, deadlineMs, passes: 1, order: ["groq", "gemini", "mistral"] }
   );
-  return result ? (sheet as FactSheet | null) : null;
+  const strong = result ? (sheet as FactSheet | null) : null;
+  if (strong) return { sheet: strong, strong: true };
+  const fallback = weak as FactSheet | null;
+  return fallback ? { sheet: fallback, strong: false } : null;
 }
 
 // ------------------------------------------------------------------ 2. write
@@ -231,9 +265,10 @@ RULES
 4. If there is an OFFSET, use it so they have to do the math.
 5. Never write the answer or any spelling of it. Naming things next to it is good.
 6. Rule out the near miss sideways, by what it is or does, never by name and never with the words "near miss", "not to be confused" or "the answer".
-7. The last line is either a format tell built from the SHAPE line (kind, words, characters) or one clinching fact. Never the first letter, never a rhyme.
-8. Banned: something, somewhere, somebody, whisper, echo, shadow, silence, void, ghost, forgotten, eternal, soul, dream, destiny, mystery, the truth, emoji, hashtags, quotes around the post, markdown.
-9. The three drafts open differently and use different facts.
+7. Say plainly WHAT KIND of thing the answer is, somewhere in the post, in your own words: a site ("the address", "one hop and you land on"), an account ("the handle"), a person ("the guy who"), a date ("the day"), a price. "one word, eleven characters" alone could be anything; "a site, eleven characters, one period" is fair.
+8. The last line is either a format tell built from the KIND and SHAPE lines, or one clinching fact. Never the first letter, never a rhyme.
+9. Banned: something, somewhere, somebody, whisper, echo, shadow, silence, void, ghost, forgotten, eternal, soul, dream, destiny, mystery, the truth, emoji, hashtags, quotes around the post, markdown.
+10. The three drafts open differently and use different facts.
 
 Output EXACTLY this, nothing else:
 DRAFT 1
@@ -269,6 +304,22 @@ const STOP = new Set(
 );
 
 export type ScoredDraft = { text: string; score: number; reasons: string[] };
+
+// Words that tell a reader what kind of answer to look for, keyed off the
+// sheet's KIND (or the answer's own shape: a dot means a site, an @ a handle).
+// null when the kind is something this list doesn't cover, so it isn't scored.
+const KIND_HINTS: [RegExp, RegExp][] = [
+  [/domain|site|url|web|address|link/i, /\b(site|website|domain|address|url|link|page|redirect\w*|hop|land on|type in|browser|registered|dot|\.com|\.net|\.io)\b/i],
+  [/handle|account|username|profile/i, /\b(handle|account|profile|username|posts?|tweets?|follow\w*|bio|@\w*)\b|@/i],
+  [/date|day|year/i, /\b(day|date|month|year|calendar|anniversary|birthday)\b/i],
+  [/price|amount|cost|sum|number|figure/i, /\b(price|paid|cost|bucks|dollars?|sold|bought|figures?)\b|\$/i],
+  [/person|name|artist|founder|creator|guy|man|woman/i, /\b(guy|man|woman|he|she|his|her|him|who|person|name|dude)\b/i],
+  [/collection|nft|token|coin/i, /\b(collection|mint\w*|pieces|copies|supply|nfts?|tokens?|coins?|chain|drop)\b/i],
+];
+function kindHintFor(sheet: FactSheet): RegExp | null {
+  const kind = /\.\w{2,}$/.test(sheet.answer) ? "domain" : sheet.answer.startsWith("@") ? "handle" : sheet.kind;
+  return KIND_HINTS.find(([k]) => k.test(kind))?.[1] ?? null;
+}
 
 // A line is spent when it matches a spent line outright, or is a light
 // rewording of one: "if i was worth billions" against the standard's "if i
@@ -370,6 +421,19 @@ export function scoreDraft(draft: string, sheet: FactSheet, spent: Set<string>):
   const meta = (text.match(/\b(near miss|the answer|not to be confused|the riddle|the clue|in the shape)\b/gi) ?? []).length;
   score -= 1.5 * meta;
   if (meta) reasons.push(`meta x${meta}`);
+
+  // Does the post say what kind of thing the answer is? The owner on the
+  // Uniswap.com draft (2026-09-30): it should have hinted it was a website.
+  const kindHint = kindHintFor(sheet);
+  if (kindHint) {
+    if (kindHint.test(text)) {
+      score += 1;
+      reasons.push("kind");
+    } else {
+      score -= 1.5;
+      reasons.push("no kind hint");
+    }
+  }
   if (moods) reasons.push(`mood x${moods}`);
   if (wordy) reasons.push(`wordy x${wordy}`);
   return { text, score, reasons };
