@@ -3259,6 +3259,66 @@ the White House had been found as of posting. Images:
 `white-house-si-accord-page1` and `white-house-si-accord-signatures`
 (both from @WhiteHouse), `unites-states-greg-circle` (from greg).
 
+## 72. Jadoodoo loses the Seoul final and does the T1 Dumbo, live
+<!-- posted: 2026-09-30T18:23:26Z -->
+
+**The meme first.** On **April 1, 2026**, the League of Legends team **T1**
+introduced a surprise "sixth man" for April Fools': **Dumbo**, played by
+Korean comedian and YouTuber **Moon Sang-hoon**. The bit didn't end on
+April 1. On **April 17**, T1 lost 1–2 to Dplus KIA in the LCK, and the
+cameras found Dumbo in the stands in team gear. He tips his head back,
+chugs a small bottle while someone behind him pats his head, then turns
+to the camera and sobs with his whole face. The clip looked too perfect
+to be real, and plenty of people assumed it was AI. It wasn't. It turned
+into *the* reaction for losing at anything.
+
+**Trading turns into an esport.** Frontier's trading league put crypto
+Twitter traders head to head in live onchain trading battles, city by
+city, with a **London Grand Final**, a **Porsche GT3 RS** and more than
+**$1M** in Season One prizes. The **Seoul Showdown** lineup included
+**Saewoo**, **orangie**, **CalebSol**, **EthanProsper** and **rasmr**,
+and it played out on stage in a dark club with a crowd behind the
+traders and sponsor bars (Phantom, Titan, World) along the bottom of
+the stream.
+
+**The final.** On **September 30, 2026**, Korean trader **Jadoodoo**
+lost the final to **Saewoo**. Saewoo's face went up on the big screen,
+and the host in a suit walked the mic around. Jadoodoo folded over the
+desk, grabbed a water bottle, tipped her head all the way back and
+chugged it, then broke down crying at the camera. That's move for move
+the Dumbo clip. @MartinezOnChain posted the 47-second clip ("Trader
+Jadoodoo breaks down on stage after losing in the finals to Saewoo at
+the Korea Trading Showdown"). It hit 74K views, and the replies split
+between people who thought it was real and people who saw the bit.
+
+rasmr, who played in the same Seoul lineup, quoted it: *"She put her life
+on the line for this shit 😹😹"*. @letjaybuild replied that she was doing
+"this meme (can't find the gif)". @ShiftyMunkey9 answered "Just ask me
+bro?" and dropped the original **T1 Dumbo** clip.
+
+**Why it's a troll.** Nobody can prove if it's a real breakdown or a
+perfect re-enactment, and that's exactly why it works. It's the same
+beats in the same order as the most famous esports-loss meme of the
+year: the chug, the head back, the ugly cry. Doing it on stage at a
+*trading* final is the joke. Trading on Crypto Twitter is already
+treated like a sport, so she lost like an esports pro. If it's real,
+it's the most relatable thing a trader has done on camera. If it's a
+bit, she lost a Porsche and still won the timeline.
+
+**Sourcing:** *Mixed.* Read via fxtwitter on 2026-09-30:
+[@MartinezOnChain](https://x.com/MartinezOnChain/status/2105301510556979308)
+(14:19 UTC, the clip) ·
+[@rasmr_eth](https://x.com/rasmr_eth/status/2105307974780719554) (14:45) ·
+[@letjaybuild](https://x.com/letjaybuild/status/2105311896652161037) (15:00) ·
+[@ShiftyMunkey9](https://x.com/ShiftyMunkey9/status/2105326103460262157)
+(15:57, the Dumbo clip). Event format:
+[HodlFM](https://x.com/Hodl_fm/status/2105232434023559252). Dumbo:
+[Sportskeeda](https://www.sportskeeda.com/esports/who-t1-dumbo-viral-clip-following-team-s-league-legends-lck-2026-loss-explained).
+Whether Jadoodoo meant it as a re-enactment is **unconfirmed**. It's the
+crowd's read, and she hasn't said. Images: `jadoodoo-drinks-then-cries`
+(two frames from @MartinezOnChain's clip) and `t1-dumbo-drinking-crying`
+(a silent looping GIF made from @ShiftyMunkey9's clip).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

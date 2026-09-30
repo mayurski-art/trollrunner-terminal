@@ -911,6 +911,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["super intelligence accord", "frontier responsibilities", "white house ai accord", "si accord text"],
     sections: [71],
   },
+  {
+    id: "jadoodoo-drinks-then-cries",
+    url: "/lore/jadoodoo-drinks-then-cries.jpg",
+    caption:
+      "two frames from the Korea Trading Showdown final, Sept 30, 2026: trader Jadoodoo, just beaten by Saewoo, tips her head back chugging a water bottle on stage, then sobs straight at the camera. It's the T1 Dumbo meme move for move",
+    keywords: ["jadoodoo", "saewoo", "korea trading showdown", "seoul showdown", "frontier", "trader crying", "crying trader"],
+    sections: [72],
+  },
+  {
+    id: "t1-dumbo-drinking-crying",
+    url: "/lore/t1-dumbo-drinking-crying.gif",
+    caption:
+      "the original T1 'Dumbo' meme as a silent looping GIF: comedian Moon Sang-hoon, T1's April Fools' 'sixth man', chugs a small bottle with his head tipped back and someone patting his head, then ugly-cries at the camera after T1's LCK loss to Dplus KIA (April 17, 2026)",
+    keywords: ["t1 dumbo", "dumbo", "drinking and crying", "crying drinking meme", "asian guy crying", "moon sang-hoon", "esports crying meme"],
+    sections: [72],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
