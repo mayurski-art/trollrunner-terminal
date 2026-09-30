@@ -3319,6 +3319,73 @@ crowd's read, and she hasn't said. Images: `jadoodoo-drinks-then-cries`
 (two frames from @MartinezOnChain's clip) and `t1-dumbo-drinking-crying`
 (a silent looping GIF made from @ShiftyMunkey9's clip).
 
+## 73. "I'll smack U": Ken Carson's name list, and the fans who kept going
+<!-- posted: 2026-09-30T18:30:28Z -->
+
+**The story.** Back in **2022**, years before the plushie era, **Ken
+Carson** got tired of fans calling him **"Goomba"**. He posted two
+text-only stories in a typewriter font on a black screen. The first was
+a list of the only names he'd answer to: **teen x, ken carson, x_man,
+Ken or X**. Then: *"I'll smack U."* The second: *"and all y'all know wtf
+im talking about shits mad annoying."* Someone in Germany screenshotted
+both off Instagram (the UI says "Übersetzung anzeigen"), and they sat
+there for four years.
+
+**The dig-up.** On **September 28, 2026**, @soundlikesex posted both
+screenshots: *"Ken Carson responding to fans calling him Goomba 😭
+(2022)"*. It passed **107K views and 3.4K likes**. Posting a rapper's
+old crash-out about a nickname is a guaranteed way to make the nickname
+come back, and it did.
+
+**What the replies made of it:**
+
+- **@lyricTeenX**, the top reply (376 likes): *"I'll smack u"* over a
+  photo of Ken holding his palm up at the camera. It's the smack hand,
+  loaded.
+- **@topsytpff:** a singer mid-note, palm out at the lens, captioned
+  "slow down for me 5 🖤😂✋". It's the same hand, played for laughs.
+- **@ej2627204491317:** the **"I'm a grown man and you want me to call
+  you x_man"** GIF, a streamer in a Nike beanie staring blankly into
+  his camera. @ilovekasa ran the same line with "Teen X", and
+  @Blaketoogoated did the math: he was 22 and wanted to be called "teen
+  X".
+- **"X man ☠️"** from @ianplug, @KTvault and @Astrifyuhh.
+  @xtc0ei: *"fym imma call you 'x-man' 🤣"*. @rukirys: *"i forgot he
+  used to be typing with them underscores 😭"*.
+- **The roast lines.** @vercetti4L: *"Bro crashed out over a goomba
+  😭"*. @un_faltered: *"gang was mad asf posting from the ipad cuz
+  sumone called him a goomba"*. @dirtyspryte: *"Kenyatta nooo don't
+  smack me"* (using his real first name, which he left off the list).
+- **@troll_runner** showed up too: *"Ken carson the best person to
+  troll."*
+
+A few defended him. @anish21k said "Valid reaction", and @letspourmud
+said "yall weren't there btw". They got outvoted.
+
+**Why it's a troll.** Ken asked for four specific names and threatened a
+slap over a fifth. That's the most trollable thing an artist can do. A
+list of approved names hands the internet a list of names to be funny
+with, and a threat makes "Goomba" land even harder. Four years later
+nobody's scared of the smack. They're doing the smack *hand* as a meme.
+It's the Streisand effect with a nickname. Ken never needed to be
+roasted, because he wrote the roast himself and put a font on it.
+
+**Sourcing:** *Verified post, unverified story date.* The post and 33
+replies were read via fxtwitter on 2026-09-30:
+[@soundlikesex](https://x.com/soundlikesex/status/2104657394701910203)
+(Sept 28, 19:40 UTC) ·
+[@lyricTeenX](https://x.com/lyricTeenX/status/2104691718004347342) ·
+[@topsytpff](https://x.com/topsytpff/status/2104788187034042513) ·
+[@ej2627204491317](https://x.com/ej2627204491317/status/2105093164193505782) ·
+[@troll_runner](https://x.com/troll_runner/status/2104681772818760166).
+The "2022" date and the "Goomba" context come from the poster. The
+screenshots show only the handle `user00xman`, not a date. Images:
+`ken-carson-story-ill-smack-u`, `ken-carson-story-mad-annoying` (the two
+screenshots), `ken-carson-smack-hand-reply` (@lyricTeenX),
+`ken-carson-slow-down-for-me-5` (@topsytpff) and
+`ken-carson-grown-man-x-man` (@ej2627204491317's GIF, re-encoded as a
+silent loop).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

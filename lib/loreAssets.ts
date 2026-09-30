@@ -927,6 +927,46 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["t1 dumbo", "dumbo", "drinking and crying", "crying drinking meme", "asian guy crying", "moon sang-hoon", "esports crying meme"],
     sections: [72],
   },
+  {
+    id: "ken-carson-story-ill-smack-u",
+    url: "/lore/ken-carson-story-ill-smack-u.jpg",
+    caption:
+      "Ken Carson's old story (account user00xman, reposted as 2022), white typewriter text on black: if anyone calls him anything other than 'teen x, ken carson, x_man, Ken or X', 'I'll smack U'. He posted it after fans kept calling him Goomba",
+    keywords: ["ken carson", "goomba", "teen x", "x_man", "x man", "ill smack u", "i'll smack you"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-story-mad-annoying",
+    url: "/lore/ken-carson-story-mad-annoying.jpg",
+    caption:
+      "the second slide of Ken Carson's Goomba story: 'and all y'all know wtf im talking about shits mad annoying'",
+    keywords: ["ken carson", "goomba", "mad annoying"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-smack-hand-reply",
+    url: "/lore/ken-carson-smack-hand-reply.jpg",
+    caption:
+      "@lyricTeenX's top reply, captioned 'I'll smack u': Ken Carson in glasses, a cross-print hoodie and a chain, holding his open palm up at the camera. The smack hand, loaded",
+    keywords: ["ken carson", "smack hand", "ill smack u", "ken carson hand"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-slow-down-for-me-5",
+    url: "/lore/ken-carson-slow-down-for-me-5.jpg",
+    caption:
+      "a reply meme to Ken Carson's 'I'll smack U' story: a singer in a durag belting into a mic, palm out at the lens, with a laughing-crying emoji and the caption 'slow down for me 5 🖤😂✋'",
+    keywords: ["ken carson", "slow down for me 5", "smack hand"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-grown-man-x-man",
+    url: "/lore/ken-carson-grown-man-x-man.gif",
+    caption:
+      "reply GIF under the Ken Carson post, 'im a grown man and you want me to call you x_man': a streamer in a black Nike beanie on a gaming chair, staring blankly into his camera",
+    keywords: ["ken carson", "grown man", "call you x_man", "teen x", "x man"],
+    sections: [73],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
