@@ -3493,6 +3493,71 @@ quoting @CEOLandshark. Images: `robinhood-agent-bald-avatar`,
 `every-crypto-founder-year-1-year-2` (@ProofofIntern) and
 `brian-armstrong-breaking-free-blog` (@CEOLandshark's screenshot).
 
+## 75. "Why can't we just AI more water": B Lou solves the AI water crisis
+<!-- posted: 2026-09-30T23:40:00Z -->
+
+**The post.** On **September 29, 2026** (2:49 PM Pacific), **B Lou**
+([@BLouu](https://x.com/BLouu), 8M+ on YouTube, 600K on Twitch, 250K on
+X) posted: *"If AI using water why can't we just AI more water"*. Under it
+is a clip of two guys staring into the camera, one with his hand on his
+chin, thinking very hard, over nothing but music. No follow-up. He let it
+sit. About **82K views, 3.2K likes, 115 reposts** in the first day.
+
+**The meme it's riffing on.** "AI uses water" has been an internet
+talking point for years: every chatbot answer supposedly costs a bottle of
+water, because data centers cool their servers with it. Real numbers
+exist too. UN researchers say data centers used about **4.5 trillion
+liters** of water in 2025, and could hit **9.3 trillion** by 2030. B Lou's
+fix skips the whole debate: AI is supposed to make anything, so have it
+make water. Same logic as "why don't they just print more money."
+
+**The dirty-water answer is real, sort of.** The actual fix people bring
+up is making AI drink dirty water instead of drinking water. Google
+already does it. Its data center in **Douglas County, Georgia** cools
+itself with treated **sewage water** from the local treatment plant,
+water that would otherwise go into the Chattahoochee River. Of 422
+million gallons it took in during 2021, only **13.2 million** were
+drinkable water. So the servers are, in fact, drinking the dirty water.
+They just didn't make any more of it.
+
+**B Lou and water have history.** This is the same guy who, with his
+stream partner **Zias**, asked on stream in **April 2025**, *"If humans
+can't see air, can fish see water?"* Fans called them "Plato and Aristotle
+in 2025." Then in **August 2025**, during MrBeast and Mark Rober's
+**#TeamWater** fundraiser, a clip went around of the two of them saying
+they'd gone offline for a week to dodge MrBeast's calls asking for a
+donation. B Lou reposted it saying AI was getting "too real," then on
+**August 22** posted a certificate for **20 years of clean water**.
+MrBeast: *"Thank you! 20 years of clean water."* So he blamed AI to get
+out of a water charity, paid for the water anyway, and a year later
+asked AI to make more of it.
+
+**Why it's a troll.** It's a shower thought posted with a straight face
+and a thinking-face clip, and it works on everyone at once. AI doomers
+can't tell if he's mocking them. AI boosters can't tell if he's mocking
+them. And the reply guys who explain the water cycle to him are the
+real target.
+
+**Sourcing:** *Verified post, sourced background.* The post was read on
+2026-09-30 via fxtwitter and on x.com; the text, time and numbers above
+are from there. The clip isn't his: it's a reupload of a video from
+[@geekedgoob](https://x.com/geekedgoob/status/2101457040631636266)
+(Sept 19, 2026, 825K views, captioned about a coworker crush), and the
+audio is only music (checked with a transcription pass). Nobody in it is
+named here. The water numbers are from
+[Insurance Journal, June 22, 2026](https://insurancejournal.com/magazines/mag-features/2026/06/22/874414.htm).
+Douglas County is from
+[WaterWorld](https://www.waterworld.com/water-reuse/news/55381844/google-expands-water-stewardship-efforts-as-data-center-growth-increases-pressure-on-utilities)
+and [Trellis](https://trellis.net/article/sip-or-guzzle-heres-how-googles-data-centers-use-water/).
+The fish line is from
+[Soap Central via NewsBreak](https://www.newsbreak.com/soap-central-302262230/3956071071250-what-if-fish-could-see-water-fans-react-as-b-lou-and-zias-question-if-fish-can-see-water-since-humans-can-t-see-air).
+The TeamWater story is from
+[Soap Central](https://www.soapcentral.com/entertainment/news-mrbeast-responds-b-lou-donates-team-water-previously-revealing-zias-went-offline-week-avoid-youtuber-s-calls);
+the original posts weren't re-checked, and whether the dodge clip was
+real or AI was never settled. Images: `blou-ai-more-water-post` (the
+post's embed), `blou-ai-more-water-thinking` (still) and
+`blou-ai-more-water-thinking-loop` (GIF), both from the clip.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

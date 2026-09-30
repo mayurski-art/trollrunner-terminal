@@ -1039,6 +1039,30 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["breaking free", "brian armstrong blog", "brian armstrong hair", "young brian armstrong", "bald since day 1"],
     sections: [74],
   },
+  {
+    id: "blou-ai-more-water-post",
+    url: "/lore/blou-ai-more-water-post.jpg",
+    caption:
+      "B Lou's post, Sept 29, 2026: 'If AI using water why can't we just AI more water', over a clip of two guys staring into the camera, one with his hand on his chin",
+    keywords: ["b lou", "blou", "ai more water", "ai water", "ai using water", "data center water"],
+    sections: [75],
+  },
+  {
+    id: "blou-ai-more-water-thinking",
+    url: "/lore/blou-ai-more-water-thinking.jpg",
+    caption:
+      "the clip under B Lou's 'why can't we just AI more water' post: two guys staring into the camera, one with his hand on his chin, thinking very hard about it",
+    keywords: ["b lou", "blou", "ai more water", "thinking", "shower thought"],
+    sections: [75],
+  },
+  {
+    id: "blou-ai-more-water-thinking-loop",
+    url: "/lore/blou-ai-more-water-thinking.gif",
+    caption:
+      "the hand-on-chin stare from B Lou's 'AI more water' post, still thinking about how to make more water",
+    keywords: ["b lou", "blou", "ai more water", "ai water", "thinking face"],
+    sections: [75],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
