@@ -887,6 +887,30 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["look closely", "peter parker", "glasses meme", "dots vs grok", "dots grok bot", "riedsschichter"],
     sections: [70],
   },
+  {
+    id: "unites-states-greg-circle",
+    url: "/lore/unites-states-greg-circle.jpg",
+    caption:
+      "greg's (@greg16676935420) quote-post of the White House Accord on Super Intelligence, Sept 30, 2026, captioned just '\"Super Intelligence\"': a close crop of Trump's spiky signature with the typed title under it, 'President of the Unites States', and the typo circled in red",
+    keywords: ["unites states", "super intelligence", "white house typo", "trump typo", "greg16676935420", "accord typo"],
+    sections: [71],
+  },
+  {
+    id: "white-house-si-accord-signatures",
+    url: "/lore/white-house-si-accord-signatures.jpg",
+    caption:
+      "the signature page of the White House Accord on Super Intelligence (signed Sept 29, 2026): Trump alone on the left over 'President of the Unites States', and down the right Sundar Pichai (Google), Dario Amodei (Anthropic), Mark Zuckerberg (Meta), Greg Brockman signing 'gdb' (OpenAI), Elon Musk (XAI) and Jensen Huang (Nvidia)",
+    keywords: ["super intelligence accord", "si accord", "accord signatures", "who signed", "white house ai accord", "unites states"],
+    sections: [71],
+  },
+  {
+    id: "white-house-si-accord-page1",
+    url: "/lore/white-house-si-accord-page1.jpg",
+    caption:
+      "page one of the White House Accord on Super Intelligence, 'Joint Commitment on Frontier Responsibilities' (Sept 2026): a voluntary pledge of four layers of controls and audits, internal monitoring, an internal team, an independent external auditor and a board committee, so everything operates 'as intended'",
+    keywords: ["super intelligence accord", "frontier responsibilities", "white house ai accord", "si accord text"],
+    sections: [71],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

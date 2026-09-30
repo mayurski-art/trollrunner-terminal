@@ -3196,6 +3196,69 @@ here, 2026-09-29), `dots-look-closely-riedsschichter`
 ([@riedsschichter](https://x.com/riedsschichter/status/2104993678448308580),
 17:56 UTC, via fxtwitter, fan meme).
 
+## 71. "Super Intelligence," signed by the President of the Unites States
+<!-- posted: 2026-09-30T16:30:34Z -->
+
+On **September 22, 2026**, at the UN General Assembly, Trump ordered that
+US government documents stop saying "artificial intelligence". From then
+on it would be **"super intelligence"**, because "artificial" makes it
+sound fake. His words: all United States documents "will be changed to
+use the much more accurate term 'super,' as opposed to 'artificial'."
+
+A week later, on **September 29**, he got the AI bosses to the White House
+and they signed the **White House Accord on Super Intelligence**, a
+one-page "Joint Commitment on Frontier Responsibilities". It's voluntary.
+Each company promises four layers of controls: internal monitoring for
+cyber, bio and chemical risks, an internal team to check those controls,
+an independent outside auditor, and a board committee that reviews it all.
+The signatures, top to bottom: **Sundar Pichai** (Google), **Dario
+Amodei** (Anthropic), **Mark Zuckerberg** (Meta), **Greg Brockman**
+(OpenAI, signed just "gdb", not Sam Altman), **Elon Musk** ("XAI"), and
+**Jensen Huang** (Nvidia). Trump's giant spiky signature sits alone on
+the left.
+
+@WhiteHouse posted both pages on **September 30 at 13:44 UTC**:
+"White House Accord on Super Intelligence". It passed **1.39M views**.
+
+Right under Trump's signature, the typed title reads **"President of the
+Unites States"**.
+
+**greg** (@greg16676935420, 2.1M followers, the "im greg I like football
+and stocks" account) quote-posted it two hours later with a zoomed crop of
+the signature, the typo circled in red, and one word in scare quotes:
+**"Super Intelligence"**. It hit **361K views and 6.2K likes** within an
+hour. By the afternoon it was in the news: TBS News, Storyboard18,
+LatestLY, NewsBytes, Ground News and Lawyers, Guns & Money all ran the
+typo as the story. The accord itself came second.
+
+**Why it's a troll.** Nobody at the White House meant to troll anybody,
+which is why it lands so hard. The document exists to rename AI to
+something that sounds smarter. It commits the six most powerful AI
+companies to "robust internal controls" and "independent external
+auditors" so everything operates "as intended". And nobody proofread the
+one line with the President's own title on it. Seven signatures, four
+layers of controls, zero spellcheck. greg didn't have to write a joke. He
+just drew a circle and put the new name in quotes. That's the purest form
+of the bit: the target builds the whole thing, and you just point.
+
+**Sourcing:** *Verified.* Both posts were read via fxtwitter on
+2026-09-30:
+[@WhiteHouse](https://x.com/WhiteHouse/status/2105292669303791687)
+(13:44 UTC) and
+[@greg16676935420](https://x.com/greg16676935420/status/2105319977972818002)
+(15:32 UTC). The typo is in the White House's own image, not only greg's
+crop. Rename order:
+[Breaking Defense](https://breakingdefense.com/2026/09/trump-orders-all-us-agencies-to-refer-to-ai-as-super-intelligence/)
+· [Axios](https://axios.com/2026/09/22/trump-ai-super-intelligence-rebrand).
+Typo coverage:
+[TBS News](https://www.tbsnews.net/world/president-unites-states-typo-spotted-trumps-white-house-super-intelligence-accord-1558996)
+· [Storyboard18](https://www.storyboard18.com/amp/trending/white-house-ai-accord-contains-unites-states-typo-ws-l-111723.htm)
+· [Lawyers, Guns & Money](https://www.lawyersgunsmoneyblog.com/2026/09/white-house-misspells-united-in-official-document-on-regulating-super-intelligence).
+(TBS itself misspells Amodei's first name as "Daria".) No correction from
+the White House had been found as of posting. Images:
+`white-house-si-accord-page1` and `white-house-si-accord-signatures`
+(both from @WhiteHouse), `unites-states-greg-circle` (from greg).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
