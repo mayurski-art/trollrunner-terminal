@@ -3386,6 +3386,78 @@ screenshots), `ken-carson-smack-hand-reply` (@lyricTeenX),
 `ken-carson-grown-man-x-man` (@ej2627204491317's GIF, re-encoded as a
 silent loop).
 
+## 74. "Why are they always bald?": Vlad Tenev's blue Brian Armstrong
+<!-- posted: 2026-09-30T22:23:10Z -->
+
+**The stage.** On **September 29, 2026**, Robinhood CEO **Vlad Tenev**
+gave the HOOD Summit '26 keynote in Houston, wearing a yellow sweater. The
+headline launch was **Robinhood Agents**, AI agents that research,
+strategize and trade for you inside the app. For the demo, the giant
+screen behind him showed the agent as a face: a **bald man, lit ice-blue**,
+in a sci-fi corridor. It's hard to look at it and not see a blue **Brian
+Armstrong**.
+
+**The line.** Then, per the clip going around: *"One thing I don't
+understand is why are they always bald?"* In the next clip the bald
+agent is gone, and a new one with **a full head of hair and stubble** is
+on the screen instead.
+
+**Why crypto Twitter took it personally.** Coinbase's Brian Armstrong
+is bald. So is Jesse Pollak, who runs Base, Coinbase's chain. And
+Robinhood has its own chain now. **Robinhood Chain** launched on July 1,
+and on **August 30** it made about **11x Base's chain fees** ($1.07M vs
+$93K) and about **27x its app fees** ($12.08M vs $438K). So a CEO who is
+beating Base on fees went on stage, showed a bald AI, asked why they're
+always bald, and swapped it for one with hair.
+
+On **September 30**, @coinerhit posted both clips: *"the way @vladtenev
+is trolling base and everything related to its ecosystem, this is
+actually genius. is robinhood going to bury base?"*
+
+**The bald canon it lands on:**
+
+- **"Every crypto founder..."** In August 2025, @ProofofIntern posted
+  an NFL player's Year 1 / Year 2 photos: full hair, then fully bald.
+  **Brian Armstrong quoted it himself:** *"False - bald since day 1 over
+  here."* (1.8K likes, 188K views.)
+- **Except he wasn't.** Back in 2023, @CEOLandshark dug up Brian's old
+  make-money-online blog, **"Breaking Free"**: an eBook on quitting your
+  9-to-5, eBay banner ads, and a headshot of a young Brian **with a full
+  head of hair**. @testinprodcap: *"The fact that Brian Armstrong wasn't
+  always bald makes me think less of him."*
+
+**Why it's a troll.** Vlad never said "Base" or "Coinbase". He didn't
+have to. It's a bald joke with deniability, made at a product launch,
+aimed at a rival whose two most famous faces are bald, by a guy famous
+for his hair. You can't even answer it. If Brian says "we're not bald,"
+the Breaking Free photo says otherwise. If he says "bald is fine," the
+agent already got the hair upgrade. The joke only works because Brian
+already said "bald since day 1" himself.
+
+**Sourcing:** *Verified clips, unverified wording.*
+[@coinerhit's post](https://x.com/coinerhit/status/2105221031245840476)
+(Sept 30, two clips of 1:21 and 0:33) was read via fxtwitter and the
+video frames were checked by hand on 2026-09-30: the bald blue agent,
+Vlad in yellow, and the haired agent are all on screen. **The audio
+wasn't transcribed.** The quote and who said it come from @coinerhit's
+caption, and "it's aimed at Base" is the crowd's read. Robinhood never
+said so. The fee numbers are from
+[Yahoo Finance, Aug 31, 2026](https://finance.yahoo.com/markets/crypto/articles/robinhood-chain-just-earned-over-190203446.html).
+The Agents launch is from
+[Robinhood's newsroom](https://robinhood.com/us/en/newsroom/hood-summit-2026/)
+and [@RobinhoodApp](https://x.com/RobinhoodApp/status/2105074572722679839).
+Brian's "bald since day 1" is
+[@brian_armstrong](https://x.com/brian_armstrong/status/1957519251960656364),
+quoting [@ProofofIntern](https://x.com/ProofofIntern/status/1956445809727398198).
+The blog dig is
+[@testinprodcap](https://x.com/testinprodcap/status/1732601222849269788),
+quoting @CEOLandshark. Images: `robinhood-agent-bald-avatar` (still),
+`robinhood-agent-bald-loop` (silent GIF), `robinhood-agent-with-hair`
+(still) and
+`robinhood-agent-hair-swap` (silent GIF), all from @coinerhit's clips;
+`every-crypto-founder-year-1-year-2` (@ProofofIntern) and
+`brian-armstrong-breaking-free-blog` (@CEOLandshark's screenshot).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

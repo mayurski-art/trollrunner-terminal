@@ -967,6 +967,54 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["ken carson", "grown man", "call you x_man", "teen x", "x man"],
     sections: [73],
   },
+  {
+    id: "robinhood-agent-bald-avatar",
+    url: "/lore/robinhood-agent-bald-avatar.jpg",
+    caption:
+      "HOOD Summit '26 keynote, Houston, Sept 29, 2026: the Robinhood Agents demo puts a bald, ice-blue AI face on the giant screen while Vlad Tenev stands below in a yellow sweater. It's a blue Brian Armstrong",
+    keywords: ["blue brian armstrong", "robinhood agents", "hood summit", "vlad tenev", "bald agent", "always bald", "bald ai"],
+    sections: [74],
+  },
+  {
+    id: "robinhood-agent-bald-loop",
+    url: "/lore/robinhood-agent-bald-loop.gif",
+    caption:
+      "silent looping GIF from the HOOD Summit '26 keynote: the bald, blue-lit Robinhood Agent talks from the big screen while Vlad Tenev and the presenters watch",
+    keywords: ["blue brian armstrong", "robinhood agents", "bald agent", "always bald", "vlad tenev"],
+    sections: [74],
+  },
+  {
+    id: "robinhood-agent-with-hair",
+    url: "/lore/robinhood-agent-with-hair.jpg",
+    caption:
+      "after 'why are they always bald?': the Robinhood Agent on the HOOD Summit screen is now a guy with a full head of hair and stubble, with Vlad Tenev in yellow on stage below",
+    keywords: ["why are they always bald", "robinhood agents", "agent with hair", "vlad tenev", "hood summit"],
+    sections: [74],
+  },
+  {
+    id: "robinhood-agent-hair-swap",
+    url: "/lore/robinhood-agent-hair-swap.gif",
+    caption:
+      "silent looping GIF from the HOOD Summit '26 keynote: the new Robinhood Agent, this time with hair, comes up on the big screen while Vlad Tenev walks the stage",
+    keywords: ["why are they always bald", "robinhood agents", "hair swap", "vlad tenev"],
+    sections: [74],
+  },
+  {
+    id: "every-crypto-founder-year-1-year-2",
+    url: "/lore/every-crypto-founder-year-1-year-2.jpg",
+    caption:
+      "@ProofofIntern's 'every crypto founder...' meme: an NFL player's Year 1 photo with hair next to his Year 2 photo fully bald. Brian Armstrong quoted it: 'False - bald since day 1 over here'",
+    keywords: ["every crypto founder", "year 1 year 2", "bald since day 1", "crypto founder bald", "brian armstrong bald"],
+    sections: [74],
+  },
+  {
+    id: "brian-armstrong-breaking-free-blog",
+    url: "/lore/brian-armstrong-breaking-free-blog.jpg",
+    caption:
+      "Brian Armstrong's old 'Breaking Free' make-money-online blog: an eBook on quitting your 9-to-5, an eBay startup-kit banner ad, and a young Brian with a full head of hair. Proof he wasn't bald since day 1",
+    keywords: ["breaking free", "brian armstrong blog", "brian armstrong hair", "young brian armstrong", "bald since day 1"],
+    sections: [74],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
