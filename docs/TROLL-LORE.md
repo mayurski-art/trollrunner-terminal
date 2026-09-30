@@ -24,7 +24,10 @@ doesn't matter because the archive sorts by number. `**Bold**` terms are the
 retrieval keywords (`lib/loreSections.ts`), so bold real names and keep each
 bolded phrase on one line. Keep sections under ~4,500 characters where
 possible, because longer ones get cut off when they're picked as a
-transmission subject.
+transmission subject. Put a `<!-- posted: 2026-09-29T20:36:12Z -->` line
+(UTC, the time you push it) right under a new section's heading. The front
+page's "NEW FILE" box shows the newest section for 24 hours from that time,
+then hides until the next one. With no posted line, the box never shows it.
 
 **Sourcing tiers used below.** *Verified* means confirmed against an
 independent outlet, on-chain data, or the platform's own API/CDN. *User-
@@ -3118,6 +3121,7 @@ thesis timing is read off a phone screenshot, not the chain. Images:
 ([@EyeWhales](https://x.com/EyeWhales/status/2104113262774432012), AI-made).
 
 ## 70. OpenAI names its agents "dots", and dot.com already points at Grok
+<!-- posted: 2026-09-29T20:36:12Z -->
 
 On **September 29, 2026**, at **OpenAI DevDay 2026**, OpenAI launched
 **dots**. They're always-on personal agents powered by **GPT-6 Astra**,

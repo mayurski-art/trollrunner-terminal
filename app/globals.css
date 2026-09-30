@@ -2404,11 +2404,15 @@ html[data-custom-cursor] label {
 
 /* The front page's "newest file" box (components/NewestFile.tsx). Meant to
    be the loudest thing on the page: a spinning rainbow border, a light bar
-   sweeping across, a hue-cycling "NEW FILE" banner with an RGB-split glitch,
-   and the archive-hype shake. It is kept under the photosensitive-seizure
-   limits on purpose: colour changes are continuous sweeps rather than
-   on/off flashes, the glitch bursts land at most twice a second, and nothing
-   flashes the full field. Reduced motion gets the same look, standing still. */
+   sweeping across, a "NEW FILE" chip cycling through colours, and a shake
+   burst every few seconds. Everything that carries words stays readable: the
+   chip is bold near-black text on a bright fill (every stop in its gradient
+   keeps at least 4.5:1 contrast against it), the glitch is a small RGB
+   split on that text rather than overlapping copies, and the box sits still
+   between bursts. It is kept under the photosensitive-seizure limits on
+   purpose: colour changes are continuous sweeps, not on/off flashes, and
+   nothing flashes the full field. Reduced motion gets the same look,
+   standing still. */
 @property --nf-angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -2428,7 +2432,7 @@ html[data-custom-cursor] label {
   box-shadow: 0 0 18px color-mix(in srgb, #b44bff 45%, transparent);
   animation:
     nf-spin 2.4s linear infinite,
-    archive-hype-shake 2.2s linear infinite;
+    nf-burst 3.2s linear infinite;
 }
 .newest-file:hover {
   animation-play-state: running, paused;
@@ -2438,12 +2442,23 @@ html[data-custom-cursor] label {
     --nf-angle: 360deg;
   }
 }
+/* Still most of the time, one violent shake near the end of each cycle —
+   a constant jitter made the title hard to read. */
+@keyframes nf-burst {
+  0%, 84%, 100% { transform: none; }
+  86% { transform: translate(-4px, 1px) rotate(-0.8deg) scale(1.015); }
+  88% { transform: translate(4px, -1px) rotate(0.8deg) scale(1.02); }
+  90% { transform: translate(-3px, 1px) rotate(-0.5deg); }
+  92% { transform: translate(3px, 0) rotate(0.4deg) scale(1.01); }
+  94% { transform: translate(-1px, 0); }
+}
 .newest-file-inner {
   position: relative;
   overflow: hidden;
   background: var(--panel);
 }
-/* The light bar that sweeps across the box. */
+/* The light bar that sweeps across the box, kept faint enough that text
+   under it never washes out. */
 .newest-file-inner::after {
   content: "";
   position: absolute;
@@ -2451,68 +2466,48 @@ html[data-custom-cursor] label {
   pointer-events: none;
   background: linear-gradient(
     100deg,
-    transparent 30%,
-    color-mix(in srgb, #ffffff 16%, transparent) 48%,
-    color-mix(in srgb, #2ee6ff 14%, transparent) 52%,
-    transparent 70%
+    transparent 35%,
+    color-mix(in srgb, #ffffff 9%, transparent) 50%,
+    transparent 65%
   );
   transform: translateX(-100%);
-  animation: nf-sweep 2.6s ease-in-out infinite;
+  animation: nf-sweep 3.2s ease-in-out infinite;
 }
 @keyframes nf-sweep {
   0% { transform: translateX(-100%); }
-  60%,
+  55%,
   100% { transform: translateX(100%); }
 }
 .newest-file-banner {
-  position: relative;
   display: inline-block;
-  color: transparent;
-  background: linear-gradient(90deg, #ff3b3b, #ffd21f, #2ee6ff, #b44bff, #ff3bd4, #ff3b3b);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  filter: drop-shadow(0 0 4px color-mix(in srgb, #ff3bd4 60%, transparent));
-  animation: nf-rainbow 1.6s linear infinite;
+  padding: 0.2em 0.5em;
+  color: #0a0a0a;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  background: linear-gradient(90deg, #ff5a5a, #ffd21f, #2ee6ff, #c77dff, #ff5ad9, #ff5a5a);
+  background-size: 400% 100%;
+  animation:
+    nf-rainbow 3s linear infinite,
+    nf-glitch 1.6s steps(1, end) infinite;
 }
 @keyframes nf-rainbow {
-  to { background-position: 300% 0; }
+  to { background-position: 400% 0; }
 }
-/* RGB-split glitch copies, sliced and jolted sideways in short bursts. */
-.newest-file-banner::before,
-.newest-file-banner::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
+/* A quick RGB split on the chip's own letters, twice per cycle (well under
+   3 a second), clean the rest of the time. */
+@keyframes nf-glitch {
+  0%, 40%, 46%, 86%, 92%, 100% { text-shadow: none; transform: none; }
+  41% { text-shadow: 2px 0 #ff0044, -2px 0 #0077ff; transform: translateX(-1px); }
+  44% { text-shadow: -2px 0 #ff0044, 2px 0 #0077ff; transform: translateX(1px); }
+  88% { text-shadow: 1px 0 #ff0044, -1px 0 #0077ff; transform: skewX(-6deg); }
 }
-.newest-file-banner::before {
-  color: #2ee6ff;
-  animation: nf-glitch-a 1s steps(1, end) infinite;
-}
-.newest-file-banner::after {
-  color: #ff3b3b;
-  animation: nf-glitch-b 1s steps(1, end) infinite;
-}
-@keyframes nf-glitch-a {
-  0%, 38%, 50%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
-  40% { opacity: 0.9; transform: translate(-3px, -1px); clip-path: inset(0 0 55% 0); }
-  44% { opacity: 0.9; transform: translate(2px, 0); clip-path: inset(40% 0 20% 0); }
-  90% { opacity: 0.9; transform: translate(-2px, 1px); clip-path: inset(60% 0 0 0); }
-}
-@keyframes nf-glitch-b {
-  0%, 38%, 50%, 88%, 100% { opacity: 0; transform: none; clip-path: none; }
-  41% { opacity: 0.9; transform: translate(3px, 1px); clip-path: inset(50% 0 0 0); }
-  46% { opacity: 0.9; transform: translate(-2px, 0); clip-path: inset(0 0 60% 0); }
-  92% { opacity: 0.9; transform: translate(2px, -1px); clip-path: inset(10% 0 50% 0); }
+.newest-file-meta {
+  color: color-mix(in srgb, var(--foreground) 70%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .newest-file,
   .newest-file-inner::after,
-  .newest-file-banner,
-  .newest-file-banner::before,
-  .newest-file-banner::after {
+  .newest-file-banner {
     animation: none;
   }
 }

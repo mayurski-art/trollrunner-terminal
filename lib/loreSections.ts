@@ -31,12 +31,21 @@ type LoreSection = {
   title: string;
   body: string;
   keywords: Set<string>;
+  // From an optional `<!-- posted: ISO-timestamp -->` line under the heading.
+  // Only the front page's "newest file" box reads it (to stop calling a file
+  // new a day after it went up); the comment itself is removed from `body`.
+  postedAt: string | null;
 };
+
+const POSTED_MARKER = /<!--\s*posted:\s*(\S+?)\s*-->[ \t]*\n?/;
 
 function parseSections(): LoreSection[] {
   const parts = RAW.split(/\n(?=## )/);
   const sections: LoreSection[] = [];
-  for (const part of parts) {
+  for (let part of parts) {
+    const postedMatch = part.match(POSTED_MARKER);
+    const postedAt = postedMatch ? postedMatch[1] : null;
+    if (postedMatch) part = part.replace(POSTED_MARKER, "");
     if (!part.startsWith("## ")) continue;
     const newlineAt = part.indexOf("\n");
     const title = part.slice(3, newlineAt === -1 ? undefined : newlineAt).trim();
@@ -53,7 +62,7 @@ function parseSections(): LoreSection[] {
       ...bolded.flatMap((b) => significantWords(b)),
     ]);
 
-    sections.push({ number, title, body, keywords });
+    sections.push({ number, title, body, keywords, postedAt });
   }
   return sections;
 }
@@ -175,6 +184,16 @@ export function allSectionTitles(): { number: number; title: string }[] {
     .filter((s): s is { number: number; title: string } => s.number !== null)
     .concat([{ number: CORE_IDENTITY.number as number, title: CORE_IDENTITY.title }])
     .sort((a, b) => a.number - b.number);
+}
+
+// The highest-numbered section. New sections always take the next free
+// number, so this is the most recently added file.
+export function newestSection(): { number: number; title: string; postedAt: string | null } | null {
+  let newest: LoreSection | null = null;
+  for (const s of SECTIONS) {
+    if (s.number !== null && (!newest || s.number > (newest.number as number))) newest = s;
+  }
+  return newest ? { number: newest.number as number, title: newest.title, postedAt: newest.postedAt } : null;
 }
 
 // Plain text for the archive page — TROLL-LORE.md is authored as Markdown
