@@ -10,8 +10,10 @@ import NewestFile from "@/components/NewestFile";
 // space, enter, a click or a tap. A click on the NEW FILE box opens its
 // popup instead, and the entrance waits behind it. The instructions tab is
 // hidden while this is up (html[data-archive-entrance] in globals.css).
-// Only on arrival from another page: a full load of /archive gets the boot
-// sequence.
+// Plays on every arrival, a click on [archive] or a full load/refresh of
+// /archive (the site-wide boot sequence skips /archive for this). It is in
+// the server HTML and opaque from its first frame, so the archive page
+// never shows before it.
 
 type Line = { text: string; tail?: string; tone?: "alert" };
 
@@ -38,16 +40,8 @@ export default function ArchiveEntrance() {
   }, []);
 
   useEffect(() => {
-    // A full page load (typed URL, refresh) already plays the site-wide
-    // boot sequence (components/BootSequence.tsx), which covers this and
-    // sets data-boot-done only once it has finished. So the entrance only
-    // plays when /archive is reached by clicking through from another page.
-    if (!document.documentElement.hasAttribute("data-boot-done")) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setPhase("gone");
-      return;
-    }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShown(LINES.length);
       return;
     }

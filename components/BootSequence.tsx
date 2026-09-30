@@ -15,7 +15,8 @@ const FADE_MS = 350;
 // (components/BootConnector.tsx — carlos, umadbro.shop, NFT, crypto, all
 // converging on the trolltruths hub) before fading out to reveal the site,
 // which has been mounted the whole time behind this fixed overlay. Not
-// user-skippable — it always plays out in full. Client-side navigation
+// user-skippable — it always plays out in full. Not on /archive, which
+// plays its own entrance on load instead. Client-side navigation
 // between pages does NOT remount this (the root layout stays mounted
 // across routes), so it only replays on an actual reload.
 export default function BootSequence() {
@@ -24,6 +25,13 @@ export default function BootSequence() {
   const [phase, setPhase] = useState<"typing" | "connector" | "fading">("typing");
 
   useEffect(() => {
+    // /archive has its own intro (components/ArchiveEntrance.tsx), which is
+    // in the server HTML already, so a load there skips this one: lift the
+    // #preboot-shield straight away and let the archive entrance show.
+    if (window.location.pathname.startsWith("/archive")) {
+      document.documentElement.setAttribute("data-boot-ready", "");
+      return;
+    }
     // Deferred to an effect (rather than the initial useState value) so the
     // server-rendered HTML always starts hidden and the client's first
     // paint matches it — avoiding a hydration mismatch — then reveals
@@ -107,12 +115,7 @@ export default function BootSequence() {
   // the entire time — before finally unmounting. No zoom, no transform.
   const handleConverge = useCallback(() => {
     setTimeout(() => setPhase("fading"), REVEAL_MS);
-    setTimeout(() => {
-      setVisible(false);
-      // Lets page intros that should only play on client-side navigation
-      // (components/ArchiveEntrance.tsx) tell a nav click from a full load.
-      document.documentElement.setAttribute("data-boot-done", "");
-    }, REVEAL_MS + FADE_MS);
+    setTimeout(() => setVisible(false), REVEAL_MS + FADE_MS);
   }, []);
 
   if (!visible) return null;

@@ -2639,9 +2639,11 @@ html[data-custom-cursor] label {
    stacks art behind a scanline, the NEW FILE box sliding out toward the
    reader, lines typing in, then a fade into the archive. The art files are
    optional: without them this is the same readout on the page background. */
+/* Opaque from its first frame, with no fade-in: fading in let the archive
+   page show through for a moment after a click on [archive]. The art under
+   it brightens on its own (archive-entrance-push). */
 .archive-entrance {
   background: var(--background);
-  animation: nfp-fade 0.25s ease-out;
   transition: opacity 0.45s ease-in;
 }
 .archive-entrance-out {
