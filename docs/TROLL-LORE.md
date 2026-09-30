@@ -3322,14 +3322,21 @@ crowd's read, and she hasn't said. Images: `jadoodoo-drinks-then-cries`
 ## 73. "I'll smack U": Ken Carson's name list, and the fans who kept going
 <!-- posted: 2026-09-30T18:30:28Z -->
 
-**The story.** Back in **2022**, years before the plushie era, **Ken
-Carson** got tired of fans calling him **"Goomba"**. He posted two
+**Where "Goomba" came from.** On **December 19, 2020**, Redditor
+cashewkid posted to r/playboicarti: **"Ken Carson look like a goomba"**.
+It was two pictures side by side: Ken with bleached, spiky hair and a
+frown, and the Mario mushroom with the same frown and the same spiky
+top. It got 284 upvotes, and the name stuck.
+
+**The story.** On **February 12, 2022**, a few months before the
+plushie era, **Ken Carson** got tired of it. He posted two
 text-only stories in a typewriter font on a black screen. The first was
 a list of the only names he'd answer to: **teen x, ken carson, x_man,
 Ken or X**. Then: *"I'll smack U."* The second: *"and all y'all know wtf
-im talking about shits mad annoying."* Someone in Germany screenshotted
-both off Instagram (the UI says "Übersetzung anzeigen"), and they sat
-there for four years.
+im talking about shits mad annoying."* Kurrco posted the screenshots the
+same day (*"Ken Carson speaks on being called 'goomba' by his fans 🤔"*).
+A German-language screenshot went around too (the UI says "Übersetzung
+anzeigen"). Then they sat there for four years.
 
 **The dig-up.** On **September 28, 2026**, @soundlikesex posted both
 screenshots: *"Ken Carson responding to fans calling him Goomba 😭
@@ -3362,6 +3369,21 @@ come back, and it did.
 A few defended him. @anish21k said "Valid reaction", and @letspourmud
 said "yall weren't there btw". They got outvoted.
 
+**The plushie era.** Five months after the smack threat, in **July
+2022**, Rare Randy made the **"vamp goomba"**, a real plush. It has a
+brown Goomba body, Ken's grey dreads on top, the angry brows, two fangs
+and black-and-white sneakers. The first run was 80, and Etsy, eBay and
+Walmart knockoffs came after. Then fans started bringing them to shows:
+
+- **July 15, 2024:** a Goomba plush flies out of the crowd, Ken
+  **catches it**, holds it for a second, and throws it back.
+- **July 3, 2025:** Ken **signed a fan's Goomba plush on stage** and
+  threw it back into the crowd. @DBL0ARCHIVE's post of it did 42K
+  views.
+
+That's how it ended. He threatened to smack anyone who called him that
+name, and three years later he was autographing it.
+
 **Why it's a troll.** Ken asked for four specific names and threatened a
 slap over a fifth. That's the most trollable thing an artist can do. A
 list of approved names hands the internet a list of names to be funny
@@ -3370,7 +3392,7 @@ nobody's scared of the smack. They're doing the smack *hand* as a meme.
 It's the Streisand effect with a nickname. Ken never needed to be
 roasted, because he wrote the roast himself and put a font on it.
 
-**Sourcing:** *Verified post, unverified story date.* The post and 33
+**Sourcing:** *Verified.* The post and 33
 replies were read via fxtwitter on 2026-09-30:
 [@soundlikesex](https://x.com/soundlikesex/status/2104657394701910203)
 (Sept 28, 19:40 UTC) ·
@@ -3378,10 +3400,25 @@ replies were read via fxtwitter on 2026-09-30:
 [@topsytpff](https://x.com/topsytpff/status/2104788187034042513) ·
 [@ej2627204491317](https://x.com/ej2627204491317/status/2105093164193505782) ·
 [@troll_runner](https://x.com/troll_runner/status/2104681772818760166).
-The "2022" date and the "Goomba" context come from the poster. The
-screenshots show only the handle `user00xman`, not a date. Images:
+The story date is confirmed by
+[@Kurrco](https://x.com/Kurrco/status/1492512482690220041) (Feb 12, 2022,
+the same two screenshots). The Reddit origin and dates are from
+[Know Your Meme](https://knowyourmeme.com/memes/people/ken-carson-and-destroy-lonely).
+The plush is from
+[Rare Randy's TikTok](https://www.tiktok.com/@rarerandy/video/7124001649214934315)
+("vamp goomba 🦇", July 24, 2022). The 80-unit run is from resale
+listings. The catch is from
+[@OvrPoweredMusic](https://x.com/opmunderground/status/1812911157528674564)
+(July 15, 2024). The signing is from
+[@DBL0ARCHIVE](https://x.com/DBL0ARCHIVE/status/1940877582003851273) and
+[@STRAPPEDUS](https://x.com/STRAPPEDUS/status/1940876187087393272)
+(July 3, 2025). Its source clip, @kenvaulted's, has since been deleted,
+so there's no image of the signing. Images:
+`ken-carson-look-like-a-goomba-reddit` (cashewkid's post),
 `ken-carson-story-ill-smack-u`, `ken-carson-story-mad-annoying` (the two
-screenshots), `ken-carson-smack-hand-reply` (@lyricTeenX),
+screenshots), `ken-carson-vamp-goomba-plush` (Rare Randy),
+`ken-carson-catches-goomba-plush` (@OvrPoweredMusic's clip),
+`ken-carson-smack-hand-reply` (@lyricTeenX),
 `ken-carson-slow-down-for-me-5` (@topsytpff) and
 `ken-carson-grown-man-x-man` (@ej2627204491317's GIF).
 

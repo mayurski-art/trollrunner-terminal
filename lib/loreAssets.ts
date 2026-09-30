@@ -968,6 +968,30 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [73],
   },
   {
+    id: "ken-carson-look-like-a-goomba-reddit",
+    url: "/lore/ken-carson-look-like-a-goomba-reddit.jpg",
+    caption:
+      "where the nickname started: cashewkid's r/playboicarti post 'Ken Carson look like a goomba' (Dec 19, 2020), a frowning Ken with bleached spiky hair next to a Mario Goomba",
+    keywords: ["ken carson goomba", "goomba", "look like a goomba", "goomba origin", "cashewkid"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-vamp-goomba-plush",
+    url: "/lore/ken-carson-vamp-goomba-plush.jpg",
+    caption:
+      "Rare Randy's 'vamp goomba' plush (July 2022): a brown Goomba body with Ken Carson's grey dreads, angry brows, fangs and black-and-white sneakers, held up against a brick wall",
+    keywords: ["ken carson goomba plush", "goomba plush", "goomba plushie", "vamp goomba", "rare randy", "rarerandy"],
+    sections: [73],
+  },
+  {
+    id: "ken-carson-catches-goomba-plush",
+    url: "/lore/ken-carson-catches-goomba-plush.gif",
+    caption:
+      "Ken Carson catching a Goomba plush thrown from the crowd, holding it, then throwing it back (July 15, 2024)",
+    keywords: ["ken carson goomba plush", "goomba plush", "catches goomba", "goomba thrown on stage", "ken carson concert"],
+    sections: [73],
+  },
+  {
     id: "robinhood-agent-bald-avatar",
     url: "/lore/robinhood-agent-bald-avatar.jpg",
     caption:
