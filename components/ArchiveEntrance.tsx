@@ -76,20 +76,22 @@ export default function ArchiveEntrance() {
       onClick={() => {
         if (!holding) enter();
       }}
-      className={`archive-entrance fixed inset-0 z-50 flex items-start justify-center pt-[20vh] cursor-pointer ${
+      className={`archive-entrance fixed inset-0 z-50 flex items-start justify-center pt-[15vh] cursor-pointer ${
         phase === "out" ? "archive-entrance-out" : ""
       }`}
     >
       <div className="archive-entrance-art" aria-hidden="true" />
-      <div className="archive-entrance-scan" aria-hidden="true" />
 
-      <div className="relative w-full max-w-lg px-6 [text-shadow:0_1px_2px_var(--background),0_0_6px_var(--background)]">
+      {/* Everything inside is sized in em off .archive-entrance-content's
+          screen-scaled font-size (globals.css), so the lines, the prompt
+          and the NEW FILE box grow and shrink together on every screen. */}
+      <div className="archive-entrance-content relative w-full [text-shadow:0_1px_2px_var(--background),0_0_6px_var(--background)]">
         {/* Clicks here open the popup instead of entering the archive. */}
-        <div className="archive-entrance-newfile mb-8" onClick={(e) => e.stopPropagation()}>
-          <NewestFile onPopupChange={setHolding} />
+        <div className="archive-entrance-newfile mb-[1.4em]" onClick={(e) => e.stopPropagation()}>
+          <NewestFile size="fluid" onPopupChange={setHolding} />
         </div>
 
-        <div className="text-[12px] lg:text-sm space-y-1.5 min-h-[7.5em]" aria-live="polite">
+        <div className="space-y-[0.45em] min-h-[7.3em]" aria-live="polite">
           {LINES.slice(0, shown).map((line, i) => (
             <p key={i} className={`archive-entrance-line ${line.tone === "alert" ? "text-alert" : "text-terminal"}`}>
               {line.text}
@@ -102,7 +104,7 @@ export default function ArchiveEntrance() {
         </div>
 
         <p
-          className={`archive-entrance-enter mt-8 text-terminal text-[12px] lg:text-sm text-center tracking-widest uppercase ${
+          className={`archive-entrance-enter mt-[1.4em] text-terminal text-center tracking-widest uppercase ${
             shown < LINES.length ? "invisible" : ""
           }`}
         >

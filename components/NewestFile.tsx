@@ -19,7 +19,32 @@ type Newest = {
 // be missed, but paced under the photosensitive-seizure threshold and still
 // under reduced motion. Clicking it pops the article out over the terminal
 // (components/NewFilePopup.tsx) rather than leaving the page.
-export default function NewestFile({ onPopupChange }: { onPopupChange?: (open: boolean) => void } = {}) {
+//
+// size "fluid" sizes everything in em, so the box scales with whatever
+// font-size its container sets (the /archive entrance scales it with the
+// screen width). The default keeps the front page's fixed sizes.
+const SIZES = {
+  default: {
+    inner: "gap-3 px-3 py-2",
+    thumb: "w-14 h-14 lg:w-16 lg:h-16",
+    meta: "text-[11px] lg:text-sm mb-1.5",
+    title: "text-xs lg:text-sm",
+    cta: "text-[11px] lg:text-sm",
+  },
+  fluid: {
+    inner: "gap-[0.9em] px-[0.9em] py-[0.6em]",
+    thumb: "w-[4.6em] h-[4.6em]",
+    meta: "text-[0.85em] mb-[0.5em]",
+    title: "text-[1em]",
+    cta: "text-[0.85em]",
+  },
+};
+
+export default function NewestFile({
+  onPopupChange,
+  size = "default",
+}: { onPopupChange?: (open: boolean) => void; size?: keyof typeof SIZES } = {}) {
+  const sz = SIZES[size];
   const [newest, setNewest] = useState<Newest | null>(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const closePopup = useCallback(() => {
@@ -69,7 +94,7 @@ export default function NewestFile({ onPopupChange }: { onPopupChange?: (open: b
         aria-label={`new file ${newest.number}: ${newest.title}`}
         aria-haspopup="dialog"
       >
-        <div className="newest-file-inner flex items-center gap-3 px-3 py-2">
+        <div className={`newest-file-inner flex items-center ${sz.inner}`}>
           {newest.image &&
             (isLoopGifAsset(newest.image.url) ? (
               <video
@@ -78,26 +103,28 @@ export default function NewestFile({ onPopupChange }: { onPopupChange?: (open: b
                 muted
                 loop
                 playsInline
-                className="w-14 h-14 lg:w-16 lg:h-16 shrink-0 object-cover border border-dim"
+                className={`${sz.thumb} shrink-0 object-cover border border-dim`}
               />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={newest.image.url}
                 alt={newest.image.caption}
-                className="w-14 h-14 lg:w-16 lg:h-16 shrink-0 object-cover border border-dim"
+                className={`${sz.thumb} shrink-0 object-cover border border-dim`}
               />
             ))}
           <div className="min-w-0 flex-1">
-            <p className="flex items-center gap-2 text-[11px] lg:text-sm leading-none mb-1.5">
+            <p className={`flex items-center gap-2 leading-none ${sz.meta}`}>
               <span className="newest-file-banner">NEW FILE</span>
               <span className="newest-file-meta tabular-nums">file {newest.number}</span>
             </p>
-            <p className="text-foreground text-xs lg:text-sm leading-snug line-clamp-2 group-hover:text-terminal">
+            <p className={`text-foreground leading-snug line-clamp-2 group-hover:text-terminal ${sz.title}`}>
               {newest.title}
             </p>
           </div>
-          <span className="hidden sm:inline shrink-0 text-terminal text-[11px] lg:text-sm underline decoration-dim underline-offset-4 group-hover:text-foreground">
+          <span
+            className={`hidden sm:inline shrink-0 text-terminal underline decoration-dim underline-offset-4 group-hover:text-foreground ${sz.cta}`}
+          >
             [ {newest.seeded ? "read it" : "recover it"} ]
           </span>
         </div>
