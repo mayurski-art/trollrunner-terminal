@@ -3558,6 +3558,66 @@ real or AI was never settled. Images: `blou-ai-more-water-post` (the
 post's embed), `blou-ai-more-water-thinking` (still) and
 `blou-ai-more-water-thinking-loop` (GIF), both from the clip.
 
+## 76. "Shall be studied": Tyler, The Creator's best verse of all time
+<!-- posted: 2026-10-01T18:15:00Z -->
+
+**The hype.** On **October 1, 2026**, the day before Quavo's album
+***QRÖMELIFE*** came out, **Tyler, The Creator** put up an Instagram
+story with the cover of track 5, **"Baby Breath"** (Quavo with Pharrell,
+Tyler and A$AP Rocky), and a caption saying his best verse of all time is
+on it, *"prolly top 25 in rap history,"* that what he did to the English
+language *"shall be studied,"* and rating it *"10/10 real grown man
+bars."* **NFR Podcast** ([@nfr_podcast](https://x.com/nfr_podcast), 430K
+followers) posted it at 10:41 AM Pacific as *"Tyler, The Creator says he's
+dropping his BEST verse ever tonight 👀"*
+([post 2105714819911278701](https://x.com/nfr_podcast/status/2105714819911278701)),
+with the story and a photo of Tyler laughing with his eyes shut. About
+**40K views, 1.2K likes** in the first hour.
+
+**The reveal.** Six minutes later, mashup producer **Spectre**
+([@spectre0799](https://x.com/spectre0799), 134K followers) replied:
+*"He's trolling don't get your hopes up"*
+([post 2105716240375279854](https://x.com/spectre0799/status/2105716240375279854)),
+with a screenshot of the lyrics to Tyler's verse. The album had already
+gone live in early time zones. The "studied" verse opens with one word
+said over and over, has Quavo ad-libbing the end of almost every line,
+and later says the song title eight times in a row. The English language
+survived. The one line reviews did pull out was a flex about buying your
+catalog if you disrespect him.
+
+**He's done the "best verse" thing before.** In November 2024, Tyler
+said "I Hope You Find Your Way Home," the closer on *Chromakopia*, was
+"like, my best verse," because "the diction is great." That one was a
+real, personal verse about kids and turning 30. So he had a sincere best
+verse on file, and then, less than two years later, announced a new one
+that's mostly sound effects.
+
+**Why it's a troll.** It's the oldest move there is: oversell it, let
+people get hyped, and hand them something dumb on purpose. "Shall be
+studied" is the tell. It's a meme phrase, and he's right that it'll get
+studied, just not the way anyone hoped. The laughing photo in the post
+says the rest. It was also Quavo's first song with Tyler ever, so the
+first thing Tyler gave him was a bit.
+
+**Sourcing:** *Verified posts, sourced background.* Both posts were read
+on 2026-10-01 via fxtwitter; text, times and numbers are from there. The
+Instagram story itself wasn't checked directly, only NFR's repost of it.
+The lyrics come from Spectre's screenshot and weren't checked against
+the audio; one review quotes the catalog line slightly differently, so
+the exact wording may not match the final release. Album date, track
+number and feature order are from
+[Complex](https://www.complex.com/music/a/dimassanfiorenzo/quavo-qromelife-album-tracklist-features-producers-release)
+and [DancehallMag](https://www.dancehallmag.com/2026/09/29/news/quavo-sets-october-2-release-for-qromelife-with-pharrell-as-executive-producer.html);
+the LA listening-party preview is from
+[Hip-Hop Vibe](https://hip-hopvibe.com/news/quavo-previews-baby-breath-collab-with-tyler-the-creator-aap-rocky-and-pharrell-from-qromelife-album-video/);
+the catalog line is from
+[Shatter the Standards](https://www.shatterthestandards.com/p/album-review-qromelife-by-quavo).
+The 2024 "best verse" quote is from
+[Complex, Nov 11, 2024](https://www.complex.com/music/a/tracewilliamcowen/tyler-the-creator-best-verse).
+No lyrics are reproduced here, and the lyric screenshot isn't saved as an
+image. Images: `tyler-best-verse-story` (the story, from NFR's post) and
+`tyler-best-verse-laughing` (the photo from the same post).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

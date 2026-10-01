@@ -1063,6 +1063,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["b lou", "blou", "ai more water", "ai water", "thinking face"],
     sections: [75],
   },
+  {
+    id: "tyler-best-verse-story",
+    url: "/lore/tyler-best-verse-story.jpg",
+    caption:
+      "Tyler, The Creator's story over the 'Baby Breath' cover, Oct 1, 2026: his best verse of all time, 'prolly top 25 in rap history,' 'shall be studied,' '10/10 real grown man bars'",
+    keywords: ["tyler", "tyler the creator", "baby breath", "best verse", "shall be studied", "grown man bars", "quavo", "qromelife"],
+    sections: [76],
+  },
+  {
+    id: "tyler-best-verse-laughing",
+    url: "/lore/tyler-best-verse-laughing.jpg",
+    caption:
+      "Tyler, The Creator laughing with his eyes shut, posted alongside his 'best verse of all time' claim, the day before everyone heard it",
+    keywords: ["tyler", "tyler the creator", "best verse", "laughing", "baby breath"],
+    sections: [76],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
