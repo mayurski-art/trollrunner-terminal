@@ -1079,6 +1079,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["tyler", "tyler the creator", "best verse", "laughing", "baby breath"],
     sections: [76],
   },
+  {
+    id: "gregorian-1582-calendar",
+    url: "/lore/gregorian-1582-calendar.jpg",
+    caption:
+      "October 1582 on a phone calendar: Monday 1, Tuesday 2, Wednesday 3, Thursday 4, Friday 15. Ten days, gone",
+    keywords: ["gregorian", "julian", "calendar", "1582", "october 15", "missing days", "dexerto", "444 years"],
+    sections: [77],
+  },
+  {
+    id: "gregorian-pope-gregory",
+    url: "/lore/gregorian-pope-gregory.jpg",
+    caption:
+      "Pope Gregory XIII, the man who decided October 5 through 14, 1582 would not be happening",
+    keywords: ["pope gregory", "gregory xiii", "gregorian", "pope", "calendar", "1582"],
+    sections: [77],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

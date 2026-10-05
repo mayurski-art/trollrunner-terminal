@@ -3618,6 +3618,66 @@ No lyrics are reproduced here, and the lyric screenshot isn't saved as an
 image. Images: `tyler-best-verse-story` (the story, from NFR's post) and
 `tyler-best-verse-laughing` (the photo from the same post).
 
+## 77. October 4 was followed by October 15: the pope who deleted ten days
+<!-- posted: 2026-10-05T03:27:00Z -->
+
+**The post.** On **October 4, 2026**, at 9:00 AM Pacific, **Dexerto**
+([@Dexerto](https://x.com/Dexerto), 1.4M followers) posted: *"444 years
+ago today, October 4 was followed by October 15."* The second line
+explained it was the switch from the Julian calendar to the Gregorian one
+([post 2106776375101194337](https://x.com/Dexerto/status/2106776375101194337)).
+Two images: a dark-mode phone calendar set to **October 1582**, where the
+first row goes Monday 1, Tuesday 2, Wednesday 3, Thursday 4, **Friday 15**,
+and a portrait of **Pope Gregory XIII** in his red cape, looking like a
+man who has never been asked to explain himself. About **880K views, 53K
+likes, 3.6K reposts** by the end of the day.
+
+**What actually happened.** The old Julian calendar treated a year as
+365.25 days. The real solar year is about 11 minutes shorter, and over
+twelve centuries that gap piled up until the calendar was roughly ten days
+off from the seasons, which mattered because it was dragging Easter
+around. Gregory XIII's papal bull ***Inter gravissimas*** (February 24,
+1582) fixed the leap-year rule (century years only count if they divide by
+400) and fixed the drift the blunt way: the day after **Thursday, October
+4, 1582** was **Friday, October 15**. Italy, Spain, Portugal and
+Poland-Lithuania went along that year. The days of the week kept going;
+only the numbers jumped. The phone screenshot gets that right.
+
+**Not everyone took the deal.** It was a Catholic fix, so Protestant
+countries held out. Most of Protestant Germany waited until 1700. Britain
+and its colonies waited until **1752**, when the drift had grown to eleven
+days: Wednesday, September 2 was followed by Thursday, September 14.
+Russia only switched in 1918, and Greece in 1923. The famous British
+"Give us our eleven days" riots are mostly a myth. The phrase comes from a
+Tory banner in a 1755 Hogarth painting about an election, not from mobs
+demanding their days back.
+
+**Why it's a troll.** One man looked at the calendar, said it was wrong,
+and deleted a week and a half of everyone's life. No one got those days
+back, nobody aged during them, and nothing happened in them in Rome
+because they never existed there. Rent still came due. It's the biggest
+"trust me, it's fixed now" move in history, and he named the result after
+himself. Four centuries later it's still running on every phone, which
+is why Dexerto could screenshot it. The post works the same way:
+"October 4 was followed by October 15" reads like a glitch, and the
+answer is that a pope did it on purpose.
+
+**Sourcing:** *Verified post, sourced background.* The post was read on
+2026-10-04 via fxtwitter; text, time and numbers are from there. The
+calendar image is a mockup Dexerto made, not a real app showing 1582, but
+its weekdays match the history (October 4, 1582 was a Thursday, October 15
+a Friday). The portrait is commonly attributed to **Lavinia Fontana**
+([Artchive](https://www.artchive.com/?p=189334)), who Gregory XIII
+patronized ([Wikipedia](https://en.wikipedia.org/wiki/Lavinia_Fontana));
+that wasn't checked against a museum record. Bull date, the 365.25 vs.
+365.2422 numbers and the first adopters are from
+[Maidens and Manuscripts](https://maidensandmanuscripts.com/2020/10/15/the-gregorian-calendar-is-adopted-in-1582/);
+Britain's 1752 dates and the riot myth are from
+[Mental Floss](https://www.mentalfloss.com/history/early-time-travel-why-britain-lost-11-days-1752)
+and [Historic UK](https://www.historic-uk.com/HistoryUK/HistoryofBritain/Give-us-our-eleven-days/).
+Images: `gregorian-1582-calendar` (the October 1582 calendar) and
+`gregorian-pope-gregory` (the portrait), both from Dexerto's post.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
