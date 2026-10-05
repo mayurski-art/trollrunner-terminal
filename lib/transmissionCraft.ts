@@ -99,7 +99,10 @@ Only facts that would make somebody go "wait, really?": numbers, dates,
 prices, counts, what somebody actually did, what it cost them, who else was
 involved. Skip anything true of a thousand other things. Never describe what
 is in a picture or an image file (colors, clothes, food, the background):
-those are captions, not history. Every fact must be
+those are captions, not history. Never use the file's own sourcing: the
+account or outlet that reported it (Dexerto, Decrypt, CoinDesk...), its
+follower count, or how many views, likes or reposts the report got. That is
+how the archive heard about it, not part of the story. Every fact must be
 true to the file. A fact may name things next to the answer freely, but
 never the answer itself.
 
@@ -128,6 +131,15 @@ FACTS:
 const PICTURE_WORDS =
   /\b(photo\w*|image|pictured|picture|jpe?g|png|background|behind (?:him|her|them|us|it)|wearing|worn|reclin\w*|garnish\w*|hoagies?|plate|cocktail|glows?|glowing|skyline|lights? up|sunglasses|printed on|colou?r(?:s|ed)?|beige|violet|lime|pastel|neon|stripes?|swirl\w*|pose[sd]?|posing)\b/i;
 
+// The archive cites where each story came from (often a news account's post,
+// with its view and like counts). The extractor kept handing that sourcing
+// over as facts ("880K views on post", "444 years before the dexerto post";
+// owner 2026-10-04: don't mention Dexerto), so code drops it too. Only
+// outlets that are always the messenger go here: an account that is the
+// story itself (a quote-tweet, a rapper's verse) stays fair game.
+const SOURCING =
+  /\b(dexerto|decrypt|coindesk|cointelegraph|the block|kurrco|daily ?dot|pop ?base|pop ?crave|culture crave|dramaalert|watcher\.?guru|unusual whales|insider paper|whale alert)\b|\d[\d.,]*\s*[km]?\+?\s*(views?|likes|reposts?|retweets?|followers|impressions|bookmarks)\b|\b(views|likes|reposts|retweets) on\b|\bfollowers\b/i;
+
 function parseFactSheet(raw: string): FactSheet | null {
   const text = raw.replace(/\*\*/g, "").trim();
   const field = (name: string) =>
@@ -150,13 +162,13 @@ function parseFactSheet(raw: string): FactSheet | null {
     .filter((a, i, all) => a && a.split(/\s+/).length <= 6 && sameThing(a) && all.findIndex((b) => norm(b) === norm(a)) === i)
     .slice(0, 5);
   // "none", or a line that gives the answer away, both mean nothing to use.
-  const optional = (v: string) => (!v || /^none\b/i.test(v) || leaksAnswer(v, alts) ? null : v);
+  const optional = (v: string) => (!v || /^none\b/i.test(v) || leaksAnswer(v, alts) || SOURCING.test(v) ? null : v);
 
   const factsBlock = text.split(/^\s*FACTS\s*:\s*$/im)[1] ?? "";
   const facts = factsBlock
     .split(/\r?\n/)
     .map((l) => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim().replace(/[.;]$/, ""))
-    .filter((f) => f && f.split(/\s+/).length <= 9 && !leaksAnswer(f, alts) && !PICTURE_WORDS.test(f));
+    .filter((f) => f && f.split(/\s+/).length <= 9 && !leaksAnswer(f, alts) && !PICTURE_WORDS.test(f) && !SOURCING.test(f));
 
   if (facts.length < 4) return null;
   return {
@@ -267,8 +279,9 @@ RULES
 6. Rule out the near miss sideways, by what it is or does, never by name and never with the words "near miss", "not to be confused" or "the answer".
 7. Say plainly WHAT KIND of thing the answer is, somewhere in the post, in your own words: a site ("the address", "one hop and you land on"), an account ("the handle"), a person ("the guy who"), a date ("the day"), a price. "one word, eleven characters" alone could be anything; "a site, eleven characters, one period" is fair.
 8. The last line is either a format tell built from the KIND and SHAPE lines, or one clinching fact. Never the first letter, never a rhyme.
-9. Banned: something, somewhere, somebody, whisper, echo, shadow, silence, void, ghost, forgotten, eternal, soul, dream, destiny, mystery, the truth, emoji, hashtags, quotes around the post, markdown.
-10. The three drafts open differently and use different facts.
+9. Never mention who reported it or how the report did: no outlet or news account names, no views, likes, reposts or follower counts.
+10. Banned: something, somewhere, somebody, whisper, echo, shadow, silence, void, ghost, forgotten, eternal, soul, dream, destiny, mystery, the truth, emoji, hashtags, quotes around the post, markdown.
+11. The three drafts open differently and use different facts.
 
 Output EXACTLY this, nothing else:
 DRAFT 1
@@ -373,6 +386,7 @@ export function scoreDraft(draft: string, sheet: FactSheet, spent: Set<string>):
   if (!tellIsTrue(lines[lines.length - 1], sheet.answer)) return null;
   if (/#\w|[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(text)) return null;
   if (/^(here|draft|sure|okay)\b/i.test(lines[0])) return null;
+  if (SOURCING.test(text)) return null;
 
   // A line carries a fact when it has a number, a price or a handle/domain,
   // or shares two real words with one fact on the sheet (one long, specific
