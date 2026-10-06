@@ -15,7 +15,6 @@ import Frame from "@/components/Frame";
 import Chat from "@/components/Chat";
 import MiniConnector from "@/components/MiniConnector";
 import SiteTicker from "@/components/SiteTicker";
-import BuyTruths from "@/components/BuyTruths";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
@@ -246,10 +245,6 @@ export default function Home() {
                 explore the infinite knowledge behind trolling
               </p>
             </div>
-            {/* Sits between the tagline and the ticker so it lands in the same
-                eyeline as the $TRUTHS quote the ticker scrolls — the price and
-                the way to buy it read as one beat. */}
-            <BuyTruths />
             <SiteTicker />
           </div>
         </div>
