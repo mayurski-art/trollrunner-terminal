@@ -1095,6 +1095,30 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["pope gregory", "gregory xiii", "gregorian", "pope", "calendar", "1582"],
     sections: [77],
   },
+  {
+    id: "gas-war-powder-springs-line",
+    url: "/lore/gas-war-powder-springs-line.jpg",
+    caption:
+      "The Powder Springs gas war: the Sunoco sign at $1.24, then $0.99, next to a line of cars backed up down the road",
+    keywords: ["gas war", "gas", "gas prices", "powder springs", "georgia", "sunoco", "amoco", "99 cents", "traffic"],
+    sections: [78],
+  },
+  {
+    id: "gas-war-powder-springs-1-19",
+    url: "/lore/gas-war-powder-springs-1-19.jpg",
+    caption:
+      "The neighbor's sign at $1.19 regular while Sunoco sits at $0.99. Diesel still $5.69, because nobody was fighting over diesel",
+    keywords: ["gas war", "gas prices", "powder springs", "welcome foods", "amoco", "1.19", "price war"],
+    sections: [78],
+  },
+  {
+    id: "gas-war-powder-springs-99-cents",
+    url: "/lore/gas-war-powder-springs-99-cents.jpg",
+    caption:
+      "Sunoco #4150 at night, $0.99 a gallon: \"GAS WAR IN POWDER SPRINGS, GA is still going\"",
+    keywords: ["gas war", "99 cents", "cheap gas", "sunoco", "powder springs", "georgia", "gas station"],
+    sections: [78],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

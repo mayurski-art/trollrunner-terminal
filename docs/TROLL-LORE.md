@@ -3678,6 +3678,71 @@ and [Historic UK](https://www.historic-uk.com/HistoryUK/HistoryofBritain/Give-us
 Images: `gregorian-1582-calendar` (the October 1582 calendar) and
 `gregorian-pope-gregory` (the portrait), both from Dexerto's post.
 
+## 78. The Powder Springs gas war: two stations, one street, 97 cents
+<!-- posted: 2026-10-13T23:37:22Z -->
+
+**The post.** On **October 13, 2026**, at 4:37 PM Pacific, **Daily Loud**
+([@DailyLoud](https://x.com/DailyLoud), 7M followers) posted: *"Two gas
+stations in Georgia started a 'GAS WAR' dropping prices to $0.99 per
+gallon and causing hours-long traffic jams as people rushed to fill up
+their tanks"*
+([post 2110152950639190258](https://x.com/DailyLoud/status/2110152950639190258)).
+The 41-second clip, reposted from My Mixtapez and watermarked
+@jb_gocraaazy, is a split screen. The left side never changes: the
+**Sunoco #4150** sign at **$1.24**, and below it the same sign at night
+reading **$0.99⁹**. The right side is the war itself: a line of cars down
+the road at sunset, the neighbor's blue **Welcome Foods** sign at
+**$1.19⁹** for regular cash (diesel still $5.69, since nobody was fighting
+over that), and a night shot of the Sunoco at $0.99 with the caption
+*"GAS WAR IN POWDER SPRINGS, GA is still going."* About **50K views and
+970 likes** in its first hours.
+
+**What actually happened.** The two stations sit next to each other on
+**Marietta Street** in Powder Springs, in Cobb County outside Atlanta: an
+**Amoco** and a **Sunoco**. The Amoco manager told WSB-TV their policy is
+to price five cents under the neighbor. Sunoco wouldn't accept that, so
+Sunoco kept matching, Amoco kept undercutting, and around it went. One
+driver watched it go **$1.54, $1.44, $1.39** while waiting in line. The
+floor was **97 cents**, a little under the $0.99 in the post. One driver
+said she normally spends about $90 to fill her truck and paid $15. At the
+time, AAA had Georgia at about $3.80 a gallon and the national average at
+$4.34.
+
+**Then the police came.** The lines spilled into the street. Powder
+Springs police showed up, blocked the pump entrances, and told everyone
+waiting in the road to leave ("Everybody leave, goodbye"). Once traffic
+cleared, people were let back in. Police said that next time they'll ask
+the two stations to coordinate with them before starting a war. Asked how
+long it would last, the Sunoco manager said he didn't know and to ask the
+other guys. It has since ended and prices went back up.
+
+**Why it's a troll.** Two businesses lost money on every gallon because
+neither would let the other be five cents cheaper. Nobody won except the
+drivers, who were never part of the fight. "Five cents lower than you" is
+a policy that works until the guy next door has the same policy, and then
+it's a staring contest where the loser is the price of gasoline. It's a
+price war fought at the scale of one street, with the energy of two kids
+saying "nuh uh" across a fence, and it ended the way those always do: an
+adult showed up and sent everyone home. Daily Loud's caption calls it a
+"GAS WAR" in all caps, which is exactly the right amount of seriousness.
+
+**Sourcing:** *Verified post, verified story.* The post was read on
+2026-10-13 via fxtwitter; text, time and numbers are from there. The
+Amoco/Sunoco setup, the five-cent policy, the $1.54-to-97-cent drop, the
+$15 fill-up and the police response are from
+[WSB-TV](https://www.wsbtv.com/news/local/an-all-out-war-between-2-gas-stations-drivers-were-winners/6GTKNKVSWNCNNBZ7LE3BJNGJ5Y/)
+(Tom Jones, Oct 13) and
+[People via Yahoo](https://www.yahoo.com/news/us/articles/2-gas-stations-engage-price-183550161.html),
+which adds the AAA averages. The "4150" on the Sunoco sign matches
+Sunoco's listing at 4150 Marietta St. The blue Welcome Foods sign in the
+clip is very likely the Amoco next door, but the clip doesn't show a
+brand, so that isn't confirmed. The $0.99 is what the sign in the clip
+shows; the 97-cent low is from the news reports. Images:
+`gas-war-powder-springs-line` (the line of cars),
+`gas-war-powder-springs-1-19` (the neighbor's $1.19 sign) and
+`gas-war-powder-springs-99-cents` (the Sunoco at night), all stills from
+the clip in Daily Loud's post.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
