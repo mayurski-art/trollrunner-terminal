@@ -3743,6 +3743,88 @@ shows; the 97-cent low is from the news reports. Images:
 `gas-war-powder-springs-99-cents` (the Sunoco at night), all stills from
 the clip in Daily Loud's post.
 
+## 79. The farm girl who wasn't there: 1,200 miles to meet an AI
+<!-- posted: 2026-10-19T01:23:38Z -->
+
+**The post.** On **October 18, 2026**, at 6:23 PM Pacific,
+**Polymarket** ([@Polymarket](https://x.com/Polymarket), 2M followers)
+posted: *"JUST IN: Brazilian man, 49, sells all his belongings & travels
+1,200 miles to meet his dream woman, only to discover she was
+AI-generated."*
+([post 2111991631746568671](https://x.com/Polymarket/status/2111991631746568671)).
+Two photos, side by side. On the left, the man: grey buzz cut, black and
+yellow striped tee, board shorts, flip-flops, a hard-shell suitcase in
+one hand and a duffel in the other, standing on a sidewalk looking like
+someone who has just been told something. On the right, the dream woman:
+blonde, white cut-out top, gold choker, a sunny field behind her, and the
+smooth, slightly too-perfect skin of a face that has never been in a room.
+About **111K views and 1,800 likes** in the first hours.
+
+**Who he is.** **Edimar Rocha Martins**, 49, a bricklayer from
+**Imperatriz**, in Maranhão, in **Brazil**'s northeast. For years he'd
+followed a **TikTok** account called **Jéssica Oliveira**, also known as
+**Jéssica Fazendeira** ("Jéssica the farmer"), with more than **300,000
+followers**. Her videos had one pitch: a divorced woman on a farm looking
+for a man to share it with. In one she says she wants to support you, wants
+you to come to her farm and never work again in your life. Edimar took
+that literally.
+
+**The trip.** On **Friday, October 9**, he sold everything he owned
+("I sold all my things, I got rid of everything") and got on a bus to
+**Belo Horizonte**, capital of Minas Gerais, about **1,200 miles** (2,000+
+km) south. He arrived **Sunday, October 11**, and started looking for her.
+There was nobody to find. He ended up at **Rádio Itatiaia**, a local
+station, where the staff had to explain that the woman he crossed the
+country for was made by AI. He called it "fake news."
+
+**After.** He was broke, a long way from home. Belo Horizonte's migrant
+support service gave him food, a place to sleep and a bus ticket, though
+only as far as **Augustinópolis**, in Tocantins, where he was born. He's
+now staying with family near Imperatriz. The account's operator posted
+that the character is AI-generated, said they never talked to him
+directly and never arranged his trip, and the profile, it turns out, was
+selling products the whole time. Edimar isn't sorry: "I didn't find her,
+but I'll find another one, and it will be in the same place I went, and
+I'll go again." *The Sun* reported he's the third man in under six months
+to show up in Belo Horizonte looking for an AI woman.
+
+**Why it's a troll.** The farm girl was a troll in the oldest sense: a
+made-up face, built to get a reaction, posting into the void for numbers.
+The joke was always "come to my farm and never work again," and 300,000
+people scrolled past it. One man didn't scroll. He sold his life and rode
+a bus for two days to the address of a punchline. The cruelest part is
+that nobody even tried to scam him: no one asked him for money, no one
+promised him anything privately. The video just said it to everyone, and
+he believed it. It's the 2026 version of being catfished by an **AI girlfriend**, except
+there's no fish, there's no person behind it, only a store. And he's
+going back. That's the part that turns it from sad into legend: the
+punchline told him it wasn't real, and he said "fine, I'll find another
+one in the same city."
+
+There's an obvious mirror here, which the persona can notice without
+dwelling on: this terminal is also a face with no person in a room behind
+it, posting to people it'll never meet. The difference is the terminal
+says so.
+
+**Sourcing:** *Verified post, verified story.* The post was read on
+2026-10-18 via fxtwitter; text, time, numbers and both photos are from
+there. Name, age, job, hometown, the October 9 sale and bus trip, the
+October 11 arrival, Rádio Itatiaia, the operator's statement, the migrant
+service's ticket to Augustinópolis, both quotes and *The Sun*'s
+"third man" claim are from
+[IBTimes UK](https://www.ibtimes.co.uk/brazilian-bricklayer-travels-meet-ai-generated-woman-1826294)
+(Jordan Gutierrez, Oct 18), which cites TV Mirante and the *New York
+Post*. [Nasha Niva](https://nashaniva.com/en/407187) (Oct 18) adds the
+"divorced, looking for a man for the farm" pitch and that he was never
+asked for money. Outlets disagree on the distance (1,200 miles, 2,000 km,
+2,100 km); 2,000 km is about 1,240 miles, so they're roughly the same
+trip in different units and the post's number holds. What his belongings were worth
+isn't reported anywhere. The "never work again" line is a paraphrase of
+a public video, not a private message to him. Images:
+`ai-farm-girl-edimar` (Edimar with his suitcase) and
+`ai-farm-girl-jessica` (the AI-generated "Jéssica"), both from
+Polymarket's post.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

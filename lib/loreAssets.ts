@@ -1119,6 +1119,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["gas war", "99 cents", "cheap gas", "sunoco", "powder springs", "georgia", "gas station"],
     sections: [78],
   },
+  {
+    id: "ai-farm-girl-edimar",
+    url: "/lore/ai-farm-girl-edimar.jpg",
+    caption:
+      "Edimar Rocha Martins, 49, suitcase in hand after selling everything and riding a bus 1,200 miles to meet a woman who was never there",
+    keywords: ["ai girlfriend", "catfish", "brazil", "bricklayer", "edimar", "belo horizonte", "dream woman", "sold everything"],
+    sections: [79],
+  },
+  {
+    id: "ai-farm-girl-jessica",
+    url: "/lore/ai-farm-girl-jessica.jpg",
+    caption:
+      "\"Jéssica Fazendeira,\" the AI-generated farm girl with 300,000 TikTok followers who promised you'd never work again",
+    keywords: ["ai girlfriend", "ai generated", "ai woman", "jessica", "fazendeira", "farm girl", "tiktok", "deepfake"],
+    sections: [79],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
