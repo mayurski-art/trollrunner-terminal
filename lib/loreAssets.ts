@@ -1135,6 +1135,46 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["ai girlfriend", "ai generated", "ai woman", "jessica", "fazendeira", "farm girl", "tiktok", "deepfake"],
     sections: [79],
   },
+  {
+    id: "kimchi-be-the-next-kimchi",
+    url: "/lore/kimchi-be-the-next-kimchi.jpg",
+    caption:
+      "Pump.fun's street poster: \"PILL YOUR FRIENDS,\" and a pill on a tongue that says \"be the next kimchi\"",
+    keywords: ["kimchi", "be the next kimchi", "pump.fun", "pumpfun", "billboard", "poster", "pill your friends"],
+    sections: [80],
+  },
+  {
+    id: "kimchi-ferrari",
+    url: "/lore/kimchi-ferrari.jpg",
+    caption:
+      "Kimchi in a Ferrari at golden hour, the kind of captionless flex his whole feed is made of",
+    keywords: ["kimchi", "kimchi1x", "ferrari", "supercar", "flex", "trader"],
+    sections: [80],
+  },
+  {
+    id: "kimchi-42m-portfolio",
+    url: "/lore/kimchi-42m-portfolio.jpg",
+    caption:
+      "Kimchi's Pump.fun balance an hour after signing: $42,571,858.56, up 1,479.5%, almost none of it sellable",
+    keywords: ["kimchi", "32 million", "42 million", "paper gains", "portfolio", "pump.fun", "pumpfun"],
+    sections: [80],
+  },
+  {
+    id: "kimchi-bio-pioneerfnf",
+    url: "/lore/kimchi-bio-pioneerfnf.jpg",
+    caption:
+      "@kimchi1x two days after joining Pump.fun: the bio now says @pioneerfnf",
+    keywords: ["kimchi", "kimchi1x", "bio", "pioneer", "pioneerfnf", "hacked", "left pump"],
+    sections: [80],
+  },
+  {
+    id: "kimchi-jet-grin",
+    url: "/lore/kimchi-jet-grin.jpg",
+    caption:
+      "Kimchi grinning on a private jet, the photo that went around with the \"not actually hacked\" speculation",
+    keywords: ["kimchi", "grin", "private jet", "hacked", "trollface grin"],
+    sections: [80],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

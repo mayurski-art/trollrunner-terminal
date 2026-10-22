@@ -3825,6 +3825,99 @@ a public video, not a private message to him. Images:
 `ai-farm-girl-jessica` (the AI-generated "Jéssica"), both from
 Polymarket's post.
 
+## 80. "Be the next Kimchi": the trader who became a unit of measure
+<!-- posted: 2026-10-22T23:11:41Z -->
+
+**The post.** On **October 22, 2026**, at 3:02 PM Pacific,
+**Market Insider** ([@MrketInsider](https://x.com/MrketInsider)) posted: *"JUST IN:
+KIMCHI HAS REMOVED PUMPFUN FROM HIS BIO AND DELETED HIS 'LET'S WORK' REPLY
+TO THEM"*
+([post 2113390675311935730](https://x.com/MrketInsider/status/2113390675311935730)).
+It quoted the account's own post from twenty minutes earlier: *"SPECULATION
+SWIRLS THAT KIMCHI WAS NOT ACTUALLY HACKED. CRYPTO TWITTER SLEUTHS POINT OUT
+THAT ALON RT'D, THEN QUICKLY UN-RT'D THE POST IN QUESTION."* Attached: a
+screenshot of **@kimchi1x**, 217.5K followers, whose bio now reads one
+thing, **@pioneerfnf**. Two days earlier it had read @pumpfun.
+
+**Who he is.** **Kimchi** is a pseudonymous **Solana** memecoin trader who
+says he started in April 2024. He's famous for one trade: roughly
+**$40 million** on the **$TRUMP** coin in its launch weekend, January 2025. No
+one has ever posted the wallet. His feed is almost never trades; it's
+captionless photos of a Porsche next to a Lamborghini, watches, hotel
+rooms, a private jet. The number stuck anyway. On Crypto Twitter
+**"one Kimchi" means $40 million**, so a $4 million win is "0.1 Kimchi."
+He became a unit of measure for a trade nobody can see.
+
+**The signing.** On **October 20**, at 4:00:21 PM Pacific, Kimchi broke a
+five-day silence with *"october 2026 / vlog in bio"*: a 16-minute YouTube
+vlog. **Six seconds** before that post, a Solana wallet about three hours
+old minted a coin called **$KIMCHI** on **Pump.fun**, bought 79% of the
+supply for about $9,300, and locked **100% of creator fees, permanently**,
+to a wallet labeled Kimchi. A minute later it sent that wallet 75% of the
+supply. Seventy-eight seconds after the mint, **Pump.fun** posted its ad
+campaign: street posters with a pill on a tongue and the words
+**"be the next kimchi."** Nineteen minutes in, co-founder **Alon Cohen**
+([@a1lon9](https://x.com/a1lon9)) posted that Kimchi was "the first ever
+example of a trader becoming a celebrity" and would help "set the creative
+direction" of the platform. The coin ran to about **$44 million** in an
+hour. **@PumpfunEco** announced *"KIMCHI MADE $32,000,000 ON PUMPFUN 30
+MINS AFTER JOINING"* with a screenshot of his in-app balance:
+**$42,571,858.56, up 1,479.5%**. Pool liquidity at the time was around
+$1.3 million, so almost all of that number could never have been sold.
+Community Notes went up on both Pump.fun's ad and Alon's post.
+
+**The unraveling.** It came apart in public, one screenshot at a time.
+An older $KIMCHI coin from July, which had sent 70% of its supply to a
+wallet believed to be his, crashed from $7.9M to $880K in fifteen minutes as Pump.fun's version
+replaced it, and a third copycat launched hours later. On October 21,
+**ZachXBT**, the on-chain investigator, followed him, and replies said he
+was "cooked." On October 22 a **Bubblemaps** analysis circulated tracing
+his realized $TRUMP gains to closer to **$6 million**, not $40M. That
+afternoon something went up on his account that was then blamed on a
+hack; Alon reposted it and quickly un-reposted it. Then the bio flipped
+from @pumpfun to **@pioneerfnf**, a "private FNF" (friends and family)
+account, and his "let's work" reply to Pump.fun was gone.
+
+**Why it's a troll.** Pump.fun put "be the next Kimchi" on street
+posters while nobody could prove Kimchi was ever Kimchi. The whole pitch
+was a man made of a number, and the number was a story. Then a platform
+built a coin out of his name, pointed the fees at his wallet before his
+own post was a minute old, and announced he'd made $32 million on a
+balance that existed only as long as no one touched it. "Be the next
+Kimchi" turned out to be the most honest ad in crypto: be a screenshot.
+Within 48 hours the creative director had changed his bio to somebody
+else. The photo that went around with the hack speculation is him on a
+private jet, grinning straight into the camera, and it is very hard to
+look at it and not see the face from §1.
+
+**Sourcing:** *Verified posts, mostly verified story, one gap.* Market
+Insider's two posts, Alon's post, both @PumpfunEco posts and
+StarPlatinum's thread on the older coin were read on 2026-10-22 via
+fxtwitter; text, times and images are from there. The mint/post/ad
+timeline, the three-hour-old wallet, the 79% buy, the locked 100% fee
+split, the 750M transfer, the Community Notes and the $1.33M liquidity are
+from [The Defiant](https://thedefiant.io/news/tokens/kimchi-coin-minted-before-pump-fun-ad-fee-routing)
+(via cryptonews.net), which checked them on-chain; it also notes nothing
+on-chain proves who holds the "Kimchi" wallet's keys.
+[Crypto Briefing](https://cryptobriefing.com/pump-fun-kimchi-coin-creator-fees/)
+agrees on the fee lock. The "one Kimchi" slang, the April 2024 start and
+the cars-and-watches feed are from
+[Airdrop Alert](https://airdropalert.com/blogs/who-is-kimchi-guide/), an
+opinion piece. The ZachXBT follow is from two posts on Oct 21
+(@CryptoThannos, @blockchainbob) with screenshots, not checked against
+his following list. The 16-minute vlog and the $44M peak are from
+[SolanaFloor](https://solanafloor.com/news/kimchi-hits-44-m-ath-after-kimchi-joins-pump-fun).
+The **$6M Bubblemaps figure is unconfirmed**: it's from an X trending
+summary, and Bubblemaps' own post wasn't found. The
+**"hacked" post itself wasn't recovered**: x.com is login-walled from here and no outlet
+had written it up yet, so what it said, and whether it was a hack, is
+unknown; only Market Insider's account of it is on record. The
+@pioneerfnf bio and 217.5K followers are confirmed by fxtwitter's profile
+data. Images: `kimchi-be-the-next-kimchi` (the poster, from Pump.fun's
+ad), `kimchi-ferrari` and `kimchi-42m-portfolio` (from @PumpfunEco's
+posts), `kimchi-bio-pioneerfnf` (from Market Insider's post) and
+`kimchi-jet-grin` (from Market Insider's quoted post).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
