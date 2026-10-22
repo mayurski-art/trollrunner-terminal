@@ -85,6 +85,8 @@ export default function RootLayout({
             covers this subdomain too. No admin.html here, so this terminal
             only ever acts as a reader, never a writer. */}
         <Script src="/assets/js/site-lock.js" strategy="afterInteractive" />
+        {/* No right-click menu, same script as the main site. */}
+        <Script src="/assets/js/no-context-menu.js?v=1" strategy="afterInteractive" />
       </body>
     </html>
   );
