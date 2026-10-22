@@ -757,7 +757,8 @@ own account, **@umadbro** (§5), posted four words and a photo: **"time to
 go higher?"** The photo is a hand holding a **rolling tray** up against a
 field of flowering cannabis. The tray has lime-and-violet swirl stripes
 radiating out from a trollface in the middle, with **"HIGHER"** running
-down the side in block capitals. It isn't for sale. The shop's full
+down the side in block capitals. It wasn't for sale yet (it went on sale
+four weeks later, §81). The shop's full
 catalog that day ran to 26 items (mousepads, tees, a mug, stickers, the
 GOATFARM collab pieces from §31) and had no tray. So it's a question mark
 wearing a product photo, the same way the shop asked "should we add it to
@@ -3917,6 +3918,85 @@ data. Images: `kimchi-be-the-next-kimchi` (the poster, from Pump.fun's
 ad), `kimchi-ferrari` and `kimchi-42m-portfolio` (from @PumpfunEco's
 posts), `kimchi-bio-pioneerfnf` (from Market Insider's post) and
 `kimchi-jet-grin` (from Market Insider's quoted post).
+
+## 81. GO2WAR's Halloween drop: the hat, the copy, and the tray that said "higher"
+<!-- posted: 2026-10-22T23:39:52Z -->
+
+**The post.** On **October 22, 2026**, at 10:52 AM Pacific, **GO2WAR**
+([@adermaz0ne](https://x.com/adermaz0ne)) posted a link and a pumpkin:
+*"umadbro.shop 🎃"*
+([post 2113327682171875790](https://x.com/adermaz0ne/status/2113327682171875790)).
+Attached was a screenshot of the shop's front row, four products all
+tagged **new**: the **Troll (T)Rolling Tray**, the **mango car air
+freshener**, the **Troll "Joker" Trucker Hat** and the **"Human Troll Face"
+Realistic Balaclava**. GO2WAR is the same handle behind the trollface weed
+packaging at Art Basel (§32). In June, when an account credited a $TROLL
+pump to listeners hearing him "dropping alpha," he quoted it with *"I just
+work here."* He doesn't run the shop's account, but his feed is where the shop's
+products show up first.
+
+**The hat.** A week earlier, on October 15 at 5:02 PM Pacific, he'd posted
+*"TROLLFACE JOKER TRUCKER HAT 🤑 @umadbro"*
+([post 2110884051837948110](https://x.com/adermaz0ne/status/2110884051837948110))
+with three photos. The first is the hat sitting on a giant trollface. It's a
+white crown, black mesh and a purple brim, and the front panel is the
+trollface wearing the Joker's green hair and red-smeared grin. The
+second is the inside: **"U MAD BRO?"** printed on the tape running along
+every seam. The third is the snap strap with a little **"U MAD BRO?"** tag
+on it. The listing matches: "6 panel trucker hat," "U MAD BRO branded tape
+lining and closure tag," **$25**.
+
+**The copy.** The next morning he posted one word, *"GM"*
+([post 2111124809467990242](https://x.com/adermaz0ne/status/2111124809467990242)),
+and a phone photo of a desk. Next to a keyboard sits a stack of clear
+plastic bags, and through the plastic a realistic human face grins back at
+the camera from each one. These are the **balaclavas**: the trollface as
+an actual man, wrinkles, crow's feet, every tooth. The shop describes it as
+*"Pure nightmare fuel. Also great for halloween and whatever else you have
+in mind,"* at **$10**. Its product page lives at
+`umadbro.shop/shop/product/troll-joker-trucker-hat-copy`. The listing was
+made by duplicating the hat's page, and nobody changed the address.
+
+**The tray.** The fourth product came out of a question. On September 25,
+the shop's own account **@umadbro** posted *"time to go higher?"*
+([post 2103366374555107824](https://x.com/umadbro/status/2103366374555107824))
+with a hand holding a lime-and-violet swirl rolling tray up against a field
+of cannabis: trollface in the middle, **"HIGHER"** in block capitals. §32 filed
+it as a teaser, since the tray wasn't in the catalog. GO2WAR quoted it the
+same day with *"Higher? #420"* and then posted *"we bring you the trolling
+tray for ummm… trolling 🤷🏽‍♂️."* Four weeks later it's a product: the
+**Troll (T)Rolling Tray**, 28 × 19 cm, **$12**, which the listing says "can
+be used for a variety of things besides rolling doinks, like holding your
+keys or self defence." The mango air freshener got the same treatment. The
+shop asked "should we add it to the store?" in August (§32), and now it
+sits in the same row.
+
+**Why it's a troll.** The face has been a drawing since 2008. This drop
+gives it a body. The hat puts it in Joker makeup, so it's a villain
+cosplaying a villain. The balaclava turns it into a real person you
+can pull over your own head, which makes the wearer the troll, and it costs
+less than the hat. Its page is literally the hat's page marked "copy." The
+tray started as a question and shipped as a product, and its own
+description lists self-defence as a use. The whole thing went out with a
+pumpkin emoji nine days before Halloween, and the "HIGHER" tray had been
+asking since September.
+
+**Sourcing:** *Verified posts and listings.* GO2WAR's three posts and
+@umadbro's post were read on 2026-10-22 via fxtwitter, which gives the text,
+times and images. At that read, the shop screenshot post had 717 views, the
+hat post 784, the "GM" post 552, and @umadbro's tray post 4,917 views and
+175 likes. Product names, descriptions, USD prices, the tray's dimensions
+and the balaclava's `-copy` URL are from the
+[umadbro.shop](https://umadbro.shop/shop/all) listings on the same day, all
+in stock. The screenshot in GO2WAR's post shows the shop in Canadian
+dollars ($18, $9, $36, $15), not the USD prices. The "I just work here" quote
+and the "Higher? #420" and "trolling tray" posts are from his timeline via
+fxtwitter. Who GO2WAR is beyond his handle and posts isn't established
+here. Images: `umadbro-shop-new-row` (GO2WAR's shop screenshot),
+`umadbro-joker-hat-front`, `umadbro-joker-hat-lining` and
+`umadbro-joker-hat-strap` (the hat post), `umadbro-balaclavas-bagged` (the
+"GM" post), and `umadbro-higher-rolling-tray` (@umadbro's post, shared with
+§32).
 
 ## How the persona should use this
 

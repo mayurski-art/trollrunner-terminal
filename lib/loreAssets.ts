@@ -138,7 +138,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "@umadbro's 'time to go higher?' post (Sept 25, 2026): a hand holding a lime-and-violet swirl rolling tray with a trollface in the center and HIGHER down the side, held up against a field of flowering cannabis. It's a teaser; the tray wasn't in the shop's catalog",
     keywords: ["troll weed", "rolling tray", "higher", "umadbro tray", "420"],
-    sections: [32],
+    sections: [32, 81],
   },
   {
     id: "killmigi-art-basel",
@@ -1174,6 +1174,46 @@ export const LORE_ASSETS: LoreAsset[] = [
       "Kimchi grinning on a private jet, the photo that went around with the \"not actually hacked\" speculation",
     keywords: ["kimchi", "grin", "private jet", "hacked", "trollface grin"],
     sections: [80],
+  },
+  {
+    id: "umadbro-shop-new-row",
+    url: "/lore/umadbro-shop-new-row.jpg",
+    caption:
+      "GO2WAR's umadbro.shop screenshot (Oct 22, 2026): four new products in a row, the HIGHER rolling tray, the mango air freshener, the Joker trucker hat and the realistic human trollface balaclava",
+    keywords: ["umadbro", "umadbro.shop", "merch", "new drop", "go2war", "adermaz0ne", "halloween"],
+    sections: [81],
+  },
+  {
+    id: "umadbro-joker-hat-front",
+    url: "/lore/umadbro-joker-hat-front.jpg",
+    caption:
+      "The Troll \"Joker\" Trucker Hat: white crown, black mesh, purple brim, and a trollface in Joker hair and grin on the front",
+    keywords: ["joker", "joker hat", "trucker hat", "hat", "cap", "umadbro", "merch"],
+    sections: [81],
+  },
+  {
+    id: "umadbro-joker-hat-lining",
+    url: "/lore/umadbro-joker-hat-lining.jpg",
+    caption:
+      "Inside the Joker trucker hat: \"U MAD BRO?\" printed along every seam tape",
+    keywords: ["joker hat", "trucker hat", "u mad bro", "lining", "umadbro"],
+    sections: [81],
+  },
+  {
+    id: "umadbro-joker-hat-strap",
+    url: "/lore/umadbro-joker-hat-strap.jpg",
+    caption:
+      "The Joker trucker hat's snap strap with its little \"U MAD BRO?\" tag",
+    keywords: ["joker hat", "trucker hat", "snapback", "strap", "u mad bro"],
+    sections: [81],
+  },
+  {
+    id: "umadbro-balaclavas-bagged",
+    url: "/lore/umadbro-balaclavas-bagged.jpg",
+    caption:
+      "GO2WAR's \"GM\" photo: a stack of realistic human trollface balaclavas, still in their plastic bags, next to a keyboard",
+    keywords: ["balaclava", "mask", "human troll face", "realistic", "nightmare fuel", "halloween", "go2war", "umadbro"],
+    sections: [81],
   },
 ];
 
