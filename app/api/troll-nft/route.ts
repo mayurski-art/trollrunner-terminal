@@ -38,7 +38,9 @@ export async function GET() {
       // fall through with floorUsd null
     }
 
-    return NextResponse.json({ floorEth, floorUsd });
+    // Troll Forces' street screens (trollrunner.net) read the floor from
+    // the browser, so the response says any origin may.
+    return NextResponse.json({ floorEth, floorUsd }, { headers: { "Access-Control-Allow-Origin": "*" } });
   } catch {
     // Same contract as /api/troll-price: no number beats a wrong number.
     return NextResponse.json({ error: "unavailable" }, { status: 503 });

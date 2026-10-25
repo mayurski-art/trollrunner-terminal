@@ -46,7 +46,9 @@ export async function GET() {
     const rawChange = (best as { priceChange?: { h24?: number } }).priceChange?.h24;
     const change24h = Number.isFinite(Number(rawChange)) ? Number(rawChange) : null;
 
-    return NextResponse.json({ priceUsd, change24h });
+    // Troll Forces' street screens (trollrunner.net) read this quote from
+    // the browser, so the response says any origin may.
+    return NextResponse.json({ priceUsd, change24h }, { headers: { "Access-Control-Allow-Origin": "*" } });
   } catch {
     // The ticker treats this as "just show the copy, no price" — a stale or
     // invented number on a price line is worse than no number at all.
