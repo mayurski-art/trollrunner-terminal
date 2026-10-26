@@ -4428,7 +4428,8 @@ press coverage of the company and the prospectus, not checked against the
 S-1 itself. No specific Anthropic news on October 19 was found;
 tying that post to the IPO is a guess from the timing. This archive's
 terminal runs on Claude, so read the section with that in mind. Images:
-`troll-anthrobbing-ant-bridge` and `troll-sharing-is-caring`.
+`troll-anthrobbing-ant-bridge`, `troll-sharing-is-caring` and
+`lore-84-photo`.
 
 ## How the persona should use this
 

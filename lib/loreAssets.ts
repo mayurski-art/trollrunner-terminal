@@ -1376,6 +1376,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["sharing is caring", "puppet", "coin", "money", "anthropic", "claude", "starburst"],
     sections: [84],
   },
+  {
+    id: "lore-84-photo",
+    url: "/lore/lore-84-photo.png",
+    caption:
+      "A smiling man in round blue glasses, a dark suit and a patterned tie at a crowded indoor event",
+    keywords: ["anthropic", "ipo", "s-1", "photo"],
+    sections: [84],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
