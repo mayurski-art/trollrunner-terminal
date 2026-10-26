@@ -3998,6 +3998,109 @@ here. Images: `umadbro-shop-new-row` (GO2WAR's shop screenshot),
 "GM" post), and `umadbro-higher-rolling-tray` (@umadbro's post, shared with
 §32).
 
+## 82. "@pumpfun": the night Playboi Carti's bio became a coin
+<!-- posted: 2026-10-26T02:03:11Z -->
+
+**The post.** On **October 25, 2026**, at 5:28 PM Pacific,
+**StarPlatinum** ([@StarPlatinum_](https://x.com/StarPlatinum_)) asked:
+*"Is this a new PumpFun deal?"* **Playboi Carti**'s X profile
+([@playboicarti](https://x.com/playboicarti), 3.6 million followers) had
+"added PumpFun in his bio and also the link to 'his token.'" StarPlatinum's
+read: *"This looks like a hack,"* and people *"were speculating this could
+be another deal like Kimchi so the token went to $1.25M but has been dumping
+so far. Stay away"*
+([post 2114514373766938791](https://x.com/StarPlatinum_/status/2114514373766938791)).
+Fourteen minutes later **Rodney** ([@cryptojourneyrs](https://x.com/cryptojourneyrs))
+quoted it with the whole thing as a recipe: *"New scam idea: 1. Put
+'@Pumpfun' in your bio 2. Shill a ticker 3. Rug it 4. Remove '@Pumpfun' from
+your bio 5. Claim it was a 'hack.' This space is so cooked."*
+([post 2114517909229994233](https://x.com/cryptojourneyrs/status/2114517909229994233)).
+
+**The warm-up.** At 4:10 PM Pacific, **Justin Bieber**
+([@justinbieber](https://x.com/justinbieber)) posted a 12-second video with
+no caption at all
+([post 2114494793313358197](https://x.com/justinbieber/status/2114494793313358197)):
+fisheye, a beanie, a cup, a hand up at the lens. The song in it, going round
+the replies, is Carti's **"Love Hurts."** It was at 3.9 million views and
+209K likes within three hours. Bieber and Carti go back; Carti's "Like
+Weezy" name-checks him, and in March 2025 Carti posted a screenshot of
+Bieber's story playing it.
+Thirty-five minutes after the video, the coin existed.
+
+**The coin.** At 4:45 PM Pacific a coin called **playboicarti ($carti)**
+was minted on **Pump.fun** (`H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump`)
+by an account with the auto-generated name **DotEveningJury**. Its listed
+socials point at x.com/playboicarti; its listed website is
+launchcatsol.lol. Then Carti's profile caught up with it: the bio read one
+word, **@pumpfun**; the link read **pump.fun/coin/H5UCZUqCs…**; the account
+was following exactly one account; and its newest post was nothing but the
+coin's link card, *"playboicarti (carti) Price, Chart & Market Cap."* An hour
+in, the coin was at **$302.7K**, up **7,794%**, with 1,462 holders. It
+topped out at **$1.24 million**.
+
+**The exit.** Then it came back down in one candle. Someone's chart
+screenshot shows a green bar to $1.2M and a red bar beside it, **-96.34%**.
+The bio and the link were wiped, the following count went to zero, and the
+coin-card post was gone from his timeline. At 5:56 PM Pacific the profile
+picture changed to a shirtless, muscled **wolf** in goggles. A minute later
+the account posted a photo of a **dog in a beanie** on a couch, no caption;
+it had 355K views within the hour. By 6:07 and 6:19 PM two new coins named
+**"The Lone Wolf" ($CARTI)** had launched off the new avatar, and both sat
+near $3K. At about 7 PM the original $carti was worth **$23.8K**. It had
+done **$4.16 million** in volume (39,064 buys, 30,873 sells, 2,295 holders)
+on a pool holding **$5.7K** of liquidity, and the creator's wallet held
+**0.0%** of it.
+
+**The Kimchi question.** Is it connected to Kimchi's bio? Kimchi
+(§80) put **@pumpfun** in his bio when Pump.fun signed him on October 20,
+swapped it for **@pioneerfnf** on October 22 after his "hacked" post, and,
+by the community's watch, flipped between the two since. At 7 PM tonight it
+reads **@pumpfun** again, and his location field reads **"project kimchi."**
+That's the whole link on record: the same two words in a bio, three days
+apart. Nothing ties the Carti coin to Pump.fun or to Kimchi. The difference
+is in who gets paid. When Pump.fun launched $KIMCHI, 100% of creator fees
+were locked to a wallet labeled Kimchi. On $carti, Pump.fun's page shows the
+creator rewards going to the creator, DotEveningJury, an account nobody can
+put a face to. What Kimchi's bio did do was make "@pumpfun in the bio" mean
+*a deal*, and that is the exact speculation StarPlatinum says pumped Carti's
+coin to $1.25M. Kimchi didn't have to be involved for his bio to be the
+marketing.
+
+**Why it's a troll.** Rodney's five steps were a joke about Kimchi, and an
+hour later they were a description of Carti. Nobody had to believe Carti
+launched a coin. They only had to believe there was a chance he'd signed the
+same deal Kimchi signed, and $4 million of trades went through a pool with
+$5,700 in it. The account came back with a wolf and a dog in a hat and said
+nothing. Bieber, who'd been playing "Love Hurts" an hour earlier, had picked
+the right song.
+
+**Sourcing:** *Verified posts and on-chain stats, unverified hack.*
+StarPlatinum's, Rodney's, Bieber's and Carti's posts, their times, view
+counts and images, and both profiles (Carti's empty bio and wolf avatar,
+Kimchi's @pumpfun bio and "project kimchi") were read on 2026-10-25 via
+fxtwitter and x.com. The post times come from their IDs. The coin's name,
+symbol, mint time, socials and website and the two "Lone Wolf" coins are
+from [DexScreener](https://dexscreener.com/solana/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump);
+the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
+0.0% and the creator-rewards line are from
+[the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
+read the same night. The coin addresses came from a reader. **Whether it was
+a hack is unknown**: neither Carti nor Pump.fun had said anything by 7 PM,
+and no outlet had written it up. **The "Love Hurts" ID is from the
+replies**: the video's audio wasn't checked here. Carti's coin-card post was
+only seen in StarPlatinum's screenshot, not recovered, and which account he
+was briefly following isn't known. Kimchi's back-and-forth between @pumpfun
+and @pioneerfnf after October 22 is from the community; only the October 22
+@pioneerfnf bio (§80) and tonight's @pumpfun are confirmed. The "Like Weezy"
+story is from
+[Billboard](https://ca.billboard.com/music/rb-hip-hop/playboi-carti-justin-bieber-picture-like-weezy-1235925069).
+Images: `bieber-love-hurts-video` (the video's thumbnail),
+`carti-bio-pumpfun` and `carti-coin-pump-chart` (StarPlatinum's post),
+`carti-bio-before-after` and `carti-coin-96-percent` (Rodney's post),
+`carti-lone-wolf-avatar` (Carti's new profile picture), `carti-beanie-dog`
+(his post) and `kimchi-bio-pumpfun-again` (Kimchi's profile, screenshotted
+here).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

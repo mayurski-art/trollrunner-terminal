@@ -1215,6 +1215,70 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["balaclava", "mask", "human troll face", "realistic", "nightmare fuel", "halloween", "go2war", "umadbro"],
     sections: [81],
   },
+  {
+    id: "bieber-love-hurts-video",
+    url: "/lore/bieber-love-hurts-video.jpg",
+    caption:
+      "A frame of Justin Bieber's captionless 12-second video, posted 35 minutes before the $carti coin was minted",
+    keywords: ["bieber", "justin bieber", "love hurts", "carti", "playboi carti", "video"],
+    sections: [82],
+  },
+  {
+    id: "carti-bio-pumpfun",
+    url: "/lore/carti-bio-pumpfun.jpg",
+    caption:
+      "@playboicarti, 3.6M followers, with \"@pumpfun\" in the bio, a pump.fun coin link and a post that's just the coin's chart card",
+    keywords: ["carti", "playboi carti", "hacked", "pumpfun", "pump.fun", "bio", "carti coin"],
+    sections: [82],
+  },
+  {
+    id: "carti-coin-pump-chart",
+    url: "/lore/carti-coin-pump-chart.jpg",
+    caption:
+      "The $carti coin an hour in: $302.7K market cap, up 7,794%, 1,462 holders",
+    keywords: ["carti", "carti coin", "chart", "pump", "memecoin", "solana"],
+    sections: [82],
+  },
+  {
+    id: "carti-bio-before-after",
+    url: "/lore/carti-bio-before-after.jpg",
+    caption:
+      "Carti's profile before and after: @pumpfun and the coin link circled, then gone, and \"1 Following\" back to 0",
+    keywords: ["carti", "bio", "before after", "pumpfun", "removed", "hack", "deleted"],
+    sections: [82],
+  },
+  {
+    id: "carti-coin-96-percent",
+    url: "/lore/carti-coin-96-percent.jpg",
+    caption:
+      "carti/SOL: one green candle to $1.2M, one red one back down, -96.34%",
+    keywords: ["carti", "rug", "dump", "chart", "96%", "crash", "candle"],
+    sections: [82],
+  },
+  {
+    id: "carti-lone-wolf-avatar",
+    url: "/lore/carti-lone-wolf-avatar.jpg",
+    caption:
+      "Carti's new profile picture after the coin came down: a shirtless muscle wolf in goggles",
+    keywords: ["carti", "wolf", "lone wolf", "avatar", "pfp", "profile picture"],
+    sections: [82],
+  },
+  {
+    id: "carti-beanie-dog",
+    url: "/lore/carti-beanie-dog.jpg",
+    caption:
+      "What @playboicarti posted a minute later, with no caption: a dog in a beanie and a jacket on a couch",
+    keywords: ["carti", "dog", "beanie", "meme", "post", "no caption"],
+    sections: [82],
+  },
+  {
+    id: "kimchi-bio-pumpfun-again",
+    url: "/lore/kimchi-bio-pumpfun-again.jpg",
+    caption:
+      "@kimchi1x the same night: the bio says @pumpfun again, and the location says \"project kimchi\"",
+    keywords: ["kimchi", "kimchi1x", "bio", "pumpfun", "back", "pioneerfnf", "project kimchi"],
+    sections: [82],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
