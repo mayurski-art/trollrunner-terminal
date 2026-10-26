@@ -1360,6 +1360,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["bloom", "drain", "grx", "transfers", "640", "domy", "7ky8qx"],
     sections: [83],
   },
+  {
+    id: "troll-anthrobbing-ant-bridge",
+    url: "/lore/troll-anthrobbing-ant-bridge.jpg",
+    caption:
+      "@Troll_'s \"anthrobbing\": trollface ants linking into a bridge up a chart line to a leaf, a rage-face worm left on the ground",
+    keywords: ["anthrobbing", "anthropic", "ant", "ants", "ipo", "s-1", "claude", "worm"],
+    sections: [84],
+  },
+  {
+    id: "troll-sharing-is-caring",
+    url: "/lore/troll-sharing-is-caring.jpg",
+    caption:
+      "@Troll_'s \"sharing is caring!\": a puppet in a suit with an orange starburst coin for a head, trollface in the middle, cash raining down",
+    keywords: ["sharing is caring", "puppet", "coin", "money", "anthropic", "claude", "starburst"],
+    sections: [84],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

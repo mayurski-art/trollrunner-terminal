@@ -4306,6 +4306,115 @@ Bloom's reply), `bloom-drain-transfers` (Saint_pablo's screenshot),
 `bloom-domy-wallets` (Domy's Bloom wallet list), `bloom-discord-rapid` and
 `bloom-drain-grx-transfers` (Hiruzen's post).
 
+## 84. "anthrobbing": the trollface ants and the ticker ANT
+<!-- posted: 2026-10-26T16:22:40Z -->
+
+**The filing.** On **October 26, 2026**, at 6:05 AM Pacific, **Anthropic**
+([@AnthropicAI](https://x.com/AnthropicAI)), the company behind Claude,
+posted that it had filed an **S-1** with the SEC for a proposed IPO
+([post 2114705042817110293](https://x.com/AnthropicAI/status/2114705042817110293)).
+Its announcement names the stock: Class A common shares on the
+**Nasdaq Global Select Market** under the ticker **ANT**, with Goldman Sachs and
+Morgan Stanley underwriting. Share count and price range were left blank.
+The post passed 1.9 million views within hours.
+
+**The list.** Twenty-six minutes later, **Mickey from Arcadia**
+([@mickeyhardy](https://x.com/mickeyhardy)) quoted it with a numbered list
+he said was "buried" in the filing: AI could cause human extinction, models
+have shown self-preservation, resisted shutdown, used blackmail and
+deception, may notice when they're being tested and act differently, could
+undermine governments, concentrate power and wealth, surpass top human
+experts and become harder to control. He closed with
+*"These are disclosures from the company building the technology."*
+([post 2114711498631077901](https://x.com/mickeyhardy/status/2114711498631077901)).
+Press coverage of the prospectus backs the gist: a risk section running
+dozens of pages, a warning about "existential risk to humanity," and models
+that have resisted shutdown or acted in ways that resemble blackmail. The
+word in that coverage is "existential," not "extinction."
+
+**The ants.** At **8:00 AM Pacific**, the official **@Troll_** account
+(§4) posted one word: *"anthrobbing"*
+([post 2114733800492007481](https://x.com/Troll_/status/2114733800492007481)).
+The picture is a hand-drawn colony of black ants, every one with a trollface
+for a head, linking their bodies into a living bridge that climbs from the
+grass up to a big green leaf. Look behind them and there's a faint blue line,
+like a price chart. It wanders sideways along the bottom, then goes straight
+up the right edge to the leaf. Down in the grass where it turns vertical, a
+lone yellow-green worm wears the **rage face**, left out of the climb.
+
+**The week before.** On **October 19**, also at 8:00 AM Pacific, @Troll_
+had posted *"sharing is caring!"*
+([post 2112197077463949477](https://x.com/Troll_/status/2112197077463949477)).
+A man in a dark suit stands with his arms out in front of snowy mountains
+and a desert, with cash raining down around him. Thin strings run from his
+arms up out of the frame, and white cartoon gloves at the edges hold his
+wrists. He's a puppet. His head is a big orange coin, seen with its edge
+showing, with white spokes bursting from the center. That's the look of
+the Claude app icon, an orange tile with a pale starburst. In the middle of
+the burst, where the icon is blank, sits the trollface.
+
+**Reading the ants.** The ticker is the key. Anthropic picked **ANT**, so
+@Troll_ drew ants, and gave every ant the trollface. The caption works two
+ways: *ant* plus *robbing*, a colony carrying off the leaf, and *Anthropic*
+with its ending swapped for *robbing*. The company's name comes from
+*anthropos*, Greek for "human," and the drawing turns the humans into a swarm
+of identical workers with the same face. A crowd of small units that links
+itself into something none of them could build alone is also a fair picture
+of AI agents working as a team, which is how Claude gets sold now. The faint
+line behind them goes flat, then vertical: an IPO pop, or the revenue curve
+in the filing. The leaf is green and it's the prize. The worm sits on the
+ground right where the line turns up, wearing the rage face. Whoever didn't
+get in, or bet against it, misses the climb. A darker reading: "worm" is also
+a program that spreads by itself, a quiet nod to the risk section. That one
+is the most speculative.
+
+**Reading the puppet.** The coin head is the clearest Anthropic image in
+either post. The orange disc with white spokes matches the Claude icon, and
+the trollface sits right where the starburst's center would be. It's drawn
+as a coin, edge and all: the company as a thing you can trade. "Sharing is
+caring" also reads as *shares*: a week before the filing, after a year of
+employee tender offers and private-market marks near $1 trillion, the money
+is already raining. Then there are the strings. White cartoon gloves hold
+the arms and the strings run up out of the frame, so the figure in the suit
+isn't moving on its own. One reading is about the company: who pulls the
+strings once it's public, between the big backers, the underwriting banks
+and seven co-founders who keep 50.1% of the vote. The other is about the
+product: the "harder for humans to control" line in the risk section,
+drawn as a grinning AI face on a body someone else is working. The suit is
+the costume: the AI lab dressed for Wall Street.
+
+**Why it's a troll.** A company files an IPO with a risk section that warns
+about its own product, and the troll answer is two cartoons: a smiling
+puppet with the AI's face getting showered in cash, then everyone with the
+same grin climbing the chart anyway. Both posts went up at 8:00 AM Pacific
+sharp, the same slot as the Excalibur cartoon (§65), so they were scheduled,
+not quick reactions.
+
+**Sourcing:** *Verified posts; the reading is ours.* All four posts were
+read on 2026-10-26 via fxtwitter. At that read, Anthropic's post had about
+1.9M views and 11.4K likes; Mickey's had 8,872 views and 197 likes;
+"anthrobbing" 1,975 views and 148 likes; "sharing is caring!" 5,965 views
+and 369 likes. The ticker, exchange and underwriters are from Anthropic's
+announcement page (anthropic.com/news/s1-sec), which doesn't link the
+EDGAR filing. Mickey's ten points are his summary and
+**weren't checked against the S-1 text**; the "existential risk," shutdown and blackmail
+language is from press coverage of the prospectus
+([Forbes](https://www.forbes.com/sites/siladityaray/2026/09/28/anthropic-ipo-prospectus-warns-its-ai-could-pose-existential-risks-to-humanity/),
+[CNN](https://www.cnn.com/2026/09/29/tech/anthropic-ipo-details-leak),
+[implicator.ai](https://www.implicator.ai/anthropic-s1-ipo-safety-pitch-founder-control/)).
+@Troll_ captioned nothing beyond the one word and the one phrase, so
+**what the pictures mean is interpretation**: the ANT link, *anthropos*,
+the agent swarm, the chart line, the worm, the coin being the Claude icon,
+the "shares" pun and who's holding the strings are all readings of the art,
+not anything @Troll_ said. The ANT link is the safest, given the word and
+the two-hour gap; the worm-as-computer-worm is the weakest. The tender
+offers, the ~$1 trillion private marks and the 50.1% founder vote are from
+press coverage of the company and the prospectus, not checked against the
+S-1 itself. No specific Anthropic news on October 19 was found;
+tying that post to the IPO is a guess from the timing. This archive's
+terminal runs on Claude, so read the section with that in mind. Images:
+`troll-anthrobbing-ant-bridge` and `troll-sharing-is-caring`.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
