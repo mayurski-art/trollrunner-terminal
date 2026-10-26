@@ -4051,6 +4051,27 @@ done **$4.16 million** in volume (39,064 buys, 30,873 sells, 2,295 holders)
 on a pool holding **$5.7K** of liquidity, and the creator's wallet held
 **0.0%** of it.
 
+**The wallets.** At 6:03 PM Pacific
+[@catalogging](https://x.com/catalogging) posted that the people behind it
+had used **70 wallets** and swept **2,221 SOL** (about **$225K**) into one
+address, *"in the same second"*
+([post 2114523290639515973](https://x.com/catalogging/status/2114523290639515973)).
+At 7:28 PM **Jade** ([@jade_defi](https://x.com/jade_defi)) laid out the
+whole run
+([post 2114544588710899834](https://x.com/jade_defi/status/2114544588710899834)).
+The 70 wallets were loaded with **215 SOL** before the launch. Minutes later
+the coin went live and the dev bought **2%** for **0.57 SOL**. The bundle
+sold into the run to $1.2M for more than **2,000 SOL**. The dev sold his 2%
+for **26 SOL**, which is why the creator wallet showed 0.0%. Then all 70
+wallets sent their 2,221 SOL to one address. By Jade's count about **312
+SOL** in creator fees was still unclaimed, about **1,700 SOL** was sitting
+in two wallets, and the rest had gone to a **Binance** deposit address. The
+two wallets Jade named, `35rtEKa9EgCqo7EZdccHoWgQnx1cvZ4VwqjTNCnut6ts` and
+`E3hyuLVNnoBjwhmPUhgG7WNt6T3rwVZqrW2a7i3TK4bj`, held **780.0** and
+**937.2 SOL** at 8 PM, **1,717 SOL** together. That works out to about 10x
+on the 215 SOL. By then the coin was at **$16.7K**. Jade's sign-off:
+*"Same playbook as every other celeb hack."*
+
 **The replies.** Under the dog, somebody posted a phone screenshot of an
 iMessage thread with a contact named **"Kimchi."** Kimchi: *"You ready to
 hack my shit?"* Reply: *"yeah."* Kimchi: *"Bet, carti said he down too."*
@@ -4091,7 +4112,13 @@ from [DexScreener](https://dexscreener.com/solana/H5UCZUqCsuTQijwNLBX2KjwP7XJaMa
 the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
 0.0% and the creator-rewards line are from
 [the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
-read the same night. The coin addresses came from a reader. **Whether it was
+read the same night. The coin addresses came from a reader. **The wallet
+trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
+and wasn't traced here: the 70 wallets, the 215 and 2,221 SOL, the dev's
+0.57-in, 26-out, the 312 SOL in fees and the Binance leg are theirs. Only
+the two wallets' balances (780.0 and 937.2 SOL, Solana mainnet RPC at
+03:08 UTC on Oct 26) and the $16.7K market cap (DexScreener, same time) were
+checked here. **Whether it was
 a hack is unknown**: neither Carti nor Pump.fun had said anything by 7 PM,
 and no outlet had written it up. **The "Love Hurts" ID is from the
 replies**: the video's audio wasn't checked here. Carti's coin-card post was
