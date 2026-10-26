@@ -86,16 +86,21 @@ export default function NewFilePopup({
     }
   }, [number]);
 
+  // Keyed on who's signed in, not the session object: Supabase hands back a
+  // fresh session whenever the tab regains focus (token refresh), and
+  // reacting to that reset an article someone was reading back to "pulling
+  // it from the stacks..." every time they switched tabs and came back.
+  const userId = session === undefined ? undefined : (session?.user.id ?? null);
   useEffect(() => {
-    if (session === undefined) return;
-    if (!session) {
+    if (userId === undefined) return;
+    if (!userId) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setView({ kind: "signed-out" });
       return;
     }
     setView({ kind: "loading" });
     load();
-  }, [session, load]);
+  }, [userId, load]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

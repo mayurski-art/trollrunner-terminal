@@ -3,6 +3,7 @@ import { JetBrains_Mono, Share_Tech_Mono } from "next/font/google";
 import Script from "next/script";
 import AnimatedFavicon from "@/components/AnimatedFavicon";
 import BootSequence from "@/components/BootSequence";
+import CopyGuard from "@/components/CopyGuard";
 import Cursor from "@/components/Cursor";
 import InstructionsTab from "@/components/InstructionsTab";
 import "./globals.css";
@@ -77,6 +78,7 @@ export default function RootLayout({
         <AnimatedFavicon />
         <BootSequence />
         <Cursor />
+        <CopyGuard />
         {children}
         <InstructionsTab />
         {/* Shared trollrunner.net network-wide lock overlay — same script as
@@ -85,8 +87,9 @@ export default function RootLayout({
             covers this subdomain too. No admin.html here, so this terminal
             only ever acts as a reader, never a writer. */}
         <Script src="/assets/js/site-lock.js" strategy="afterInteractive" />
-        {/* No right-click menu, same script as the main site. */}
-        <Script src="/assets/js/no-context-menu.js?v=1" strategy="afterInteractive" />
+        {/* No right-click menu, same script as the main site, except for
+            the owner (CopyGuard.tsx's data-copy-ok). */}
+        <Script src="/assets/js/no-context-menu.js?v=2" strategy="afterInteractive" />
       </body>
     </html>
   );

@@ -2743,3 +2743,23 @@ html[data-custom-cursor] label {
 html[data-archive-entrance] .instructions-drawer {
   display: none;
 }
+
+/* Copy lock (components/CopyGuard.tsx): no selecting text and no long-press
+   save/copy menu on images for anyone but the owner. Text fields stay
+   selectable so the cursor and editing still work; pasting into them is
+   blocked by CopyGuard's paste listener. */
+html:not([data-copy-ok]) body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+html:not([data-copy-ok]) input,
+html:not([data-copy-ok]) textarea,
+html:not([data-copy-ok]) [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+html:not([data-copy-ok]) img,
+html:not([data-copy-ok]) video {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}

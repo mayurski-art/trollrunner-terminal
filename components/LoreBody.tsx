@@ -10,8 +10,8 @@ type LoreImage = { id: string; url: string; caption: string };
 // (components/NewFilePopup.tsx). Prose and pictures interleave
 // (lib/loreAssets.ts's buildLoreFlow) so an image lands beside the part of
 // the file it illustrates, instead of every picture stacking into a contact
-// sheet under the finished article. Copy and the context menu are blocked,
-// as they always were in the archive.
+// sheet under the finished article. Copying and the context menu are
+// blocked for everyone but the owner, site-wide, by components/CopyGuard.tsx.
 export default function LoreBody({
   body,
   images,
@@ -22,7 +22,7 @@ export default function LoreBody({
   onImageClick?: (img: { url: string; caption: string }) => void;
 }) {
   return (
-    <div className="select-none" onCopy={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}>
+    <div>
       {buildLoreFlow(body, images).map((item, i) =>
         item.kind === "text" ? (
           <p key={`t${i}`} className="whitespace-pre-wrap leading-relaxed text-sm [&:not(:first-child)]:mt-4">
