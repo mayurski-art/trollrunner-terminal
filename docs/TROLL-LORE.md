@@ -4192,8 +4192,8 @@ your wallet's private key so it can trade for you.
 
 **The drain.** At **6:02 PM Pacific** the same night, about twenty minutes
 after the Carti sweep in §82, wallets started emptying into one address,
-`7kY8qx8MqJ7Rz2vMhgHETdZLHcTp1oM78AA9dmE9p8BQ`. It took **about 60
-transfers in three minutes**, 72 in all by 6:46 PM. Every one checked here
+`7kY8qx8MqJ7Rz2vMhgHETdZLHcTp1oM78AA9dmE9p8BQ`. It took
+**about 60 transfers in three minutes**, 72 in all by 6:46 PM. Every one checked here
 was a plain SOL transfer signed by the victim's own key: no swap, no
 contract, just the whole balance sent away. **casino847** ([@casino847](https://x.com/casino847),
 61K followers, bio: *"trader"*) lost **1,039.7 SOL** at 6:04:05 and posted,
@@ -4257,8 +4257,8 @@ This time Bloom posted on its own timeline, under a black card reading
 The TL;DR: *"No private keys were compromised, unaffected wallets are
 safe, and all affected users will be fully reimbursed by Bloom."* Bloom
 says the attacker *"exploited a third-party module through a complex
-Remote Code Execution (RCE) vulnerability."* Its numbers: **49 wallet
-addresses belonging to 9 users**, losses of *"approximately 9,408 SOL
+Remote Code Execution (RCE) vulnerability."* Its numbers:
+**49 wallet addresses belonging to 9 users**, losses of *"approximately 9,408 SOL
 ($947,000)"*, and **100%** of it refunded to new wallets the victims pick.
 It says it's tracing the funds and looking at recovery, freezing and the
 attacker, and that the team has built software since 2018 and been in
@@ -4266,6 +4266,15 @@ crypto since 2021. Its total matches the chain to the SOL. Rapid Launch
 isn't in it. Six hours after the staffer's *"rapid is draining, not us,"*
 Bloom wrote the check itself. It had **56.9K views** when it was read
 here.
+
+**Update, 8:46 AM Pacific Oct 26: the first refund lands.** casino847, the
+trader who'd lost **1,039.7 SOL** and posted *"got drained for 100k gg"*,
+quoted Bloom's statement:
+*"thank you @BloomTrading got my full amount refunded"*
+([post 2114745553577800178](https://x.com/casino847/status/2114745553577800178)).
+It's the first victim to say the money came back, about six and a half
+hours after Bloom promised it and under fifteen hours after the drain. By
+then Bloom's statement was up to **64.8K views**.
 
 **Why it's a troll.** The bot that said *"Just @ us"* got @'d. Four hours
 after the brag, the people who'd handed it their keys were posting
@@ -4277,6 +4286,8 @@ address. That night Crypto Twitter got two of those, and they meant
 opposite things: one set of wallets belonged to the people taking the
 money, and the other belonged to the people losing it. casino847's advice
 was the only honest line of the night: *"be careful what u connect to."*
+By the next morning he'd taken Bloom up on its brag after all. He @'d them,
+and this time it was to say thanks.
 
 **Sourcing:** *Verified drain, verified posts, cause as Bloom tells it.* All
 the posts above were read on 2026-10-25 via fxtwitter; times come from
@@ -4295,7 +4306,11 @@ third-party module, the RCE, the 49 wallets and 9 users, and "no private
 keys were accessed" are all Bloom's claims, not checked here, and the
 module isn't named. Every transfer checked here was signed by the
 victim's own key, and the statement doesn't say how. The refunds are a
-promise; none was looked for on-chain. Domy's case is his own reasoning,
+promise. casino847's "full amount refunded" post (read via fxtwitter on
+2026-10-26; 3,787 views and 135 likes at that read) is his word. Refunds go
+to new wallets the victims pick, so his drained wallet wouldn't show it,
+and no refund was traced on-chain. Whether the other eight users have been
+paid isn't known here. Domy's case is his own reasoning,
 and the overlap between his Bloom list and the drained wallets is what's
 checked. Neither casino847's Bloom use nor the other victims'
 was checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's;
