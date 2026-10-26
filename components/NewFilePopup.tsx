@@ -223,7 +223,7 @@ export default function NewFilePopup({
               <LoreBody body={view.body} images={view.images} />
               <p className="mt-6 text-xs">
                 <a
-                  href={`/archive?file=${number}`}
+                  href={`/${number}`}
                   className="text-dim underline decoration-dim underline-offset-4 hover:text-terminal"
                 >
                   [ see it in the archive ]

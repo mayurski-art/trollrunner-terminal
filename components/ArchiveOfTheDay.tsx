@@ -134,7 +134,7 @@ export default function ArchiveOfTheDay() {
 
   if (!pick || !shown) return null;
 
-  const href = `/archive?file=${pick.number}`;
+  const href = `/${pick.number}`;
   const cta = pick.seeded ? "read the file" : "recover this file";
 
   return (

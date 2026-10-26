@@ -34,6 +34,7 @@ const HYPED_FILES: Record<number, string> = {
   54: "HOT",
   57: "HOT",
   69: "HOT",
+  82: "HOT",
 };
 
 type ThisWeek = { numbers: number[]; startsAt: string; endsAt: string };
@@ -45,7 +46,7 @@ type SearchHit = { number: number; title: string; snippet: string; reason: strin
 // topic (app/api/chat/route.ts's Path A), or forced open by spending
 // PROBLEMS (Path B, this component's [ unlock ] button). Sealed files show
 // only a title — for depth-2 sections, not even that.
-export default function Archive() {
+export default function Archive({ file }: { file?: number }) {
   const [files, setFiles] = useState<File[]>([]);
   const [recoveredCount, setRecoveredCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -170,16 +171,16 @@ export default function Archive() {
     return () => clearTimeout(timer);
   }, [thisWeek, load]);
 
-  // Deep link from the front page's archive-of-the-day panel
-  // (/archive?file=N): expand that file once the manifest has loaded, and
-  // scroll it into view. Only expands files that are actually open —
+  // Deep link to one file — trolltruths.com/N (the `file` prop), or the
+  // older /archive?file=N: expand that file once the manifest has loaded,
+  // and scroll it into view. Only expands files that are actually open —
   // pointing at a sealed one just scrolls to it with its [ unlock ] button
   // showing, which is the intended funnel.
   const deepLinkedRef = useRef(false);
   useEffect(() => {
     if (deepLinkedRef.current || files.length === 0) return;
-    const raw = new URLSearchParams(window.location.search).get("file");
-    if (!raw) return;
+    const raw = file ?? new URLSearchParams(window.location.search).get("file");
+    if (raw == null) return;
     const number = Number(raw);
     if (!Number.isInteger(number)) return;
     const target = files.find((f) => f.number === number);
@@ -195,7 +196,7 @@ export default function Archive() {
         .getElementById(`archive-file-${number}`)
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-  }, [files]);
+  }, [files, file]);
 
   // Instant local filter — every open file's title/body, matched client-side
   // as the user types. Zero cost, zero latency, no network round trip.
