@@ -1288,6 +1288,78 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["kimchi", "kimchi1x", "bio", "pumpfun", "back", "pioneerfnf", "project kimchi"],
     sections: [82],
   },
+  {
+    id: "kimchi-jasontheween-clip",
+    url: "/lore/kimchi-jasontheween-clip.jpg",
+    caption:
+      "A frame from Trenches Insider's clip of Jasontheween saying he never met Kimchi: \"I heard that he got exposed\"",
+    keywords: ["kimchi", "jasontheween", "jason", "exposed", "never met", "larp"],
+    sections: [80],
+  },
+  {
+    id: "carti-fazeblaze-loss-card",
+    url: "/lore/carti-fazeblaze-loss-card.jpg",
+    caption:
+      "FaZe Blaze's Pump.fun PnL card on $CARTI: $1.89K in at a $659K average entry, -$1,231 (-64.99%), \"Join with code: @FaZeBlaze\"",
+    keywords: ["fazeblaze", "faze", "blaze", "rugged", "carti", "pnl", "loss"],
+    sections: [82],
+  },
+  {
+    id: "carti-coin-51m-chart",
+    url: "/lore/carti-coin-51m-chart.jpg",
+    caption:
+      "The $carti chart at 51 minutes old, posted by @catalogging: the climb, the top and the long bleed, with \"Dev 2.0%\" in the header",
+    keywords: ["carti", "chart", "market cap", "dev", "catalogging", "pump"],
+    sections: [82],
+  },
+  {
+    id: "carti-jade-onchain-trace",
+    url: "/lore/carti-jade-onchain-trace.jpg",
+    caption:
+      "Jade's on-chain trace of $carti: \"70 wallets. One address. Same second.\" 2,221 SOL swept, ~2,046 SOL net, -98% from the peak",
+    keywords: ["carti", "70 wallets", "same second", "sweep", "bundle", "jade", "binance", "trace"],
+    sections: [82],
+  },
+  {
+    id: "bloom-just-at-us",
+    url: "/lore/bloom-just-at-us.jpg",
+    caption:
+      "The GIF on Bloom's \"Just @ us 😎\" reply, three and a half hours before the drain: a man in a suit, arms out, grinning",
+    keywords: ["bloom", "bloomtrading", "just at us", "brag", "trading bot", "gif"],
+    sections: [83],
+  },
+  {
+    id: "bloom-drain-transfers",
+    url: "/lore/bloom-drain-transfers.jpg",
+    caption:
+      "Saint_pablo's \"everyone is getting drained\" screenshot: the drainer's incoming transfers, casino847's and Domy's wallets among them",
+    keywords: ["bloom", "drain", "drained", "transfers", "casino847", "domy", "wallets", "7ky8qx"],
+    sections: [83],
+  },
+  {
+    id: "bloom-domy-wallets",
+    url: "/lore/bloom-domy-wallets.jpg",
+    caption:
+      "Domy's Bloom chat, \"Wallets Settings\": the six wallets he'd imported, the same ones that got drained",
+    keywords: ["bloom", "domy", "domyxbt", "wallets", "telegram", "drained", "kolscan"],
+    sections: [83],
+  },
+  {
+    id: "bloom-discord-rapid",
+    url: "/lore/bloom-discord-rapid.jpg",
+    caption:
+      "Bloom's Discord, via Hiruzen: staffer Bata says \"rapid is draining, not us\"",
+    keywords: ["bloom", "discord", "rapid", "rapid launch", "not us", "bata", "blame"],
+    sections: [83],
+  },
+  {
+    id: "bloom-drain-grx-transfers",
+    url: "/lore/bloom-drain-grx-transfers.jpg",
+    caption:
+      "Two of the drain's transfers into 7kY8…p8BQ, via Hiruzen: 201.1 SOL from a GRX wallet and 640.5 SOL from Domy's KOLSCAN wallet",
+    keywords: ["bloom", "drain", "grx", "transfers", "640", "domy", "7ky8qx"],
+    sections: [83],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

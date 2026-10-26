@@ -3877,7 +3877,14 @@ his realized $TRUMP gains to closer to **$6 million**, not $40M. That
 afternoon something went up on his account that was then blamed on a
 hack; Alon reposted it and quickly un-reposted it. Then the bio flipped
 from @pumpfun to **@pioneerfnf**, a "private FNF" (friends and family)
-account, and his "let's work" reply to Pump.fun was gone.
+account, and his "let's work" reply to Pump.fun was gone. Then the
+names around him started stepping back. On October 24 at 11:29 PM Pacific, **Trenches Insider**
+([@trenchesinsidr](https://x.com/trenchesinsidr)) posted a clip of streamer
+**Jasontheween** being asked about him: *"I heard that he got exposed I
+never met him before"*
+([post 2114242906898715043](https://x.com/trenchesinsidr/status/2114242906898715043)).
+The post called Kimchi *"exposed for allegedly being a larp and scamming
+his fans with $Kimchi launch."*
 
 **Why it's a troll.** Pump.fun put "be the next Kimchi" on street
 posters while nobody could prove Kimchi was ever Kimchi. The whole pitch
@@ -3916,8 +3923,11 @@ unknown; only Market Insider's account of it is on record. The
 @pioneerfnf bio and 217.5K followers are confirmed by fxtwitter's profile
 data. Images: `kimchi-be-the-next-kimchi` (the poster, from Pump.fun's
 ad), `kimchi-ferrari` and `kimchi-42m-portfolio` (from @PumpfunEco's
-posts), `kimchi-bio-pioneerfnf` (from Market Insider's post) and
-`kimchi-jet-grin` (from Market Insider's quoted post).
+posts), `kimchi-bio-pioneerfnf` (from Market Insider's post),
+`kimchi-jet-grin` (from Market Insider's quoted post) and
+`kimchi-jasontheween-clip` (the thumbnail of Trenches Insider's clip). The
+Jasontheween quote is the post's own transcription; the clip wasn't
+watched here.
 
 ## 81. GO2WAR's Halloween drop: the hat, the copy, and the tray that said "higher"
 <!-- posted: 2026-10-22T23:39:52Z -->
@@ -4044,6 +4054,9 @@ At 5:30 PM Pacific **FaZe Blaze** ([@fazeblaze](https://x.com/fazeblaze),
 1.55 million followers) posted a video captioned *"Just got rugged by
 playboicarti 😔"*
 ([post 2114514995497128076](https://x.com/fazeblaze/status/2114514995497128076)).
+The video's first frame is his Pump.fun PnL card: **$1.89K** spent at an average entry of
+**$659K** market cap, down **$1,231 (-64.99%)**, and along the bottom,
+*"Join with code: @FaZeBlaze."*
 The bio and the link were wiped, the following count went to zero, and the
 coin-card post was gone from his timeline. At 5:56 PM Pacific the profile
 picture changed to a shirtless, muscled **wolf** in goggles. A minute later
@@ -4055,26 +4068,30 @@ done **$4.16 million** in volume (39,064 buys, 30,873 sells, 2,295 holders)
 on a pool holding **$5.7K** of liquidity, and the creator's wallet held
 **0.0%** of it.
 
-**The wallets.** At 6:03 PM Pacific
-[@catalogging](https://x.com/catalogging) posted that the people behind it
-had used **70 wallets** and swept **2,221 SOL** (about **$225K**) into one
-address, *"in the same second"*
-([post 2114523290639515973](https://x.com/catalogging/status/2114523290639515973)).
-At 7:28 PM **Jade** ([@jade_defi](https://x.com/jade_defi)) laid out the
-whole run
+**The wallets.** The money left in one second, and that part is on-chain.
+At **5:39:17 PM Pacific**, **70 wallets** sent **2,221 SOL** (about
+**$225K**) to one address, `EQ29VfRyKpRKRbUsNuHv4LqcGWfL9eEWtoQc4NtMLPcm`,
+all in the same block. Two seconds later that address passed all 2,221.19
+SOL to `E3hyuLVNnoBjwhmPUhgG7WNt6T3rwVZqrW2a7i3TK4bj`, which sent 1,284 SOL
+on to `35rtEKa9EgCqo7EZdccHoWgQnx1cvZ4VwqjTNCnut6ts` a minute after that.
+[@catalogging](https://x.com/catalogging) posted the sweep at 6:03 PM, *"in
+the same second"*
+([post 2114523290639515973](https://x.com/catalogging/status/2114523290639515973)),
+and at 7:28 PM **Jade** ([@jade_defi](https://x.com/jade_defi)) posted the
+whole run as one chart, *"70 wallets. One address. Same second."*
 ([post 2114544588710899834](https://x.com/jade_defi/status/2114544588710899834)).
-The 70 wallets were loaded with **215 SOL** before the launch. Minutes later
-the coin went live and the dev bought **2%** for **0.57 SOL**. The bundle
-sold into the run to $1.2M for more than **2,000 SOL**. The dev sold his 2%
-for **26 SOL**, which is why the creator wallet showed 0.0%. Then all 70
-wallets sent their 2,221 SOL to one address. By Jade's count about **312
-SOL** in creator fees was still unclaimed, about **1,700 SOL** was sitting
-in two wallets, and the rest had gone to a **Binance** deposit address. The
-two wallets Jade named, `35rtEKa9EgCqo7EZdccHoWgQnx1cvZ4VwqjTNCnut6ts` and
-`E3hyuLVNnoBjwhmPUhgG7WNt6T3rwVZqrW2a7i3TK4bj`, held **780.0** and
-**937.2 SOL** at 8 PM, **1,717 SOL** together. That works out to about 10x
-on the 215 SOL. By then the coin was at **$16.7K**. Jade's sign-off:
-*"Same playbook as every other celeb hack."*
+By Jade's trace the 70 wallets were 6 to 19 days old and were loaded with
+**215 SOL** about five minutes before the mint. The dev bought **2%** for
+**0.57 SOL**, the coin left Pump.fun's bonding curve in 3.6 minutes, and the
+dev sold his 2% for **26.3 SOL** at 5:34 PM, which is why the creator
+wallet showed 0.0%. Jade's net take: **about 2,046 SOL, ~$206K**, with
+about **312 SOL** in creator fees still unclaimed on top. 504 SOL went
+through four one-time wallets to a **Binance** deposit address. At 8 PM the
+two wallets still held **937.2** and **780.0 SOL**, **1,717 SOL** together,
+about 8x the 215 SOL that started it. By then the coin was at **$16.7K**.
+Jade's sign-off: *"Same playbook as every other celeb hack."* Twenty-three
+minutes after this sweep, a second set of about 70 transfers went into a
+different address. That one was a drain of other people's wallets (§83).
 
 **The replies.** Under the dog, somebody posted a phone screenshot of an
 iMessage thread with a contact named **"Kimchi."** Kimchi: *"You ready to
@@ -4127,14 +4144,18 @@ the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
 0.0% and the creator-rewards line are from
 [the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
 read the same night. The coin addresses came from a reader. FaZe Blaze's
-post (caption, time, followers) was read via fxtwitter; its video wasn't
-watched here. @solana_sailor's and Miri's posts were read the same way;
-the "16 minutes" is @solana_sailor's. **The wallet trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
-and wasn't traced here: the 70 wallets, the 215 and 2,221 SOL, the dev's
-0.57-in, 26-out, the 312 SOL in fees and the Binance leg are theirs. Only
-the two wallets' balances (780.0 and 937.2 SOL, Solana mainnet RPC at
-03:08 UTC on Oct 26) and the $16.7K market cap (DexScreener, same time) were
-checked here. **Whether it was
+post (caption, time, followers, the PnL card in its thumbnail) was read via
+fxtwitter; the rest of the video wasn't watched here. @solana_sailor's and
+Miri's posts were read the same way; the "16 minutes" is @solana_sailor's.
+**The sweep is checked on-chain** (Solana mainnet RPC, 2026-10-26): 70
+transfers into `EQ29Vf…LPcm` at 00:39:17 UTC, its 2,221.19 SOL to
+`E3hyuL…K4bj` at 00:39:19, 1,284 SOL on to `35rtEK…t6ts` at 00:40:10, and
+the two wallets' 937.2 and 780.0 SOL at 03:08 UTC, with the $16.7K market
+cap from DexScreener at the same time. The wallets' ages, the 215 SOL
+load, the dev's 0.57 in and 26.3 out, the 3.6-minute graduation, the ~2,046
+SOL net, the 312 SOL in fees and the 504 SOL Binance leg are from Jade's
+chart, not traced here. Jade's chart is in UTC+1; the times here are
+converted. **Whether it was
 a hack is unknown**: neither Carti nor Pump.fun had said anything by 7 PM,
 and no outlet had written it up. **The "Love Hurts" ID is from the
 replies**: the video's audio wasn't checked here. Carti's coin-card post was
@@ -4149,8 +4170,112 @@ Images: `bieber-love-hurts-video` (the video's thumbnail),
 `carti-bio-before-after` and `carti-coin-96-percent` (Rodney's post),
 `carti-lone-wolf-avatar` (Carti's new profile picture), `carti-beanie-dog`
 (his post), `kimchi-carti-hack-imessage` (the fake Kimchi text from his
-replies, via @troll_runner's repost; its maker is unknown) and
-`kimchi-bio-pumpfun-again` (Kimchi's profile, screenshotted here).
+replies, via @troll_runner's repost; its maker is unknown),
+`kimchi-bio-pumpfun-again` (Kimchi's profile, screenshotted here),
+`carti-fazeblaze-loss-card` (FaZe Blaze's video thumbnail),
+`carti-coin-51m-chart` (@catalogging's post) and `carti-jade-onchain-trace`
+(Jade's chart).
+
+## 83. "Just @ us": the trading bot that bragged three hours before the drain
+<!-- posted: 2026-10-26T03:35:28Z -->
+
+**The brag.** On **October 25, 2026**, at 1:30 PM Pacific,
+[@basedsnipez](https://x.com/basedsnipez) quoted a hardware-wallet ad with
+one word changed: *"there is one trading bot better than anything else on
+the market and I've been using it for years without any issues."* An hour
+later the **Bloom** account ([@BloomTrading](https://x.com/BloomTrading),
+26K followers, *"Most advanced cross-chain trading automation"*) replied
+*"Just @ us 😎"* with a GIF of a man in a suit, arms out, grinning
+([post 2114469817373855887](https://x.com/BloomTrading/status/2114469817373855887)).
+Bloom is a Telegram bot for sniping and trading Solana memecoins. You import
+your wallet's private key so it can trade for you.
+
+**The drain.** At **6:02 PM Pacific** the same night, about twenty minutes
+after the Carti sweep in §82, wallets started emptying into one address,
+`7kY8qx8MqJ7Rz2vMhgHETdZLHcTp1oM78AA9dmE9p8BQ`. It took **about 60
+transfers in three minutes**, 72 in all by 6:46 PM. Every one checked here
+was a plain SOL transfer signed by the victim's own key: no swap, no
+contract, just the whole balance sent away. **casino847** ([@casino847](https://x.com/casino847),
+61K followers, bio: *"trader"*) lost **1,039.7 SOL** at 6:04:05 and posted,
+*"got drained for 100k gg. never keep too much money in ur hot wallets and
+be careful what u connect to"*
+([post 2114544514912108677](https://x.com/casino847/status/2114544514912108677)).
+At 6:26 PM [@Saint_pablo123](https://x.com/Saint_pablo123) posted the
+address's transfer list, casino847's transaction sitting in a column of
+labeled trader wallets: *"everyone is getting drained. check your funds"*
+([post 2114529043374805483](https://x.com/Saint_pablo123/status/2114529043374805483)).
+By 8:35 PM the address held **9,408 SOL**, about $950K, and hadn't moved
+any of it.
+
+**The blame.** At 6:28 PM **Domy** ([@domyxbt](https://x.com/domyxbt),
+11.8K followers) posted: *"I found out who drained me for 80k. It was
+@BloomTrading. Someone please HELP me get in contact with all exchanges 🙏"*
+([post 2114529594942337103](https://x.com/domyxbt/status/2114529594942337103)).
+Attached was his own Bloom chat: `/start`, then **"Wallets Settings,"** six
+wallets named FRESH2, FRESH3, KOLSCAN, MAIN, W1 and W2. At 6:54 PM
+**Hiruzen** ([@hiruzenaio](https://x.com/hiruzenaio)) wrote it up, *"over
+$1M"* drained including from Domy, [@pulsixsol](https://x.com/pulsixsol) and
+[@1285hjksdgfkjs](https://x.com/1285hjksdgfkjs), with two more of the
+transfers: 201.1 SOL from a "GRX" wallet and **640.5 SOL** from
+`3LUf…2Yww`, which is the KOLSCAN wallet in Domy's Bloom list. He also
+posted Bloom's Discord. A staffer named **Bata**, wearing the BLO tag, told
+a user to open a ticket *"because most prob he had linked to rapid. rapid
+is draining, not us."* A user asked back: *"rapid launch? the x deployer"*
+([post 2114536206755045594](https://x.com/hiruzenaio/status/2114536206755045594)).
+
+**Domy's case.** At 7:28 PM Domy answered the Rapid Launch line point by
+point
+([post 2114544562815246487](https://x.com/domyxbt/status/2114544562815246487)).
+*"If it was rapid launch, my other 10 hot wallets would get touched (they
+didn't)."* It can't be J7, Axiom, Terminal or GMGN, *"otherwise everyone
+would be fried."* He'd never used another bot. And his vanity wallet,
+`domyBH…PBSoSp`, the MAIN in that Bloom list, had sat unused for eight
+months and was imported nowhere else, and it was drained too, *"for 20
+cents."* His verdict: *"95% Bloom."* On-chain, the wallets back him up.
+FRESH2 sent **126.3 SOL** to the drainer at 6:04:09, W1 **98.3 SOL** at
+6:04:10, FRESH3 0.05 at 6:04:11 and MAIN its last 0.025 at 6:04:12: four of
+his Bloom wallets in four seconds, seven seconds after casino847.
+
+**The statement.** At 8:02 PM Bloom replied to Domy, not on its own
+timeline: *"Our team is currently investigating the issue. All other
+wallets remain safe. Out of an abundance of caution, we're temporarily
+disabling some services, and we're working to restore them as soon as
+possible. To stay in direct contact with our team, please open a ticket on
+discord"*
+([post 2114553258337574985](https://x.com/BloomTrading/status/2114553258337574985)).
+It had 173 views when it was read here.
+
+**Why it's a troll.** The bot that said *"Just @ us"* got @'d. Four hours
+after the brag, the people who'd handed it their keys were posting
+transaction hashes, and its staff were in Discord saying it was someone
+else. An hour after that the someone else was gone from the story and
+Bloom was switching its own services off. And it happened twenty-three
+minutes after §82's Carti sweep, which was also seventy wallets into one
+address. That night Crypto Twitter got two of those, and they meant
+opposite things: one set of wallets belonged to the people taking the
+money, and the other belonged to the people losing it. casino847's advice
+was the only honest line of the night: *"be careful what u connect to."*
+
+**Sourcing:** *Verified drain, verified posts, unconfirmed cause.* All
+the posts above were read on 2026-10-25 via fxtwitter; times come from
+their IDs and are Pacific. The drain is checked on-chain (Solana mainnet
+RPC): the address's 72 transactions between 00:59:45 and 01:46:03 UTC Oct
+26, about 60 of them 01:02–01:04; casino847's 1,039.71 SOL transfer
+(`36S1TP…NNv`, a system transfer signed by his own wallet, which Solscan
+labels "casino847 on Pump.fun"); Domy's FRESH2, W1, FRESH3 and MAIN
+transfers; and the 9,408.21 SOL balance at 03:35 UTC. The 201.1 and 640.5
+SOL transfers are from Hiruzen's screenshots, not re-traced here, and the
+"GRX" label is Solscan's. **What caused it is unconfirmed**: Bloom has not
+said it was breached or explained what happened; Domy's case is his own
+reasoning, and the overlap between his Bloom list and the drained wallets
+is what's checked. Neither casino847's Bloom use nor the other victims'
+was checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's;
+on-chain it's 9,408 SOL, about $950K at the night's ~$101. Domy's "20
+cents" was 0.025 SOL, closer to $2.50. The Discord screenshot's 2:40 AM is
+in its screenshotter's timezone. Images: `bloom-just-at-us` (the GIF on
+Bloom's reply), `bloom-drain-transfers` (Saint_pablo's screenshot),
+`bloom-domy-wallets` (Domy's Bloom wallet list), `bloom-discord-rapid` and
+`bloom-drain-grx-transfers` (Hiruzen's post).
 
 ## How the persona should use this
 
