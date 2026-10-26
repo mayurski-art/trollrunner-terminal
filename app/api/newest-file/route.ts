@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { newestSection } from "@/lib/loreSections";
 import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
-import { isSeeded } from "@/lib/loreArchive";
+import { FREE_WINDOW_MS, isOpenToAll } from "@/lib/loreArchive";
 
 // Public, like /api/archive-of-the-day: the front page's "newest file" box
 // shows just a number, a title and one image, and links into the archive,
-// where recovering the file still costs PROBLEMS. New sections always get
+// which opens it free while it's new (lib/loreArchive.ts's FREE_WINDOW_MS)
+// and charges PROBLEMS after. New sections always get
 // the next free number (TROLL-LORE.md never renumbers), so the highest
 // number is the newest file.
 //
@@ -15,7 +16,7 @@ import { isSeeded } from "@/lib/loreArchive";
 // { newest: null } and the box stays hidden until the next file goes up.
 export const dynamic = "force-dynamic";
 
-const NEW_FOR_MS = 24 * 60 * 60 * 1000;
+const NEW_FOR_MS = FREE_WINDOW_MS;
 
 export async function GET() {
   const newest = newestSection();
@@ -28,7 +29,7 @@ export async function GET() {
     newest: {
       number: newest.number,
       title: newest.title.replace(/^\d+\.\s*/, ""),
-      seeded: isSeeded(newest.number),
+      seeded: isOpenToAll(newest.number),
       image: image ? { url: image.url, caption: image.caption } : null,
       expiresAt: new Date(postedMs + NEW_FOR_MS).toISOString(),
     },

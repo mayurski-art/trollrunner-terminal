@@ -5,6 +5,8 @@
 // (app/api/archive/route.ts). This file holds the static per-section
 // config that isn't derivable from the lore text itself.
 
+import { sectionsPostedSince } from "@/lib/loreSections";
+
 // Seeded open for every user with no unlock row needed — establishes the
 // voice and the world before anyone's talked to it at all. Picked per
 // docs/TERMINAL-V4-DESIGN.md §3.4: §1 (core identity, always in every
@@ -29,4 +31,20 @@ export function sectionDepth(sectionNumber: number): 1 | 2 {
 
 export function isSeeded(sectionNumber: number): boolean {
   return SEEDED_OPEN_SECTIONS.has(sectionNumber);
+}
+
+// A freshly posted file is open to everyone for its first day — the same
+// window the front page's NEW FILE box uses (app/api/newest-file/route.ts).
+// Timed off the `<!-- posted: ... -->` line under its heading; a file with
+// no posted line never gets the window. Once it closes the file seals again
+// for anyone who hasn't recovered it (via chat or PROBLEMS).
+export const FREE_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+export function isFreshlyPosted(sectionNumber: number): boolean {
+  return sectionsPostedSince(Date.now() - FREE_WINDOW_MS).includes(sectionNumber);
+}
+
+// Readable without an unlock row: seeded open, or inside its free window.
+export function isOpenToAll(sectionNumber: number): boolean {
+  return isSeeded(sectionNumber) || isFreshlyPosted(sectionNumber);
 }

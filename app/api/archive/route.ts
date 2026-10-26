@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { allSectionTitles, getArchiveSectionText, sectionsPostedSince } from "@/lib/loreSections";
 import { archiveWeek } from "@/lib/archiveWeek";
-import { isSeeded, sectionDepth } from "@/lib/loreArchive";
+import { isFreshlyPosted, isOpenToAll, sectionDepth } from "@/lib/loreArchive";
 import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
 
 export const runtime = "nodejs";
@@ -10,9 +10,10 @@ export const runtime = "nodejs";
 // The lore archive — docs/TERMINAL-V4-DESIGN.md §3. Every numbered section
 // of docs/TROLL-LORE.md is a file a signed-in troublemaker recovers, either
 // free (Path A, app/api/chat/route.ts's archiveUnlock hook) or by spending
-// PROBLEMS here (Path B). Section bodies are never sent to a client that
-// hasn't unlocked them — sealed rows in the manifest carry a title (or a
-// redacted "??" for depth-2 sections) and nothing else.
+// PROBLEMS here (Path B). Seeded files and files in their first-day free
+// window (lib/loreArchive.ts) need neither. Section bodies are never sent to
+// a client that can't read them — sealed rows in the manifest carry a title
+// (or a redacted "??" for depth-2 sections) and nothing else.
 
 async function authedUser(request: Request) {
   const authHeader = request.headers.get("authorization") ?? "";
@@ -24,11 +25,70 @@ async function authedUser(request: Request) {
   return { userId: data.user.id, supabase };
 }
 
+// Signed-out visitors get the manifest too: files inside their free window
+// (lib/loreArchive.ts's isFreshlyPosted) are open, everything else — seeded
+// files included — stays sealed until they sign in.
+async function anonymousManifest() {
+  const { data: config } = await getServiceClient()
+    .from("terminal_config")
+    .select("archive_unlock_cost")
+    .single();
+  return manifest({
+    isOpen: isFreshlyPosted,
+    cost: config?.archive_unlock_cost ?? 1,
+    balance: 0,
+    signedIn: false,
+  });
+}
+
+function manifest({
+  isOpen,
+  cost,
+  balance,
+  signedIn,
+}: {
+  isOpen: (n: number) => boolean;
+  cost: number;
+  balance: number;
+  signedIn: boolean;
+}) {
+  const files = allSectionTitles().map(({ number, title }) => {
+    const depth = sectionDepth(number);
+    const open = isOpen(number);
+    const body = open ? getArchiveSectionText(number) : null;
+    return {
+      number,
+      title: open || depth === 1 ? title : "??",
+      depth,
+      state: open ? ("open" as const) : ("sealed" as const),
+      body,
+      images: open ? findLoreImagesForArchiveSection(number) : [],
+      cost: open ? null : cost,
+    };
+  });
+
+  const recoveredCount = files.filter((f) => f.state === "open").length;
+
+  // The "this week" box: files posted since the last Monday 8am Pacific.
+  const week = archiveWeek();
+
+  return NextResponse.json({
+    files,
+    thisWeek: {
+      numbers: sectionsPostedSince(week.startsAt),
+      startsAt: new Date(week.startsAt).toISOString(),
+      endsAt: new Date(week.endsAt).toISOString(),
+    },
+    recoveredCount,
+    totalCount: files.length,
+    balance,
+    signedIn,
+  });
+}
+
 export async function GET(request: Request) {
   const auth = await authedUser(request);
-  if (!auth) {
-    return NextResponse.json({ error: "sign in required" }, { status: 401 });
-  }
+  if (!auth) return anonymousManifest();
   const { userId, supabase } = auth;
 
   const [{ data: unlockRows, error: unlockError }, { data: wallet }, { data: config }] =
@@ -54,36 +114,11 @@ export async function GET(request: Request) {
 
   const unlockedSet = new Set((unlockRows ?? []).map((r) => r.section_number as number));
 
-  const files = allSectionTitles().map(({ number, title }) => {
-    const depth = sectionDepth(number);
-    const open = isSeeded(number) || unlockedSet.has(number);
-    const body = open ? getArchiveSectionText(number) : null;
-    return {
-      number,
-      title: open || depth === 1 ? title : "??",
-      depth,
-      state: open ? ("open" as const) : ("sealed" as const),
-      body,
-      images: open ? findLoreImagesForArchiveSection(number) : [],
-      cost: open ? null : config?.archive_unlock_cost ?? 1,
-    };
-  });
-
-  const recoveredCount = files.filter((f) => f.state === "open").length;
-
-  // The "this week" box: files posted since the last Monday 8am Pacific.
-  const week = archiveWeek();
-
-  return NextResponse.json({
-    files,
-    thisWeek: {
-      numbers: sectionsPostedSince(week.startsAt),
-      startsAt: new Date(week.startsAt).toISOString(),
-      endsAt: new Date(week.endsAt).toISOString(),
-    },
-    recoveredCount,
-    totalCount: files.length,
+  return manifest({
+    isOpen: (n) => isOpenToAll(n) || unlockedSet.has(n),
+    cost: config?.archive_unlock_cost ?? 1,
     balance: wallet?.balance ?? 0,
+    signedIn: true,
   });
 }
 
@@ -105,7 +140,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "missing section" }, { status: 400 });
   }
 
-  if (isSeeded(section)) {
+  if (isOpenToAll(section)) {
     return NextResponse.json({ error: "this file is already open" }, { status: 400 });
   }
   const text = getArchiveSectionText(section);

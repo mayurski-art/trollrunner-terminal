@@ -45,7 +45,8 @@ async function authedFetch(path: string, init?: RequestInit) {
 // Reads the same /api/archive the archive page does, so an already-recovered
 // file just opens; a sealed one shows its padlock and a [ spend a PROBLEM ]
 // button, and the lock springs open (components/LockReveal.tsx) before the
-// text comes in. Signed-out visitors get the sign-in panel.
+// text comes in. Signed-out visitors can read a file inside its free first
+// day; a sealed one shows them the sign-in panel.
 export default function NewFilePopup({
   number,
   title,
@@ -78,6 +79,8 @@ export default function NewFilePopup({
         setView({ kind: "error", message: "that file has gone missing" });
       } else if (file.state === "open" && file.body) {
         setView({ kind: "open", body: file.body, images: file.images, justOpened: false });
+      } else if (data.signedIn === false) {
+        setView({ kind: "signed-out" });
       } else {
         setView({ kind: "sealed", cost: file.cost ?? 1, balance: data.balance ?? 0 });
       }
@@ -93,11 +96,9 @@ export default function NewFilePopup({
   const userId = session === undefined ? undefined : (session?.user.id ?? null);
   useEffect(() => {
     if (userId === undefined) return;
-    if (!userId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setView({ kind: "signed-out" });
-      return;
-    }
+    // Signed out still loads: a file in its free window opens for anyone,
+    // and load() falls back to the sign-in panel only if it's sealed.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setView({ kind: "loading" });
     load();
   }, [userId, load]);

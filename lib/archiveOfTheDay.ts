@@ -11,7 +11,7 @@
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
 import { stripLoreLinks } from "@/lib/loreLinks";
 import { findLoreImagesForArchiveSection, type LoreAsset } from "@/lib/loreAssets";
-import { sectionDepth, isSeeded } from "@/lib/loreArchive";
+import { sectionDepth, isOpenToAll } from "@/lib/loreArchive";
 
 // The file rotates at 5 PM California time, year-round — 17:00 PST in
 // winter and 17:00 PDT in summer, so it always lands at 5 PM for a local
@@ -254,7 +254,7 @@ export function pickArchiveOfTheDay(now: Date = new Date()): ArchiveOfTheDay | n
     depth: sectionDepth(picked.number),
     teaser,
     truncated,
-    seeded: isSeeded(picked.number),
+    seeded: isOpenToAll(picked.number),
     image: image ? { url: image.url, caption: image.caption } : null,
     dayKey,
     endsAt: archiveDayEndsAt(now),

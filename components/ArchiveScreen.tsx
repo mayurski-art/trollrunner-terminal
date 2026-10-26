@@ -6,7 +6,6 @@ import { getSession, onAuthChange } from "@/lib/auth";
 import Nav from "@/components/Nav";
 import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
-import AuthPanel from "@/components/AuthPanel";
 import Archive from "@/components/Archive";
 import ArchiveEntrance from "@/components/ArchiveEntrance";
 import { BANNER_ARCHIVE } from "@/lib/ascii";
@@ -42,15 +41,14 @@ export default function ArchiveScreen({ file }: { file?: number }) {
         </p>
 
         <Frame title="archive" tone="terminal">
+          {/* Signed-out visitors still get the archive: freshly posted files
+              are free to read for their first day (lib/loreArchive.ts), and
+              Archive asks them to sign in only to unlock a sealed one. Keyed
+              on the user so signing in or out reloads the manifest. */}
           {!loaded ? (
             <p className="text-dim text-sm animate-pulse">checking clearance...</p>
-          ) : !session ? (
-            <div className="space-y-4">
-              <p className="text-dim text-sm">sign in to reach this.</p>
-              <AuthPanel />
-            </div>
           ) : (
-            <Archive file={file} />
+            <Archive key={session?.user.id ?? "anon"} file={file} signedIn={!!session} />
           )}
         </Frame>
 

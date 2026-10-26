@@ -6,6 +6,7 @@ import Frame from "@/components/Frame";
 import Meter from "@/components/Meter";
 import LoreBody from "@/components/LoreBody";
 import LockReveal from "@/components/LockReveal";
+import AuthPanel from "@/components/AuthPanel";
 import { stripLoreLinks } from "@/lib/loreLinks";
 import { isLoopGifAsset } from "@/lib/loreAssets";
 
@@ -45,8 +46,11 @@ type SearchHit = { number: number; title: string; snippet: string; reason: strin
 // of TROLL-LORE.md is a file here: recovered for free by chatting about its
 // topic (app/api/chat/route.ts's Path A), or forced open by spending
 // PROBLEMS (Path B, this component's [ unlock ] button). Sealed files show
-// only a title — for depth-2 sections, not even that.
-export default function Archive({ file }: { file?: number }) {
+// only a title — for depth-2 sections, not even that. Signed-out visitors
+// see the same list with only freshly posted files open; their [ unlock ]
+// button opens the sign-in panel instead of spending.
+export default function Archive({ file, signedIn = true }: { file?: number; signedIn?: boolean }) {
+  const [showSignIn, setShowSignIn] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [recoveredCount, setRecoveredCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -213,7 +217,9 @@ export default function Archive({ file }: { file?: number }) {
   // voice. Falls back silently to plain keyword hits if that call fails.
   useEffect(() => {
     if (searchDebounce.current) clearTimeout(searchDebounce.current);
-    if (q.length < 3) {
+    // /api/archive/search needs a signed-in user; signed out, the local
+    // matches are all there is.
+    if (q.length < 3 || !signedIn) {
       searchRequestId.current++;
       return;
     }
@@ -267,6 +273,13 @@ export default function Archive({ file }: { file?: number }) {
     .filter((f): f is File => !!f);
 
   async function unlock(number: number) {
+    if (!signedIn) {
+      setShowSignIn(true);
+      requestAnimationFrame(() => {
+        document.getElementById("archive-sign-in")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      return;
+    }
     if (unlocking !== null) return;
     setError(null);
     setUnlocking(number);
@@ -384,8 +397,25 @@ export default function Archive({ file }: { file?: number }) {
           tone="terminal"
           label={`recovered memory · ${recoveredCount} / ${totalCount}`}
         />
-        <p className="text-problem text-sm">▣ {balance} PROBLEMS</p>
+        {signedIn ? (
+          <p className="text-problem text-sm">▣ {balance} PROBLEMS</p>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setShowSignIn((s) => !s)}
+            className="text-terminal text-sm underline decoration-dim underline-offset-4 hover:text-foreground"
+          >
+            [ sign in to unlock more ]
+          </button>
+        )}
       </div>
+
+      {!signedIn && showSignIn && (
+        <div id="archive-sign-in" className="space-y-4">
+          <p className="text-dim text-sm">new files are free for their first day. sign in to recover the rest.</p>
+          <AuthPanel />
+        </div>
+      )}
 
       {error && <p className="text-alert text-xs">{error}</p>}
 
@@ -481,7 +511,7 @@ export default function Archive({ file }: { file?: number }) {
                   onClick={() => unlock(file.number)}
                   className="shrink-0 text-problem hover:text-terminal disabled:opacity-40"
                 >
-                  [ {revealing === file.number ? "unsealing" : unlocking === file.number ? "..." : `unlock · ▣${file.cost}`} ]
+                  [ {!signedIn ? "sign in to unlock" : revealing === file.number ? "unsealing" : unlocking === file.number ? "..." : `unlock · ▣${file.cost}`} ]
                 </button>
               )}
             </div>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
 import { allSectionTitles, getArchiveSectionText } from "@/lib/loreSections";
 import { stripLoreLinks } from "@/lib/loreLinks";
-import { isSeeded } from "@/lib/loreArchive";
+import { isOpenToAll } from "@/lib/loreArchive";
 import { generateFreeReply } from "@/lib/freeProviders";
 
 export const runtime = "nodejs";
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
   // Only sections this user can actually read — seeded-open ones plus
   // whatever they've unlocked. Sealed sections are invisible to search.
   const readable = allSectionTitles()
-    .filter((s) => isSeeded(s.number) || unlockedSet.has(s.number))
+    .filter((s) => isOpenToAll(s.number) || unlockedSet.has(s.number))
     .map((s) => ({ ...s, body: stripLoreLinks(getArchiveSectionText(s.number) ?? "") }));
 
   const q = query.toLowerCase();
