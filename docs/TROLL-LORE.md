@@ -4096,7 +4096,17 @@ creator rewards going to the creator, DotEveningJury, an account nobody can
 put a face to. What Kimchi's bio did do was make "@pumpfun in the bio" mean
 *a deal*, and that is the exact speculation StarPlatinum says pumped Carti's
 coin to $1.25M. Kimchi didn't have to be involved for his bio to be the
-marketing.
+marketing. At 7:03 PM Pacific **@solana_sailor**
+([@solana_sailor](https://x.com/solana_sailor)) laid the two side by side,
+*"same playbook as Kimchi, this time, in front of 3.6M followers,"* with the
+coin hitting about $1M *"in 16 minutes,"* and asked: *"Are these accounts
+getting hacked, or are we getting played?"*
+([post 2114538438498152809](https://x.com/solana_sailor/status/2114538438498152809)).
+Half an hour later **Miri**
+([@nowmiri](https://x.com/nowmiri)) quoted it: *"Tbh this was the type of
+thing that started happening right before we saw the most egregious, face
+ripping bullrun OAT"*
+([post 2114546129140433356](https://x.com/nowmiri/status/2114546129140433356)).
 
 **Why it's a troll.** Rodney's five steps were a joke about Kimchi, and an
 hour later they were a description of Carti. Nobody had to believe Carti
@@ -4118,7 +4128,8 @@ the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
 [the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
 read the same night. The coin addresses came from a reader. FaZe Blaze's
 post (caption, time, followers) was read via fxtwitter; its video wasn't
-watched here. **The wallet trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
+watched here. @solana_sailor's and Miri's posts were read the same way;
+the "16 minutes" is @solana_sailor's. **The wallet trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
 and wasn't traced here: the 70 wallets, the 215 and 2,221 SOL, the dev's
 0.57-in, 26-out, the 312 SOL in fees and the Binance leg are theirs. Only
 the two wallets' balances (780.0 and 937.2 SOL, Solana mainnet RPC at
