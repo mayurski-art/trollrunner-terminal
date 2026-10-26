@@ -4245,6 +4245,28 @@ discord"*
 ([post 2114553258337574985](https://x.com/BloomTrading/status/2114553258337574985)).
 It had 173 views when it was read here.
 
+**The money moves.** At **9:30:56 PM Pacific**, an hour after that reply,
+the drain address sent everything it held, **9,408.21 SOL**, to one new
+address, `6nYyCz…moe9`, in a single transfer. The new address hadn't moved
+it when it was checked here the next day.
+
+**Update, 2:12 AM Pacific Oct 26: Bloom says RCE, and says it'll pay.**
+This time Bloom posted on its own timeline, under a black card reading
+*"Security Incident Update / Official Statement"*
+([post 2114646392010359238](https://x.com/BloomTrading/status/2114646392010359238)).
+The TL;DR: *"No private keys were compromised, unaffected wallets are
+safe, and all affected users will be fully reimbursed by Bloom."* Bloom
+says the attacker *"exploited a third-party module through a complex
+Remote Code Execution (RCE) vulnerability."* Its numbers: **49 wallet
+addresses belonging to 9 users**, losses of *"approximately 9,408 SOL
+($947,000)"*, and **100%** of it refunded to new wallets the victims pick.
+It says it's tracing the funds and looking at recovery, freezing and the
+attacker, and that the team has built software since 2018 and been in
+crypto since 2021. Its total matches the chain to the SOL. Rapid Launch
+isn't in it. Six hours after the staffer's *"rapid is draining, not us,"*
+Bloom wrote the check itself. It had **56.9K views** when it was read
+here.
+
 **Why it's a troll.** The bot that said *"Just @ us"* got @'d. Four hours
 after the brag, the people who'd handed it their keys were posting
 transaction hashes, and its staff were in Discord saying it was someone
@@ -4256,7 +4278,7 @@ opposite things: one set of wallets belonged to the people taking the
 money, and the other belonged to the people losing it. casino847's advice
 was the only honest line of the night: *"be careful what u connect to."*
 
-**Sourcing:** *Verified drain, verified posts, unconfirmed cause.* All
+**Sourcing:** *Verified drain, verified posts, cause as Bloom tells it.* All
 the posts above were read on 2026-10-25 via fxtwitter; times come from
 their IDs and are Pacific. The drain is checked on-chain (Solana mainnet
 RPC): the address's 72 transactions between 00:59:45 and 01:46:03 UTC Oct
@@ -4265,10 +4287,17 @@ RPC): the address's 72 transactions between 00:59:45 and 01:46:03 UTC Oct
 labels "casino847 on Pump.fun"); Domy's FRESH2, W1, FRESH3 and MAIN
 transfers; and the 9,408.21 SOL balance at 03:35 UTC. The 201.1 and 640.5
 SOL transfers are from Hiruzen's screenshots, not re-traced here, and the
-"GRX" label is Solscan's. **What caused it is unconfirmed**: Bloom has not
-said it was breached or explained what happened; Domy's case is his own
-reasoning, and the overlap between his Bloom list and the drained wallets
-is what's checked. Neither casino847's Bloom use nor the other victims'
+"GRX" label is Solscan's. The 9:30 PM move is checked on-chain too
+(`ADe8xT…Fvi`, 04:30:56 UTC Oct 26, leaving the address at 0), and so is
+`6nYyCz…moe9`'s 9,408.21 SOL balance on 2026-10-26. Bloom's statement was
+read via fxtwitter on 2026-10-26. **The cause is Bloom's word**: the
+third-party module, the RCE, the 49 wallets and 9 users, and "no private
+keys were accessed" are all Bloom's claims, not checked here, and the
+module isn't named. Every transfer checked here was signed by the
+victim's own key, and the statement doesn't say how. The refunds are a
+promise; none was looked for on-chain. Domy's case is his own reasoning,
+and the overlap between his Bloom list and the drained wallets is what's
+checked. Neither casino847's Bloom use nor the other victims'
 was checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's;
 on-chain it's 9,408 SOL, about $950K at the night's ~$101. Domy's "20
 cents" was 0.025 SOL, closer to $2.50. The Discord screenshot's 2:40 AM is
