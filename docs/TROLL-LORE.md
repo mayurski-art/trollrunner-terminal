@@ -4051,6 +4051,13 @@ done **$4.16 million** in volume (39,064 buys, 30,873 sells, 2,295 holders)
 on a pool holding **$5.7K** of liquidity, and the creator's wallet held
 **0.0%** of it.
 
+**The replies.** Under the dog, somebody posted a phone screenshot of an
+iMessage thread with a contact named **"Kimchi."** Kimchi: *"You ready to
+hack my shit?"* Reply: *"yeah."* Kimchi: *"Bet, carti said he down too."*
+It's a troll post: a staged text, not a leak, and nobody knows who made it.
+At 6:41 PM Pacific **@troll_runner** reposted it quoting the dog
+([post 2114532769997148575](https://x.com/troll_runner/status/2114532769997148575)).
+
 **The Kimchi question.** Is it connected to Kimchi's bio? Kimchi
 (§80) put **@pumpfun** in his bio when Pump.fun signed him on October 20,
 swapped it for **@pioneerfnf** on October 22 after his "hacked" post, and,
@@ -4098,8 +4105,9 @@ Images: `bieber-love-hurts-video` (the video's thumbnail),
 `carti-bio-pumpfun` and `carti-coin-pump-chart` (StarPlatinum's post),
 `carti-bio-before-after` and `carti-coin-96-percent` (Rodney's post),
 `carti-lone-wolf-avatar` (Carti's new profile picture), `carti-beanie-dog`
-(his post) and `kimchi-bio-pumpfun-again` (Kimchi's profile, screenshotted
-here).
+(his post), `kimchi-carti-hack-imessage` (the fake Kimchi text from his
+replies, via @troll_runner's repost; its maker is unknown) and
+`kimchi-bio-pumpfun-again` (Kimchi's profile, screenshotted here).
 
 ## How the persona should use this
 

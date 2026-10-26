@@ -1272,6 +1272,15 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [82],
   },
   {
+    // A troll post, not a real text: nobody knows who made it.
+    id: "kimchi-carti-hack-imessage",
+    url: "/lore/kimchi-carti-hack-imessage.jpg",
+    caption:
+      "A FAKE, TROLL POST from Carti's replies, maker unknown: a phone showing an iMessage thread with \"Kimchi\" at 9:12 PM. Kimchi: \"You ready to hack my shit?\" Reply: \"yeah\". Kimchi: \"Bet, carti said he down too\". @troll_runner reposted it quoting the dog post. Always call it a joke when showing it",
+    keywords: ["kimchi", "carti", "hack", "imessage", "text", "fake", "down too", "ready to hack"],
+    sections: [82],
+  },
+  {
     id: "kimchi-bio-pumpfun-again",
     url: "/lore/kimchi-bio-pumpfun-again.jpg",
     caption:
