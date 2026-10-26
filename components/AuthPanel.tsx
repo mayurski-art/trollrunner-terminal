@@ -118,14 +118,21 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // against the real viewport at paint time, every time.
   const form = (
     <form onSubmit={resolved ? submit : proceed} className="space-y-4 sm:space-y-3 text-base sm:text-sm">
-      {resolved && (
-        <p className="text-dim text-sm sm:text-xs">
-          {resolved === "login" ? "welcome back, troublemaker" : "never seen you before — let's fix that"}
-        </p>
-      )}
+      {/* There's no separate sign-up: a name nobody has taken becomes a new
+          account on the spot. Say so up front, or "username" + "password"
+          reads like you need an account made somewhere else first. */}
+      <p className="text-dim text-sm sm:text-xs">
+        {resolved === "login"
+          ? "welcome back, troublemaker. enter your password."
+          : resolved === "register"
+            ? "that name is yours. pick any password (8+ characters) and remember it. that's your whole account."
+            : "no sign-up needed. pick any username and password and just remember them."}
+      </p>
 
       <label className="block">
-        <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">username</span>
+        <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">
+          {resolved ? "username" : "pick a username"}
+        </span>
         <input
           value={identifier}
           onChange={(e) => {
@@ -141,7 +148,9 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
 
       {resolved && (
         <label className="block">
-          <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">password</span>
+          <span className="text-dim block mb-1.5 sm:mb-1 text-sm sm:text-xs">
+            {resolved === "login" ? "password" : "pick a password"}
+          </span>
           <input
             type="password"
             value={password}
@@ -161,7 +170,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
         disabled={checking || busy}
         className="glitch-btn glitch-btn-auto w-full sm:w-auto border border-terminal text-terminal rounded-md sm:rounded-none px-3 py-3 sm:py-1.5 text-base sm:text-sm hover:bg-terminal hover:text-background transition-colors disabled:opacity-40"
       >
-        {checking ? "..." : busy ? "..." : !resolved ? "next >" : resolved === "login" ? "connect >" : "register >"}
+        {checking ? "..." : busy ? "..." : !resolved ? "next >" : resolved === "login" ? "connect >" : "start trolling >"}
       </button>
     </form>
   );
@@ -190,7 +199,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       className="fixed inset-0 z-50 bg-background/95 overflow-y-auto p-6 flex flex-col justify-center sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:block sm:w-64 sm:rounded-md sm:border sm:border-dim sm:bg-black/90 sm:backdrop-blur sm:px-4 sm:py-3 sm:shadow-lg"
     >
       <div className="w-full max-w-sm mx-auto space-y-6 sm:max-w-none sm:mx-0 sm:space-y-0">
-        <p className="text-dim text-sm sm:hidden">trollface terminal // identify yourself</p>
+        <p className="text-dim text-sm sm:hidden">trollface terminal // pick a name</p>
         {form}
         <button
           type="button"
