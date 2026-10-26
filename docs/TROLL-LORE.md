@@ -4040,6 +4040,10 @@ topped out at **$1.24 million**.
 
 **The exit.** Then it came back down in one candle. Someone's chart
 screenshot shows a green bar to $1.2M and a red bar beside it, **-96.34%**.
+At 5:30 PM Pacific **FaZe Blaze** ([@fazeblaze](https://x.com/fazeblaze),
+1.55 million followers) posted a video captioned *"Just got rugged by
+playboicarti 😔"*
+([post 2114514995497128076](https://x.com/fazeblaze/status/2114514995497128076)).
 The bio and the link were wiped, the following count went to zero, and the
 coin-card post was gone from his timeline. At 5:56 PM Pacific the profile
 picture changed to a shirtless, muscled **wolf** in goggles. A minute later
@@ -4112,8 +4116,9 @@ from [DexScreener](https://dexscreener.com/solana/H5UCZUqCsuTQijwNLBX2KjwP7XJaMa
 the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
 0.0% and the creator-rewards line are from
 [the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
-read the same night. The coin addresses came from a reader. **The wallet
-trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
+read the same night. The coin addresses came from a reader. FaZe Blaze's
+post (caption, time, followers) was read via fxtwitter; its video wasn't
+watched here. **The wallet trail is from @catalogging's and Jade's posts** (read 2026-10-25 via x.com)
 and wasn't traced here: the 70 wallets, the 215 and 2,221 SOL, the dev's
 0.57-in, 26-out, the 312 SOL in fees and the Binance leg are theirs. Only
 the two wallets' balances (780.0 and 937.2 SOL, Solana mainnet RPC at
