@@ -1424,6 +1424,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["chubbicorns", "cup", "rank", "489", "struck", "zeroed", "disqualified", "squad"],
     sections: [85],
   },
+  {
+    id: "standard-reserve-867-banks",
+    url: "/lore/standard-reserve-867-banks.jpg",
+    caption:
+      "Standard Reserve's app on October 26: 867 active banks of 1,060 charters minted, 193 burned (posted by @dtrain22k to show where $FPUMP's 80% went)",
+    keywords: ["standard reserve", "charter", "charters", "banks", "867", "airdrop", "vault", "bundle", "fpump"],
+    sections: [85],
+  },
+  {
+    id: "standard-charter-drops-fpump",
+    url: "/lore/standard-charter-drops-fpump.jpg",
+    caption:
+      "A Standard Reserve charter's drops list: 2.03M FPUMP \"Paid in full when this charter exits,\" above SNP, RING, AGEM and SKARLY (posted by @dtrain22k)",
+    keywords: ["standard reserve", "charter drops", "airdrop", "fpump", "exit", "burn", "bundle", "vault"],
+    sections: [85],
+  },
+  {
+    id: "fpump-holders-vault-80pct",
+    url: "/lore/fpump-holders-vault-80pct.jpg",
+    caption:
+      "$FPUMP's holder list on Blockscout: one vault contract with 79.96% (the charter airdrop), then Dtrain22k's wallet at 2.26% and frizzaud's at 1.52%",
+    keywords: ["fpump", "holders", "holder list", "vault", "80%", "bundle", "bundled", "blockscout", "airdrop"],
+    sections: [85],
+  },
+  {
+    id: "troll-runner-discretion-reply",
+    url: "/lore/troll-runner-discretion-reply.jpg",
+    caption:
+      "A frame of the reaction GIF in @troll_runner's reply to Pump.fun's head of content: \"ohhhh so we're just gonna pick and choose 'at our discretion'\"",
+    keywords: ["at our discretion", "pick and choose", "troll_runner", "json1444", "reply", "chubbicorns"],
+    sections: [85],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

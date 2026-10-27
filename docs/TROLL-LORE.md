@@ -4536,8 +4536,60 @@ thin coin can top the board without a cent being sellable. That's the
 "manipulation" the rules leave open, and it's the opening the KuCoin piece
 had already pointed at. At 6:57 PM Pacific the coin was at **$2.62
 million**, 166 holders, **$414K** of volume in 24 hours. By 7:10 PM it was
-at **$1.09 million**, and the squad's $FPUMP was worth **$44,581.73**. Pump.fun
-had said nothing.
+at **$1.09 million**, and the squad's $FPUMP was worth **$44,581.73**.
+@Pumpfun itself had posted nothing.
+
+**The ruling.** Its head of content had. At **6:54 PM Pacific**, **json**
+([@json1444](https://x.com/json1444), bio: *"head of content @pumpfun"*,
+35.5K followers) posted that *"ALL crosschain trades count towards your
+Squad's score"*
+([post 2114898533358727415](https://x.com/json1444/status/2114898533358727415)).
+Asked by [@guccitos77](https://x.com/guccitos77) why the squad got
+disqualified, he answered at **7:03 PM**: *"they did not. however, the PNL
+score they had on their extremely bundled token was removed. they are
+currently rank #492"*
+([post 2114900846441816136](https://x.com/json1444/status/2114900846441816136)).
+So the strike was Pump.fun's call, on purpose, and the reason was "bundled."
+
+Dtrain22k answered at **7:16 PM**: *"Can you show the bundle please?"*
+([post 2114904038634393669](https://x.com/dtrain22k/status/2114904038634393669)).
+His case: $FPUMP came from the **Standard Reserve** launchpad, which, when a
+coin graduates, can airdrop up to 80% of it to holders of its **bank
+charter** NFTs, and can lock it so a holder only gets the coins by burning
+the charter. On a holder list, he said, that 80% *"might show that 80% went
+to one place."* At **7:26 PM** he added numbers and two screenshots from
+Standard Reserve's app: **867** active banks *"of 1,060 charters minted ·
+193 burned,"* and a charter's drops list with **2.03M FPUMP**, *"Paid in
+full when this charter exits"*
+([post 2114906634757779580](https://x.com/dtrain22k/status/2114906634757779580)).
+*"It's fair that you didn't know how their launch pad works but now that
+you do will our pnl be restored?"* At **7:41 PM** **0xbeans**
+([@0xbeans](https://x.com/0xbeans), 29.3K followers) quoted him from the
+launchpad's side: charter holders have spent *"a minimum of 3 eth,"* and
+*"it is not an '80% bundle', it is a vault contract that holds the airdrop
+that distributes the tokens when charter holders burn"*
+([post 2114910453185077436](https://x.com/0xbeans/status/2114910453185077436)).
+At **8:05 PM** @troll_runner replied to json: *"ohhhh so we're just gonna
+pick and choose 'at our discretion'"*
+([post 2114916265139781992](https://x.com/troll_runner/status/2114916265139781992)).
+
+The chain backs the vault. **One contract**
+(`0xb8748E02f07dd80F1DB99A49F92546B2210D844d`) holds **79.96%** of $FPUMP.
+It got **800M**, exactly 80%, in one transfer from the launchpad contract at
+**9:15:58 AM Pacific on October 26**, the second the coin finished its
+bonding curve. It was created on **October 19**, four days before $FPUMP
+existed, and it holds the same launchpad's other drops too (RING, SNP,
+SPOUR), the coins on dtrain22k's charter list. Two payouts of **200K**
+each have left it, at 11:24 AM and 5:15 PM. None of it went to the squad's
+wallets. So the "bundle" is an 80% airdrop held in escrow, not a wallet
+anyone was trading.
+
+The fair version of Pump.fun's side: with 80% locked, the float was about
+200M tokens, and the squad's 41.1M was about a fifth of what could trade.
+That's how a $5.9K buy turned into a $205K mark on a pool holding $28K. But
+that's thin liquidity, which the rules score on purpose. It isn't a bundle,
+and it isn't what Pump.fun said. As of 8:05 PM Pacific, Pump.fun hadn't
+shown a bundle or answered whether the PNL comes back.
 
 **Why it's a troll.** Pump.fun put up $2.5 million to win back traders who
 were boycotting it. Day one, the squad in first was three people sitting on
@@ -4545,10 +4597,12 @@ a coin called "Fuck Pumpfun," bought on a chain Pump.fun had just added,
 priced in a Korean chip stock. The contest scored the thing the coin was
 named for, and the only way to stop it was to do what the coin's name
 accused them of: change the rules at their discretion. First place went
-to #489, down $2.88.
+to #489, down $2.88. The reason given was a bundle, and the bundle turned
+out to be another launchpad's airdrop, locked in a vault.
 
 **Sourcing:** *Verified posts, on-chain trades and the squad's page; the
-reason for the strike is unconfirmed.* Pump.fun's three contest posts, Slurp's post and
+reason for the strike comes from Pump.fun's head of content, not an
+official post.* Pump.fun's three contest posts, Slurp's post and
 both @troll_runner posts were read on 2026-10-26 via fxtwitter; the post
 times come from their IDs. The boycott background is from
 [Protos](https://protos.com/pump-fun-offers-2-5m-prize-as-traders-boycott-its-missing-airdrop/)
@@ -4577,9 +4631,18 @@ and #489 were read on
 [Pump.fun's squad page](https://pump.fun/squads/Chubbicorns)** at 7:10 PM
 Pacific and screenshotted. Their three wallets match the members by
 username on the coin's holder list and by cost to within a few dollars.
-Slurp's "because they held $fpump" is his reading. **Pump.fun hadn't said
-why**, or whether striking one coin counts as the "zeroed PNL" in its
-rules, and no outlet had covered it. "First
+Slurp's "because they held $fpump" is his reading. **The reason given is
+json's "extremely bundled," from Pump.fun's head of content, not an
+@Pumpfun post**; no official account had said whether striking one coin
+counts as the "zeroed PNL" in its rules, and no outlet had covered it.
+json's, dtrain22k's, 0xbeans' and @troll_runner's 6:54 to 8:05 PM posts
+were read on 2026-10-26 via fxtwitter. **The vault is checked on-chain**
+(Blockscout, about 8:50 PM Pacific): the holder list, the 800M transfer at
+graduation, the two 200K payouts, the contract's October 19 creation and
+its RING, SNP and SPOUR holdings. Its source isn't verified, so the
+burn-to-claim rule is the launchpad side's account, not read from code;
+the 867 banks and the 2.03M drop are from dtrain22k's screenshots, and
+0xbeans' role at Standard Reserve isn't stated anywhere he was read. "First
 PREVIOUS uPnL counts" is @troll_runner's complaint about an earlier
 ruling; that ruling wasn't checked. A deleted post by
 [@Fruli_sol](https://x.com/Fruli_sol) on the same story couldn't be read.
@@ -4589,7 +4652,10 @@ Images: `squads-standings-after-chubbicorns` (Slurp's post),
 `fpump-chart-7m-spike` (@troll_runner's reply),
 `chubbicorns-squad-first-place` (the reader's screenshot of the squad at
 #1), `chubbicorns-squad-page` and `chubbicorns-cup-rank-489` (the squad's
-page at 7:10 PM).
+page at 7:10 PM), `standard-reserve-867-banks` and
+`standard-charter-drops-fpump` (dtrain22k's 7:26 PM post),
+`troll-runner-discretion-reply` (a frame of @troll_runner's 8:05 PM reply
+GIF), `fpump-holders-vault-80pct` (the holder list on Blockscout).
 
 ## How the persona should use this
 
