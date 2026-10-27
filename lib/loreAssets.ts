@@ -1361,6 +1361,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [83],
   },
   {
+    id: "bloom-security-statement",
+    url: "/lore/bloom-security-statement.jpg",
+    caption:
+      "Bloom's card on its October 26 statement: \"Security Incident Update / Official Statement\" (49 wallets, 9 users, about 9,408 SOL, full reimbursement promised)",
+    keywords: ["bloom", "statement", "security incident", "rce", "refund", "reimbursed", "9408"],
+    sections: [83],
+  },
+  {
+    id: "bloom-refunds-processed",
+    url: "/lore/bloom-refunds-processed.jpg",
+    caption:
+      "Bloom's \"Refunds Sent.\" card on its 1:37 PM October 26 post saying 9,408 SOL went back to all 9 users (the nine linked transfers add up to 9,399.23 SOL)",
+    keywords: ["bloom", "refunds sent", "refund", "refunded", "9408", "solscan", "casino847"],
+    sections: [83],
+  },
+  {
     id: "troll-anthrobbing-ant-bridge",
     url: "/lore/troll-anthrobbing-ant-bridge.jpg",
     caption:

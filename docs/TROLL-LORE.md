@@ -4274,7 +4274,24 @@ quoted Bloom's statement:
 ([post 2114745553577800178](https://x.com/casino847/status/2114745553577800178)).
 It's the first victim to say the money came back, about six and a half
 hours after Bloom promised it and under fifteen hours after the drain. By
-then Bloom's statement was up to **64.8K views**.
+then Bloom's statement was up to **64.8K views**. Nine minutes before his
+post, at **8:37 AM**, a single wallet (`35yDUV…uTKK`) had sent
+**1,038.71 SOL** to a fresh address, a SOL short of his 1,039.71.
+
+**Update, 1:37 PM Pacific Oct 26: "Refunds Sent."** Bloom posted a green
+card and *"All Refunds Successfully Processed | 9,408 SOL Refunded"*:
+*"100% of the affected funds, totaling 9,408 SOL, have been fully refunded
+to all 9 users,"* with nine Solscan links
+([post 2114818686871560696](https://x.com/BloomTrading/status/2114818686871560696)).
+The chain backs the links. All nine are plain transfers from that same
+`35yDUV…uTKK` wallet to nine new addresses, between **8:37 AM and 1:33 PM
+Pacific**, the last one four minutes before the post: **1,863.48**,
+1,307.75, 1,144.66, 1,038.71, 1,020.72, 864.16, 770.10, 741.16 and 648.50
+SOL. They add up to **9,399.23 SOL**, about **9 SOL** (~$900) under the
+9,408.21 that left the victims' wallets. And the stolen 9,408.21 SOL was
+still sitting in the attacker's `6nYyCz…moe9` that night, untouched since
+9:35 PM the day of the drain, so the refunds weren't a recovery: Bloom paid
+them on top. The post had **17.8K views** when it was read here.
 
 **Why it's a troll.** The bot that said *"Just @ us"* got @'d. Four hours
 after the brag, the people who'd handed it their keys were posting
@@ -4305,12 +4322,18 @@ read via fxtwitter on 2026-10-26. **The cause is Bloom's word**: the
 third-party module, the RCE, the 49 wallets and 9 users, and "no private
 keys were accessed" are all Bloom's claims, not checked here, and the
 module isn't named. Every transfer checked here was signed by the
-victim's own key, and the statement doesn't say how. The refunds are a
-promise. casino847's "full amount refunded" post (read via fxtwitter on
+victim's own key, and the statement doesn't say how. casino847's "full amount refunded" post (read via fxtwitter on
 2026-10-26; 3,787 views and 135 likes at that read) is his word. Refunds go
-to new wallets the victims pick, so his drained wallet wouldn't show it,
-and no refund was traced on-chain. Whether the other eight users have been
-paid isn't known here. Domy's case is his own reasoning,
+to new wallets the victims pick, so his drained wallet wouldn't show it.
+**The refunds are checked on-chain** (Solana mainnet RPC, evening of
+2026-10-26): all nine of Bloom's linked transactions are successful system
+transfers from `35yDUVrTnHwrZg8wAQoQaEHHfrzwgmhbTuTU91t8uTKK`, totalling
+9,399.23 SOL, and `6nYyCz…moe9` still held 9,408.21 SOL with no transfer
+out after 04:35 UTC Oct 26. Who received each refund isn't checked: the
+nine addresses are new, and that the 1,038.71 SOL one is casino847's is an
+inference from the amount and the timing, not a link. Bloom's "9 users"
+and its 9,408 figure are its own; the 9 SOL gap isn't explained anywhere
+read here. Bloom's refunds post was read via fxtwitter on 2026-10-26. Domy's case is his own reasoning,
 and the overlap between his Bloom list and the drained wallets is what's
 checked. Neither casino847's Bloom use nor the other victims'
 was checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's;
@@ -4319,7 +4342,9 @@ cents" was 0.025 SOL, closer to $2.50. The Discord screenshot's 2:40 AM is
 in its screenshotter's timezone. Images: `bloom-just-at-us` (the GIF on
 Bloom's reply), `bloom-drain-transfers` (Saint_pablo's screenshot),
 `bloom-domy-wallets` (Domy's Bloom wallet list), `bloom-discord-rapid` and
-`bloom-drain-grx-transfers` (Hiruzen's post).
+`bloom-drain-grx-transfers` (Hiruzen's post), `bloom-security-statement`
+(the card on Bloom's 2:12 AM statement), `bloom-refunds-processed` (the
+card on its 1:37 PM refunds post).
 
 ## 84. "anthrobbing": the trollface ants and the ticker ANT
 <!-- posted: 2026-10-26T16:22:40Z -->
