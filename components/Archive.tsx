@@ -8,7 +8,8 @@ import LoreBody from "@/components/LoreBody";
 import LockReveal from "@/components/LockReveal";
 import AuthPanel from "@/components/AuthPanel";
 import { stripLoreLinks } from "@/lib/loreLinks";
-import { isLoopGifAsset } from "@/lib/loreAssets";
+import WeekFiles from "@/components/WeekFiles";
+import { onArchiveFileRequest, takeArchiveFile } from "@/lib/archiveGoto";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -269,6 +270,19 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
     });
   }
 
+  // A file picked on the /archive entrance (lib/archiveGoto.ts): taken once
+  // the manifest is in, whether the pick came before or after it loaded.
+  useEffect(() => {
+    if (files.length === 0) return;
+    const go = () => {
+      const n = takeArchiveFile();
+      const target = n == null ? null : files.find((f) => f.number === n);
+      if (target) goToWeekFile(target);
+    };
+    go();
+    return onArchiveFileRequest(go);
+  }, [files]);
+
   const weekFiles = (thisWeek?.numbers ?? [])
     .map((n) => files.find((f) => f.number === n))
     .filter((f): f is File => !!f);
@@ -329,68 +343,18 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
 
   return (
     <div className="space-y-5">
-      {weekFiles.length > 0 && (
-        // Same look as the front page's NEW FILE box (.newest-file-* in
-        // globals.css), listing every file posted since Monday 8am Pacific.
-        <section className="newest-file relative z-[1]" aria-label="this week's files">
-          <div className="newest-file-inner px-3 py-2.5">
-            <p className="flex items-center gap-2 leading-none text-[11px] lg:text-sm mb-2">
-              <span className="newest-file-banner">THIS WEEK</span>
-              <span className="newest-file-meta tabular-nums">
-                {weekFiles.length} new {weekFiles.length === 1 ? "file" : "files"}
-              </span>
-            </p>
-            <ul className="divide-y divide-dim/20">
-              {weekFiles.map((file) => {
-                const thumb = file.images[0];
-                return (
-                  <li key={file.number}>
-                    <button
-                      type="button"
-                      onClick={() => goToWeekFile(file)}
-                      className="group w-full flex items-center gap-3 py-1.5 text-left text-xs lg:text-sm"
-                    >
-                      {thumb ? (
-                        isLoopGifAsset(thumb.url) ? (
-                          <video
-                            src={thumb.url}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 object-cover border border-dim"
-                          />
-                        ) : (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={thumb.url}
-                            alt=""
-                            className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 object-cover border border-dim"
-                          />
-                        )
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className="w-10 h-10 lg:w-12 lg:h-12 shrink-0 flex items-center justify-center border border-dim text-dim"
-                        >
-                          {file.state === "open" ? "▣" : "?"}
-                        </span>
-                      )}
-                      <span className="newest-file-meta tabular-nums shrink-0">{String(file.number).padStart(2, "0")}</span>
-                      <span className="min-w-0 flex-1 text-foreground leading-snug line-clamp-2 group-hover:text-terminal">
-                        {file.title.replace(/^\d+\.\s*/, "")}
-                      </span>
-                      <span className="hidden sm:inline shrink-0 text-terminal underline decoration-dim underline-offset-4 group-hover:text-foreground">
-                        [ {file.state === "open" ? "read it" : "recover it"} ]
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
-      )}
+      <WeekFiles
+        files={weekFiles.map((f) => ({
+          number: f.number,
+          title: f.title,
+          open: f.state === "open",
+          image: f.images[0] ?? null,
+        }))}
+        onPick={(picked) => {
+          const target = files.find((f) => f.number === picked.number);
+          if (target) goToWeekFile(target);
+        }}
+      />
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <Meter

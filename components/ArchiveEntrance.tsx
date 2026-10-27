@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import NewestFile from "@/components/NewestFile";
+import WeekFiles, { type WeekFile } from "@/components/WeekFiles";
+import { requestArchiveFile } from "@/lib/archiveGoto";
 
 // The screen /archive opens on: the restricted stacks art
 // (/assets/archive-stacks-*.jpg, .archive-entrance-art in globals.css)
@@ -33,6 +35,22 @@ export default function ArchiveEntrance() {
   // True while the NEW FILE popup is open: the entrance stays up behind it
   // (unmounting would take the popup with it) and ignores keys and clicks.
   const [holding, setHolding] = useState(false);
+  const [weekFiles, setWeekFiles] = useState<WeekFile[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/this-week")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.files)) setWeekFiles(data.files as WeekFile[]);
+      })
+      .catch(() => {
+        /* the archive's own THIS WEEK box is still inside */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const enter = useCallback(() => {
     setPhase("out");
@@ -90,6 +108,22 @@ export default function ArchiveEntrance() {
         <div className="archive-entrance-newfile mb-[1.4em]" onClick={(e) => e.stopPropagation()}>
           <NewestFile size="fluid" onPopupChange={setHolding} />
         </div>
+
+        {/* A pick here enters the archive and opens (or, sealed, scrolls to)
+            that file. */}
+        {weekFiles.length > 0 && (
+          <div className="archive-entrance-newfile mb-[1.4em]" onClick={(e) => e.stopPropagation()}>
+            <WeekFiles
+              size="fluid"
+              files={weekFiles}
+              onPick={(file) => {
+                if (holding) return;
+                requestArchiveFile(file.number);
+                enter();
+              }}
+            />
+          </div>
+        )}
 
         <div className="space-y-[0.45em] min-h-[7.3em]" aria-live="polite">
           {LINES.slice(0, shown).map((line, i) => (
