@@ -1,15 +1,12 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
+import { HUB_LOOP, HUB_POSTER } from "./MiniConnector";
 
 const RING_DELAY_MS = 550; // gap between one ring appearing and the next
 const REVEAL_DURATION_MS = 500; // how long a single node+packet takes to fade/crawl in
 const HOLD_AFTER_LAST_MS = 500; // beat after the last ring lands before onConverge fires
-const SPIN_MS = 400; // one horizontal turn, grin <-> sad swapped mid-turn while edge-on
-const SPIN_INTERVAL_MS = 650; // gap between the start of one spin and the next
 const FLASH_MS = 500; // must match .bc-node-flash's animation-duration in globals.css
-const FACE_GRIN = "/boot/trollface-grin.svg";
-const FACE_SAD = "/boot/trollface-sad.svg";
 
 // Every node this reveal knows about, in left-to-right column order, paired
 // by `ring` — nodes sharing a ring number appear together, symmetrically
@@ -28,16 +25,17 @@ type Node = {
 const NODES: Node[] = [
   { key: "carlos", ring: 2, img: "/boot/carlos-ramirez.webp", alt: "", label: "carlos" },
   { key: "umadbro", ring: 1, img: "/boot/umadbro.jpg", alt: "", label: "umadbro.shop" },
-  { key: "hub", ring: 0, img: FACE_GRIN, alt: "", label: "trolltruths" },
+  { key: "hub", ring: 0, img: HUB_POSTER, alt: "", label: "trolltruths" },
   { key: "nft", ring: 1, img: "/boot/troll-nft.jpg", alt: "", label: "NFT" },
   { key: "crypto", ring: 2, img: "/boot/troll-crypto.jpg", alt: "", label: "crypto" },
 ];
 
 // Second tier, same as MiniConnector's CHILDREN: each hangs under its
 // parent's column and drops in on one more ring after the main row lands.
-const CHILDREN: (Omit<Node, "ring"> & { parent: string })[] = [
-  { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "", label: "troll warfare" },
-  { key: "pumpfun", parent: "crypto", img: "/boot/pumpfun.jpg", alt: "", label: "pump.fun" },
+const CHILDREN: (Omit<Node, "ring"> & { parent: string; edge?: string })[] = [
+  { key: "fukupapers", parent: "carlos", img: "/boot/troll-989.jpg", alt: "", label: "seal", edge: "IP Rights" },
+  { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "", label: "warfare", edge: "Gaming" },
+  { key: "pumpfun", parent: "crypto", img: "/boot/pumpfun.jpg", alt: "", label: "pump.fun", edge: "Migrated" },
 ];
 const parentCol = (parent: string) => NODES.findIndex((n) => n.key === parent) + 1;
 
@@ -52,12 +50,12 @@ const HUB_PCT = colPct(HUB_INDEX);
 // The boot sequence's closing beat: trolltruths (the hub) appears alone
 // first, then the rest of the lineage reveals ring by ring, symmetrically
 // outward on both sides at once (ring 1: umadbro.shop + NFT, ring 2: carlos
-// + crypto; then the second tier, troll warfare under NFT and pump.fun under
-// crypto, drops in down its branch) — each main-row node fading in
-// together with a packet crawling out from the hub to it along the shared
+// + crypto; then the second tier, seal under carlos, warfare under NFT
+// and pump.fun under crypto, drops in down its branch) — each main-row
+// node fading in together with a packet crawling out from the hub to it along the shared
 // wire. Once the outermost ring lands, onConverge fires and the overlay
-// starts its reveal countdown (BootSequence.tsx) while the hub face keeps
-// flipping grin/sad for the remainder of the reveal.
+// starts its reveal countdown (BootSequence.tsx). The hub plays the troll
+// runner loop (HUB_LOOP, shared with MiniConnector) the whole time.
 // `active` exists so BootSequence can mount this from the very first frame
 // (it must, or adding it to the centered column mid-sequence shoves the boot
 // text upward — see the note there) while the reveal itself still waits for
@@ -76,7 +74,6 @@ export default function BootConnector({
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
   const childRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (!active) return;
@@ -84,24 +81,8 @@ export default function BootConnector({
     const stems = stemRefs.current;
     const labels = labelRefs.current;
     const packets = packetRefs.current;
-    const face = faceRef.current;
-    if (!face) return;
-
-    // One horizontal turn, swapping the image mid-turn while it's edge-on
-    // and briefly invisible — reads as the face turning to reveal the
-    // other expression, not a crossfade.
-    function spinTo(src: string) {
-      if (!face) return;
-      face.classList.remove("bc-spinning");
-      void face.offsetWidth; // restart the animation from scratch
-      face.classList.add("bc-spinning");
-      setTimeout(() => {
-        if (face) face.src = src;
-      }, SPIN_MS / 2);
-    }
 
     const timers: ReturnType<typeof setTimeout>[] = [];
-    let spinInterval: ReturnType<typeof setInterval> | undefined;
 
     // Ring 0: just the hub, fades straight in — nothing to crawl toward yet.
     const hubEl = nodes[HUB_INDEX];
@@ -164,26 +145,13 @@ export default function BootConnector({
     }
 
     const convergeTimer = setTimeout(
-      () => {
-        onConverge();
-
-        // the face keeps turning, grin <-> worry, for as long as this stays
-        // mounted — not a one-off reaction, a running tell
-        let currentFace = FACE_GRIN;
-        const spinNext = () => {
-          currentFace = currentFace === FACE_GRIN ? FACE_SAD : FACE_GRIN;
-          spinTo(currentFace);
-        };
-        spinNext();
-        spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
-      },
+      onConverge,
       RING_DELAY_MS * LAST_RING + REVEAL_DURATION_MS + HOLD_AFTER_LAST_MS,
     );
     timers.push(convergeTimer);
 
     return () => {
       timers.forEach(clearTimeout);
-      clearInterval(spinInterval);
     };
   }, [onConverge, active]);
 
@@ -205,8 +173,12 @@ export default function BootConnector({
           }}
           className={`bc-node bc-node--${n.key}`}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img ref={n.key === "hub" ? faceRef : undefined} src={n.img} alt={n.alt} />
+          {n.key === "hub" ? (
+            <video src={HUB_LOOP} poster={n.img} autoPlay loop muted playsInline aria-hidden="true" />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={n.img} alt={n.alt} />
+          )}
         </div>
       ))}
 
@@ -259,7 +231,7 @@ export default function BootConnector({
           className={`bc-child bc-child--${c.key}`}
           style={{ gridColumn: parentCol(c.parent) }}
         >
-          <div className="bc-branch" />
+          <div className="bc-branch">{c.edge && <em className={`bc-edge${parentCol(c.parent) > HUB_INDEX + 1 ? " bc-edge--left" : ""}`}>{c.edge}</em>}</div>
           <div className={`bc-node bc-node--${c.key}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={c.img} alt={c.alt} />

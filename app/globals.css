@@ -929,6 +929,7 @@ main {
   --bc-gold: var(--problem);
   --bc-ember: #ff5a36;
   --bc-neon: #39ff14;
+  --bc-white: #ffffff;
   /* Fluid node size instead of a fixed px value — on a narrow phone, 5
      nodes at desktop size would overflow the viewport outright. */
   --bc-node-w: clamp(48px, 15vw, 96px);
@@ -990,6 +991,7 @@ main {
 .boot-connector .bc-node--crypto { border-color: var(--bc-gold); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-gold) 50%, transparent); }
 .boot-connector .bc-node--warfare { border-color: var(--bc-ember); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-ember) 50%, transparent); }
 .boot-connector .bc-node--pumpfun { border-color: var(--bc-neon); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-neon) 50%, transparent); }
+.boot-connector .bc-node--fukupapers { border-color: var(--bc-white); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-white) 50%, transparent); }
 
 /* One-shot brighter flash the instant a node's packet arrives — the boot
    connector only ever gets a single crawl-and-fade per node (unlike
@@ -1006,6 +1008,7 @@ main {
    box inside it. */
 .boot-connector .bc-child--warfare.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-ember); }
 .boot-connector .bc-child--pumpfun.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-neon); }
+.boot-connector .bc-child--fukupapers.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-white); }
 
 /* The second tier (CHILDREN in BootConnector.tsx): under the label row, in
    the parent's column (set inline), a drop line from the parent's label
@@ -1033,10 +1036,25 @@ main {
   margin-top: 6px;
 }
 .boot-connector .bc-branch {
+  position: relative;
   width: 1px;
   height: 18px;
   margin: 4px 0;
   background: var(--dim);
+}
+/* A labeled branch (`edge` in CHILDREN): the relationship written in
+   italics beside the drop line, e.g. carlos -> fukupapers "IP Rights". The
+   line is too short to run text along, so it sits level, just right of it. */
+.boot-connector .bc-edge {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 9px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--terminal) 70%, transparent);
 }
 @keyframes bc-node-flash {
   0% {
@@ -1106,10 +1124,21 @@ main {
 .boot-connector .bc-node--nft img,
 .boot-connector .bc-node--crypto img,
 .boot-connector .bc-node--warfare img,
-.boot-connector .bc-node--pumpfun img {
+.boot-connector .bc-node--pumpfun img,
+.boot-connector .bc-node--fukupapers img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* The hub plays the troll runner loop (HUB_LOOP), cropped to the ring's
+   circle. */
+.boot-connector .bc-node--hub video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .boot-connector .bc-node--hub img.bc-spinning {
@@ -1283,6 +1312,13 @@ main {
 .boot-connector .bc-labels--crypto {
   color: var(--bc-gold);
 }
+.boot-connector .bc-edge--left {
+  left: auto;
+  right: 6px;
+}
+.boot-connector .bc-labels--fukupapers {
+  color: var(--bc-white);
+}
 .boot-connector .bc-labels--warfare {
   color: var(--bc-ember);
 }
@@ -1317,6 +1353,7 @@ main {
   --mc-gold: var(--problem);
   --mc-ember: #ff5a36;
   --mc-neon: #39ff14;
+  --mc-white: #ffffff;
   --mc-grey: #a8a8a8;
   display: grid;
   /* --mc-count is set inline from NODES.length (MiniConnector.tsx).
@@ -1376,6 +1413,10 @@ main {
   animation-delay: 0.7s;
   border-color: color-mix(in srgb, var(--mc-ember) 45%, var(--dim));
 }
+.mini-connector .mc-node--fukupapers {
+  animation-delay: 3.5s;
+  border-color: color-mix(in srgb, var(--mc-white) 45%, var(--dim));
+}
 .mini-connector .mc-node--pumpfun {
   animation-delay: 5.6s;
   border-color: color-mix(in srgb, var(--mc-neon) 45%, var(--dim));
@@ -1417,6 +1458,12 @@ main {
   .mini-connector.mini-connector--header .mc-label,
   .mini-connector.mini-connector--header .mc-hint {
     font-size: 0.8rem;
+  }
+  .mini-connector.mini-connector--header .mc-edge {
+    font-size: 0.65rem;
+  }
+  .mini-connector.mini-connector--header .mc-branch {
+    height: 1.1rem;
   }
 }
 /* Same short-desktop range as the `short:` variant: the header art is the
@@ -1480,6 +1527,16 @@ main {
   display: block;
   backface-visibility: hidden;
 }
+/* The troll runner loop (HUB_LOOP), filling the ring and clipped to its
+   circle; the ring's own border and color-cycling glow sit outside it. */
+.mini-connector .mc-hub-ring video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
 .mini-connector .mc-hub-ring img.mc-spinning {
   animation: bc-spin-face 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
@@ -1613,6 +1670,26 @@ main {
 .mini-connector .mc-label--child {
   grid-row: 7;
 }
+/* Same italic relationship label as .bc-edge, beside the branch line. */
+.mini-connector .mc-edge {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 7px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--terminal) 70%, transparent);
+}
+/* On the hub's right the label sits left of the line, facing the hub. */
+.mini-connector .mc-edge--left {
+  left: auto;
+  right: 8px;
+}
+.mini-connector .mc-label--fukupapers {
+  color: var(--mc-white);
+}
 .mini-connector .mc-label--warfare {
   color: var(--mc-ember);
 }
@@ -1716,6 +1793,10 @@ main {
 .mini-connector .mc-packet-out--warfare {
   color: var(--mc-ember);
   background: var(--mc-ember);
+}
+.mini-connector .mc-packet-out--fukupapers {
+  color: var(--mc-white);
+  background: var(--mc-white);
 }
 .mini-connector .mc-packet-out--pumpfun {
   color: var(--mc-neon);
