@@ -1474,9 +1474,9 @@ export const LORE_ASSETS: LoreAsset[] = [
   },
   {
     id: "justin-sun-pepe-face",
-    url: "/lore/justin-sun-pepe-face.jpg",
+    url: "/lore/justin-sun-pepe-face.jpg?v=2",
     caption:
-      "An edit, not a photo: Justin Sun at a conference table, lanyard and mic in front of him, with his face painted Pepe green and Pepe's droopy red lips",
+      "An edit, not a photo: Justin Sun at a conference table, lanyard and mic in front of him, with his face and hands painted Pepe green and Pepe's droopy red lips",
     keywords: ["justin sun", "pepe", "pepe face", "green", "frog", "edit", "meme"],
     sections: [86],
   },
