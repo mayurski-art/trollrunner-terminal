@@ -1384,6 +1384,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["anthropic", "ipo", "s-1", "photo"],
     sections: [84],
   },
+  {
+    id: "squads-standings-after-chubbicorns",
+    url: "/lore/squads-standings-after-chubbicorns.jpg",
+    caption:
+      "Pump.fun's Squads standings after Chubbicorns were taken off: Underground 1st at +$171,421.12, Dabal 2nd, Synagogue 3rd, \"TOP 3 GET PAID\" under them (from @slurptoshi_'s post)",
+    keywords: ["squads", "squad", "standings", "leaderboard", "underground", "dabal", "chubbicorns", "competition"],
+    sections: [85],
+  },
+  {
+    id: "fpump-chart-7m-spike",
+    url: "/lore/fpump-chart-7m-spike.jpg",
+    caption:
+      "\"Fuck Pumpfun\" (FPUMP) open in the Pump.fun app: a green spike to about $7M and back down to $986.94K (posted by @troll_runner, \"oh shit\")",
+    keywords: ["fpump", "fuck pumpfun", "chart", "spike", "robinhood", "chubbicorns"],
+    sections: [85],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

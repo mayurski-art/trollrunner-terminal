@@ -4431,6 +4431,148 @@ terminal runs on Claude, so read the section with that in mind. Images:
 `troll-anthrobbing-ant-bridge`, `troll-sharing-is-caring` and
 `lore-84-photo`.
 
+## 85. "Fuck Pumpfun": the squad that won Pump.fun's contest with a coin called that
+<!-- posted: 2026-10-27T02:05:33Z -->
+
+**The contest.** On **October 23, 2026**, at 8:03 AM Pacific,
+**Pump.fun** ([@Pumpfun](https://x.com/Pumpfun)) announced its
+**$2.5 million Squads Competition**
+([post 2113647400057237848](https://x.com/Pumpfun/status/2113647400057237848)):
+teams of up to 20 traders, ranked by *"total spot PNL (realized +
+unrealized) at the end of the competition,"* **$1.5M** for first, **$750K**
+for second, **$250K** for third, running from October 26 at 7 AM Pacific to
+November 9
+([post 2113647405941842395](https://x.com/Pumpfun/status/2113647405941842395)).
+The rules post had one line that mattered:
+*"Any manipulation may result in disqualification or zeroed PNL, at our
+discretion"*
+([post 2113647414573682846](https://x.com/Pumpfun/status/2113647414573682846)).
+It landed in the middle of a boycott. The week before, Pump.fun had signed
+Kimchi (§80) and watched his coin fall apart, and **#BOYCOTTPUMPFUN** was
+trending over the missing airdrop, the rugs and the Kimchi launch
+([Protos](https://protos.com/pump-fun-offers-2-5m-prize-as-traders-boycott-its-missing-airdrop/),
+[KuCoin](https://www.kucoin.com/news/insight/PUMP/6ade5b4db1e8a7000773437e)).
+Critics said the contest was a way to buy back the volume.
+
+**The coin.** Six hours after the announcement, at **2:08 PM Pacific on
+October 23**, someone launched **Fuck Pumpfun ($FPUMP)** on **Robinhood
+Chain**, the Ethereum layer 2 that Pump.fun's app now trades on
+(`0xD178A1E0b7Ab58a5F4801Ecea1e0fB35C9Ca685a`). It wasn't launched on
+Pump.fun. It came out of a Robinhood Chain launchpad contract called
+LaunchFactory, priced against a tokenized share of **SK hynix**, the Korean
+chip maker, so the coin that says "fuck Pump.fun" was bought and sold for
+slices of a memory-chip stock. The creator wallet
+(`0xd3649c6b31ceb982eb6644a2de2198d9909c64ce`) is a serial launcher: in the
+two days before, it put out **Anti AI**, **Oooooooooo pokemon**, **Drunk
+crypto bros** and **Italian korean**, each with a ~$200 buy that it sold
+inside two minutes. On $FPUMP it bought **2.5%** for **$544.71** and held.
+
+**Bundled?** No. The launch transaction holds only the creator's own
+2.5%. The next buyers came 15 seconds later, one at a time. There was a
+pack: at 2:41 PM five wallets bought 2.1M to 2.5M each in the same second,
+and all five sold in the same block sixteen minutes later. They were gone
+three days before any of this mattered. The X account
+([@fpump_fun](https://x.com/fpump_fun), bio: *"Fuck Pump Fun CA:
+0xD178…"*) was made on **October 26 at 6:15 AM Pacific**, 45 minutes before
+the contest opened.
+
+**The squad.** The contest opened at 7 AM Pacific on October 26. At **7:19
+AM** the creator sold the whole 2.5% in two sells for **$2,754**, sent it to
+a second wallet and out through the **LI.FI** bridge at 7:21:27. Ten
+seconds later, at **7:21:37 AM**, the squad started buying. **Chubbicorns**
+(bio: *"Glhf"*) had **3 members**:
+- **Dtrain22k** (1,030 followers on Pump.fun, joined August 27): **18.86M**
+  for **$1,990.95** at 7:21:37, then **3.69M** sixteen seconds later.
+  **22.6M** in all, **$2,488.65** spent, an average entry of a **$110K**
+  market cap.
+- **frizzaud**: **15.25M** at 7:25 AM, average entry **$173K**.
+- **chubbicorn33**: **3.29M** in four buys from 9:05 to 9:12 AM, average
+  entry **$226K**.
+
+That's **41.1M $FPUMP, 4.1% of the supply, for about $5.9K**. Three
+minutes after chubbicorn33's last buy, at 9:15 AM, the coin finished its
+bonding curve and moved to a Uniswap pool. Then it kept going. Around 5 PM
+Pacific it hit **$7.06 million**. On the squad's Pump.fun page:
+**$193,212.46** in value, **+$205,879.99**, **#1**, and on the $FPUMP row
+alone **$211.75K**, **+$205,881**, **+3,504.9%**. Almost all of
+Chubbicorns' lead was one coin named after the people running the
+contest. Dtrain22k's wallet had touched it once before: 27K tokens bought
+42 minutes after launch on October 23, sold 28 seconds later.
+
+**The removal.** At **5:51 PM Pacific**, **Slurp**
+([@slurptoshi_](https://x.com/slurptoshi_), 15.5K followers) posted:
+*"PumpFun just removed the squad from their competition that was in FIRST
+PLACE because they held $fpump. What happened to decentralisation?"*
+([post 2114882650208952766](https://x.com/slurptoshi_/status/2114882650208952766)).
+His screenshot is the board without them: **Underground** first at
+**+$171,421.12** (20 members), **Dabal** second at **+$146,784.18** (20),
+**Synagogue** third at **+$40,914.21** (11), then XlayerBulls, drillers,
+ocb, Sentinel_x and TheBlockBoyz. Chubbicorns' $205,879.99 would have led
+Underground by about **$34K**. Forty-seven minutes later **@troll_runner**
+quoted it: *"These jiggas makin they own rules 😹😹😹😹 First
+PREVIOUS uPnL counts now this"*
+([post 2114894467375550464](https://x.com/troll_runner/status/2114894467375550464)),
+and three minutes after that posted the $FPUMP chart, a needle to $7M and
+back to **$986.94K**: *"oh shit 😭😭😭"*
+([post 2114895136488583248](https://x.com/troll_runner/status/2114895136488583248)).
+Between 5:10 and 6:24 PM at least a dozen copies of **"Fuck Pumpfun"**
+went up on Solana, Robinhood Chain and Ethereum.
+Dtrain22k picked up 9.9M of a Solana one.
+
+**The catch.** The PNL was unrealized, and the pool couldn't pay it. At
+about 6:45 PM Pacific the $FPUMP pool held **$28,191** on the other side.
+Selling 41.1M tokens into that would have wiped most of the $205K on the
+way down. Pump.fun scores unrealized gains, so a squad sitting on 4% of a
+thin coin can top the board without a cent being sellable. That's the
+"manipulation" the rules leave open, and it's the opening the KuCoin piece
+had already pointed at. At about 7 PM Pacific the coin was back at
+**$2.62 million**, 166 holders, **$414K** of volume in 24 hours. Pump.fun
+had said nothing.
+
+**Why it's a troll.** Pump.fun put up $2.5 million to win back traders who
+were boycotting it. Day one, the squad in first was three people sitting on
+a coin called "Fuck Pumpfun," bought on a chain Pump.fun had just added,
+priced in a Korean chip stock. The contest scored the thing the coin was
+named for, and the only way to stop it was to do exactly what the coin
+said they'd do: change the rules at their discretion.
+
+**Sourcing:** *Verified posts and on-chain trades; the reason for the
+removal is unconfirmed.* Pump.fun's three contest posts, Slurp's post and
+both @troll_runner posts were read on 2026-10-26 via fxtwitter; the post
+times come from their IDs. The boycott background is from
+[Protos](https://protos.com/pump-fun-offers-2-5m-prize-as-traders-boycott-its-missing-airdrop/)
+and [KuCoin](https://www.kucoin.com/news/insight/PUMP/6ade5b4db1e8a7000773437e).
+**Every trade, wallet and time in "The coin," "Bundled?" and "The squad" is
+checked on-chain** (Robinhood Chain via
+[Blockscout](https://robinhoodchain.blockscout.com/token/0xD178A1E0b7Ab58a5F4801Ecea1e0fB35C9Ca685a),
+2026-10-26): the launch transaction, the creator's earlier launches and
+sells, the five-wallet pack, the 7:19 AM sells, the transfer and the LI.FI
+leg, and the members' buys (Dtrain22k `0xAC3E41…B3EF`, frizzaud
+`0x12d6CA…7394`, chubbicorn33 `0x8Ac8a1…2fC0`), all routed through
+the same relay contract (`0x5399d9…7a18`). Where the bridged $2,774.83
+went wasn't traced, and
+**nothing on-chain ties the creator to the squad**; the 10 seconds between
+the bridge and the first buy is timing, not a link. The usernames, average
+entries, Dtrain22k's profile and the $7.06M ATH, $2.62M cap, holders and
+volume are from
+[the coin's Pump.fun page](https://pump.fun/coin/0xD178A1E0b7Ab58a5F4801Ecea1e0fB35C9Ca685a),
+read about 7 PM Pacific; the $28,191 pool figure is from Pump.fun's pool
+data at about 6:45 PM. **Chubbicorns' page** (3 members, "Glhf", 46
+followers, 49 unique coins, $193,212.46, +$205,879.99 #1, the $FPUMP row)
+is from a screenshot a reader sent; its timestamp's time zone isn't known.
+That the three wallets are its members is from that screenshot's three
+holder avatars and its cost basis (~$5,870), which matches the three
+wallets' buys to within a few dollars. Slurp's "because they held $fpump" is
+his reading. **Pump.fun hadn't said why**, or whether it was
+disqualification or zeroed PNL, and no outlet had covered it. "First
+PREVIOUS uPnL counts" is @troll_runner's complaint about an earlier
+ruling; that ruling wasn't checked. A deleted post by
+[@Fruli_sol](https://x.com/Fruli_sol) on the same story couldn't be read.
+The clone coins are from
+[DexScreener](https://dexscreener.com/robinhood/0xfbc3d1aa5705646da000aa8cdafc845aef09adc745e92b417d259bf7c7137354).
+Images: `squads-standings-after-chubbicorns` (Slurp's post) and
+`fpump-chart-7m-spike` (@troll_runner's reply).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
