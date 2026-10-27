@@ -33,8 +33,18 @@ const NODES: Node[] = [
   { key: "crypto", ring: 2, img: "/boot/troll-crypto.jpg", alt: "", label: "crypto" },
 ];
 
+// Second tier, same as MiniConnector's CHILDREN: each hangs under its
+// parent's column and drops in on one more ring after the main row lands.
+const CHILDREN: (Omit<Node, "ring"> & { parent: string })[] = [
+  { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "", label: "troll warfare" },
+  { key: "pumpfun", parent: "crypto", img: "/boot/pumpfun.jpg", alt: "", label: "pump.fun" },
+];
+const parentCol = (parent: string) => NODES.findIndex((n) => n.key === parent) + 1;
+
 const HUB_INDEX = NODES.findIndex((n) => n.ring === 0);
 const RING_COUNT = Math.max(...NODES.map((n) => n.ring));
+const CHILD_RING = RING_COUNT + 1;
+const LAST_RING = CHILDREN.length ? CHILD_RING : RING_COUNT;
 // Column center (%) for node i under `grid-template-columns: repeat(N, 1fr)`.
 const colPct = (i: number) => ((i + 0.5) / NODES.length) * 100;
 const HUB_PCT = colPct(HUB_INDEX);
@@ -42,7 +52,8 @@ const HUB_PCT = colPct(HUB_INDEX);
 // The boot sequence's closing beat: trolltruths (the hub) appears alone
 // first, then the rest of the lineage reveals ring by ring, symmetrically
 // outward on both sides at once (ring 1: umadbro.shop + NFT, ring 2: carlos
-// + crypto, and so on as more nodes join the lineage) — each node fading in
+// + crypto; then the second tier, troll warfare under NFT and pump.fun under
+// crypto, drops in down its branch) — each main-row node fading in
 // together with a packet crawling out from the hub to it along the shared
 // wire. Once the outermost ring lands, onConverge fires and the overlay
 // starts its reveal countdown (BootSequence.tsx) while the hub face keeps
@@ -64,6 +75,7 @@ export default function BootConnector({
   const stemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const packetRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const childRefs = useRef<(HTMLDivElement | null)[]>([]);
   const faceRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -133,6 +145,24 @@ export default function BootConnector({
       timers.push(t);
     }
 
+    // The second tier: each child's branch, box and label (grouped under one
+    // .bc-child wrapper per child) fade in together, then flash on landing.
+    if (CHILDREN.length) {
+      const children = childRefs.current;
+      const t = setTimeout(() => {
+        children.forEach((el) => {
+          if (!el) return;
+          el.classList.add("bc-revealed");
+          const hitTimer = setTimeout(() => {
+            el.classList.add("bc-node--hit");
+            setTimeout(() => el.classList.remove("bc-node--hit"), FLASH_MS);
+          }, REVEAL_DURATION_MS);
+          timers.push(hitTimer);
+        });
+      }, RING_DELAY_MS * CHILD_RING);
+      timers.push(t);
+    }
+
     const convergeTimer = setTimeout(
       () => {
         onConverge();
@@ -147,7 +177,7 @@ export default function BootConnector({
         spinNext();
         spinInterval = setInterval(spinNext, SPIN_INTERVAL_MS);
       },
-      RING_DELAY_MS * RING_COUNT + REVEAL_DURATION_MS + HOLD_AFTER_LAST_MS,
+      RING_DELAY_MS * LAST_RING + REVEAL_DURATION_MS + HOLD_AFTER_LAST_MS,
     );
     timers.push(convergeTimer);
 
@@ -162,7 +192,7 @@ export default function BootConnector({
       className="boot-connector"
       style={
         {
-          gridTemplateColumns: `repeat(${NODES.length}, 1fr)`,
+          gridTemplateColumns: `repeat(${NODES.length}, minmax(0, 1fr))`,
           "--bc-node-count": NODES.length,
         } as CSSProperties
       }
@@ -217,6 +247,24 @@ export default function BootConnector({
           className={`bc-labels bc-labels--${n.key}`}
         >
           {n.label}
+        </div>
+      ))}
+
+      {CHILDREN.map((c, i) => (
+        <div
+          key={c.key}
+          ref={(el) => {
+            childRefs.current[i] = el;
+          }}
+          className={`bc-child bc-child--${c.key}`}
+          style={{ gridColumn: parentCol(c.parent) }}
+        >
+          <div className="bc-branch" />
+          <div className={`bc-node bc-node--${c.key}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c.img} alt={c.alt} />
+          </div>
+          <div className={`bc-labels bc-labels--${c.key}`}>{c.label}</div>
         </div>
       ))}
     </div>
