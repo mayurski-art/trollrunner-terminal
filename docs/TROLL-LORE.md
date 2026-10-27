@@ -4731,9 +4731,18 @@ himself and on his enemies for six years:
 - **May 5, 2026.** *"It is sad to see this: when those who defrauded you of
   your money use that very money to fund the troll armies attacking you"*
   ([post 2051699764723654918](https://x.com/justinsuntron/status/2051699764723654918),
-  235K views). He named nobody. Replies, and the press, read it as aimed at
-  **World Liberty Financial**, the Trump-linked project he's fighting.
-  Arkham's portfolio still shows him holding 544.7M WLFI.
+  235K views). He named nobody, but the timing does. Sun had put about
+  **$75M** into **World Liberty Financial**, the Trump-linked project, and in
+  September 2025, after he moved roughly $9M of it out, World Liberty froze
+  his wallet with the token's built-in blacklist (about 540M unlocked and
+  2.4B locked WLFI). On April 21, 2026 he sued in federal court in
+  California for fraud and an unlawful freeze. On **May 4** World Liberty
+  countersued in Miami-Dade for defamation, accusing him of a smear
+  campaign, shorting WLFI and making straw purchases, all of which he
+  denies. The "troll armies" post went up the next day. World Liberty says
+  he's running the smear; he says they're paying the trolls, with his
+  money. Each side calls the other the troll army. Arkham's portfolio still
+  shows him holding 544.7M WLFI.
 - **November 2024.** He paid **$6.2 million** at Sotheby's for Maurizio
   Cattelan's *Comedian*, a banana duct-taped to a wall, and then ate it. It's
   the most expensive troll in art history, and he's the one who ate it.
@@ -4771,7 +4780,13 @@ the original Wertheimer post wasn't found. The Vitalik accusation is from
 [Invezz](https://invezz.com/news/2020/02/07/trons-justin-sun-accuses-ethereums-vitalik-buterin-of-hiring-twitter-trolls/).
 The WLFI reading of the May post is
 [Benzinga](https://www.benzinga.com/crypto/cryptocurrency/26/05/52312436/justin-sun-claims-troll-armies-funded-by-defrauded-funds-crypto-billionaire-criticism)'s
-and the replies'; Sun named no one. The banana is the widely reported
+and the replies'; Sun named no one. The freeze, the $75M stake and both
+lawsuits are from
+[Unchained](https://unchainedcrypto.com/justin-sun-sues-world-liberty-financial-alleging-fraud-and-unlawful-token-freeze-in-75-million-dispute/),
+[Crypto Briefing](https://cryptobriefing.com/world-liberty-lawsuit-justin-sun/)
+and [Forbes](https://www.forbes.com/sites/alisondurkee/2026/05/04/trumps-world-liberty-financial-sues-billionaire-justin-sun-for-defamation/);
+the claims on both sides are allegations, and how either case stands now
+wasn't checked. The banana is the widely reported
 November 2024 Sotheby's sale. **Sun has said nothing about PEPE or trolls in
 connection with this buy.** The troll-army-to-frog reading is the archive's
 own. Images: `arkham-sun-pepe-poloniex-hot-wallet`,
