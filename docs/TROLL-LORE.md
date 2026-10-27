@@ -4570,7 +4570,8 @@ volume are from
 read at 6:57 PM Pacific; the $28,191 pool figure is from Pump.fun's pool
 data at about 6:45 PM. The #1 figures ($193,212.46, +$205,879.99, 46
 followers, 49 unique coins, the $FPUMP row at $211.75K) are from a
-screenshot a reader sent; its time zone isn't known. **The squad's members,
+screenshot a reader sent; its "As of 1:29 AM" time zone isn't known.
+**The squad's members,
 owner, the $5.88K spent, the 7:10 PM position and the Cup view at −$2.88
 and #489 were read on
 [Pump.fun's squad page](https://pump.fun/squads/Chubbicorns)** at 7:10 PM
@@ -4585,8 +4586,10 @@ ruling; that ruling wasn't checked. A deleted post by
 The clone coins are from
 [DexScreener](https://dexscreener.com/robinhood/0xfbc3d1aa5705646da000aa8cdafc845aef09adc745e92b417d259bf7c7137354).
 Images: `squads-standings-after-chubbicorns` (Slurp's post),
-`fpump-chart-7m-spike` (@troll_runner's reply), `chubbicorns-squad-page`
-and `chubbicorns-cup-rank-489` (the squad's page at 7:10 PM).
+`fpump-chart-7m-spike` (@troll_runner's reply),
+`chubbicorns-squad-first-place` (the reader's screenshot of the squad at
+#1), `chubbicorns-squad-page` and `chubbicorns-cup-rank-489` (the squad's
+page at 7:10 PM).
 
 ## How the persona should use this
 

@@ -1401,6 +1401,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [85],
   },
   {
+    id: "chubbicorns-squad-first-place",
+    url: "/lore/chubbicorns-squad-first-place.webp",
+    caption:
+      "Chubbicorns in the Pump.fun app while they were winning: $193,212.46, +$205,879.99 #1, and the \"Fuck Pumpfun\" row at $211.75K, +$205,881 (+3,504.9%)",
+    keywords: ["chubbicorns", "squad", "first place", "#1", "fpump", "fuck pumpfun", "205k", "competition"],
+    sections: [85],
+  },
+  {
     id: "chubbicorns-squad-page",
     url: "/lore/chubbicorns-squad-page.jpg",
     caption:
