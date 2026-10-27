@@ -34,6 +34,7 @@ const NODES: Node[] = [
 // parent's column and drops in on one more ring after the main row lands.
 const CHILDREN: (Omit<Node, "ring"> & { parent: string; edge?: string })[] = [
   { key: "fukupapers", parent: "carlos", img: "/boot/troll-989.jpg", alt: "", label: "seal", edge: "IP Rights" },
+  { key: "go2war", parent: "umadbro", img: "/boot/go2war.jpg", alt: "", label: "GO2WAR", edge: "Designer" },
   { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "", label: "warfare", edge: "Gaming" },
   { key: "pumpfun", parent: "crypto", img: "/boot/pumpfun.jpg", alt: "", label: "pump.fun", edge: "Migrated" },
 ];
@@ -50,7 +51,7 @@ const HUB_PCT = colPct(HUB_INDEX);
 // The boot sequence's closing beat: trolltruths (the hub) appears alone
 // first, then the rest of the lineage reveals ring by ring, symmetrically
 // outward on both sides at once (ring 1: umadbro.shop + NFT, ring 2: carlos
-// + crypto; then the second tier, seal under carlos, warfare under NFT
+// + crypto; then the second tier, seal under carlos, GO2WAR under umadbro.shop, warfare under NFT
 // and pump.fun under crypto, drops in down its branch) — each main-row
 // node fading in together with a packet crawling out from the hub to it along the shared
 // wire. Once the outermost ring lands, onConverge fires and the overlay

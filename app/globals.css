@@ -930,6 +930,7 @@ main {
   --bc-ember: #ff5a36;
   --bc-neon: #39ff14;
   --bc-white: #ffffff;
+  --bc-red: #ff3355;
   /* Fluid node size instead of a fixed px value — on a narrow phone, 5
      nodes at desktop size would overflow the viewport outright. */
   --bc-node-w: clamp(48px, 15vw, 96px);
@@ -1008,6 +1009,7 @@ main {
    box inside it. */
 .boot-connector .bc-child--warfare.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-ember); }
 .boot-connector .bc-child--pumpfun.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-neon); }
+.boot-connector .bc-child--go2war.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-red); }
 .boot-connector .bc-child--fukupapers.bc-node--hit .bc-node { animation: bc-node-flash 0.5s ease-out; --bc-flash: var(--bc-white); }
 
 /* The second tier (CHILDREN in BootConnector.tsx): under the label row, in
@@ -1125,7 +1127,8 @@ main {
 .boot-connector .bc-node--crypto img,
 .boot-connector .bc-node--warfare img,
 .boot-connector .bc-node--pumpfun img,
-.boot-connector .bc-node--fukupapers img {
+.boot-connector .bc-node--fukupapers img,
+.boot-connector .bc-node--go2war img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1316,6 +1319,10 @@ main {
   left: auto;
   right: 6px;
 }
+.boot-connector .bc-node--go2war { border-color: var(--bc-red); box-shadow: 0 0 4px color-mix(in srgb, var(--bc-red) 50%, transparent); }
+.boot-connector .bc-labels--go2war {
+  color: var(--bc-red);
+}
 .boot-connector .bc-labels--fukupapers {
   color: var(--bc-white);
 }
@@ -1354,6 +1361,7 @@ main {
   --mc-ember: #ff5a36;
   --mc-neon: #39ff14;
   --mc-white: #ffffff;
+  --mc-red: #ff3355;
   --mc-grey: #a8a8a8;
   display: grid;
   /* --mc-count is set inline from NODES.length (MiniConnector.tsx).
@@ -1392,34 +1400,64 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: mc-glitch 7s infinite;
+  /* Resting frame: the node's own color (--mc-c, set per node below) mixed
+     down toward --dim. On top of the occasional glitch, the frames light
+     up one at a time, left to right (--mc-i, set inline in column order),
+     each fully lit for its beat of the mc-lit chase. */
+  border-color: color-mix(in srgb, var(--mc-c, var(--dim)) 45%, var(--dim));
+  --mc-lit-step: 0.45s;
+  animation: mc-glitch 7s infinite, mc-lit calc(var(--mc-lit-step) * var(--mc-lit-count, 8)) linear infinite;
+  animation-delay: var(--mc-gd, 0s), calc(var(--mc-i, 0) * var(--mc-lit-step));
+}
+@keyframes mc-lit {
+  0%,
+  8% {
+    border-color: var(--mc-c, var(--terminal));
+    box-shadow: 0 0 7px var(--mc-c, var(--terminal));
+  }
+  14%,
+  100% {
+    border-color: color-mix(in srgb, var(--mc-c, var(--dim)) 45%, var(--dim));
+    box-shadow: none;
+  }
 }
 .mini-connector .mc-node--carlos {
-  border-color: color-mix(in srgb, var(--mc-violet) 45%, var(--dim));
+  --mc-c: var(--mc-violet);
 }
 .mini-connector .mc-node--umadbro {
-  animation-delay: 1.4s;
-  border-color: color-mix(in srgb, var(--mc-cyan) 45%, var(--dim));
+  --mc-gd: 1.4s;
+  --mc-c: var(--mc-cyan);
 }
 .mini-connector .mc-node--nft {
-  animation-delay: 2.8s;
-  border-color: color-mix(in srgb, var(--mc-lime) 45%, var(--dim));
+  --mc-gd: 2.8s;
+  --mc-c: var(--mc-lime);
 }
 .mini-connector .mc-node--crypto {
-  animation-delay: 4.2s;
-  border-color: color-mix(in srgb, var(--mc-gold) 45%, var(--dim));
+  --mc-gd: 4.2s;
+  --mc-c: var(--mc-gold);
 }
 .mini-connector .mc-node--warfare {
-  animation-delay: 0.7s;
-  border-color: color-mix(in srgb, var(--mc-ember) 45%, var(--dim));
+  --mc-gd: 0.7s;
+  --mc-c: var(--mc-ember);
+}
+.mini-connector .mc-node--go2war {
+  --mc-gd: 2.1s;
+  --mc-c: var(--mc-red);
+}
+.mini-connector .mc-packet-out--go2war {
+  color: var(--mc-red);
+  background: var(--mc-red);
+}
+.mini-connector .mc-label--go2war {
+  color: var(--mc-red);
 }
 .mini-connector .mc-node--fukupapers {
-  animation-delay: 3.5s;
-  border-color: color-mix(in srgb, var(--mc-white) 45%, var(--dim));
+  --mc-gd: 3.5s;
+  --mc-c: var(--mc-white);
 }
 .mini-connector .mc-node--pumpfun {
-  animation-delay: 5.6s;
-  border-color: color-mix(in srgb, var(--mc-neon) 45%, var(--dim));
+  --mc-gd: 5.6s;
+  --mc-c: var(--mc-neon);
 }
 /* Desktop only: bigger artwork boxes for the four lineage nodes (carlos/
    umadbro/nft/crypto) in the [ speak to it ] panel header. Everything else
