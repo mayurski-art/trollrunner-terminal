@@ -4758,8 +4758,10 @@ two transfers out of an exchange he's close to, and nobody noticed until an
 analytics firm drew a chart. The PEPE line has the same shape as §84's chart
 (flat, then vertical). Same morning, same shape, no relation.
 
-**Why it's a troll.** He can say trolls are attacking him, then buy the
-mascot. He can say the money came from his enemies, then pull his own from
+**Why it's a troll.** He didn't touch $TROLL or the trollface. He went
+for the frog next door, the other face of the same old internet, and loaded
+up on the meme the trolls grew up with while still complaining about troll
+armies. He can say the money came from his enemies, then pull his own from
 his own exchange. Then a blockchain explorer posts it as a question with a
 question mark, and the whole market answers for him.
 
@@ -4789,7 +4791,8 @@ the claims on both sides are allegations, and how either case stands now
 wasn't checked. The banana is the widely reported
 November 2024 Sotheby's sale. **Sun has said nothing about PEPE or trolls in
 connection with this buy.** The troll-army-to-frog reading is the archive's
-own. Images: `arkham-sun-pepe-poloniex-hot-wallet`,
+own. Images: `justin-sun-pepe-face` (an edit of Sun with a Pepe face,
+not a real photo), `arkham-sun-pepe-poloniex-hot-wallet`,
 `arkham-sun-pepe-poloniex-safe`, `arkham-sun-entity-page` and
 `arkham-sun-visualizer` (Arkham's post).
 
