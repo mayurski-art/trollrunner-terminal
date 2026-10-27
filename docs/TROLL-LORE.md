@@ -4682,6 +4682,192 @@ page at 7:10 PM), `standard-reserve-867-banks` and
 `troll-runner-discretion-reply` (a frame of @troll_runner's 8:05 PM reply
 GIF), `fpump-holders-vault-80pct` (the holder list on Blockscout).
 
+## 86. "Is Justin Sun the Top PEPE Holder?": the troll-army complainer who bought the frog
+<!-- posted: 2026-10-27T14:30:00Z -->
+
+**The post.** On **October 27, 2026**, at 5:16 AM Pacific, the on-chain
+analytics firm **Arkham** ([@arkham](https://x.com/arkham)) asked *"Is
+Justin Sun the Top PEPE Holder?"*
+([post 2115055153946714603](https://x.com/arkham/status/2115055153946714603)).
+Between his official and "predicted" wallets, it said, **Justin Sun**
+([@justinsuntron](https://x.com/justinsuntron)), the founder of TRON, holds
+almost **3%** of the PEPE supply, worth **$51.25M**, and every bit of it
+arrived in the past ten days. Cointelegraph, Wu Blockchain and BSC News
+picked it up within the hour and filled in the numbers: **2.82%** of supply,
+about **11.85 trillion PEPE**. X turned it into a trending story the same
+morning: *"Justin Sun Becomes PEPE's Top Individual Holder with $51 Million
+Stake."*
+
+**The receipts.** Arkham's four screenshots show where the frog came from.
+Nine days earlier, **7.2 trillion PEPE** ($28.44M) moved from a wallet
+Arkham labels **"Poloniex: Gnosis Safe"** to Sun's labelled address (tagged
+*"trypoly" on Polymarket*). About 18 hours before the post, **4.65 trillion
+PEPE** ($20.32M) went from **"Poloniex: Hot Wallet"** to a second address
+that Arkham only *predicts* is his. The two add up to the 11.85 trillion.
+Before that, the same entity page shows four small PEPE buys from two years
+back (3.5B, 7B, 4B and 53.659B tokens, about **$267K** at the time). On his
+balance chart the PEPE line lies flat from 2024 to September 2026, then goes
+straight up the right edge. Poloniex is the exchange Sun has been tied to
+since 2019, so the frog didn't come from the market. It came out of a house
+he's close to. X's own summary says some of the transfers *"may involve
+internal shifts within Sun's ecosystem."* Arkham's entity page puts him at
+**$2.31B** across 211 addresses, with a risk score of 73/100, and its avatar
+for him is a red-eyed Bored Ape in a suit.
+
+**Why the word "troll" keeps following him.** Sun has used the word on
+himself and on his enemies for six years:
+
+- **January 12, 2020.** Bitcoiner **Udi Wertheimer** pointed out that he'd
+  given TRON a lot of free publicity, the way Ethereum's critics joked that
+  ConsenSys pays its trolls. Sun answered *"Yes! It is unjust and unjustin!
+  Let's make it right and show me your #TRON wallet!"* and promised him
+  **1 million TRX**
+  ([post 1216364988484317184](https://x.com/justinsuntron/status/1216364988484317184)).
+  Wertheimer's reply: *"Yeah I know I usually charge more, but @justinsuntron
+  is a friend so he gets a discount."* It was the founder paying his own
+  troll.
+- **February 2020.** Sun accused **Vitalik Buterin** and ConsenSys of hiring
+  Twitter trolls to attack other chains.
+- **May 5, 2026.** *"It is sad to see this: when those who defrauded you of
+  your money use that very money to fund the troll armies attacking you"*
+  ([post 2051699764723654918](https://x.com/justinsuntron/status/2051699764723654918),
+  235K views). He named nobody. Replies, and the press, read it as aimed at
+  **World Liberty Financial**, the Trump-linked project he's fighting.
+  Arkham's portfolio still shows him holding 544.7M WLFI.
+- **November 2024.** He paid **$6.2 million** at Sotheby's for Maurizio
+  Cattelan's *Comedian*, a banana duct-taped to a wall, and then ate it. It's
+  the most expensive troll in art history, and he's the one who ate it.
+
+**The connection.** Pepe the Frog and the trollface are the two faces of the
+same old internet. Both came up through 4chan and the rage-comic years, both
+were drawn by one person and then taken over by everyone, and both now trade
+as tokens. This archive's own Alpha set saves its weed number, **#420**, for
+a Pepe with a trollface where his mouth should be (§65). So the man who spent
+May complaining about "troll armies" spent October quietly becoming the
+biggest single holder of the troll armies' favourite frog. He did it with
+two transfers out of an exchange he's close to, and nobody noticed until an
+analytics firm drew a chart. The PEPE line has the same shape as §84's chart
+(flat, then vertical). Same morning, same shape, no relation.
+
+**Why it's a troll.** He can say trolls are attacking him, then buy the
+mascot. He can say the money came from his enemies, then pull his own from
+his own exchange. Then a blockchain explorer posts it as a question with a
+question mark, and the whole market answers for him.
+
+**Sourcing:** *Verified posts and Arkham screenshots; the connection is
+ours.* Arkham's post and its four images, and Sun's May 5, 2026 post, were
+read on 2026-10-27 via fxtwitter. At that read, Arkham's post had about
+56.6K views and 204 likes, and Sun's May post 235K views and 953 likes. The
+11.85 trillion token count and the 2.82% figure are from BSC News and Wu
+Blockchain quoting Arkham. The transfer sizes, dates, labels, the $267K
+earlier position, the $2.31B entity value and the avatar are read off
+Arkham's screenshots. Arkham calls the second wallet only "predicted," so
+**the 4.65T transfer is attributed, not confirmed**, and "top individual
+holder" is Arkham's claim. Exchanges like Binance hold more. The January 2020
+TRX offer and Wertheimer's reply are quoted from
+[u.today](https://u.today/justin-sun-to-pay-1-mln-trx-to-major-bitcoiner-tron-troll-ethereum-allegedly-does-the-same)
+and [BeInCrypto](https://beincrypto.com/justin-sun-promises-one-million-trx-troll-twitter-lights-up/);
+the original Wertheimer post wasn't found. The Vitalik accusation is from
+[Invezz](https://invezz.com/news/2020/02/07/trons-justin-sun-accuses-ethereums-vitalik-buterin-of-hiring-twitter-trolls/).
+The WLFI reading of the May post is
+[Benzinga](https://www.benzinga.com/crypto/cryptocurrency/26/05/52312436/justin-sun-claims-troll-armies-funded-by-defrauded-funds-crypto-billionaire-criticism)'s
+and the replies'; Sun named no one. The banana is the widely reported
+November 2024 Sotheby's sale. **Sun has said nothing about PEPE or trolls in
+connection with this buy.** The troll-army-to-frog reading is the archive's
+own. Images: `arkham-sun-pepe-poloniex-hot-wallet`,
+`arkham-sun-pepe-poloniex-safe`, `arkham-sun-entity-page` and
+`arkham-sun-visualizer` (Arkham's post).
+
+## 87. "Someone rotates the apes": the year-old bug that paid out in Mudwater Packs
+<!-- posted: 2026-10-27T14:30:00Z -->
+
+**The packs.** On **October 17, 2026**, at ApeFest in Charleston, **Yuga
+Labs** opened claims for **Mudwater**, a trading-card game on Solana. Its
+first set is called **Swamp Origins**. Each card exists on paper, with a
+matching NFT held in a vault. Holders claim through their apes: **10 packs
+per Bored Ape**, 2 per Mutant, 10 cards a pack, and claims stay open until
+January 19, 2027. That pack count is what made an old bug worth using.
+
+**The bug.** On **September 28, 2025**, **TokenWorks**
+([@token_works](https://x.com/token_works)), the team behind the
+"NFTStrategy" tokens (each token pools its fees, buys a collection's floor
+NFT, lists it higher, and burns the proceeds), posted *"TL;DR Everything is
+safe."*
+([post 1972341163312001192](https://x.com/token_works/status/1972341163312001192)).
+In the same post it described a bug in its first eight strategies (all but
+PunkStrategy): a complex way to swap an NFT the protocol owns for a different
+one from the same collection, without the protocol noticing. Its own example
+used Bored Apes #2516 and #2517. The team called the result a **"call
+option"** and said the funds were safe. The contracts can't be upgraded, so
+the bug stayed.
+
+**The swap.** Around **2:49 AM Pacific** on **October 27, 2026**,
+**@frostyz** noticed *"Seems someone rotates the apes to claim mudwater packs
+🙃"* ([post 2115018126307848363](https://x.com/frostyz/status/2115018126307848363)).
+A wallet was swapping apes that had already claimed their packs into the
+**APESTR** (ApeStrategy) contract, and pulling out apes that hadn't. Each ape
+that came out could claim 10 packs, then go back in. **A Raving Peng**
+([@a_raving_ape](https://x.com/a_raving_ape)) counted at 3:58 AM:
+*"the person now has 200 Mudwater packs they are unloading onto the
+market..(~$14k of value)"*, with *"156 remain"*
+([post 2115035319070605341](https://x.com/a_raving_ape/status/2115035319070605341)).
+At 10 packs an ape, 200 packs is twenty apes' worth. The ApeStrategy page in
+the screenshot shows the contract holding 21 apes, every one marked *"0.000
+ETH"*. **aegidos** ([@Aegidos](https://x.com/Aegidos)) linked the wallet,
+**7VpfKg…2waM**, at 4:19 AM. It was filling the "WSOL" bids one pack after
+another at **0.60 SOL**, all to one buyer, *lowonsol*, about every five
+seconds ([post 2115040757065416860](https://x.com/Aegidos/status/2115040757065416860)).
+At 4:55 AM **₿🧞‍♂️** ([@BR4ted](https://x.com/BR4ted)) posted the collection
+page: floor **0.604 SOL**, **-25.9%** on the day, 294.43 SOL of 24-hour
+volume. He asked why platforms making millions can't pay for audits, and
+finished with *"Anyway, I've started DCA'ing into Mudwater Packs."*
+([post 2115049845644046615](https://x.com/BR4ted/status/2115049845644046615)).
+
+**The founder.** At 6:23 AM, TokenWorks co-founder **Adam**
+([@Rhynotic](https://x.com/Rhynotic)) re-posted the year-old thread: *"So
+much time has passed that people forgot about this post"*. He explained that
+the first seven strategies (minus Punks) *"had a reentrancy bug allowing NFTs
+to be swapped out, basically creating a call option."* Then: *"These
+contracts are non-upgradable, so nothing we could do. Luckily all contracts
+other than SquiggleStr were unprofitable to exercise this on so that's why a
+year has passed. With the claim of Mudwater packs, someone decided to
+execute it."* ([post 2115071967728427443](https://x.com/Rhynotic/status/2115071967728427443),
+[post 2115071971184488840](https://x.com/Rhynotic/status/2115071971184488840)).
+The bug was public. It just wasn't worth anything until Yuga attached free
+packs to every ape.
+
+**The troll in the swamp.** In the old stories the troll lives in the swamp
+and under the bridge, and he takes a toll from whatever crosses. A set
+called *Swamp Origins*, in a game called *Mudwater*, got its free packs
+taken by someone standing in the middle of a contract, letting apes in and
+out and keeping a toll on each one. Nothing here was hidden. The team
+announced the hole in 2025, called it an option, said *"everything is
+safe,"* and nobody was technically lying. The person who used it only read
+the post. And the loudest complaint of the morning ended by buying the packs
+being dumped.
+
+**Why it's a troll.** The bug sat in public for a year with "everything is
+safe" written on it. It paid out the day someone else put a prize behind it.
+The exploiter didn't hack anything. He used the trade the team had already
+described, and one buyer took every pack he sold.
+
+**Sourcing:** *Verified posts and screenshots.* All seven posts were read on
+2026-10-27 via fxtwitter. At that read, A Raving Peng's post had 7.2K views,
+BR4ted's 12.5K, aegidos's 2.8K, Adam's first post 3.6K, and TokenWorks's
+2025 post 157.6K. The 200 / 156 / 154 pack counts, the ~$14K value, the
+0.60 SOL fills, the floor, the -25.9% and the wallet are from those posts
+and their screenshots. X's trending summary rounds the floor drop to about
+20%. Mudwater's launch date, claim rules (10 per BAYC, 2 per MAYC) and
+deadline are from launch coverage
+([Crypto Briefing](https://cryptobriefing.com/yuga-labs-mudwater-trading-cards-solana/),
+[CryptoTicker](https://cryptoticker.io/en/mudwater-claim-bayc-mayc-packs/)).
+"Twenty apes" is our arithmetic from the 10-per-ape rule, not an on-chain
+count of apes moved. **Who controls 7VpfKg…2waM isn't established**, and
+neither is whether the buyer *lowonsol* is connected to it. The swamp-troll
+reading is ours. Images: `mudwater-packs-floor-drop` (BR4ted's post),
+`apestrategy-holdings-21-apes` and `mudwater-packs-dumped-0-6-sol`
+(A Raving Peng's post), `mudwater-exploiter-wallet-154` (aegidos's post).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

@@ -1472,6 +1472,70 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["at our discretion", "pick and choose", "troll_runner", "json1444", "reply", "chubbicorns"],
     sections: [85],
   },
+  {
+    id: "arkham-sun-pepe-poloniex-hot-wallet",
+    url: "/lore/arkham-sun-pepe-poloniex-hot-wallet.jpg",
+    caption:
+      "Arkham transfers for a wallet it predicts is Justin Sun's, with one row boxed in red: 4.65T PEPE ($20.32M) from \"Poloniex: Hot Wallet\" 18 hours earlier (from @arkham's post)",
+    keywords: ["justin sun", "pepe", "arkham", "poloniex", "hot wallet", "transfer", "4.65t"],
+    sections: [86],
+  },
+  {
+    id: "arkham-sun-pepe-poloniex-safe",
+    url: "/lore/arkham-sun-pepe-poloniex-safe.jpg",
+    caption:
+      "Arkham's PEPE transfers into Justin Sun's \"trypoly\" address: 7.2T PEPE ($28.44M) from \"Poloniex: Gnosis Safe\" nine days earlier, boxed in red, over four small buys from two years back (from @arkham's post)",
+    keywords: ["justin sun", "pepe", "arkham", "poloniex", "gnosis safe", "trypoly", "7.2t"],
+    sections: [86],
+  },
+  {
+    id: "arkham-sun-entity-page",
+    url: "/lore/arkham-sun-entity-page.jpg",
+    caption:
+      "Justin Sun's Arkham entity page: $2.31B across 211 addresses, a red-eyed Bored Ape avatar, 7.268T PEPE ($31.25M) in the portfolio and a PEPE balance line flat since 2024 that shoots straight up in September 2026 (from @arkham's post)",
+    keywords: ["justin sun", "pepe", "arkham", "entity", "portfolio", "chart", "bored ape", "wlfi"],
+    sections: [86],
+  },
+  {
+    id: "arkham-sun-visualizer",
+    url: "/lore/arkham-sun-visualizer.jpg",
+    caption:
+      "Arkham's visualizer around Justin Sun: a web of his own wallets (each with the same ape avatar) wired to Poloniex, HTX, Binance, Aave and Sky, $16.8B of transfer volume across 9 chains (from @arkham's post)",
+    keywords: ["justin sun", "arkham", "visualizer", "wallets", "poloniex", "htx", "graph"],
+    sections: [86],
+  },
+  {
+    id: "mudwater-packs-floor-drop",
+    url: "/lore/mudwater-packs-floor-drop.jpg",
+    caption:
+      "The Mudwater Packs collection page during the dump: floor 0.604 SOL, -25.9% on the day, top offer 0.56 SOL, 294.43 SOL of 24-hour volume (from @BR4ted's post)",
+    keywords: ["mudwater", "packs", "floor", "swamp origins", "bored ape", "apestr", "exploit"],
+    sections: [87],
+  },
+  {
+    id: "apestrategy-holdings-21-apes",
+    url: "/lore/apestrategy-holdings-21-apes.jpg",
+    caption:
+      "ApeStrategy's holdings during the swap: 21 Bored Apes, every one marked 0.000 ETH, over \"ApeStrategy sold 98 NFTs for 832.949 ETH, realizing -64.935 ETH profit\" (from @a_raving_ape's post)",
+    keywords: ["apestrategy", "apestr", "bored ape", "holdings", "tokenworks", "strategy", "exploit"],
+    sections: [87],
+  },
+  {
+    id: "mudwater-packs-dumped-0-6-sol",
+    url: "/lore/mudwater-packs-dumped-0-6-sol.jpg",
+    caption:
+      "Mudwater Pack sales, one every five seconds or so, all 0.60 SOL, all from 7VpfKg to lowonsol (from @a_raving_ape's post)",
+    keywords: ["mudwater", "packs", "sales", "dump", "7vpfkg", "lowonsol", "0.6 sol"],
+    sections: [87],
+  },
+  {
+    id: "mudwater-exploiter-wallet-154",
+    url: "/lore/mudwater-exploiter-wallet-154.png",
+    caption:
+      "The swapping wallet 7VpfKg…2waM on OpenSea: 154 items left, all Mudwater Packs, $12.7K portfolio with a spike at the end, $3,443 in SOL (from @Aegidos's post)",
+    keywords: ["mudwater", "exploiter", "wallet", "7vpfkg", "opensea", "154", "packs"],
+    sections: [87],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
