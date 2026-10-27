@@ -36,6 +36,7 @@ const HYPED_FILES: Record<number, string> = {
   57: "HOT",
   69: "HOT",
   82: "HOT",
+  85: "HOT",
 };
 
 type ThisWeek = { numbers: number[]; startsAt: string; endsAt: string };
