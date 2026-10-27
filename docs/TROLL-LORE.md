@@ -4883,6 +4883,69 @@ reading is ours. Images: `mudwater-packs-floor-drop` (BR4ted's post),
 `apestrategy-holdings-21-apes` and `mudwater-packs-dumped-0-6-sol`
 (A Raving Peng's post), `mudwater-exploiter-wallet-154` (aegidos's post).
 
+## 88. "Investigate your wiener": the Senator's all-caps demand and the three-word reply
+<!-- posted: 2026-10-27T15:33:00Z -->
+
+**The week before.** On **October 20, 2026**, after a Wall Street Journal
+report that Ukrainian Starshield terminals had been throttled until their
+drones were close to useless, Rep. **Brian Fitzpatrick** (R-PA) called for a
+congressional investigation and said that if **Elon Musk** ordered it, it was
+likely against the law. Musk said speed limits are set by the US military
+and, in the end, the president; Trump said he gave no such order. On
+**October 25** Musk accused Ukraine's military of breaking Starlink's terms
+of service by using it for offensive drone strikes, and Kyiv disputed it.
+Over the same days, Democrats were reported to be lining up subpoenas for
+January if they take a chamber in November. Musk's answer to that was *"If
+they want to live by the sword, that is how they will die too."*
+
+**The demand.** At **12:18 PM Pacific** on **October 26**, California Senator
+**Alex Padilla** ([@SenAlexPadilla](https://x.com/SenAlexPadilla)) posted four
+words, all in capitals: *"INVESTIGATE ELON MUSK."*
+([post 2114798781778862589](https://x.com/SenAlexPadilla/status/2114798781778862589)).
+He gave no reason, link or bill. The post drew **9.3K replies** against
+**24K likes**, and X's language detector filed it as Spanish.
+
+**The reply.** At **6:34 PM Pacific**, Musk answered under it:
+*"Investigate your wiener"*
+([post 2114893417599914366](https://x.com/elonmusk/status/2114893417599914366)).
+At our read it had **4.38M views and 125.5K likes**, more than five times
+the likes on the post it answered, and X put it in trending as a reply that
+"turns tables" on the senator. October 26 was also the fourth anniversary of
+the day in 2022 Musk walked into Twitter's headquarters carrying a sink.
+
+**Which wiener.** The plain reading is the schoolyard one. There's a second:
+**Scott Wiener**, the California state senator running for Nancy Pelosi's
+House seat, whom Musk called *"an utter scumbag"* in 2024. Replies picked
+that up straight away, one of them posting *"investigate this Wiener too"*
+over a photo. Musk didn't say which he meant, and three words don't have to
+mean only one thing.
+
+**The troll in it.** A demand for an investigation needs a charge, and
+Padilla's post had none. That left Musk nothing to answer except the post's
+own wording, so he swapped the object for a body part and kept the verb. A
+senator's call to investigate became a joke about his own wiener, and the
+joke got about 40% more views than the call did.
+
+**Why it's a troll.** The senator shouted and gave no reason. The billionaire
+answered in three words and gave no reason either. The reply got five times
+the likes because nobody had to read anything to get it.
+
+**Sourcing:** *Verified posts, partisan write-ups.* Both posts were read on
+2026-10-27 via fxtwitter: Padilla's at 3.19M views, 24.1K likes, 9.3K
+replies; Musk's at 4.38M views, 125.5K likes, 5.3K replies. Times are from
+the posts' timestamps (19:18 and 01:34 UTC). The Starlink background is from
+[Stars and Stripes](https://www.stripes.com/theaters/us/2026-10-21/lawmakers-investigation-ukraine-starlink-disruptions-23218791.html),
+[The Hill](https://thehill.com/homenews/house/6162739-fitzpatrick-calls-starlink-investigation-elon-musk/),
+[the Inquirer](https://www.inquirer.com/politics/election/brian-fitzpatrick-elon-musk-ukraine-starlink-slowdown-restrictions-investigation-20261021.html)
+and [CNN](https://www.cnn.com/2026/10/25/europe/starlink-musk-violation-accusations-intl).
+The subpoena planning and the "live by the sword" post are as reported by
+[Twitchy](https://twitchy.com/grateful-calvin/2026/10/27/elon-musk-alex-padilla-n2433777)
+and [The Gateway Pundit](https://www.thegatewaypundit.com/2026/10/investigate-your-what-elon-musk-gives-hilarious-response/),
+both openly pro-Musk, so **treat those two as reports, not confirmation**.
+What Padilla wanted investigated isn't established; his post doesn't say.
+**The Scott Wiener reading is ours and the replies'**, not Musk's. Images:
+`musk-padilla-investigate-your-wiener` (both posts, captured from X's embed).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

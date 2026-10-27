@@ -1536,6 +1536,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["mudwater", "exploiter", "wallet", "7vpfkg", "opensea", "154", "packs"],
     sections: [87],
   },
+  {
+    id: "musk-padilla-investigate-your-wiener",
+    url: "/lore/musk-padilla-investigate-your-wiener.png",
+    caption:
+      "Sen. Alex Padilla: \"INVESTIGATE ELON MUSK.\" Elon Musk, under it: \"Investigate your wiener\" (6:34 PM, Oct 26, 2026, 125.5K likes)",
+    keywords: ["padilla", "musk", "elon", "wiener", "investigate", "senator", "starlink"],
+    sections: [88],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
