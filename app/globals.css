@@ -2457,6 +2457,97 @@ html[data-custom-cursor] label {
     color: var(--background);
   }
 }
+/* Truth logs status stamps (app/logs/page.tsx SignalStamp). A live signal
+   for a transmission's first day, UNCRACKED / CRACKED for its riddle, and a
+   cold signal after a week, where the whole card fades back. */
+.logs-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.1em 0.5em;
+  border: 1px solid currentColor;
+  font-weight: 700;
+}
+.logs-stamp-note {
+  font-weight: 400;
+  opacity: 0.8;
+}
+.logs-stamp-live {
+  color: var(--alert);
+}
+.logs-live-dot {
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--alert);
+  animation: logs-live-pulse 1.2s ease-in-out infinite;
+}
+@keyframes logs-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--alert) 60%, transparent);
+  }
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 0 0.35em transparent;
+  }
+}
+.logs-live {
+  box-shadow: 0 0 18px color-mix(in srgb, var(--alert) 25%, transparent);
+}
+.logs-stamp-uncracked {
+  color: var(--problem);
+  animation: logs-uncracked-flicker 2.4s steps(1, end) infinite;
+}
+@keyframes logs-uncracked-flicker {
+  0%,
+  88%,
+  100% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.35;
+  }
+  94% {
+    opacity: 0.8;
+  }
+}
+.logs-stamp-cracked {
+  color: var(--terminal);
+  border-style: dashed;
+  transform: rotate(-2deg);
+}
+.logs-stamp-cold {
+  color: var(--dim);
+  border-style: dotted;
+}
+.logs-cold {
+  opacity: 0.62;
+  filter: grayscale(0.6);
+  transition: opacity 0.2s, filter 0.2s;
+}
+.logs-cold:hover,
+.logs-cold:focus-within {
+  opacity: 1;
+  filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logs-live-dot,
+  .logs-stamp-uncracked {
+    animation: none;
+  }
+}
+
+/* A file already up that got new material this week (`<!-- updated: -->`
+   in TROLL-LORE.md). Steady, so it never competes with a HOT file's flash. */
+.archive-updated-badge {
+  font-weight: 700;
+  font-size: 0.85em;
+  padding: 0 0.35em;
+  color: var(--background);
+  background: var(--terminal);
+}
 
 /* Old trollrunner.net sticker GIFs are black line art on a (now
    transparent) backdrop — invisible against the dark theme's near-black,

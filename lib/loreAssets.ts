@@ -77,6 +77,22 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [30],
   },
   {
+    id: "krypto2009-cap-and-krypto-tee",
+    url: "/lore/krypto2009-cap-and-krypto-tee.jpg",
+    caption:
+      "krypto2009, October 2, 2026: \"TROLLed the F*** Out.\" A washed grey cap with an embroidered trollface pulled down over his eyes, and a black KЯYPTO tee with the trollface in a circle.",
+    keywords: ["krypto2009", "krypto cap", "krypto tee", "krypto shirt", "trolled the f out", "trollface cap"],
+    sections: [30],
+  },
+  {
+    id: "krypto2009-halloween-obey-hoodie",
+    url: "/lore/krypto2009-halloween-obey-hoodie.jpg",
+    caption:
+      "krypto2009's Halloween 2026 costume: the molded trollface mask from umadbro.shop, UMadBro's Obey Troll hoodie, and a Pepe plush held upside down. The post named the costume with the $TROLL mint address instead of the word.",
+    keywords: ["krypto2009", "halloween", "obey troll hoodie", "trollface mask", "umadbro mask", "krypto halloween"],
+    sections: [30],
+  },
+  {
     id: "goatfarm-troll-belt-slippers",
     url: "/lore/goatfarm-troll-1.jpeg",
     caption: "GOATFARM's Trollface belt buckle and slippers",

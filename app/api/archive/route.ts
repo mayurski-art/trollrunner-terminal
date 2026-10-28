@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { allSectionTitles, getArchiveSectionText, sectionsPostedSince } from "@/lib/loreSections";
+import {
+  allSectionTitles,
+  getArchiveSectionText,
+  sectionsPostedSince,
+  sectionsUpdatedSince,
+} from "@/lib/loreSections";
 import { archiveWeek } from "@/lib/archiveWeek";
 import { isFreshlyPosted, isOpenToAll, sectionDepth } from "@/lib/loreArchive";
 import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
@@ -52,6 +57,11 @@ function manifest({
   balance: number;
   signedIn: boolean;
 }) {
+  // The "this week" box: files posted since the last Monday 8am Pacific, and
+  // files already up that got new material since then (tagged UPDATED).
+  const week = archiveWeek();
+  const updated = new Set(sectionsUpdatedSince(week.startsAt));
+
   const files = allSectionTitles().map(({ number, title }) => {
     const depth = sectionDepth(number);
     const open = isOpen(number);
@@ -64,18 +74,16 @@ function manifest({
       body,
       images: open ? findLoreImagesForArchiveSection(number) : [],
       cost: open ? null : cost,
+      updated: updated.has(number),
     };
   });
 
   const recoveredCount = files.filter((f) => f.state === "open").length;
 
-  // The "this week" box: files posted since the last Monday 8am Pacific.
-  const week = archiveWeek();
-
   return NextResponse.json({
     files,
     thisWeek: {
-      numbers: sectionsPostedSince(week.startsAt),
+      numbers: [...sectionsPostedSince(week.startsAt), ...updated],
       startsAt: new Date(week.startsAt).toISOString(),
       endsAt: new Date(week.endsAt).toISOString(),
     },

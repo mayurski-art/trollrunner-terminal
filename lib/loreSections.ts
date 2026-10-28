@@ -35,9 +35,14 @@ type LoreSection = {
   // Only the front page's "newest file" box reads it (to stop calling a file
   // new a day after it went up); the comment itself is removed from `body`.
   postedAt: string | null;
+  // From an optional `<!-- updated: ISO-timestamp -->` line: when a file
+  // already up got new material. The archive tags it UPDATED for the rest
+  // of that week (app/api/archive/route.ts). Removed from `body` the same way.
+  updatedAt: string | null;
 };
 
 const POSTED_MARKER = /<!--\s*posted:\s*(\S+?)\s*-->[ \t]*\n?/;
+const UPDATED_MARKER = /<!--\s*updated:\s*(\S+?)\s*-->[ \t]*\n?/;
 
 function parseSections(): LoreSection[] {
   const parts = RAW.split(/\n(?=## )/);
@@ -46,6 +51,9 @@ function parseSections(): LoreSection[] {
     const postedMatch = part.match(POSTED_MARKER);
     const postedAt = postedMatch ? postedMatch[1] : null;
     if (postedMatch) part = part.replace(POSTED_MARKER, "");
+    const updatedMatch = part.match(UPDATED_MARKER);
+    const updatedAt = updatedMatch ? updatedMatch[1] : null;
+    if (updatedMatch) part = part.replace(UPDATED_MARKER, "");
     if (!part.startsWith("## ")) continue;
     const newlineAt = part.indexOf("\n");
     const title = part.slice(3, newlineAt === -1 ? undefined : newlineAt).trim();
@@ -62,7 +70,7 @@ function parseSections(): LoreSection[] {
       ...bolded.flatMap((b) => significantWords(b)),
     ]);
 
-    sections.push({ number, title, body, keywords, postedAt });
+    sections.push({ number, title, body, keywords, postedAt, updatedAt });
   }
   return sections;
 }
@@ -196,17 +204,29 @@ export function newestSection(): { number: number; title: string; postedAt: stri
   return newest ? { number: newest.number as number, title: newest.title, postedAt: newest.postedAt } : null;
 }
 
-// Numbers of the sections whose `posted:` time falls in [sinceMs, now],
-// newest first. Feeds the archive's "this week" box (lib/archiveWeek.ts).
-export function sectionsPostedSince(sinceMs: number): number[] {
+function stampedSince(sinceMs: number, stamp: (s: LoreSection) => string | null): number[] {
   const now = Date.now();
   return SECTIONS.filter((s) => {
-    if (s.number === null || !s.postedAt) return false;
-    const t = Date.parse(s.postedAt);
+    const at = stamp(s);
+    if (s.number === null || !at) return false;
+    const t = Date.parse(at);
     return !Number.isNaN(t) && t >= sinceMs && t <= now;
   })
     .map((s) => s.number as number)
     .sort((a, b) => b - a);
+}
+
+// Numbers of the sections whose `posted:` time falls in [sinceMs, now],
+// newest first. Feeds the archive's "this week" box (lib/archiveWeek.ts).
+export function sectionsPostedSince(sinceMs: number): number[] {
+  return stampedSince(sinceMs, (s) => s.postedAt);
+}
+
+// Same, for `updated:` times, leaving out files also posted in that window
+// (a file that's new this week is just new, not updated).
+export function sectionsUpdatedSince(sinceMs: number): number[] {
+  const posted = new Set(sectionsPostedSince(sinceMs));
+  return stampedSince(sinceMs, (s) => s.updatedAt).filter((n) => !posted.has(n));
 }
 
 // Plain text for the archive page — TROLL-LORE.md is authored as Markdown

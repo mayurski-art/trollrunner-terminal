@@ -21,6 +21,8 @@ type File = {
   body: string | null;
   images: LoreImage[];
   cost: number | null;
+  // Got new material this week (`<!-- updated: -->` in TROLL-LORE.md).
+  updated: boolean;
 };
 
 // Files to hype up — gold glow, shake and a flashing badge (.archive-hype
@@ -349,6 +351,7 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
           title: f.title,
           open: f.state === "open",
           image: f.images[0] ?? null,
+          updated: f.updated,
         }))}
         onPick={(picked) => {
           const target = files.find((f) => f.number === picked.number);
@@ -465,8 +468,11 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
                 </span>
                 <span className={`truncate${hype ? " archive-hype-title" : ""}`}>{file.title}</span>
                 {hype && <span className="archive-hype-badge shrink-0 ml-auto">{hype}</span>}
+                {file.updated && (
+                  <span className={`archive-updated-badge shrink-0${hype ? "" : " ml-auto"}`}>UPDATED</span>
+                )}
                 {file.state === "open" && (
-                  <span className={`shrink-0 ${hype ? "" : "ml-auto "}text-terminal/60`}>[ OPEN ]</span>
+                  <span className={`shrink-0 ${hype || file.updated ? "" : "ml-auto "}text-terminal/60`}>[ OPEN ]</span>
                 )}
               </button>
               {file.state === "sealed" && (

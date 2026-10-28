@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { allSectionTitles, sectionsPostedSince } from "@/lib/loreSections";
+import { allSectionTitles, sectionsPostedSince, sectionsUpdatedSince } from "@/lib/loreSections";
 import { archiveWeek } from "@/lib/archiveWeek";
 import { isOpenToAll, sectionDepth } from "@/lib/loreArchive";
 import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
@@ -14,7 +14,9 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const week = archiveWeek();
   const titles = new Map(allSectionTitles().map((s) => [s.number, s.title]));
-  const files = sectionsPostedSince(week.startsAt).flatMap((number) => {
+  // New files first, then files already up that got new material this week.
+  const updated = new Set(sectionsUpdatedSince(week.startsAt));
+  const files = [...sectionsPostedSince(week.startsAt), ...updated].flatMap((number) => {
     const title = titles.get(number);
     if (!title) return [];
     const open = isOpenToAll(number);
@@ -25,6 +27,7 @@ export async function GET() {
         title: open || sectionDepth(number) === 1 ? title : "??",
         open,
         image: image ? { url: image.url, caption: image.caption } : null,
+        updated: updated.has(number),
       },
     ];
   });

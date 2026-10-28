@@ -7,6 +7,8 @@ export type WeekFile = {
   title: string;
   open: boolean;
   image: { url: string } | null;
+  // Already up before this week, but got new material in it.
+  updated?: boolean;
 };
 
 // The THIS WEEK box: every file posted since Monday 8am Pacific
@@ -40,13 +42,19 @@ export default function WeekFiles({
 }) {
   if (files.length === 0) return null;
   const sz = SIZES[size];
+  const updatedCount = files.filter((f) => f.updated).length;
+  const newCount = files.length - updatedCount;
+  const counts = [
+    newCount > 0 && `${newCount} new ${newCount === 1 ? "file" : "files"}`,
+    updatedCount > 0 && `${updatedCount} updated`,
+  ].filter(Boolean);
   return (
     <section className="newest-file relative z-[1]" aria-label="this week's files">
       <div className={`newest-file-inner ${sz.inner}`}>
         <p className={`flex items-center gap-2 leading-none ${sz.meta}`}>
           <span className="newest-file-banner">THIS WEEK</span>
           <span className="newest-file-meta tabular-nums">
-            {files.length} new {files.length === 1 ? "file" : "files"}
+            {counts.join(" · ")}
           </span>
         </p>
         <ul className="divide-y divide-dim/20">
@@ -83,6 +91,7 @@ export default function WeekFiles({
                 <span className="min-w-0 flex-1 text-foreground leading-snug line-clamp-2 group-hover:text-terminal">
                   {file.title.replace(/^\d+\.\s*/, "")}
                 </span>
+                {file.updated && <span className="archive-updated-badge shrink-0">UPDATED</span>}
                 <span className="hidden sm:inline shrink-0 text-terminal underline decoration-dim underline-offset-4 group-hover:text-foreground">
                   [ {file.open ? "read it" : "recover it"} ]
                 </span>

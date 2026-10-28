@@ -656,6 +656,7 @@ content, not just a word.
 **Sources:** [Wikipedia — Trollstation](https://en.wikipedia.org/wiki/Trollstation)
 
 ## 30. krypto2009 — the face that travels without a venue
+<!-- updated: 2026-10-28T15:40:00Z -->
 
 No museum, no pop-up, no closing date. **krypto2009** carries the face
 around physically as graffiti and pasted pieces on walls in cities around
@@ -688,13 +689,36 @@ public display or subway-adjacent ad rather than a street wall. Same face,
 aimed at whatever is hanging in public that week. The `trololol.io` handle
 on that banner turns up again in §31.
 
+**Update, October 2026: the face as a wardrobe.** By autumn the face had
+moved from walls onto krypto2009's clothes. On **October 2, 2026** he posted
+*"TROLLed the F\*\*\* Out‼️"*, tagging $TROLL, $TROLLIONS, @Troll\_,
+@umadbro and @TrollionsTroll. The photo shows a washed grey cap with an
+embroidered trollface pulled low over his eyes, so the face on the hat is
+the only face in the picture, and a black tee with a trollface in a circle
+over a "KЯYPTO" wordmark, the R flipped. On **October 26** came the Halloween
+costume, and the post skipped the word for it: *"Just a
+solana:5UUH9RTD…BhgH2 for #halloween this year"*, the $TROLL mint address
+(§3) standing in for "troll." He wore the full molded trollface mask from
+umadbro.shop under a black hood, with UMadBro's "Obey Troll" hoodie, a
+trollface in the style of Shepard Fairey's OBEY posters over a red TROLL
+box. In his other hand he held a Pepe plush upside down, with a Bitcoin "B"
+on the shelf behind him. The street pieces needed a wall. These go wherever
+he does.
+
 **Sources:** user-provided photos and X posts:
 [Buenos Aires](https://x.com/krypto2009/status/2082163974963867693) ·
 [New York](https://x.com/krypto2009/status/2080683843208495122) ·
 [another piece](https://x.com/krypto2009/status/2082568393970897291) ·
 [NBA Finals banner](https://x.com/krypto2009/status/2067038173302067454) ·
-[Diawara poster](https://x.com/krypto2009/status/2064500826853232971).
-User-provided tier. Images: `krypto2009.png`, `krypto2009-mask-worn.jpg`.
+[Diawara poster](https://x.com/krypto2009/status/2064500826853232971) ·
+["TROLLed the F*** Out"](https://x.com/krypto2009/status/2105967842797531592)
+(Oct 2, 2026; 1,316 views, 73 likes at our read on 2026-10-28) ·
+[Halloween](https://x.com/krypto2009/status/2114693951508857180)
+(Oct 26, 2026; 671 views, 59 likes) ·
+[the mask on umadbro.shop](https://umadbro.shop/shop/creations/troll-face-mask-e8bfe1).
+The two October posts were read via fxtwitter on 2026-10-28.
+User-provided tier. Images: `krypto2009.png`, `krypto2009-mask-worn.jpg`,
+`krypto2009-cap-and-krypto-tee.jpg`, `krypto2009-halloween-obey-hoodie.jpg`.
 
 ## 31. GOATFARM — the merch line wearing the license in public
 
