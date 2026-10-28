@@ -21,7 +21,57 @@ export type Post = {
   x_post_url: string | null;
   art_url: string | null;
   posted_at: string;
+  // From /api/posts: has an answer to guess, and how many cracked / tried.
+  guessable?: boolean;
+  cracked?: number;
+  tried?: number;
 };
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Where a transmission stands, for the stamp on its card: a live signal for
+// its first day, cold after a week, and in between (or alongside) whether
+// anyone has cracked its riddle yet.
+type Signal = { live: boolean; cold: boolean; crack: "uncracked" | "cracked" | null };
+
+function signalOf(post: Post): Signal {
+  const age = Date.now() - new Date(post.posted_at).getTime();
+  return {
+    live: age < DAY_MS,
+    cold: age > 7 * DAY_MS,
+    crack: !post.guessable ? null : (post.cracked ?? 0) > 0 ? "cracked" : "uncracked",
+  };
+}
+
+function SignalStamp({ post, signal }: { post: Post; signal: Signal }) {
+  const tried = post.tried ?? 0;
+  const cracked = post.cracked ?? 0;
+  return (
+    <div className="mb-3 flex flex-wrap items-center gap-2 text-[10px] lg:text-xs tracking-wide">
+      {signal.live && (
+        <span className="logs-stamp logs-stamp-live">
+          <span className="logs-live-dot" aria-hidden="true" />
+          LIVE SIGNAL
+        </span>
+      )}
+      {signal.crack === "uncracked" && (
+        <span className="logs-stamp logs-stamp-uncracked">
+          <span aria-hidden="true">▒▓▒ </span>UNCRACKED
+          <span className="logs-stamp-note">
+            {tried === 0 ? "· nobody's tried" : `· ${tried} tried, 0 got it`}
+          </span>
+        </span>
+      )}
+      {signal.crack === "cracked" && (
+        <span className="logs-stamp logs-stamp-cracked">
+          <span aria-hidden="true">⌧ </span>CRACKED ×{cracked}
+          {tried > cracked && <span className="logs-stamp-note">· {tried - cracked} didn&apos;t</span>}
+        </span>
+      )}
+      {signal.cold && !signal.live && <span className="logs-stamp logs-stamp-cold">◌ COLD SIGNAL</span>}
+    </div>
+  );
+}
 
 // The owner picks clue vs. musing directly on the review card at generation
 // time (GenerateTransmission.tsx) — terminal_posts.kind (migration 018) is
@@ -51,7 +101,7 @@ export function isToday(isoDate: string): boolean {
 export default function LogsPage() {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<Kind | "all">("all");
+  const [filter, setFilter] = useState<Kind | "all" | "uncracked">("all");
   const [session, setSession] = useState<Session | null>(null);
   const [expanded, setExpanded] = useState<Post | null>(null);
 
@@ -87,7 +137,7 @@ export default function LogsPage() {
 
         {posts && posts.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs">
-            {(["all", "clue", "musing"] as const).map((k) => (
+            {(["all", "clue", "musing", "uncracked"] as const).map((k) => (
               <button
                 key={k}
                 type="button"
@@ -99,7 +149,7 @@ export default function LogsPage() {
                     : "border-dim text-dim hover:border-terminal hover:text-terminal"
                 }`}
               >
-                {k === "all" ? "[ all ]" : `[ ${KIND_META[k].label} ]`}
+                {k === "all" || k === "uncracked" ? `[ ${k} ]` : `[ ${KIND_META[k].label} ]`}
               </button>
             ))}
           </div>
@@ -124,11 +174,21 @@ export default function LogsPage() {
           posts &&
           posts.length > 0 &&
           (() => {
-            const filtered = posts.filter((p) => filter === "all" || p.kind === filter);
+            const filtered = posts.filter((p) =>
+              filter === "all"
+                ? true
+                : filter === "uncracked"
+                  ? signalOf(p).crack === "uncracked"
+                  : p.kind === filter
+            );
             if (filtered.length === 0) {
               return (
                 <Frame title="transmissions" tone="terminal">
-                  <p className="text-dim text-sm">[no {KIND_META[filter as Kind]?.label ?? ""} transmissions yet]</p>
+                  <p className="text-dim text-sm">
+                    {filter === "uncracked"
+                      ? "[every riddle's been cracked. for now]"
+                      : `[no ${KIND_META[filter as Kind]?.label ?? ""} transmissions yet]`}
+                  </p>
                 </Frame>
               );
             }
@@ -136,13 +196,15 @@ export default function LogsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map((post) => {
                   const kind = post.kind;
+                  const signal = signalOf(post);
                   return (
                     <Frame
                       key={post.id}
-                      tone={kind === "musing" ? "terminal" : "dim"}
+                      tone={signal.live ? "alert" : kind === "musing" ? "terminal" : "dim"}
+                      className={signal.cold ? "logs-cold" : signal.live ? "logs-live" : ""}
                       bodyClassName="flex flex-col h-full"
                       titleEffect="trace"
-                      traceHue={kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
+                      traceHue={signal.live ? "var(--alert)" : kind === "musing" ? "#f2f2f2" : "#5c5c5c"}
                       cornerAction={
                         <button
                           type="button"
@@ -154,6 +216,7 @@ export default function LogsPage() {
                         </button>
                       }
                     >
+                      <SignalStamp post={post} signal={signal} />
                       <div className="text-terminal text-sm leading-relaxed font-transmission max-h-64 overflow-y-auto pr-1">
                         {renderTightLines(post.content, !isToday(post.posted_at))}
                       </div>
