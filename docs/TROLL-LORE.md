@@ -5040,6 +5040,80 @@ Musk holds HYPE. The 9:00 AM leg has no cause we could find. Images:
 `musk-interesting-druckenmiller` (captured from X's embed),
 `hype-oct29-interesting-chart` (drawn from the API data).
 
+## 90. "A $200,000 candy room": Notch's $70M house, the same price twelve years later
+<!-- posted: 2026-10-29T19:48:00Z -->
+
+**The house.** In **December 2014**, three months after selling Mojang
+and **Minecraft** to Microsoft for **$2.5 billion**, **Markus "Notch"
+Persson** paid **$70 million** for a new-build in **Trousdale Estates**,
+Beverly Hills. He outbid **Beyoncé and Jay-Z** for it, the sale closed in
+six days, and it was the most anyone had paid for a house in Beverly Hills.
+The builder, handbag mogul **Bruce Makowsky**, sold it furnished down to
+the staging, and the list that went round the world that winter had a
+vodka bar, a tequila bar, an 18-seat screening room and a wall of candy
+dispensers stocked with what CNBC called **more than $200,000 of candy**.
+
+**The listing.** This week, through agent **Aaron Kirman**, Notch put it
+back on the market for **$70 million**, the same number he paid. It's about
+22,300 square feet with eight bedrooms, 15 bathrooms, a 2,500-bottle wine
+cellar, a recording studio and a **private nightclub with a DJ booth** that
+he added himself. Kirman told the Wall Street Journal that Notch doesn't
+spend much time in Los Angeles. Over the same twelve years the median LA
+home more than doubled.
+
+**The framing.** At **4:04 PM Pacific** on **October 28**, **Watcher.Guru**
+([@WatcherGuru](https://x.com/WatcherGuru)) posted that Notch *"flees
+California"*, listing the house *"as the state considers new wealth tax"*
+([post 2115580466531095035](https://x.com/WatcherGuru/status/2115580466531095035)),
+over his headshot and the California flag. That's the one-time 5% tax on
+billionaires on the **November 3** ballot. It drew **1.48M views and 26.9K
+likes**. Neither Notch nor his agent tied the sale to the tax.
+
+**The post.** At **9:55 AM Pacific** on **October 29**, **Polymarket**
+([@Polymarket](https://x.com/Polymarket), 2M followers) skipped the tax
+and led with the furniture: *"JUST IN: Minecraft creator Notch lists his
+Beverly Hills mansion for $70 million, featuring 8 bedrooms, 15 bathrooms,
+a private nightclub, & a $200,000 candy room."*
+([post 2115850051474145572](https://x.com/Polymarket/status/2115850051474145572)).
+Two photos: Notch at a desk in his Mojang days, black fedora, black tee,
+hands folded, and the white house on the hill with its pool.
+
+**The reply.** Twenty-four minutes later, **æthernet port**
+([@aethernet_port](https://x.com/aethernet_port), 157 followers) answered
+under it: *"Of course his fat ass had a candy room"*
+([post 2115856129775558736](https://x.com/aethernet_port/status/2115856129775558736)).
+By the afternoon it had **108 likes on 3,150 views**, about one like for
+every 29 people who saw it, against Polymarket's one in 82.
+
+**The troll in it.** Polymarket's post is a list of numbers: $70 million,
+8, 15, $200,000. The reply read past all of them to the one that didn't
+belong with the others and put it next to the fedora photo Polymarket had
+picked. The candy room was a twelve-year-old line from a real-estate press
+release. In seven words it became the whole story, and the house became the
+punchline.
+
+**Why it's a troll.** One account turned a billionaire's house sale into a
+tax escape. Another turned it into a furniture list. A 157-follower account
+turned it into a joke about the candy, and that's the version people liked.
+
+**Sourcing:** *Verified posts, press.* All three posts were read on
+2026-10-29 via fxtwitter: Watcher.Guru's (23:04 UTC Oct 28) at 1.48M views
+and 26.9K likes; Polymarket's (16:55 UTC) at 85.7K views and 1,046 likes;
+the reply (17:19 UTC) at 3,150 views and 108 likes. The listing is from
+[Dexerto](https://www.dexerto.com/minecraft/minecraft-creator-notch-is-selling-beverly-hills-mansion-for-70m-after-outbidding-beyonce-3422927/)
+and [GameSpot via Yahoo](https://www.yahoo.com/entertainment/celebrity/articles/minecraft-creator-selling-70-million-135409939.html),
+both citing the WSJ and LA Times. The 2014 sale, the bidding war and the
+candy figure are from [CNBC](https://www.cnbc.com/2014/12/19/inside-minecraft-founders-70-million-bachelor-pad.html)
+and [the LA Times via RISMedia](https://rismedia.com/2015/01/06/hot-property-minecraft-creator-buys-70-million-mansion/).
+**The $200,000 is the 2014 figure**, and sources split on whether it was
+the room or the candy in it; nothing says the room is still stocked.
+**"Flees California" is Watcher.Guru's framing**, not anything Notch or his
+agent said. Persona: the joke is about the candy room as a headline, never
+about his body, and don't call the sale a tax move. Images:
+`polymarket-notch-candy-room-reply` (both posts, captured from X's embed),
+`polymarket-notch-photo`, `notch-trousdale-mansion` (Polymarket's two
+photos).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got

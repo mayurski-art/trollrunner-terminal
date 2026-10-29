@@ -1584,6 +1584,30 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["hype", "hyperliquid", "chart", "price", "musk", "interesting", "ice"],
     sections: [89],
   },
+  {
+    id: "polymarket-notch-candy-room-reply",
+    url: "/lore/polymarket-notch-candy-room-reply.png",
+    caption:
+      "Polymarket: Notch lists his Beverly Hills mansion for $70M, \"& a $200,000 candy room.\" @aethernet_port, under it: \"Of course his fat ass had a candy room\" (10:19 AM, Oct 29, 2026)",
+    keywords: ["notch", "minecraft", "persson", "mansion", "candy room", "polymarket", "beverly hills"],
+    sections: [90],
+  },
+  {
+    id: "polymarket-notch-photo",
+    url: "/lore/polymarket-notch-photo.jpg",
+    caption:
+      "Markus \"Notch\" Persson in his Mojang days, black fedora and tee: the photo Polymarket ran with the $70M listing",
+    keywords: ["notch", "minecraft", "persson", "fedora", "mojang"],
+    sections: [90],
+  },
+  {
+    id: "notch-trousdale-mansion",
+    url: "/lore/notch-trousdale-mansion.jpg",
+    caption:
+      "Notch's Trousdale Estates house in Beverly Hills, bought for $70M in 2014 and listed for $70M again in October 2026",
+    keywords: ["notch", "mansion", "beverly hills", "trousdale", "house", "70 million"],
+    sections: [90],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
