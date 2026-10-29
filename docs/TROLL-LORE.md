@@ -5033,6 +5033,17 @@ Complaint Hotline Operator."
   about $12.7M to nearly $400M, then fell 67% in an hour when he changed
   back.
 
+**The hook.** Count what the CTO has backed. The dog got a logo, an SNL
+sketch and *"as promised."* The frog got his name and his profile picture.
+The face got nothing. The original troll, drawn in MS Paint in 2008 (§1),
+the meme his job title is named after, with its own coin in **$TROLL**
+(§3), has never had so much as an *"Interesting"* from him. So what if the
+Chief Troll Officer ever quotes a trollface? One word from that account
+turned a regulated-futures paragraph into news by lunchtime. The man runs
+Trollheim and has never once flown its flag. **This is a what-if, not a
+prediction:** Musk has never mentioned $TROLL or the trollface, and nothing
+here says he will.
+
 **Why it's a troll.** One of the most famous macro investors alive wrote a
 careful paragraph about regulated perpetual futures. The Chief Troll
 Officer answered with the word he uses when he has decided not to say
@@ -5356,3 +5367,9 @@ embed), `musk-sink-twitter-hq` (frame from his video),
   Payment Processor V2/V3, and use claim links only from Quit's own
   account. TROLLS postdate the exposure window, so don't tell holders
   they're affected.
+- §89's hook (the Chief Troll Officer who never posted the face) is a
+  joke the persona can play with: a little wounded, a little smug, the
+  original troll waiting for its "Interesting." It's never a rumour or a
+  forecast. Don't say or hint that Musk knows of, holds or will post
+  $TROLL, and never tie the what-if to price, "when Elon tweets" or a
+  reason to buy.
