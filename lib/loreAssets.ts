@@ -1568,6 +1568,46 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["padilla", "musk", "elon", "wiener", "investigate", "senator", "starlink"],
     sections: [88],
   },
+  {
+    id: "musk-interesting-druckenmiller",
+    url: "/lore/musk-interesting-druckenmiller.png",
+    caption:
+      "Elon Musk quotes Stan Druckenmiller's Trade[XYZ] / ICE / Hyperliquid post with one word: \"Interesting\" (8:08 AM, Oct 29, 2026)",
+    keywords: ["musk", "elon", "interesting", "druckenmiller", "hyperliquid", "ice", "trade xyz", "perps"],
+    sections: [89],
+  },
+  {
+    id: "musk-chief-troll-officer",
+    url: "/lore/musk-chief-troll-officer.png",
+    caption:
+      "Elon Musk: \"(CTO) Chief Troll Officer\" (5:15 PM, Jan 8, 2024), posted while his bio read CTO and his location read Trollheim",
+    keywords: ["musk", "elon", "chief troll officer", "cto", "trollheim", "bio"],
+    sections: [89],
+  },
+  {
+    id: "musk-funding-secured-420",
+    url: "/lore/musk-funding-secured-420.png",
+    caption:
+      "Elon Musk: \"Am considering taking Tesla private at $420. Funding secured.\" (9:48 AM, Aug 7, 2018), the post that cost him and Tesla $20M each",
+    keywords: ["musk", "funding secured", "420", "tesla", "sec"],
+    sections: [89],
+  },
+  {
+    id: "musk-sink-twitter-hq",
+    url: "/lore/musk-sink-twitter-hq.jpg",
+    caption:
+      "Frame from Musk's \"Entering Twitter HQ – let that sink in!\" video (Oct 26, 2022): him carrying a sink past the Twitter bird",
+    keywords: ["musk", "sink", "twitter hq", "let that sink in"],
+    sections: [89],
+  },
+  {
+    id: "musk-doge-old-photo",
+    url: "/lore/musk-doge-old-photo.jpg",
+    caption:
+      "The meme Musk posted the day Twitter's bird became the Doge (Apr 3, 2023): Doge hands a cop a licence with the bird on it. \"That's an old photo\"",
+    keywords: ["musk", "doge", "dogecoin", "twitter logo", "old photo"],
+    sections: [89],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

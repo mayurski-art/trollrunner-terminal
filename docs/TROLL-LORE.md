@@ -4973,6 +4973,100 @@ What Padilla wanted investigated isn't established; his post doesn't say.
 **The Scott Wiener reading is ours and the replies'**, not Musk's. Images:
 `musk-padilla-investigate-your-wiener` (both posts, captured from X's embed).
 
+## 89. "Interesting": the Chief Troll Officer's one-word job
+<!-- posted: 2026-10-29T16:04:37Z -->
+
+**The post.** At **5:08 AM Pacific** on **October 29, 2026**,
+**Stan Druckenmiller** ([@standuquesne](https://x.com/standuquesne)), the Duquesne
+investor who ran George Soros's Quantum Fund, posted 44 words: he was now an
+investor in **Trade[XYZ]**, which had just partnered with **ICE**, the New
+York Stock Exchange's parent, to bring 24/7
+**perpetual futures on Hyperliquid** to the United States
+([post 2115777839622689036](https://x.com/standuquesne/status/2115777839622689036)).
+The deal, announced that morning, has ICE taking a stake in Trade[XYZ] and
+running a US venue called **ICE[XYZ]**, pending **CFTC** approval, with no
+date set. Trade[XYZ] says its Hyperliquid markets have done more than $650
+billion in volume in about a year. In August his family office had already
+disclosed a $23.2 million stake in Hyperliquid Strategies (PURR).
+
+**The reply.** Three hours later, at **8:08 AM Pacific**, **Elon Musk**
+quoted it with one word: *"Interesting"*
+([post 2115823011399938182](https://x.com/elonmusk/status/2115823011399938182)).
+He didn't say what was interesting, and he didn't need to. Crypto outlets
+in English and Chinese wrote it up within hours as Musk "giving a nod" to
+crypto. At our read it had **1.19M views, 10.6K likes and 1,327 quotes**,
+from an account with **241.5M followers** quoting one with 72.6K.
+
+**The house word.** *"Interesting"* is one of three fragments a
+**Business Insider** review found Musk replies with most, next to the 💯 emoji and
+"Population collapse." Its point, as that piece put it, is that from an
+account his size one word turns a post nobody was reading into news. It
+commits him to nothing, can't be wrong, and still moves attention.
+
+**The title.** He gave himself the job. At **5:15 PM Pacific** on
+**January 8, 2024** he posted *"(CTO) Chief Troll Officer"*
+([post 1744528285273321825](https://x.com/elonmusk/status/1744528285273321825)),
+with his bio set to CTO and his location to **Trollheim**. It drew 28.3M
+views and 78.6K likes. Before it he had been "Chief Twit" and "Twitter
+Complaint Hotline Operator."
+
+**The record.**
+- **August 7, 2018, 9:48 AM PT:** *"Am considering taking Tesla private at
+  $420. Funding secured."* The **SEC** sued, saying funding wasn't secured
+  and that he picked 420 partly as a marijuana joke for his girlfriend.
+  He and Tesla paid **$20 million each** and he gave up the chairmanship
+  for three years, without admitting wrongdoing.
+- **July 5, 2020:** Tesla sold red satin **"short shorts"** at **$69.420**,
+  aimed at the short sellers betting against the stock.
+- **May 8, 2021:** on *Saturday Night Live* he called **Dogecoin** "a
+  hustle," and it fell about 30% during the show.
+- **April 2022:** he offered **$54.20** a share for Twitter.
+- **October 26, 2022:** *"Entering Twitter HQ – let that sink in!"*, with a
+  video of him carrying a sink through the lobby.
+- **April 3, 2023:** Twitter's bird became the **Doge**. He posted a cartoon
+  of the Doge handing a cop a licence with the bird on it, *"That's an old
+  photo,"* and a screenshot of a 2022 exchange where someone asked him to
+  do exactly this, captioned *"as promised."* Dogecoin rose about 20%, days after he'd
+  asked a judge to throw out a **$258 billion** racketeering suit over it.
+- **December 31, 2024:** his display name became **Kekius Maximus**, with
+  Pepe in Roman armour as his picture. A token with that name went from
+  about $12.7M to nearly $400M, then fell 67% in an hour when he changed
+  back.
+
+**Why it's a troll.** One of the most famous macro investors alive wrote a
+careful paragraph about regulated perpetual futures. The Chief Troll
+Officer answered with the word he uses when he has decided not to say
+anything, and it got written up as news anyway. The job, done in eleven
+letters.
+
+**Sourcing:** *Verified posts and press.* All five Musk posts and
+Druckenmiller's were read on 2026-10-29 via fxtwitter; times are from the
+posts' timestamps (Oct 29: 12:08 and 15:08 UTC; Jan 9, 2024 01:15 UTC; Aug 7,
+2018 16:48 UTC). The ICE deal is from
+[CoinDesk](https://www.coindesk.com/markets/2026/10/29/nyse-owner-takes-steps-to-bring-hyperliquid-perpetual-futures-to-u-s)
+and [Unchained](https://unchainedcrypto.com/nyse-owner-ice-to-bring-hyperliquid-perps-to-the-us-through-trade-xyz-partnership/);
+the PURR stake from [the Motley Fool](https://www.fool.com/investing/2026/08/24/stanley-druckenmiller-just-bought-a-company-that-h/);
+coverage of the reply from [BlockTempo](https://www.blocktempo.com/elon-druckenmiller-trade-xyz-ice-hyperliquid-perps-us/)
+and [Bitcoin Sistemi](https://en.bitcoinsistemi.com/breaking-news-elon-musk-gives-another-nod-to-cryptocurrencies-he-posted-just-one-word-and-everyone-i/).
+Reported HYPE moves on the deal (10% to 13%) came before Musk posted, so
+**no price move is credited to "Interesting."** The three-fragment finding
+is Business Insider's, read through
+[Trill's write-up](https://www.trillmag.com/news/musks-most-common-twitter-replies-reflect-history-of-sexual-harassment/),
+which adds its own opinion we don't repeat. The title is from
+[Business Today](https://www.businesstoday.in/technology/news/story/elon-musk-changes-x-bio-to-chief-troll-officer-new-location-trollheim-412570-2024-01-10).
+The record: [TechCrunch](https://techcrunch.com/2018/10/16/elon-musks-settlement-with-the-sec-approved-by-judge-sending-shares-higher/)
+(SEC; the 420 motive is the SEC's allegation),
+[Al Jazeera](https://www.aljazeera.com/economy/2020/7/6/who-wears-short-shorts-elon-musk-pokes-fun-at-teslas-naysayers),
+[NBC](https://www.nbcnews.com/news/us-news/dogecoin-plunges-nearly-30-percent-during-elon-musk-s-snl-n1266774),
+[Business Today](https://www.businesstoday.in/latest/world/story/let-that-sink-in-elon-musk-visits-twitter-headquarters-ahead-of-takeover-deadline-350883-2022-10-27),
+[Kitco/Reuters](https://www.kitco.com/news/off-the-wire/2023-04-04/dogecoin-jumps-musks-twitter-flips-logo-shiba-inu-dog),
+[Decrypt](https://decrypt.co/299337) (Kekius figures vary by outlet, 900%
+to 3,000%). **Musk has never said Kekius was his token**, and nothing here
+claims it. Images: `musk-interesting-druckenmiller`,
+`musk-chief-troll-officer`, `musk-funding-secured-420` (captured from X's
+embed), `musk-sink-twitter-hq` (frame from his video),
+`musk-doge-old-photo` (his post's image).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
