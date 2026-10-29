@@ -1585,22 +1585,6 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [89],
   },
   {
-    id: "musk-funding-secured-420",
-    url: "/lore/musk-funding-secured-420.png",
-    caption:
-      "Elon Musk: \"Am considering taking Tesla private at $420. Funding secured.\" (9:48 AM, Aug 7, 2018), the post that cost him and Tesla $20M each",
-    keywords: ["musk", "funding secured", "420", "tesla", "sec"],
-    sections: [89],
-  },
-  {
-    id: "musk-sink-twitter-hq",
-    url: "/lore/musk-sink-twitter-hq.jpg",
-    caption:
-      "Frame from Musk's \"Entering Twitter HQ – let that sink in!\" video (Oct 26, 2022): him carrying a sink past the Twitter bird",
-    keywords: ["musk", "sink", "twitter hq", "let that sink in"],
-    sections: [89],
-  },
-  {
     id: "musk-doge-old-photo",
     url: "/lore/musk-doge-old-photo.jpg",
     caption:

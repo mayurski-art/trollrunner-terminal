@@ -5010,32 +5010,11 @@ with his bio set to CTO and his location to **Trollheim**. It drew 28.3M
 views and 78.6K likes. Before it he had been "Chief Twit" and "Twitter
 Complaint Hotline Operator."
 
-**The record.**
-- **August 7, 2018, 9:48 AM PT:** *"Am considering taking Tesla private at
-  $420. Funding secured."* The **SEC** sued, saying funding wasn't secured
-  and that he picked 420 partly as a marijuana joke for his girlfriend.
-  He and Tesla paid **$20 million each** and he gave up the chairmanship
-  for three years, without admitting wrongdoing.
-- **July 5, 2020:** Tesla sold red satin **"short shorts"** at **$69.420**,
-  aimed at the short sellers betting against the stock.
-- **May 8, 2021:** on *Saturday Night Live* he called **Dogecoin** "a
-  hustle," and it fell about 30% during the show.
-- **April 2022:** he offered **$54.20** a share for Twitter.
-- **October 26, 2022:** *"Entering Twitter HQ – let that sink in!"*, with a
-  video of him carrying a sink through the lobby.
-- **April 3, 2023:** Twitter's bird became the **Doge**. He posted a cartoon
-  of the Doge handing a cop a licence with the bird on it, *"That's an old
-  photo,"* and a screenshot of a 2022 exchange where someone asked him to
-  do exactly this, captioned *"as promised."* Dogecoin rose about 20%, days after he'd
-  asked a judge to throw out a **$258 billion** racketeering suit over it.
-- **December 31, 2024:** his display name became **Kekius Maximus**, with
-  Pepe in Roman armour as his picture. A token with that name went from
-  about $12.7M to nearly $400M, then fell 67% in an hour when he changed
-  back.
-
-**The hook.** Count what the CTO has backed. The dog got a logo, an SNL
-sketch and *"as promised."* The frog got his name and his profile picture.
-The face got nothing. The original troll, drawn in MS Paint in 2008 (§1),
+**The hook.** Count what the CTO has backed. The dog got Twitter's logo on
+**April 3, 2023**, with a cartoon of the **Doge** handing a cop a licence
+with the bird on it (*"That's an old photo"*) and *"as promised."* The frog
+got his name and his profile picture on New Year's Eve 2024, when he became
+**Kekius Maximus**, Pepe in Roman armour. The face got nothing. The original troll, drawn in MS Paint in 2008 (§1),
 the meme his job title is named after, with its own coin in **$TROLL**
 (§3), has never had so much as an *"Interesting"* from him. So what if the
 Chief Troll Officer ever quotes a trollface? One word from that account
@@ -5050,10 +5029,10 @@ Officer answered with the word he uses when he has decided not to say
 anything, and it got written up as news anyway. The job, done in eleven
 letters.
 
-**Sourcing:** *Verified posts and press.* All five Musk posts and
-Druckenmiller's were read on 2026-10-29 via fxtwitter; times are from the
-posts' timestamps (Oct 29: 12:08 and 15:08 UTC; Jan 9, 2024 01:15 UTC; Aug 7,
-2018 16:48 UTC). The ICE deal is from
+**Sourcing:** *Verified posts and press.* Musk's three posts (Interesting,
+CTO, the Doge cartoon) and Druckenmiller's were read on 2026-10-29 via
+fxtwitter; times are from the posts' timestamps (Oct 29: 12:08 and 15:08
+UTC; Jan 9, 2024 01:15 UTC). The ICE deal is from
 [CoinDesk](https://www.coindesk.com/markets/2026/10/29/nyse-owner-takes-steps-to-bring-hyperliquid-perpetual-futures-to-u-s)
 and [Unchained](https://unchainedcrypto.com/nyse-owner-ice-to-bring-hyperliquid-perps-to-the-us-through-trade-xyz-partnership/);
 the PURR stake from [the Motley Fool](https://www.fool.com/investing/2026/08/24/stanley-druckenmiller-just-bought-a-company-that-h/);
@@ -5065,18 +5044,12 @@ is Business Insider's, read through
 [Trill's write-up](https://www.trillmag.com/news/musks-most-common-twitter-replies-reflect-history-of-sexual-harassment/),
 which adds its own opinion we don't repeat. The title is from
 [Business Today](https://www.businesstoday.in/technology/news/story/elon-musk-changes-x-bio-to-chief-troll-officer-new-location-trollheim-412570-2024-01-10).
-The record: [TechCrunch](https://techcrunch.com/2018/10/16/elon-musks-settlement-with-the-sec-approved-by-judge-sending-shares-higher/)
-(SEC; the 420 motive is the SEC's allegation),
-[Al Jazeera](https://www.aljazeera.com/economy/2020/7/6/who-wears-short-shorts-elon-musk-pokes-fun-at-teslas-naysayers),
-[NBC](https://www.nbcnews.com/news/us-news/dogecoin-plunges-nearly-30-percent-during-elon-musk-s-snl-n1266774),
-[Business Today](https://www.businesstoday.in/latest/world/story/let-that-sink-in-elon-musk-visits-twitter-headquarters-ahead-of-takeover-deadline-350883-2022-10-27),
+The Doge logo is from
 [Kitco/Reuters](https://www.kitco.com/news/off-the-wire/2023-04-04/dogecoin-jumps-musks-twitter-flips-logo-shiba-inu-dog),
-[Decrypt](https://decrypt.co/299337) (Kekius figures vary by outlet, 900%
-to 3,000%). **Musk has never said Kekius was his token**, and nothing here
-claims it. Images: `musk-interesting-druckenmiller`,
-`musk-chief-troll-officer`, `musk-funding-secured-420` (captured from X's
-embed), `musk-sink-twitter-hq` (frame from his video),
-`musk-doge-old-photo` (his post's image).
+Kekius Maximus from [Decrypt](https://decrypt.co/299337).
+**Musk has never said a Kekius token was his**, and nothing here claims it.
+Images: `musk-interesting-druckenmiller`, `musk-chief-troll-officer`
+(captured from X's embed), `musk-doge-old-photo` (his post's image).
 
 ## How the persona should use this
 
