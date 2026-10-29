@@ -1577,19 +1577,11 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [89],
   },
   {
-    id: "musk-chief-troll-officer",
-    url: "/lore/musk-chief-troll-officer.png",
+    id: "hype-oct29-interesting-chart",
+    url: "/lore/hype-oct29-interesting-chart.png",
     caption:
-      "Elon Musk: \"(CTO) Chief Troll Officer\" (5:15 PM, Jan 8, 2024), posted while his bio read CTO and his location read Trollheim",
-    keywords: ["musk", "elon", "chief troll officer", "cto", "trollheim", "bio"],
-    sections: [89],
-  },
-  {
-    id: "musk-doge-old-photo",
-    url: "/lore/musk-doge-old-photo.jpg",
-    caption:
-      "The meme Musk posted the day Twitter's bird became the Doge (Apr 3, 2023): Doge hands a cop a licence with the bird on it. \"That's an old photo\"",
-    keywords: ["musk", "doge", "dogecoin", "twitter logo", "old photo"],
+      "HYPE on Hyperliquid, Oct 29, 2026 (Pacific): flat at $79.3 until the ICE + Trade[XYZ] deal at 3:30 AM, nothing on Druckenmiller's post, then $91.0 to $94.6 in four minutes after Musk's \"Interesting\" at 8:08 AM",
+    keywords: ["hype", "hyperliquid", "chart", "price", "musk", "interesting", "ice"],
     sections: [89],
   },
 ];
