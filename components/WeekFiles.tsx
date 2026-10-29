@@ -37,7 +37,7 @@ const SIZES = {
     inner: "px-[0.9em] py-[0.5em]",
     meta: "text-[0.8em] mb-[0.35em]",
     row: "gap-[0.7em] py-[0.2em] text-[0.82em]",
-    thumb: "w-[1.6em] h-[1.6em] text-[0.8em]",
+    thumb: "w-[2.2em] h-[2.2em]",
     title: "truncate",
   },
 };

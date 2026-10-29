@@ -80,10 +80,21 @@ function manifest({
 
   const recoveredCount = files.filter((f) => f.state === "open").length;
 
+  // THIS WEEK's thumbnails: a file's first picture, sealed or not, as long
+  // as its title shows (same rule as app/api/this-week/route.ts).
+  const weekNumbers = [...sectionsPostedSince(week.startsAt), ...updated];
+  const thumbs: Record<number, string> = {};
+  for (const f of files) {
+    if (!weekNumbers.includes(f.number) || f.title === "??") continue;
+    const first = findLoreImagesForArchiveSection(f.number)[0];
+    if (first) thumbs[f.number] = first.url;
+  }
+
   return NextResponse.json({
     files,
     thisWeek: {
-      numbers: [...sectionsPostedSince(week.startsAt), ...updated],
+      numbers: weekNumbers,
+      thumbs,
       startsAt: new Date(week.startsAt).toISOString(),
       endsAt: new Date(week.endsAt).toISOString(),
     },

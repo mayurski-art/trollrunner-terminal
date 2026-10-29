@@ -42,7 +42,7 @@ const HYPED_FILES: Record<number, string> = {
   85: "HOT",
 };
 
-type ThisWeek = { numbers: number[]; startsAt: string; endsAt: string };
+type ThisWeek = { numbers: number[]; thumbs?: Record<number, string>; startsAt: string; endsAt: string };
 
 type SearchHit = { number: number; title: string; snippet: string; reason: string | null };
 
@@ -350,7 +350,7 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
           number: f.number,
           title: f.title,
           open: f.state === "open",
-          image: f.images[0] ?? null,
+          image: f.images[0] ?? (thisWeek?.thumbs?.[f.number] ? { url: thisWeek.thumbs[f.number] } : null),
           updated: f.updated,
         }))}
         onPick={(picked) => {

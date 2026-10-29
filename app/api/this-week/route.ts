@@ -7,8 +7,9 @@ import { findLoreImagesForArchiveSection } from "@/lib/loreAssets";
 // Public, like /api/newest-file: the /archive entrance's THIS WEEK list
 // (components/ArchiveEntrance.tsx), before the reader is in the archive and
 // before it knows who they are. So it follows the signed-out manifest's
-// rules (app/api/archive/route.ts): a picture only for a file anyone can
-// read, and a sealed depth-2 file keeps its "??" title.
+// rules (app/api/archive/route.ts): a sealed depth-2 file keeps its "??"
+// title. Every file whose title shows gets its first picture as a thumbnail,
+// sealed or not, as a teaser; the body and the rest stay sealed.
 export const dynamic = "force-dynamic";
 
 export async function GET() {
@@ -20,11 +21,12 @@ export async function GET() {
     const title = titles.get(number);
     if (!title) return [];
     const open = isOpenToAll(number);
-    const image = open ? (findLoreImagesForArchiveSection(number)[0] ?? null) : null;
+    const titled = open || sectionDepth(number) === 1;
+    const image = titled ? (findLoreImagesForArchiveSection(number)[0] ?? null) : null;
     return [
       {
         number,
-        title: open || sectionDepth(number) === 1 ? title : "??",
+        title: titled ? title : "??",
         open,
         image: image ? { url: image.url, caption: image.caption } : null,
         updated: updated.has(number),
