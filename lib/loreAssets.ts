@@ -1608,6 +1608,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["notch", "mansion", "beverly hills", "trousdale", "house", "70 million"],
     sections: [90],
   },
+  {
+    id: "starplatinum-polymarket-drained",
+    url: "/lore/starplatinum-polymarket-drained.png",
+    caption:
+      "StarPlatinum: \"Polymarket users are getting drained RIGHT NOW\", $2.68M reportedly gone in an hour, with the Relay swap screenshot (11:15 AM, Oct 29, 2026)",
+    keywords: ["polymarket", "drained", "hack", "exploit", "starplatinum", "stolen", "wallet"],
+    sections: [91],
+  },
+  {
+    id: "polymarket-made-whole-statement",
+    url: "/lore/polymarket-made-whole-statement.png",
+    caption:
+      "@PolymarketTrade: \"One of our 3rd party providers was compromised\"; \"Anyone who has been impacted will be made whole\" (11:33 AM, Oct 29, 2026)",
+    keywords: ["polymarket", "made whole", "refund", "statement", "hack", "third party"],
+    sections: [91],
+  },
+  {
+    id: "polymarket-drain-relay-swaps",
+    url: "/lore/polymarket-drain-relay-swaps.jpg",
+    caption:
+      "Relay swaps from drained Polymarket deposit wallets: USDC.e in, POL out, every one to recipient 0x3F...fc18",
+    keywords: ["polymarket", "relay", "usdc", "pol", "swaps", "drain"],
+    sections: [91],
+  },
+  {
+    id: "polymarket-drainer-polygonscan",
+    url: "/lore/polymarket-drainer-polygonscan.png",
+    caption:
+      "Polygonscan, 12:30 PM Oct 29, 2026: the Polymarket drainer wallet empty after sending out 18.6M, 4.3M and 5.7M POL, with lookalike dust arriving after each send (address poisoning)",
+    keywords: ["polymarket", "polygonscan", "drainer", "address poisoning", "dust", "pol"],
+    sections: [91],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

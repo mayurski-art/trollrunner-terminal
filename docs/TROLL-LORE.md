@@ -5114,6 +5114,97 @@ about his body, and don't call the sale a tax move. Images:
 `polymarket-notch-photo`, `notch-trousdale-mansion` (Polymarket's two
 photos).
 
+## 91. "Drained RIGHT NOW": Polymarket's speed-test script and the $2.6M it sent out
+<!-- posted: 2026-10-29T19:49:00Z -->
+
+**Ten minutes earlier.** At **9:55 AM Pacific** on **October 29, 2026**,
+Polymarket's main account posted Notch's $70 million house and its
+$200,000 candy room (§90). At **10:05 AM** a wallet nobody had used before,
+**0x3F99…fc18** on Polygon, started taking in money.
+
+**The drain.** At **10:45 AM**, trader **Car**
+([@CarOnPolymarket](https://x.com/CarOnPolymarket), 30.7K followers)
+posted *"lock down your account. I just got drained $800,000"* and said a
+friend lost $600K
+([post 2115862718452298234](https://x.com/CarOnPolymarket/status/2115862718452298234)).
+Twenty-seven minutes later he listed what he'd always done to stay safe:
+no downloads, no calls, no clicking links, never connecting his wallet,
+separate phones and laptops for trading
+([post 2115869417775255804](https://x.com/CarOnPolymarket/status/2115869417775255804)).
+At **11:07 AM** Polymarket's status account said the exchange was in
+**cancel-only mode** with relayer actions paused
+([post 2115868203612017147](https://x.com/Poly_Status/status/2115868203612017147)).
+At **11:15 AM**, **StarPlatinum**
+([@StarPlatinum_](https://x.com/StarPlatinum_), 111K followers) posted the
+timeline that went round: *"Polymarket users are getting drained RIGHT
+NOW"*, with the wallet going from empty at 17:05 UTC to **$412K** by 17:25,
+**$2.02M** by 17:50 and **$2.68M** by 18:05, about **28.6M POL**, all
+swapped from USDC.e through **Relay**
+([post 2115870272897347777](https://x.com/StarPlatinum_/status/2115870272897347777)).
+
+**How.** Security firm **Hudson Rock** found it in a file Polymarket loaded
+on every page: a **DebugBear** "real user monitoring" script, the kind of
+tag a site adds to measure how fast its pages load. The copy Polymarket
+served carried extra code. It found the logged-in trading session, checked
+the portfolio, sold positions or moved the tokens, signed **DepositWallet**
+batches and handed them to Polymarket's own relayer, with that same wallet
+hard-coded as the fallback recipient. Polymarket's production build has a
+commit at **10:59 AM Pacific** titled *"remove debugbear rum script."* At
+**11:33 AM**, **@PolymarketTrade** posted that *"One of our 3rd party
+providers was compromised"*, that it had gone to law enforcement, and:
+*"Anyone who has been impacted will be made whole."*
+([post 2115874609014726842](https://x.com/PolymarketTrade/status/2115874609014726842)).
+
+**Where the money went.** When we read the explorer at about **12:30 PM
+Pacific**, the wallet was down to **0.000000048 POL and $11 of USDC.e**.
+It had sent out three lumps: **18.6M**, **4.3M** and **5.7M POL**, about
+**28.6M POL or $2.6M** at $0.092. After each one, dust started arriving from
+new addresses that start and end with the same characters as the wallet it
+had just paid, which is **address poisoning**: someone hoping the drainer
+copies the wrong address from his own history next time. Polygonscan flagged
+all of them.
+
+**Third time.** In **May** about $700K went out of an internal top-up
+wallet through a leaked key. In **June** a compromised vendor injected a
+script into the frontend and took about **$3M** from a dozen-odd wallets,
+and Polymarket refunded them. This is the second time a third party's
+script on Polymarket's own page has done the stealing.
+
+**The troll in it.** A script meant to measure how fast Polymarket's pages
+load was what moved the money out. Car did everything right and still got
+drained, because the attack came from the site he was told to trust. And
+within the hour, someone was trying to scam the scammer.
+
+**Why it's a troll.** Polymarket spent the morning posting a candy room and
+the afternoon promising to make people whole. The thief cleared $2.6M
+through a speed test. Then someone else started poisoning the thief.
+
+**Sourcing:** *Verified posts, onchain data, one security write-up. Live
+story.* Posts read on 2026-10-29 via fxtwitter: Car's (17:45 and 18:12
+UTC; 311K views on the first), Poly_Status (18:07), StarPlatinum (18:15,
+21.9K views), @PolymarketTrade (18:33, 130K views). The script, its
+behaviour and the removal commit (build time 17:59:20 UTC) are from
+[Hudson Rock / Infostealers](https://www.infostealers.com/article/polymarket-breach-alert-wallet-draining-code-found-in-a-third-party-script/);
+the cancel-only mode and the June and May incidents from
+[Decrypt](https://decrypt.co/382185/polymarket-pauses-trading-prediction-market-security-incident)
+and [crypto.news](https://crypto.news/polymarket-restricts-trading-users-report-drained-wallets/).
+The wallet's balance and outflows were read on
+[Polygonscan](https://polygonscan.com/address/0x3F99139F1C5854bb628c2e576Aaf638e99dFfc18)
+and a public Polygon RPC at 19:29 UTC; POL at $0.0922 from CoinGecko.
+**Polymarket hasn't confirmed a total or named the provider**: DebugBear is
+Hudson Rock's finding, and DebugBear's own service isn't shown to be
+breached beyond that file. The $2.68M is StarPlatinum's figure; ours is the
+outflow, not a count of what users lost. Car's $800K and his friend's $600K
+are his own posts. **The address-poisoning read is ours**, from the dust
+pattern; nothing shows the drainer fell for it. Persona: never post or
+repeat the wallet as something to send to or check against, never suggest
+the refund is or isn't coming beyond what Polymarket said, no "the frontend
+is still unsafe", and the Notch timing in "Ten minutes earlier" is
+coincidence, not connection. Images: `starplatinum-polymarket-drained`,
+`polymarket-made-whole-statement` (both captured from X's embed),
+`polymarket-drain-relay-swaps` (StarPlatinum's swap screenshot),
+`polymarket-drainer-polygonscan` (the explorer, cropped, ad removed).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
