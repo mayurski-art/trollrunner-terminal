@@ -4974,7 +4974,7 @@ What Padilla wanted investigated isn't established; his post doesn't say.
 `musk-padilla-investigate-your-wiener` (both posts, captured from X's embed).
 
 ## 89. "Interesting": the Chief Troll Officer's one-word job
-<!-- posted: 2026-10-29T16:04:37Z -->
+<!-- posted: 2026-10-29T16:27:34Z -->
 
 **The post.** At **5:08 AM Pacific** on **October 29, 2026**,
 **Stan Druckenmiller** ([@standuquesne](https://x.com/standuquesne)), the Duquesne
