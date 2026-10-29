@@ -2938,16 +2938,17 @@ html[data-custom-cursor] label {
   to { transform: scale(1); filter: brightness(1); }
 }
 /* One size for the entrance's whole content block, scaled with the screen
-   width, and held down by the height too (2.05vh): the block is ~18em tall
-   from 15vh down, so this keeps it ending at about half the screen height,
-   above Pepe's and the trollface's heads in the art, on wide, short
-   screens. 13px on a typical phone, a little less on very narrow ones
+   width, and held down by the height too (2.3vh): with a full THIS WEEK
+   list the block is ~33em tall from 8vh down, so this keeps the typed
+   lines and the enter prompt on screen without scrolling on wide, short
+   screens, and on short landscape phones (the floor gives way to 2.3vh
+   there too). 13px on a typical phone, a little less on very narrow ones
    (3.5vw) so the longest line, the red error one, stays on one line down
-   to 320px; ~16px on a tablet, ~15px on a 1280x720 laptop, 22px on a 1080p
+   to 320px; ~16px on a tablet, ~15px on a 1366x640 laptop, 22px on a 1080p
    monitor. The width follows it in em so the line length is the same
    everywhere. */
 .archive-entrance-content {
-  font-size: clamp(min(13px, 3.5vw), min(0.9vw + 9.5px, 2.05vh), 22px);
+  font-size: clamp(min(13px, 3.5vw, 2.3vh), min(0.9vw + 9.5px, 2.3vh), 22px);
   max-width: 40em;
   padding-inline: clamp(0.5em, 3vw, 1em);
 }

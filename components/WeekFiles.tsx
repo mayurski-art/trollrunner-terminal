@@ -15,19 +15,30 @@ export type WeekFile = {
 // (lib/archiveWeek.ts), in the front page's NEW FILE look (.newest-file-* in
 // globals.css). Shown inside the archive (components/Archive.tsx) and on the
 // /archive entrance (components/ArchiveEntrance.tsx). size "fluid" sizes it
-// in em, like NewestFile's, so it scales with the entrance.
+// in em, like NewestFile's, so it scales with the entrance; "compact" is
+// fluid with one-line titles and small thumbs, so a full week still leaves
+// the entrance's lines and prompt on screen.
 const SIZES = {
   default: {
     inner: "px-3 py-2.5",
     meta: "text-[11px] lg:text-sm mb-2",
     row: "gap-3 py-1.5 text-xs lg:text-sm",
     thumb: "w-10 h-10 lg:w-12 lg:h-12",
+    title: "line-clamp-2",
   },
   fluid: {
     inner: "px-[0.9em] py-[0.6em]",
     meta: "text-[0.85em] mb-[0.5em]",
     row: "gap-[0.9em] py-[0.35em] text-[0.9em]",
     thumb: "w-[3em] h-[3em]",
+    title: "line-clamp-2",
+  },
+  compact: {
+    inner: "px-[0.9em] py-[0.5em]",
+    meta: "text-[0.8em] mb-[0.35em]",
+    row: "gap-[0.7em] py-[0.2em] text-[0.82em]",
+    thumb: "w-[1.6em] h-[1.6em] text-[0.8em]",
+    title: "truncate",
   },
 };
 
@@ -88,7 +99,7 @@ export default function WeekFiles({
                   </span>
                 )}
                 <span className="newest-file-meta tabular-nums shrink-0">{String(file.number).padStart(2, "0")}</span>
-                <span className="min-w-0 flex-1 text-foreground leading-snug line-clamp-2 group-hover:text-terminal">
+                <span className={`min-w-0 flex-1 text-foreground leading-snug ${sz.title} group-hover:text-terminal`}>
                   {file.title.replace(/^\d+\.\s*/, "")}
                 </span>
                 {file.updated && <span className="archive-updated-badge shrink-0">UPDATED</span>}

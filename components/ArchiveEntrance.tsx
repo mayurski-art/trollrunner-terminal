@@ -94,7 +94,7 @@ export default function ArchiveEntrance() {
       onClick={() => {
         if (!holding) enter();
       }}
-      className={`archive-entrance fixed inset-0 z-50 flex items-start justify-center pt-[15vh] cursor-pointer ${
+      className={`archive-entrance fixed inset-0 z-50 flex items-start justify-center pt-[8vh] cursor-pointer ${
         phase === "out" ? "archive-entrance-out" : ""
       }`}
     >
@@ -114,7 +114,7 @@ export default function ArchiveEntrance() {
         {weekFiles.length > 0 && (
           <div className="archive-entrance-newfile mb-[1.4em]" onClick={(e) => e.stopPropagation()}>
             <WeekFiles
-              size="fluid"
+              size="compact"
               files={weekFiles}
               onPick={(file) => {
                 if (holding) return;
