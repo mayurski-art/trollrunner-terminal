@@ -5205,7 +5205,7 @@ coincidence, not connection. Images: `starplatinum-polymarket-drained`,
 `polymarket-drain-relay-swaps` (StarPlatinum's swap screenshot),
 `polymarket-drainer-polygonscan` (the explorer, cropped, ad removed).
 
-## 92. "Everyday is Zeroday": Elon heckles the biggest heist in crypto, and CZ sends him the Twitter bill
+## 92. Zero-day, zero chill: Elon roasts Binance's $6.3 billion bad night, one emoji at a time
 <!-- posted: 2026-10-30T12:51:00Z -->
 
 **The tip.** On **October 28, 2026**, at **11:51 AM Pacific**, **CZ**,
