@@ -87,6 +87,11 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
   }, [lightbox]);
 
   function lightboxPointerDown(e: React.PointerEvent<HTMLImageElement>) {
+    // The owner (CopyGuard's data-copy-ok) gets the phone's own press-and-hold
+    // menu (Save to Photos, Copy, Share). preventDefault here cancels that
+    // menu, so a finger on the owner's screen doesn't start the drag; a mouse
+    // still does.
+    if (e.pointerType !== "mouse" && document.documentElement.hasAttribute("data-copy-ok")) return;
     e.preventDefault();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     dragStartRef.current = { x: e.clientX, y: e.clientY, panX: panRef.current.x, panY: panRef.current.y };
@@ -525,29 +530,14 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
             }`}
           />
           {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
-          <div className="flex items-center gap-4">
-            {/* Owner-only (globals.css hides .lightbox-save without
-                data-copy-ok). iOS gives no long-press save menu here: the
-                image's own drag/zoom touch handling eats the press. */}
-            <a
-              href={lightbox.url}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="lightbox-save text-ghost hover:text-terminal transition-colors text-xs"
-            >
-              [ save ]
-            </a>
-            <button
-              type="button"
-              onClick={() => setLightbox(null)}
-              aria-label="Close image"
-              className="text-ghost hover:text-terminal transition-colors text-xs"
-            >
-              [ close ]
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close image"
+            className="text-ghost hover:text-terminal transition-colors text-xs"
+          >
+            [ close ]
+          </button>
         </div>,
         document.body
       )}

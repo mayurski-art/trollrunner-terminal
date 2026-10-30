@@ -3022,8 +3022,12 @@ html:not([data-copy-ok]) [contenteditable="true"] {
   -webkit-user-select: text;
   user-select: text;
 }
-html:not([data-copy-ok]) .lightbox-save {
-  display: none;
+/* The owner's lightbox image hands touches to the phone (Chat.tsx's
+   lightboxPointerDown), so iOS can show its press-and-hold menu. */
+html[data-copy-ok] .chat-lightbox-image {
+  touch-action: auto;
+  -webkit-user-select: auto;
+  user-select: auto;
 }
 html:not([data-copy-ok]) img,
 html:not([data-copy-ok]) video {
