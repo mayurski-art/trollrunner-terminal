@@ -1807,6 +1807,62 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["kim jong un", "infinity pool", "birkin", "sunset", "north korea", "binance", "meme"],
     sections: [92],
   },
+  {
+    id: "chasm-heron-brook-rule",
+    url: "/lore/chasm-heron-brook-rule.png",
+    caption:
+      "chasm: \"ANTHROPIC IS CRACKING DOWN ON VIDEO GAME REWRITES 🚨\", the post that found the tengu_heron_brook rule (12:01 AM, Oct 30, 2026)",
+    keywords: ["chasm", "anthropic", "claude code", "tengu_heron_brook", "games", "rewrites", "rule"],
+    sections: [93],
+  },
+  {
+    id: "heron-brook-claude-json",
+    url: "/lore/heron-brook-claude-json.jpg",
+    caption:
+      "chasm's screenshot: line 2937 of .claude.json, \"tengu_heron_brook\": \"... Don't build a recreation of a specific existing game, even if it is renamed or called original.\"",
+    keywords: ["claude.json", "config", "tengu_heron_brook", "flag", "games", "recreation", "renamed"],
+    sections: [93],
+  },
+  {
+    id: "platinumfx-roblox-heart-attack",
+    url: "/lore/platinumfx-roblox-heart-attack.png",
+    caption:
+      "PlatinumFX quotes chasm: \"Roblox devs are gonna have a heart attack.\" (3:34 AM, Oct 30, 2026)",
+    keywords: ["platinumfx", "roblox", "heart attack", "claude code", "games", "clones"],
+    sections: [93],
+  },
+  {
+    id: "tokengremlin-fable-3d",
+    url: "/lore/tokengremlin-fable-3d.png",
+    caption:
+      "Token Gremlin: \"Bad news for Claude users who make games.\" (5:08 AM, Oct 30, 2026)",
+    keywords: ["token gremlin", "claude", "games", "3d", "recreation"],
+    sections: [93],
+  },
+  {
+    id: "kimmonismus-gta-benchmarks",
+    url: "/lore/kimmonismus-gta-benchmarks.png",
+    caption:
+      "Chubby: \"Another reason for open source ... Anthropic no longer allows good benchmarks like Minecraft or GTA 5 recreational games.\" (5:41 AM, Oct 30, 2026)",
+    keywords: ["chubby", "kimmonismus", "open source", "minecraft", "gta", "benchmarks", "ipo"],
+    sections: [93],
+  },
+  {
+    id: "steipete-own-harness",
+    url: "/lore/steipete-own-harness.png",
+    caption:
+      "Peter Steinberger: \"Another reason why you wanna use your own harness ...\" (6:00 AM, Oct 30, 2026; 2.9K likes)",
+    keywords: ["steipete", "peter steinberger", "harness", "claude code", "anthropic", "rule"],
+    sections: [93],
+  },
+  {
+    id: "agtp-heron-brook-summary",
+    url: "/lore/agtp-heron-brook-summary.jpg",
+    caption:
+      "AGTP's summary card: \"Anthropic blocks Claude Code from recreating existing video games\", flag tengu_heron_brook, off switch: none",
+    keywords: ["agtp", "anthropic", "claude code", "tengu_heron_brook", "video games", "off switch"],
+    sections: [93],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

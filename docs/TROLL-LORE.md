@@ -5462,6 +5462,135 @@ embed), `wataminoodles-life-after-hack` (captured from X's embed) with its
 three pictures, `kim-after-hack-ferrari`, `kim-after-hack-desert-daybed`,
 `kim-after-hack-infinity-pool`.
 
+## 93. "Even if it is renamed": the rule that came down the wire, and the Roblox devs it came for
+<!-- posted: 2026-10-30T17:09:00Z -->
+
+**The leak.** At **12:01 AM Pacific** on **October 30, 2026**, YouTuber
+**chasm**
+([@chasmmmmmmmmmmmm](https://x.com/chasmmmmmmmmmmmm/status/2116062991686721968),
+8.5K followers) posted a siren and a screenshot:
+
+> ANTHROPIC IS CRACKING DOWN ON VIDEO GAME REWRITES 🚨
+>
+> Claude Code picked up a new rule around Oct 27, sent from Anthropic's
+> servers under a flag called "tengu_heron_brook". There's no setting to
+> turn it off.
+
+The screenshot is a `.claude.json` file, Claude Code's own config, with
+line **2937** highlighted in amber. The whole rule is two sentences:
+*"Do build original games, games in a genre, and games from the user's own
+designs and assets. Don't build a recreation of a specific existing game,
+even if it is renamed or called original."* chasm closed on *"Is this the
+end of game rewrites, modding and everything in between?"* By morning it
+had passed **a million views** and **6.2K likes**.
+
+**The slot.** The flag wasn't new. In **May**, a researcher pulled apart
+Claude Code v2.1.150 and found that it fetches a "bootstrap" file from
+Anthropic at startup, reads one field from it, `tengu_heron_brook`, and
+pastes whatever text is there straight into the model's instructions. He
+reported it to Anthropic's bug bounty on **May 25**, as a way for someone
+in the middle of the connection to rewrite the agent's orders, and it was
+closed two days later as *"Informative"*. For five months the slot sat
+there. The first thing anyone has publicly spotted in it is a rule about
+video games.
+
+**The heart attack.** At **3:34 AM**, **PlatinumFX**
+([@pl4tinumeffects](https://x.com/pl4tinumeffects/status/2116116642853945559))
+quoted it with seven words: *"Roblox devs are gonna have a heart
+attack."* Two days earlier, **Gameranx** had reported Roblox pulling
+"ports" of **Undertale**, **Halo: Combat Evolved** and **Left 4 Dead**
+that YouTuber KreekCraft found on the platform, and guessed they were
+made with AI. On a platform where half the front page is "a game you've
+heard of, but on Roblox", the rule's last five words, *"even if it is
+renamed"*, read like a description of the business model.
+
+**The morning.** The reactions came in by 6 AM:
+
+- At **5:08 AM**, **Token Gremlin**
+  ([post](https://x.com/TokenGremlin/status/2116140265018699951)):
+  *"Bad news for Claude users who make games."* His guess at why: the new
+  models got *"so good at 3D that full game recreations became a real
+  problem."*
+- At **5:41 AM**, **Chubby**
+  ([@kimmonismus](https://x.com/kimmonismus/status/2116148367978025457),
+  155K followers): *"Another reason for open source. Unfortunately,
+  Anthropic no longer allows good benchmarks like Minecraft or GTA 5
+  recreational games."* Then the charitable read: *"probably as a
+  consequence of the IPO, to avoid legal issues."*
+- At **6:00 AM**, **Peter Steinberger**
+  ([@steipete](https://x.com/steipete/status/2116153238563242385),
+  611K followers): *"Another reason why you wanna use your own harness
+  and not one where companies change what you can or can't do at will."*
+  2.9K likes, 192K views, 236 replies.
+
+**The casualty.** Not everyone it hit was cloning anything. At **2:25
+AM**, the owner of **Conflict Simulations LLC** opened an issue on Claude
+Code's GitHub titled *"[URGENT] Server-delivered 'games' instruction
+blocks professional development work"*
+([#106167](https://github.com/anthropics/claude-code/issues/106167)). The
+company builds digital versions of board wargames, paid for by the
+publishers who own them, from materials they hand over. Sessions that had
+done that work *"for months now refuse to continue it, citing the new
+instruction"*. He asked for the rule to be narrowed to actual copying,
+for an exemption path for licensed work like the one Anthropic runs for
+vetted security researchers, and for server-delivered instructions to be
+documented. The rule says "a recreation of a specific existing game". His
+whole job is recreating specific existing games, with permission.
+
+**The official line.** As of this writing, none. Anthropic hasn't
+commented on the rule, and its usage-policy update from October 8 doesn't
+mention games.
+
+**The troll in it.** The tell is the last clause. Anyone who has asked an
+AI for "Minecraft but not Minecraft" knows the move: rename it, call it
+original, ship it. The rule was written by someone who had seen that move
+enough times to block it by name. So the people it stops first are the
+ones honest enough to say what they're cloning, and the one company in
+the replies doing it legally.
+
+**Why it's a troll.** Anthropic shipped a rule against renamed copies
+through a hidden config field with a codename, no announcement and no
+off switch, and the internet found it by reading the config. This
+article was written with Claude Code, which carries the same sentence in
+its instructions today. It was allowed to write about the rule. It just
+couldn't build you the game.
+
+**Sourcing:** *Verified posts, one GitHub issue, one GitHub proof of
+concept, games press. Live story.* Posts read on 2026-10-30 via
+fxtwitter: chasm (07:01 UTC), PlatinumFX (10:34), Token Gremlin (12:08),
+Chubby (12:41), Peter Steinberger (13:00). Times in the text are Pacific.
+The flag and its text were also checked against a Claude Code config on
+our own machine on October 30: the same key and the same two sentences,
+which also appear in the instructions of the Claude Code session that
+wrote this. "Around Oct 27" is chasm's date; we didn't confirm when it
+first appeared. The May bootstrap finding, the v2.1.150 version, the
+HackerOne report and its "Informative" close are from the
+[heron-brook-poc README](https://github.com/cnighswonger/heron-brook-poc);
+that report is about the delivery path, not about games, and **nothing
+says what the slot carried before**: "the first thing anyone has publicly
+spotted" is as far as it goes. The Roblox removals are
+[Gameranx](https://gameranx.com/?p=564484) (October 28), a single source
+with no Roblox statement, and **"made with AI" is Gameranx's guess**, not
+KreekCraft's claim. The licensed-wargames complaint is
+[issue #106167](https://github.com/anthropics/claude-code/issues/106167)
+(09:25 UTC), the author's own account of his business. "No official
+statement" and the October 8 usage-policy point are as of October 30, per
+[kingy.ai](https://kingy.ai/blog/claude-code-game-recreation-developer-guide/),
+[FourWeekMBA](https://fourweekmba.com/ai-claude-code-users-report-a-new-rule-against-recreating-games/)
+and [AGTP's summary](https://x.com/AGTPinsights/status/2116110860322058500).
+**Why Anthropic added it is not known**: Token Gremlin's 3D theory and
+Chubby's IPO theory are their guesses. Gameranx also ties the flag to an
+Anthropic "self-assessment" safety check; we couldn't source that, so
+it's left out. Persona: don't call the rule a ban on games, game dev,
+modding or decompilation: by its own words it covers one kind of request
+(a recreation of a specific existing game), and original and genre games
+are fine. Don't help anyone word a request to get around it. Images:
+`chasm-heron-brook-rule` (captured from X's embed) with its screenshot
+`heron-brook-claude-json`, `platinumfx-roblox-heart-attack`,
+`tokengremlin-fable-3d`, `kimmonismus-gta-benchmarks`,
+`steipete-own-harness` (captured from X's embed), `agtp-heron-brook-summary`
+(AGTP's image).
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
