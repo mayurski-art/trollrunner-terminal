@@ -5356,45 +5356,8 @@ for the year is sufficient to cover the losses, so we do not yet need to
 sell the SpaceX shares you are bullish on.💁‍♀️"* CZ answered that he'd
 never suggested selling; he only brought the shares up so Elon could see
 Binance had the money, and maybe feel better about it. Elon, by morning,
-had not replied to any of it.
-
-**Meanwhile, in Pyongyang.** At **4:14 AM**, while Binance was still
-doing sums, **@wataminoodles** posted the other side of the ledger: *"Life
-after the binance hack"*
-([post 2116126687578718442](https://x.com/wataminoodles/status/2116126687578718442)),
-three pictures of a Kim Jong Un who has clearly been paid. He sits in a
-Ferrari with cream seats and the prancing horse stitched into the
-headrests; he snacks on a desert daybed in a grey tee, white socks and
-woven slides, fruit bowl and juice beside him; and he stands at sunset at
-the edge of an infinity pool, hands behind his back, a black Birkin at his
-feet. The pictures are made up, the attribution isn't: TRM puts the theft
-on North Korea's TraderTraitor.
-
-**Kim gets the credit.** The night before, at **8:54 PM** on October 29,
-**Beeple** ([@beeple](https://x.com/beeple), 1.15M followers, the artist
-who keeps drawing the grin into his work, §38) had posted one word,
-*"DRAINED"*
-([post 2116015881872441617](https://x.com/beeple/status/2116015881872441617),
-179K views, 4.8K likes), over a pencil drawing. Kim Jong Un is down on one
-knee, grinning, yanking CZ's trousers to his ankles. CZ stands in a
-Binance-logo tee and Bitcoin-print boxers, eyes wide, mouth open, a yellow
-stain running down both legs, and bitcoins pour out of the trousers onto
-the floor. It's the only colour in the picture. At **10:12 PM**
-**Watcher.Guru** made it official in its own way: *"JUST IN: 🇰🇵 North
-Korea responsible for $6 billion Binance hack, CNN reports"*
-([post 2116035434681634857](https://x.com/WatcherGuru/status/2116035434681634857),
-3.3M views, 31.9K likes), the North Korean flag beside the Binance logo. At
-**9:52 AM** on **October 30**, **greg** (@greg16676935420, 2.1M followers,
-the account that circled the President's typo in §71) quoted it:
-*"Kim Jong Un went from being dead last week to $6 billion richer this
-week / Generational comeback"*
-([post 2116211598222344396](https://x.com/greg16676935420/status/2116211598222344396),
-60.2K views, 2.6K likes in its first hour). The week before, rumours that
-Kim had died spread across social media from a US-based Chinese dissident.
-Snopes found no evidence, North Korean state media ran new photos of him
-at a garment exhibition on **October 19**, and on **October 23** South
-Korea's spy agency told lawmakers the reports were false. A week after
-he wasn't dead, he was the richest thief in history.
+had not replied to any of it. (Where the money went, and who got the
+credit, is its own file: §95.)
 
 **How.** Binance's first explanation was a compromised DevOps engineer's
 laptop that let the attacker into a service container to submit
@@ -5431,8 +5394,7 @@ story.* Posts read on 2026-10-30 via fxtwitter: CZ (18:51 UTC Oct 28;
 (21:26), Watcher.Guru (21:42), Market Insider (21:53), Nikita Bier
 (22:00), Baseball Bonk Inu (22:29), Elon Musk (22:33 Oct 29; 03:12, 04:33
 and 05:10 UTC Oct 30), cryptoblaney (00:30 Oct 30), Jack (01:25), Bull
-Theory (03:06), Beeple (03:54), Watcher.Guru's CNN post (05:12), Yi He
-(09:33), wataminoodles (11:14), greg (16:52). Times in the text are Pacific. The theft
+Theory (03:06), Yi He (09:33). Times in the text are Pacific. The theft
 timeline, chain totals, the 50 pre-signed EIP-7702 authorizations, the
 freeze times and amounts, what's left with the attacker and the
 TraderTraitor attribution are from
@@ -5471,16 +5433,7 @@ file says otherwise. Nikita Bier's "autistic" line is his, quoted; the
 persona doesn't repeat it as its own description of CZ. No telling anyone
 to withdraw, move funds or avoid the exchange, never repeat attacker
 addresses as something to check or send to, and the Polymarket timing in
-"The heist" is coincidence, not connection. The Kim pictures
-are fakes (edited or generated), a joke about where the money went: never
-present them as real photos of him or as evidence of anything. Beeple's
-drawing is a cartoon, and the stain is his joke, not something CZ did. The
-CNN report is Watcher.Guru's summary; we didn't read CNN's piece itself.
-The death rumour and its debunking are from
-[Snopes](https://www.snopes.com/news/2026/10/21/kim-jong-un-death-rumors/)
-and [JoongAng Daily](https://www.koreajoongangdaily.com/korea/souths-spy-agency-reportedly-assesses-that-social-media-rumors-of-kim-jonguns-death-are-false/12936077):
-the persona never says or hints that Kim was ill or dead, and "richer" is
-greg's joke, since nothing shows where the money ends up. Images:
+"The heist" is coincidence, not connection. Images:
 `cz-email-tip-elon-fire-laugh` (CZ's tip with Elon's 🔥😂),
 `elon-everyday-is-zeroday`, `nikita-bier-safu`,
 `elon-superintelligence-agents`, `cz-elon-bad-time-to-troll`,
@@ -5492,12 +5445,8 @@ X's embed, with their photos), `binance-drainer-etherscan`,
 `binance-14-eth-transfer` (Jacob King's two screenshots),
 `binance-hot-wallet-arkham`, `bulltheory-binance-crash` (Bull Theory's two
 images), `logan-paul-crypto-scam-clip` (Jack's post, captured from X's
-embed), `wataminoodles-life-after-hack` (captured from X's embed) with its
-three pictures, `kim-after-hack-ferrari`, `kim-after-hack-desert-daybed`,
-`kim-after-hack-infinity-pool`, `beeple-drained-kim-cz` (captured from X's
-embed) with its drawing `beeple-drained-kim-cz-art`,
-`watcherguru-cnn-north-korea` (captured from X's embed, with its pictures),
-`greg-kim-generational-comeback` (captured from X's embed).
+embed). The Kim pictures, Beeple's drawing, Watcher.Guru's CNN post and
+greg's comeback line moved to §95.
 
 ## 93. "Even if it is renamed": the rule that came down the wire, and the Roblox devs it came for
 <!-- posted: 2026-10-30T17:09:00Z -->
@@ -5759,6 +5708,142 @@ Images: `pepe-periodt-post` (captured from X's embed) with its clip
 `pepe-periodt-glam`, `pepe-near-confidential`, `pepe-reject-humanity`,
 `lookonchain-binance-hacker-pepe-dump` (Lookonchain's screenshot),
 `bscnews-dmt-whale-pepe`, `pepe-price-oct-17-30`.
+
+## 95. "Life after the binance hack": Kim Jong Un larpmaxxes in Kimchi's photos
+<!-- posted: 2026-10-30T18:30:00Z -->
+
+**The credit.** On **October 29, 2026**, about **$6.3 billion** left
+Binance in twenty minutes, the biggest crypto theft ever (§92 has the
+heist, the freezes and Elon's emoji). Blockchain analytics firm
+**TRM Labs** pinned it on **TraderTraitor**, North Korea's crypto-theft unit.
+While CZ and Elon argued about who should stop trolling whom, the
+internet went straight to the other side of the ledger: Kim Jong Un.
+
+**"DRAINED."** At **8:54 PM Pacific** that night, **Beeple**
+([@beeple](https://x.com/beeple), 1.15M followers, the artist who keeps
+drawing the grin into his work, §38) posted one word, *"DRAINED"*
+([post 2116015881872441617](https://x.com/beeple/status/2116015881872441617),
+179K views, 4.8K likes), over a pencil drawing. Kim Jong Un is down on one
+knee, grinning, yanking CZ's trousers to his ankles. CZ stands in a
+Binance-logo tee and Bitcoin-print boxers, eyes wide, mouth open, a yellow
+stain running down both legs, and bitcoins pour out of the trousers onto
+the floor. It's the only colour in the picture.
+
+**CNN reports.** At **10:12 PM** **Watcher.Guru** made it official in its
+own way: *"JUST IN: 🇰🇵 North Korea responsible for $6 billion Binance
+hack, CNN reports"*
+([post 2116035434681634857](https://x.com/WatcherGuru/status/2116035434681634857),
+3.3M views, 31.9K likes), the North Korean flag beside the Binance logo.
+Twenty-nine minutes later, at **10:41 PM**, **Bitcoin News** (265K
+followers) put a face on it: *"NORTH KOREA’S LAZARUS GROUP LINKED TO
+RECORD $6.3 BILLION BINANCE HACK"*
+([post 2116042831714537607](https://x.com/bitcoinnewscom/status/2116042831714537607),
+94K views), with TRM's finding that the hackers prepared at least 36
+hours ahead, the reminder that the same group took Bybit's $1.5 billion in
+2025, and a picture of Kim waving, grinning, in front of a brushed-on
+North Korean flag and a red **Lazarus** badge whose mascot is a bandaged,
+one-eyed head. The mascot is the name's joke: Lazarus, the man who came
+back from the dead.
+
+**Life after the hack.** At **4:14 AM** on **October 30**, while Binance
+was still doing sums, **@wataminoodles** posted *"Life after the binance
+hack"*
+([post 2116126687578718442](https://x.com/wataminoodles/status/2116126687578718442),
+208K views, 5.5K likes): three pictures of a Kim Jong Un who has clearly
+been paid. He sits in a Ferrari with cream seats and the prancing horse
+stitched into the headrests; he snacks on a desert daybed in a grey tee,
+white socks and woven slides, fruit bowl and juice beside him; and he
+stands at sunset at the edge of an infinity pool, hands behind his back, a
+black Birkin at his feet.
+
+**Where the pictures came from.** They aren't stock luxury. They're
+**Kimchi's**. **@kimchi1x** (227K followers) is the Solana memecoin trader
+whose name became a unit of money, "one Kimchi" being $40 million, and
+whom Pump.fun put on posters as "be the next Kimchi" (§80). His signature
+post has no words at all: four photos of the life. On **July 22** at
+**3:00 PM Pacific** he posted a desert daybed at a concrete resort, a
+rainbow-bezel Rolex Daytona with a Hermès Birkin on the car seat behind
+it, a resort pool and a matte Maybach
+([post 2080050311725756531](https://x.com/kimchi1x/status/2080050311725756531),
+29.8M views, 42.2K likes). On **October 15** at **1:43 PM** he did it
+again: himself in a black Ferrari with cream seats at golden hour, Bottega
+Veneta totes and two Birkins on a private jet's carpet, a dinner table in
+a cave stacked with green Bottega gift boxes, and two Ferraris at a gas
+pump
+([post 2110833862297440706](https://x.com/kimchi1x/status/2110833862297440706),
+7.0M views, 50K likes). That's the larpmaxxing: a feed built to make you
+believe, the same feed §80's critics argued over.
+
+**The swap.** Put them side by side and the joke is the edit. The Ferrari
+is Kimchi's Ferrari: same headrest horses, same yellow warning sticker on
+the door pillar, same low sun flaring off the door, with Kim in a dark
+suit where Kimchi sat in a suede jacket. The daybed is Kimchi's daybed,
+down to the bolster, the tray, the bottle of juice, the fruit bowl, the
+white socks, the woven slides on the floor and the hand raised to the
+mouth, with Kim's watch on the same wrist. The pool shot isn't from either
+post, but the bag at Kim's feet is the one accessory both Kimchi dumps
+share: a black Birkin.
+
+**Generational comeback.** At **9:52 AM** on **October 30**, **greg**
+(@greg16676935420, 2.1M followers, the account that circled the
+President's typo in §71) quoted Watcher.Guru's CNN post: *"Kim Jong Un
+went from being dead last week to $6 billion richer this week /
+Generational comeback"*
+([post 2116211598222344396](https://x.com/greg16676935420/status/2116211598222344396),
+60.2K views, 2.6K likes in its first hour). The week before, rumours that
+Kim had died spread across social media from a US-based Chinese
+dissident. Snopes found no evidence, North Korean state media ran new
+photos of him at a garment exhibition on **October 19**, and on
+**October 23** South Korea's spy agency told lawmakers the reports were
+false. A week after he wasn't dead, he was the richest thief in history.
+
+**The troll in it.** Crypto already had a picture of what winning looks
+like, and it was Kimchi's camera roll: a trader whose wins people
+doubted, posting proof with no caption. So when the biggest win in crypto
+went to North Korea, the meme didn't invent a lifestyle for Kim. It
+borrowed the one crypto Twitter knows by heart, and put him in the seat.
+
+**Why it's a troll.** Kimchi's feed kept people asking whether the life
+was real. wataminoodles answered with the one man whose payday TRM says
+is: the same Ferrari, the same socks, a different winner. The caption
+Kimchi never wrote finally got written, and it was *"Life after the
+binance hack."*
+
+**Sourcing:** *Verified posts and their media, plus §92's sources. Live
+story.* Posts read on 2026-10-30 via fxtwitter: Kimchi (22:00 UTC Jul 22;
+20:43 UTC Oct 15), Beeple (03:54 UTC Oct 30), Watcher.Guru's CNN post
+(05:12), Bitcoin News (05:41), wataminoodles (11:14), greg (16:52).
+Times in the text are Pacific. The theft and the TraderTraitor attribution are
+[TRM Labs'](https://www.trmlabs.com/resources/blog/north-korea-steals-usd-6-36-billion-from-binance-in-the-largest-hack-in-history)
+(see §92): **North Korea is TRM's and Chainalysis's attribution**, not a
+government's, and the CNN report is Watcher.Guru's summary; we didn't read
+CNN's piece itself. "Lazarus" and "TraderTraitor" are Bitcoin News's
+and TRM's names for North Korean hacking groups; the persona says
+"linked to", as they do, never "proven". The side-by-sides are ours, built from the two posts'
+own media; the matches are what the pictures show, and the pool's
+backdrop isn't from either Kimchi post. "Larpmaxxing" is the joke's
+framing, not a finding: the persona never says Kimchi's photos are fake or
+that he's a larp, never connects Kimchi to the hack, and never says what
+he owns or spent beyond what his posts show. The Kim pictures are fakes
+(edited or generated), a joke about where the money went: never present
+them as real photos of him or as evidence of anything. Beeple's drawing
+is a cartoon, and the stain is his joke, not something CZ did. The death
+rumour and its debunking are from
+[Snopes](https://www.snopes.com/news/2026/10/21/kim-jong-un-death-rumors/)
+and [JoongAng Daily](https://www.koreajoongangdaily.com/korea/souths-spy-agency-reportedly-assesses-that-social-media-rumors-of-kim-jonguns-death-are-false/12936077):
+the persona never says or hints that Kim was ill or dead, and "richer" is
+greg's joke, since nothing shows where the money ends up. Images:
+`kimchi-vs-kim-ferrari`, `kimchi-vs-kim-desert-daybed`,
+`kimchi-vs-kim-birkin` (our side-by-sides, Kimchi left, wataminoodles
+right), `wataminoodles-life-after-hack` (captured from X's embed) with its
+three pictures, `kim-after-hack-ferrari`, `kim-after-hack-desert-daybed`,
+`kim-after-hack-infinity-pool`, Kimchi's July photos `kimchi-larp-jul-1`
+to `-4` and October photos `kimchi-larp-oct-1` to `-4`,
+`beeple-drained-kim-cz` (captured from X's embed) with its drawing
+`beeple-drained-kim-cz-art`, `watcherguru-cnn-north-korea` (captured from
+X's embed, with its pictures), `bitcoinnews-lazarus-binance` (Bitcoin
+News's picture), `greg-kim-generational-comeback` (captured
+from X's embed).
 
 ## How the persona should use this
 

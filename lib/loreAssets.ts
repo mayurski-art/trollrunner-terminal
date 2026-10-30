@@ -1776,38 +1776,6 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [92],
   },
   {
-    id: "wataminoodles-life-after-hack",
-    url: "/lore/wataminoodles-life-after-hack.png",
-    caption:
-      "wataminoodles: \"Life after the binance hack\", three made-up pictures of a well-paid Kim Jong Un (4:14 AM, Oct 30, 2026)",
-    keywords: ["kim jong un", "north korea", "life after", "binance", "hack", "meme", "wataminoodles"],
-    sections: [92],
-  },
-  {
-    id: "kim-after-hack-ferrari",
-    url: "/lore/kim-after-hack-ferrari.jpg",
-    caption:
-      "\"Life after the binance hack\" 1/3: Kim in a Ferrari with cream seats (fake picture, wataminoodles)",
-    keywords: ["kim jong un", "ferrari", "north korea", "binance", "meme"],
-    sections: [92],
-  },
-  {
-    id: "kim-after-hack-desert-daybed",
-    url: "/lore/kim-after-hack-desert-daybed.jpg",
-    caption:
-      "\"Life after the binance hack\" 2/3: Kim on a desert daybed in white socks, fruit bowl beside him (fake picture, wataminoodles)",
-    keywords: ["kim jong un", "desert", "resort", "socks", "north korea", "binance", "meme"],
-    sections: [92],
-  },
-  {
-    id: "kim-after-hack-infinity-pool",
-    url: "/lore/kim-after-hack-infinity-pool.jpg",
-    caption:
-      "\"Life after the binance hack\" 3/3: Kim at an infinity pool at sunset with a Birkin bag (fake picture, wataminoodles)",
-    keywords: ["kim jong un", "infinity pool", "birkin", "sunset", "north korea", "binance", "meme"],
-    sections: [92],
-  },
-  {
     id: "chasm-heron-brook-rule",
     url: "/lore/chasm-heron-brook-rule.png",
     caption:
@@ -1926,7 +1894,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Beeple: \"DRAINED\", Kim Jong Un pulling CZ's trousers down as bitcoins pour out (8:54 PM, Oct 29, 2026)",
     keywords: ["beeple", "drained", "kim jong un", "cz", "binance", "north korea", "hack"],
-    sections: [92],
+    sections: [95],
   },
   {
     id: "beeple-drained-kim-cz-art",
@@ -1934,7 +1902,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Beeple's \"DRAINED\" drawing: a grinning Kim Jong Un pantsing CZ, who stands in a Binance tee and Bitcoin boxers, wet and wide-eyed, coins spilling to the floor",
     keywords: ["beeple", "drained", "kim jong un", "cz", "pantsed", "bitcoin boxers", "binance"],
-    sections: [92],
+    sections: [95],
   },
   {
     id: "watcherguru-cnn-north-korea",
@@ -1942,7 +1910,135 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Watcher.Guru: \"North Korea responsible for $6 billion Binance hack, CNN reports\" (10:12 PM, Oct 29, 2026; 3.3M views)",
     keywords: ["watcher guru", "cnn", "north korea", "binance", "hack", "tradertraitor"],
-    sections: [92],
+    sections: [95],
+  },
+  {
+    id: "bitcoinnews-lazarus-binance",
+    url: "/lore/bitcoinnews-lazarus-binance.jpg",
+    caption:
+      "Bitcoin News: \"North Korea’s Lazarus Group linked to record $6.3 billion Binance hack\", Kim waving in front of the flag and the Lazarus badge (10:41 PM, Oct 29, 2026)",
+    keywords: ["bitcoin news", "lazarus", "tradertraitor", "north korea", "kim jong un", "binance", "hack"],
+    sections: [95],
+  },
+  {
+    id: "wataminoodles-life-after-hack",
+    url: "/lore/wataminoodles-life-after-hack.png",
+    caption:
+      "wataminoodles: \"Life after the binance hack\", three made-up pictures of a well-paid Kim Jong Un (4:14 AM, Oct 30, 2026)",
+    keywords: ["kim jong un", "north korea", "life after", "binance", "hack", "meme", "wataminoodles"],
+    sections: [95],
+  },
+  {
+    id: "kim-after-hack-ferrari",
+    url: "/lore/kim-after-hack-ferrari.jpg",
+    caption:
+      "\"Life after the binance hack\" 1/3: Kim in a Ferrari with cream seats (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "ferrari", "north korea", "binance", "meme"],
+    sections: [95],
+  },
+  {
+    id: "kim-after-hack-desert-daybed",
+    url: "/lore/kim-after-hack-desert-daybed.jpg",
+    caption:
+      "\"Life after the binance hack\" 2/3: Kim on a desert daybed in white socks, fruit bowl beside him (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "desert", "resort", "socks", "north korea", "binance", "meme"],
+    sections: [95],
+  },
+  {
+    id: "kim-after-hack-infinity-pool",
+    url: "/lore/kim-after-hack-infinity-pool.jpg",
+    caption:
+      "\"Life after the binance hack\" 3/3: Kim at an infinity pool at sunset with a Birkin bag (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "infinity pool", "birkin", "sunset", "north korea", "binance", "meme"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-jul-1",
+    url: "/lore/kimchi-larp-jul-1.jpg",
+    caption:
+      "Kimchi's caption-free July 22, 2026 post, 1/4: desert daybed at a concrete resort, white socks, fruit bowl and juice",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "daybed", "desert", "socks"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-jul-2",
+    url: "/lore/kimchi-larp-jul-2.jpg",
+    caption:
+      "Kimchi's caption-free July 22, 2026 post, 2/4: rainbow-bezel Rolex Daytona, a Hermès Birkin on the car seat behind",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "rolex", "daytona", "birkin"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-jul-3",
+    url: "/lore/kimchi-larp-jul-3.jpg",
+    caption:
+      "Kimchi's caption-free July 22, 2026 post, 3/4: a resort pool under big clouds",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "pool", "resort"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-jul-4",
+    url: "/lore/kimchi-larp-jul-4.jpg",
+    caption:
+      "Kimchi's caption-free July 22, 2026 post, 4/4: a matte black Maybach in the hills",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "maybach", "car"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-oct-1",
+    url: "/lore/kimchi-larp-oct-1.jpg",
+    caption:
+      "Kimchi's caption-free October 15, 2026 post, 1/4: in a black Ferrari with cream seats at golden hour",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "ferrari", "golden hour"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-oct-2",
+    url: "/lore/kimchi-larp-oct-2.jpg",
+    caption:
+      "Kimchi's caption-free October 15, 2026 post, 2/4: Bottega Veneta totes and Birkins on a private jet's carpet",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "bottega", "birkin", "private jet"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-oct-3",
+    url: "/lore/kimchi-larp-oct-3.jpg",
+    caption:
+      "Kimchi's caption-free October 15, 2026 post, 3/4: a cave dinner table stacked with green Bottega gift boxes",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "bottega", "dinner", "cave"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-larp-oct-4",
+    url: "/lore/kimchi-larp-oct-4.jpg",
+    caption:
+      "Kimchi's caption-free October 15, 2026 post, 4/4: two Ferraris at a gas pump",
+    keywords: ["kimchi", "kimchi1x", "larp", "flex", "luxury", "ferrari", "gas station"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-vs-kim-ferrari",
+    url: "/lore/kimchi-vs-kim-ferrari.jpg",
+    caption:
+      "Side by side: Kimchi in his Ferrari (Oct 15, 2026) and wataminoodles' Kim Jong Un in the same seat, same sticker, same sun (Oct 30)",
+    keywords: ["kimchi", "kim jong un", "ferrari", "parody", "comparison", "larp", "binance"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-vs-kim-desert-daybed",
+    url: "/lore/kimchi-vs-kim-desert-daybed.jpg",
+    caption:
+      "Side by side: Kimchi's desert daybed (Jul 22, 2026) and wataminoodles' Kim on the same daybed, same socks, slides, juice and fruit bowl (Oct 30)",
+    keywords: ["kimchi", "kim jong un", "daybed", "socks", "parody", "comparison", "larp"],
+    sections: [95],
+  },
+  {
+    id: "kimchi-vs-kim-birkin",
+    url: "/lore/kimchi-vs-kim-birkin.jpg",
+    caption:
+      "Side by side: Kimchi's Birkins on a private jet floor (Oct 15, 2026) and wataminoodles' Kim at an infinity pool with a black Birkin at his feet (Oct 30)",
+    keywords: ["kimchi", "kim jong un", "birkin", "infinity pool", "parody", "comparison"],
+    sections: [95],
   },
   {
     id: "greg-kim-generational-comeback",
@@ -1950,7 +2046,7 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "greg: \"Kim Jong Un went from being dead last week to $6 billion richer this week / Generational comeback\" (9:52 AM, Oct 30, 2026)",
     keywords: ["greg", "kim jong un", "generational comeback", "dead", "north korea", "binance"],
-    sections: [92],
+    sections: [95],
   },
 ];
 
