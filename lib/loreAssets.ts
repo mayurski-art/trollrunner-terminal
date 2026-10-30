@@ -1863,6 +1863,63 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["agtp", "anthropic", "claude code", "tengu_heron_brook", "video games", "off switch"],
     sections: [93],
   },
+  {
+    id: "pepe-periodt-post",
+    url: "/lore/pepe-periodt-post.png",
+    caption:
+      "@pepecoineth: \"periodt $PEPE\", Pepe in lashes, orange lip gloss and acrylic nails (8:49 AM, Oct 30, 2026)",
+    keywords: ["pepe", "pepecoineth", "periodt", "glam", "lashes", "nails"],
+    sections: [94],
+  },
+  {
+    id: "pepe-periodt-glam",
+    url: "/lore/pepe-periodt-glam.mp4",
+    caption:
+      "The \"periodt\" clip: Pepe side-eyes, puts a hand in your face, blows a kiss and laughs",
+    keywords: ["pepe", "periodt", "glam pepe", "kiss", "talk to the hand", "pepe clip"],
+    sections: [94],
+    loopGif: true,
+  },
+  {
+    id: "pepe-near-confidential",
+    url: "/lore/pepe-near-confidential.jpg",
+    caption:
+      "@pepecoineth's ad under Arkham's Justin Sun post: \"PEPE. NOW CONFIDENTIAL.\" (\"Onchain, every holding is public by default.\" Oct 27, 2026)",
+    keywords: ["pepe", "near", "confidential", "arkham", "justin sun", "privacy"],
+    sections: [94],
+  },
+  {
+    id: "pepe-reject-humanity",
+    url: "/lore/pepe-reject-humanity.jpg",
+    caption:
+      "@pepecoineth: \"reject humanity, return to frog\", a classical profile turning into Pepe across ten heads (1:30 PM, Oct 27, 2026)",
+    keywords: ["pepe", "reject humanity", "return to frog", "engraving", "evolution"],
+    sections: [94],
+  },
+  {
+    id: "lookonchain-binance-hacker-pepe-dump",
+    url: "/lore/lookonchain-binance-hacker-pepe-dump.jpg",
+    caption:
+      "Lookonchain, 3:48 PM Oct 29, 2026: wallets tagged Binance_Hacker selling PEPE (17.4B, 12.2B, 70.3B) and LINK into Uniswap for ETH",
+    keywords: ["lookonchain", "binance hacker", "pepe", "dump", "uniswap", "eth", "binance hack"],
+    sections: [94],
+  },
+  {
+    id: "bscnews-dmt-whale-pepe",
+    url: "/lore/bscnews-dmt-whale-pepe.jpg",
+    caption:
+      "BSC News: \"Legendary Whale is now all in on PEPE\", dimethyltryptamine.eth buys 45.08B PEPE after the Binance hacker's dump (3:52 AM, Oct 30, 2026)",
+    keywords: ["bsc news", "whale", "pepe", "dimethyltryptamine", "dmt", "legendary whale"],
+    sections: [94],
+  },
+  {
+    id: "pepe-price-oct-17-30",
+    url: "/lore/pepe-price-oct-17-30.png",
+    caption:
+      "PEPE hourly, Oct 17-30, 2026, from CoinGecko data: $0.00000379 low, $0.00000549 peak, the Binance hacker's dump to $0.00000447, then \"periodt\"",
+    keywords: ["pepe", "price", "chart", "coingecko", "binance hack", "justin sun"],
+    sections: [94],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

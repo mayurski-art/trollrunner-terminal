@@ -5591,6 +5591,138 @@ are fine. Don't help anyone word a request to get around it. Images:
 `steipete-own-harness` (captured from X's embed), `agtp-heron-brook-summary`
 (AGTP's image).
 
+## 94. "Periodt": the frog in full glam, after the biggest thief in crypto dumped it
+<!-- posted: 2026-10-30T18:00:00Z -->
+
+**The post.** At **8:49 AM Pacific** on **October 30, 2026**, the official
+PEPE account, **Pepe** ([@pepecoineth](https://x.com/pepecoineth), 734.9K
+followers, bio *"The most memeable memecoin in existence"*), posted two
+words and a ten-second clip
+([post 2116195847788769596](https://x.com/pepecoineth/status/2116195847788769596)):
+
+> periodt $PEPE
+
+In the clip Pepe is in full glam: false lashes, glossy orange lips, long
+white acrylic nails, a blue top. He side-eyes the camera and blinks slowly.
+He puts a hand up in your face, covers his mouth like he's heard something
+scandalous, blows a kiss and ends on a wide-open laugh. "Periodt" is
+"period" with a t on the end: end of discussion, nothing more to say.
+
+**A week of frog.** PEPE bottomed at **$0.00000379** around **1 PM on
+October 18**. Over the same nine days, **11.85 trillion PEPE** left
+Poloniex for wallets Arkham ties to **Justin Sun** (§86). On **October 19**
+the account posted *"immune to the psyops $PEPE"* and on **October 20**
+*"bid my blood to run $PEPE."* At **5:16 AM on October 27** Arkham asked
+*"Is Justin Sun the Top PEPE Holder?"*, and at **10:06 AM** @pepecoineth
+quoted it with an ad
+([post 2115127989411483899](https://x.com/pepecoineth/status/2115127989411483899),
+118.9K views):
+
+> Onchain, every holding is public by default. near.com flips that.
+>
+> Deposit, swap & pay with $PEPE. Confidentially.
+
+The picture says **"PEPE. NOW CONFIDENTIAL."** in giant black capitals next
+to a phone showing PEPE up 61.5% over three months. Three and a half hours
+later the account posted *"reject humanity / return to $PEPE"*
+([post 2115179238366330887](https://x.com/pepecoineth/status/2115179238366330887),
+164.9K views, 3.7K likes, its most-liked post of the month): an old-style
+engraving of a classical profile that turns, step by step across ten heads,
+into a frog, captioned in blackletter *"reject humanity, return to frog."*
+
+**The run.** PEPE rose about 12% on October 28, with futures volume up
+about 73% (crypto.news). At **9 AM on October 29** it touched
+**$0.00000549**, about **45% above the October 18 low**.
+
+**The thief had frog too.** At **1:05 PM** that afternoon the biggest
+crypto theft ever started draining Binance (§92). Among what came out of
+Binance's hot wallet were **7.77 trillion PEPE**. At **3:48 PM**
+**Lookonchain** ([@lookonchain](https://x.com/lookonchain), 712.5K
+followers) posted *"The Binance hacker is now dumping $PEPE, $UNI, $LINK,
+and other tokens on-chain for $ETH"*
+([post 2115938836757037428](https://x.com/lookonchain/status/2115938836757037428),
+164.9K views), with a list of what the wallet still held, including
+**7.579T PEPE ($34.41M)**. Its screenshot shows wallets tagged
+**Binance_Hacker** selling PEPE into a Uniswap V2 pool in lumps of 17.4
+billion, 12.2 billion and 70.3 billion, a minute apart, and taking ETH
+back. By **5:29 PM**, TechFlow reported, all 7.77 trillion were gone, for
+**14,049 ETH**, over **$31.9 million**, at an average of about
+**$0.0000041**. On the hourly chart PEPE fell from **$0.00000549** at 9 AM
+to **$0.00000447** at 4 PM, about **19%**, most of it between 1 and 4 PM.
+TechFlow also put **Sun's** unrealized profit on his frog down to
+**$4.45M**, from **$18.55M** the night before.
+
+**Same price.** TechFlow's average for Sun's 11.8 trillion PEPE is about
+**$0.000004114**. The thief's average sale was about **$0.0000041**
+($31.9M over 7.77 trillion), under anything the chart showed that
+afternoon, because a pool pays a little less for every lump you sell into
+it. The biggest thief in crypto sold the frog for what the biggest holder
+paid for it.
+
+**The old whale.** At **3:52 AM on October 30**, **BSC News**
+([@bscnews](https://x.com/bscnews), 1.37M followers) posted *"Legendary
+Whale is now all in on PEPE"*
+([post 2116121061808865358](https://x.com/bscnews/status/2116121061808865358),
+23.5K views), with a picture of a breaching humpback beside a smug Pepe.
+Per Arkham, the wallet **dimethyltryptamine.eth** bought **45.08 billion
+PEPE** for about **$206.5K**, *"immediately after the @Binance hacker
+completely dumped the memecoin,"* paid for by selling **600K SPX** (about
+$212K). It's the wallet that put **0.125 ETH** into PEPE on Uniswap V3 in
+**April 2023**, got **5.9 trillion** tokens, and watched them reach
+**$100 million**. It now holds **$10.3M**, $10.19M of it PEPE. Its buy was
+about 0.58% of what the thief sold (crypto.news).
+
+**Periodt.** Five hours after that, with PEPE back around **$0.0000051**
+and the market cap at about **$2.16B**, the account posted the clip. It
+didn't mention the hack, the thief, Sun or the whale.
+
+**The troll in it.** The account's ad three days earlier said *"every
+holding is public by default"*, and the week proved it line by line.
+Arkham traced Sun's frog out of Poloniex. Lookonchain watched the thief
+sell his frog a minute at a time. Arkham caught the 2023 whale buying
+within hours of the dump. Nobody's frog was confidential. The frog's answer
+to all of it was lashes, a hand in your face, a kiss, a laugh and one word.
+Pepe and the trollface came up through the same 4chan years (§86), and this
+archive saves its #420 for a Pepe with a trollface for a mouth (§65).
+
+**Why it's a troll.** The biggest heist in crypto history dumped
+$31.9 million of frog in an afternoon, and the frog's own account said
+nothing for a day. Then it showed up in full makeup, put a hand in
+everyone's face and blew them a kiss. The thief sold at Justin Sun's price.
+"Periodt."
+
+**Sourcing:** *Verified posts, onchain trackers, news reports.* Read on
+2026-10-30 via fxtwitter: @pepecoineth's October 30 post (35.4K views, 928
+likes at the read) with its video, its October 27 posts and its October
+19–20 posts; Lookonchain's (22:48 UTC October 29); BSC News's (10:52 UTC
+October 30). The PEPE price points and the 45% and 19% moves are from
+CoinGecko's hourly data, read at about 17:55 UTC October 30, and the chart
+`pepe-price-oct-17-30` is ours, drawn from that data. The full 7.77T sale,
+14,049 ETH, $31.9M, the $0.0000041 average, Sun's $0.000004114 average and
+his profit figures are from
+[TechFlow](https://www.techflowpost.com/en-US/newsletter/141993) (00:29
+UTC October 30, citing on-chain analyst Ai Yi); Lookonchain's figure for
+the sale is $31.66M (via
+[crypto.news](https://crypto.news/pepe-price-falls-binance-hacker-sells-tokens/)).
+The October 28 move is from
+[crypto.news](https://crypto.news/why-is-pepe-price-up-today-justin-sun-whale/).
+TechFlow reported a 12.33% drop on the sale and
+[24/7 Wall St.](https://247wallst.com/investing/cryptocurrency/2026/10/30/the-binance-hacker-dumped-32-million-of-pepe-and-pepe-still-rose-7-is-the-memecoin-rally-real/)
+a 24-hour rise; they measured different windows, and **the hourly chart
+can't separate the sale from the rest of the market's fall that
+afternoon**. The whale's buy, funding and history are BSC News citing
+Arkham. **"Same price" is ours**, and so is why the sale averaged under the
+chart: two averages from one report that land
+together, not a link between Sun and the thief. Sun's second wallet is
+still only Arkham's "predicted" (§86), and North Korea is TRM's
+attribution (§92). Persona: no price talk beyond these as history, never
+read the whale's buy or the rebound as a signal, never say the thief and
+Sun are connected, and don't make the clip about anyone it doesn't name.
+Images: `pepe-periodt-post` (captured from X's embed) with its clip
+`pepe-periodt-glam`, `pepe-near-confidential`, `pepe-reject-humanity`,
+`lookonchain-binance-hacker-pepe-dump` (Lookonchain's screenshot),
+`bscnews-dmt-whale-pepe`, `pepe-price-oct-17-30`.
+
 ## How the persona should use this
 
 - It can reference the *shape* of these facts (an old drawing that got
