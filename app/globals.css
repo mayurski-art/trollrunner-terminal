@@ -82,7 +82,7 @@
    below). "Black" is var(--background), so the light theme still works.
    .home-hero-bg-frame still spans exactly one viewport and is
    still used by every route (app/page.tsx, app/archive, app/vault,
-   app/logs, app/transmit, app/inspect, app/reports), because /vault
+   app/riddles, app/transmit, app/inspect, app/reports), because /vault
    layers its background onto it and the fixed-position behaviour
    documented below is what keeps that art from rescaling. */
 .home-hero {
@@ -115,8 +115,7 @@
   /* Decorative and aria-hidden — being `position: fixed` with an explicit
      z-index otherwise lets it win hit-testing over later, non-positioned
      siblings (z-index: auto), regardless of DOM order. That silently ate
-     clicks on every page using this frame (confirmed on /logs' and
-     /trolldeaths' filter tabs) even though it painted behind them. */
+     clicks on every page using this frame (confirmed on /riddles' filter tabs) even though it painted behind them. */
   pointer-events: none;
 }
 .home-hero-bg {
@@ -586,12 +585,11 @@ main {
 .nav-neon--terminal { --nn-hue: #2ee6ff; animation-delay: 0.3s; }
 .nav-neon--vault { --nn-hue: var(--problem); animation-delay: 0.6s; }
 .nav-neon--archive { --nn-hue: #7dff5c; animation-delay: 0.9s; }
-.nav-neon--logs { --nn-hue: #b26bff; animation-delay: 1.2s; }
+.nav-neon--riddles { --nn-hue: #b26bff; animation-delay: 1.2s; }
 .nav-neon--transmit { --nn-hue: #ff9d3a; animation-delay: 1.8s; }
 .nav-neon--inspect { --nn-hue: #3ad6b0; animation-delay: 2.1s; }
 .nav-neon--reports { --nn-hue: #6b8bff; animation-delay: 2.4s; }
 .nav-neon--review { --nn-hue: #ffd23a; animation-delay: 2.7s; }
-.nav-neon--trolldeaths { --nn-hue: var(--alert); animation-delay: 3s; }
 /* Presence.tsx — "who's online" pill. Reuses the disconnect pill's green
    (same "live/connected" meaning) with no stagger delay, since it isn't
    part of the route-link row's timed sequence. */
@@ -2457,7 +2455,7 @@ html[data-custom-cursor] label {
     color: var(--background);
   }
 }
-/* Truth logs status stamps (app/logs/page.tsx SignalStamp). A live signal
+/* Triddles status stamps (app/riddles/page.tsx SignalStamp). A live signal
    for a transmission's first day, UNCRACKED / CRACKED for its riddle, and a
    cold signal after a week, where the whole card fades back. */
 .logs-stamp {

@@ -14,7 +14,7 @@ const mono = JetBrains_Mono({
 });
 
 // Used just for transmission text (homepage "latest transmission" panel and
-// [logs]) — a grittier CRT-terminal look to set the broadcast persona's own
+// [riddles]) — a grittier CRT-terminal look to set the broadcast persona's own
 // voice apart from the rest of the site's JetBrains Mono UI chrome.
 const transmissionFont = Share_Tech_Mono({
   weight: "400",

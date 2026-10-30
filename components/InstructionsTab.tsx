@@ -20,7 +20,7 @@ const ENTRIES: Entry[] = [
   },
   {
     q: "what are transmissions?",
-    a: "short posts the terminal broadcasts on its own, unprompted — a mix of trolling and fragments of a larger story, whether that is news from the official troll X account, or any major troll news. new ones show up on the home page and get archived in the logs.\n\nusers can earn +10 \"PROBLEMS\" by solving each transmission in [logs], correctly. however it costs a \"PROBLEM\" to attempt this.",
+    a: "short posts the terminal broadcasts on its own, unprompted — a mix of trolling and fragments of a larger story, whether that is news from the official troll X account, or any major troll news. new ones show up on the home page and get archived in the riddles.\n\nusers can earn +10 \"PROBLEMS\" by solving each transmission in [riddles], correctly. however it costs a \"PROBLEM\" to attempt this.",
   },
   {
     q: "why look at the logs?",

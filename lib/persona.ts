@@ -966,7 +966,7 @@ export async function generatePost(
 
   // The old cryptic-glyph signature mark (▓▒▓) doesn't fit the plain,
   // casual voice this persona writes in now — strip whatever mark the model
-  // still tacks on out of habit rather than appending one. app/logs/page.tsx's
+  // still tacks on out of habit rather than appending one. app/riddles/page.tsx's
   // classify() already falls back to "unmarked" for content with no mark, so
   // dropping it here doesn't break older marked posts or the logs filter.
   const bodyWithoutMark = withoutClueLine.replace(/\s*[▚▞▓▒]+\s*$/, "").trim();

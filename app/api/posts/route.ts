@@ -27,7 +27,7 @@ export async function GET() {
       return NextResponse.json({ error: postsRes.error.message }, { status: 500 });
     }
 
-    // The logs page's status stamps (app/logs/page.tsx): whether a post can
+    // The logs page's status stamps (app/riddles/page.tsx): whether a post can
     // be guessed at all, how many troublemakers cracked it and how many
     // tried. clue_tag itself is the answer, so only its presence goes out.
     const rows = postsRes.data ?? [];

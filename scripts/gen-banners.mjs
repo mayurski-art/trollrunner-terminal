@@ -7,13 +7,12 @@ const words = [
   "TERMINAL",
   "FACES",
   "THE VAULT",
-  "TRUTH LOGS",
+  "TRIDDLES",
   "SIGNAL LOST",
   "PROBLEMS",
   "GENESIS",
   "AWAKENING",
   "UNDERVOICE",
-  "TROLLDEATHS",
 ];
 
 for (const w of words) {

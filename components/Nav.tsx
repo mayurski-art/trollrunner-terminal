@@ -94,28 +94,12 @@ export default function Nav({ networkBadge = false }: NavProps) {
               [ archive ]
             </Link>
             <Link
-              href="/logs"
+              href="/riddles"
               onClick={() => setOpen(false)}
-              className="nav-neon nav-neon--logs whitespace-nowrap"
+              className="nav-neon nav-neon--riddles whitespace-nowrap"
             >
-              [ logs ]
+              [ riddles ]
             </Link>
-            <Link
-              href="/trolldeaths"
-              onClick={() => setOpen(false)}
-              className="nav-neon nav-neon--trolldeaths whitespace-nowrap"
-            >
-              [ trolldeaths ]
-            </Link>
-            {isOwner && (
-              <Link
-                href="/trolldeaths/admin"
-                onClick={() => setOpen(false)}
-                className="nav-neon nav-neon--trolldeaths whitespace-nowrap"
-              >
-                [ trolldeaths admin ]
-              </Link>
-            )}
             {isOwner && (
               <Link
                 href="/inspect"

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { isToday, type Kind, type Post } from "@/app/logs/page";
+import { isToday, type Kind, type Post } from "@/app/riddles/page";
 import PostGuess from "@/components/PostGuess";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";

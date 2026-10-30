@@ -21,7 +21,7 @@ import GenerateTransmission from "@/components/GenerateTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
 import NewestFile from "@/components/NewestFile";
-import type { Post } from "@/app/logs/page";
+import type { Post } from "@/app/riddles/page";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 

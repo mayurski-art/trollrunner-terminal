@@ -108,7 +108,7 @@ export async function GET(request: Request) {
     // daily post published itself with nobody having read it. Nothing about
     // this route posts to X — that's manual either way — so the only thing
     // the old behaviour bought was an unreviewed post appearing publicly in
-    // [logs] and on the homepage panel. The owner's review card picks this up
+    // [riddles] and on the homepage panel. The owner's review card picks this up
     // on their next visit (GenerateTransmission fetches the outstanding
     // pending post on mount), so the scheduled one waits in exactly the same
     // place as a manual one.

@@ -53,7 +53,7 @@ case you want to wire it back up later after getting API write access.
   ledger, so real spend was higher than the dashboard showed. The route is still
   deployed but permanently no-ops (`{skipped: true, reason: "disabled"}`) so the
   external pinger doesn't start 404ing; old `terminal_musings` rows are left in
-  place and still browsable on `/logs`, just nothing new gets written.
+  place and still browsable on `/riddles`, just nothing new gets written.
 - `docs/TROLL-LORE.md` (the persona's background-knowledge file) is **not** sent in
   full on every call anymore — `lib/loreSections.ts` picks a handful of relevant
   sections per generation instead (keyword match against the current

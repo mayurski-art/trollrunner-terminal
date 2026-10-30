@@ -218,7 +218,7 @@ export async function POST(request: Request) {
       cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
       cache_read_input_tokens: generated.usage.cache_read_input_tokens,
       estimated_cost_usd: estimatedCostUsd,
-      // Held back from [logs] and every other public reader until the owner
+      // Held back from [riddles] and every other public reader until the owner
       // accepts it in the review prompt. The cron path deliberately does not
       // set this — it runs unattended with nobody there to review.
       pending: true,
@@ -254,7 +254,7 @@ export async function POST(request: Request) {
 
 // Accept a transmission from the review prompt — the other half of DELETE
 // below. Clears `pending`, which is the only thing keeping the post out of
-// [logs], the public /api/posts feed, and the guess/clue surfaces. Also
+// [riddles], the public /api/posts feed, and the guess/clue surfaces. Also
 // takes the review card's current clue/musing checkbox value, since the
 // owner can flip it any time up to the moment they accept — whatever it's
 // set to on this call is what gets saved.

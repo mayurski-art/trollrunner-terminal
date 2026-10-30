@@ -8,7 +8,7 @@ import Banner from "@/components/Banner";
 import Frame from "@/components/Frame";
 import PostGuess from "@/components/PostGuess";
 import TransmissionModal from "@/components/TransmissionModal";
-import { BANNER_LOGS } from "@/lib/ascii";
+import { BANNER_RIDDLES } from "@/lib/ascii";
 import { timeAgo } from "@/lib/time";
 import { renderTightLines } from "@/lib/renderText";
 
@@ -132,7 +132,7 @@ export default function LogsPage() {
       </div>
       <div className="w-full max-w-7xl">
         <Nav />
-        <Banner art={BANNER_LOGS} label="truth logs" />
+        <Banner art={BANNER_RIDDLES} label="triddles" />
         <p className="text-foreground font-bold text-sm mb-8">everything it's transmitted, unfiltered</p>
 
         {posts && posts.length > 0 && (
