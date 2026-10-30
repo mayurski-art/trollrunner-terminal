@@ -1502,7 +1502,10 @@ export default function Chat({
         </div>
       )}
 
-      {lightbox && (
+      {lightbox &&
+        // Portalled: a fixed overlay inside a transformed/popped frame is
+        // pinned to that frame, not the screen.
+        createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -1526,15 +1529,31 @@ export default function Chat({
             }`}
           />
           {lightbox.caption && <p className="text-dim text-sm">{lightbox.caption}</p>}
-          <button
-            type="button"
-            onClick={() => setLightbox(null)}
-            aria-label="Close image"
-            className="text-ghost hover:text-terminal transition-colors text-xs"
-          >
-            [ close ]
-          </button>
-        </div>
+          <div className="flex items-center gap-4">
+            {/* Owner-only (globals.css hides .lightbox-save without
+                data-copy-ok). iOS gives no long-press save menu here: the
+                image's own drag/zoom touch handling eats the press. */}
+            <a
+              href={lightbox.url}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="lightbox-save text-ghost hover:text-terminal transition-colors text-xs"
+            >
+              [ save ]
+            </a>
+            <button
+              type="button"
+              onClick={() => setLightbox(null)}
+              aria-label="Close image"
+              className="text-ghost hover:text-terminal transition-colors text-xs"
+            >
+              [ close ]
+            </button>
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

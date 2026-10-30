@@ -3022,6 +3022,9 @@ html:not([data-copy-ok]) [contenteditable="true"] {
   -webkit-user-select: text;
   user-select: text;
 }
+html:not([data-copy-ok]) .lightbox-save {
+  display: none;
+}
 html:not([data-copy-ok]) img,
 html:not([data-copy-ok]) video {
   -webkit-touch-callout: none;
