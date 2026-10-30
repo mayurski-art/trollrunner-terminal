@@ -1920,6 +1920,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["pepe", "price", "chart", "coingecko", "binance hack", "justin sun"],
     sections: [94],
   },
+  {
+    id: "beeple-drained-kim-cz",
+    url: "/lore/beeple-drained-kim-cz.png",
+    caption:
+      "Beeple: \"DRAINED\", Kim Jong Un pulling CZ's trousers down as bitcoins pour out (8:54 PM, Oct 29, 2026)",
+    keywords: ["beeple", "drained", "kim jong un", "cz", "binance", "north korea", "hack"],
+    sections: [92],
+  },
+  {
+    id: "beeple-drained-kim-cz-art",
+    url: "/lore/beeple-drained-kim-cz-art.jpg",
+    caption:
+      "Beeple's \"DRAINED\" drawing: a grinning Kim Jong Un pantsing CZ, who stands in a Binance tee and Bitcoin boxers, wet and wide-eyed, coins spilling to the floor",
+    keywords: ["beeple", "drained", "kim jong un", "cz", "pantsed", "bitcoin boxers", "binance"],
+    sections: [92],
+  },
+  {
+    id: "watcherguru-cnn-north-korea",
+    url: "/lore/watcherguru-cnn-north-korea.png",
+    caption:
+      "Watcher.Guru: \"North Korea responsible for $6 billion Binance hack, CNN reports\" (10:12 PM, Oct 29, 2026; 3.3M views)",
+    keywords: ["watcher guru", "cnn", "north korea", "binance", "hack", "tradertraitor"],
+    sections: [92],
+  },
+  {
+    id: "greg-kim-generational-comeback",
+    url: "/lore/greg-kim-generational-comeback.png",
+    caption:
+      "greg: \"Kim Jong Un went from being dead last week to $6 billion richer this week / Generational comeback\" (9:52 AM, Oct 30, 2026)",
+    keywords: ["greg", "kim jong un", "generational comeback", "dead", "north korea", "binance"],
+    sections: [92],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against

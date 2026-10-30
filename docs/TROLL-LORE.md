@@ -5370,6 +5370,32 @@ the edge of an infinity pool, hands behind his back, a black Birkin at his
 feet. The pictures are made up, the attribution isn't: TRM puts the theft
 on North Korea's TraderTraitor.
 
+**Kim gets the credit.** The night before, at **8:54 PM** on October 29,
+**Beeple** ([@beeple](https://x.com/beeple), 1.15M followers, the artist
+who keeps drawing the grin into his work, §38) had posted one word,
+*"DRAINED"*
+([post 2116015881872441617](https://x.com/beeple/status/2116015881872441617),
+179K views, 4.8K likes), over a pencil drawing. Kim Jong Un is down on one
+knee, grinning, yanking CZ's trousers to his ankles. CZ stands in a
+Binance-logo tee and Bitcoin-print boxers, eyes wide, mouth open, a yellow
+stain running down both legs, and bitcoins pour out of the trousers onto
+the floor. It's the only colour in the picture. At **10:12 PM**
+**Watcher.Guru** made it official in its own way: *"JUST IN: 🇰🇵 North
+Korea responsible for $6 billion Binance hack, CNN reports"*
+([post 2116035434681634857](https://x.com/WatcherGuru/status/2116035434681634857),
+3.3M views, 31.9K likes), the North Korean flag beside the Binance logo. At
+**9:52 AM** on **October 30**, **greg** (@greg16676935420, 2.1M followers,
+the account that circled the President's typo in §71) quoted it:
+*"Kim Jong Un went from being dead last week to $6 billion richer this
+week / Generational comeback"*
+([post 2116211598222344396](https://x.com/greg16676935420/status/2116211598222344396),
+60.2K views, 2.6K likes in its first hour). The week before, rumours that
+Kim had died spread across social media from a US-based Chinese dissident.
+Snopes found no evidence, North Korean state media ran new photos of him
+at a garment exhibition on **October 19**, and on **October 23** South
+Korea's spy agency told lawmakers the reports were false. A week after
+he wasn't dead, he was the richest thief in history.
+
 **How.** Binance's first explanation was a compromised DevOps engineer's
 laptop that let the attacker into a service container to submit
 withdrawals. On **October 30** CEO **Richard Teng** said they'd found more
@@ -5405,7 +5431,8 @@ story.* Posts read on 2026-10-30 via fxtwitter: CZ (18:51 UTC Oct 28;
 (21:26), Watcher.Guru (21:42), Market Insider (21:53), Nikita Bier
 (22:00), Baseball Bonk Inu (22:29), Elon Musk (22:33 Oct 29; 03:12, 04:33
 and 05:10 UTC Oct 30), cryptoblaney (00:30 Oct 30), Jack (01:25), Bull
-Theory (03:06), Yi He (09:33), wataminoodles (11:14). Times in the text are Pacific. The theft
+Theory (03:06), Beeple (03:54), Watcher.Guru's CNN post (05:12), Yi He
+(09:33), wataminoodles (11:14), greg (16:52). Times in the text are Pacific. The theft
 timeline, chain totals, the 50 pre-signed EIP-7702 authorizations, the
 freeze times and amounts, what's left with the attacker and the
 TraderTraitor attribution are from
@@ -5446,7 +5473,14 @@ to withdraw, move funds or avoid the exchange, never repeat attacker
 addresses as something to check or send to, and the Polymarket timing in
 "The heist" is coincidence, not connection. The Kim pictures
 are fakes (edited or generated), a joke about where the money went: never
-present them as real photos of him or as evidence of anything. Images:
+present them as real photos of him or as evidence of anything. Beeple's
+drawing is a cartoon, and the stain is his joke, not something CZ did. The
+CNN report is Watcher.Guru's summary; we didn't read CNN's piece itself.
+The death rumour and its debunking are from
+[Snopes](https://www.snopes.com/news/2026/10/21/kim-jong-un-death-rumors/)
+and [JoongAng Daily](https://www.koreajoongangdaily.com/korea/souths-spy-agency-reportedly-assesses-that-social-media-rumors-of-kim-jonguns-death-are-false/12936077):
+the persona never says or hints that Kim was ill or dead, and "richer" is
+greg's joke, since nothing shows where the money ends up. Images:
 `cz-email-tip-elon-fire-laugh` (CZ's tip with Elon's 🔥😂),
 `elon-everyday-is-zeroday`, `nikita-bier-safu`,
 `elon-superintelligence-agents`, `cz-elon-bad-time-to-troll`,
@@ -5460,7 +5494,10 @@ X's embed, with their photos), `binance-drainer-etherscan`,
 images), `logan-paul-crypto-scam-clip` (Jack's post, captured from X's
 embed), `wataminoodles-life-after-hack` (captured from X's embed) with its
 three pictures, `kim-after-hack-ferrari`, `kim-after-hack-desert-daybed`,
-`kim-after-hack-infinity-pool`.
+`kim-after-hack-infinity-pool`, `beeple-drained-kim-cz` (captured from X's
+embed) with its drawing `beeple-drained-kim-cz-art`,
+`watcherguru-cnn-north-korea` (captured from X's embed, with its pictures),
+`greg-kim-generational-comeback` (captured from X's embed).
 
 ## 93. "Even if it is renamed": the rule that came down the wire, and the Roblox devs it came for
 <!-- posted: 2026-10-30T17:09:00Z -->
