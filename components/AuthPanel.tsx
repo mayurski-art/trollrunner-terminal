@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { checkUsernameExists, login, register } from "@/lib/auth";
 
 // Which account state the typed username resolved to — null means "not
@@ -20,6 +21,14 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // fields unmounted until the visitor actually asks to sign in.
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // Whether the phone dialog has been moved under <body>. `position: fixed`
+  // only means "the screen" when no ancestor has a transform, filter or
+  // similar; inside the archive's sign-in block one does, so the "full-screen"
+  // dialog was as tall as the whole page with the form centred halfway down
+  // it, a long scroll from the button. Once the CSS has picked the fixed
+  // (phone) layout, the dialog is portalled to <body>, where fixed is the
+  // screen again. The desktop dropdown is absolute and stays where it is.
+  const [portalled, setPortalled] = useState(false);
 
   // Desktop dropdown's click-away/Escape only — the phone dialog (below
   // `sm:`) has its own [ cancel ] button, so there's no "outside" to click.
@@ -50,6 +59,15 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       document.removeEventListener("keydown", onEscape);
     };
   }, [open]);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setPortalled(false);
+      return;
+    }
+    const el = dropdownRef.current;
+    if (el && !portalled && getComputedStyle(el).position === "fixed") setPortalled(true);
+  }, [open, portalled]);
 
   // Step 1 -> step 2: look up the typed username once and remember whether
   // it's an existing account or a new one, so the visitor never has to pick
@@ -190,7 +208,7 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
   // One instance of the form renders either way — a second, CSS-hidden copy
   // would still be visible to Safari's autofill scan and iOS pops its "Fill
   // Password" sheet the moment any login form exists in the DOM.
-  return (
+  const dialog = (
     <div
       ref={dropdownRef}
       role="dialog"
@@ -211,4 +229,5 @@ export default function AuthPanel({ onDone }: { onDone?: () => void }) {
       </div>
     </div>
   );
+  return portalled ? createPortal(dialog, document.body) : dialog;
 }
