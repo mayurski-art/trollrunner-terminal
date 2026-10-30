@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Permanent_Marker } from "next/font/google";
+
+// Hand-lettering for the red correction drawn over the graphic's [ LOGS ].
+const marker = Permanent_Marker({ weight: "400", subsets: ["latin"] });
 
 type Entry = { q: string; a: string };
 
@@ -23,8 +27,8 @@ const ENTRIES: Entry[] = [
     a: "short posts the terminal broadcasts on its own, unprompted — a mix of trolling and fragments of a larger story, whether that is news from the official troll X account, or any major troll news. new ones show up on the home page and get archived in the riddles.\n\nusers can earn +10 \"PROBLEMS\" by solving each transmission in [riddles], correctly. however it costs a \"PROBLEM\" to attempt this.",
   },
   {
-    q: "why look at the logs?",
-    a: "the logs are the full transmission archive. it's fun to read and guess. problem?",
+    q: "why look at the riddles?",
+    a: "the riddles are the full transmission archive. it's fun to read and guess. problem?",
   },
   {
     q: "what's the vault?",
@@ -92,15 +96,45 @@ export default function InstructionsTab() {
         aria-label="instructions"
         className="pointer-events-auto w-[var(--instructions-w)] max-h-[92dvh] overflow-y-auto overscroll-contain border border-r-0 border-terminal bg-panel/95 backdrop-blur-sm"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/assets/instructions.jpg"
-          alt="how the terminal works: talk to it to mint PROBLEMS, then spend them in the logs, archive and vault"
-          width={1152}
-          height={1728}
-          decoding="async"
-          className="block w-full h-auto"
-        />
+        <div className="relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/instructions.jpg"
+            alt="how the terminal works: talk to it to mint PROBLEMS, then spend them in the riddles (crossed-out logs), archive and vault"
+            width={1152}
+            height={1728}
+            decoding="async"
+            className="block w-full h-auto"
+          />
+          {/* [logs] became [riddles]: rather than redraw the art, the old
+              label gets scribbled out in red marker with the new name
+              written in above it. Coordinates are the image's own pixels. */}
+          <svg
+            viewBox="0 0 1152 1728"
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+          >
+            <g fill="none" stroke="#ff2b2b" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M152 1232 L178 1196 L190 1238 L214 1194 L228 1240 L252 1196 L266 1242 L290 1198 L304 1240 L328 1197 L342 1238 L362 1204" />
+              <path d="M146 1214 C200 1206 290 1226 368 1212" strokeWidth="7" />
+              <path d="M150 1226 C220 1236 300 1200 366 1224" strokeWidth="6" />
+            </g>
+            <text
+              x="146"
+              y="1176"
+              transform="rotate(-6 250 1160)"
+              className={marker.className}
+              fontSize="62"
+              fill="#ff2b2b"
+              stroke="#0b0b0b"
+              strokeWidth="10"
+              paintOrder="stroke"
+              strokeLinejoin="round"
+            >
+              [triddles]
+            </text>
+          </svg>
+        </div>
         <div className="p-4 space-y-4 text-left">
           {ENTRIES.map((entry) => (
             <div key={entry.q}>
