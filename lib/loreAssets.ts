@@ -1768,6 +1768,14 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [92],
   },
   {
+    id: "zachxbt-binance-bitget-commingled",
+    url: "/lore/zachxbt-binance-bitget-commingled.jpg",
+    caption:
+      "zachxbt's TRM graph: the Bitget September 2026 and Binance October 2026 exploit trails crossing THORChain into one Ethereum wallet (posted 9:51 PM, Oct 29, 2026)",
+    keywords: ["zachxbt", "bitget", "binance", "thorchain", "commingled", "tradertraitor", "trm", "hack"],
+    sections: [92, 67],
+  },
+  {
     id: "logan-paul-crypto-scam-clip",
     url: "/lore/logan-paul-crypto-scam-clip.png",
     caption:

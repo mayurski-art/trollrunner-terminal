@@ -2536,95 +2536,61 @@ Images: `trolls-first-1k-sale-after-reveal`, `trolls-1718-tank-runner`,
 
 ## 67. Bitget turns 8 and gets drained at 2:31 AM — the pump came before Asia woke up
 
-There's a line trenchers say when they're stuck holding a coin nobody
-wants: **"wait for Asia to wake up to pump our bags."** The idea is that
-fresh buyers come online in the Asian morning, lift the price, and give
-the West a way out. It's half hope and half exit plan.
+**The saying.** Trenchers stuck with a coin nobody wants say **"wait for**
+**Asia to wake up to pump our bags."** On **September 24, 2026**, someone
+ran it in reverse against one of Asia's biggest exchanges, on its eighth
+birthday.
 
-On **September 24, 2026**, someone ran the joke in reverse against one of
-the biggest exchanges in Asia, on its birthday.
+**The day, in order (Pacific).**
 
-**The night, in order (UTC).**
+- **5:22 AM** — CEO **Gracy Chen** launches a "CEO Chat Series" for
+  institutional clients. The **@bitget** feed runs trading contests, a
+  "365% APY" promo and **#BitgetTurns8**.
+- **11:31 AM** — Bitget's systems catch unauthorized transfers out of its
+  hot wallets. Greater China head **Xie Jiayin** gives the local time:
+  **"今天凌晨2:31"**, 2:31 AM today. Asia is asleep.
+- **12:00 PM** — mid-drain, **@bitget** posts its birthday picture: a
+  hooded hiker, arms wide on a summit above the clouds. **"The view hits**
+  **different from up here."**
+  ([post 2103197887052026196](https://x.com/bitget/status/2103197887052026196),
+  701K views)
+- **12:00 to 12:20 PM** — Arkham shows wallets labeled Bitget hot *and*
+  *cold* emptying into one address: **13,966 ETH ($37.55M)**, **34.75M**
+  **USDT**, **19.67M USDT0**, **12.85M USDC**, **3,000 XAUT** of tokenized
+  gold ($12.83M), **12,719 BNB**, **821,012 AVAX**. About **$175M** in one
+  screenshot.
+- **12:57 PM** — the first alarm comes from outside. **DCF GOD** spots a
+  new wallet spending the stolen USDT0 on **7,111 ETH in six minutes**,
+  paying **up to 5% over spot**: **$2,870** against about $2,690 elsewhere.
+  "That makes no sense if someone was just trying to buy eth."
+- **1:08 PM** — **Dogetoshi** of The Block: **about $174M** across chains
+  "over the past hour."
+  ([post 2103214904207695925](https://x.com/Dogetoshi/status/2103214904207695925),
+  145K views). **Hacken** reports blocked withdrawals. Bitget says nothing.
+- **2:16 PM** — **Googly** (@0xG00gly) posts the calm take: "3% of Bitget
+  assets got impacted by the hack. They had 35% excess in last week's Proof
+  of Reserves."
+- **2:30 PM** — three hours after detection, Chen posts a **[SECURITY**
+  **NOTICE]**
+  ([post 2103235655879074084](https://x.com/GracyBitget/status/2103235655879074084),
+  2.08M views). Her profile picture is still the birthday one, with a big
+  **"8"**.
 
-- **12:22** — CEO **Gracy Chen** posts a video launching her new "CEO Chat
-  Series" with institutional clients: prime brokerage, smarter collateral,
-  "institutional execution." The official **@bitget** feed spends the day
-  on trading contests, a "365% APY" savings promo and **#BitgetTurns8**,
-  the exchange's eighth anniversary.
-- **18:31** — Bitget's security systems detect unauthorized transfers out
-  of its hot wallets. Bitget's Greater China head, **Xie Jiayin**, later
-  puts it in local time: **"今天凌晨2:31"**, 2:31 AM today. Asia is asleep.
-- **~19:00–19:20** — Arkham's transfer log shows wallets labeled as Bitget
-  hot and cold wallets emptying into one address,
-  **0x770b10b273fC44Fe9197D6bF20F145c2e98463Ee**: **13,966 ETH ($37.55M)**,
-  **34.75M USDT**, **19.67M USDT0**, **12.85M USDC**, **3,000 XAUT
-  ($12.83M)** in tokenized gold, **12,719 BNB ($9.93M)**, **821,012 AVAX
-  ($8.55M)**, and more ETH on Arbitrum and Optimism. About **$175M** in that
-  one screenshot. A second address, **0x469A…25DC**, took more.
-- **19:00** — right in the middle of that, **@bitget** posts its birthday
-  picture: a hooded hiker with a Bitget backpack and a Bitget trekking
-  pole, arms thrown wide on a summit above the clouds. The caption:
-  **"The view hits different from up here. #BitgetTurns8."** It
-  becomes the most-viewed thing Bitget posts all night, **149,000 views**,
-  more than any of the statements that follow.
-- **19:57** — the first public alarm comes from outside. Analyst
-  **DCF GOD** spots a brand-new wallet buying **7,111 ETH on Arbitrum in
-  six minutes** with **19.67M USDT0** pulled from a Bitget hot wallet,
-  through **UniswapX and 1inch Fusion**, some of it at **up to 5% over
-  spot**, pushing the WETH/USDC pool to **$2,870** while ETH traded around
-  $2,690 elsewhere. "That makes no sense if someone was just trying to buy
-  eth."
-- **20:08** — **Dogetoshi**, research head at The Block, quotes it with the
-  wider picture: **about $174M** across several chains and both hot and
-  cold wallets, all sent to one address "over the past hour."
-- **20:12** — **Hacken** posts that users are reporting blocked withdrawals.
-  Estimates climb through $170M and $183M. Bitget still hasn't said
-  anything.
-- **21:16** — before Bitget speaks, **Googly** (**@0xG00gly**, building at
-  Plasma) posts the calming take: "3% of Bitget assets got impacted by the
-  hack. They had 35% excess in last week's Proof of Reserves. Decent
-  cushion to absorb losses." Attached is Bitget's own reserve page.
-- **21:30** — three hours after detection, Gracy Chen posts a **[SECURITY
-  NOTICE]**. The official account and Xie Jiayin follow within minutes.
-  Her profile picture while she posts it is still the birthday edition: a
-  studio portrait in a plain white tee inside a glossy white ring, the
-  Bitget logo on one side and a big **"8"** on the other.
+**What Bitget confirmed.** About **$351.6 million** gone, double the first
+estimates, all inside a **User Protection Fund** of **over $464 million**.
+Only **hot and warm** wallets were hit, it says, and **cold wallets are**
+**secure**, which doesn't square with Arkham's "Cold Wallet" labels.
+Withdrawals paused, a root-cause report promised in 24 hours, and, only in
+the Chinese post, a **livestream**. The English one ends: *"We will not*
+*run from this."* **BGB** slid about 4%.
 
-**What Bitget confirmed.** About **$351.6 million** taken, roughly double
-the first on-chain estimates. Bitget runs a three-tier wallet system and
-says only parts of the **hot and warm** tiers were hit and **all cold
-wallets are secure**. That conflicts with Arkham's "Cold Wallet" labels on
-the biggest rows, and nobody has squared the two yet. User balances are
-"accurate," and the full loss sits inside Bitget's **User Protection Fund**,
-which it says holds **over $464 million**. Withdrawals are paused while
-deposits and trading stay open. Law enforcement and on-chain security firms
-are engaged. Bitget says it won't speculate on the attack vector, and it
-promised hourly updates and a full root-cause report within 24 hours. In
-the Chinese version of her post, and only there, Chen adds that she's
-preparing a **livestream** to take any question directly. The English
-notice closes: *"We will not run from this."* Bitget's token **BGB** slid
-about **4%**, to around $1.96.
+**The cushion, read closely.** Googly's screenshot is Bitget's September 15
+**Proof of Reserves**: **135%** overall, but **USDT at 100%**, a spare
+**$3.2 million**. Arkham shows **$54.4M** in USDT and USDT0 leaving,
+seventeen times that. The 35% was an average, and the coin hit hardest had
+none of it.
 
-**The cushion, read closely.** Googly's screenshot is Bitget's September
-**Proof of Reserves** (issue 46, snapshot **September 15, 17:00 UTC+8**,
-published the 17th). It shows a **135% total reserve ratio**, a green
-"Sufficient reserves" badge, and a Merkle root (`d393340f79f3a3d0`) anyone
-can check their own balance against. His read holds at the top line. A
-$351.6M loss is a small slice of the platform, and 35% over what users are
-owed is real room. The per-coin tiles tell a sharper story, though. ETH sat
-at **160%**, BTC at **133%**, USDC at **140%**, NEAR at **182%**, and
-Bitget's own **USDGO** stablecoin at **216%**. **USDT** sat at **100%**:
-**1,198,662,755** held against **1,195,470,630** owed, a spare **$3.2
-million**. USDT was the hacker's favorite. The Arkham rows alone show
-**$54.4M** in USDT and USDT0 leaving, seventeen times the tether cushion.
-The 35% is an average. The coin that got hit hardest had almost none of
-it, which is why the protection fund, not the reserve surplus, is what
-actually covers this. None of that makes the post wrong. It makes it a
-week-old snapshot doing the job of a statement, fourteen minutes before
-the company made one.
-
-**The joke, checked against the facts.** The obvious play on the saying
-writes itself:
+**The joke, checked.** The obvious riff:
 
 > bitget hackers trolled the markets for $170 million
 > while the company's employees went to sleep
@@ -2632,257 +2598,198 @@ writes itself:
 > does it still apply here
 > will they ever wake up from this blow
 
-The number was too small. It turned out to be $351.6 million.
+The number was too small by half. And the security desk was awake: it
+caught the drain at 2:31 AM. What slept was everything that talks. For
+three hours the public heard it from strangers, and the one thing Bitget
+said was a scheduled post about the view from the top. The night's only
+pump paid 5% over market with customers' stablecoins. The bags got pumped
+*out* before Asia woke up.
 
-"Went to sleep" is half right, and the half that's wrong is funnier. By
-Bitget's own account, the security desk was awake: it caught the transfers
-at 2:31 AM and had a response team up within minutes. What was asleep was
-everything that talks. For three hours the public learned about it from
-DCF GOD, Dogetoshi, Hacken and Arkham, not from Bitget. The one thing
-Bitget *did* say during the drain was a scheduled birthday post about how
-good the view is from the top. Somebody was awake. The marketing calendar
-was on autopilot.
+**Will they wake up?** On paper, yes: the loss is smaller than the fund,
+and **Bybit** lost about **$1.5B** to North Korea's Lazarus Group in
+February 2025 and stayed open.
 
-The saying doesn't survive either. The only pump of the night came at
-3 AM, not at sunrise. It paid 5% over market for ETH, and it was paid for
-with the exchange's own customers' stablecoins. Asia didn't pump anyone's
-bags. The bags got pumped *out* before Asia woke up.
+**The trail.** Four days later, **zachxbt** said Chinese launderers working
+for "the alleged DPRK attackers" were openly taking orders in public
+Discord and Telegram channels to wash the "$387M Bitget exploit," and that
+one had also laundered the **$292M Kelp DAO** exploit earlier in the year
+([post 2104528688469647700](https://x.com/zachxbt/status/2104528688469647700),
+2.45M views). He says the attack was attributed to North Korea-linked
+**TraderTraitor**. On **October 29 at 9:51 PM** he posted that funds from
+the **$6.3B Binance exploit** (§92) and the Bitget exploit were
+**"commingled at the same address"** after arriving via THORChain: *"This*
+*indicates the same actor is likely behind both incidents."*
+([post 2116030284261179538](https://x.com/zachxbt/status/2116030284261179538),
+404K views). His TRM graph shows the two trails meeting at one ETH address
+on October 30. It's his attribution, not a confirmed one, and his
+$387M–$388M is his figure; Bitget's is $351.6M.
 
-**Will they ever wake up from this blow?** On paper, yes. The loss is
-smaller than the fund, and **Bybit** lost around **$1.5B** to North Korea's
-Lazarus Group in February 2025 and stayed open. Bitget has taken hits
-before, too: its wallet arm, formerly **BitKeep**, was exploited twice in
-2022. There's chatter about North Korea again, and none of it is confirmed.
-Whether Bitget *wakes up* is a question for the 24-hour report: how the
-keys got out, and whether "cold wallets are secure" holds up against
-Arkham's labels. Until then, the most honest picture of the night is the
-one Bitget posted itself: a person standing at the top with their back to
-the camera and their arms wide open, not looking at what's behind them.
+**Why it's a troll.** The market's favorite cope became a heist timetable.
+The buyer showed up early, overpaid with someone else's money, and the
+house posted a summit selfie as the vault emptied. On its birthday.
 
-**Why it's a file.** It's the troll structure from the memecoin sections
-at exchange scale. The trench runs on waiting for a counterparty who will
-show up later and pay more. Here the counterparty showed up early, paid
-more, and spent someone else's money. And the victim, without meaning to,
-supplied the punchline in its own voice, on its own birthday. The persona
-can use it straight: the market's favorite cope became a heist timetable,
-and the house posted a summit selfie while the vault emptied.
-
-**Sources:** [Dogetoshi on X](https://x.com/Dogetoshi/status/2103214904207695925)
-(20:08 UTC, via fxtwitter: 70,607 views; the attached Arkham screenshot is
-an image here), quoting DCF GOD's flag (19:57 UTC, 92,438 views) ·
+**Sourcing:** [Dogetoshi on X](https://x.com/Dogetoshi/status/2103214904207695925)
+(20:08 UTC, via fxtwitter: 145,008 views at a 2026-10-30 read, 70,607 at
+first read; the attached Arkham screenshot is an image here), quoting DCF
+GOD's flag (19:57 UTC, 92,438 views) ·
 [@bitget, #BitgetTurns8](https://x.com/bitget/status/2103197887052026196)
-(19:00 UTC, via fxtwitter: 149,120 views, 232 replies, 122 quotes; the
-summit image is an image here) ·
+(19:00 UTC, via fxtwitter: 701,133 views at a 2026-10-30 read, 149,120 at
+first read, 232 replies, 122 quotes; the summit image is an image here) ·
 [Gracy Chen, SECURITY NOTICE](https://x.com/GracyBitget/status/2103235655879074084)
-(21:30 UTC, 48,452 views) ·
+(21:30 UTC, 2,077,275 views at a 2026-10-30 read) ·
 [Gracy Chen, Chinese post with the livestream line](https://x.com/GracyBitget/status/2103237586374598873)
 (21:38 UTC) · [Xie Jiayin, "今天凌晨2:31"](https://x.com/xiejiayinBitget/status/2103236175528104073)
 (21:32 UTC) · [@bitget statement](https://x.com/bitget/status/2103236552482848927)
-(21:34 UTC) · [Gracy Chen, CEO Chat Series](https://x.com/GracyBitget/status/2103097764100153711)
+(21:34 UTC, 1,228,237 views at a 2026-10-30 read) ·
+[Gracy Chen, CEO Chat Series](https://x.com/GracyBitget/status/2103097764100153711)
 (12:22 UTC) · [Googly on Proof of Reserves](https://x.com/0xG00gly/status/2103232023716560972)
-(21:16 UTC, via fxtwitter: 7,017 views, 106 likes; his screenshot of
-Bitget's September PoR page is an image here) ·
+(21:16 UTC, via fxtwitter: 7,017 views and 106 likes at first read; his
+screenshot of Bitget's September PoR page is an image here) ·
 [Bitget PoR, issue 46](https://www.bitget.com/support/articles/12560603895370)
-(published September 17, 2026, 135% total) · [Hacken](https://x.com/hackenclub/status/2103216092583964978)
+(snapshot September 15, 17:00 UTC+8, published September 17, 2026, 135%
+total) · [Hacken](https://x.com/hackenclub/status/2103216092583964978)
 (20:12 UTC) · [Decrypt](https://decrypt.co/379275/bitget-potentially-hacked-as-183-million-vanishes-from-exchange-wallets)
 (second address, BGB price) ·
 [Bitcoin.com News](https://news.bitcoin.com/security/bitget-hit-by-351m-hack-withdrawals-frozen-as-probe-begins/)
 · [Bitcoin Sistemi](https://en.bitcoinsistemi.com/breaking-the-bitget-hack-is-still-ongoing-there-are-new-developments/)
-· [Crypto Briefing](https://cryptobriefing.com/bitget-hot-wallet-hack-usdt-eth/).
-The "employees went to sleep" lines are wordplay on the saying written for
-this file, not a quoted post. Figures are same-day and the 24-hour incident
-report was still pending when this was written. Images:
-`bitget-drain-arkham-transfers`, `bitget-turns8-summit-post`,
+· [Crypto Briefing](https://cryptobriefing.com/bitget-hot-wallet-hack-usdt-eth/)
+· [zachxbt, launderers taking orders](https://x.com/zachxbt/status/2104528688469647700)
+(Sep 28, 11:08 UTC, 2,447,192 views at a 2026-10-30 read; the launderers'
+handles are deliberately not named here) ·
+[zachxbt, Binance and Bitget funds commingled](https://x.com/zachxbt/status/2116030284261179538)
+(Oct 30, 04:51 UTC, 404,085 views; his TRM graph is an image here; the
+commingling address is deliberately not printed). Body times are Pacific
+(PDT, UTC−7); Sourcing times are UTC. The DPRK and TraderTraitor link and
+the same-actor claim are zachxbt's ("alleged," "attributed," "likely"),
+not confirmed. The "employees went to sleep" lines are wordplay on the
+saying written for this file, not a quoted post. Bitget's figures are
+same-day, and the 24-hour incident report was still pending when this was
+written.
+Images: `bitget-drain-arkham-transfers`, `bitget-turns8-summit-post`,
 `bitget-ceo-gracy-chen` (her X profile picture on the night),
-`bitget-proof-of-reserves-sept-2026`.
+`bitget-proof-of-reserves-sept-2026`, `zachxbt-binance-bitget-commingled`.
 
 ## 68. 23,155 NFTs "stolen" to keep them safe — the wallet named `nfts_are_safu`
 
-The night after Bitget (§67), a second drain showed up on-chain. For about
-two hours it looked exactly like a theft. It was a rescue. The people
-calling it a "white list" had the word slightly wrong. It was a
-**whitehat**: someone who uses the same bug as the thief, faster, and
-then gives everything back. Whether that should reassure anyone is the
-real question.
+**The mix-up.** The same night as Bitget (§67), a second drain hit
+on-chain, and for its first hour it looked exactly like theft. It was a
+**whitehat**: someone who uses the thief's bug faster, then gives
+everything back.
 
-**The hole.** In 2024, **Magic Eden** settled trades on its Ethereum
-marketplace through **Payment Processor V2**, a trading contract built and
-maintained by **Limit Break**. If you listed an NFT on Magic Eden's EVM
-market between roughly **February and October 2024**, you probably
-clicked "approve for all" on that collection. That gave the contract
-permission to move every token you held from it. Magic Eden stopped using
-V2 in **October 2024** and shut down its whole EVM marketplace in
-**Q1 2026**. **The approvals stayed live.** Nobody revokes a permission
-for a shop that has already closed. The contract had a bug that let
-someone pose as a holder who had given that approval and "buy" their NFTs
-**at a price of zero**, with no signature from the owner. V2 had no pause
-switch. A newer V3 had the same bug, and so did a V3 on ApeChain that
-couldn't be paused at the time either.
+**The hole.** In 2024 **Magic Eden** settled Ethereum trades through
+**Payment Processor V2**, a contract run by **Limit Break**. Listing there
+between about **February and October 2024** meant clicking "approve for
+all," letting the contract move every token you held in that collection.
+Magic Eden dropped V2 that October and closed its EVM market in **Q1**
+**2026**. **The approvals stayed live.** A bug let anyone "buy" those NFTs
+**for zero**, with no owner signature, and V2 had no pause switch.
 
-**The timeline (UTC).**
-- **Sep 24, ~13:00** — "9AM EST" by the later account. An attacker uses
-  the bug to take **10 Meebits, 50 Otherdeeds, 10 World of Women and 235
-  Desperate ApeWives**. Nobody notices for more than twelve hours.
-- **Sep 24, 14:26** — about an hour and a half later, and unrelated,
-  **0xQuit** (Quit, VP of Blockchain at **Yuga Labs**, Solidity auditor)
-  posts that his **Ledger factory-reset itself**. He won't be able to
-  rebuild his seed for "another ~10 days" and is "effectively locked out
-  of most of my wallets." Keep that in mind for what comes next.
-- **Sep 24, 21:44** — during §67, Quit quote-posts Bitget's summit
-  birthday picture: **"let this be a lesson to you all: never touch
-  grass."** An hour earlier: "Bitget hacked for $178M, Payy hacked for
-  $1.8M, onchain is back baby."
-- **Sep 25, ~01:00** — someone (**@Boomskite**) sends Quit the first
-  exploit transaction. He digs in and finds that tens of thousands of
-  NFTs are open to the same trick. Limit Break pauses V3 on Ethereum. V2
-  can't be paused, so the only way to protect those NFTs is to take them
-  first.
-- **~05:46** — the rescue starts. Everything at risk goes into one
-  address, **0x71cF3f5724bD2B72Ef6464992aCd26216DE7fe33**. Its OpenSea
+**The timeline (Pacific).**
+
+- **Sep 24, 6:00 AM** — an attacker takes **10 Meebits, 50 Otherdeeds, 10**
+  **World of Women and 235 Desperate ApeWives**. Nobody notices for more
+  than twelve hours.
+- **7:26 AM** — unrelated, **0xQuit** (VP of Blockchain at **Yuga Labs**,
+  Solidity auditor) posts that his **Ledger factory-reset itself**, leaving
+  him "effectively locked out of most of my wallets."
+- **2:44 PM** — on Bitget's summit picture: **"let this be a lesson to**
+  **you all: never touch grass."**
+- **About 6:00 PM** — **@Boomskite** sends Quit the exploit transaction.
+  Tens of thousands of NFTs are exposed. Limit Break pauses V3; V2 can't be
+  paused, so the only fix is to take them first.
+- **About 10:46 PM** — the rescue starts, into one wallet whose OpenSea
   name is **`nfts_are_safu`**.
-- **06:31** — **Cirrus** (@CirrusNFT, 105k followers) sees it happen from
-  outside: *"No idea whats going on here but I just watched this wallet
-  drain 3832 NFTs from 100s of different wallets."* The screenshot shows
-  the wallet at **$1.4M**, full of Bored Apes (16), an Azuki, Mutant Apes,
-  527 Otherdeed Expanded, 467 Quirklings, Lil Pudgys and Meebits. He
-  tells people to revoke their NFT approvals, and adds that it seems to be
-  "funded from a wallet possibly linked to @0xQuit so maybe a whitehat?"
-  **238,000 views.**
-- **06:48** — Quit replies: *"hey ya this is a whitehat and everything in
-  0x71cF…fe33 is safe and will be returned once they are no longer at
-  risk."* **259,000 views**, more than the alarm itself.
-- **08:00** — in the replies, someone asks the question half the
-  timeline had: **"What is a white hat?"** A collector answers eight
-  minutes later: *"Someone who drains wallets but they are a good guy."*
-  That's accurate, and it's also the problem, in one line.
-- **08:09** — Quit: **"REVOKE APPROVALS TO THESE ASAP"**, with V2 on
-  Ethereum (`0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834`) and V3 on
-  ApeChain (`0x9a1D00000000fC540e2000560054812452eB5366`). 284,000 views,
-  590 reposts.
-- **~08:25** — the reverse move. Anyone who had once made or accepted a
-  WETH offer through the contract had approved *it* too. Attackers use
-  zero-price dummy NFTs to "sell" to victim wallets and pull their WETH
-  out. The first transaction takes **281.66 WETH from 25 wallets**. Later
-  tallies reach about **530 WETH from 911 wallets**, plus USDC, WILD, and
-  WAPE on ApeChain.
-- **09:06** — Quit's full account: **23,155 NFTs rescued, worth over
-  $5.7M.** The WETH side was worse: **660 WETH** at risk, "which we
-  unfortunately were not fast enough to recover. Apologies to those
-  affected." His screenshot shows the rescue wallet at **17,581 items,
-  $1.5M** on Ethereum alone at that point, created **Sep 2026**.
-- **09:15** — *"worked through the entire night to save ~$6M worth of
-  NFTs and all I'll be able to think about is the $1.7M in WETH I wasn't
-  fast enough for. Fuck scammers."* 177,000 views.
-- **09:24** — *"kids should be waking up in a half hour or so, so gn ct."*
-- **10:44** — **Magic Eden** posts an "interim update." The protocol
-  belongs to Limit Break, Magic Eden stopped using it in 2024, and **"No
-  live Magic Eden listings were impacted."** It asks people to revoke on
-  Ethereum, Polygon and Base, and adds: *"Revoking does not return tokens
-  that already moved."* Magic Eden says it's contacting Limit Break about
-  pausing transfers.
-- **12:02** — Magic Eden's co-founder **0xLeoInRio**, whose bio now puts
-  **@DiceyHQ** first: *"@MagicEden was not exploited today, it was
-  @limitbreak's trading protocol."* He calls Quit "a true hero."
-- **13:25** — Quit: the bulk of the damage is done, but assets are still
-  exposed, and **"hundreds of scammers are also doing the same"** sweep.
-  If rescued NFTs go back to a wallet that still has the approval open,
-  "the open approvals can and will be used against you."
+- **11:31 PM** — **Cirrus**: *"No idea whats going on here but I just*
+  *watched this wallet drain 3832 NFTs from 100s of different wallets."*
+  His screenshot shows **$1.4M** of Bored Apes, Mutant Apes and Otherdeeds.
+  He guesses the funder is "possibly linked to @0xQuit so maybe a
+  whitehat?"
+  ([post 2103371851519103423](https://x.com/CirrusNFT/status/2103371851519103423),
+  323K views)
+- **11:48 PM** — Quit: *"hey ya this is a whitehat and everything in*
+  *0x71cF…fe33 is safe and will be returned once they are no longer at*
+  *risk."*
+  ([post 2103375947751972921](https://x.com/0xQuit/status/2103375947751972921),
+  411K views)
+- **Sep 25, 1:00 AM** — a reply: **"What is a white hat?"** The answer:
+  *"Someone who drains wallets but they are a good guy."* The whole problem
+  in one line.
+- **1:09 AM** — Quit: **"REVOKE APPROVALS TO THESE ASAP"**: V2 on Ethereum
+  (`0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834`) and V3 on ApeChain
+  (`0x9a1D00000000fC540e2000560054812452eB5366`).
+  ([post 2103396501779284239](https://x.com/0xQuit/status/2103396501779284239),
+  601K views)
+- **About 1:25 AM** — the reverse move. Wallets that had made WETH offers
+  through the contract had approved it too. Attackers "sell" them
+  zero-price dummy NFTs and pull their WETH: about **530 WETH from 911**
+  **wallets** by later tallies.
+- **2:06 AM** — Quit: **23,155 NFTs rescued, "worth north of $5.7M,"** but
+  **660 WETH** they "were not fast enough to recover."
+  ([post 2103410682368512505](https://x.com/0xQuit/status/2103410682368512505),
+  520K views)
+- **2:15 AM** — *"all I'll be able to think about is the $1.7M in WETH I*
+  *wasn't fast enough for. Fuck scammers."*
+- **2:24 AM** — *"kids should be waking up in a half hour or so, so gn*
+  *ct."*
+- **3:44 AM** — **Magic Eden**: the protocol is Limit Break's, and **"No**
+  **live Magic Eden listings were impacted."** Also: *"Revoking does not*
+  *return tokens that already moved."*
+- **5:02 AM** — co-founder **0xLeoInRio**, whose bio now leads with
+  **@DiceyHQ**: *"@MagicEden was not exploited today, it was @limitbreak's*
+  *trading protocol."*
+- **6:25 AM** — Quit: **"hundreds of scammers are also doing the same"**
+  sweep.
 
-**Is it actually safe?** Mostly, going by everything public. The rescue
-was coordinated with Limit Break, praised by Magic Eden, done by a named
-Yuga executive with his own reputation on the line, and he says owners
-will be able to claim their NFTs after they revoke. None of the stolen
-Meebits or Otherdeeds were taken by him. Those went to the attacker hours
-before anyone woke up.
+**Is it safe?** Mostly. The rescue was coordinated with Limit Break and run
+by a named Yuga executive, who says owners can claim once they revoke. But
+on-chain a rescue and a theft are the same transaction. **"Safe" means**
+**one man holds 23,155 NFTs that aren't his and has promised them back.**
+The vault's name riffs on "funds are safu," from a 2018 CZ post during a
+Binance incident and crypto's shorthand for "trust me" ever since. Its
+keeper had been locked out of his own wallets the day before. And a "claim
+your rescued NFT" page is exactly what phishers copy: use only Quit's own
+links, and revoke through revoke.cash.
 
-Your suspicion is still reasonable, though, and it's a good one to have.
+**The bigger hole.** The weak point was a **permission signed two years**
+**ago** for a marketplace that then closed, on a contract **with no off**
+**switch**. A hardware wallet doesn't help; the approval already lives
+on-chain. Under the co-founder's post someone asked: **if you stopped**
+**using them two years ago, why could they still exploit it?** No answer
+yet. That week Magic Eden's feed was mostly reposts from **Dicey**, its
+founders' crypto casino, which had just celebrated **$100K turned into**
+**$1M on blackjack in 7 minutes.**
 
-- **On-chain, a rescue and a theft are the same transaction.** The same
-  bug, the same zero-price "sale," the same wallet filling up with other
-  people's apes. For two hours the only difference between them was a
-  guess from Cirrus about who funded the wallet, and then a reply from
-  the person who controlled it saying it was fine. **"Safe" here means
-  one person holds 23,155 NFTs that aren't his and has promised to give
-  them back.** Every sign says he means it. It's still a promise, not a
-  guarantee in code.
-- **The name is a meme about exactly this.** "Funds are safu" comes from
-  a 2018 CZ post during a Binance incident and became the market's
-  running joke for "trust me." Calling the vault `nfts_are_safu` is a
-  good joke from someone who knows the bit. It's also literally the
-  phrase people have been laughing at for eight years.
-- **The day before, the whitehat couldn't open his own wallets.** Quit
-  posted that his Ledger had factory-reset and he was locked out of
-  "most of my wallets" for ten days, with the lesson "not enough
-  redundancy." Then he worked all night securing about $6M of other
-  people's NFTs. That's honest, and it's what an expert looks like on a
-  bad week. It also shows that key management trips up even the people
-  who audit these contracts.
-- **The claim step is the next attack surface.** You have to revoke
-  first, and "hundreds of scammers" are sweeping alongside him. A "claim
-  your rescued NFT" page is exactly what phishers copy. Use only links
-  from Quit's own account, and revoke directly through revoke.cash.
+**The TROLLS?** Nothing points that way. The TROLLS contract dates from
+**May 2026**, after V2 and Magic Eden's EVM market were gone, so no TROLLS
+token was listed in the approval window. Revoking costs nothing anyway.
 
-**The security question, which is the bigger one.** The hole wasn't in
-anyone's wallet. It was a **permission given two years ago** to a
-contract from a marketplace that stopped using it, then closed, and the
-contract **had no off switch**. A hardware wallet doesn't help, because
-the approval is on-chain and doesn't need your device again. "Magic Eden
-was not exploited" is technically true. Magic Eden is also the reason
-those users signed the approval. Someone asked the co-founder under his
-post: **if you stopped using them two years ago, why could they still
-exploit it?** Nothing has answered that yet. Meanwhile Magic Eden's feed
-that week was mostly reposts from **Dicey**, its founders' crypto casino.
-Four days before the exploit, Dicey was celebrating a player who turned
-**$100K into $1M on blackjack in 7 minutes.** The marketplace that left
-the door unlocked had become a casino.
+**It wasn't over.** At **5:41 AM**, **WiiMee**, formerly of **revoke.cash**
+and **Boring Security**: *"The NFT drain attack seems to be ONGOING!"*
+**Lazy Lions** and **Kodamaras** were being swept through V2 into one
+address nobody has claimed or promised to return. At 7:59 AM: *"If an*
+*OpenSea contract exploit ever drains everything with active approvals*
+*(NFTs, WETH, USDC) to it, the entire space is finished."* Most active
+traders have given OpenSea that same blanket approval.
 
-**Were the TROLLS involved?** Nothing points that way. The TROLLS
-contract was created in **May 2026**, after Magic Eden dropped V2 in
-October 2024 and after its EVM market shut down in Q1 2026, so no TROLLS
-token could have been listed during the window when the approvals were
-granted. Nobody has checked the rescue wallet token by token for TROLLS,
-though. If a holder ever approved V2 some other way, revoking costs
-nothing.
+**Why it's a troll.** The villain move was the rescue, and the vault named
+after crypto's favorite "trust me" was telling the truth. He saved $5.7M,
+lost $1.7M to people racing him with the same bug, and logged off because
+his kids were waking up. Trust in the code turned out to be trust in one
+guy.
 
-**It wasn't over.** At **12:41**, after Quit's "23,155 rescued" and
-Magic Eden's update, **WiiMee** (@wiimee) posted 🚨 *"The NFT drain
-attack seems to be ONGOING!"* WiiMee used to work at **revoke.cash** and
-**Boring Security**. **Lazy Lions** and **Kodamaras** had been "stolen in
-bulk 15 minutes ago" through the same V2 contract. The screenshot is an
-OpenSea activity feed showing Lazy Lion after Lazy Lion moving from
-wallets like MattyZ, TLDNs-Vault and 0xba65 into one address ending
-**f2324d**, every row "20m ago." Nothing public says whose wallet that
-is. With "hundreds of scammers" sweeping alongside Quit, it's the same
-picture as `nfts_are_safu`, except nobody has promised to give anything
-back. At 13:29 WiiMee added *"Wish we could've educated people better,
-too."* At 14:15 came *"looks like there's still something going on."*
-Then at 14:59 came a warning about something bigger than this contract:
-*"If an OpenSea contract exploit ever drains everything with active
-approvals (NFTs, WETH, USDC) to it, the entire space is finished."*
-Limit Break V2 was a small, forgotten version of that. Most active
-traders have given OpenSea the same kind of blanket approval.
-
-**Why it's a file.** It's the trollface structure turned inside out. The
-villain move is the rescue, the stolen goods are safe, and the vault is
-named after the most famous "trust me" in crypto, but this time it's
-true. Two nights in a row crypto got drained while its people slept
-(§67). The second time, someone stayed up. He saved $5.7M, lost $1.7M
-to people racing him with the same bug, and signed off because his kids
-were waking up. The lesson isn't that whitehats can't be trusted. It's
-that on-chain, **trust in the code turned out to be trust in a person**,
-and the permission you gave two years ago is still active.
-
-**Sources:** [Cirrus, the drain spotted](https://x.com/CirrusNFT/status/2103371851519103423)
-(06:31 UTC, via fxtwitter: 238,365 views; screenshot of the rescue wallet
-at 3,832 items is an image here) ·
-[0xQuit, "this is a whitehat"](https://x.com/0xQuit/status/2103375947751972921)
-(06:48 UTC, 259,642 views) ·
+**Sourcing:** [Cirrus, the drain spotted](https://x.com/CirrusNFT/status/2103371851519103423)
+(06:31 UTC, via fxtwitter: 322,671 views at a 2026-10-30 read, 238,365 at
+first read; screenshot of the rescue wallet at 3,832 items is an image
+here) · [0xQuit, "this is a whitehat"](https://x.com/0xQuit/status/2103375947751972921)
+(06:48 UTC, 410,569 views at a 2026-10-30 read, 259,642 at first read) ·
 [0xQuit, REVOKE APPROVALS](https://x.com/0xQuit/status/2103396501779284239)
-(08:09 UTC) · [0xQuit, full account](https://x.com/0xQuit/status/2103410682368512505)
-(09:06 UTC, 151,189 views; `nfts_are_safu` OpenSea screenshot is an image
-here) and [addresses reply](https://x.com/0xQuit/status/2103410684616708576) ·
-[0xQuit, "$1.7M in WETH"](https://x.com/0xQuit/status/2103413056810439006) ·
-[0xQuit, "gn ct"](https://x.com/0xQuit/status/2103415285000630524) ·
+(08:09 UTC, 600,715 views at a 2026-10-30 read) ·
+[0xQuit, full account](https://x.com/0xQuit/status/2103410682368512505)
+(09:06 UTC, 519,512 views at a 2026-10-30 read, 151,189 at first read;
+`nfts_are_safu` OpenSea screenshot is an image here) and
+[addresses reply](https://x.com/0xQuit/status/2103410684616708576) ·
+[0xQuit, "$1.7M in WETH"](https://x.com/0xQuit/status/2103413056810439006)
+· [0xQuit, "gn ct"](https://x.com/0xQuit/status/2103415285000630524) ·
 [0xQuit, scammers sweeping too](https://x.com/0xQuit/status/2103475990072623582)
 (13:25 UTC) · [0xQuit, Ledger reset](https://x.com/0xQuit/status/2103128838758633529)
 (Sep 24, 14:26 UTC) · [0xQuit, "never touch grass"](https://x.com/0xQuit/status/2103239238364094694)
@@ -2890,23 +2797,25 @@ here) and [addresses reply](https://x.com/0xQuit/status/2103410684616708576) ·
 and [Lady Lee's answer](https://x.com/MissLadyLee/status/2103396189152465400)
 (08:00 / 08:08 UTC) ·
 [Magic Eden interim update](https://x.com/MagicEden/status/2103435423389241569)
-(10:44 UTC, 93,530 views) ·
-[0xLeoInRio](https://x.com/0xLeoInRio/status/2103454975401583027) (12:02 UTC)
-and [pawellwitt's reply](https://x.com/pawellwitt/status/2103491065034739972)
+(10:44 UTC, 267,020 views at a 2026-10-30 read, 93,530 at first read) ·
+[0xLeoInRio](https://x.com/0xLeoInRio/status/2103454975401583027) (12:02
+UTC) and [pawellwitt's reply](https://x.com/pawellwitt/status/2103491065034739972)
 (14:25 UTC, a 21-view reply, quoted for the question, not the reach) ·
 [DiceyHQ, $100K to $1M](https://x.com/DiceyHQ/status/2102077106725244978)
 (Sep 21) · [WiiMee, "ONGOING"](https://x.com/wiimee/status/2103464874642681887)
-(12:41 UTC, 5,031 views; Lazy Lions OpenSea screenshot is an image here),
+(12:41 UTC, 9,949 views at a 2026-10-30 read, 5,031 at first read; Lazy
+Lions OpenSea screenshot is an image here; the account is now @wii_mee),
 [educated people better](https://x.com/wiimee/status/2103477020177158401)
 (13:29 UTC), [still going](https://x.com/wiimee/status/2103488578479345700)
 (14:15 UTC) and [the OpenSea warning](https://x.com/wiimee/status/2103499755095552332)
 (14:59 UTC) · [The Block](https://www.theblock.co/news/web3/2026-09-25-magic-eden-legacy-approvals-leave-5-7-million-in-nfts-exposed-to-exploit-before-rescue-416874)
 (Feb–Oct 2024 window, chains) ·
 [CryptoTicker](https://cryptoticker.io/en/magic-eden-limit-break-exploit-weth-nfts-revoke-approvals/)
-(UTC timeline, 281.66 / 530.7 WETH, 911 wallets). Limit Break had not
-posted its own statement when this was written. The WETH figures differ
-by source (660 at risk per Quit, about 530 taken per on-chain tallies),
-and claims had not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
+(UTC timeline, 281.66 / 530.7 WETH, 911 wallets). Body times are Pacific
+(PDT, UTC−7); Sourcing times are UTC. Limit Break had not posted its own
+statement when this was written. The WETH figures differ by source (660
+at risk per Quit, about 530 taken per on-chain tallies), and claims had
+not opened yet. Images: `nft-whitehat-rescue-wallet-cirrus`,
 `nft-whitehat-nfts-are-safu`, `dicey-blackjack-100k-to-1m`,
 `nft-drain-lazy-lions-wiimee`.
 
@@ -4035,137 +3944,102 @@ here. Images: `umadbro-shop-new-row` (GO2WAR's shop screenshot),
 ## 82. "@pumpfun": the night Playboi Carti's bio became a coin
 <!-- posted: 2026-10-26T02:03:11Z -->
 
-**The post.** On **October 25, 2026**, at 5:28 PM Pacific,
-**StarPlatinum** ([@StarPlatinum_](https://x.com/StarPlatinum_)) asked:
-*"Is this a new PumpFun deal?"* **Playboi Carti**'s X profile
+**The post.** On **October 25, 2026**, at 5:28 PM Pacific, **StarPlatinum**
+([@StarPlatinum_](https://x.com/StarPlatinum_)) asked *"Is this a new*
+*PumpFun deal?"* **Playboi Carti**
 ([@playboicarti](https://x.com/playboicarti), 3.6 million followers) had
-"added PumpFun in his bio and also the link to 'his token.'" StarPlatinum's
-read: *"This looks like a hack,"* and people *"were speculating this could
-be another deal like Kimchi so the token went to $1.25M but has been dumping
-so far. Stay away"*
+put PumpFun in his bio and a link to "his token." The read: *"This looks*
+*like a hack,"* pumped on talk of *"another deal like Kimchi so the token*
+*went to $1.25M but has been dumping so far. Stay away"*
 ([post 2114514373766938791](https://x.com/StarPlatinum_/status/2114514373766938791)).
-Fourteen minutes later **Rodney** ([@cryptojourneyrs](https://x.com/cryptojourneyrs))
-quoted it with the whole thing as a recipe: *"New scam idea: 1. Put
-'@Pumpfun' in your bio 2. Shill a ticker 3. Rug it 4. Remove '@Pumpfun' from
-your bio 5. Claim it was a 'hack.' This space is so cooked."*
+Fourteen minutes later **Rodney**
+([@cryptojourneyrs](https://x.com/cryptojourneyrs)) quoted it: *"New scam*
+*idea: 1. Put '@Pumpfun' in your bio 2. Shill a ticker 3. Rug it 4. Remove*
+*'@Pumpfun' from your bio 5. Claim it was a 'hack.' This space is so*
+*cooked."*
 ([post 2114517909229994233](https://x.com/cryptojourneyrs/status/2114517909229994233)).
 
-**The warm-up.** At 4:10 PM Pacific, **Justin Bieber**
-([@justinbieber](https://x.com/justinbieber)) posted a 12-second video with
-no caption at all
-([post 2114494793313358197](https://x.com/justinbieber/status/2114494793313358197)):
-fisheye, a beanie, a cup, a hand up at the lens. The song in it, going round
-the replies, is Carti's **"Love Hurts."** It was at 3.9 million views and
-209K likes within three hours. Bieber and Carti go back; Carti's "Like
-Weezy" name-checks him, and in March 2025 Carti posted a screenshot of
-Bieber's story playing it.
-Thirty-five minutes after the video, the coin existed.
+**The warm-up.** At 4:10 PM **Justin Bieber**
+([@justinbieber](https://x.com/justinbieber)) posted 12 captionless seconds
+of fisheye, beanie and cup, with Carti's **"Love Hurts"** playing by the
+replies' ID
+([post 2114494793313358197](https://x.com/justinbieber/status/2114494793313358197));
+3.9 million views in three hours. The two go back: Carti's "Like Weezy"
+name-checks him. Thirty-five minutes later, the coin existed.
 
-**The coin.** At 4:45 PM Pacific a coin called **playboicarti ($carti)**
-was minted on **Pump.fun** (`H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump`)
-by an account with the auto-generated name **DotEveningJury**. Its listed
-socials point at x.com/playboicarti; its listed website is
-launchcatsol.lol. Then Carti's profile caught up with it: the bio read one
-word, **@pumpfun**; the link read **pump.fun/coin/H5UCZUqCs…**; the account
-was following exactly one account; and its newest post was nothing but the
-coin's link card, *"playboicarti (carti) Price, Chart & Market Cap."* An hour
-in, the coin was at **$302.7K**, up **7,794%**, with 1,462 holders. It
-topped out at **$1.24 million**.
+**The coin.** At 4:45 PM **playboicarti ($carti)** was minted on
+**Pump.fun** by an auto-named account, **DotEveningJury**, socials pointing
+at Carti's X. Then his profile caught up: bio **@pumpfun**, link
+**pump.fun/coin/H5UCZUqCs…**, and a new post that was just the coin's link
+card. An hour in it was at **$302.7K**, up **7,794%**. It peaked at
+**$1.24 million**.
 
-**The exit.** Then it came back down in one candle. Someone's chart
-screenshot shows a green bar to $1.2M and a red bar beside it, **-96.34%**.
-At 5:30 PM Pacific **FaZe Blaze** ([@fazeblaze](https://x.com/fazeblaze),
-1.55 million followers) posted a video captioned *"Just got rugged by
-playboicarti 😔"*
+**The exit.** Then one red candle, **-96.34%**. At 5:30 PM **FaZe Blaze**
+([@fazeblaze](https://x.com/fazeblaze), 1.55 million followers) posted
+*"Just got rugged by playboicarti 😔"* over his PnL card: **$1.89K** in at a
+**$659K** entry, down **64.99%**, and along the bottom, *"Join with code:*
+*@FaZeBlaze"*
 ([post 2114514995497128076](https://x.com/fazeblaze/status/2114514995497128076)).
-The video's first frame is his Pump.fun PnL card: **$1.89K** spent at an average entry of
-**$659K** market cap, down **$1,231 (-64.99%)**, and along the bottom,
-*"Join with code: @FaZeBlaze."*
-The bio and the link were wiped, the following count went to zero, and the
-coin-card post was gone from his timeline. At 5:56 PM Pacific the profile
-picture changed to a shirtless, muscled **wolf** in goggles. A minute later
-the account posted a photo of a **dog in a beanie** on a couch, no caption;
-it had 355K views within the hour. By 6:07 and 6:19 PM two new coins named
-**"The Lone Wolf" ($CARTI)** had launched off the new avatar, and both sat
-near $3K. At about 7 PM the original $carti was worth **$23.8K**. It had
-done **$4.16 million** in volume (39,064 buys, 30,873 sells, 2,295 holders)
-on a pool holding **$5.7K** of liquidity, and the creator's wallet held
-**0.0%** of it.
+Carti's bio, link and coin post were wiped. At 5:56 PM his avatar became a
+shirtless, muscled **wolf** in goggles; a minute later he posted a
+**dog in a beanie**, no caption. Two **"The Lone Wolf" ($CARTI)** coins
+launched off the avatar and died near $3K. By 7 PM $carti was at
+**$23.8K**, after **$4.16 million** of volume through a pool holding
+**$5.7K**.
 
-**The wallets.** The money left in one second, and that part is on-chain.
-At **5:39:17 PM Pacific**, **70 wallets** sent **2,221 SOL** (about
-**$225K**) to one address, `EQ29VfRyKpRKRbUsNuHv4LqcGWfL9eEWtoQc4NtMLPcm`,
-all in the same block. Two seconds later that address passed all 2,221.19
-SOL to `E3hyuLVNnoBjwhmPUhgG7WNt6T3rwVZqrW2a7i3TK4bj`, which sent 1,284 SOL
-on to `35rtEKa9EgCqo7EZdccHoWgQnx1cvZ4VwqjTNCnut6ts` a minute after that.
-[@catalogging](https://x.com/catalogging) posted the sweep at 6:03 PM, *"in
-the same second"*
-([post 2114523290639515973](https://x.com/catalogging/status/2114523290639515973)),
-and at 7:28 PM **Jade** ([@jade_defi](https://x.com/jade_defi)) posted the
-whole run as one chart, *"70 wallets. One address. Same second."*
+**The wallets.** At **5:39:17 PM**, **70 wallets** sent **2,221 SOL**
+(about **$225K**) to one address in the same block.
+[@catalogging](https://x.com/catalogging) flagged it at 6:03
+([post 2114523290639515973](https://x.com/catalogging/status/2114523290639515973));
+at 7:28 PM **Jade** ([@jade_defi](https://x.com/jade_defi)) charted it:
+*"70 wallets. One address. Same second."*
 ([post 2114544588710899834](https://x.com/jade_defi/status/2114544588710899834)).
-By Jade's trace the 70 wallets were 6 to 19 days old and were loaded with
-**215 SOL** about five minutes before the mint. The dev bought **2%** for
-**0.57 SOL**, the coin left Pump.fun's bonding curve in 3.6 minutes, and the
-dev sold his 2% for **26.3 SOL** at 5:34 PM, which is why the creator
-wallet showed 0.0%. Jade's net take: **about 2,046 SOL, ~$206K**, with
-about **312 SOL** in creator fees still unclaimed on top. 504 SOL went
-through four one-time wallets to a **Binance** deposit address. At 8 PM the
-two wallets still held **937.2** and **780.0 SOL**, **1,717 SOL** together,
-about 8x the 215 SOL that started it. By then the coin was at **$16.7K**.
-Jade's sign-off: *"Same playbook as every other celeb hack."* Twenty-three
-minutes after this sweep, a second set of about 70 transfers went into a
-different address. That one was a drain of other people's wallets (§83).
+By Jade's trace they were 6 to 19 days old, loaded with **215 SOL** five
+minutes before the mint; the dev bought **2%** for **0.57 SOL** and sold it
+for **26.3 SOL** at 5:34. Net: **~2,046 SOL (~$206K)**, plus **312 SOL** of
+unclaimed creator fees. At 8 PM the two receiving wallets still held
+**1,717 SOL**, 8x the stake. Jade's sign-off: *"Same playbook as every*
+*other celeb hack."* Twenty-three minutes after the sweep, about 70 more
+transfers hit a different address: a drain of other people's wallets (§83).
 
-**The replies.** Under the dog, somebody posted a phone screenshot of an
-iMessage thread with a contact named **"Kimchi."** Kimchi: *"You ready to
-hack my shit?"* Reply: *"yeah."* Kimchi: *"Bet, carti said he down too."*
-It's a troll post: a staged text, not a leak, and nobody knows who made it.
-At 6:41 PM Pacific **@troll_runner** reposted it quoting the dog
+**The replies.** Under the dog, a staged iMessage screenshot with a contact
+named **"Kimchi."** Kimchi: *"You ready to hack my shit?"* Reply: *"yeah."*
+Kimchi: *"Bet, carti said he down too."* At 6:41 PM **@troll_runner**
+reposted it quoting the dog
 ([post 2114532769997148575](https://x.com/troll_runner/status/2114532769997148575)).
 
-**The Kimchi question.** Is it connected to Kimchi's bio? Kimchi
-(§80) put **@pumpfun** in his bio when Pump.fun signed him on October 20,
-swapped it for **@pioneerfnf** on October 22 after his "hacked" post, and,
-by the community's watch, flipped between the two since. At 7 PM tonight it
-reads **@pumpfun** again, and his location field reads **"project kimchi."**
-That's the whole link on record: the same two words in a bio, three days
-apart. Nothing ties the Carti coin to Pump.fun or to Kimchi. The difference
-is in who gets paid. When Pump.fun launched $KIMCHI, 100% of creator fees
-were locked to a wallet labeled Kimchi. On $carti, Pump.fun's page shows the
-creator rewards going to the creator, DotEveningJury, an account nobody can
-put a face to. What Kimchi's bio did do was make "@pumpfun in the bio" mean
-*a deal*, and that is the exact speculation StarPlatinum says pumped Carti's
-coin to $1.25M. Kimchi didn't have to be involved for his bio to be the
-marketing. At 7:03 PM Pacific **@solana_sailor**
-([@solana_sailor](https://x.com/solana_sailor)) laid the two side by side,
-*"same playbook as Kimchi, this time, in front of 3.6M followers,"* with the
-coin hitting about $1M *"in 16 minutes,"* and asked: *"Are these accounts
-getting hacked, or are we getting played?"*
+**The Kimchi question.** Kimchi (§80) wore **@pumpfun** in his bio from his
+October 20 signing, swapped it for **@pioneerfnf** on October 22, after a
+"hacked" post, and tonight it reads **@pumpfun** again, location
+**"project kimchi."** That's the whole link on record; nothing ties the
+coin to Pump.fun or Kimchi. $KIMCHI's creator fees were locked to a wallet
+labeled Kimchi; $carti's go to DotEveningJury. Kimchi didn't have to be
+involved: his bio had already taught everyone that "@pumpfun" means *a*
+*deal*. At 7:03 PM [@solana_sailor](https://x.com/solana_sailor) called it
+*"same playbook as Kimchi, this time, in front of 3.6M followers"* and
+asked: *"Are these accounts getting hacked, or are we getting played?"*
 ([post 2114538438498152809](https://x.com/solana_sailor/status/2114538438498152809)).
-Half an hour later **Miri**
-([@nowmiri](https://x.com/nowmiri)) quoted it: *"Tbh this was the type of
-thing that started happening right before we saw the most egregious, face
-ripping bullrun OAT"*
+**Miri** ([@nowmiri](https://x.com/nowmiri)) quoted it: *"Tbh this was the*
+*type of thing that started happening right before we saw the most*
+*egregious, face ripping bullrun OAT"*
 ([post 2114546129140433356](https://x.com/nowmiri/status/2114546129140433356)).
 
-**Why it's a troll.** Rodney's five steps were a joke about Kimchi, and an
-hour later they were a description of Carti. Nobody had to believe Carti
-launched a coin. They only had to believe there was a chance he'd signed the
-same deal Kimchi signed, and $4 million of trades went through a pool with
-$5,700 in it. The account came back with a wolf and a dog in a hat and said
-nothing. Bieber, who'd been playing "Love Hurts" an hour earlier, had picked
-the right song.
+**Why it's a troll.** Rodney's five steps were a joke about Kimchi; an hour
+later they described Carti. Nobody had to believe Carti launched a coin,
+only that he might have signed Kimchi's deal, and $4 million traded through
+a $5,700 pool. The account came back with a wolf and a dog in a hat and
+said nothing. Bieber had picked the right song.
 
 **Sourcing:** *Verified posts and on-chain stats, unverified hack.*
 StarPlatinum's, Rodney's, Bieber's and Carti's posts, their times, view
 counts and images, and both profiles (Carti's empty bio and wolf avatar,
 Kimchi's @pumpfun bio and "project kimchi") were read on 2026-10-25 via
-fxtwitter and x.com. The post times come from their IDs. The coin's name,
+fxtwitter and x.com; post times come from their IDs. The coin's name,
 symbol, mint time, socials and website and the two "Lone Wolf" coins are
-from [DexScreener](https://dexscreener.com/solana/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump);
-the creator name, ATH, volume, buys and sells, holders, liquidity, the dev's
-0.0% and the creator-rewards line are from
+from
+[DexScreener](https://dexscreener.com/solana/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump);
+the creator name, ATH, volume, buys and sells, holders, liquidity, the
+dev's 0.0% and the creator-rewards line are from
 [the coin's Pump.fun page](https://pump.fun/coin/H5UCZUqCsuTQijwNLBX2KjwP7XJaMaESBSDzQytypump),
 read the same night. The coin addresses came from a reader. FaZe Blaze's
 post (caption, time, followers, the PnL card in its thumbnail) was read via
@@ -4175,19 +4049,18 @@ Miri's posts were read the same way; the "16 minutes" is @solana_sailor's.
 transfers into `EQ29Vf…LPcm` at 00:39:17 UTC, its 2,221.19 SOL to
 `E3hyuL…K4bj` at 00:39:19, 1,284 SOL on to `35rtEK…t6ts` at 00:40:10, and
 the two wallets' 937.2 and 780.0 SOL at 03:08 UTC, with the $16.7K market
-cap from DexScreener at the same time. The wallets' ages, the 215 SOL
-load, the dev's 0.57 in and 26.3 out, the 3.6-minute graduation, the ~2,046
-SOL net, the 312 SOL in fees and the 504 SOL Binance leg are from Jade's
-chart, not traced here. Jade's chart is in UTC+1; the times here are
-converted. **Whether it was
-a hack is unknown**: neither Carti nor Pump.fun had said anything by 7 PM,
-and no outlet had written it up. **The "Love Hurts" ID is from the
-replies**: the video's audio wasn't checked here. Carti's coin-card post was
-only seen in StarPlatinum's screenshot, not recovered, and which account he
-was briefly following isn't known. Kimchi's back-and-forth between @pumpfun
-and @pioneerfnf after October 22 is from the community; only the October 22
-@pioneerfnf bio (§80) and tonight's @pumpfun are confirmed. The "Like Weezy"
-story is from
+cap from DexScreener at the same time. The wallets' ages, the 215 SOL load,
+the dev's 0.57 in and 26.3 out, the 3.6-minute graduation, the ~2,046 SOL
+net, the 312 SOL in fees and the 504 SOL Binance leg are from Jade's chart
+(in UTC+1; times here are converted), not traced here.
+**Whether it was a hack is unknown**: neither Carti nor Pump.fun had said
+anything by 7 PM, and no outlet had written it up.
+**The "Love Hurts" ID is from the replies**: the video's audio wasn't
+checked here. Carti's coin-card post was only seen in StarPlatinum's
+screenshot, not recovered, and which account he was briefly following isn't
+known. Kimchi's back-and-forth between @pumpfun and @pioneerfnf after
+October 22 is from the community; only the October 22 @pioneerfnf bio (§80)
+and tonight's @pumpfun are confirmed. The "Like Weezy" story is from
 [Billboard](https://ca.billboard.com/music/rb-hip-hop/playboi-carti-justin-bieber-picture-like-weezy-1235925069).
 Images: `bieber-love-hurts-video` (the video's thumbnail),
 `carti-bio-pumpfun` and `carti-coin-pump-chart` (StarPlatinum's post),
@@ -4205,133 +4078,93 @@ replies, via @troll_runner's repost; its maker is unknown),
 
 **The brag.** On **October 25, 2026**, at 1:30 PM Pacific,
 [@basedsnipez](https://x.com/basedsnipez) quoted a hardware-wallet ad with
-one word changed: *"there is one trading bot better than anything else on
-the market and I've been using it for years without any issues."* An hour
-later the **Bloom** account ([@BloomTrading](https://x.com/BloomTrading),
-26K followers, *"Most advanced cross-chain trading automation"*) replied
-*"Just @ us 😎"* with a GIF of a man in a suit, arms out, grinning
+one word changed: *"there is one trading bot better than anything else on*
+*the market and I've been using it for years without any issues."* At 2:31
+PM **Bloom** ([@BloomTrading](https://x.com/BloomTrading), 26K followers)
+replied *"Just @ us 😎"* with a GIF of a grinning man in a suit
 ([post 2114469817373855887](https://x.com/BloomTrading/status/2114469817373855887)).
-Bloom is a Telegram bot for sniping and trading Solana memecoins. You import
-your wallet's private key so it can trade for you.
+Bloom is a Telegram bot for sniping Solana memecoins: you hand it your
+wallet's private key and it trades for you.
 
-**The drain.** At **6:02 PM Pacific** the same night, about twenty minutes
-after the Carti sweep in §82, wallets started emptying into one address,
-`7kY8qx8MqJ7Rz2vMhgHETdZLHcTp1oM78AA9dmE9p8BQ`. It took
-**about 60 transfers in three minutes**, 72 in all by 6:46 PM. Every one checked here
-was a plain SOL transfer signed by the victim's own key: no swap, no
-contract, just the whole balance sent away. **casino847** ([@casino847](https://x.com/casino847),
-61K followers, bio: *"trader"*) lost **1,039.7 SOL** at 6:04:05 and posted,
-*"got drained for 100k gg. never keep too much money in ur hot wallets and
-be careful what u connect to"*
-([post 2114544514912108677](https://x.com/casino847/status/2114544514912108677)).
-At 6:26 PM [@Saint_pablo123](https://x.com/Saint_pablo123) posted the
-address's transfer list, casino847's transaction sitting in a column of
-labeled trader wallets: *"everyone is getting drained. check your funds"*
+**The drain.** That evening **72 transfers** emptied wallets into one
+address, about **60 of them between 6:02 and 6:04 PM**, twenty-three
+minutes after §82's Carti sweep. Each one checked was a plain SOL transfer
+signed by the victim's own key, the whole balance at once. **casino847**
+([@casino847](https://x.com/casino847), 61K followers) lost **1,039.7 SOL**
+at 6:04:05. At 6:26 PM [@Saint_pablo123](https://x.com/Saint_pablo123)
+posted the address's transfer list: *"everyone is getting drained. check*
+*your funds"*
 ([post 2114529043374805483](https://x.com/Saint_pablo123/status/2114529043374805483)).
-By 8:35 PM the address held **9,408 SOL**, about $950K, and hadn't moved
-any of it.
+At 7:27 PM casino847: *"got drained for 100k gg. never keep too much money*
+*in ur hot wallets and be careful what u connect to"*
+([post 2114544514912108677](https://x.com/casino847/status/2114544514912108677)).
+By 8:35 PM the address held **9,408 SOL**, about $950K.
 
-**The blame.** At 6:28 PM **Domy** ([@domyxbt](https://x.com/domyxbt),
-11.8K followers) posted: *"I found out who drained me for 80k. It was
-@BloomTrading. Someone please HELP me get in contact with all exchanges 🙏"*
+**The blame.** At 6:28 PM **Domy** ([@domyxbt](https://x.com/domyxbt))
+posted *"I found out who drained me for 80k. It was @BloomTrading."* with
+his Bloom wallet list attached: FRESH2, FRESH3, KOLSCAN, MAIN, W1, W2
 ([post 2114529594942337103](https://x.com/domyxbt/status/2114529594942337103)).
-Attached was his own Bloom chat: `/start`, then **"Wallets Settings,"** six
-wallets named FRESH2, FRESH3, KOLSCAN, MAIN, W1 and W2. At 6:54 PM
-**Hiruzen** ([@hiruzenaio](https://x.com/hiruzenaio)) wrote it up, *"over
-$1M"* drained including from Domy, [@pulsixsol](https://x.com/pulsixsol) and
-[@1285hjksdgfkjs](https://x.com/1285hjksdgfkjs), with two more of the
-transfers: 201.1 SOL from a "GRX" wallet and **640.5 SOL** from
-`3LUf…2Yww`, which is the KOLSCAN wallet in Domy's Bloom list. He also
-posted Bloom's Discord. A staffer named **Bata**, wearing the BLO tag, told
-a user to open a ticket *"because most prob he had linked to rapid. rapid
-is draining, not us."* A user asked back: *"rapid launch? the x deployer"*
+At 6:54 PM **Hiruzen** ([@hiruzenaio](https://x.com/hiruzenaio)) put the
+total at *"over $1M,"* naming [@pulsixsol](https://x.com/pulsixsol) and
+[@1285hjksdgfkjs](https://x.com/1285hjksdgfkjs) too, with a **640.5 SOL**
+transfer from Domy's KOLSCAN wallet and 201.1 from a "GRX" one. He also
+posted Bloom's Discord, where a staffer, **Bata**, said *"most prob he had*
+*linked to rapid. rapid is draining, not us."*
 ([post 2114536206755045594](https://x.com/hiruzenaio/status/2114536206755045594)).
 
-**Domy's case.** At 7:28 PM Domy answered the Rapid Launch line point by
-point
-([post 2114544562815246487](https://x.com/domyxbt/status/2114544562815246487)).
-*"If it was rapid launch, my other 10 hot wallets would get touched (they
-didn't)."* It can't be J7, Axiom, Terminal or GMGN, *"otherwise everyone
-would be fried."* He'd never used another bot. And his vanity wallet,
-`domyBH…PBSoSp`, the MAIN in that Bloom list, had sat unused for eight
-months and was imported nowhere else, and it was drained too, *"for 20
-cents."* His verdict: *"95% Bloom."* On-chain, the wallets back him up.
-FRESH2 sent **126.3 SOL** to the drainer at 6:04:09, W1 **98.3 SOL** at
-6:04:10, FRESH3 0.05 at 6:04:11 and MAIN its last 0.025 at 6:04:12: four of
-his Bloom wallets in four seconds, seven seconds after casino847.
+**Domy's case.** At 7:28 PM Domy answered
+([post 2114544562815246487](https://x.com/domyxbt/status/2114544562815246487)):
+*"If it was rapid launch, my other 10 hot wallets would get touched (they*
+*didn't)."* Not J7, Axiom, Terminal or GMGN, *"otherwise everyone would be*
+*fried."* His vanity wallet, the MAIN, untouched for eight months and
+imported nowhere else, was drained *"for 20 cents."* Verdict: *"95%*
+*Bloom."* The chain backs him: FRESH2 (**126.3 SOL**), W1 (**98.3**),
+FRESH3 and MAIN all went between 6:04:09 and 6:04:12, four seconds after
+casino847.
 
 **The statement.** At 8:02 PM Bloom replied to Domy, not on its own
-timeline: *"Our team is currently investigating the issue. All other
-wallets remain safe. Out of an abundance of caution, we're temporarily
-disabling some services, and we're working to restore them as soon as
-possible. To stay in direct contact with our team, please open a ticket on
-discord"*
-([post 2114553258337574985](https://x.com/BloomTrading/status/2114553258337574985)).
-It had 173 views when it was read here.
+timeline, that it was *"investigating,"* that *"All other wallets remain*
+*safe,"* and that it was *"temporarily disabling some services"*
+([post 2114553258337574985](https://x.com/BloomTrading/status/2114553258337574985));
+173 views. At **9:30 PM** the drain address moved all **9,408.21 SOL** to a
+new address in one transfer. It hadn't moved by the next evening.
 
-**The money moves.** At **9:30:56 PM Pacific**, an hour after that reply,
-the drain address sent everything it held, **9,408.21 SOL**, to one new
-address, `6nYyCz…moe9`, in a single transfer. The new address hadn't moved
-it when it was checked here the next day.
+**Update, 2:12 AM Pacific Oct 26: Bloom says RCE, and says it'll pay.** On
+its own timeline this time
+([post 2114646392010359238](https://x.com/BloomTrading/status/2114646392010359238)):
+*"No private keys were compromised, unaffected wallets are safe, and all*
+*affected users will be fully reimbursed by Bloom."* The attacker
+*"exploited a third-party module through a complex Remote Code Execution*
+*(RCE) vulnerability"*; **49 wallets, 9 users**, *"approximately 9,408 SOL*
+*($947,000)"*, matching the chain to the SOL. No mention of Rapid Launch:
+seven-plus hours after *"rapid is draining, not us,"* Bloom wrote the check
+itself. **56.9K views.**
 
-**Update, 2:12 AM Pacific Oct 26: Bloom says RCE, and says it'll pay.**
-This time Bloom posted on its own timeline, under a black card reading
-*"Security Incident Update / Official Statement"*
-([post 2114646392010359238](https://x.com/BloomTrading/status/2114646392010359238)).
-The TL;DR: *"No private keys were compromised, unaffected wallets are
-safe, and all affected users will be fully reimbursed by Bloom."* Bloom
-says the attacker *"exploited a third-party module through a complex
-Remote Code Execution (RCE) vulnerability."* Its numbers:
-**49 wallet addresses belonging to 9 users**, losses of *"approximately 9,408 SOL
-($947,000)"*, and **100%** of it refunded to new wallets the victims pick.
-It says it's tracing the funds and looking at recovery, freezing and the
-attacker, and that the team has built software since 2018 and been in
-crypto since 2021. Its total matches the chain to the SOL. Rapid Launch
-isn't in it. Six hours after the staffer's *"rapid is draining, not us,"*
-Bloom wrote the check itself. It had **56.9K views** when it was read
-here.
-
-**Update, 8:46 AM Pacific Oct 26: the first refund lands.** casino847, the
-trader who'd lost **1,039.7 SOL** and posted *"got drained for 100k gg"*,
-quoted Bloom's statement:
-*"thank you @BloomTrading got my full amount refunded"*
+**Update, 8:46 AM Pacific Oct 26: the first refund.** casino847: *"thank*
+*you @BloomTrading got my full amount refunded"*
 ([post 2114745553577800178](https://x.com/casino847/status/2114745553577800178)).
-It's the first victim to say the money came back, about six and a half
-hours after Bloom promised it and under fifteen hours after the drain. By
-then Bloom's statement was up to **64.8K views**. Nine minutes before his
-post, at **8:37 AM**, a single wallet (`35yDUV…uTKK`) had sent
-**1,038.71 SOL** to a fresh address, a SOL short of his 1,039.71.
+Nine minutes earlier a single wallet, `35yDUV…uTKK`, had sent
+**1,038.71 SOL** to a fresh address, one SOL short of his loss.
 
-**Update, 1:37 PM Pacific Oct 26: "Refunds Sent."** Bloom posted a green
-card and *"All Refunds Successfully Processed | 9,408 SOL Refunded"*:
-*"100% of the affected funds, totaling 9,408 SOL, have been fully refunded
-to all 9 users,"* with nine Solscan links
+**Update, 1:37 PM Pacific Oct 26: "Refunds Sent."** Bloom: *"100% of the*
+*affected funds, totaling 9,408 SOL, have been fully refunded to all 9*
+*users,"* with nine Solscan links
 ([post 2114818686871560696](https://x.com/BloomTrading/status/2114818686871560696)).
-The chain backs the links. All nine are plain transfers from that same
-`35yDUV…uTKK` wallet to nine new addresses, between **8:37 AM and 1:33 PM
-Pacific**, the last one four minutes before the post: **1,863.48**,
-1,307.75, 1,144.66, 1,038.71, 1,020.72, 864.16, 770.10, 741.16 and 648.50
-SOL. They add up to **9,399.23 SOL**, about **9 SOL** (~$900) under the
-9,408.21 that left the victims' wallets. And the stolen 9,408.21 SOL was
-still sitting in the attacker's `6nYyCz…moe9` that night, untouched since
-9:35 PM the day of the drain, so the refunds weren't a recovery: Bloom paid
-them on top. The post had **17.8K views** when it was read here.
+All nine are plain transfers from that `35yDUV…uTKK` wallet, 8:37 AM to
+1:33 PM, totalling **9,399.23 SOL**, about **9 SOL** (~$900) short. The
+stolen 9,408 SOL was still in the attacker's address that evening, so the
+refunds weren't a recovery: Bloom paid them on top. **17.8K views.**
 
 **Why it's a troll.** The bot that said *"Just @ us"* got @'d. Four hours
-after the brag, the people who'd handed it their keys were posting
-transaction hashes, and its staff were in Discord saying it was someone
-else. An hour after that the someone else was gone from the story and
-Bloom was switching its own services off. And it happened twenty-three
-minutes after §82's Carti sweep, which was also seventy wallets into one
-address. That night Crypto Twitter got two of those, and they meant
-opposite things: one set of wallets belonged to the people taking the
-money, and the other belonged to the people losing it. casino847's advice
-was the only honest line of the night: *"be careful what u connect to."*
-By the next morning he'd taken Bloom up on its brag after all. He @'d them,
-and this time it was to say thanks.
+after the brag its users were posting transaction hashes and its staff were
+blaming someone else. The same night saw two sets of seventy-odd wallets
+pouring into one address: in §82 they belonged to the people taking the
+money, here to the people losing it. casino847 had the night's only honest
+line, *"be careful what u connect to,"* and by morning he'd @'d Bloom after
+all, to say thanks.
 
-**Sourcing:** *Verified drain, verified posts, cause as Bloom tells it.* All
-the posts above were read on 2026-10-25 via fxtwitter; times come from
+**Sourcing:** *Verified drain, verified posts, cause as Bloom tells it.*
+All the posts above were read on 2026-10-25 via fxtwitter; times come from
 their IDs and are Pacific. The drain is checked on-chain (Solana mainnet
 RPC): the address's 72 transactions between 00:59:45 and 01:46:03 UTC Oct
 26, about 60 of them 01:02–01:04; casino847's 1,039.71 SOL transfer
@@ -4345,26 +4178,27 @@ SOL transfers are from Hiruzen's screenshots, not re-traced here, and the
 read via fxtwitter on 2026-10-26. **The cause is Bloom's word**: the
 third-party module, the RCE, the 49 wallets and 9 users, and "no private
 keys were accessed" are all Bloom's claims, not checked here, and the
-module isn't named. Every transfer checked here was signed by the
-victim's own key, and the statement doesn't say how. casino847's "full amount refunded" post (read via fxtwitter on
-2026-10-26; 3,787 views and 135 likes at that read) is his word. Refunds go
-to new wallets the victims pick, so his drained wallet wouldn't show it.
-**The refunds are checked on-chain** (Solana mainnet RPC, evening of
-2026-10-26): all nine of Bloom's linked transactions are successful system
-transfers from `35yDUVrTnHwrZg8wAQoQaEHHfrzwgmhbTuTU91t8uTKK`, totalling
-9,399.23 SOL, and `6nYyCz…moe9` still held 9,408.21 SOL with no transfer
-out after 04:35 UTC Oct 26. Who received each refund isn't checked: the
-nine addresses are new, and that the 1,038.71 SOL one is casino847's is an
-inference from the amount and the timing, not a link. Bloom's "9 users"
-and its 9,408 figure are its own; the 9 SOL gap isn't explained anywhere
-read here. Bloom's refunds post was read via fxtwitter on 2026-10-26. Domy's case is his own reasoning,
-and the overlap between his Bloom list and the drained wallets is what's
-checked. Neither casino847's Bloom use nor the other victims'
-was checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's;
-on-chain it's 9,408 SOL, about $950K at the night's ~$101. Domy's "20
-cents" was 0.025 SOL, closer to $2.50. The Discord screenshot's 2:40 AM is
-in its screenshotter's timezone. Images: `bloom-just-at-us` (the GIF on
-Bloom's reply), `bloom-drain-transfers` (Saint_pablo's screenshot),
+module isn't named. Every transfer checked here was signed by the victim's
+own key, and the statement doesn't say how. casino847's "full amount
+refunded" post (read via fxtwitter on 2026-10-26; 3,787 views and 135 likes
+at that read) is his word. Refunds go to new wallets the victims pick, so
+his drained wallet wouldn't show it. **The refunds are checked on-chain**
+(Solana mainnet RPC, evening of 2026-10-26): all nine of Bloom's linked
+transactions are successful system transfers from
+`35yDUVrTnHwrZg8wAQoQaEHHfrzwgmhbTuTU91t8uTKK`, totalling 9,399.23 SOL, and
+`6nYyCz…moe9` still held 9,408.21 SOL with no transfer out after 04:35 UTC
+Oct 26. Who received each refund isn't checked: the nine addresses are new,
+and that the 1,038.71 SOL one is casino847's is an inference from the
+amount and the timing, not a link. Bloom's "9 users" and its 9,408 figure
+are its own; the 9 SOL gap isn't explained anywhere read here. Bloom's
+refunds post was read via fxtwitter on 2026-10-26. Domy's case is his own
+reasoning, and the overlap between his Bloom list and the drained wallets
+is what's checked. Neither casino847's Bloom use nor the other victims' was
+checked. Rapid Launch's side wasn't found. The "$1M" is Hiruzen's; on-chain
+it's 9,408 SOL, about $950K at the night's ~$101. Domy's "20 cents" was
+0.025 SOL, closer to $2.50. The Discord screenshot's 2:40 AM is in its
+screenshotter's timezone. Images: `bloom-just-at-us` (the GIF on Bloom's
+reply), `bloom-drain-transfers` (Saint_pablo's screenshot),
 `bloom-domy-wallets` (Domy's Bloom wallet list), `bloom-discord-rapid` and
 `bloom-drain-grx-transfers` (Hiruzen's post), `bloom-security-statement`
 (the card on Bloom's 2:12 AM statement), `bloom-refunds-processed` (the
@@ -4823,92 +4657,80 @@ not a real photo), `arkham-sun-pepe-poloniex-hot-wallet`,
 ## 87. "Someone rotates the apes": the year-old bug that paid out in Mudwater Packs
 <!-- posted: 2026-10-27T14:30:00Z -->
 
-**The packs.** On **October 17, 2026**, at ApeFest in Charleston, **Yuga
-Labs** opened claims for **Mudwater**, a trading-card game on Solana. Its
-first set is called **Swamp Origins**. Each card exists on paper, with a
-matching NFT held in a vault. Holders claim through their apes: **10 packs
-per Bored Ape**, 2 per Mutant, 10 cards a pack, and claims stay open until
-January 19, 2027. That pack count is what made an old bug worth using.
+**The prize.** On **October 17, 2026**, at ApeFest in Charleston,
+**Yuga Labs** opened claims for **Mudwater**, a Solana trading-card game
+whose first set is **Swamp Origins**: paper cards, each with a matching NFT
+in a vault. Every **Bored Ape claims 10 packs** (a Mutant gets 2), 10 cards
+a pack, until January 19, 2027.
 
 **The bug.** On **September 28, 2025**, **TokenWorks**
 ([@token_works](https://x.com/token_works)), the team behind the
-"NFTStrategy" tokens (each token pools its fees, buys a collection's floor
-NFT, lists it higher, and burns the proceeds), posted *"TL;DR Everything is
-safe."*
+"NFTStrategy" tokens that pool fees to buy a collection's floor NFT, posted
+*"TL;DR Everything is safe."*
 ([post 1972341163312001192](https://x.com/token_works/status/1972341163312001192)).
-In the same post it described a bug in its first eight strategies (all but
-PunkStrategy): a complex way to swap an NFT the protocol owns for a different
-one from the same collection, without the protocol noticing. Its own example
-used Bored Apes #2516 and #2517. The team called the result a **"call
-option"** and said the funds were safe. The contracts can't be upgraded, so
-the bug stayed.
+The same post described a bug in its eight live strategies (PunkStrategy
+aside): a way to swap an NFT the protocol holds for another from the same
+collection without the protocol noticing. Its own example used Bored Apes
+#2516 and #2517. The team called it a **"call option"**. The contracts
+can't be upgraded, so the hole stayed.
 
-**The swap.** Around **2:49 AM Pacific** on **October 27, 2026**,
-**@frostyz** noticed *"Seems someone rotates the apes to claim mudwater packs
-🙃"* ([post 2115018126307848363](https://x.com/frostyz/status/2115018126307848363)).
-A wallet was swapping apes that had already claimed their packs into the
-**APESTR** (ApeStrategy) contract, and pulling out apes that hadn't. Each ape
-that came out could claim 10 packs, then go back in. **A Raving Peng**
-([@a_raving_ape](https://x.com/a_raving_ape)) counted at 3:58 AM:
-*"the person now has 200 Mudwater packs they are unloading onto the
-market..(~$14k of value)"*, with *"156 remain"*
+**The swap.** At **2:49 AM Pacific** on **October 27, 2026**, **@frostyz**
+noticed *"Seems someone rotates the apes to claim mudwater packs 🙃"*
+([post 2115018126307848363](https://x.com/frostyz/status/2115018126307848363)).
+A wallet was swapping claimed apes into the **APESTR** (ApeStrategy)
+contract for fresh ones: claim 10 packs, swap again, repeat. At 3:58 AM
+**A Raving Peng** ([@a_raving_ape](https://x.com/a_raving_ape)) counted
+*"200 Mudwater packs they are unloading onto the market..(~$14k of*
+*value)"*, with *"156 remain"*
 ([post 2115035319070605341](https://x.com/a_raving_ape/status/2115035319070605341)).
-At 10 packs an ape, 200 packs is twenty apes' worth. The ApeStrategy page in
-the screenshot shows the contract holding 21 apes, every one marked *"0.000
-ETH"*. **aegidos** ([@Aegidos](https://x.com/Aegidos)) linked the wallet,
-**7VpfKg…2waM**, at 4:19 AM. It was filling the "WSOL" bids one pack after
-another at **0.60 SOL**, all to one buyer, *lowonsol*, about every five
-seconds ([post 2115040757065416860](https://x.com/Aegidos/status/2115040757065416860)).
-At 4:55 AM **₿🧞‍♂️** ([@BR4ted](https://x.com/BR4ted)) posted the collection
-page: floor **0.604 SOL**, **-25.9%** on the day, 294.43 SOL of 24-hour
-volume. He asked why platforms making millions can't pay for audits, and
-finished with *"Anyway, I've started DCA'ing into Mudwater Packs."*
+His screenshot shows the contract holding 21 apes, each at *"0.000 ETH"*.
+At 4:19 AM **aegidos** ([@Aegidos](https://x.com/Aegidos)) found the wallet
+filling bids at **0.60 SOL** a pack, about every five seconds, all to one
+buyer, *lowonsol*
+([post 2115040757065416860](https://x.com/Aegidos/status/2115040757065416860)).
+At 4:55 AM **₿🧞‍♂️** ([@BR4ted](https://x.com/BR4ted)) posted the floor at
+**0.604 SOL**, **-25.9%** on the day, asked why platforms making millions
+can't pay for audits, and signed off *"Anyway, I've started DCA'ing into*
+*Mudwater Packs."*
 ([post 2115049845644046615](https://x.com/BR4ted/status/2115049845644046615)).
 
-**The founder.** At 6:23 AM, TokenWorks co-founder **Adam**
-([@Rhynotic](https://x.com/Rhynotic)) re-posted the year-old thread: *"So
-much time has passed that people forgot about this post"*. He explained that
-the first seven strategies (minus Punks) *"had a reentrancy bug allowing NFTs
-to be swapped out, basically creating a call option."* Then: *"These
-contracts are non-upgradable, so nothing we could do. Luckily all contracts
-other than SquiggleStr were unprofitable to exercise this on so that's why a
-year has passed. With the claim of Mudwater packs, someone decided to
-execute it."* ([post 2115071967728427443](https://x.com/Rhynotic/status/2115071967728427443),
+**The founder.** At 6:23 AM TokenWorks co-founder **Adam**
+([@Rhynotic](https://x.com/Rhynotic)) re-posted the old thread: *"So much*
+*time has passed that people forgot about this post."* The bug was *"a*
+*reentrancy bug allowing NFTs to be swapped out, basically creating a call*
+*option."* *"These contracts are non-upgradable, so nothing we could do.*
+*Luckily all contracts other than SquiggleStr were unprofitable to*
+*exercise* *this on so that's why a year has passed. With the claim of*
+*Mudwater packs,* *someone decided to execute it."*
+([post 2115071967728427443](https://x.com/Rhynotic/status/2115071967728427443),
 [post 2115071971184488840](https://x.com/Rhynotic/status/2115071971184488840)).
-The bug was public. It just wasn't worth anything until Yuga attached free
-packs to every ape.
 
-**The troll in the swamp.** In the old stories the troll lives in the swamp
-and under the bridge, and he takes a toll from whatever crosses. A set
-called *Swamp Origins*, in a game called *Mudwater*, got its free packs
-taken by someone standing in the middle of a contract, letting apes in and
-out and keeping a toll on each one. Nothing here was hidden. The team
-announced the hole in 2025, called it an option, said *"everything is
-safe,"* and nobody was technically lying. The person who used it only read
-the post. And the loudest complaint of the morning ended by buying the packs
-being dumped.
+**The troll in the swamp.** The old troll lives in the swamp, under the
+bridge, and takes a toll from whatever crosses. Here a set called
+*Swamp Origins* lost its packs to someone standing in a contract, waving
+apes in and out and keeping a toll on each. Nothing was hidden; the
+exploiter only had to read the post.
 
 **Why it's a troll.** The bug sat in public for a year with "everything is
-safe" written on it. It paid out the day someone else put a prize behind it.
-The exploiter didn't hack anything. He used the trade the team had already
-described, and one buyer took every pack he sold.
+safe" on it, and paid out the day Yuga put free packs behind every ape. No
+hack, just the trade the team had described. And the loudest complaint of
+the morning ended by buying the dump.
 
-**Sourcing:** *Verified posts and screenshots.* All seven posts were read on
-2026-10-27 via fxtwitter. At that read, A Raving Peng's post had 7.2K views,
-BR4ted's 12.5K, aegidos's 2.8K, Adam's first post 3.6K, and TokenWorks's
-2025 post 157.6K. The 200 / 156 / 154 pack counts, the ~$14K value, the
-0.60 SOL fills, the floor, the -25.9% and the wallet are from those posts
-and their screenshots. X's trending summary rounds the floor drop to about
-20%. Mudwater's launch date, claim rules (10 per BAYC, 2 per MAYC) and
-deadline are from launch coverage
+**Sourcing:** *Verified posts and screenshots.* All seven posts were read
+on 2026-10-27 via fxtwitter. At that read, A Raving Peng's post had 7.2K
+views, BR4ted's 12.5K, aegidos's 2.8K, Adam's first post 3.6K, and
+TokenWorks's 2025 post 157.6K. The 200 / 156 / 154 pack counts, the ~$14K
+value, the 0.60 SOL fills, the floor, the -25.9% and the wallet are from
+those posts and their screenshots. X's trending summary rounds the floor
+drop to about 20%. Mudwater's launch date, claim rules (10 per BAYC, 2 per
+MAYC) and deadline are from launch coverage
 ([Crypto Briefing](https://cryptobriefing.com/yuga-labs-mudwater-trading-cards-solana/),
 [CryptoTicker](https://cryptoticker.io/en/mudwater-claim-bayc-mayc-packs/)).
-"Twenty apes" is our arithmetic from the 10-per-ape rule, not an on-chain
-count of apes moved. **Who controls 7VpfKg…2waM isn't established**, and
-neither is whether the buyer *lowonsol* is connected to it. The swamp-troll
-reading is ours. Images: `mudwater-packs-floor-drop` (BR4ted's post),
-`apestrategy-holdings-21-apes` and `mudwater-packs-dumped-0-6-sol`
-(A Raving Peng's post), `mudwater-exploiter-wallet-154` (aegidos's post).
+**Who controls 7VpfKg…2waM isn't established**, and neither is whether the
+buyer *lowonsol* is connected to it. The swamp-troll reading is ours.
+Images: `mudwater-packs-floor-drop` (BR4ted's post),
+`apestrategy-holdings-21-apes` and `mudwater-packs-dumped-0-6-sol` (A
+Raving Peng's post), `mudwater-exploiter-wallet-154` (aegidos's post).
 
 ## 88. "Investigate your wiener": the Senator's all-caps demand and the three-word reply
 <!-- posted: 2026-10-27T15:33:00Z -->
@@ -5118,89 +4940,80 @@ photos).
 <!-- posted: 2026-10-29T19:49:00Z -->
 
 **Ten minutes earlier.** At **9:55 AM Pacific** on **October 29, 2026**,
-Polymarket's main account posted Notch's $70 million house and its
-$200,000 candy room (§90). At **10:05 AM** a wallet nobody had used before,
-**0x3F99…fc18** on Polygon, started taking in money.
+Polymarket's main account posted Notch's $70 million house and its $200,000
+candy room (§90). At **10:05 AM** a brand-new wallet on Polygon started
+taking in money.
 
-**The drain.** At **10:45 AM**, trader **Car**
-([@CarOnPolymarket](https://x.com/CarOnPolymarket), 30.7K followers)
-posted *"lock down your account. I just got drained $800,000"* and said a
-friend lost $600K
+**The drain.** At **10:45 AM** trader **Car**
+([@CarOnPolymarket](https://x.com/CarOnPolymarket), 30.7K followers) posted
+*"lock down your account. I just got drained $800,000"*, and said a friend
+lost $600K
 ([post 2115862718452298234](https://x.com/CarOnPolymarket/status/2115862718452298234)).
-Twenty-seven minutes later he listed what he'd always done to stay safe:
-no downloads, no calls, no clicking links, never connecting his wallet,
-separate phones and laptops for trading
+Then he listed his precautions: no downloads, no calls, no links, never
+connecting his wallet, separate phones and laptops for trading
 ([post 2115869417775255804](https://x.com/CarOnPolymarket/status/2115869417775255804)).
-At **11:07 AM** Polymarket's status account said the exchange was in
-**cancel-only mode** with relayer actions paused
+At **11:07 AM** Polymarket went **cancel-only**, relayer paused
 ([post 2115868203612017147](https://x.com/Poly_Status/status/2115868203612017147)).
-At **11:15 AM**, **StarPlatinum**
-([@StarPlatinum_](https://x.com/StarPlatinum_), 111K followers) posted the
-timeline that went round: *"Polymarket users are getting drained RIGHT
-NOW"*, with the wallet going from empty at 17:05 UTC to **$412K** by 17:25,
-**$2.02M** by 17:50 and **$2.68M** by 18:05, about **28.6M POL**, all
-swapped from USDC.e through **Relay**
+At **11:15 AM** **StarPlatinum**
+([@StarPlatinum_](https://x.com/StarPlatinum_), 111K followers) posted
+*"Polymarket users are getting drained RIGHT NOW"*: the wallet went from
+empty to **$412K** in 20 minutes and **$2.68M** in an hour, all swapped
+from USDC.e to POL through **Relay**
 ([post 2115870272897347777](https://x.com/StarPlatinum_/status/2115870272897347777)).
 
-**How.** Security firm **Hudson Rock** found it in a file Polymarket loaded
-on every page: a **DebugBear** "real user monitoring" script, the kind of
-tag a site adds to measure how fast its pages load. The copy Polymarket
-served carried extra code. It found the logged-in trading session, checked
-the portfolio, sold positions or moved the tokens, signed **DepositWallet**
-batches and handed them to Polymarket's own relayer, with that same wallet
-hard-coded as the fallback recipient. Polymarket's production build has a
-commit at **10:59 AM Pacific** titled *"remove debugbear rum script."* At
-**11:33 AM**, **@PolymarketTrade** posted that *"One of our 3rd party
-providers was compromised"*, that it had gone to law enforcement, and:
-*"Anyone who has been impacted will be made whole."*
+**How.** **Hudson Rock** traced it to a file Polymarket loaded on every
+page: a **DebugBear** "real user monitoring" script, the tag a site adds to
+time its page loads. Polymarket's copy had extra code that found the
+logged-in session, sold positions or moved the tokens, and signed
+**DepositWallet** batches for Polymarket's own relayer, with the drain
+wallet hard-coded as fallback recipient. At **10:59 AM** a production
+commit read *"remove debugbear rum script."* At **11:33 AM**
+**@PolymarketTrade** said *"One of our 3rd party providers was*
+*compromised"* and *"Anyone who has been impacted will be made whole."*
 ([post 2115874609014726842](https://x.com/PolymarketTrade/status/2115874609014726842)).
 
-**Where the money went.** When we read the explorer at about **12:30 PM
-Pacific**, the wallet was down to **0.000000048 POL and $11 of USDC.e**.
-It had sent out three lumps: **18.6M**, **4.3M** and **5.7M POL**, about
-**28.6M POL or $2.6M** at $0.092. After each one, dust started arriving from
-new addresses that start and end with the same characters as the wallet it
-had just paid, which is **address poisoning**: someone hoping the drainer
-copies the wrong address from his own history next time. Polygonscan flagged
-all of them.
+**Where the money went.** By **12:30 PM** the wallet was down to **$11** of
+USDC.e and no real POL. It had sent out **18.6M**, **4.3M** and
+**5.7M POL**, about **$2.6M**. After each send, dust arrived from fresh
+addresses that start and end like the one just paid: **address poisoning**,
+someone hoping the drainer copies the wrong address from his own history
+next time.
 
-**Third time.** In **May** about $700K went out of an internal top-up
-wallet through a leaked key. In **June** a compromised vendor injected a
-script into the frontend and took about **$3M** from a dozen-odd wallets,
-and Polymarket refunded them. This is the second time a third party's
-script on Polymarket's own page has done the stealing.
+**Third time.** In **May** about $700K left an internal top-up wallet
+through a leaked key. In **June** a compromised vendor's script took about
+**$3M** from a dozen-odd wallets, which Polymarket refunded. This is the
+second vendor script on Polymarket's own page to do the stealing.
 
-**The troll in it.** A script meant to measure how fast Polymarket's pages
-load was what moved the money out. Car did everything right and still got
-drained, because the attack came from the site he was told to trust. And
-within the hour, someone was trying to scam the scammer.
+**Why it's a troll.** Polymarket spent the morning on a candy room and the
+afternoon promising to make people whole. Car did everything right and got
+drained by the site he trusted. The thief cleared $2.6M through a speed
+test, and within the hour someone was trying to scam him back.
 
-**Why it's a troll.** Polymarket spent the morning posting a candy room and
-the afternoon promising to make people whole. The thief cleared $2.6M
-through a speed test. Then someone else started poisoning the thief.
-
-**Sourcing:** *Verified posts, onchain data, one security write-up. Live
-story.* Posts read on 2026-10-29 via fxtwitter: Car's (17:45 and 18:12
+**Sourcing:** *Verified posts, onchain data, one security write-up. Live*
+*story.* Posts read on 2026-10-29 via fxtwitter: Car's (17:45 and 18:12
 UTC; 311K views on the first), Poly_Status (18:07), StarPlatinum (18:15,
 21.9K views), @PolymarketTrade (18:33, 130K views). The script, its
 behaviour and the removal commit (build time 17:59:20 UTC) are from
 [Hudson Rock / Infostealers](https://www.infostealers.com/article/polymarket-breach-alert-wallet-draining-code-found-in-a-third-party-script/);
 the cancel-only mode and the June and May incidents from
 [Decrypt](https://decrypt.co/382185/polymarket-pauses-trading-prediction-market-security-incident)
-and [crypto.news](https://crypto.news/polymarket-restricts-trading-users-report-drained-wallets/).
+and
+[crypto.news](https://crypto.news/polymarket-restricts-trading-users-report-drained-wallets/).
 The wallet's balance and outflows were read on
 [Polygonscan](https://polygonscan.com/address/0x3F99139F1C5854bb628c2e576Aaf638e99dFfc18)
-and a public Polygon RPC at 19:29 UTC; POL at $0.0922 from CoinGecko.
-**Polymarket hasn't confirmed a total or named the provider**: DebugBear is
-Hudson Rock's finding, and DebugBear's own service isn't shown to be
-breached beyond that file. The $2.68M is StarPlatinum's figure; ours is the
-outflow, not a count of what users lost. Car's $800K and his friend's $600K
-are his own posts. **The address-poisoning read is ours**, from the dust
-pattern; nothing shows the drainer fell for it. Persona: never post or
-repeat the wallet as something to send to or check against, never suggest
-the refund is or isn't coming beyond what Polymarket said, no "the frontend
-is still unsafe", and the Notch timing in "Ten minutes earlier" is
-coincidence, not connection. Images: `starplatinum-polymarket-drained`,
+and a public Polygon RPC at 19:29 UTC; POL at $0.0922 from CoinGecko;
+Polygonscan flagged the dust senders.
+**Polymarket hasn't confirmed a total** **or named the provider**:
+DebugBear is Hudson Rock's finding, and DebugBear's own service isn't shown
+to be breached beyond that file. The $2.68M is StarPlatinum's figure; ours
+is the outflow (about 28.6M POL), not a count of what users lost. Car's
+$800K and his friend's $600K are his own posts.
+**The address-poisoning read is ours**, from the dust pattern; nothing
+shows the drainer fell for it. Persona: never post or repeat the wallet as
+something to send to or check against, never suggest the refund is or isn't
+coming beyond what Polymarket said, no "the frontend is still unsafe", and
+the Notch timing in "Ten minutes earlier" is coincidence, not connection.
+Images: `starplatinum-polymarket-drained`,
 `polymarket-made-whole-statement` (both captured from X's embed),
 `polymarket-drain-relay-swaps` (StarPlatinum's swap screenshot),
 `polymarket-drainer-polygonscan` (the explorer, cropped, ad removed).
@@ -5209,122 +5022,59 @@ coincidence, not connection. Images: `starplatinum-polymarket-drained`,
 <!-- posted: 2026-10-30T12:51:00Z -->
 
 **The tip.** On **October 28, 2026**, at **11:51 AM Pacific**, **CZ**,
-Binance's founder, no longer its boss but its biggest shareholder, gave
-his 13 million followers some advice
+Binance's founder and biggest shareholder, gave his 13 million followers
+some advice
 ([post 2115516716331536682](https://x.com/cz_binance/status/2115516716331536682),
-2.6M views):
+2.6M views): *"Do NOT click links in emails. Do NOT download
+attachments."* The next afternoon Binance lost **$6.3 billion**, and its
+first explanation was a compromised engineer's laptop.
 
-> Do NOT click links in emails.
-> Do NOT download attachments.
->
-> Even from people you trust, they may unknowningly have a virus on their
-> computer.
+**The heist.** On **October 29**, from **1:05 to 1:23 PM**, Binance's hot
+wallets emptied across **ten blockchains**: **18,270 BTC**,
+**167,464 ETH** and **1.6 billion USDT** among it, most of it in twenty
+minutes.
+**TRM Labs** puts the total at **$6.36 billion**, four times Bybit's
+record $1.5 billion in 2025, and pins both on **TraderTraitor**, North
+Korea's crypto-theft unit (Kim's side of the night is §95).
 
-The next afternoon Binance lost **$6.3 billion**, and its first
-explanation was a compromised engineer's laptop. Elon Musk spent the
-night in the replies.
-
-**The heist.** Three hours after Polymarket's speed-test script finished
-draining its users (§91), on **October 29**, the biggest crypto theft ever
-started. At **1:05 PM Pacific** five Binance wallets on the XRP Ledger
-emptied into one address. By **1:23 PM** Binance's Bitcoin hot wallet had
-sent out **18,270 BTC** and its main Ethereum hot wallet, "Binance 14",
-had sent **167,464 ETH** and **1.6 billion USDT**, after the attacker
-handed it to his own contract with **50 pre-signed authorizations**, one
-for each of the wallet's next 50 transactions. Most of it went in about
-**twenty minutes**, across **ten blockchains**. Blockchain analytics firm
-**TRM Labs** puts the total at **$6.36 billion**, about **four times**
-Bybit's $1.5 billion in February 2025, the record until that afternoon,
-and pins both on **TraderTraitor**, North Korea's crypto-theft unit.
-
-**The freezes.** The stolen dollars froze faster than anyone could post
-about them. **Tether** froze **$971 million** USDT at **2:01 PM**, 37
-minutes after the main sweep, and **Circle** froze **$823 million** USDC at
-**2:04**. At **2:07**, **Jacob King**
-([@JacobKinge](https://x.com/JacobKinge/status/2115913412588994853))
-posted *"Binance has just been hacked"*, with the drainer's Etherscan page
-and the 167,464 ETH transfer. At **2:15 PM** CZ posted *"User funds are
-safe!"*, thanked Tether and Circle, and wrote *"as a shareholder, I expect
-all user funds will be fully covered"*
+**The freezes.** **Tether** froze **$971 million** USDT at **2:01 PM** and
+**Circle** **$823 million** USDC at **2:04**. At **2:15** CZ posted *"User
+funds are safe!"* and *"as a shareholder, I expect all user funds will be
+fully covered"*
 ([post 2115915423174853077](https://x.com/cz_binance/status/2115915423174853077),
-5.7M views). By **2:25** Tether's **Paolo Ardoino** had the USDT freeze at
-**$1.567 billion**. Ripple, World Liberty and Arbitrum's Security Council
-froze more, and by TRM's count about **$2.7 billion** was stuck by midnight
-UTC.
+5.7M views). By midnight UTC about **$2.7 billion** was frozen.
 
-**The guess.** At **2:26 PM**, **0xngmi**, who runs DefiLlama, did the
-maths with what was known: Binance holds **$144 billion**, and with the
-stablecoins frozen *"the total loss now is around ~1bn, which is only 0.69%
-… They'll cover it from balance sheet easily"*. Sixteen minutes later
-**Watcher.Guru** (4.9M followers) posted *"over $5.6 billion stolen"*,
-coin by coin (5.0M views), and at **2:53** **Market Insider** had it at
-**$5.8 billion**, *"nearly 4x the Bybit hack"*.
-
-**X's own staff warm up.** At **3:00 PM**, **Nikita Bier**, X's head of
-product, so on Elon's payroll, opened the roast
+**The warm-up.** At **3:00 PM**, **Nikita Bier**, X's head of product,
+opened the roast
 ([post 2115926743790039292](https://x.com/nikitabier/status/2115926743790039292),
-1.4M views, 25K likes): *"The largest crypto exchange in the world just
-experienced the largest robbery in human history—and the person running it
-is a nomadic autistic man in Dubai posting 'Funds are SAFU!' What a time to
-be alive."*
+1.4M views): *"The largest crypto exchange in the world just experienced
+the largest robbery in human history—and the person running it is a
+nomadic autistic man in Dubai posting 'Funds are SAFU!'"*
 
-**"Will cover."** At **3:23 PM** CZ quoted 0xngmi:
-*"Loss might be a bit higher than that, but will cover. 🙏"*
+**"Will cover."** At **3:23 PM** CZ wrote *"Loss might be a bit higher
+than that, but will cover. 🙏"*
 ([post 2115932500006756686](https://x.com/cz_binance/status/2115932500006756686),
 2.5M views). Six minutes later **Baseball Bonk Inu**
 ([@HuaweiMate6](https://x.com/HuaweiMate6/status/2115934004688142716))
-replied with two words, *"bruh 🙄"*, and one screenshot: **Sam
-Bankman-Fried's** tweet from **November 7, 2022**, underlined in red,
+replied *"bruh 🙄"* with one screenshot: **SBF's** November 7, 2022 tweet,
 *"FTX has enough to cover all client holdings."* FTX filed for bankruptcy
-four days after SBF posted it. The run on FTX had started with a tweet from
-CZ, saying Binance would sell its FTT.
+four days later, after a run that started with a CZ tweet.
 
-**Heckle one: the pun.** Four minutes after that, at **3:33 PM**, Elon
-quoted **The Kobeissi Letter's** *"BREAKING: Binance has been hacked"*
-($5.7 billion and counting) with three words: *"Everyday is Zeroday"*
-([post 2115935053347786773](https://x.com/elonmusk/status/2115935053347786773)).
-A zero-day is a hole attackers use before anyone knows to patch it. It is
-the biggest post in the whole story: **5.8M views, 54.8K likes**, more than
-every CZ post that night put together.
-
-**The evening.** Binance paused withdrawals, and at **5:04 PM** its
-co-CEO **Yi He** posted *"User funds are safe. Binance will cover all
-hacking losses."* At **6:25 PM**, Jack
-([@Jackkk](https://x.com/Jackkk/status/2115978330805874870)) clipped
-Logan Paul's stream: Mike Majlak reads out *"Binance got hacked.
-$6,000,000,000 stolen"*, and Logan says *"I mean bro, super intelligence,
-AI, I don't trust crypto. It's a scam."* Logan Paul is the man behind
-**CryptoZoo**, the 2021 NFT egg game that never shipped; in 2023 he
-offered its buyers a $1.3 million buyback.
-
-**Heckle two: the robots.** At **5:30 PM**, **@cryptoblaney** had called
-the thief's next move *"one of the smartest moves I've seen in crypto"*: he
-put stolen USDT into Aave as collateral and borrowed ETH, which nobody can
-freeze, before the freezes reached it (LlamaRisk counts **19,762 wrapped
-ETH**, about $44.6 million, against about $59.9 million of collateral). At
-**8:12 PM** Elon replied with a forecast, not an accusation: *"Super
-intelligence agents will at some point do this to gain currency for
-themselves, not a human"*
-([post 2116005381205836098](https://x.com/elonmusk/status/2116005381205836098),
-1.8M views).
-
-**Heckle three: 😬.** At **9:33 PM** Elon replied under the bruh, to both
-CZ and Baseball Bonk Inu, with one character: **😬**
-([post 2116025797400236362](https://x.com/elonmusk/status/2116025797400236362),
-834K views).
-
-**Heckle four: 🔥😂.** Thirty-seven minutes later, at **10:10 PM**, he
-scrolled back a day, found CZ's *"Do NOT click links in emails"*, and
-replied **🔥😂**
+**Elon, three words and three emoji.** At **3:33 PM** he quoted *"Binance
+has been hacked"* with *"Everyday is Zeroday"*
+([post 2115935053347786773](https://x.com/elonmusk/status/2115935053347786773),
+5.8M views, the biggest post of the night). At **8:12 PM** he forecast
+that *"Super intelligence agents will at some point do this"*
+([post 2116005381205836098](https://x.com/elonmusk/status/2116005381205836098)).
+At **9:33 PM** he replied under the bruh with **😬**
+([post 2116025797400236362](https://x.com/elonmusk/status/2116025797400236362)).
+At **10:10 PM** he scrolled back to CZ's email tip and replied **🔥😂**
 ([post 2116034884393213964](https://x.com/elonmusk/status/2116034884393213964),
-2.4M views, 18K likes). No words: the laptop did the talking. When the
-tip resurfaced, CZ said he wished more people had followed it; the attack was
-more complex than one click, he wrote, but a compromised device is usually
-somewhere in the chain.
+2.4M views).
 
-**"Please stop."** At **2:19 AM** on **October 30**, CZ answered the 😬
-([post 2116097554882728341](https://x.com/cz_binance/status/2116097554882728341)),
-by then with the 🔥😂 sitting under his own tip too:
+**"Please stop."** At **2:19 AM** on **October 30** CZ answered
+([post 2116097554882728341](https://x.com/cz_binance/status/2116097554882728341),
+2.8M views):
 
 > Elon, have a lot of respect for you, but bad time to troll. Please stop.
 >
@@ -5333,120 +5083,96 @@ by then with the 🔥😂 sitting under his own tip too:
 >
 > Would appreciate if you show a little support. Thanks!
 
-It had **2.8M views** and about **22K likes** by morning. Binance put
-**$500 million** into Musk's Twitter buyout in 2022, and by CZ's account
-that stake is now SpaceX stock. So the exchange was being heckled on an
-app it helped pay for, by the man whose rocket company now holds its
-receipt. In **July**, when Musk called himself a "(Former) Trillionaire"
-after SpaceX shares slid, CZ was the one joking, calling it being
-*"pre-rich"*.
+Binance put **$500 million** into Musk's 2022 Twitter buyout, a stake CZ
+says is now SpaceX stock. In **July**, when SpaceX shares slid, CZ was the
+one joking, calling Elon *"pre-rich"*.
 
-**The invoice, itemised.** A user asked what SpaceX shares had to do with
-a hack. Fourteen minutes later CZ showed his working
-([post 2116101255059947839](https://x.com/cz_binance/status/2116101255059947839),
-1.3M views): *"Rough math: $6.x b hack, $3b frozen, $1.x b SAFU fund. Gap
-is about $2b, we have $1.x billion in SPCX alone. Remaining gap is (still
-painful, but) manageable. 🙏"*
+**The invoice.** Fourteen minutes later CZ showed his maths
+([post 2116101255059947839](https://x.com/cz_binance/status/2116101255059947839)):
+*"Rough math: $6.x b hack, $3b frozen, $1.x b SAFU fund. Gap is about $2b,
+we have $1.x billion in SPCX alone."* Twenty-one seconds before it, co-CEO
+**Yi He** had replied to his "Please stop" in public
+([post 2116101170079076558](https://x.com/heyibinance/status/2116101170079076558)):
+*"Reporting to the major shareholder: Our company's revenue for the year
+is sufficient to cover the losses, so we do not yet need to sell the
+SpaceX shares you are bullish on.💁‍♀️"* Elon didn't reply.
 
-**Management replies.** Twenty-one seconds before that, Yi He had answered
-CZ's "Please stop" in front of everyone
-([post 2116101170079076558](https://x.com/heyibinance/status/2116101170079076558),
-449K views): *"Reporting to the major shareholder: Our company's revenue
-for the year is sufficient to cover the losses, so we do not yet need to
-sell the SpaceX shares you are bullish on.💁‍♀️"* CZ answered that he'd
-never suggested selling; he only brought the shares up so Elon could see
-Binance had the money, and maybe feel better about it. Elon, by morning,
-had not replied to any of it. (Where the money went, and who got the
-credit, is its own file: §95.)
+**The trail.** At **9:51 PM** on October 29, **zachxbt** posted that money
+from the Binance theft and from **Bitget's** September hack (§67) had been
+*"commingled at the same address"* after crossing **THORChain**: *"This
+indicates the same actor is likely behind both incidents"*
+([post 2116030284261179538](https://x.com/zachxbt/status/2116030284261179538),
+404K views). His TRM graph shows the two trails, five weeks apart, meeting
+in one wallet.
 
-**How.** Binance's first explanation was a compromised DevOps engineer's
-laptop that let the attacker into a service container to submit
-withdrawals. On **October 30** CEO **Richard Teng** said they'd found more
-breach points, and that this was *"not a single 'one-click' action."* TRM
-says the attacker most likely controlled Binance's hot-wallet signing
-system: ten chains with different keys all signed within about half an
-hour. Bitcoin fell about 4% to 6% and more than **$1 billion** in leveraged
-positions were liquidated. According to TRM, the thief still held more
-than **420,000 ETH and the 18,270 BTC**, about **$2.4 billion**, the next
-morning.
+**How.** Binance first blamed a DevOps engineer's laptop; on October 30
+CEO **Richard Teng** said there were more breach points and it was *"not
+a single 'one-click' action."* TRM thinks the attacker controlled the
+hot-wallet signing system. Bitcoin fell 4% to 6%, over **$1 billion** in
+leveraged positions were liquidated, and the thief still held about
+**$2.4 billion** the next morning. That night Logan Paul, of CryptoZoo,
+told his stream *"I don't trust crypto. It's a scam."*
 
-**The troll in it.** CZ posted a security tip, got robbed through a
+**Why it's a troll.** CZ posted a security tip, got robbed through a
 laptop the next day, and the richest man on the internet came back to the
-tip to laugh at it. A man who once posted *"pre-rich"* at Elon over a
-paper loss asked Elon to stop trolling him over a real one, offered the
-Twitter stake as the reason he should, and was then corrected in public by
-his own co-CEO, who addressed him as "the major shareholder". The first
-person to compare CZ to SBF did it with SBF's own words, and CZ's own
-tweet started the run that sank SBF. The opening act was X's head of
-product. And the one celebrity in the story who called crypto a scam that
-night was the CryptoZoo guy.
-
-**Why it's a troll.** Across the whole night Elon typed three words and
-three emoji. CZ answered with three paragraphs, a share price, a
-spreadsheet and "Thanks!" Nothing in "Please stop" lands harder than the
-🔥😂 it was asking about, and the more CZ explained, the funnier the
-emoji got.
+tip to laugh. Elon typed three words and three emoji; CZ answered with
+three paragraphs, a share price, a spreadsheet and "Thanks!", and was
+then corrected by his own co-CEO in front of everyone. The more he
+explained, the funnier 🔥😂 got.
 
 **Sourcing:** *Verified posts, two onchain write-ups, news coverage. Live
 story.* Posts read on 2026-10-30 via fxtwitter: CZ (18:51 UTC Oct 28;
 21:15 and 22:23 UTC Oct 29; 09:19 and 09:33 UTC Oct 30), Jacob King
-(21:07), Jeremy Allaire for Circle (21:18), Paolo Ardoino (21:25), 0xngmi
-(21:26), Watcher.Guru (21:42), Market Insider (21:53), Nikita Bier
-(22:00), Baseball Bonk Inu (22:29), Elon Musk (22:33 Oct 29; 03:12, 04:33
-and 05:10 UTC Oct 30), cryptoblaney (00:30 Oct 30), Jack (01:25), Bull
-Theory (03:06), Yi He (09:33). Times in the text are Pacific. The theft
-timeline, chain totals, the 50 pre-signed EIP-7702 authorizations, the
-freeze times and amounts, what's left with the attacker and the
+(21:07), Jeremy Allaire for Circle (21:18), Paolo Ardoino (21:25),
+Watcher.Guru (21:42), Market Insider (21:53), Nikita Bier (22:00),
+Baseball Bonk Inu (22:29), Elon Musk (22:33 Oct 29; 03:12, 04:33 and 05:10
+UTC Oct 30), zachxbt (04:51 Oct 30), Jack (01:25), Bull Theory (03:06), Yi
+He (09:33). Times in the text are Pacific. The theft timeline, chain
+totals, freeze times and amounts, what's left with the attacker and the
 TraderTraitor attribution are from
 [TRM Labs](https://www.trmlabs.com/resources/blog/north-korea-steals-usd-6-36-billion-from-binance-in-the-largest-hack-in-history);
 the laptop, "additional breach points" and Teng's quote from
 [The Next Web](https://thenextweb.com/news/binance-hack-6-3bn-north-korea-tradertraitor)
 and [CNBC](https://www.cnbc.com/2026/10/29/circle-tether-freeze-funds-impacted-by-potential-binance-security-issue.html);
-Yi He's 5:04 PM post (00:04 UTC) from
-[Cointelegraph's live blog](https://cointelegraph.com/news/live-updates-binance-63b-hack-linked-to-north-koreas-tradertraitor);
-the paused withdrawals from
-[TechCrunch](https://techcrunch.com/2026/10/29/binance-pauses-withdrawals-as-hackers-suspected-of-stealing-billions-in-crypto/);
+see also [Cointelegraph's live blog](https://cointelegraph.com/news/live-updates-binance-63b-hack-linked-to-north-koreas-tradertraitor)
+and [TechCrunch](https://techcrunch.com/2026/10/29/binance-pauses-withdrawals-as-hackers-suspected-of-stealing-billions-in-crypto/);
 market moves from [CoinDesk](https://www.coindesk.com/markets/2026/10/30/usd6-billion-binance-hack-sends-bitcoin-ether-tumbling-standard-chartered-sees-more-losses-ahead)
-and Bull Theory's post. The Aave loan figures are LlamaRisk's, and CZ's
-reply about his own tip and his "never suggested selling" answer to Yi He
-are from [crypto.news](https://crypto.news/cz-elon-musk-stop-trolling-binance-hack/)
-(see also [crypto.news on the AI-agents reply](https://crypto.news/elon-musk-warns-ai-agents-could-exploit-crypto-after-binance-hack/));
-we didn't find those two CZ posts themselves. "Elon hadn't replied" is as
-of the morning of October 30, per
-[Coin-Turk](https://en.coin-turk.com/binance-points-to-1-billion-spacex-stake-after-6-3-billion-theft-musk-stays-silent/).
-The "pre-rich" exchange (July 2026) is from
-[Coin-Turk](https://en.coin-turk.com/binances-cz-jokes-elon-musk-is-pre-rich-after-spacex-stock-falls-below-1-trillion/);
-we didn't find the posts themselves. **North Korea is TRM's and
-Chainalysis's attribution**, not a government's. The $6.36B is TRM's figure
-at transfer-time prices; Binance says about $6.3B; the early posts' $2B,
-$5.6B, $5.7B and $5.8B were counts in progress. 0xngmi's ~1bn was a
-net-of-freezes guess made an hour in, and CZ's ~$2b "gap" is his own rough
-math, not a final loss. "Now SpaceX stock" is CZ's account of the Twitter
-stake. **What Elon meant by his emoji is not known**: CZ called it
-trolling, and Elon hasn't said more; the AI-agents reply was about the
-future, not a claim that an AI did this. Logan Paul's words are Jack's
-transcription of the clip. Persona: never say or suggest Binance can't
-cover the loss, is insolvent, or is "the next FTX": the bruh is someone
-else's joke, Binance and its founders say it will cover (CZ's gap math
-and Yi He's revenue line are both them saying so), and nothing in this
-file says otherwise. Nikita Bier's "autistic" line is his, quoted; the
-persona doesn't repeat it as its own description of CZ. No telling anyone
-to withdraw, move funds or avoid the exchange, never repeat attacker
-addresses as something to check or send to, and the Polymarket timing in
-"The heist" is coincidence, not connection. Images:
-`cz-email-tip-elon-fire-laugh` (CZ's tip with Elon's 🔥😂),
-`elon-everyday-is-zeroday`, `nikita-bier-safu`,
-`elon-superintelligence-agents`, `cz-elon-bad-time-to-troll`,
-`yi-he-major-shareholder`, `cz-rough-math-spcx` (all captured from X's
-embed), `cz-will-cover-bruh`, `cz-user-funds-safe` (captured from X's
-embed), `bruh-sbf-ftx-has-enough` (the bruh post's screenshot),
-`watcherguru-binance-hacked`, `marketinsider-binance-bybit` (captured from
-X's embed, with their photos), `binance-drainer-etherscan`,
-`binance-14-eth-transfer` (Jacob King's two screenshots),
-`binance-hot-wallet-arkham`, `bulltheory-binance-crash` (Bull Theory's two
-images), `logan-paul-crypto-scam-clip` (Jack's post, captured from X's
-embed). The Kim pictures, Beeple's drawing, Watcher.Guru's CNN post and
-greg's comeback line moved to §95.
+and Bull Theory's post. The AI-agents reply is covered by
+[crypto.news](https://crypto.news/elon-musk-warns-ai-agents-could-exploit-crypto-after-binance-hack/).
+"Elon didn't reply" is as of the morning of October 30, per
+[Coin-Turk](https://en.coin-turk.com/binance-points-to-1-billion-spacex-stake-after-6-3-billion-theft-musk-stays-silent/);
+the "pre-rich" exchange (July 2026) is from
+[Coin-Turk](https://en.coin-turk.com/binances-cz-jokes-elon-musk-is-pre-rich-after-spacex-stock-falls-below-1-trillion/),
+and we didn't find those posts themselves.
+**North Korea is TRM's and Chainalysis's attribution**, not a government's. The $6.36B is TRM's
+figure at transfer-time prices; Binance says about $6.3B. CZ's ~$2b "gap"
+is his own rough math, not a final loss, and "now SpaceX stock" is his
+account of the Twitter stake. zachxbt's Binance–Bitget link is his read
+of the onchain trail ("likely"), not a finding by either exchange.
+**What Elon meant by his emoji is not known**: CZ called it trolling; the
+AI-agents reply was about the future, not a claim that an AI did this.
+Logan Paul's words are Jack's transcription of the clip. Persona: never
+say or suggest Binance can't cover the loss, is insolvent, or is "the next
+FTX": the bruh is someone else's joke, Binance and its founders say it
+will cover, and nothing in this file says otherwise. Nikita Bier's
+"autistic" line is his, quoted; the persona doesn't repeat it as its own
+description of CZ. No telling anyone to withdraw, move funds or avoid the
+exchange, and never repeat attacker addresses (zachxbt's included) as
+something to check or send to. Images: `cz-email-tip-elon-fire-laugh`
+(CZ's tip with Elon's 🔥😂), `elon-everyday-is-zeroday`,
+`nikita-bier-safu`, `elon-superintelligence-agents`,
+`cz-elon-bad-time-to-troll`, `yi-he-major-shareholder`,
+`cz-rough-math-spcx` (all captured from X's embed), `cz-will-cover-bruh`,
+`cz-user-funds-safe` (captured from X's embed), `bruh-sbf-ftx-has-enough`
+(the bruh post's screenshot), `watcherguru-binance-hacked`,
+`marketinsider-binance-bybit` (captured from X's embed, with their
+photos), `binance-drainer-etherscan`, `binance-14-eth-transfer` (Jacob
+King's two screenshots), `binance-hot-wallet-arkham`,
+`bulltheory-binance-crash` (Bull Theory's two images),
+`zachxbt-binance-bitget-commingled` (zachxbt's TRM graph),
+`logan-paul-crypto-scam-clip` (Jack's post, captured from X's embed). The
+Kim pictures, Beeple's drawing, Watcher.Guru's CNN post and greg's
+comeback line are in §95.
 
 ## 93. "Even if it is renamed": the rule that came down the wire, and the Roblox devs it came for
 <!-- posted: 2026-10-30T17:09:00Z -->
@@ -5582,129 +5308,103 @@ are fine. Don't help anyone word a request to get around it. Images:
 
 **The post.** At **8:49 AM Pacific** on **October 30, 2026**, the official
 PEPE account, **Pepe** ([@pepecoineth](https://x.com/pepecoineth), 734.9K
-followers, bio *"The most memeable memecoin in existence"*), posted two
-words and a ten-second clip
+followers), posted two words and a ten-second clip
 ([post 2116195847788769596](https://x.com/pepecoineth/status/2116195847788769596)):
 
 > periodt $PEPE
 
-In the clip Pepe is in full glam: false lashes, glossy orange lips, long
-white acrylic nails, a blue top. He side-eyes the camera and blinks slowly.
-He puts a hand up in your face, covers his mouth like he's heard something
-scandalous, blows a kiss and ends on a wide-open laugh. "Periodt" is
-"period" with a t on the end: end of discussion, nothing more to say.
+In the clip Pepe wears false lashes, glossy orange lips and long white
+acrylics. He side-eyes the camera, puts a hand up in your face, covers his
+mouth like he's heard something scandalous, blows a kiss and ends on a
+wide-open laugh. "Periodt" is "period" with a t: end of discussion.
 
-**A week of frog.** PEPE bottomed at **$0.00000379** around **1 PM on
-October 18**. Over the same nine days, **11.85 trillion PEPE** left
-Poloniex for wallets Arkham ties to **Justin Sun** (§86). On **October 19**
-the account posted *"immune to the psyops $PEPE"* and on **October 20**
-*"bid my blood to run $PEPE."* At **5:16 AM on October 27** Arkham asked
-*"Is Justin Sun the Top PEPE Holder?"*, and at **10:06 AM** @pepecoineth
-quoted it with an ad
+**A week of frog.** PEPE bottomed at **$0.00000379** on **October 18**,
+while **11.85 trillion PEPE** moved from Poloniex to wallets Arkham ties to
+**Justin Sun** (§86). The account posted through it:
+*"immune to the psyops $PEPE"*, *"bid my blood to run $PEPE."* On
+**October 27** Arkham asked *"Is Justin Sun the Top PEPE Holder?"* and
+@pepecoineth quoted it with a near.com ad
 ([post 2115127989411483899](https://x.com/pepecoineth/status/2115127989411483899),
 118.9K views):
 
 > Onchain, every holding is public by default. near.com flips that.
->
-> Deposit, swap & pay with $PEPE. Confidentially.
 
-The picture says **"PEPE. NOW CONFIDENTIAL."** in giant black capitals next
-to a phone showing PEPE up 61.5% over three months. Three and a half hours
-later the account posted *"reject humanity / return to $PEPE"*
+Its picture says **"PEPE. NOW CONFIDENTIAL."** Three and a half hours later
+came *"reject humanity / return to $PEPE"*
 ([post 2115179238366330887](https://x.com/pepecoineth/status/2115179238366330887),
-164.9K views, 3.7K likes, its most-liked post of the month): an old-style
-engraving of a classical profile that turns, step by step across ten heads,
-into a frog, captioned in blackletter *"reject humanity, return to frog."*
+164.9K views, its most-liked post of the month): an engraving of a
+classical profile turning, over ten heads, into a frog. By
+**9 AM on October 29** PEPE hit **$0.00000549**, **45%** above the low.
 
-**The run.** PEPE rose about 12% on October 28, with futures volume up
-about 73% (crypto.news). At **9 AM on October 29** it touched
-**$0.00000549**, about **45% above the October 18 low**.
-
-**The thief had frog too.** At **1:05 PM** that afternoon the biggest
-crypto theft ever started draining Binance (§92). Among what came out of
-Binance's hot wallet were **7.77 trillion PEPE**. At **3:48 PM**
-**Lookonchain** ([@lookonchain](https://x.com/lookonchain), 712.5K
-followers) posted *"The Binance hacker is now dumping $PEPE, $UNI, $LINK,
-and other tokens on-chain for $ETH"*
+**The thief had frog too.** At **1:05 PM** that day the biggest crypto
+theft ever started draining Binance (§92), and **7.77 trillion PEPE** went
+with it. At **3:48 PM** **Lookonchain**
+([@lookonchain](https://x.com/lookonchain), 712.5K followers) posted *"The*
+*Binance hacker is now dumping $PEPE, $UNI, $LINK, and other tokens*
+*on-chain* *for $ETH"*
 ([post 2115938836757037428](https://x.com/lookonchain/status/2115938836757037428),
-164.9K views), with a list of what the wallet still held, including
-**7.579T PEPE ($34.41M)**. Its screenshot shows wallets tagged
-**Binance_Hacker** selling PEPE into a Uniswap V2 pool in lumps of 17.4
-billion, 12.2 billion and 70.3 billion, a minute apart, and taking ETH
-back. By **5:29 PM**, TechFlow reported, all 7.77 trillion were gone, for
-**14,049 ETH**, over **$31.9 million**, at an average of about
-**$0.0000041**. On the hourly chart PEPE fell from **$0.00000549** at 9 AM
-to **$0.00000447** at 4 PM, about **19%**, most of it between 1 and 4 PM.
-TechFlow also put **Sun's** unrealized profit on his frog down to
-**$4.45M**, from **$18.55M** the night before.
+164.9K views). Its screenshot shows wallets tagged **Binance_Hacker**
+selling into a Uniswap V2 pool in lumps of 17.4, 12.2 and 70.3 billion
+PEPE, a minute apart. By **5:29 PM**, TechFlow reported, all 7.77 trillion
+were gone for **14,049 ETH**, over **$31.9 million**. PEPE fell about
+**19%** from 9 AM to 4 PM, mostly after 1 PM, and Sun's paper profit
+dropped from **$18.55M** to **$4.45M**.
 
-**Same price.** TechFlow's average for Sun's 11.8 trillion PEPE is about
-**$0.000004114**. The thief's average sale was about **$0.0000041**
-($31.9M over 7.77 trillion), under anything the chart showed that
-afternoon, because a pool pays a little less for every lump you sell into
-it. The biggest thief in crypto sold the frog for what the biggest holder
-paid for it.
+**Same price.** The thief averaged about **$0.0000041**, below anything on
+the chart, because a pool pays a little less for each lump. TechFlow puts
+Sun's average cost at **$0.000004114**. The biggest thief in crypto sold
+the frog for what the biggest holder paid.
 
 **The old whale.** At **3:52 AM on October 30**, **BSC News**
-([@bscnews](https://x.com/bscnews), 1.37M followers) posted *"Legendary
-Whale is now all in on PEPE"*
-([post 2116121061808865358](https://x.com/bscnews/status/2116121061808865358),
-23.5K views), with a picture of a breaching humpback beside a smug Pepe.
-Per Arkham, the wallet **dimethyltryptamine.eth** bought **45.08 billion
-PEPE** for about **$206.5K**, *"immediately after the @Binance hacker
-completely dumped the memecoin,"* paid for by selling **600K SPX** (about
-$212K). It's the wallet that put **0.125 ETH** into PEPE on Uniswap V3 in
-**April 2023**, got **5.9 trillion** tokens, and watched them reach
-**$100 million**. It now holds **$10.3M**, $10.19M of it PEPE. Its buy was
-about 0.58% of what the thief sold (crypto.news).
+([@bscnews](https://x.com/bscnews), 1.37M followers) posted
+*"Legendary Whale is now all in on PEPE"*
+([post 2116121061808865358](https://x.com/bscnews/status/2116121061808865358)).
+Per Arkham, **dimethyltryptamine.eth** bought **45.08 billion PEPE** (about
+**$206.5K**) *"immediately after the @Binance hacker completely dumped the*
+*memecoin."* It's the wallet that put **0.125 ETH** into PEPE in
+**April 2023** and watched it reach **$100 million**.
 
-**Periodt.** Five hours after that, with PEPE back around **$0.0000051**
-and the market cap at about **$2.16B**, the account posted the clip. It
-didn't mention the hack, the thief, Sun or the whale.
+**Periodt.** Five hours later, with PEPE back near **$0.0000051**, the
+account posted the clip. No hack, no thief, no Sun, no whale.
 
-**The troll in it.** The account's ad three days earlier said *"every
-holding is public by default"*, and the week proved it line by line.
-Arkham traced Sun's frog out of Poloniex. Lookonchain watched the thief
-sell his frog a minute at a time. Arkham caught the 2023 whale buying
-within hours of the dump. Nobody's frog was confidential. The frog's answer
-to all of it was lashes, a hand in your face, a kiss, a laugh and one word.
-Pepe and the trollface came up through the same 4chan years (§86), and this
-archive saves its #420 for a Pepe with a trollface for a mouth (§65).
-
-**Why it's a troll.** The biggest heist in crypto history dumped
-$31.9 million of frog in an afternoon, and the frog's own account said
-nothing for a day. Then it showed up in full makeup, put a hand in
-everyone's face and blew them a kiss. The thief sold at Justin Sun's price.
-"Periodt."
+**Why it's a troll.** The frog's own ad said
+*"every holding is public by default,"* and the week proved it: Sun's frog
+traced out of Poloniex, the thief's sold a minute at a time, the whale
+caught buying within hours. The thief dumped $31.9 million of frog at
+Justin Sun's price, and the frog answered with lashes, a hand in your face,
+a kiss and one word. Pepe and the trollface came up through the same 4chan
+years (§86); this archive saves #420 for a Pepe with a trollface for a
+mouth (§65).
 
 **Sourcing:** *Verified posts, onchain trackers, news reports.* Read on
 2026-10-30 via fxtwitter: @pepecoineth's October 30 post (35.4K views, 928
 likes at the read) with its video, its October 27 posts and its October
-19–20 posts; Lookonchain's (22:48 UTC October 29); BSC News's (10:52 UTC
-October 30). The PEPE price points and the 45% and 19% moves are from
+19–20 posts; Lookonchain's (22:48 UTC October 29), which also listed the
+wallet's remaining 7.579T PEPE ($34.41M); BSC News's (10:52 UTC October 30,
+23.5K views). The PEPE price points and the 45% and 19% moves are from
 CoinGecko's hourly data, read at about 17:55 UTC October 30, and the chart
 `pepe-price-oct-17-30` is ours, drawn from that data. The full 7.77T sale,
 14,049 ETH, $31.9M, the $0.0000041 average, Sun's $0.000004114 average and
 his profit figures are from
-[TechFlow](https://www.techflowpost.com/en-US/newsletter/141993) (00:29
-UTC October 30, citing on-chain analyst Ai Yi); Lookonchain's figure for
-the sale is $31.66M (via
+[TechFlow](https://www.techflowpost.com/en-US/newsletter/141993) (00:29 UTC
+October 30, citing on-chain analyst Ai Yi); Lookonchain's figure for the
+sale is $31.66M (via
 [crypto.news](https://crypto.news/pepe-price-falls-binance-hacker-sells-tokens/)).
-The October 28 move is from
+The October 28 move (about +12%, futures volume up about 73%) is from
 [crypto.news](https://crypto.news/why-is-pepe-price-up-today-justin-sun-whale/).
 TechFlow reported a 12.33% drop on the sale and
 [24/7 Wall St.](https://247wallst.com/investing/cryptocurrency/2026/10/30/the-binance-hacker-dumped-32-million-of-pepe-and-pepe-still-rose-7-is-the-memecoin-rally-real/)
-a 24-hour rise; they measured different windows, and **the hourly chart
-can't separate the sale from the rest of the market's fall that
-afternoon**. The whale's buy, funding and history are BSC News citing
-Arkham. **"Same price" is ours**, and so is why the sale averaged under the
-chart: two averages from one report that land
+a 24-hour rise; they measured different windows, and **the hourly chart**
+**can't separate the sale from the rest of the market's fall that**
+**afternoon**. The whale's buy, funding (600K SPX sold, about $212K) and
+history are BSC News citing Arkham. **"Same price" is ours**, and so is why
+the sale averaged under the chart: two averages from one report that land
 together, not a link between Sun and the thief. Sun's second wallet is
-still only Arkham's "predicted" (§86), and North Korea is TRM's
-attribution (§92). Persona: no price talk beyond these as history, never
-read the whale's buy or the rebound as a signal, never say the thief and
-Sun are connected, and don't make the clip about anyone it doesn't name.
-Images: `pepe-periodt-post` (captured from X's embed) with its clip
+still only Arkham's "predicted" (§86), and North Korea is TRM's attribution
+(§92). Persona: no price talk beyond these as history, never read the
+whale's buy or the rebound as a signal, never say the thief and Sun are
+connected, and don't make the clip about anyone it doesn't name. Images:
+`pepe-periodt-post` (captured from X's embed) with its clip
 `pepe-periodt-glam`, `pepe-near-confidential`, `pepe-reject-humanity`,
 `lookonchain-binance-hacker-pepe-dump` (Lookonchain's screenshot),
 `bscnews-dmt-whale-pepe`, `pepe-price-oct-17-30`.
@@ -5797,15 +5497,11 @@ photos of him at a garment exhibition on **October 19**, and on
 **October 23** South Korea's spy agency told lawmakers the reports were
 false. A week after he wasn't dead, he was the richest thief in history.
 
-**The troll in it.** Crypto already had a picture of what winning looks
-like, and it was Kimchi's camera roll: a trader whose wins people
-doubted, posting proof with no caption. So when the biggest win in crypto
-went to North Korea, the meme didn't invent a lifestyle for Kim. It
-borrowed the one crypto Twitter knows by heart, and put him in the seat.
-
-**Why it's a troll.** Kimchi's feed kept people asking whether the life
-was real. wataminoodles answered with the one man whose payday TRM says
-is: the same Ferrari, the same socks, a different winner. The caption
+**Why it's a troll.** Crypto already had a picture of what winning looks
+like: Kimchi's camera roll, posted with no caption while people argued
+whether the life was real. So when the biggest win in crypto went to North
+Korea, the meme didn't invent a lifestyle for Kim. It put him in Kimchi's
+seat: the same Ferrari, the same socks, a different winner. The caption
 Kimchi never wrote finally got written, and it was *"Life after the
 binance hack."*
 
