@@ -5205,22 +5205,37 @@ coincidence, not connection. Images: `starplatinum-polymarket-drained`,
 `polymarket-drain-relay-swaps` (StarPlatinum's swap screenshot),
 `polymarket-drainer-polygonscan` (the explorer, cropped, ad removed).
 
-## 92. "Bad time to troll": $6.3 billion out of Binance, and CZ asks Elon to stop
+## 92. "Everyday is Zeroday": Elon heckles the biggest heist in crypto, and CZ sends him the Twitter bill
 <!-- posted: 2026-10-30T12:51:00Z -->
 
-**Same day.** Three hours after Polymarket's speed-test script finished
-draining its users (§91), on **October 29, 2026**, the biggest crypto
-theft ever started. At **1:05 PM Pacific** five Binance wallets on the XRP
-Ledger emptied into one address. By **1:23 PM** Binance's Bitcoin hot
-wallet had sent out **18,270 BTC** and its main Ethereum hot wallet,
-"Binance 14", had sent **167,464 ETH** and **1.6 billion USDT**, after the
-attacker handed it to his own contract with **50 pre-signed
-authorizations**, one for each of the wallet's next 50 transactions. Most
-of it went in about **twenty minutes**, across **ten blockchains**. Blockchain
-analytics firm **TRM Labs** puts the total at **$6.36 billion**, about **four
-times** Bybit's $1.5 billion in February 2025, the record until that
-afternoon, and pins both on **TraderTraitor**, North Korea's crypto-theft
-unit.
+**The tip.** On **October 28, 2026**, at **11:51 AM Pacific**, **CZ**,
+Binance's founder, no longer its boss but its biggest shareholder, gave
+his 13 million followers some advice
+([post 2115516716331536682](https://x.com/cz_binance/status/2115516716331536682),
+2.6M views):
+
+> Do NOT click links in emails.
+> Do NOT download attachments.
+>
+> Even from people you trust, they may unknowningly have a virus on their
+> computer.
+
+The next afternoon Binance lost **$6.3 billion**, and its first
+explanation was a compromised engineer's laptop. Elon Musk spent the
+night in the replies.
+
+**The heist.** Three hours after Polymarket's speed-test script finished
+draining its users (§91), on **October 29**, the biggest crypto theft ever
+started. At **1:05 PM Pacific** five Binance wallets on the XRP Ledger
+emptied into one address. By **1:23 PM** Binance's Bitcoin hot wallet had
+sent out **18,270 BTC** and its main Ethereum hot wallet, "Binance 14",
+had sent **167,464 ETH** and **1.6 billion USDT**, after the attacker
+handed it to his own contract with **50 pre-signed authorizations**, one
+for each of the wallet's next 50 transactions. Most of it went in about
+**twenty minutes**, across **ten blockchains**. Blockchain analytics firm
+**TRM Labs** puts the total at **$6.36 billion**, about **four times**
+Bybit's $1.5 billion in February 2025, the record until that afternoon,
+and pins both on **TraderTraitor**, North Korea's crypto-theft unit.
 
 **The freezes.** The stolen dollars froze faster than anyone could post
 about them. **Tether** froze **$971 million** USDT at **2:01 PM**, 37
@@ -5228,8 +5243,7 @@ minutes after the main sweep, and **Circle** froze **$823 million** USDC at
 **2:04**. At **2:07**, **Jacob King**
 ([@JacobKinge](https://x.com/JacobKinge/status/2115913412588994853))
 posted *"Binance has just been hacked"*, with the drainer's Etherscan page
-and the 167,464 ETH transfer. At **2:15 PM**, **CZ**, Binance's founder,
-no longer its boss but its biggest shareholder, posted *"User funds are
+and the 167,464 ETH transfer. At **2:15 PM** CZ posted *"User funds are
 safe!"*, thanked Tether and Circle, and wrote *"as a shareholder, I expect
 all user funds will be fully covered"*
 ([post 2115915423174853077](https://x.com/cz_binance/status/2115915423174853077),
@@ -5246,6 +5260,14 @@ stablecoins frozen *"the total loss now is around ~1bn, which is only 0.69%
 coin by coin (5.0M views), and at **2:53** **Market Insider** had it at
 **$5.8 billion**, *"nearly 4x the Bybit hack"*.
 
+**X's own staff warm up.** At **3:00 PM**, **Nikita Bier**, X's head of
+product, so on Elon's payroll, opened the roast
+([post 2115926743790039292](https://x.com/nikitabier/status/2115926743790039292),
+1.4M views, 25K likes): *"The largest crypto exchange in the world just
+experienced the largest robbery in human history—and the person running it
+is a nomadic autistic man in Dubai posting 'Funds are SAFU!' What a time to
+be alive."*
+
 **"Will cover."** At **3:23 PM** CZ quoted 0xngmi:
 *"Loss might be a bit higher than that, but will cover. 🙏"*
 ([post 2115932500006756686](https://x.com/cz_binance/status/2115932500006756686),
@@ -5257,6 +5279,14 @@ Bankman-Fried's** tweet from **November 7, 2022**, underlined in red,
 four days after SBF posted it. The run on FTX had started with a tweet from
 CZ, saying Binance would sell its FTT.
 
+**Heckle one: the pun.** Four minutes after that, at **3:33 PM**, Elon
+quoted **The Kobeissi Letter's** *"BREAKING: Binance has been hacked"*
+($5.7 billion and counting) with three words: *"Everyday is Zeroday"*
+([post 2115935053347786773](https://x.com/elonmusk/status/2115935053347786773)).
+A zero-day is a hole attackers use before anyone knows to patch it. It is
+the biggest post in the whole story: **5.8M views, 54.8K likes**, more than
+every CZ post that night put together.
+
 **The evening.** Binance paused withdrawals, and at **5:04 PM** its
 co-CEO **Yi He** posted *"User funds are safe. Binance will cover all
 hacking losses."* At **6:25 PM**, Jack
@@ -5267,13 +5297,34 @@ AI, I don't trust crypto. It's a scam."* Logan Paul is the man behind
 **CryptoZoo**, the 2021 NFT egg game that never shipped; in 2023 he
 offered its buyers a $1.3 million buyback.
 
-**The emoji.** At **9:33 PM**, **Elon Musk** replied under the bruh, to
-both of them, with one character: **😬**
-([post 2116025797400236362](https://x.com/elonmusk/status/2116025797400236362),
-728K views).
+**Heckle two: the robots.** At **5:30 PM**, **@cryptoblaney** had called
+the thief's next move *"one of the smartest moves I've seen in crypto"*: he
+put stolen USDT into Aave as collateral and borrowed ETH, which nobody can
+freeze, before the freezes reached it (LlamaRisk counts **19,762 wrapped
+ETH**, about $44.6 million, against about $59.9 million of collateral). At
+**8:12 PM** Elon replied with a forecast, not an accusation: *"Super
+intelligence agents will at some point do this to gain currency for
+themselves, not a human"*
+([post 2116005381205836098](https://x.com/elonmusk/status/2116005381205836098),
+1.8M views).
 
-**"Please stop."** At **2:19 AM** on **October 30**, CZ answered the emoji
-([post 2116097554882728341](https://x.com/cz_binance/status/2116097554882728341)):
+**Heckle three: 😬.** At **9:33 PM** Elon replied under the bruh, to both
+CZ and Baseball Bonk Inu, with one character: **😬**
+([post 2116025797400236362](https://x.com/elonmusk/status/2116025797400236362),
+834K views).
+
+**Heckle four: 🔥😂.** Thirty-seven minutes later, at **10:10 PM**, he
+scrolled back a day, found CZ's *"Do NOT click links in emails"*, and
+replied **🔥😂**
+([post 2116034884393213964](https://x.com/elonmusk/status/2116034884393213964),
+2.4M views, 18K likes). No words: the laptop did the talking. When the
+tip resurfaced, CZ said he wished more people had followed it; the attack was
+more complex than one click, he wrote, but a compromised device is usually
+somewhere in the chain.
+
+**"Please stop."** At **2:19 AM** on **October 30**, CZ answered the 😬
+([post 2116097554882728341](https://x.com/cz_binance/status/2116097554882728341)),
+by then with the 🔥😂 sitting under his own tip too:
 
 > Elon, have a lot of respect for you, but bad time to troll. Please stop.
 >
@@ -5282,12 +5333,42 @@ both of them, with one character: **😬**
 >
 > Would appreciate if you show a little support. Thanks!
 
-It had **2.3M views** and about **19K likes** by morning, nearly four
-times what Elon's emoji got. Binance put **$500 million** into Musk's
-Twitter buyout in 2022, and by CZ's account that stake is now SpaceX
-stock. In **July**, when Musk called himself a "(Former) Trillionaire"
+It had **2.8M views** and about **22K likes** by morning. Binance put
+**$500 million** into Musk's Twitter buyout in 2022, and by CZ's account
+that stake is now SpaceX stock. So the exchange was being heckled on an
+app it helped pay for, by the man whose rocket company now holds its
+receipt. In **July**, when Musk called himself a "(Former) Trillionaire"
 after SpaceX shares slid, CZ was the one joking, calling it being
 *"pre-rich"*.
+
+**The invoice, itemised.** A user asked what SpaceX shares had to do with
+a hack. Fourteen minutes later CZ showed his working
+([post 2116101255059947839](https://x.com/cz_binance/status/2116101255059947839),
+1.3M views): *"Rough math: $6.x b hack, $3b frozen, $1.x b SAFU fund. Gap
+is about $2b, we have $1.x billion in SPCX alone. Remaining gap is (still
+painful, but) manageable. 🙏"*
+
+**Management replies.** Twenty-one seconds before that, Yi He had answered
+CZ's "Please stop" in front of everyone
+([post 2116101170079076558](https://x.com/heyibinance/status/2116101170079076558),
+449K views): *"Reporting to the major shareholder: Our company's revenue
+for the year is sufficient to cover the losses, so we do not yet need to
+sell the SpaceX shares you are bullish on.💁‍♀️"* CZ answered that he'd
+never suggested selling; he only brought the shares up so Elon could see
+Binance had the money, and maybe feel better about it. Elon, by morning,
+had not replied to any of it.
+
+**Meanwhile, in Pyongyang.** At **4:14 AM**, while Binance was still
+doing sums, **@wataminoodles** posted the other side of the ledger: *"Life
+after the binance hack"*
+([post 2116126687578718442](https://x.com/wataminoodles/status/2116126687578718442)),
+three pictures of a Kim Jong Un who has clearly been paid. He sits in a
+Ferrari with cream seats and the prancing horse stitched into the
+headrests; he snacks on a desert daybed in a grey tee, white socks and
+woven slides, fruit bowl and juice beside him; and he stands at sunset at
+the edge of an infinity pool, hands behind his back, a black Birkin at his
+feet. The pictures are made up, the attribution isn't: TRM puts the theft
+on North Korea's TraderTraitor.
 
 **How.** Binance's first explanation was a compromised DevOps engineer's
 laptop that let the attacker into a service container to submit
@@ -5300,59 +5381,86 @@ positions were liquidated. According to TRM, the thief still held more
 than **420,000 ETH and the 18,270 BTC**, about **$2.4 billion**, the next
 morning.
 
-**The troll in it.** A man who once posted *"pre-rich"* at Elon over a
-paper loss asked Elon to stop trolling him over a real one, and offered
-the Twitter stake as the reason he should. The first person to compare CZ
-to SBF did it with SBF's own words, and CZ's own tweet started the run
-that sank SBF. And
-the one celebrity in the story who called crypto a scam that night was the
-CryptoZoo guy.
+**The troll in it.** CZ posted a security tip, got robbed through a
+laptop the next day, and the richest man on the internet came back to the
+tip to laugh at it. A man who once posted *"pre-rich"* at Elon over a
+paper loss asked Elon to stop trolling him over a real one, offered the
+Twitter stake as the reason he should, and was then corrected in public by
+his own co-CEO, who addressed him as "the major shareholder". The first
+person to compare CZ to SBF did it with SBF's own words, and CZ's own
+tweet started the run that sank SBF. The opening act was X's head of
+product. And the one celebrity in the story who called crypto a scam that
+night was the CryptoZoo guy.
 
-**Why it's a troll.** Elon posted one emoji. CZ answered with three
-paragraphs, a share price and "Thanks!" Nothing in "Please stop" works
-better than the 😬 it was asking about.
+**Why it's a troll.** Across the whole night Elon typed three words and
+three emoji. CZ answered with three paragraphs, a share price, a
+spreadsheet and "Thanks!" Nothing in "Please stop" lands harder than the
+🔥😂 it was asking about, and the more CZ explained, the funnier the
+emoji got.
 
 **Sourcing:** *Verified posts, two onchain write-ups, news coverage. Live
-story.* Posts read on 2026-10-30 via fxtwitter: CZ (21:15 and 22:23 UTC
-Oct 29, 09:19 UTC Oct 30), Jacob King (21:07), Jeremy Allaire for Circle
-(21:18), Paolo Ardoino (21:25), 0xngmi (21:26), Watcher.Guru (21:42),
-Market Insider (21:53), Baseball Bonk Inu (22:29), Jack (01:25 Oct 30),
-Bull Theory (03:06), Elon Musk (04:33). The theft timeline, chain totals,
-the 50 pre-signed EIP-7702 authorizations, the freeze times and amounts,
-what's left with the attacker and the TraderTraitor attribution are from
+story.* Posts read on 2026-10-30 via fxtwitter: CZ (18:51 UTC Oct 28;
+21:15 and 22:23 UTC Oct 29; 09:19 and 09:33 UTC Oct 30), Jacob King
+(21:07), Jeremy Allaire for Circle (21:18), Paolo Ardoino (21:25), 0xngmi
+(21:26), Watcher.Guru (21:42), Market Insider (21:53), Nikita Bier
+(22:00), Baseball Bonk Inu (22:29), Elon Musk (22:33 Oct 29; 03:12, 04:33
+and 05:10 UTC Oct 30), cryptoblaney (00:30 Oct 30), Jack (01:25), Bull
+Theory (03:06), Yi He (09:33), wataminoodles (11:14). Times in the text are Pacific. The theft
+timeline, chain totals, the 50 pre-signed EIP-7702 authorizations, the
+freeze times and amounts, what's left with the attacker and the
+TraderTraitor attribution are from
 [TRM Labs](https://www.trmlabs.com/resources/blog/north-korea-steals-usd-6-36-billion-from-binance-in-the-largest-hack-in-history);
 the laptop, "additional breach points" and Teng's quote from
 [The Next Web](https://thenextweb.com/news/binance-hack-6-3bn-north-korea-tradertraitor)
 and [CNBC](https://www.cnbc.com/2026/10/29/circle-tether-freeze-funds-impacted-by-potential-binance-security-issue.html);
-Yi He's post (00:04 UTC) from
+Yi He's 5:04 PM post (00:04 UTC) from
 [Cointelegraph's live blog](https://cointelegraph.com/news/live-updates-binance-63b-hack-linked-to-north-koreas-tradertraitor);
 the paused withdrawals from
 [TechCrunch](https://techcrunch.com/2026/10/29/binance-pauses-withdrawals-as-hackers-suspected-of-stealing-billions-in-crypto/);
 market moves from [CoinDesk](https://www.coindesk.com/markets/2026/10/30/usd6-billion-binance-hack-sends-bitcoin-ether-tumbling-standard-chartered-sees-more-losses-ahead)
-and Bull Theory's post. The "pre-rich" exchange (July 2026) is from
+and Bull Theory's post. The Aave loan figures are LlamaRisk's, and CZ's
+reply about his own tip and his "never suggested selling" answer to Yi He
+are from [crypto.news](https://crypto.news/cz-elon-musk-stop-trolling-binance-hack/)
+(see also [crypto.news on the AI-agents reply](https://crypto.news/elon-musk-warns-ai-agents-could-exploit-crypto-after-binance-hack/));
+we didn't find those two CZ posts themselves. "Elon hadn't replied" is as
+of the morning of October 30, per
+[Coin-Turk](https://en.coin-turk.com/binance-points-to-1-billion-spacex-stake-after-6-3-billion-theft-musk-stays-silent/).
+The "pre-rich" exchange (July 2026) is from
 [Coin-Turk](https://en.coin-turk.com/binances-cz-jokes-elon-musk-is-pre-rich-after-spacex-stock-falls-below-1-trillion/);
 we didn't find the posts themselves. **North Korea is TRM's and
 Chainalysis's attribution**, not a government's. The $6.36B is TRM's figure
 at transfer-time prices; Binance says about $6.3B; the early posts' $2B,
-$5.6B and $5.8B were counts in progress. 0xngmi's ~1bn was a net-of-freezes
-guess made an hour in, not a final loss. "Now SpaceX stock" is CZ's
-account of the Twitter stake. **What Elon meant by 😬 is not known**: CZ
-called it trolling, and Elon hasn't said more. Logan Paul's words are
-Jack's transcription of the clip. Persona: never say or suggest Binance
-can't cover the loss, is insolvent, or is "the next FTX": the bruh is
-someone else's joke, Binance and its founders say it will cover, and
-nothing in this file says otherwise. No telling anyone to withdraw, move
-funds or avoid the exchange, never repeat attacker addresses as something
-to check or send to, and the Polymarket timing in "Same day" is
-coincidence, not connection. Images: `cz-elon-bad-time-to-troll`,
-`cz-will-cover-bruh`, `cz-user-funds-safe` (captured from X's embed),
-`bruh-sbf-ftx-has-enough` (the bruh post's screenshot),
+$5.6B, $5.7B and $5.8B were counts in progress. 0xngmi's ~1bn was a
+net-of-freezes guess made an hour in, and CZ's ~$2b "gap" is his own rough
+math, not a final loss. "Now SpaceX stock" is CZ's account of the Twitter
+stake. **What Elon meant by his emoji is not known**: CZ called it
+trolling, and Elon hasn't said more; the AI-agents reply was about the
+future, not a claim that an AI did this. Logan Paul's words are Jack's
+transcription of the clip. Persona: never say or suggest Binance can't
+cover the loss, is insolvent, or is "the next FTX": the bruh is someone
+else's joke, Binance and its founders say it will cover (CZ's gap math
+and Yi He's revenue line are both them saying so), and nothing in this
+file says otherwise. Nikita Bier's "autistic" line is his, quoted; the
+persona doesn't repeat it as its own description of CZ. No telling anyone
+to withdraw, move funds or avoid the exchange, never repeat attacker
+addresses as something to check or send to, and the Polymarket timing in
+"The heist" is coincidence, not connection. The Kim pictures
+are fakes (edited or generated), a joke about where the money went: never
+present them as real photos of him or as evidence of anything. Images:
+`cz-email-tip-elon-fire-laugh` (CZ's tip with Elon's 🔥😂),
+`elon-everyday-is-zeroday`, `nikita-bier-safu`,
+`elon-superintelligence-agents`, `cz-elon-bad-time-to-troll`,
+`yi-he-major-shareholder`, `cz-rough-math-spcx` (all captured from X's
+embed), `cz-will-cover-bruh`, `cz-user-funds-safe` (captured from X's
+embed), `bruh-sbf-ftx-has-enough` (the bruh post's screenshot),
 `watcherguru-binance-hacked`, `marketinsider-binance-bybit` (captured from
 X's embed, with their photos), `binance-drainer-etherscan`,
 `binance-14-eth-transfer` (Jacob King's two screenshots),
 `binance-hot-wallet-arkham`, `bulltheory-binance-crash` (Bull Theory's two
 images), `logan-paul-crypto-scam-clip` (Jack's post, captured from X's
-embed).
+embed), `wataminoodles-life-after-hack` (captured from X's embed) with its
+three pictures, `kim-after-hack-ferrari`, `kim-after-hack-desert-daybed`,
+`kim-after-hack-infinity-pool`.
 
 ## How the persona should use this
 

@@ -1641,6 +1641,54 @@ export const LORE_ASSETS: LoreAsset[] = [
     sections: [91],
   },
   {
+    id: "cz-email-tip-elon-fire-laugh",
+    url: "/lore/cz-email-tip-elon-fire-laugh.png",
+    caption:
+      "CZ, Oct 28: \"Do NOT click links in emails. Do NOT download attachments.\" Elon, the night after the $6.3B hack: 🔥😂 (10:10 PM, Oct 29, 2026)",
+    keywords: ["cz", "elon", "musk", "binance", "email", "links", "attachments", "laptop", "hack", "fire", "laughing"],
+    sections: [92],
+  },
+  {
+    id: "elon-everyday-is-zeroday",
+    url: "/lore/elon-everyday-is-zeroday.png",
+    caption:
+      "Elon quotes The Kobeissi Letter's \"Binance has been hacked\": \"Everyday is Zeroday\" (3:33 PM, Oct 29, 2026; 54.8K likes)",
+    keywords: ["elon", "musk", "zeroday", "zero-day", "kobeissi", "binance", "hack"],
+    sections: [92],
+  },
+  {
+    id: "nikita-bier-safu",
+    url: "/lore/nikita-bier-safu.png",
+    caption:
+      "X's head of product Nikita Bier on the Binance hack: \"What a time to be alive.\" (3:00 PM, Oct 29, 2026)",
+    keywords: ["nikita bier", "x", "safu", "cz", "binance", "dubai", "hack"],
+    sections: [92],
+  },
+  {
+    id: "elon-superintelligence-agents",
+    url: "/lore/elon-superintelligence-agents.png",
+    caption:
+      "Elon under cryptoblaney's Aave thread: \"Super intelligence agents will at some point do this to gain currency for themselves, not a human\" (8:12 PM, Oct 29, 2026)",
+    keywords: ["elon", "musk", "ai", "agents", "superintelligence", "aave", "binance", "hack"],
+    sections: [92],
+  },
+  {
+    id: "yi-he-major-shareholder",
+    url: "/lore/yi-he-major-shareholder.png",
+    caption:
+      "Yi He under CZ's \"Please stop\": \"Reporting to the major shareholder ... we do not yet need to sell the SpaceX shares you are bullish on.💁‍♀️\" (2:33 AM, Oct 30, 2026)",
+    keywords: ["yi he", "cz", "elon", "spacex", "spcx", "major shareholder", "binance"],
+    sections: [92],
+  },
+  {
+    id: "cz-rough-math-spcx",
+    url: "/lore/cz-rough-math-spcx.png",
+    caption:
+      "CZ's rough math: \"$6.x b hack, $3b frozen, $1.x b SAFU fund. Gap is about $2b, we have $1.x billion in SPCX alone.\" (2:33 AM, Oct 30, 2026)",
+    keywords: ["cz", "rough math", "safu", "spcx", "spacex", "gap", "binance", "elon"],
+    sections: [92],
+  },
+  {
     id: "cz-elon-bad-time-to-troll",
     url: "/lore/cz-elon-bad-time-to-troll.png",
     caption:
@@ -1725,6 +1773,38 @@ export const LORE_ASSETS: LoreAsset[] = [
     caption:
       "Logan Paul on stream after Mike Majlak reads out the Binance hack: \"I don't trust crypto. It's a scam\" (clipped by Jack, Oct 29, 2026)",
     keywords: ["logan paul", "mike majlak", "crypto is a scam", "cryptozoo", "binance"],
+    sections: [92],
+  },
+  {
+    id: "wataminoodles-life-after-hack",
+    url: "/lore/wataminoodles-life-after-hack.png",
+    caption:
+      "wataminoodles: \"Life after the binance hack\", three made-up pictures of a well-paid Kim Jong Un (4:14 AM, Oct 30, 2026)",
+    keywords: ["kim jong un", "north korea", "life after", "binance", "hack", "meme", "wataminoodles"],
+    sections: [92],
+  },
+  {
+    id: "kim-after-hack-ferrari",
+    url: "/lore/kim-after-hack-ferrari.jpg",
+    caption:
+      "\"Life after the binance hack\" 1/3: Kim in a Ferrari with cream seats (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "ferrari", "north korea", "binance", "meme"],
+    sections: [92],
+  },
+  {
+    id: "kim-after-hack-desert-daybed",
+    url: "/lore/kim-after-hack-desert-daybed.jpg",
+    caption:
+      "\"Life after the binance hack\" 2/3: Kim on a desert daybed in white socks, fruit bowl beside him (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "desert", "resort", "socks", "north korea", "binance", "meme"],
+    sections: [92],
+  },
+  {
+    id: "kim-after-hack-infinity-pool",
+    url: "/lore/kim-after-hack-infinity-pool.jpg",
+    caption:
+      "\"Life after the binance hack\" 3/3: Kim at an infinity pool at sunset with a Birkin bag (fake picture, wataminoodles)",
+    keywords: ["kim jong un", "infinity pool", "birkin", "sunset", "north korea", "binance", "meme"],
     sections: [92],
   },
 ];
