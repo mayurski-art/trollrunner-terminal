@@ -63,9 +63,47 @@ function TransmissionText({
 // changing dependency of every callback that reads it.
 const POPOUT_SIZE = { width: 960, height: 720 };
 
+// The panel stacks every transmission from the newest one's Pacific day,
+// newest first; past the first three, the rest wait behind [ +N more ].
+const SHOWN_BEFORE_FOLD = 3;
+const pacificDay = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+function sameDayAsNewest(posts: Post[]): Post[] {
+  if (!posts.length) return [];
+  const day = pacificDay(posts[0].posted_at);
+  return posts.filter((p) => pacificDay(p.posted_at) === day);
+}
+
+function TransmissionMeta({ post }: { post: Post }) {
+  return (
+    <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
+      <span>{timeAgo(post.posted_at)}</span>
+      {post.x_post_url && (
+        <a
+          href={post.x_post_url}
+          target="_blank"
+          rel="noreferrer"
+          className="hover:text-terminal underline decoration-dim underline-offset-2"
+        >
+          view on x
+        </a>
+      )}
+    </div>
+  );
+}
+
+function TransmissionArt({ post }: { post: Post }) {
+  if (!post.art_url) return null;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={post.art_url} alt="" className="mt-2 w-full rounded border border-dim" />;
+}
+
 export default function Home() {
   const [session, setSession] = useState<Session | null>(null);
-  const [latest, setLatest] = useState<Post | null>(null);
+  // The newest transmission's whole day, newest first (latest = today[0]).
+  const [today, setToday] = useState<Post[]>([]);
+  const latest = today[0] ?? null;
+  const [showAllToday, setShowAllToday] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justGenerated, setJustGenerated] = useState(false);
   // True while a transmission is being generated — the panel shows the cryptic
@@ -204,7 +242,7 @@ export default function Home() {
       .then((data) => {
         if (cancelled) return;
         if (data.error) setError(data.error);
-        else setLatest(data.posts?.[0] ?? null);
+        else setToday(sameDayAsNewest(data.posts ?? []));
       })
       .catch((err) => !cancelled && setError((err as Error).message));
     return () => {
@@ -252,7 +290,7 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row gap-6 mb-6 lg:mb-0 lg:flex-1 lg:min-h-[34rem] short:min-h-[26rem]">
           <div className="order-2 lg:order-none lg:w-1/3 flex flex-col lg:min-h-0">
             <Frame
-              title="latest transmission"
+              title={today.length > 1 ? `today's transmissions · ${today.length}` : "latest transmission"}
               tone="terminal"
               // Desktop pins the whole left column to the row height (which
               // fills the viewport, 34rem minimum, matching the chat Frame
@@ -310,7 +348,7 @@ export default function Home() {
                 onReviewChange={handleReviewChange}
                 steerRef={steerRef}
                 onGenerated={(post) => {
-                  setLatest(post);
+                  setToday((prev) => sameDayAsNewest([post, ...prev.filter((p) => p.id !== post.id)]));
                   setJustGenerated(true);
                   setTimeout(() => setJustGenerated(false), 1200);
                 }}
@@ -327,29 +365,30 @@ export default function Home() {
                     justRevealed={justGenerated}
                     popped={transmissionPopped}
                   />
-                  {latest.art_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={latest.art_url}
-                      alt=""
-                      className="mt-2 w-full rounded border border-dim"
-                    />
-                  )}
-                  <div className="mt-1.5 flex items-center gap-3 text-xs text-dim">
-                    <span>{timeAgo(latest.posted_at)}</span>
-                    {latest.x_post_url && (
-                      <a
-                        href={latest.x_post_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:text-terminal underline decoration-dim underline-offset-2"
-                      >
-                        view on x
-                      </a>
-                    )}
-                  </div>
+                  <TransmissionArt post={latest} />
+                  <TransmissionMeta post={latest} />
                   <OwnerClueReveal session={session} />
                   <PostGuess postId={latest.id} session={session} />
+                  {/* Earlier transmissions from the same day, newest first. */}
+                  {today
+                    .slice(1, showAllToday ? undefined : SHOWN_BEFORE_FOLD)
+                    .map((post) => (
+                      <div key={post.id} className="mt-4 pt-4 border-t border-dim/40">
+                        <TransmissionText content={post.content} justRevealed={false} popped={transmissionPopped} />
+                        <TransmissionArt post={post} />
+                        <TransmissionMeta post={post} />
+                      </div>
+                    ))}
+                  {today.length > SHOWN_BEFORE_FOLD && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAllToday((v) => !v)}
+                      aria-expanded={showAllToday}
+                      className="mt-3 text-xs text-dim hover:text-terminal transition-colors"
+                    >
+                      {showAllToday ? "[ show less ]" : `[ +${today.length - SHOWN_BEFORE_FOLD} more ]`}
+                    </button>
+                  )}
                 </>
               )}
             </Frame>

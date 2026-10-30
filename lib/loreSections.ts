@@ -238,7 +238,7 @@ export function getArchiveSectionText(sectionNumber: number): string | null {
   const match = SECTIONS.find((s) => s.number === sectionNumber);
   if (!match) return null;
   const withoutHeading = match.body.replace(/^##[^\n]*\n+/, "");
-  return withoutHeading.replace(/\*\*(.+?)\*\*/g, "$1").trim();
+  return withoutHeading.replace(/\*\*((?:[^*\r\n]|\r?\n(?!\r?\n))+?)\*\*/g, "$1").trim();
 }
 
 // ---------------------------------------------------------------------------
