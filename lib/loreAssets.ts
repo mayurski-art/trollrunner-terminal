@@ -1640,6 +1640,93 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["polymarket", "polygonscan", "drainer", "address poisoning", "dust", "pol"],
     sections: [91],
   },
+  {
+    id: "cz-elon-bad-time-to-troll",
+    url: "/lore/cz-elon-bad-time-to-troll.png",
+    caption:
+      "Elon's 😬, then CZ: \"Elon, have a lot of respect for you, but bad time to troll. Please stop.\" (2:19 AM, Oct 30, 2026)",
+    keywords: ["cz", "elon", "musk", "binance", "bad time to troll", "please stop", "spcx", "spacex", "twitter"],
+    sections: [92],
+  },
+  {
+    id: "cz-will-cover-bruh",
+    url: "/lore/cz-will-cover-bruh.png",
+    caption:
+      "CZ quotes 0xngmi's ~$1bn estimate: \"Loss might be a bit higher than that, but will cover. 🙏\"; Baseball Bonk Inu replies \"bruh\" with SBF's tweet (Oct 29, 2026)",
+    keywords: ["cz", "binance", "will cover", "bruh", "0xngmi", "sbf", "hack"],
+    sections: [92],
+  },
+  {
+    id: "bruh-sbf-ftx-has-enough",
+    url: "/lore/bruh-sbf-ftx-has-enough.png",
+    caption:
+      "The screenshot in the bruh reply: SBF, Nov 7, 2022, \"FTX has enough to cover all client holdings\", underlined in red",
+    keywords: ["sbf", "ftx", "bankman-fried", "cover all client holdings", "bruh"],
+    sections: [92],
+  },
+  {
+    id: "cz-user-funds-safe",
+    url: "/lore/cz-user-funds-safe.png",
+    caption:
+      "CZ: \"User funds are safe! It does look like a hack on Binance,\" thanking Tether (~$971m) and Circle (~$823m) for the freezes (2:15 PM, Oct 29, 2026)",
+    keywords: ["cz", "binance", "user funds are safe", "hack", "tether", "circle", "freeze"],
+    sections: [92],
+  },
+  {
+    id: "watcherguru-binance-hacked",
+    url: "/lore/watcherguru-binance-hacked.png",
+    caption:
+      "Watcher.Guru: \"World's largest crypto exchange Binance hacked with over $5.6 billion stolen\", coin by coin (2:42 PM, Oct 29, 2026)",
+    keywords: ["binance", "hack", "watcher guru", "stolen", "5.6 billion"],
+    sections: [92],
+  },
+  {
+    id: "marketinsider-binance-bybit",
+    url: "/lore/marketinsider-binance-bybit.png",
+    caption:
+      "Market Insider: the record was Bybit's $1.5B; Binance \"just hacked for over $5.8B\", nearly 4x (Oct 29, 2026)",
+    keywords: ["binance", "bybit", "biggest hack", "record", "cz"],
+    sections: [92],
+  },
+  {
+    id: "binance-drainer-etherscan",
+    url: "/lore/binance-drainer-etherscan.jpg",
+    caption:
+      "Etherscan: the Binance drainer, funded by Binance 14, holding $1.54B in 63 tokens and sending out 195,460 ETH (Jacob King, Oct 29, 2026)",
+    keywords: ["binance", "etherscan", "drainer", "hack", "eth", "binance 14"],
+    sections: [92],
+  },
+  {
+    id: "binance-14-eth-transfer",
+    url: "/lore/binance-14-eth-transfer.jpg",
+    caption:
+      "Etherscan: Binance 14 transfers 167,464.25 ETH to the attacker at 8:24 PM UTC, Oct 29, 2026",
+    keywords: ["binance", "binance 14", "167464 eth", "transfer", "etherscan", "hack"],
+    sections: [92],
+  },
+  {
+    id: "binance-hot-wallet-arkham",
+    url: "/lore/binance-hot-wallet-arkham.jpg",
+    caption:
+      "Arkham: a Binance hot wallet's balance goes from $1.5B to nothing on Oct 29, 2026, \"dropped by 99.98%\" (Bull Theory)",
+    keywords: ["binance", "arkham", "hot wallet", "balance", "hack", "chart"],
+    sections: [92],
+  },
+  {
+    id: "bulltheory-binance-crash",
+    url: "/lore/bulltheory-binance-crash.jpg",
+    caption: "Bull Theory's graphic for the Binance hack: the logo over a red candle chart falling off a cliff",
+    keywords: ["binance", "crash", "chart", "red candles", "bull theory"],
+    sections: [92],
+  },
+  {
+    id: "logan-paul-crypto-scam-clip",
+    url: "/lore/logan-paul-crypto-scam-clip.png",
+    caption:
+      "Logan Paul on stream after Mike Majlak reads out the Binance hack: \"I don't trust crypto. It's a scam\" (clipped by Jack, Oct 29, 2026)",
+    keywords: ["logan paul", "mike majlak", "crypto is a scam", "cryptozoo", "binance"],
+    sections: [92],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
