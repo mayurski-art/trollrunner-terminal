@@ -10,7 +10,7 @@ import LockReveal from "@/components/LockReveal";
 import AuthPanel from "@/components/AuthPanel";
 import { stripLoreLinks } from "@/lib/loreLinks";
 import WeekFiles from "@/components/WeekFiles";
-import { onArchiveFileRequest, takeArchiveFile } from "@/lib/archiveGoto";
+import { onArchiveFileRequest, rememberFileForSignIn, takeArchiveFile, takeFileAfterSignIn } from "@/lib/archiveGoto";
 
 type LoreImage = { id: string; url: string; caption: string };
 
@@ -189,11 +189,13 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
   // older /archive?file=N: expand that file once the manifest has loaded,
   // and scroll it into view. Only expands files that are actually open —
   // pointing at a sealed one just scrolls to it with its [ unlock ] button
-  // showing, which is the intended funnel.
+  // showing, which is the intended funnel. A file the visitor tried to unlock
+  // before signing in (lib/archiveGoto.ts) wins over the URL's.
   const deepLinkedRef = useRef(false);
   useEffect(() => {
     if (deepLinkedRef.current || files.length === 0) return;
-    const raw = file ?? new URLSearchParams(window.location.search).get("file");
+    const raw =
+      (signedIn ? takeFileAfterSignIn() : null) ?? file ?? new URLSearchParams(window.location.search).get("file");
     if (raw == null) return;
     const number = Number(raw);
     if (!Number.isInteger(number)) return;
@@ -210,7 +212,7 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
         .getElementById(`archive-file-${number}`)
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-  }, [files, file]);
+  }, [files, file, signedIn]);
 
   // Instant local filter — every open file's title/body, matched client-side
   // as the user types. Zero cost, zero latency, no network round trip.
@@ -297,6 +299,7 @@ export default function Archive({ file, signedIn = true }: { file?: number; sign
 
   async function unlock(number: number) {
     if (!signedIn) {
+      rememberFileForSignIn(number);
       setShowSignIn(true);
       requestAnimationFrame(() => {
         document.getElementById("archive-sign-in")?.scrollIntoView({ behavior: "smooth", block: "center" });
