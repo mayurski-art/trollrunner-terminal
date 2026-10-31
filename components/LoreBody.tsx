@@ -46,20 +46,25 @@ export default function LoreBody({
                     aria-label={img.caption}
                   />
                 ) : onImageClick ? (
-                  <button
-                    type="button"
+                  // The image itself is the button, not an <img> inside a
+                  // <button>: a press-and-hold has to land on the picture for
+                  // iOS to offer the owner Save to Photos (CopyGuard's
+                  // data-copy-ok; everyone else's callout is off in globals.css).
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={img.url}
+                    alt={`View full-size: ${img.caption}`}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => onImageClick({ url: img.url, caption: img.caption })}
-                    aria-label={`View full-size: ${img.caption}`}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter" && e.key !== " ") return;
+                      e.preventDefault();
+                      onImageClick({ url: img.url, caption: img.caption });
+                    }}
                     data-cursor="zoom"
-                    className="block w-full cursor-zoom-in"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={img.url}
-                      alt={img.caption}
-                      className="max-h-[32rem] w-auto max-w-full object-contain border border-dim/40 pointer-events-none"
-                    />
-                  </button>
+                    className="block max-h-[32rem] w-auto max-w-full object-contain border border-dim/40 cursor-zoom-in"
+                  />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img

@@ -180,21 +180,24 @@ const MessageRow = memo(function MessageRow({
       )}
       {m.image_url && !isVideoAsset(m.image_url) && (
         <div className="mt-2 max-w-xs border border-dim">
-          <button
-            type="button"
+          {/* The image itself is the button (not inside one) so a
+              press-and-hold lands on the picture and iOS can offer the owner
+              Save to Photos; components/LoreBody.tsx does the same. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={m.image_url}
+            alt={`View full-size: ${m.image_caption ?? "image sent by the terminal"}`}
+            role="button"
+            tabIndex={0}
             onClick={() => onOpenLightbox({ url: m.image_url!, caption: m.image_caption })}
-            aria-label="View full-size image"
+            onKeyDown={(e) => {
+              if (e.key !== "Enter" && e.key !== " ") return;
+              e.preventDefault();
+              onOpenLightbox({ url: m.image_url!, caption: m.image_caption });
+            }}
             data-cursor="zoom"
-            className="block w-full cursor-zoom-in"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={m.image_url}
-              alt={m.image_caption ?? "image sent by the terminal"}
-              draggable={false}
-              className="w-full block cursor-zoom-in"
-            />
-          </button>
+            className="w-full block cursor-zoom-in"
+          />
           {m.image_caption && (
             <p className="text-terminal font-bold text-xs px-1.5 py-1">{m.image_caption}</p>
           )}
