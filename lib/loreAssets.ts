@@ -2056,6 +2056,54 @@ export const LORE_ASSETS: LoreAsset[] = [
     keywords: ["greg", "kim jong un", "generational comeback", "dead", "north korea", "binance"],
     sections: [95],
   },
+  {
+    id: "fearedbuck-elon-praises-ye",
+    url: "/lore/fearedbuck-elon-praises-ye.jpg",
+    caption:
+      "FearBuck's screenshot: Adams' \"If Elon has a bad week,we have bad life.\" —Elon Musk. over the Kanye clip, and Elon's reply \"Kanye has a good heart and is a world champion troll. (Hall of famer)\" (Nov 1, 2026)",
+    keywords: ["fearbuck", "fearedbuck", "elon", "kanye", "ye", "hall of famer", "world champion troll", "screenshot"],
+    sections: [96],
+  },
+  {
+    id: "elon-kanye-orange-2020",
+    url: "/lore/elon-kanye-orange-2020.jpg",
+    caption:
+      "Elon and Kanye in Musk's house, July 1, 2020: Kanye in an orange fleece, Elon in a black tee with one orange on it, Grimes reflected in the glass (as FearBuck posted it)",
+    keywords: ["elon", "kanye", "ye", "orange", "grimes", "2020", "boys house", "photo", "standing"],
+    sections: [96],
+  },
+  {
+    id: "elon-kanye-hall-of-famer",
+    url: "/lore/elon-kanye-hall-of-famer.png",
+    caption:
+      "Elon Musk under Adams' post: \"Kanye has a good heart and is a world champion troll. (Hall of famer)\" (5:06 AM, Nov 1, 2026)",
+    keywords: ["elon", "kanye", "ye", "hall of famer", "world champion troll", "good heart", "reply"],
+    sections: [96],
+  },
+  {
+    id: "adams-if-elon-has-a-bad-week",
+    url: "/lore/adams-if-elon-has-a-bad-week.mp4",
+    caption:
+      "Adams' clip: Kanye on a classroom table at Detroit's College for Creative Studies, Oct 2, 2018, captions burned in: \"If Elon has a bad week, we have a bad life! Leave that man the fu*k alone!\" (20 s)",
+    keywords: ["kanye", "ye", "elon", "bad week", "bad life", "leave that man alone", "table", "detroit", "clip", "video"],
+    sections: [96],
+  },
+  {
+    id: "adams-if-elon-has-a-bad-week-still",
+    url: "/lore/adams-if-elon-has-a-bad-week-still.jpg",
+    caption:
+      "First frame of Adams' clip: Kanye in a brown hoodie over an orange tee on the table, the caption reading \"Elon Musk\"",
+    keywords: ["kanye", "ye", "elon", "hoodie", "orange", "table", "still", "detroit"],
+    sections: [96],
+  },
+  {
+    id: "kanye-ccs-detroit-2018",
+    url: "/lore/kanye-ccs-detroit-2018.jpg",
+    caption:
+      "First frame of josh's original Oct 2, 2018 video: Kanye on a table at the College for Creative Studies in Detroit, students filming from the floor (\"kanye really came to our little art school and told us to leave elon musk alone\")",
+    keywords: ["kanye", "ye", "detroit", "college for creative studies", "ccs", "2018", "elon", "table", "students"],
+    sections: [96],
+  },
 ];
 
 // Chat used to pre-select an image with a keyword substring match against
