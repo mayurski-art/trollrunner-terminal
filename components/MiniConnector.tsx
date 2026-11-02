@@ -10,7 +10,7 @@ export const HUB_POSTER = "/boot/troll-runner-loop-poster.jpg";
 // Where each node (box and label alike) goes when clicked. Opened in a new
 // tab so the terminal session in the panel survives the click.
 const LINKS = {
-  warfare: "https://trollrunner.net/warfare/",
+  warfare: "https://trollrunner.net/trollnite",
   carlos: "https://x.com/saint_whynne",
   fukupapers: "https://x.com/fukupapers",
   umadbro: "https://umadbro.shop",
@@ -37,13 +37,13 @@ const NODES: MiniNode[] = [
 // Second tier: each hangs under the main node it grew out of, in that
 // node's column, its line labeled with `edge`. seal (@fukupapers, the CEO,
 // shown as TROLL #989) under carlos, "IP Rights"; GO2WAR (@adermaz0ne)
-// under umadbro.shop, "Designer"; warfare under NFT,
+// under umadbro.shop, "Designer"; trollnite under NFT,
 // "Gaming", its characters are the NFT bodies; pump.fun under crypto,
 // "Migrated", where the original $TROLL coin launched.
 const CHILDREN: (MiniNode & { parent: NodeKey; edge?: string })[] = [
   { key: "fukupapers", parent: "carlos", img: "/boot/troll-989.jpg", alt: "seal (TROLL #989)", label: "seal", edge: "IP Rights" },
   { key: "go2war", parent: "umadbro", img: "/boot/go2war.jpg", alt: "GO2WAR", label: "GO2WAR", edge: "Designer" },
-  { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "Troll Warfare", label: "warfare", edge: "Gaming" },
+  { key: "warfare", parent: "nft", img: "/boot/troll-warfare.jpg", alt: "Trollnite", label: "trollnite", edge: "Gaming" },
   { key: "pumpfun", parent: "crypto", img: "/boot/pumpfun.jpg", alt: "Pump.fun", label: "pump.fun", edge: "Migrated" },
 ];
 // Column center (%) for node i under N equal 1fr columns.
@@ -63,7 +63,7 @@ const edgeSide = (parent: NodeKey) => (parentCol(parent) > NODES.findIndex((n) =
 // feeding it: carlos (the art), umadbro.shop (the merch arm), the NFT
 // collection, the troll-crypto coin. Under that row, a second tier hangs
 // off the node each one belongs to (CHILDREN): seal under carlos, GO2WAR under umadbro.shop,
-// warfare under NFT, pump.fun under crypto — a tree rather than one
+// trollnite under NFT, pump.fun under crypto — a tree rather than one
 // ever-longer row, which ran out of width at 7 nodes. Same visual language
 // as BootConnector.tsx (components/BootConnector.tsx), but ambient/looping,
 // not a one-shot reveal. The hub plays the troll runner's loop (HUB_LOOP).
