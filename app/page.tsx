@@ -18,6 +18,7 @@ import SiteTicker from "@/components/SiteTicker";
 import PostGuess from "@/components/PostGuess";
 import OwnerClueReveal from "@/components/OwnerClueReveal";
 import GenerateTransmission from "@/components/GenerateTransmission";
+import CustomTransmission from "@/components/CustomTransmission";
 import CrypticWait from "@/components/CrypticWait";
 import ArchiveOfTheDay from "@/components/ArchiveOfTheDay";
 import NewestFile from "@/components/NewestFile";
@@ -255,29 +256,14 @@ export default function Home() {
       <div className="home-hero-bg-frame" aria-hidden="true">
         <div className="home-hero-bg" />
       </div>
-      {/* Desktop: this column fills the viewport and the panel row below
-          takes whatever height is left, so the chat grows with the screen
-          instead of sitting at a fixed height. */}
-      {/* Width tracks the screen on desktop instead of stopping at a fixed
-          80rem: that cap left a 1366 laptop only 70% of its width and a
-          3440 ultrawide 44%. 90vw, floored at the old 80rem and capped at
-          120rem so chat lines never stretch unreadably long. */}
       <div className="w-full max-w-7xl lg:max-w-[max(80rem,min(90vw,120rem))] lg:flex-1 lg:min-h-0 lg:flex lg:flex-col">
         <Nav />
-        {/* Desktop header band: the node system on the left, everything else
-            that used to stack under it (tagline, buy row, ticker, network
-            badge) in a column beside it. Stacked, those rows cost roughly a
-            third of a laptop's height before the panels even started; side
-            by side they fit inside the node system's own height. Phones keep
-            the original stacked order. */}
         <div className="mt-3 mb-6 short:mt-1 short:mb-3 lg:flex lg:items-center lg:gap-8">
           <div className="max-w-xl lg:max-w-none mx-auto w-full lg:mx-0 lg:w-[36rem] lg:px-[1.8rem] lg:shrink-0">
             <MiniConnector variant="header" />
           </div>
           <div className="mt-4 lg:mt-0 lg:flex-1 lg:min-w-0 flex flex-col gap-2">
             <NewestFile />
-            {/* relative z-[1]: lifts it above the fixed .home-hero-bg-frame,
-                which otherwise paints over non-positioned content like this. */}
             <div className="relative z-[1] flex items-baseline justify-center lg:justify-between gap-x-4 flex-wrap">
               <p className="text-terminal text-[8px] lg:text-[0.875rem] tracking-wide text-center lg:text-left">
                 explore the infinite knowledge behind trolling
@@ -292,17 +278,9 @@ export default function Home() {
             <Frame
               title={today.length > 1 ? `today's transmissions · ${today.length}` : "latest transmission"}
               tone="terminal"
-              // Desktop pins the whole left column to the row height (which
-              // fills the viewport, 34rem minimum, matching the chat Frame
-              // beside it) and lets this panel be the
-              // part that shrinks: min-h-0 lets it drop below its content
-              // height so the controls Frame under it is never pushed off the
-              // page. A pending review card (GenerateTransmission) is what
-              // routinely makes this panel taller than the row.
-              // Popped: same fixed, centered, draggable box as the chat.
               className={
                 transmissionPopped
-                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
+                  ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout"
                   : "lg:flex lg:flex-col lg:flex-1 lg:min-h-0 lg:max-h-none"
               }
               style={
@@ -329,8 +307,6 @@ export default function Home() {
               onHeaderPointerUp={transmissionPopped && isDesktop ? handlePopoutHeaderPointerUp : undefined}
               cornerAction={
                 transmissionPopped || latest || generating ? (
-                  // Same button as the chat's pop-out toggle (Chat.tsx), so
-                  // both panels' corners match popped and unpopped.
                   <button
                     type="button"
                     onClick={toggleTransmissionPopped}
@@ -342,6 +318,12 @@ export default function Home() {
                 ) : undefined
               }
             >
+              <CustomTransmission
+                session={session}
+                onCreated={(post) => {
+                  setToday((prev) => sameDayAsNewest([post, ...prev.filter((p) => p.id !== post.id)]));
+                }}
+              />
               <GenerateTransmission
                 session={session}
                 onPendingChange={setGenerating}
@@ -369,7 +351,6 @@ export default function Home() {
                   <TransmissionMeta post={latest} />
                   <OwnerClueReveal session={session} />
                   <PostGuess postId={latest.id} session={session} />
-                  {/* Earlier transmissions from the same day, newest first. */}
                   {today
                     .slice(1, showAllToday ? undefined : SHOWN_BEFORE_FOLD)
                     .map((post) => (
@@ -394,18 +375,11 @@ export default function Home() {
             </Frame>
 
             {session && (
-              // Chat.tsx still owns all the actual voice/clear/pop-out state
-              // and logic (it's the component with the messages and speech
-              // synthesis) — it portals its controls UI into this div
-              // rather than page.tsx duplicating that logic to render a
-              // second copy. Fills the empty space that used to sit below
-              // the guess prompt on a short transmission.
               <Frame tone="dim" className="mt-3 min-w-0 lg:shrink-0" bodyClassName="py-2 min-w-0 overflow-hidden">
                 <div ref={statusPortalRef} className="mb-2 min-w-0" />
                 <div ref={controlsPortalRef} className="min-w-0" />
               </Frame>
             )}
-
           </div>
 
           <Frame
@@ -413,16 +387,8 @@ export default function Home() {
             tone="dim"
             className={
               chatPopped
-                ? // Mobile insets are intentionally asymmetric (more room on the
-                  // right/bottom than left/top) rather than the even inset-4 —
-                  // that centered box, but sat a bit low and right of true
-                  // center on an iPhone 13 Pro, so it's nudged left and up.
-                  "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout-in"
-                : // lg:[contain:size]: the frame stretches to the row's height
-                  // but its content no longer sizes it — without this a long
-                  // chat log grew the frame (and the page) instead of
-                  // scrolling inside Chat's own message list.
-                  `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none lg:[contain:size] ${
+                ? "fixed top-3 left-3 right-5 bottom-5 z-50 lg:inset-auto lg:top-auto lg:left-auto lg:right-auto lg:bottom-auto lg:w-auto lg:max-w-[95vw] lg:max-h-[95vh] flex flex-col chat-popout"
+                : `order-1 lg:order-none lg:w-2/3 lg:h-auto lg:max-h-none lg:[contain:size] ${
                     session ? "h-[min(70dvh,var(--chat-vv-h,70dvh))] max-h-[44rem]" : "h-48"
                   }`
             }
@@ -472,9 +438,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hidden while either popout is up: that panel is a focused modal
-          with its own backdrop, and a spotlight sliding in over it would
-          both overlap the popout and sit under its z-40 scrim. */}
       {!anyPopped && <ArchiveOfTheDay />}
     </main>
   );
