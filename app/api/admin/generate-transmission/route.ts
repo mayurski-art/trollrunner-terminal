@@ -29,15 +29,13 @@ function isVerbatimSteer(steer: string): boolean {
 }
 
 // Owner-only "generate one right now" button next to the homepage's latest
-// transmission panel — same generation path as the scheduled /api/cron GET,
-// just triggered on demand instead of by Vercel Cron, and gated by
-// requireOwner() instead of CRON_SECRET. Still respects is_paused and the
-// same daily spend cap so a manual click can't blow past the budget guard.
-// Recover whatever is already awaiting review. The review card used to live
-// only in React state, so a reload or a tab change stranded the pending post:
-// invisible to the public because pending = true, and invisible to the owner
-// because nothing re-fetched it. Those posts piled up unreviewable. The
-// homepage now asks for the outstanding one on mount.
+// transmission panel — same generation path as the scheduled cron
+// (/api/admin/generate-transmission) and holds the result for accept/trash —
+// nobody but troll_runner ever sees this button.
+//
+// While a generation is in flight the parent swaps the live transmission text
+// for the cryptic waiting animation (onPendingChange), so the panel shows the
+// old post dissolving into signal rather than sitting there stale.
 export async function GET(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
@@ -46,7 +44,7 @@ export async function GET(request: Request) {
 
   const { data, error } = await owner.supabase
     .from("terminal_posts")
-    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at, short_answer")
     .eq("pending", true)
     .order("posted_at", { ascending: false })
     .limit(1)
@@ -72,12 +70,14 @@ export async function POST(request: Request) {
   let steer = "";
   let replaces = "";
   let answer = "";
+  let shortAnswer = false;
   let kind: Kind = "musing";
   try {
     const body = (await request.json()) as {
       steer?: string;
       replaces?: string;
       answer?: string;
+      short_answer?: boolean;
       kind?: string;
     };
     // A verbatim paste (see isVerbatimSteer below) is never posted to X as a
@@ -89,6 +89,7 @@ export async function POST(request: Request) {
     // Hidden clue_tag for a verbatim post only — the generator path already
     // produces its own CLUE line, so this is ignored unless isVerbatimSteer.
     answer = (body.answer ?? "").trim().slice(0, 100);
+    shortAnswer = !!body.short_answer;
     // Owner's clue/musing checkbox on the review card (migration 018) —
     // defaults to musing the same way the column itself does.
     kind = normalizeKind(body.kind);
@@ -110,12 +111,6 @@ export async function POST(request: Request) {
   // being fed to the LLM as "direction" — see isVerbatimSteer's comment.
   // No spend check or provider call needed since nothing gets generated.
   if (isVerbatimSteer(steer)) {
-    // The old cryptic-glyph mark doesn't fit the plain, casual voice this
-    // persona writes in now (see lib/persona.ts) — strip it rather than
-    // append it, same as generatePost does. Not held to the 280-char tweet
-    // limit the generated path enforces — a verbatim paste isn't meant to go
-    // out as a single tweet, so cutting it there just silently truncated
-    // real transmissions mid-word.
     const content = steer.trim().replace(/\s*[▚▞▓▒]+\s*$/, "").trim();
 
     const { data: post, error: insertError } = await supabase
@@ -123,6 +118,7 @@ export async function POST(request: Request) {
       .insert({
         content,
         kind,
+        short_answer: shortAnswer,
         clue_tag: answer || null,
         input_tokens: 0,
         output_tokens: 0,
@@ -131,7 +127,7 @@ export async function POST(request: Request) {
         estimated_cost_usd: 0,
         pending: true,
       })
-      .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
+      .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at, short_answer")
       .single();
 
     if (insertError || !post) {
@@ -164,8 +160,6 @@ export async function POST(request: Request) {
   const { data: recentRows } = await supabase
     .from("terminal_posts")
     .select("content, posted_at, clue_tag")
-    // Same reason as the cron path: a post still awaiting review might be
-    // trashed, so it should not steer the next one.
     .eq("pending", false)
     .order("posted_at", { ascending: false })
     .limit(15);
@@ -176,19 +170,10 @@ export async function POST(request: Request) {
     clue_tag: r.clue_tag as string | null,
   }));
 
-  // Seeded from the clock rather than recent.length: a manual click that gets
-  // trashed and regenerated doesn't change recent.length (a trashed draft was
-  // never pending: false), so a length-based seed kept landing on the same
-  // free provider with the exact same prompt and produced the same
-  // transmission over and over.
   let generated: Awaited<ReturnType<typeof generatePost>>;
   try {
     generated = await generatePost(recent, Date.now(), steer || undefined);
   } catch (err) {
-    // Every free tier down or rate-limited is a wait, not a bug — the owner
-    // gets a countdown they can actually sit out (see WireDownError and the
-    // cooldown in components/GenerateTransmission.tsx) rather than a raw
-    // "no free provider produced a usable transmission".
     if (err instanceof WireDownError) {
       return NextResponse.json(
         {
@@ -212,31 +197,22 @@ export async function POST(request: Request) {
     .insert({
       content: generated.content,
       kind,
+      short_answer: shortAnswer,
       clue_tag: generated.clueTag || null,
       input_tokens: generated.usage.input_tokens,
       output_tokens: generated.usage.output_tokens,
       cache_creation_input_tokens: generated.usage.cache_creation_input_tokens,
       cache_read_input_tokens: generated.usage.cache_read_input_tokens,
       estimated_cost_usd: estimatedCostUsd,
-      // Held back from [riddles] and every other public reader until the owner
-      // accepts it in the review prompt. The cron path deliberately does not
-      // set this — it runs unattended with nobody there to review.
       pending: true,
     })
-    // clue_tag is included so the review prompt can show the owner what the
-    // transmission is actually circling before they accept it — the CLUE
-    // line is never shown publicly (see lib/persona.ts), only here.
-    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at, short_answer")
     .single();
 
   if (insertError || !post) {
     return NextResponse.json({ error: insertError?.message ?? "insert failed" }, { status: 500 });
   }
 
-  // Retire the draft this one was asked to replace — only after the
-  // replacement is safely inserted, so a failed generation above leaves the
-  // owner with the draft they still had rather than nothing. Narrowed to
-  // pending + never-transmitted rows so this can't reach a published post.
   if (replaces) {
     const { error: replaceError } = await supabase
       .from("terminal_posts")
@@ -252,19 +228,13 @@ export async function POST(request: Request) {
   return NextResponse.json({ post });
 }
 
-// Accept a transmission from the review prompt — the other half of DELETE
-// below. Clears `pending`, which is the only thing keeping the post out of
-// [riddles], the public /api/posts feed, and the guess/clue surfaces. Also
-// takes the review card's current clue/musing checkbox value, since the
-// owner can flip it any time up to the moment they accept — whatever it's
-// set to on this call is what gets saved.
 export async function PATCH(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
     return NextResponse.json({ error: "not authorized" }, { status: 403 });
   }
 
-  let body: { id?: string; kind?: string };
+  let body: { id?: string; kind?: string; short_answer?: boolean };
   try {
     body = await request.json();
   } catch {
@@ -276,12 +246,13 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "id required" }, { status: 400 });
   }
   const kind = normalizeKind(body.kind);
+  const shortAnswer = !!body.short_answer;
 
   const { data, error } = await owner.supabase
     .from("terminal_posts")
-    .update({ pending: false, kind })
+    .update({ pending: false, kind, short_answer: shortAnswer })
     .eq("id", id)
-    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at")
+    .select("id, content, kind, clue_tag, x_post_url, art_url, posted_at, short_answer")
     .maybeSingle();
 
   if (error) {
@@ -294,17 +265,6 @@ export async function PATCH(request: Request) {
   return NextResponse.json({ post: data });
 }
 
-// Discard a transmission the owner rejected in the accept/trash prompt.
-//
-// The POST above inserts before returning — the post is already public by the
-// time it's on screen — so "trash" is a real delete, not a draft that was
-// never saved. Deliberately narrow: it only removes a post that was never
-// transmitted to X (x_post_url is null), so a rejected draft can go but a
-// post already live on someone's timeline can't be erased from here.
-//
-// The spend it cost is NOT refunded. recordSpend already ran, the tokens were
-// really burned, and quietly crediting them back would make the ledger lie
-// about what the day actually cost.
 export async function DELETE(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {

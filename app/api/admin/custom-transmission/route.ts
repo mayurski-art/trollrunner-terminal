@@ -37,6 +37,7 @@ export async function POST(request: Request) {
 
   const rawKind = String(form.get("kind") ?? "musing");
   const kind = rawKind === "clue" ? "clue" : "musing";
+  const shortAnswer = String(form.get("short_answer") ?? "false") === "true";
   const clueTag = String(form.get("answer") ?? "").trim().slice(0, 100) || null;
   const candidate = form.get("image");
   const image = candidate instanceof File && candidate.size > 0 ? candidate : null;
@@ -67,6 +68,7 @@ export async function POST(request: Request) {
     .insert({
       content,
       kind,
+      short_answer: shortAnswer,
       clue_tag: clueTag,
       art_url: artUrl,
       input_tokens: 0,
@@ -76,7 +78,7 @@ export async function POST(request: Request) {
       estimated_cost_usd: 0,
       pending: false,
     })
-    .select("id, content, kind, x_post_url, art_url, posted_at")
+    .select("id, content, kind, short_answer, x_post_url, art_url, posted_at")
     .single();
 
   if (error || !post) {
