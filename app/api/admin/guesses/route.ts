@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwner, OWNER_USERNAME } from "@/lib/admin";
-import { CORRECT_BONUS } from "@/lib/musingGuess";
+import { getCorrectBonus } from "@/lib/musingGuess";
 
 export const runtime = "nodejs";
 
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   const { data, error } = await owner.supabase
     .from("terminal_post_guesses")
     .select(
-      "id, post_id, user_id, last_guess_text, attempts, correct, resolved, cost_paid, overridden_by, created_at, resolved_at, terminal_posts(clue_tag, content)"
+      "id, post_id, user_id, last_guess_text, attempts, correct, resolved, cost_paid, overridden_by, created_at, resolved_at, terminal_posts(clue_tag, content, short_answer)"
     )
     .eq("resolved", true)
     .eq("dismissed", false)
@@ -32,9 +32,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // Usernames live in auth.user_metadata, not a public table (same as the
-  // [ inspect ] user list in app/api/admin/users) — resolved via the
-  // admin listUsers() API and joined in-memory onto each guess row.
   const { data: authUsers } = await owner.supabase.auth.admin.listUsers({ perPage: 1000 });
   const usernameById = new Map(
     (authUsers?.users ?? []).map((u) => [u.id, (u.user_metadata?.username as string | undefined) ?? "unknown"])
@@ -48,10 +45,8 @@ export async function GET(request: Request) {
 }
 
 // One action: flip a resolved-incorrect guess to correct and pay out the
-// same refund + bonus the auto-grader would have on a genuine correct
-// guess. Only ever moves incorrect -> correct — there's no path back, since
-// undoing a payout means clawing back PROBLEMS the user may have already
-// spent, which this endpoint isn't built to reconcile.
+// attempt-cost refund plus the reward for that transmission type. Only ever
+// moves incorrect -> correct, since clawing back spent PROBLEMS is not safe.
 export async function POST(request: Request) {
   const owner = await requireOwner(request);
   if (!owner) {
@@ -72,7 +67,7 @@ export async function POST(request: Request) {
 
   const { data: guess, error: fetchError } = await owner.supabase
     .from("terminal_post_guesses")
-    .select("id, user_id, correct, resolved, cost_paid")
+    .select("id, user_id, post_id, correct, resolved, cost_paid")
     .eq("id", id)
     .maybeSingle();
 
@@ -89,13 +84,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "already marked correct" }, { status: 400 });
   }
 
+  const { data: post, error: postError } = await owner.supabase
+    .from("terminal_posts")
+    .select("short_answer")
+    .eq("id", guess.post_id)
+    .maybeSingle();
+
+  if (postError) {
+    return NextResponse.json({ error: postError.message }, { status: 500 });
+  }
+
+  const correctBonus = getCorrectBonus(Boolean(post?.short_answer));
   const { data: wallet } = await owner.supabase
     .from("terminal_wallets")
     .select("balance")
     .eq("user_id", guess.user_id)
     .maybeSingle();
 
-  const payout = guess.cost_paid + CORRECT_BONUS;
+  const payout = guess.cost_paid + correctBonus;
   const newBalance = (wallet?.balance ?? 0) + payout;
 
   await owner.supabase
