@@ -20,6 +20,7 @@ export default function CustomTransmission({
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const [kind, setKind] = useState<"clue" | "musing">("musing");
+  const [shortAnswer, setShortAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -51,6 +52,7 @@ export default function CustomTransmission({
       const form = new FormData();
       form.set("content", content);
       form.set("kind", kind);
+      form.set("short_answer", String(shortAnswer));
       form.set("answer", answer);
       if (image) form.set("image", image);
       const response = await fetch("/api/admin/custom-transmission", {
@@ -66,6 +68,7 @@ export default function CustomTransmission({
       onCreated(result.post as Post);
       setContent("");
       setKind("musing");
+      setShortAnswer(false);
       setAnswer("");
       setImage(null);
       setOpen(false);
@@ -126,6 +129,15 @@ export default function CustomTransmission({
               className="accent-problem"
             />
             mark as a clue transmission
+          </label>
+          <label className="flex items-center gap-2 text-xs text-ghost w-fit cursor-pointer">
+            <input
+              type="checkbox"
+              checked={shortAnswer}
+              onChange={(event) => setShortAnswer(event.target.checked)}
+              className="accent-problem"
+            />
+            short answer — +50 PROBLEMS if correct
           </label>
           {kind === "clue" && (
             <label className="block text-xs text-ghost" htmlFor="custom-transmission-answer">

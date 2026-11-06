@@ -13,11 +13,7 @@ export async function GET() {
 
     const postsRes = await supabase
       .from("terminal_posts")
-      // kind ('clue' | 'musing') is owner-chosen at review time (migration
-      // 018) and is public flavor, not a secret like clue_tag — the logs
-      // page's filter/label reads it straight off this response.
-      .select("id, content, kind, x_post_url, art_url, posted_at, clue_tag")
-      // Awaiting the owner accept/trash review — see migration 016.
+      .select("id, content, kind, short_answer, x_post_url, art_url, posted_at, clue_tag")
       .eq("pending", false)
       .is("error", null)
       .order("posted_at", { ascending: false })
@@ -27,9 +23,6 @@ export async function GET() {
       return NextResponse.json({ error: postsRes.error.message }, { status: 500 });
     }
 
-    // The logs page's status stamps (app/riddles/page.tsx): whether a post can
-    // be guessed at all, how many troublemakers cracked it and how many
-    // tried. clue_tag itself is the answer, so only its presence goes out.
     const rows = postsRes.data ?? [];
     const { data: guesses } = await supabase
       .from("terminal_post_guesses")

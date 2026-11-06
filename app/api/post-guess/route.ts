@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase";
-import { gradeGuess, GUESS_COST, CORRECT_BONUS } from "@/lib/musingGuess";
+import { gradeGuess, GUESS_COST, getCorrectBonus } from "@/lib/musingGuess";
 
 export const runtime = "nodejs";
 
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
   if (!postId) return NextResponse.json({ error: "missing postId" }, { status: 400 });
 
   const [{ data: post }, { data: guess }, wallet] = await Promise.all([
-    supabase.from("terminal_posts").select("clue_tag").eq("id", postId).maybeSingle(),
+    supabase.from("terminal_posts").select("clue_tag, short_answer").eq("id", postId).maybeSingle(),
     supabase
       .from("terminal_post_guesses")
       .select("attempts, correct, resolved, cost_paid")
@@ -70,6 +70,8 @@ export async function GET(request: Request) {
       .maybeSingle(),
     loadWallet(supabase, userId),
   ]);
+
+  const correctBonus = getCorrectBonus(Boolean(post?.short_answer));
 
   return NextResponse.json({
     guessable: !!post?.clue_tag,
@@ -80,13 +82,14 @@ export async function GET(request: Request) {
           resolved: guess.resolved,
           netDelta: guess.resolved
             ? guess.correct
-              ? GUESS_COST + CORRECT_BONUS - guess.cost_paid
+              ? GUESS_COST + correctBonus - guess.cost_paid
               : -guess.cost_paid
             : null,
         }
       : null,
     wallet,
     cost: GUESS_COST,
+    bonus: correctBonus,
   });
 }
 
@@ -112,7 +115,7 @@ export async function POST(request: Request) {
 
   const { data: post } = await supabase
     .from("terminal_posts")
-    .select("id, clue_tag")
+    .select("id, clue_tag, short_answer")
     .eq("id", postId)
     .maybeSingle();
 
@@ -132,6 +135,7 @@ export async function POST(request: Request) {
   }
 
   const wallet = await loadWallet(supabase, userId);
+  const correctBonus = getCorrectBonus(Boolean(post.short_answer));
 
   // Every attempt costs GUESS_COST — no attempt cap, so the charge happens
   // per guess rather than once when the guess row is opened.
@@ -174,7 +178,7 @@ export async function POST(request: Request) {
       supabase,
       userId,
       wallet,
-      GUESS_COST + CORRECT_BONUS,
+      GUESS_COST + correctBonus,
       "post_guess_correct"
     );
   }
@@ -195,7 +199,8 @@ export async function POST(request: Request) {
     correct,
     attempts,
     resolved,
-    netDelta: resolved ? GUESS_COST + CORRECT_BONUS - costPaid : null,
+    netDelta: resolved ? GUESS_COST + correctBonus - costPaid : null,
     wallet: { balance: newBalance },
+    bonus: correctBonus,
   });
 }

@@ -18,10 +18,10 @@ export type Post = {
   id: string;
   content: string;
   kind: Kind;
+  short_answer?: boolean;
   x_post_url: string | null;
   art_url: string | null;
   posted_at: string;
-  // From /api/posts: has an answer to guess, and how many cracked / tried.
   guessable?: boolean;
   cracked?: number;
   tried?: number;
@@ -29,9 +29,6 @@ export type Post = {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// Where a transmission stands, for the stamp on its card: a live signal for
-// its first day, cold after a week, and in between (or alongside) whether
-// anyone has cracked its riddle yet.
 type Signal = { live: boolean; cold: boolean; crack: "uncracked" | "cracked" | null };
 
 function signalOf(post: Post): Signal {
@@ -69,25 +66,20 @@ function SignalStamp({ post, signal }: { post: Post; signal: Signal }) {
         </span>
       )}
       {signal.cold && !signal.live && <span className="logs-stamp logs-stamp-cold">◌ COLD SIGNAL</span>}
+      {post.short_answer && (
+        <span className="logs-stamp logs-stamp-live">
+          <span aria-hidden="true">✦ </span>SHORT ANSWER · +50
+        </span>
+      )}
     </div>
   );
 }
 
-// The owner picks clue vs. musing directly on the review card at generation
-// time (GenerateTransmission.tsx) — terminal_posts.kind (migration 018) is
-// the source of truth. This replaces the old scheme of scanning each post's
-// content for a ▚▞/▓▒▓ glyph the persona used to append: the voice now
-// writes plain casual prose with no mark left in the text to key off of, and
-// letting the owner choose freely beats inferring it from guessability
-// (clue_tag) or a glyph. Guessability itself stays independent of this
-// label — see PostGuess.
 export const KIND_META: Record<Kind, { label: string }> = {
   clue: { label: "clues" },
   musing: { label: "musings" },
 };
 
-// Every archived transmission renders single-spaced except the day's most
-// recent one, which keeps its full paragraph spacing as originally posted.
 export function isToday(isoDate: string): boolean {
   const d = new Date(isoDate);
   const now = new Date();
@@ -210,7 +202,7 @@ export default function LogsPage() {
                           type="button"
                           onClick={() => setExpanded(post)}
                           aria-label="pop out transmission"
-                          className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] lg:text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20 hover:border-terminal"
+                          className="rounded border border-terminal/50 bg-terminal/10 px-1.5 py-0.5 text-[9px] lg:text-xs font-semibold tracking-wide text-terminal transition-colors hover:bg-terminal/20"
                         >
                           ⤢ pop out
                         </button>
@@ -231,6 +223,7 @@ export default function LogsPage() {
                       <div className="mt-3 pt-3 border-t border-dim/40 flex items-center gap-3 text-xs text-dim">
                         <span>{timeAgo(post.posted_at)}</span>
                         <span className="text-problem">{KIND_META[kind].label}</span>
+                        {post.short_answer && <span className="text-terminal">short answer +50</span>}
                         {post.x_post_url && (
                           <a
                             href={post.x_post_url}

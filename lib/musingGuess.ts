@@ -5,8 +5,15 @@
 // Charged on every attempt — there's no attempt cap, a transmission stays
 // open until it's cracked.
 export const GUESS_COST = 1;
-// Correct guess refunds that winning attempt's cost plus this on top.
+// Standard riddle solved reward.
 export const CORRECT_BONUS = 10;
+// Short-answer transmissions are meant to be faster/easier, so they pay a
+// much larger reward when solved correctly.
+export const SHORT_ANSWER_CORRECT_BONUS = 50;
+
+export function getCorrectBonus(shortAnswer: boolean): number {
+  return shortAnswer ? SHORT_ANSWER_CORRECT_BONUS : CORRECT_BONUS;
+}
 
 const STOPWORDS = new Set([
   "the", "a", "an", "of", "and", "or", "to", "in", "on", "at", "for",
