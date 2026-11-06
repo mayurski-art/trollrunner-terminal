@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { getPublicClient } from "@/lib/supabase";
 import { timeAgo } from "@/lib/time";
+import { getCorrectBonus } from "@/lib/musingGuess";
 import Frame from "@/components/Frame";
 
 type Guess = {
@@ -18,14 +19,9 @@ type Guess = {
   overridden_by: string | null;
   created_at: string;
   resolved_at: string | null;
-  terminal_posts: { clue_tag: string | null; content: string } | null;
+  terminal_posts: { clue_tag: string | null; content: string; short_answer: boolean | null } | null;
 };
 
-// Every resolved guess against a transmission, newest first, so the owner
-// can catch cases where gradeGuess()'s word-overlap heuristic (lib/
-// musingGuess.ts) denied something a human would call close enough — and
-// flip it by hand. Correct guesses are shown too, just for context; only
-// "denied" ones get an override button.
 export default function ReviewGuesses() {
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [loading, setLoading] = useState(true);
@@ -129,10 +125,7 @@ export default function ReviewGuesses() {
       </div>
 
       {error && <p className="text-alert text-xs">{error}</p>}
-
-      {visible.length === 0 && (
-        <p className="text-dim text-sm">nothing waiting. the ledger is quiet.</p>
-      )}
+      {visible.length === 0 && <p className="text-dim text-sm">nothing waiting. the ledger is quiet.</p>}
 
       {visible.map((g) => (
         <GuessRow
@@ -158,6 +151,7 @@ function GuessRow({
   onOverride: (id: string) => void;
   onDismiss: (id: string) => void;
 }) {
+  const reward = getCorrectBonus(Boolean(guess.terminal_posts?.short_answer));
   return (
     <Frame tone={guess.correct ? "dim" : "problem"}>
       <div className="flex items-center gap-3 text-xs text-dim mb-2 flex-wrap">
@@ -166,10 +160,12 @@ function GuessRow({
         <span>{timeAgo(guess.resolved_at ?? guess.created_at)}</span>
         <span>·</span>
         <span>{guess.attempts} attempt{guess.attempts === 1 ? "" : "s"}</span>
+        <span>·</span>
+        <span>{guess.terminal_posts?.short_answer ? "short answer" : "riddle"} reward: +{reward} PROBLEMS</span>
         {guess.correct ? (
           <span className="text-terminal">▣ correct{guess.overridden_by ? " (overridden)" : ""}</span>
         ) : (
-          <span className="text-alert">▨ denied</span>
+          <span className="text-alert">▨ awaiting manual approval</span>
         )}
         {guess.terminal_posts?.clue_tag && (
           <span className="text-blue-400">answer: {guess.terminal_posts.clue_tag}</span>
@@ -181,9 +177,7 @@ function GuessRow({
       )}
 
       <p className="text-terminal text-sm">
-        {guess.last_guess_text ?? (
-          <span className="text-dim italic">no guess text recorded</span>
-        )}
+        {guess.last_guess_text ?? <span className="text-dim italic">no guess text recorded</span>}
       </p>
 
       {!guess.correct && (
@@ -194,7 +188,7 @@ function GuessRow({
             disabled={busy}
             className="text-xs text-terminal hover:text-problem disabled:opacity-40"
           >
-            [ {busy ? "approving..." : "approve as correct"} ]
+            [ {busy ? "approving..." : `approve (+${reward} PROBLEMS reward)`} ]
           </button>
           <button
             type="button"

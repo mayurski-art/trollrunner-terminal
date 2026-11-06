@@ -64,7 +64,7 @@ export async function GET(request: Request) {
     supabase.from("terminal_posts").select("clue_tag, short_answer").eq("id", postId).maybeSingle(),
     supabase
       .from("terminal_post_guesses")
-      .select("attempts, correct, resolved, cost_paid")
+      .select("attempts, correct, resolved, cost_paid, dismissed")
       .eq("post_id", postId)
       .eq("user_id", userId)
       .maybeSingle(),
@@ -72,6 +72,7 @@ export async function GET(request: Request) {
   ]);
 
   const correctBonus = getCorrectBonus(Boolean(post?.short_answer));
+  const awaitingReview = Boolean(guess?.resolved && !guess.correct && !guess.dismissed);
 
   return NextResponse.json({
     guessable: !!post?.clue_tag,
@@ -80,10 +81,13 @@ export async function GET(request: Request) {
           attempts: guess.attempts,
           correct: guess.correct,
           resolved: guess.resolved,
+          awaitingReview,
           netDelta: guess.resolved
             ? guess.correct
               ? GUESS_COST + correctBonus - guess.cost_paid
-              : -guess.cost_paid
+              : guess.dismissed
+                ? -guess.cost_paid
+                : null
             : null,
         }
       : null,
@@ -137,8 +141,9 @@ export async function POST(request: Request) {
   const wallet = await loadWallet(supabase, userId);
   const correctBonus = getCorrectBonus(Boolean(post.short_answer));
 
-  // Every attempt costs GUESS_COST — no attempt cap, so the charge happens
-  // per guess rather than once when the guess row is opened.
+  // Each answer attempt costs one PROBLEM. The grading helper accepts close
+  // matches automatically; anything it can't confidently match is resolved
+  // into the owner's manual-review queue instead of being called wrong.
   if (wallet.balance < GUESS_COST) {
     return NextResponse.json(
       { error: `not enough PROBLEMS — need ${GUESS_COST}, have ${wallet.balance}` },
@@ -157,8 +162,6 @@ export async function POST(request: Request) {
       .single();
 
     if (insertError || !inserted) {
-      // Refund immediately if the row failed to create — the spend already
-      // happened, don't leave the user's PROBLEMS stranded.
       await applyWalletDelta(supabase, userId, wallet, GUESS_COST, "post_guess_refund");
       return NextResponse.json({ error: "could not open a guess" }, { status: 500 });
     }
@@ -167,9 +170,10 @@ export async function POST(request: Request) {
 
   const correct = gradeGuess(guessText, post.clue_tag);
   const attempts = guessRow.attempts + 1;
-  const resolved = correct;
-  // A freshly inserted row already carries this attempt's cost; an
-  // existing one gets it added now.
+  // A close-enough match is paid automatically. Unmatched guesses stop here
+  // and wait for an owner to approve or dismiss them; users can't spend on
+  // repeated retries while a manual decision is pending.
+  const resolved = true;
   const costPaid = existing ? guessRow.cost_paid + GUESS_COST : guessRow.cost_paid;
 
   let newBalance = wallet.balance;
@@ -189,9 +193,10 @@ export async function POST(request: Request) {
       attempts,
       correct,
       resolved,
+      dismissed: false,
       cost_paid: costPaid,
       last_guess_text: guessText,
-      resolved_at: resolved ? new Date().toISOString() : null,
+      resolved_at: new Date().toISOString(),
     })
     .eq("id", guessRow.id);
 
@@ -199,7 +204,8 @@ export async function POST(request: Request) {
     correct,
     attempts,
     resolved,
-    netDelta: resolved ? GUESS_COST + correctBonus - costPaid : null,
+    awaitingReview: !correct,
+    netDelta: correct ? GUESS_COST + correctBonus - costPaid : null,
     wallet: { balance: newBalance },
     bonus: correctBonus,
   });
