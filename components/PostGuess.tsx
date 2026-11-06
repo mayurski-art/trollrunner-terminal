@@ -8,17 +8,14 @@ type GuessState = {
   attempts: number;
   correct: boolean;
   resolved: boolean;
+  awaitingReview?: boolean;
   netDelta?: number | null;
 } | null;
 type Stage = "idle" | "confirming" | "open" | "grading";
 
-// Same glyph set CrypticWait uses for the "decoding" strip — the grading
-// pause should read as the terminal working, not a generic spinner.
 const GLYPHS = "▓▒░█⊕⊗◇◉△▽●○⋅·:;~`'";
 const GRADE_STRIP_LENGTH = 24;
 const GRADE_TICK_MS = 90;
-// Minimum time to sit in "grading" even if the server answers instantly —
-// otherwise a fast response skips straight past the animation.
 const MIN_GRADE_MS = 900;
 
 function randomGlyphs(length: number): string {
@@ -41,14 +38,9 @@ type InitialState = {
   guess: GuessState;
   balance: number;
   cost: number;
+  bonus: number;
 };
 
-// The logs grid mounts a PostGuess per card, then the [ pop out ] modal
-// mounts a second one for the same post — without this, that second mount
-// re-fetches /api/post-guess from scratch and sits blank ("[ try to
-// decipher this transmission ]" doesn't appear right away) until it
-// resolves, even though the card already just fetched the same thing.
-// Keyed per (postId, userId) since the answer depends on who's asking.
 const initialStateCache = new Map<string, InitialState>();
 
 function cacheKey(postId: string, userId: string): string {
@@ -67,20 +59,13 @@ export default function PostGuess({
   const [guessState, setGuessState] = useState<GuessState>(null);
   const [balance, setBalance] = useState(0);
   const [cost, setCost] = useState(1);
+  const [bonus, setBonus] = useState(10);
   const [stage, setStage] = useState<Stage>("idle");
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [gradeStrip, setGradeStrip] = useState("");
   const [justResolved, setJustResolved] = useState(false);
-
-  // Keyed on the user id, not the session object itself — Supabase re-emits
-  // onAuthStateChange (and hands page.tsx a brand-new session object, same
-  // user) on things like a token refresh, which fires reliably on tab/app
-  // focus. Depending on the whole session reference re-ran this effect on
-  // every alt-tab back to the browser, flipping loaded back to false and
-  // making "[ try to decipher this transmission ]" blink out until the
-  // refetch resolved. The user id only changes on an actual login/logout.
   const userId = session?.user?.id ?? null;
 
   useEffect(() => {
@@ -100,6 +85,7 @@ export default function PostGuess({
       setGuessState(cached.guess);
       setBalance(cached.balance);
       setCost(cached.cost);
+      setBonus(cached.bonus);
       if (cached.guess && !cached.guess.resolved) setStage("open");
       setLoaded(true);
       return;
@@ -121,14 +107,14 @@ export default function PostGuess({
             guess: data.guess ?? null,
             balance: data.wallet?.balance ?? 0,
             cost: data.cost ?? 1,
+            bonus: data.bonus ?? 10,
           };
           initialStateCache.set(cacheKey(postId, userId), state);
           setGuessable(state.guessable);
           setGuessState(state.guess);
           setBalance(state.balance);
           setCost(state.cost);
-          // Already started (page reload mid-attempt) — skip the confirm
-          // step, go straight back to the open input.
+          setBonus(state.bonus);
           if (state.guess && !state.guess.resolved) setStage("open");
         }
       } finally {
@@ -140,7 +126,6 @@ export default function PostGuess({
     };
   }, [postId, userId]);
 
-  // Ticks the scramble strip while stage === "grading".
   useEffect(() => {
     if (stage !== "grading") return;
     setGradeStrip(randomGlyphs(GRADE_STRIP_LENGTH));
@@ -150,16 +135,6 @@ export default function PostGuess({
     return () => clearInterval(id);
   }, [stage]);
 
-  // Re-sync the server's answer whenever the tab comes back to the
-  // foreground. Mobile browsers kill in-flight fetches when the app is
-  // swiped away, so submitGuess's catch fires and the user sees a
-  // connection error — but the POST handler already graded the guess,
-  // charged the PROBLEMS and wrote the row before responding, so the work
-  // really did happen and only the response was lost. Re-reading state on
-  // return turns that dropped response into the correct resolved/attempts
-  // display instead of a false failure (and a wasted retry that would
-  // charge them again). Cheap enough to run on every foreground: it's one
-  // GET, and it also repairs state after a guess made in another tab.
   useEffect(() => {
     if (!userId || !guessable) return;
     const onVisible = async () => {
@@ -172,11 +147,10 @@ export default function PostGuess({
         const data = await res.json();
         const serverGuess: GuessState = data.guess ?? null;
         const serverBalance = data.wallet?.balance ?? 0;
+        const serverBonus = data.bonus ?? 10;
         setGuessState(serverGuess);
         setBalance(serverBalance);
-        // The server is the authority on how far this guess got, so a
-        // dropped response can't leave the UI stuck on the grading strip
-        // or on an error from a request that actually succeeded.
+        setBonus(serverBonus);
         setError(null);
         setStage(serverGuess?.resolved ? "idle" : serverGuess ? "open" : "idle");
         const existing = initialStateCache.get(cacheKey(postId, userId));
@@ -185,6 +159,7 @@ export default function PostGuess({
             ...existing,
             guess: serverGuess,
             balance: serverBalance,
+            bonus: serverBonus,
           });
         }
       } catch {
@@ -211,9 +186,6 @@ export default function PostGuess({
         body: JSON.stringify({ postId, guess }),
       });
       const data = await res.json();
-
-      // Let the grading animation play for at least MIN_GRADE_MS so it
-      // never gets skipped by a fast response.
       const elapsed = Date.now() - startedAt;
       if (elapsed < MIN_GRADE_MS) {
         await new Promise((r) => setTimeout(r, MIN_GRADE_MS - elapsed));
@@ -229,16 +201,16 @@ export default function PostGuess({
         attempts: data.attempts,
         correct: data.correct,
         resolved: data.resolved,
+        awaitingReview: !!data.awaitingReview,
         netDelta: data.netDelta ?? null,
       };
       const newBalance = data.wallet?.balance ?? balance;
       setGuessState(newGuessState);
       setBalance(newBalance);
+      setBonus(data.bonus ?? bonus);
       window.dispatchEvent(new Event("problems-changed"));
       setInput("");
       setStage(data.resolved ? "idle" : "open");
-      // Keep the cross-mount cache (card + pop-out modal) in step so the
-      // other mount doesn't show a stale pre-guess state next time it opens.
       if (userId) {
         const existing = initialStateCache.get(cacheKey(postId, userId));
         if (existing) {
@@ -246,15 +218,11 @@ export default function PostGuess({
             ...existing,
             guess: newGuessState,
             balance: newBalance,
+            bonus: data.bonus ?? bonus,
           });
         }
       }
     } catch {
-      // Could be a real network failure, or just this tab being backgrounded
-      // mid-request (mobile kills in-flight fetches on swipe-away) — in the
-      // latter case the guess was already graded server-side. Don't claim it
-      // failed; the visibilitychange effect above re-syncs the real state as
-      // soon as they come back.
       if (document.visibilityState === "visible") {
         setError("connection to the terminal was lost");
       }
@@ -275,14 +243,14 @@ export default function PostGuess({
         : "pg-wrong-glitch"
       : "";
     return (
-      <p className="mt-2 text-xs text-dim">
+      <p className="mt-2 text-xs text-dim" role="status" aria-live="polite">
         transmission{" "}
-        <span
-          className={`${guessState.correct ? "text-problem" : "text-alert"} ${animClass}`}
-        >
-          [{guessState.correct ? "cracked" : "rekted"}
-          {guessState.netDelta != null && ` — ${sign}${delta} PROBLEM${Math.abs(delta) === 1 ? "" : "S"} earned`}
-          ]
+        <span className={`${guessState.correct ? "text-problem" : guessState.awaitingReview ? "text-problem" : "text-alert"} ${animClass}`}>
+          {guessState.correct
+            ? `[ cracked — ${sign}${delta} PROBLEM${Math.abs(delta) === 1 ? "" : "S"} earned ]`
+            : guessState.awaitingReview
+              ? "[ waiting for manual approval ]"
+              : "[ not approved ]"}
         </span>
       </p>
     );
@@ -326,22 +294,14 @@ export default function PostGuess({
     return (
       <div className="mt-3 pt-3 border-t border-dim">
         <p className="text-dim text-xs">
-          ready to answer? each attempt costs {cost} PROBLEM{cost === 1 ? "" : "S"} — guess as
-          many times as you like.
+          each attempt costs {cost} PROBLEM{cost === 1 ? "" : "S"}; a correct answer earns +{bonus} PROBLEMS.
+          guess as many times as you like. close answers are auto-approved; other guesses wait for manual review.
         </p>
         <div className="mt-1.5 flex gap-3 text-xs">
-          <button
-            type="button"
-            onClick={() => setStage("open")}
-            className="text-problem hover:underline"
-          >
+          <button type="button" onClick={() => setStage("open")} className="text-problem hover:underline">
             [ yes, let me guess ]
           </button>
-          <button
-            type="button"
-            onClick={() => setStage("idle")}
-            className="text-ghost hover:text-terminal transition-colors"
-          >
+          <button type="button" onClick={() => setStage("idle")} className="text-ghost hover:text-terminal transition-colors">
             [ not now ]
           </button>
         </div>
@@ -353,7 +313,7 @@ export default function PostGuess({
     <div className="mt-3 pt-3 border-t border-dim">
       <form onSubmit={submitGuess} className="space-y-1.5">
         <p className="text-dim text-xs">
-          what's it circling? ({cost} PROBLEM{cost === 1 ? "" : "S"} per guess
+          what's it circling? ({cost} PROBLEM{cost === 1 ? "" : "S"} per guess · correct answer +{bonus} PROBLEMS
           {guessState?.attempts ? ` · ${guessState.attempts} tried` : ""} · balance {balance})
         </p>
         <div className="flex gap-2">
